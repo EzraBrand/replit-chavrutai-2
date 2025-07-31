@@ -59,13 +59,10 @@ export function SectionedBilingualDisplay({ text }: SectionedBilingualDisplayPro
                 <div className="space-y-3 lg:order-1">
                   {englishSection.trim() && (
                     <div className="english-text text-foreground">
-                      {processEnglishText(englishSection).split('\n').filter(line => line.trim()).map((line, lineIndex) => (
-                        <p 
-                          key={lineIndex} 
-                          className="leading-relaxed mb-2"
-                          dangerouslySetInnerHTML={{ __html: formatEnglishText(line.trim()) }}
-                        />
-                      ))}
+                      <div 
+                        className="leading-relaxed"
+                        dangerouslySetInnerHTML={{ __html: formatEnglishText(processEnglishText(englishSection)) }}
+                      />
                     </div>
                   )}
                 </div>

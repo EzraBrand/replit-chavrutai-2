@@ -239,12 +239,24 @@ export function replaceTerms(text: string): string {
 }
 
 /**
- * Split English text into paragraphs based on specific punctuation marks
+ * Split English text into paragraphs based on specific punctuation marks while preserving HTML formatting
  */
 export function splitEnglishText(text: string): string {
   if (!text) return '';
   
   let processedText = text;
+  
+  // First, protect HTML tags by temporarily replacing them with placeholders
+  const htmlTagPattern = /<\/?\w+(?:\s+[^>]*)?>/g;
+  const htmlTags: string[] = [];
+  const htmlPlaceholders: string[] = [];
+  
+  processedText = processedText.replace(htmlTagPattern, (match) => {
+    const placeholder = `__HTML_TAG_${htmlTags.length}__`;
+    htmlTags.push(match);
+    htmlPlaceholders.push(placeholder);
+    return placeholder;
+  });
   
   // Split on periods, but avoid splitting after "i.e."
   processedText = processedText.replace(/\.(?!\s*[a-z])/g, '.\n');
@@ -259,6 +271,11 @@ export function splitEnglishText(text: string): string {
     .replace(/\n\s*\n/g, '\n')  // Remove empty lines
     .replace(/^\s+|\s+$/g, '')  // Trim whitespace
     .replace(/\n\s+/g, '\n');   // Remove leading spaces on new lines
+  
+  // Restore HTML tags
+  htmlPlaceholders.forEach((placeholder, index) => {
+    processedText = processedText.replace(placeholder, htmlTags[index]);
+  });
   
   return processedText;
 }
@@ -292,15 +309,25 @@ export function processEnglishText(text: string): string {
 }
 
 /**
- * Basic formatting for English text - only processes existing HTML and line breaks
+ * Basic formatting for English text - processes HTML and line breaks while preserving formatting
  */
 export function formatEnglishText(text: string): string {
   if (!text) return '';
   
-  // Only handle line breaks - preserve all existing formatting from source
+  // Handle line breaks while preserving existing HTML formatting
   let formatted = text
-    // Line breaks within paragraphs
-    .replace(/\n(?!\n)/g, '<br />');
+    // Convert single line breaks to <br /> tags (within paragraphs)
+    .replace(/\n(?!\n)/g, '<br />')
+    // Convert double line breaks to paragraph breaks
+    .replace(/\n\n/g, '</p><p>')
+    // Wrap the entire content in paragraph tags if it doesn't start with HTML
+    .replace(/^(?!<)/, '<p>')
+    .replace(/(?!>)$/, '</p>')
+    // Clean up empty paragraphs
+    .replace(/<p><\/p>/g, '')
+    // Fix cases where we might have created malformed paragraph tags
+    .replace(/<p><p>/g, '<p>')
+    .replace(/<\/p><\/p>/g, '</p>');
     
   return formatted;
 }
