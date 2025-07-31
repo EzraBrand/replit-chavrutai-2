@@ -109,9 +109,9 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
         
         <div className="flex flex-col h-full pt-6">
           {/* Suggested Pages Section */}
-          <div className="flex-1">
+          <div className="flex-1 overflow-hidden">
             <h3 className="text-lg font-semibold text-foreground mb-4">Suggested pages</h3>
-            <div className="space-y-1">
+            <div className="space-y-1 overflow-y-auto max-h-[calc(100vh-200px)] pr-2">
               {/* Tractate Sections */}
               {tractatesWithPages.map((section) => (
                 <div key={section.name} className="space-y-1">
