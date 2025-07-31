@@ -109,7 +109,7 @@ export function replaceTerms(text: string): string {
   if (!text) return '';
   
   const termReplacements: Record<string, string> = {
-    "GEMARA": "TALMUD",
+    "GEMARA": "Talmud",
     "Gemara": "Talmud",
     "Rabbi": "R'",
     "The Sages taught": "A baraita states",
