@@ -1,94 +1,102 @@
 /**
- * Text processing utilities for Hebrew and English Talmud text
- * These functions handle text segmentation, formatting, and term replacement
+ * Text processing utilities for Hebrew and English text formatting
  */
 
+// Unicode ranges for Hebrew nikud (diacritical marks)
+const NIKUD_RANGES = [
+  [0x0591, 0x05AF], // Hebrew accents
+  [0x05B0, 0x05BD], // Hebrew points
+  [0x05BF, 0x05BF], // Hebrew point RAFE
+  [0x05C1, 0x05C2], // Hebrew points SIN/SHIN DOT
+  [0x05C4, 0x05C5], // Hebrew punctuation
+  [0x05C7, 0x05C7], // Hebrew point QAMATS QATAN
+];
+
 /**
- * Strip common Sefaria formatting patterns from Hebrew text
+ * Removes nikud (vowel points and cantillation marks) from Hebrew text
  */
-export function stripSefariaFormatting(text: string): string {
-  if (!text) return '';
-  
-  return text
-    // Remove common Sefaria markers
-    .replace(/<[^>]*>/g, '') // Remove HTML tags
-    .replace(/\([^)]*\)/g, '') // Remove parenthetical content
-    .replace(/\[[^\]]*\]/g, '') // Remove bracketed content
-    .replace(/\{[^}]*\}/g, '') // Remove braced content
-    .replace(/[\u200B-\u200D\uFEFF]/g, '') // Remove zero-width characters
-    .replace(/\s+/g, ' ') // Normalize whitespace
-    .trim();
+export function removeNikud(hebrewText: string): string {
+  return hebrewText.replace(/[\u0591-\u05AF\u05B0-\u05BD\u05BF\u05C1-\u05C2\u05C4-\u05C5\u05C7]/g, '');
 }
 
 /**
- * Clean and format Hebrew text by removing unwanted characters and normalizing
- */
-export function cleanHebrewText(text: string): string {
-  if (!text) return '';
-  
-  let processed = text;
-  
-  // Remove HTML tags and entities
-  processed = processed.replace(/<[^>]*>/g, '');
-  processed = processed.replace(/&[a-z]+;/gi, '');
-  
-  // Remove common Sefaria formatting
-  processed = stripSefariaFormatting(processed);
-  
-  // Remove unwanted punctuation but keep Hebrew punctuation
-  processed = processed.replace(/[^\u0590-\u05FF\u0020\u002E\u003A\u003B\u002C\u0021\u003F\u2013\u2014\u201C\u201D\u2018\u2019]/g, ' ');
-  
-  // Normalize whitespace
-  processed = processed.replace(/\s+/g, ' ').trim();
-  
-  return processed;
-}
-
-/**
- * Clean and format English text by removing unwanted formatting
- */
-export function cleanEnglishText(text: string): string {
-  if (!text) return '';
-  
-  let processed = text;
-  
-  // Remove HTML tags and entities first
-  processed = processed.replace(/<[^>]*>/g, '');
-  processed = processed.replace(/&[a-z]+;/gi, '');
-  
-  // Remove common Sefaria formatting
-  processed = stripSefariaFormatting(processed);
-  
-  // Remove special characters but keep basic punctuation
-  processed = processed.replace(/[^\w\s\.\,\;\:\!\?\(\)\[\]\-\u2013\u2014\u201C\u201D\u2018\u2019]/g, ' ');
-  
-  // Clean up extra whitespace
-  processed = processed.replace(/\s+/g, ' ')
-    .replace(/\s+([,.;:!?])/g, '$1') // Remove space before punctuation
-    .replace(/([.!?])\s*([A-Z])/g, '$1 $2') // Ensure space after sentence endings
-    .trim();
-    
-  return processed;
-}
-
-/**
- * Split Hebrew text into logical segments based on punctuation and structure
+ * Split Hebrew text into paragraphs based on specific punctuation marks
  */
 export function splitHebrewText(text: string): string {
   if (!text) return '';
   
-  let processed = text;
+  let processedText = text;
   
-  // Split on Hebrew punctuation marks
-  processed = processed.replace(/[\u05BE\u05C0\u05C3\u05C6\u05F3\u05F4]/g, '$&\n');
-  // Split on periods and colons
-  processed = processed.replace(/[\.:](?=\s)/g, '$&\n');
-  // Split on question marks and exclamation points
-  processed = processed.replace(/[?!](?=\s)/g, '$&\n');
+  // Handle irony punctuation (?!) as a unit - split after the whole thing
+  processedText = processedText.replace(/\?\!/g, '?!\n');
   
-  // Clean up extra newlines
-  processed = processed.replace(/\n\s*\n/g, '\n')
-    .replace(/^\n+|\n+$/g, '')
+  // Handle other punctuation marks individually, but avoid splitting after partial ?! sequences
+  const singleMarks = [
+    '.',     // Period
+    ',',     // Comma
+    '–',     // M-dash
+    ':',     // Colon
+    '!',     // Exclamation mark (but not when preceded by ?)
+    '?',     // Question mark (but not when followed by !)
+    '״ ',    // Hebrew quotation mark + space
+    ' - ',   // Regular dash + spaces
+    '׃'      // Hebrew SOF PASUQ
+  ];
+  
+  // Apply splits for individual marks, being careful about ? and ! combinations
+  singleMarks.forEach(mark => {
+    if (mark === '?') {
+      // Don't split ? when followed by !
+      processedText = processedText.replace(/\?(?!\!)/g, '?\n');
+    } else if (mark === '!') {
+      // Don't split ! when preceded by ?
+      processedText = processedText.replace(/(?<!\?)\!/g, '!\n');
+    } else {
+      // Regular splitting for other marks
+      const regex = new RegExp(`(${mark.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'g');
+      processedText = processedText.replace(regex, `$1\n`);
+    }
+  });
+  
+  // Clean up multiple consecutive line breaks and trim
+  processedText = processedText
+    .replace(/\n\s*\n/g, '\n')  // Remove empty lines
+    .replace(/^\s+|\s+$/g, '')  // Trim whitespace
+    .replace(/\n\s+/g, '\n');   // Remove leading spaces on new lines
+  
+  return processedText;
+}
+
+/**
+ * Applies special styling to Hebrew text in parentheses (biblical quotes)
+ */
+export function styleHebrewParentheses(text: string): string {
+  if (!text) return '';
+  
+  // Replace text in parentheses with span tags for special styling
+  return text.replace(/\(([^)]+)\)/g, '<span class="biblical-quote">($1)</span>');
+}
+
+/**
+ * Processes Hebrew text by removing nikud and normalizing spacing
+ */
+export function processHebrewText(text: string): string {
+  if (!text) return '';
+  
+  // Remove nikud
+  let processed = removeNikud(text);
+  
+  // Split text based on punctuation marks
+  processed = splitHebrewText(processed);
+  
+  // Apply biblical quote styling
+  processed = styleHebrewParentheses(processed);
+  
+  // Normalize whitespace while preserving paragraph breaks
+  processed = processed
+    .replace(/[ \t]+/g, ' ')  // Multiple spaces/tabs to single space
+    .replace(/\n[ \t]+/g, '\n')  // Remove leading whitespace on new lines
+    .replace(/[ \t]+\n/g, '\n')  // Remove trailing whitespace before new lines
     .trim();
     
   return processed;
@@ -121,7 +129,6 @@ export function replaceTerms(text: string): string {
     "barrel": "jug",
     "barrels": "jugs",
     "the Holy One, Blessed be He": "God",
-    "The Holy One, Blessed be He,": "God",
     "the Merciful One": "God",
     "the Almighty": "God",
     "engage in intercourse": "have sex",
@@ -161,62 +168,73 @@ export function splitEnglishText(text: string): string {
   // Don't split after "i.e." specifically
   processedText = processedText.replace(/i\.e\.\n/g, 'i.e.');
   
-  // Split on semicolons when followed by capital letters or Hebrew text
-  processedText = processedText.replace(/;(?=\s*[A-Z\u0590-\u05FF])/g, ';\n');
+  // Split on question marks
+  processedText = processedText.replace(/\?/g, '?\n');
   
-  // Split on colons when followed by capital letters
-  processedText = processedText.replace(/:(?=\s*[A-Z])/g, ':\n');
+  // Clean up multiple consecutive line breaks and trim
+  processedText = processedText
+    .replace(/\n\s*\n/g, '\n')  // Remove empty lines
+    .replace(/^\s+|\s+$/g, '')  // Trim whitespace
+    .replace(/\n\s+/g, '\n');   // Remove leading spaces on new lines
   
-  // Clean up extra newlines and whitespace
-  processedText = processedText.replace(/\n\s*\n/g, '\n')
-    .replace(/^\n+|\n+$/g, '')
-    .trim();
-    
   return processedText;
 }
 
 /**
- * Process and segment both Hebrew and English text for display
+ * Processes English text to preserve and enhance formatting
  */
-export function processTextSegments(hebrewText: string, englishText: string): { hebrew: string; english: string; } {
-  // Clean the texts first
-  const cleanedHebrew = cleanHebrewText(hebrewText);
-  const cleanedEnglish = cleanEnglishText(englishText);
+export function processEnglishText(text: string): string {
+  if (!text) return '';
   
-  // Apply term replacements to English
-  const processedEnglish = replaceTerms(cleanedEnglish);
+  let processed = text;
   
-  // Split texts into segments
-  const segmentedHebrew = splitHebrewText(cleanedHebrew);
-  const segmentedEnglish = splitEnglishText(processedEnglish);
+  // Apply term replacements first
+  processed = replaceTerms(processed);
   
-  return {
-    hebrew: segmentedHebrew,
-    english: segmentedEnglish
-  };
+  // Split text based on punctuation marks
+  processed = splitEnglishText(processed);
+  
+  // Preserve paragraph breaks and normalize spacing
+  processed = processed
+    .replace(/\r\n/g, '\n')  // Normalize line endings
+    .replace(/\n{3,}/g, '\n\n')  // Multiple line breaks to double
+    .replace(/[ \t]+/g, ' ')  // Multiple spaces/tabs to single space
+    .replace(/\n[ \t]+/g, '\n')  // Remove leading whitespace on new lines
+    .replace(/[ \t]+\n/g, '\n')  // Remove trailing whitespace before new lines
+    .trim();
+  
+  // No auto-formatting applied - preserve original source formatting
+  
+  return processed;
 }
 
 /**
- * Remove common noise words and phrases from text
+ * Basic formatting for English text - only processes existing HTML and line breaks
  */
-export function removeNoiseWords(text: string): string {
+export function formatEnglishText(text: string): string {
   if (!text) return '';
   
-  const noisePatterns = [
-    /\b(said|says|taught|teaches|states|stated)\b/gi,
-    /\b(as it is written|as we learned|as it says)\b/gi,
-    /\b(the mishna teaches|the gemara says)\b/gi,
-    /\b(rabbi [a-z]+ said)\b/gi,
-    /\b(rav [a-z]+ said)\b/gi
-  ];
-  
-  let cleaned = text;
-  noisePatterns.forEach(pattern => {
-    cleaned = cleaned.replace(pattern, '');
-  });
-  
-  // Clean up extra spaces
-  cleaned = cleaned.replace(/\s+/g, ' ').trim();
-  
-  return cleaned;
+  // Only handle line breaks - preserve all existing formatting from source
+  let formatted = text
+    // Line breaks within paragraphs
+    .replace(/\n(?!\n)/g, '<br />');
+    
+  return formatted;
+}
+
+/**
+ * Utility to detect if text contains Hebrew characters
+ */
+export function containsHebrew(text: string): boolean {
+  return /[\u0590-\u05FF]/.test(text);
+}
+
+/**
+ * Utility to clean and normalize text from API responses
+ */
+export function normalizeApiText(text: string | string[]): string {
+  if (Array.isArray(text)) {
+    return text.join('\n\n');
+  }
+  return text || '';
 }
