@@ -54,6 +54,18 @@ export class MemStorage implements IStorage {
 The *Gemara* answers: The *mishna* is following the order established by the verse, as it is written: "When you lie down and when you rise up" (Deuteronomy 6:7). The verse mentions lying down, which refers to the evening, before rising up, which refers to the morning.
 
 Alternatively, the *mishna* follows the order of Creation, as it is written: "And there was evening and there was morning, one day" (Genesis 1:5). Evening precedes morning in the daily cycle.`,
+      hebrewSections: [
+        "**משנה:** מאימתי קורין את שמע בערבין? משעה שהכהנים נכנסין לאכול בתרומתן, דברי *רבי אליעזר*. וחכמים אומרים: משעה שהכוכבים נראין. ועד מתי? עד סוף האשמורה הראשונה, דברי *רבי אליעזר*. וחכמים אומרים: עד חצות.",
+        "**גמרא:** תנא מאימתי? **למה פתח בערבית?** ליפתח בשחרית! משום דכתיב: \"ובשכבך ובקומך\" - הכתוב הקדים שכיבה לקימה.",
+        "אי נמי, קא סליק ליה לתנא כסדר בראשית, דכתיב: \"ויהי ערב ויהי בקר יום אחד\".",
+        "והיינו דקאמר רחמנא: \"ובשכבך\" - זה ערבית, \"ובקומך\" - זה שחרית."
+      ],
+      englishSections: [
+        "**MISHNA:** From when do we recite *Shema* in the evening? From the time when the priests enter to partake of their *teruma*. These are the words of *Rabbi Eliezer*. And the Rabbis say: From the time when the stars emerge. And until when does the time for the recitation of the evening *Shema* extend? Until midnight. This is the statement of *Rabbi Eliezer*. And the Rabbis say: Until dawn.",
+        "**GEMARA:** The *mishna* opens with the question: From when do we recite *Shema* in the evening? The *Gemara* asks: **Why does the mishna begin with the evening Shema?** Let it begin with the morning *Shema*, which is the first *mitzvah* of the day.",
+        "The *Gemara* answers: The *mishna* is following the order established by the verse, as it is written: \"When you lie down and when you rise up\" (Deuteronomy 6:7). The verse mentions lying down, which refers to the evening, before rising up, which refers to the morning.",
+        "Alternatively, the *mishna* follows the order of Creation, as it is written: \"And there was evening and there was morning, one day\" (Genesis 1:5). Evening precedes morning in the daily cycle."
+      ],
       sefariaRef: "Berakhot.2a"
     };
     
@@ -97,7 +109,9 @@ Alternatively, the *mishna* follows the order of Creation, as it is written: "An
     const text: Text = { 
       ...insertText, 
       id,
-      sefariaRef: insertText.sefariaRef || null
+      sefariaRef: insertText.sefariaRef || null,
+      hebrewSections: insertText.hebrewSections ? [...insertText.hebrewSections] : null,
+      englishSections: insertText.englishSections ? [...insertText.englishSections] : null
     };
     const key = this.getTextKey(text.work, text.tractate, text.chapter, text.folio, text.side);
     this.texts.set(key, text);

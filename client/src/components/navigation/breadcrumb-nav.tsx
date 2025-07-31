@@ -88,13 +88,21 @@ export function BreadcrumbNav({ location, onLocationChange }: BreadcrumbNavProps
     setActiveDropdown(null);
   };
 
-  // Generate page options for current chapter
+  // Generate page options for current chapter with expanded ranges
   const generatePageOptions = () => {
     const pages: Array<{ folio: number; side: 'a' | 'b'; label: string }> = [];
     
-    // For demo purposes, generate pages 2-10 for chapter 1
-    const startFolio = location.chapter === 1 ? 2 : location.chapter * 8;
-    const endFolio = startFolio + 8;
+    // Map chapters to their folio ranges (up to 150 pages)
+    const chapterRanges: Record<number, [number, number]> = {
+      1: [2, 25],
+      2: [25, 50],
+      3: [50, 75],
+      4: [75, 100],
+      5: [100, 125],
+      6: [125, 150]
+    };
+    
+    const [startFolio, endFolio] = chapterRanges[location.chapter] || [2, 25];
     
     for (let folio = startFolio; folio <= endFolio; folio++) {
       pages.push({ folio, side: 'a', label: `${folio}a` });

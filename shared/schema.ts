@@ -18,6 +18,8 @@ export const texts = pgTable("texts", {
   side: text("side").notNull(), // 'a' or 'b'
   hebrewText: text("hebrew_text").notNull(),
   englishText: text("english_text").notNull(),
+  hebrewSections: json("hebrew_sections").$type<string[]>(), // Array of Hebrew text sections
+  englishSections: json("english_sections").$type<string[]>(), // Array of English text sections
   sefariaRef: text("sefaria_ref"),
 });
 

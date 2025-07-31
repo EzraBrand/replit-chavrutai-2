@@ -77,13 +77,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
           if (response.ok) {
             const sefariaData = await response.json();
             
-            // Parse Sefaria response and create text entry
-            const rawHebrewText = Array.isArray(sefariaData.he) ? sefariaData.he.join('\n\n') : sefariaData.he || '';
-            const rawEnglishText = Array.isArray(sefariaData.text) ? sefariaData.text.join('\n\n') : sefariaData.text || '';
+            // Parse Sefaria response and preserve section structure
+            const hebrewSections = Array.isArray(sefariaData.he) ? sefariaData.he : [sefariaData.he || ''];
+            const englishSections = Array.isArray(sefariaData.text) ? sefariaData.text : [sefariaData.text || ''];
             
-            // Process texts: remove nikud from Hebrew, enhance English formatting
-            const hebrewText = processHebrewText(rawHebrewText);
-            const englishText = processEnglishText(rawEnglishText);
+            // Process each section individually
+            const processedHebrewSections = hebrewSections.map((section: string) => processHebrewText(section || ''));
+            const processedEnglishSections = englishSections.map((section: string) => processEnglishText(section || ''));
+            
+            // Also create combined text for backward compatibility
+            const hebrewText = processedHebrewSections.join('\n\n');
+            const englishText = processedEnglishSections.join('\n\n');
             
             const newText = {
               work,
@@ -93,6 +97,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
               side,
               hebrewText,
               englishText,
+              hebrewSections: processedHebrewSections,
+              englishSections: processedEnglishSections,
               sefariaRef
             };
             
@@ -165,13 +171,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { tractate } = z.object({ tractate: z.string() }).parse(req.query);
       
-      // Mock chapter data with folio ranges - in a real app this would come from a database
+      // Expanded chapter data with larger folio ranges (up to 150 pages)
       const chapters = [
-        { number: 1, folioRange: "2-10" },
-        { number: 2, folioRange: "10-17" }, 
-        { number: 3, folioRange: "17-25" },
-        { number: 4, folioRange: "25-35" },
-        { number: 5, folioRange: "35-43" }
+        { number: 1, folioRange: "2-25" },
+        { number: 2, folioRange: "25-50" }, 
+        { number: 3, folioRange: "50-75" },
+        { number: 4, folioRange: "75-100" },
+        { number: 5, folioRange: "100-125" },
+        { number: 6, folioRange: "125-150" }
       ];
       
       res.json({ chapters });

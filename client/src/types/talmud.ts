@@ -20,6 +20,8 @@ export interface TalmudText {
   side: string;
   hebrewText: string;
   englishText: string;
+  hebrewSections?: string[] | null;
+  englishSections?: string[] | null;
   sefariaRef?: string;
 }
 

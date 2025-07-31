@@ -6,7 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { BreadcrumbNav } from "@/components/navigation/breadcrumb-nav";
 import { MobileNav } from "@/components/navigation/mobile-nav";
-import { BilingualDisplay } from "@/components/text/bilingual-display";
+import { SectionedBilingualDisplay } from "@/components/text/sectioned-bilingual-display";
 import { PageNavigation } from "@/components/navigation/page-navigation";
 import { sefariaAPI } from "@/lib/sefaria";
 import type { TalmudLocation } from "@/types/talmud";
@@ -110,7 +110,7 @@ export default function Home() {
 
         {text && (
           <>
-            <BilingualDisplay text={text} />
+            <SectionedBilingualDisplay text={text} />
             <PageNavigation location={location} onLocationChange={handleLocationChange} />
           </>
         )}
