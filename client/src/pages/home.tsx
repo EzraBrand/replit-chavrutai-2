@@ -46,7 +46,7 @@ export default function Home() {
             <HamburgerMenu onLocationChange={handleLocationChange} />
             
             {/* Logo */}
-            <div className="flex items-center space-x-3 flex-shrink-0">
+            <div className="flex items-center space-x-2 flex-shrink-0">
               <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden">
                 <img 
                   src={bookTavIcon} 
@@ -54,7 +54,7 @@ export default function Home() {
                   className="w-10 h-10 object-cover"
                 />
               </div>
-              <h1 className="text-2xl font-bold text-primary">ChavrutAI</h1>
+              <h1 className="text-2xl font-bold text-primary font-roboto">ChavrutAI</h1>
             </div>
             
             {/* Navigation - Always Visible */}
