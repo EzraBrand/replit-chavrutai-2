@@ -29,25 +29,25 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
     {
       name: "Berakhot",
       pages: [
-        { tractate: "Berakhot", folio: 17, side: 'a', label: "Berakhot 17a" }
+        { tractate: "Berakhot", folio: 17, side: 'a', label: "Berakhot 17a (Prayers)" }
       ]
     },
     {
       name: "Shabbat",
       pages: [
-        { tractate: "Shabbat", folio: 31, side: 'a', label: "Shabbat 31a" }
+        { tractate: "Shabbat", folio: 31, side: 'a', label: "Shabbat 31a (Hillel)" }
       ]
     },
     {
       name: "Ta'anit",
       pages: [
-        { tractate: "Ta'anit", folio: 29, side: 'a', label: "Taanit 29a" }
+        { tractate: "Ta'anit", folio: 29, side: 'a', label: "Taanit 29a (Tisha B'Av)" }
       ]
     },
     {
       name: "Gittin",
       pages: [
-        { tractate: "Gittin", folio: 69, side: 'a', label: "Gittin 69a" }
+        { tractate: "Gittin", folio: 69, side: 'a', label: "Gittin 69a (Remedies)" }
       ]
     }
   ];
