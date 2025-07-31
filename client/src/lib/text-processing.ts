@@ -282,8 +282,7 @@ export function splitEnglishText(text: string): string {
       parenthesesDepth--;
     } else if (char === ':' && parenthesesDepth === 0) {
       // Colon outside parentheses - split here
-      currentSegment += ':';
-      colonSplitText.push(currentSegment);
+      colonSplitText.push(currentSegment + ':');
       currentSegment = '';
       continue;
     }
@@ -296,7 +295,7 @@ export function splitEnglishText(text: string): string {
     colonSplitText.push(currentSegment);
   }
   
-  processedText = colonSplitText.join(':\n');
+  processedText = colonSplitText.join('\n');
   
   // Clean up multiple consecutive line breaks and trim
   processedText = processedText
