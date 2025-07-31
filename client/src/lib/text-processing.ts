@@ -58,6 +58,16 @@ export function splitHebrewText(text: string): string {
 }
 
 /**
+ * Applies special styling to Hebrew text in parentheses (biblical quotes)
+ */
+export function styleHebrewParentheses(text: string): string {
+  if (!text) return '';
+  
+  // Replace text in parentheses with span tags for special styling
+  return text.replace(/\(([^)]+)\)/g, '<span class="biblical-quote">($1)</span>');
+}
+
+/**
  * Processes Hebrew text by removing nikud and normalizing spacing
  */
 export function processHebrewText(text: string): string {
@@ -68,6 +78,9 @@ export function processHebrewText(text: string): string {
   
   // Split text based on punctuation marks
   processed = splitHebrewText(processed);
+  
+  // Apply biblical quote styling
+  processed = styleHebrewParentheses(processed);
   
   // Normalize whitespace while preserving paragraph breaks
   processed = processed

@@ -93,6 +93,13 @@
     font-weight: 700;
   }
   
+  .biblical-quote {
+    font-family: 'Times New Roman', 'Frank Ruehl CLM', serif;
+    font-style: italic;
+    font-weight: 500;
+    color: hsl(20, 14.3%, 25%);
+  }
+  
   .english-text {
     direction: ltr;
     font-size: 1.05em;

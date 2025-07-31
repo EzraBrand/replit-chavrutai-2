@@ -63,9 +63,8 @@ export function SectionedBilingualDisplay({ text }: SectionedBilingualDisplayPro
                         <p 
                           key={lineIndex} 
                           className="leading-relaxed mb-2"
-                        >
-                          {line.trim()}
-                        </p>
+                          dangerouslySetInnerHTML={{ __html: line.trim() }}
+                        />
                       ))}
                     </div>
                   )}
@@ -74,6 +73,49 @@ export function SectionedBilingualDisplay({ text }: SectionedBilingualDisplayPro
             </div>
           );
         })}
+        
+        {/* Next Page Continuation */}
+        {text.nextPageFirstSection && (
+          <div className="border-t-2 border-sepia-200 pt-6 mt-6">
+            <div className="flex items-center justify-center mb-4">
+              <div className="bg-sepia-50 text-gray-600 px-3 py-1 rounded-full text-sm font-medium flex items-center gap-1">
+                continued on next page...
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 opacity-60">
+              {/* English Continuation (Left Side) */}
+              <div className="space-y-3">
+                {text.nextPageFirstSection.english.trim() && (
+                  <div className="english-text text-gray-500">
+                    {processEnglishText(text.nextPageFirstSection.english).split('\n').filter(line => line.trim()).map((line, lineIndex) => (
+                      <p 
+                        key={lineIndex} 
+                        className="leading-relaxed mb-2"
+                        dangerouslySetInnerHTML={{ __html: formatEnglishText(line.trim()) }}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Hebrew Continuation (Right Side) */}
+              <div className="space-y-3">
+                {text.nextPageFirstSection.hebrew.trim() && (
+                  <div className="hebrew-text text-gray-500">
+                    {processHebrewText(text.nextPageFirstSection.hebrew).split('\n').filter(line => line.trim()).map((line, lineIndex) => (
+                      <p 
+                        key={lineIndex} 
+                        className="leading-relaxed mb-2"
+                        dangerouslySetInnerHTML={{ __html: line.trim() }}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

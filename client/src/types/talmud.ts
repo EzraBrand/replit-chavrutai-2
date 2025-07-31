@@ -23,6 +23,7 @@ export interface TalmudText {
   hebrewSections?: string[] | null;
   englishSections?: string[] | null;
   sefariaRef?: string;
+  nextPageFirstSection?: { hebrew: string; english: string } | null;
 }
 
 export const WORKS = [

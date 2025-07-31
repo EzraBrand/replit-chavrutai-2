@@ -83,6 +83,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
             const hebrewText = processedHebrewSections.join('\n\n');
             const englishText = processedEnglishSections.join('\n\n');
             
+            // Fetch next page's first section for page continuation
+            let nextPageFirstSection: { hebrew: string; english: string } | null = null;
+            
+            try {
+              const nextFolio = side === 'a' ? folio : folio + 1;
+              const nextSide = side === 'a' ? 'b' : 'a';
+              const nextSefariaRef = `${tractate}.${nextFolio}${nextSide}`;
+              const nextResponse = await fetch(`${sefariaAPIBaseURL}/texts/${nextSefariaRef}?lang=bi&commentary=0`);
+              
+              if (nextResponse.ok) {
+                const nextSefariaData = await nextResponse.json();
+                const nextHebrewSections = Array.isArray(nextSefariaData.he) ? nextSefariaData.he : [nextSefariaData.he || ''];
+                const nextEnglishSections = Array.isArray(nextSefariaData.text) ? nextSefariaData.text : [nextSefariaData.text || ''];
+                
+                if (nextHebrewSections[0] || nextEnglishSections[0]) {
+                  nextPageFirstSection = {
+                    hebrew: processHebrewText(nextHebrewSections[0] || ''),
+                    english: processEnglishText(nextEnglishSections[0] || '')
+                  };
+                }
+              }
+            } catch (nextPageError) {
+              console.log('Could not fetch next page for continuation:', nextPageError);
+            }
+
             const newText = {
               work,
               tractate,
@@ -93,7 +118,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
               englishText,
               hebrewSections: processedHebrewSections,
               englishSections: processedEnglishSections,
-              sefariaRef
+              sefariaRef,
+              nextPageFirstSection
             };
             
             text = await storage.createText(newText);

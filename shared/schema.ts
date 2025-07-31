@@ -21,6 +21,7 @@ export const texts = pgTable("texts", {
   hebrewSections: json("hebrew_sections").$type<string[]>(), // Array of Hebrew text sections
   englishSections: json("english_sections").$type<string[]>(), // Array of English text sections
   sefariaRef: text("sefaria_ref"),
+  nextPageFirstSection: json("next_page_first_section").$type<{ hebrew: string; english: string } | null>(), // First section of next page for continuation
 });
 
 export const bookmarks = pgTable("bookmarks", {
