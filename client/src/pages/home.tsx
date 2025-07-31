@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { BreadcrumbNav } from "@/components/navigation/breadcrumb-nav";
+import { HamburgerMenu } from "@/components/navigation/hamburger-menu";
 import { SectionedBilingualDisplay } from "@/components/text/sectioned-bilingual-display";
 import { PageNavigation } from "@/components/navigation/page-navigation";
 import { Footer } from "@/components/footer";
@@ -41,6 +42,9 @@ export default function Home() {
       <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
+            {/* Hamburger Menu */}
+            <HamburgerMenu onLocationChange={handleLocationChange} />
+            
             {/* Logo */}
             <div className="flex items-center space-x-3 flex-shrink-0">
               <div className="w-10 h-10 bg-talmud-brown rounded-full flex items-center justify-center">
