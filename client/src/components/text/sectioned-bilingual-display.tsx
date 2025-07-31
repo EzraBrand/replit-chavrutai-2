@@ -29,7 +29,7 @@ export function SectionedBilingualDisplay({ text }: SectionedBilingualDisplayPro
             <div key={index} className="border-b border-sepia-100 pb-6 last:border-b-0 last:pb-0">
               {/* Section Number Header */}
               <div className="flex items-center justify-center mb-4">
-                <span className="bg-sepia-100 text-talmud-brown px-3 py-1 rounded-full text-sm font-semibold">
+                <span className="bg-sepia-100 text-gray-800 px-3 py-1 rounded-full text-sm font-semibold">
                   Section {index + 1}
                 </span>
               </div>
@@ -37,7 +37,7 @@ export function SectionedBilingualDisplay({ text }: SectionedBilingualDisplayPro
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* English Section (Left Side) */}
                 <div className="space-y-3">
-                  <h4 className="text-base font-semibold text-talmud-brown border-b border-sepia-200 pb-1">
+                  <h4 className="text-base font-semibold text-gray-800 border-b border-sepia-200 pb-1">
                     English Translation
                   </h4>
                   {englishSection.trim() && (
@@ -55,17 +55,18 @@ export function SectionedBilingualDisplay({ text }: SectionedBilingualDisplayPro
 
                 {/* Hebrew Section (Right Side) */}
                 <div className="space-y-3">
-                  <h4 className="text-base font-semibold text-talmud-brown border-b border-sepia-200 pb-1">
+                  <h4 className="text-base font-semibold text-gray-800 border-b border-sepia-200 pb-1">
                     טקסט עברי
                   </h4>
                   {hebrewSection.trim() && (
                     <div className="hebrew-text text-gray-800">
-                      {formatEnglishText(processHebrewText(hebrewSection)).split('\n\n').filter(p => p.trim()).map((paragraph, pIndex) => (
+                      {processHebrewText(hebrewSection).split('\n').filter(line => line.trim()).map((line, lineIndex) => (
                         <p 
-                          key={pIndex} 
-                          className="leading-relaxed mb-3"
-                          dangerouslySetInnerHTML={{ __html: paragraph }}
-                        />
+                          key={lineIndex} 
+                          className="leading-relaxed mb-2"
+                        >
+                          {line.trim()}
+                        </p>
                       ))}
                     </div>
                   )}

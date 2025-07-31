@@ -20,6 +20,44 @@ export function removeNikud(hebrewText: string): string {
 }
 
 /**
+ * Split Hebrew text into paragraphs based on specific punctuation marks
+ */
+export function splitHebrewText(text: string): string {
+  if (!text) return '';
+  
+  // Define the punctuation marks for splitting
+  const splitMarks = [
+    '.',     // Period
+    ',',     // Comma
+    '–',     // M-dash
+    ':',     // Colon
+    '?',     // Question mark
+    '!',     // Exclamation mark
+    '?!',    // Rhetorical question mark
+    '״ ',    // Hebrew quotation mark + space
+    ' - ',   // Regular dash + spaces
+    '׃'      // Hebrew SOF PASUQ
+  ];
+  
+  let processedText = text;
+  
+  // Split on each punctuation mark and add line breaks
+  splitMarks.forEach(mark => {
+    // Create regex pattern that preserves the punctuation mark
+    const regex = new RegExp(`(${mark.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'g');
+    processedText = processedText.replace(regex, `$1\n`);
+  });
+  
+  // Clean up multiple consecutive line breaks and trim
+  processedText = processedText
+    .replace(/\n\s*\n/g, '\n')  // Remove empty lines
+    .replace(/^\s+|\s+$/g, '')  // Trim whitespace
+    .replace(/\n\s+/g, '\n');   // Remove leading spaces on new lines
+  
+  return processedText;
+}
+
+/**
  * Processes Hebrew text by removing nikud and normalizing spacing
  */
 export function processHebrewText(text: string): string {
@@ -27,6 +65,9 @@ export function processHebrewText(text: string): string {
   
   // Remove nikud
   let processed = removeNikud(text);
+  
+  // Split text based on punctuation marks
+  processed = splitHebrewText(processed);
   
   // Normalize whitespace while preserving paragraph breaks
   processed = processed

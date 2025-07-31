@@ -85,12 +85,10 @@
   }
   
   .hebrew-text strong {
-    color: var(--talmud-brown);
     font-weight: 900;
   }
   
   .hebrew-text em {
-    color: var(--talmud-lightbrown);
     font-style: normal;
     font-weight: 700;
   }
@@ -103,12 +101,10 @@
   }
   
   .english-text strong {
-    color: var(--talmud-brown);
     font-weight: 700;
   }
   
   .english-text em {
-    color: var(--talmud-lightbrown);
     font-style: italic;
     font-weight: 500;
   }
