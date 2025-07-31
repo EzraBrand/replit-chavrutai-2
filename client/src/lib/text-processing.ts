@@ -185,18 +185,7 @@ export function processEnglishText(text: string): string {
     .replace(/[ \t]+\n/g, '\n')  // Remove trailing whitespace before new lines
     .trim();
   
-  // Enhanced formatting for common patterns (updated to reflect term replacements)
-  processed = processed
-    // MISHNA/TALMUD headers - make them stand out
-    .replace(/^(MISHNA|TALMUD|MISHNAH):/gm, '**$1:**')
-    // R' names - add emphasis (updated to use R' instead of Rabbi)
-    .replace(/\b(R'|Rav|Rebbe)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/g, '*$1 $2*')
-    // Talmudic terms - add emphasis
-    .replace(/\b(Tanya|Tanu Rabbanan|Amar|Amri)\b/g, '*$1*')
-    // Questions and responses
-    .replace(/\b(What is the reason|Why|How so|From where do we know)\?/g, '**$1?**')
-    // Common Aramaic/Hebrew terms (removed "Talmud" to prevent auto-bolding)
-    .replace(/\b(halakha|Halakha|mitzvah|Mitzvah|Torah|Mishnah|tefillin|Shekhina)\b/g, '*$1*');
+  // No auto-formatting applied - preserve original source formatting
   
   return processed;
 }
