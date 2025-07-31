@@ -40,23 +40,8 @@ export function SectionedBilingualDisplay({ text }: SectionedBilingualDisplayPro
               </div>
               
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {/* English Section (Left Side) */}
-                <div className="space-y-3">
-                  {englishSection.trim() && (
-                    <div className="english-text text-gray-800">
-                      {processEnglishText(englishSection).split('\n').filter(line => line.trim()).map((line, lineIndex) => (
-                        <p 
-                          key={lineIndex} 
-                          className="leading-relaxed mb-2"
-                          dangerouslySetInnerHTML={{ __html: formatEnglishText(line.trim()) }}
-                        />
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                {/* Hebrew Section (Right Side) */}
-                <div className="space-y-3">
+                {/* Hebrew Section (First on Mobile, Right Side on Desktop) */}
+                <div className="space-y-3 lg:order-2">
                   {hebrewSection.trim() && (
                     <div className="hebrew-text text-gray-800">
                       {processHebrewText(hebrewSection).split('\n').filter(line => line.trim()).map((line, lineIndex) => (
@@ -64,6 +49,21 @@ export function SectionedBilingualDisplay({ text }: SectionedBilingualDisplayPro
                           key={lineIndex} 
                           className="leading-relaxed mb-2"
                           dangerouslySetInnerHTML={{ __html: line.trim() }}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* English Section (Second on Mobile, Left Side on Desktop) */}
+                <div className="space-y-3 lg:order-1">
+                  {englishSection.trim() && (
+                    <div className="english-text text-gray-800">
+                      {processEnglishText(englishSection).split('\n').filter(line => line.trim()).map((line, lineIndex) => (
+                        <p 
+                          key={lineIndex} 
+                          className="leading-relaxed mb-2"
+                          dangerouslySetInnerHTML={{ __html: formatEnglishText(line.trim()) }}
                         />
                       ))}
                     </div>
@@ -84,23 +84,8 @@ export function SectionedBilingualDisplay({ text }: SectionedBilingualDisplayPro
             </div>
             
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 opacity-60">
-              {/* English Continuation (Left Side) */}
-              <div className="space-y-3">
-                {text.nextPageFirstSection.english.trim() && (
-                  <div className="english-text text-gray-500">
-                    {processEnglishText(text.nextPageFirstSection.english).split('\n').filter(line => line.trim()).map((line, lineIndex) => (
-                      <p 
-                        key={lineIndex} 
-                        className="leading-relaxed mb-2"
-                        dangerouslySetInnerHTML={{ __html: formatEnglishText(line.trim()) }}
-                      />
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* Hebrew Continuation (Right Side) */}
-              <div className="space-y-3">
+              {/* Hebrew Continuation (First on Mobile, Right Side on Desktop) */}
+              <div className="space-y-3 lg:order-2">
                 {text.nextPageFirstSection.hebrew.trim() && (
                   <div className="hebrew-text text-gray-500">
                     {processHebrewText(text.nextPageFirstSection.hebrew).split('\n').filter(line => line.trim()).map((line, lineIndex) => (
@@ -108,6 +93,21 @@ export function SectionedBilingualDisplay({ text }: SectionedBilingualDisplayPro
                         key={lineIndex} 
                         className="leading-relaxed mb-2"
                         dangerouslySetInnerHTML={{ __html: line.trim() }}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* English Continuation (Second on Mobile, Left Side on Desktop) */}
+              <div className="space-y-3 lg:order-1">
+                {text.nextPageFirstSection.english.trim() && (
+                  <div className="english-text text-gray-500">
+                    {processEnglishText(text.nextPageFirstSection.english).split('\n').filter(line => line.trim()).map((line, lineIndex) => (
+                      <p 
+                        key={lineIndex} 
+                        className="leading-relaxed mb-2"
+                        dangerouslySetInnerHTML={{ __html: formatEnglishText(line.trim()) }}
                       />
                     ))}
                   </div>
