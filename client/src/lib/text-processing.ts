@@ -80,12 +80,45 @@ export function processHebrewText(text: string): string {
 }
 
 /**
+ * Split English text into paragraphs based on specific punctuation marks
+ */
+export function splitEnglishText(text: string): string {
+  if (!text) return '';
+  
+  // Define the punctuation marks for splitting English text
+  const splitMarks = [
+    '.',     // Period
+    '?'      // Question mark
+  ];
+  
+  let processedText = text;
+  
+  // Split on each punctuation mark and add line breaks
+  splitMarks.forEach(mark => {
+    // Create regex pattern that preserves the punctuation mark
+    const regex = new RegExp(`(\\${mark})`, 'g');
+    processedText = processedText.replace(regex, `$1\n`);
+  });
+  
+  // Clean up multiple consecutive line breaks and trim
+  processedText = processedText
+    .replace(/\n\s*\n/g, '\n')  // Remove empty lines
+    .replace(/^\s+|\s+$/g, '')  // Trim whitespace
+    .replace(/\n\s+/g, '\n');   // Remove leading spaces on new lines
+  
+  return processedText;
+}
+
+/**
  * Processes English text to preserve and enhance formatting
  */
 export function processEnglishText(text: string): string {
   if (!text) return '';
   
   let processed = text;
+  
+  // Split text based on punctuation marks
+  processed = splitEnglishText(processed);
   
   // Preserve paragraph breaks and normalize spacing
   processed = processed

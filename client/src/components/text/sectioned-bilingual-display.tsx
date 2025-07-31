@@ -1,4 +1,4 @@
-import { formatEnglishText, processHebrewText } from "@/lib/text-processing";
+import { formatEnglishText, processHebrewText, processEnglishText } from "@/lib/text-processing";
 import type { TalmudText } from "@/types/talmud";
 
 interface SectionedBilingualDisplayProps {
@@ -42,11 +42,11 @@ export function SectionedBilingualDisplay({ text }: SectionedBilingualDisplayPro
                   </h4>
                   {englishSection.trim() && (
                     <div className="english-text text-gray-800">
-                      {formatEnglishText(englishSection).split('\n\n').filter(p => p.trim()).map((paragraph, pIndex) => (
+                      {processEnglishText(englishSection).split('\n').filter(line => line.trim()).map((line, lineIndex) => (
                         <p 
-                          key={pIndex} 
-                          className="leading-relaxed mb-3"
-                          dangerouslySetInnerHTML={{ __html: paragraph }}
+                          key={lineIndex} 
+                          className="leading-relaxed mb-2"
+                          dangerouslySetInnerHTML={{ __html: formatEnglishText(line.trim()) }}
                         />
                       ))}
                     </div>
