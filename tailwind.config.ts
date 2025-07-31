@@ -86,6 +86,7 @@ export default {
       },
       fontFamily: {
         'roboto': ['Roboto', 'sans-serif'],
+        'playfair': ['Playfair Display', 'serif'],
       },
     },
   },
