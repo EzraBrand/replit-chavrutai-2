@@ -95,3 +95,14 @@ The application is architected to seamlessly transition from in-memory storage t
 - Database URL configuration is prepared but optional for development
 
 The system prioritizes rapid development and easy deployment while maintaining a clear path to production-scale data persistence.
+
+## Recent Changes: Latest modifications with dates
+
+### January 31, 2025 - UI Simplification and Accurate Folio Implementation
+- **Simplified Navigation**: Removed Work and Chapter dropdowns, keeping only Tractate and Page selections for cleaner UI
+- **Accurate Folio Ranges**: Implemented exact page counts for all 37 Talmud Bavli tractates based on Vilna edition data
+  - Examples: Berakhot (64 pages), Shabbat (157 pages), Bava Batra (176 pages), Tamid (8 pages)
+  - Replaced flat 150-page limit with tractate-specific maximums
+- **Enhanced Navigation Logic**: Updated page dropdowns and next/previous navigation to respect tractate boundaries
+- **Code Organization**: Created shared utility (`tractate-ranges.ts`) for consistent folio data across components
+- **Chapter References Removed**: Eliminated chapter mentions from UI to match simplified navigation design

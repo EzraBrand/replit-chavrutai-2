@@ -173,10 +173,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
         ],
         "Talmud Bavli": [
           "Berakhot",
-          "Shabbat", "Eruvin", "Pesachim", "Rosh Hashanah", "Yoma", "Sukkah", "Beitzah", "Taanit", "Megillah", "Moed Katan", "Chagigah",
+          "Shabbat", "Eruvin", "Pesachim", "Rosh Hashanah", "Yoma", "Sukkah", "Beitza", "Ta'anit", "Megillah", "Mo'ed Katan", "Chagigah",
           "Yevamot", "Ketubot", "Nedarim", "Nazir", "Sotah", "Gittin", "Kiddushin",
-          "Bava Kamma", "Bava Metzia", "Bava Batra", "Sanhedrin", "Makkot", "Shevuot", "Avodah Zarah", "Avot", "Horayot",
-          "Zevachim", "Menachot", "Chullin", "Bekhorot", "Arakhin", "Temurah", "Keritot", "Meilah", "Tamid", "Middot", "Kinnim", "Niddah"
+          "Bava Kamma", "Bava Metzia", "Bava Batra", "Sanhedrin", "Makkot", "Shevu'ot", "Avodah Zarah", "Horayot",
+          "Zevahim", "Menachot", "Chullin", "Bekhorot", "Arachin", "Temurah", "Keritot", "Me'ilah", "Tamid", "Middot", "Kinnim", "Niddah"
         ]
       };
       
