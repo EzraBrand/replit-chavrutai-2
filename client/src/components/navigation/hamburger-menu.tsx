@@ -91,7 +91,7 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
           <span className="sr-only">Open menu</span>
         </Button>
       </SheetTrigger>
-      <SheetContent side="left" className="w-80 sm:w-96">
+      <SheetContent side="left" className="w-64">
         <SheetHeader>
           <SheetTitle className="text-left">Menu</SheetTitle>
         </SheetHeader>
