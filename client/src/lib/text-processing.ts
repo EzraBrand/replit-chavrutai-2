@@ -129,6 +129,7 @@ export function replaceTerms(text: string): string {
     "barrel": "jug",
     "barrels": "jugs",
     "the Holy One, Blessed be He": "God",
+    "The Holy One, Blessed be He": "God",
     "the Merciful One": "God",
     "the Almighty": "God",
     "engage in intercourse": "have sex",
@@ -148,7 +149,7 @@ export function replaceTerms(text: string): string {
   // Apply term replacements
   Object.entries(termReplacements).forEach(([original, replacement]) => {
     // Use word boundaries to avoid partial matches, case-insensitive for some terms
-    const regex = new RegExp(`\\b${original.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'g');
+    const regex = new RegExp(`\\b${original.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'gi');
     processedText = processedText.replace(regex, replacement);
   });
   
