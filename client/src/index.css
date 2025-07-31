@@ -1,0 +1,138 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(40, 30%, 95%);
+  --foreground: hsl(20, 14.3%, 4.1%);
+  --muted: hsl(40, 20%, 90%);
+  --muted-foreground: hsl(25, 5.3%, 44.7%);
+  --popover: hsl(40, 30%, 98%);
+  --popover-foreground: hsl(20, 14.3%, 4.1%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(20, 14.3%, 4.1%);
+  --border: hsl(35, 20%, 85%);
+  --input: hsl(35, 20%, 85%);
+  --primary: hsl(207, 70%, 45%);
+  --primary-foreground: hsl(211, 100%, 99%);
+  --secondary: hsl(40, 20%, 90%);
+  --secondary-foreground: hsl(24, 9.8%, 10%);
+  --accent: hsl(40, 20%, 90%);
+  --accent-foreground: hsl(24, 9.8%, 10%);
+  --destructive: hsl(0, 84.2%, 60.2%);
+  --destructive-foreground: hsl(60, 9.1%, 97.8%);
+  --ring: hsl(20, 14.3%, 4.1%);
+  --radius: 0.5rem;
+  
+  /* Sepia color palette */
+  --sepia-50: hsl(40, 30%, 98%);
+  --sepia-100: hsl(40, 30%, 95%);
+  --sepia-200: hsl(35, 25%, 88%);
+  --sepia-300: hsl(30, 20%, 78%);
+  --sepia-400: hsl(25, 18%, 65%);
+  --sepia-500: hsl(20, 16%, 52%);
+  --sepia-600: hsl(15, 14%, 42%);
+  --sepia-700: hsl(10, 12%, 32%);
+  --sepia-800: hsl(8, 10%, 22%);
+  --sepia-900: hsl(5, 8%, 15%);
+  
+  /* Talmud-specific colors */
+  --talmud-brown: hsl(20, 60%, 35%);
+  --talmud-lightbrown: hsl(25, 55%, 45%);
+  --talmud-blue: hsl(207, 70%, 45%);
+}
+
+.dark {
+  --background: hsl(240, 10%, 3.9%);
+  --foreground: hsl(0, 0%, 98%);
+  --muted: hsl(240, 3.7%, 15.9%);
+  --muted-foreground: hsl(240, 5%, 64.9%);
+  --popover: hsl(240, 10%, 3.9%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --card: hsl(240, 10%, 3.9%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --border: hsl(240, 3.7%, 15.9%);
+  --input: hsl(240, 3.7%, 15.9%);
+  --primary: hsl(207, 90%, 54%);
+  --primary-foreground: hsl(211, 100%, 99%);
+  --secondary: hsl(240, 3.7%, 15.9%);
+  --secondary-foreground: hsl(0, 0%, 98%);
+  --accent: hsl(240, 3.7%, 15.9%);
+  --accent-foreground: hsl(0, 0%, 98%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(240, 4.9%, 83.9%);
+  --radius: 0.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+  
+  .hebrew-text {
+    direction: rtl;
+    font-weight: bold;
+    font-size: 1.1em;
+    line-height: 1.8;
+    font-family: 'Times New Roman', serif;
+  }
+  
+  .english-text {
+    direction: ltr;
+    font-size: 1.05em;
+    line-height: 1.7;
+    font-family: Georgia, 'Times New Roman', serif;
+  }
+  
+  .sepia-bg {
+    background-color: var(--sepia-100);
+  }
+  
+  .sepia-card {
+    background-color: var(--card);
+    border-color: var(--sepia-200);
+  }
+}
+
+@layer utilities {
+  .text-talmud-brown {
+    color: var(--talmud-brown);
+  }
+  
+  .text-talmud-lightbrown {
+    color: var(--talmud-lightbrown);
+  }
+  
+  .text-talmud-blue {
+    color: var(--talmud-blue);
+  }
+  
+  .bg-talmud-brown {
+    background-color: var(--talmud-brown);
+  }
+  
+  .bg-sepia-50 {
+    background-color: var(--sepia-50);
+  }
+  
+  .bg-sepia-100 {
+    background-color: var(--sepia-100);
+  }
+  
+  .bg-sepia-200 {
+    background-color: var(--sepia-200);
+  }
+  
+  .border-sepia-200 {
+    border-color: var(--sepia-200);
+  }
+  
+  .border-sepia-300 {
+    border-color: var(--sepia-300);
+  }
+}
