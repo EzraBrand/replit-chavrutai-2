@@ -54,7 +54,7 @@ export default function Home() {
                   className="w-10 h-10 object-cover"
                 />
               </div>
-              <h1 className="text-xl font-semibold text-primary font-playfair">ChavrutAI</h1>
+              <h1 className="text-xl font-semibold text-primary font-roboto">ChavrutAI</h1>
             </div>
             
             {/* Navigation - Always Visible */}
