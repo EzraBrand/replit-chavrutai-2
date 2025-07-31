@@ -37,13 +37,19 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
       pages: [
         { tractate: "Shabbat", folio: 31, side: 'a', label: "Shabbat 31a" }
       ]
+    },
+    {
+      name: "Ta'anit",
+      pages: [
+        { tractate: "Ta'anit", folio: 29, side: 'a', label: "Taanit 29a" }
+      ]
+    },
+    {
+      name: "Gittin",
+      pages: [
+        { tractate: "Gittin", folio: 69, side: 'a', label: "Gittin 69a" }
+      ]
     }
-  ];
-
-  // Additional standalone pages
-  const additionalPages: SuggestedPage[] = [
-    { tractate: "Ta'anit", folio: 29, side: 'a', label: "Taanit 29a" },
-    { tractate: "Gittin", folio: 69, side: 'a', label: "Gittin 69a" }
   ];
 
   const handleSuggestedPageClick = (tractate: string, folio: number, side: 'a' | 'b') => {
@@ -120,17 +126,6 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
                     </div>
                   )}
                 </div>
-              ))}
-              
-              {/* Additional Standalone Pages */}
-              {additionalPages.map((page) => (
-                <button
-                  key={`${page.tractate}-${page.folio}${page.side}`}
-                  onClick={() => handleSuggestedPageClick(page.tractate, page.folio, page.side)}
-                  className="w-full text-left px-4 py-3 rounded-lg hover:bg-secondary transition-colors duration-200 text-foreground"
-                >
-                  {page.label}
-                </button>
               ))}
             </div>
           </div>
