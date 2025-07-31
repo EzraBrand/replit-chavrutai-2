@@ -106,3 +106,8 @@ The system prioritizes rapid development and easy deployment while maintaining a
 - **Enhanced Navigation Logic**: Updated page dropdowns and next/previous navigation to respect tractate boundaries
 - **Code Organization**: Created shared utility (`tractate-ranges.ts`) for consistent folio data across components
 - **Chapter References Removed**: Eliminated chapter mentions from UI to match simplified navigation design
+- **Mobile Text Ordering**: Fixed mobile layout so Hebrew text appears before English in each section
+- **Complete Sepia Theme**: Implemented light sepia theme throughout entire UI, replacing all white backgrounds
+  - Updated CSS variables for warm manuscript-like colors (light sepia backgrounds, dark brown text)
+  - Applied sepia theme to all components: navigation, text display, alerts, mobile sheets, page controls
+  - Maintained accessibility with proper contrast ratios while achieving traditional manuscript aesthetic

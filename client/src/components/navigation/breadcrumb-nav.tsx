@@ -115,7 +115,7 @@ export function BreadcrumbNav({ location, onLocationChange }: BreadcrumbNavProps
   }) => (
     <Button
       variant="ghost"
-      className={`flex items-center space-x-1 px-3 py-2 text-talmud-blue hover:bg-sepia-50 rounded transition-colors ${className}`}
+      className={`flex items-center space-x-1 px-3 py-2 text-primary hover:bg-secondary rounded transition-colors ${className}`}
       onClick={() => toggleDropdown(id)}
     >
       {children}
@@ -134,7 +134,7 @@ export function BreadcrumbNav({ location, onLocationChange }: BreadcrumbNavProps
   }) => (
     <div 
       ref={(el) => dropdownRefs.current[id] = el}
-      className={`absolute top-full mt-1 w-56 bg-white border border-sepia-200 rounded-lg shadow-lg z-30 ${
+      className={`absolute top-full mt-1 w-56 bg-popover border border-border rounded-lg shadow-lg z-30 ${
         activeDropdown === id ? 'block' : 'hidden'
       } ${className}`}
     >
@@ -155,8 +155,8 @@ export function BreadcrumbNav({ location, onLocationChange }: BreadcrumbNavProps
   }) => (
     <button
       onClick={onClick}
-      className={`block w-full text-left px-4 py-2 hover:bg-sepia-50 text-gray-700 transition-colors ${
-        isActive ? 'bg-sepia-100' : ''
+      className={`block w-full text-left px-4 py-2 hover:bg-secondary text-popover-foreground transition-colors ${
+        isActive ? 'bg-secondary' : ''
       }`}
     >
       {children}
@@ -164,7 +164,7 @@ export function BreadcrumbNav({ location, onLocationChange }: BreadcrumbNavProps
   );
 
   return (
-    <nav className="hidden lg:flex items-center space-x-2 bg-white rounded-lg px-4 py-2 shadow-sm border border-sepia-200">
+    <nav className="hidden lg:flex items-center space-x-2 bg-card rounded-lg px-4 py-2 shadow-sm border border-border">
       {/* Tractate Dropdown */}
       <div className="relative">
         <DropdownButton id="tractate">
@@ -185,7 +185,7 @@ export function BreadcrumbNav({ location, onLocationChange }: BreadcrumbNavProps
         </DropdownContent>
       </div>
 
-      <span className="text-gray-400">›</span>
+      <span className="text-muted-foreground">›</span>
 
       {/* Page Dropdown */}
       <div className="relative">

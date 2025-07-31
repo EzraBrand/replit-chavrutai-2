@@ -36,9 +36,9 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen sepia-bg">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="bg-sepia-50 border-b border-sepia-200 shadow-sm">
+      <header className="bg-card border-b border-border shadow-sm">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             {/* Mobile Menu Button */}
@@ -49,7 +49,7 @@ export default function Home() {
               <div className="w-10 h-10 bg-talmud-brown rounded-full flex items-center justify-center">
                 <Book className="w-5 h-5 text-white" />
               </div>
-              <h1 className="text-2xl font-bold text-talmud-brown">ChavrutAI</h1>
+              <h1 className="text-2xl font-bold text-primary">ChavrutAI</h1>
             </div>
             
             {/* Desktop Navigation Breadcrumbs */}
@@ -65,17 +65,17 @@ export default function Home() {
       <main className="max-w-7xl mx-auto px-4 py-6">
         {/* Page Title */}
         <div className="mb-6">
-          <h2 className="text-2xl font-semibold text-talmud-brown mb-2">
+          <h2 className="text-2xl font-semibold text-primary mb-2">
             {location.tractate} {location.folio}{location.side}
           </h2>
-          <p className="text-gray-600">
+          <p className="text-muted-foreground">
             Tractate {location.tractate}, Folio {location.folio}, Page {location.side}
           </p>
         </div>
 
         {/* Text Content */}
         {isLoading && (
-          <div className="bg-white rounded-lg shadow-sm border border-sepia-200 p-6">
+          <div className="bg-card rounded-lg shadow-sm border border-border p-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               <div className="space-y-4">
                 <Skeleton className="h-8 w-48" />
@@ -92,12 +92,12 @@ export default function Home() {
         )}
 
         {error && (
-          <Alert className="bg-red-50 border-red-200">
-            <AlertDescription className="text-red-800">
+          <Alert className="bg-destructive/10 border-destructive/20">
+            <AlertDescription className="text-destructive">
               Failed to load text. This may be because the text is not available or there was a connection error.
               <Button 
                 variant="link" 
-                className="ml-2 p-0 h-auto text-red-600"
+                className="ml-2 p-0 h-auto text-destructive"
                 onClick={() => refetch()}
               >
                 Try again
@@ -114,8 +114,8 @@ export default function Home() {
         )}
 
         {!isLoading && !error && !text && (
-          <Alert className="bg-yellow-50 border-yellow-200">
-            <AlertDescription className="text-yellow-800">
+          <Alert className="bg-accent border-accent">
+            <AlertDescription className="text-accent-foreground">
               No text found for this location. This may be because the text hasn't been digitized yet or the reference is invalid.
             </AlertDescription>
           </Alert>
@@ -123,9 +123,9 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-sepia-50 border-t border-sepia-200 mt-12">
+      <footer className="bg-card border-t border-border mt-12">
         <div className="max-w-7xl mx-auto px-4 py-6">
-          <div className="text-center text-sm text-gray-600">
+          <div className="text-center text-sm text-muted-foreground">
             <p>
               ChavrutAI - Making the Talmud more accessible for contemporary study | 
               Data provided by Sefaria (not affiliated) | 

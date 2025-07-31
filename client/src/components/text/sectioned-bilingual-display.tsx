@@ -14,7 +14,7 @@ export function SectionedBilingualDisplay({ text }: SectionedBilingualDisplayPro
   const maxSections = Math.max(hebrewSections.length, englishSections.length);
   
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-sepia-200 p-6">
+    <div className="bg-card rounded-lg shadow-sm border border-border p-6">
       <div className="space-y-8">
         {Array.from({ length: maxSections }, (_, index) => {
           const hebrewSection = hebrewSections[index] || '';
@@ -26,14 +26,14 @@ export function SectionedBilingualDisplay({ text }: SectionedBilingualDisplayPro
           }
           
           return (
-            <div key={index} className="border-b border-sepia-100 pb-6 last:border-b-0 last:pb-0">
+            <div key={index} className="border-b border-border/50 pb-6 last:border-b-0 last:pb-0">
               {/* Sefaria Link Header */}
               <div className="flex items-center justify-center mb-4">
                 <a 
                   href={`https://www.sefaria.org.il/${text.tractate}.${text.folio}${text.side}.${index + 1}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-sepia-100 hover:bg-sepia-200 text-gray-800 px-3 py-1 rounded-full text-sm font-semibold transition-colors duration-200 flex items-center gap-1"
+                  className="bg-secondary hover:bg-secondary/80 text-secondary-foreground px-3 py-1 rounded-full text-sm font-semibold transition-colors duration-200 flex items-center gap-1"
                 >
                   section {index + 1} <span className="text-xs">↗</span>
                 </a>
@@ -43,7 +43,7 @@ export function SectionedBilingualDisplay({ text }: SectionedBilingualDisplayPro
                 {/* Hebrew Section (First on Mobile, Right Side on Desktop) */}
                 <div className="space-y-3 lg:order-2">
                   {hebrewSection.trim() && (
-                    <div className="hebrew-text text-gray-800">
+                    <div className="hebrew-text text-foreground">
                       {processHebrewText(hebrewSection).split('\n').filter(line => line.trim()).map((line, lineIndex) => (
                         <p 
                           key={lineIndex} 
@@ -58,7 +58,7 @@ export function SectionedBilingualDisplay({ text }: SectionedBilingualDisplayPro
                 {/* English Section (Second on Mobile, Left Side on Desktop) */}
                 <div className="space-y-3 lg:order-1">
                   {englishSection.trim() && (
-                    <div className="english-text text-gray-800">
+                    <div className="english-text text-foreground">
                       {processEnglishText(englishSection).split('\n').filter(line => line.trim()).map((line, lineIndex) => (
                         <p 
                           key={lineIndex} 
@@ -76,9 +76,9 @@ export function SectionedBilingualDisplay({ text }: SectionedBilingualDisplayPro
         
         {/* Next Page Continuation */}
         {text.nextPageFirstSection && (
-          <div className="border-t-2 border-sepia-200 pt-6 mt-6">
+          <div className="border-t-2 border-border pt-6 mt-6">
             <div className="flex items-center justify-center mb-4">
-              <div className="bg-sepia-50 text-gray-600 px-3 py-1 rounded-full text-sm font-medium flex items-center gap-1">
+              <div className="bg-muted text-muted-foreground px-3 py-1 rounded-full text-sm font-medium flex items-center gap-1">
                 continued on next page...
               </div>
             </div>
@@ -87,7 +87,7 @@ export function SectionedBilingualDisplay({ text }: SectionedBilingualDisplayPro
               {/* Hebrew Continuation (First on Mobile, Right Side on Desktop) */}
               <div className="space-y-3 lg:order-2">
                 {text.nextPageFirstSection.hebrew.trim() && (
-                  <div className="hebrew-text text-gray-500">
+                  <div className="hebrew-text text-muted-foreground">
                     {processHebrewText(text.nextPageFirstSection.hebrew).split('\n').filter(line => line.trim()).map((line, lineIndex) => (
                       <p 
                         key={lineIndex} 
@@ -102,7 +102,7 @@ export function SectionedBilingualDisplay({ text }: SectionedBilingualDisplayPro
               {/* English Continuation (Second on Mobile, Left Side on Desktop) */}
               <div className="space-y-3 lg:order-1">
                 {text.nextPageFirstSection.english.trim() && (
-                  <div className="english-text text-gray-500">
+                  <div className="english-text text-muted-foreground">
                     {processEnglishText(text.nextPageFirstSection.english).split('\n').filter(line => line.trim()).map((line, lineIndex) => (
                       <p 
                         key={lineIndex} 

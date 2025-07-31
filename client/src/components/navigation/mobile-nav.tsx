@@ -89,22 +89,22 @@ export function MobileNav({ location, onLocationChange }: MobileNavProps) {
         <Button 
           variant="ghost" 
           size="icon"
-          className="lg:hidden text-talmud-brown hover:text-talmud-lightbrown"
+          className="lg:hidden text-primary hover:text-primary/80"
         >
           <Menu className="h-6 w-6" />
         </Button>
       </SheetTrigger>
       
-      <SheetContent side="left" className="w-80 bg-sepia-50">
+      <SheetContent side="left" className="w-80 bg-background">
         <SheetHeader>
-          <SheetTitle className="text-talmud-brown">ChavrutAI</SheetTitle>
+          <SheetTitle className="text-primary">ChavrutAI</SheetTitle>
         </SheetHeader>
         
         <div className="mt-8 space-y-6">
           {/* Current Location Display */}
-          <div className="border-b border-sepia-200 pb-4">
-            <h3 className="font-semibold text-talmud-brown mb-2">Current Location</h3>
-            <p className="text-sm text-gray-600">
+          <div className="border-b border-border pb-4">
+            <h3 className="font-semibold text-primary mb-2">Current Location</h3>
+            <p className="text-sm text-muted-foreground">
               {location.tractate} › {location.folio}{location.side}
             </p>
           </div>
@@ -112,7 +112,7 @@ export function MobileNav({ location, onLocationChange }: MobileNavProps) {
           {/* Navigation Selectors */}
           <div className="space-y-4">
             <div>
-              <label className="text-sm font-medium text-gray-700 mb-2 block">Tractate</label>
+              <label className="text-sm font-medium text-foreground mb-2 block">Tractate</label>
               <Select value={location.tractate} onValueChange={handleTractateChange}>
                 <SelectTrigger className="w-full">
                   <SelectValue />
@@ -128,7 +128,7 @@ export function MobileNav({ location, onLocationChange }: MobileNavProps) {
             </div>
             
             <div>
-              <label className="text-sm font-medium text-gray-700 mb-2 block">Page</label>
+              <label className="text-sm font-medium text-foreground mb-2 block">Page</label>
               <Select value={`${location.folio}${location.side}`} onValueChange={handlePageChange}>
                 <SelectTrigger className="w-full">
                   <SelectValue />

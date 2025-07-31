@@ -65,13 +65,13 @@ export function PageNavigation({ location, onLocationChange }: PageNavigationPro
         onClick={handlePrevious}
         disabled={!canGoPrevious}
       >
-        <ChevronLeft className="w-4 h-4 text-talmud-blue" />
-        <span className="text-talmud-blue font-medium">Previous</span>
+        <ChevronLeft className="w-4 h-4 text-primary" />
+        <span className="text-primary font-medium">Previous</span>
       </Button>
       
       <div className="text-center">
-        <p className="text-gray-600 text-sm">Page {location.folio}{location.side}</p>
-        <p className="text-gray-500 text-xs">{location.tractate}</p>
+        <p className="text-foreground text-sm">Page {location.folio}{location.side}</p>
+        <p className="text-muted-foreground text-xs">{location.tractate}</p>
       </div>
       
       <Button
@@ -79,8 +79,8 @@ export function PageNavigation({ location, onLocationChange }: PageNavigationPro
         className="flex items-center space-x-2 px-6 py-3"
         onClick={handleNext}
       >
-        <span className="text-talmud-blue font-medium">Next</span>
-        <ChevronRight className="w-4 h-4 text-talmud-blue" />
+        <span className="text-primary font-medium">Next</span>
+        <ChevronRight className="w-4 h-4 text-primary" />
       </Button>
     </div>
   );
