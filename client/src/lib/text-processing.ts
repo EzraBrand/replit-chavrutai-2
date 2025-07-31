@@ -167,6 +167,22 @@ export function replaceTerms(text: string): string {
     "twenty ninth": "29th",
     "thirty-first": "31st",
     "thirty first": "31st",
+    "thirty-second": "32nd",
+    "thirty second": "32nd",
+    "thirty-third": "33rd",
+    "thirty third": "33rd",
+    "thirty-fourth": "34th",
+    "thirty fourth": "34th",
+    "thirty-fifth": "35th",
+    "thirty fifth": "35th",
+    "thirty-sixth": "36th",
+    "thirty sixth": "36th",
+    "thirty-seventh": "37th",
+    "thirty seventh": "37th",
+    "thirty-eighth": "38th",
+    "thirty eighth": "38th",
+    "thirty-ninth": "39th",
+    "thirty ninth": "39th",
   };
   
   const basicOrdinalReplacements: Record<string, string> = {
