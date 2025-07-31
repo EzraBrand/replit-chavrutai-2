@@ -25,27 +25,37 @@ export function removeNikud(hebrewText: string): string {
 export function splitHebrewText(text: string): string {
   if (!text) return '';
   
-  // Define the punctuation marks for splitting
-  const splitMarks = [
+  let processedText = text;
+  
+  // Handle irony punctuation (?!) as a unit - split after the whole thing
+  processedText = processedText.replace(/\?\!/g, '?!\n');
+  
+  // Handle other punctuation marks individually, but avoid splitting after partial ?! sequences
+  const singleMarks = [
     '.',     // Period
     ',',     // Comma
     '–',     // M-dash
     ':',     // Colon
-    '?',     // Question mark
-    '!',     // Exclamation mark
-    '?!',    // Rhetorical question mark
+    '!',     // Exclamation mark (but not when preceded by ?)
+    '?',     // Question mark (but not when followed by !)
     '״ ',    // Hebrew quotation mark + space
     ' - ',   // Regular dash + spaces
     '׃'      // Hebrew SOF PASUQ
   ];
   
-  let processedText = text;
-  
-  // Split on each punctuation mark and add line breaks
-  splitMarks.forEach(mark => {
-    // Create regex pattern that preserves the punctuation mark
-    const regex = new RegExp(`(${mark.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'g');
-    processedText = processedText.replace(regex, `$1\n`);
+  // Apply splits for individual marks, being careful about ? and ! combinations
+  singleMarks.forEach(mark => {
+    if (mark === '?') {
+      // Don't split ? when followed by !
+      processedText = processedText.replace(/\?(?!\!)/g, '?\n');
+    } else if (mark === '!') {
+      // Don't split ! when preceded by ?
+      processedText = processedText.replace(/(?<!\?)\!/g, '!\n');
+    } else {
+      // Regular splitting for other marks
+      const regex = new RegExp(`(${mark.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'g');
+      processedText = processedText.replace(regex, `$1\n`);
+    }
   });
   
   // Clean up multiple consecutive line breaks and trim
@@ -151,20 +161,15 @@ export function replaceTerms(text: string): string {
 export function splitEnglishText(text: string): string {
   if (!text) return '';
   
-  // Define the punctuation marks for splitting English text
-  const splitMarks = [
-    '.',     // Period
-    '?'      // Question mark
-  ];
-  
   let processedText = text;
   
-  // Split on each punctuation mark and add line breaks
-  splitMarks.forEach(mark => {
-    // Create regex pattern that preserves the punctuation mark
-    const regex = new RegExp(`(\\${mark})`, 'g');
-    processedText = processedText.replace(regex, `$1\n`);
-  });
+  // Split on periods, but avoid splitting after "i.e."
+  processedText = processedText.replace(/\.(?!\s*[a-z])/g, '.\n');
+  // Don't split after "i.e." specifically
+  processedText = processedText.replace(/i\.e\.\n/g, 'i.e.');
+  
+  // Split on question marks
+  processedText = processedText.replace(/\?/g, '?\n');
   
   // Clean up multiple consecutive line breaks and trim
   processedText = processedText
