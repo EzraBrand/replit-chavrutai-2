@@ -35,7 +35,7 @@ export function SectionedBilingualDisplay({ text }: SectionedBilingualDisplayPro
                   rel="noopener noreferrer"
                   className="bg-sepia-100 hover:bg-sepia-200 text-gray-800 px-3 py-1 rounded-full text-sm font-semibold transition-colors duration-200 flex items-center gap-1"
                 >
-                  sefaria <span className="text-xs">→</span>
+                  section {index + 1} <span className="text-xs">↗</span>
                 </a>
               </div>
               
