@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Book } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -10,6 +9,7 @@ import { SectionedBilingualDisplay } from "@/components/text/sectioned-bilingual
 import { PageNavigation } from "@/components/navigation/page-navigation";
 import { Footer } from "@/components/footer";
 import { sefariaAPI } from "@/lib/sefaria";
+import bookTavIcon from "@/assets/book-tav-icon.png";
 import type { TalmudLocation } from "@/types/talmud";
 
 export default function Home() {
@@ -47,8 +47,12 @@ export default function Home() {
             
             {/* Logo */}
             <div className="flex items-center space-x-3 flex-shrink-0">
-              <div className="w-10 h-10 bg-talmud-brown rounded-full flex items-center justify-center">
-                <Book className="w-5 h-5 text-white" />
+              <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden">
+                <img 
+                  src={bookTavIcon} 
+                  alt="ChavrutAI Logo" 
+                  className="w-10 h-10 object-cover"
+                />
               </div>
               <h1 className="text-2xl font-bold text-primary">ChavrutAI</h1>
             </div>
