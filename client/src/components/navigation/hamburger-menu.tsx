@@ -29,7 +29,11 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
     {
       name: "Berakhot",
       pages: [
-        { tractate: "Berakhot", folio: 17, side: 'a', label: "Berakhot 17a (Prayers)" }
+        { tractate: "Berakhot", folio: 17, side: 'a', label: "Berakhot 17a (Prayers)" },
+        { tractate: "Berakhot", folio: 28, side: 'a', label: "Berakhot 28a (Rabban Gamliel)" },
+        { tractate: "Berakhot", folio: 56, side: 'b', label: "Berakhot 56a (Dreams)" },
+        { tractate: "Berakhot", folio: 62, side: 'a', label: "Berakhot 62a (Outhouse)" },
+        { tractate: "Berakhot", folio: 63, side: 'b', label: "Berakhot 63b (Yavne)" }
       ]
     },
     {
