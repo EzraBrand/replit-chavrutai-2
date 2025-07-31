@@ -1,4 +1,4 @@
-import { Menu, X } from "lucide-react";
+import { Menu, ChevronDown, ChevronRight } from "lucide-react";
 import { useState } from "react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
@@ -9,12 +9,41 @@ interface HamburgerMenuProps {
   onLocationChange: (location: TalmudLocation) => void;
 }
 
+interface SuggestedPage {
+  tractate: string;
+  folio: number;
+  side: 'a' | 'b';
+  label: string;
+}
+
+interface TractateSection {
+  name: string;
+  pages: SuggestedPage[];
+}
+
 export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
   const [open, setOpen] = useState(false);
+  const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set());
 
-  const suggestedPages = [
-    { tractate: "Ta'anit", folio: 29, side: 'a' as const, label: "Taanit 29a" },
-    { tractate: "Gittin", folio: 69, side: 'a' as const, label: "Gittin 69a" }
+  const tractatesWithPages: TractateSection[] = [
+    {
+      name: "Berakhot",
+      pages: [
+        { tractate: "Berakhot", folio: 17, side: 'a', label: "Berakhot 17a" }
+      ]
+    },
+    {
+      name: "Shabbat",
+      pages: [
+        { tractate: "Shabbat", folio: 31, side: 'a', label: "Shabbat 31a" }
+      ]
+    }
+  ];
+
+  // Additional standalone pages
+  const additionalPages: SuggestedPage[] = [
+    { tractate: "Ta'anit", folio: 29, side: 'a', label: "Taanit 29a" },
+    { tractate: "Gittin", folio: 69, side: 'a', label: "Gittin 69a" }
   ];
 
   const handleSuggestedPageClick = (tractate: string, folio: number, side: 'a' | 'b') => {
@@ -26,6 +55,16 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
       side
     });
     setOpen(false);
+  };
+
+  const toggleSection = (sectionName: string) => {
+    const newExpanded = new Set(expandedSections);
+    if (newExpanded.has(sectionName)) {
+      newExpanded.delete(sectionName);
+    } else {
+      newExpanded.add(sectionName);
+    }
+    setExpandedSections(newExpanded);
   };
 
   return (
@@ -49,8 +88,42 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
           {/* Suggested Pages Section */}
           <div className="flex-1">
             <h3 className="text-lg font-semibold text-foreground mb-4">Suggested pages</h3>
-            <div className="space-y-2">
-              {suggestedPages.map((page) => (
+            <div className="space-y-1">
+              {/* Tractate Sections */}
+              {tractatesWithPages.map((section) => (
+                <div key={section.name} className="space-y-1">
+                  {/* Tractate Header */}
+                  <button
+                    onClick={() => toggleSection(section.name)}
+                    className="w-full flex items-center justify-between px-4 py-3 rounded-lg hover:bg-secondary/50 transition-colors duration-200 text-foreground font-medium"
+                  >
+                    <span>{section.name}</span>
+                    {expandedSections.has(section.name) ? (
+                      <ChevronDown className="w-4 h-4" />
+                    ) : (
+                      <ChevronRight className="w-4 h-4" />
+                    )}
+                  </button>
+                  
+                  {/* Tractate Pages */}
+                  {expandedSections.has(section.name) && (
+                    <div className="ml-4 space-y-1">
+                      {section.pages.map((page) => (
+                        <button
+                          key={`${page.tractate}-${page.folio}${page.side}`}
+                          onClick={() => handleSuggestedPageClick(page.tractate, page.folio, page.side)}
+                          className="w-full text-left px-4 py-2 rounded-lg hover:bg-secondary transition-colors duration-200 text-foreground text-sm"
+                        >
+                          {page.label}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+              
+              {/* Additional Standalone Pages */}
+              {additionalPages.map((page) => (
                 <button
                   key={`${page.tractate}-${page.folio}${page.side}`}
                   onClick={() => handleSuggestedPageClick(page.tractate, page.folio, page.side)}
