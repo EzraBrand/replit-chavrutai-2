@@ -86,6 +86,7 @@ export function replaceTerms(text: string): string {
   if (!text) return '';
   
   const termReplacements: Record<string, string> = {
+    "GEMARA": "TALMUD",
     "Gemara": "Talmud",
     "Rabbi": "R'",
     "The Sages taught": "A baraita states",
@@ -194,8 +195,8 @@ export function processEnglishText(text: string): string {
     .replace(/\b(Tanya|Tanu Rabbanan|Amar|Amri)\b/g, '*$1*')
     // Questions and responses
     .replace(/\b(What is the reason|Why|How so|From where do we know)\?/g, '**$1?**')
-    // Common Aramaic/Hebrew terms (updated to reflect replacements)
-    .replace(/\b(halakha|Halakha|mitzvah|Mitzvah|Torah|Talmud|Mishnah|tefillin|Shekhina)\b/g, '*$1*');
+    // Common Aramaic/Hebrew terms (removed "Talmud" to prevent auto-bolding)
+    .replace(/\b(halakha|Halakha|mitzvah|Mitzvah|Torah|Mishnah|tefillin|Shekhina)\b/g, '*$1*');
   
   return processed;
 }
