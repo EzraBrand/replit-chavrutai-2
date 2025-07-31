@@ -129,6 +129,7 @@ export function replaceTerms(text: string): string {
     "barrel": "jug",
     "barrels": "jugs",
     "the Holy One, Blessed be He": "God",
+    "The Holy One, Blessed be He,": "God",
     "the Merciful One": "God",
     "the Almighty": "God",
     "engage in intercourse": "have sex",
