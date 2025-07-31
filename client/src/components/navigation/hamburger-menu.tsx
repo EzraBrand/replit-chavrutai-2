@@ -49,6 +49,12 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
       pages: [
         { tractate: "Gittin", folio: 69, side: 'a', label: "Gittin 69a (Remedies)" }
       ]
+    },
+    {
+      name: "Sanhedrin",
+      pages: [
+        { tractate: "Sanhedrin", folio: 44, side: 'a', label: "Sanhedrin 44a (Achan)" }
+      ]
     }
   ];
 
