@@ -191,17 +191,13 @@ export function processEnglishText(text: string): string {
 }
 
 /**
- * Enhanced formatting for English text with markdown-like syntax
+ * Basic formatting for English text - only processes existing HTML and line breaks
  */
 export function formatEnglishText(text: string): string {
   if (!text) return '';
   
-  // Process inline formatting markers for later rendering
+  // Only handle line breaks - preserve all existing formatting from source
   let formatted = text
-    // Bold text markers
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    // Italic text markers
-    .replace(/\*(.*?)\*/g, '<em>$1</em>')
     // Line breaks within paragraphs
     .replace(/\n(?!\n)/g, '<br />');
     
