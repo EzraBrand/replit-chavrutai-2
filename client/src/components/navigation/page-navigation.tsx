@@ -40,6 +40,11 @@ export function PageNavigation({ location, onLocationChange }: PageNavigationPro
       newSide = 'a';
     }
     
+    // Don't go beyond page 150
+    if (newFolio > 150) {
+      return;
+    }
+    
     onLocationChange({
       ...location,
       folio: newFolio,

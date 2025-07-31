@@ -67,23 +67,12 @@ export function MobileNav({ location, onLocationChange }: MobileNavProps) {
     });
   };
 
-  // Generate page options with expanded ranges
+  // Generate page options with full range (2-150)
   const generatePageOptions = () => {
     const pages: string[] = [];
     
-    // Map chapters to their folio ranges (up to 150 pages)
-    const chapterRanges: Record<number, [number, number]> = {
-      1: [2, 25],
-      2: [25, 50],
-      3: [50, 75],
-      4: [75, 100],
-      5: [100, 125],
-      6: [125, 150]
-    };
-    
-    const [startFolio, endFolio] = chapterRanges[location.chapter] || [2, 25];
-    
-    for (let folio = startFolio; folio <= endFolio; folio++) {
+    // Generate all pages from 2 to 150 to support full range navigation
+    for (let folio = 2; folio <= 150; folio++) {
       pages.push(`${folio}a`);
       pages.push(`${folio}b`);
     }

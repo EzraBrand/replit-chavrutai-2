@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400;1,500&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -77,9 +79,9 @@
   .hebrew-text {
     direction: rtl;
     font-weight: bold;
-    font-size: 1.1em;
+    font-size: 1.25em;
     line-height: 1.8;
-    font-family: 'Times New Roman', serif;
+    font-family: 'Calibri', 'Segoe UI', sans-serif;
   }
   
   .hebrew-text strong {
@@ -97,7 +99,7 @@
     direction: ltr;
     font-size: 1.05em;
     line-height: 1.7;
-    font-family: Georgia, 'Times New Roman', serif;
+    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
   }
   
   .english-text strong {
