@@ -259,56 +259,40 @@ export function splitEnglishText(text: string): string {
     return placeholder;
   });
   
-  // Use a unified approach to handle all punctuation splitting while respecting quotes and parentheses
-  const splitText = [];
-  let currentSegment = '';
-  let parenthesesDepth = 0;
-  let insideQuotes = false;
+  // Protect quoted content by replacing with placeholders
+  const quotedSections: string[] = [];
+  const quotePlaceholders: string[] = [];
   
-  for (let i = 0; i < processedText.length; i++) {
-    const char = processedText[i];
-    const nextChar = i < processedText.length - 1 ? processedText[i + 1] : '';
-    const prevChar = i > 0 ? processedText[i - 1] : '';
-    
-    if (char === '(') {
-      parenthesesDepth++;
-    } else if (char === ')') {
-      parenthesesDepth--;
-    } else if (char === '"') {
-      insideQuotes = !insideQuotes;
-    }
-    
-    // Check if we should split after this character
-    let shouldSplit = false;
-    
-    if (parenthesesDepth === 0 && !insideQuotes) {
-      if (char === ':') {
-        shouldSplit = true;
-      } else if (char === '.' && nextChar !== 'e' && !/[a-z]/.test(nextChar)) {
-        // Split on periods, but not after "i.e." or when followed by lowercase
-        shouldSplit = true;
-      } else if (char === '?') {
-        shouldSplit = true;
-      }
-    }
-    
-    currentSegment += char;
-    
-    if (shouldSplit) {
-      splitText.push(currentSegment);
-      currentSegment = '';
-    }
-  }
+  // Find and protect quoted sections (including smart quotes)
+  processedText = processedText.replace(/"[^"]*"/g, (match) => {
+    const placeholder = `__QUOTE_${quotedSections.length}__`;
+    quotedSections.push(match);
+    quotePlaceholders.push(placeholder);
+    return placeholder;
+  });
   
-  // Add the final segment
-  if (currentSegment) {
-    splitText.push(currentSegment);
-  }
+  // Also handle smart quotes
+  processedText = processedText.replace(/[""][^""]*["]/g, (match) => {
+    const placeholder = `__QUOTE_${quotedSections.length}__`;
+    quotedSections.push(match);
+    quotePlaceholders.push(placeholder);
+    return placeholder;
+  });
   
-  processedText = splitText.join('\n');
+  // Now do the splitting on protected text
+  // Split on colons (excluding those in parentheses)
+  processedText = processedText.replace(/:(?![^(]*\))/g, ':\n');
   
-  // Clean up "i.e." splitting
-  processedText = processedText.replace(/i\.e\.\n/g, 'i.e.');
+  // Split on periods (excluding those in parentheses and "i.e.")
+  processedText = processedText.replace(/\.(?!\s*e\.)(?![^(]*\))(?!\s*[a-z])/g, '.\n');
+  
+  // Split on question marks (excluding those in parentheses)
+  processedText = processedText.replace(/\?(?![^(]*\))/g, '?\n');
+  
+  // Restore quoted sections
+  quotePlaceholders.forEach((placeholder, index) => {
+    processedText = processedText.replace(placeholder, quotedSections[index]);
+  });
   
   // Clean up multiple consecutive line breaks and trim
   processedText = processedText
