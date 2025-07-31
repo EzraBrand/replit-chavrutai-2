@@ -129,7 +129,7 @@ export function replaceTerms(text: string): string {
     "barrel": "jug",
     "barrels": "jugs",
     "the Holy One, Blessed be He": "God",
-    "The Holy One, Blessed be He": "God",
+    "The Holy One, Blessed be He,": "God",
     "the Merciful One": "God",
     "the Almighty": "God",
     "engage in intercourse": "have sex",
@@ -144,11 +144,57 @@ export function replaceTerms(text: string): string {
     "son of R'": "ben"
   };
   
+  // Ordinal number mappings (3rd and up)
+  const ordinalReplacements: Record<string, string> = {
+    "third": "3rd",
+    "fourth": "4th",
+    "fifth": "5th",
+    "sixth": "6th",
+    "seventh": "7th",
+    "eighth": "8th",
+    "ninth": "9th",
+    "tenth": "10th",
+    "eleventh": "11th",
+    "twelfth": "12th",
+    "thirteenth": "13th",
+    "fourteenth": "14th",
+    "fifteenth": "15th",
+    "sixteenth": "16th",
+    "seventeenth": "17th",
+    "eighteenth": "18th",
+    "nineteenth": "19th",
+    "twentieth": "20th",
+    "twenty-first": "21st",
+    "twenty-second": "22nd",
+    "twenty-third": "23rd",
+    "twenty-fourth": "24th",
+    "twenty-fifth": "25th",
+    "twenty-sixth": "26th",
+    "twenty-seventh": "27th",
+    "twenty-eighth": "28th",
+    "twenty-ninth": "29th",
+    "thirtieth": "30th",
+    "thirty-first": "31st",
+    "fortieth": "40th",
+    "fiftieth": "50th",
+    "sixtieth": "60th",
+    "seventieth": "70th",
+    "eightieth": "80th",
+    "ninetieth": "90th",
+    "hundredth": "100th"
+  };
+  
   let processedText = text;
   
   // Apply term replacements
   Object.entries(termReplacements).forEach(([original, replacement]) => {
     // Use word boundaries to avoid partial matches, case-insensitive for some terms
+    const regex = new RegExp(`\\b${original.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'gi');
+    processedText = processedText.replace(regex, replacement);
+  });
+  
+  // Apply ordinal replacements (case-insensitive)
+  Object.entries(ordinalReplacements).forEach(([original, replacement]) => {
     const regex = new RegExp(`\\b${original.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'gi');
     processedText = processedText.replace(regex, replacement);
   });
