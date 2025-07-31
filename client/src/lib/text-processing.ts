@@ -80,6 +80,58 @@ export function processHebrewText(text: string): string {
 }
 
 /**
+ * Replace specific terms in English text with preferred alternatives
+ */
+export function replaceTerms(text: string): string {
+  if (!text) return '';
+  
+  const termReplacements: Record<string, string> = {
+    "Gemara": "Talmud",
+    "Rabbi": "R'",
+    "The Sages taught": "A baraita states",
+    "Divine Voice": "bat kol",
+    "Divine Presence": "Shekhina",
+    "divine inspiration": "Holy Spirit",
+    "Divine Spirit": "Holy Spirit",
+    "the Lord": "YHWH",
+    "leper": "metzora",
+    "leprosy": "tzara'at",
+    "phylacteries": "tefillin",
+    "gentile": "non-Jew",
+    "gentiles": "non-Jews",
+    "ignoramus": "am ha'aretz",
+    "maidservant": "female slave",
+    "maidservants": "female slaves",
+    "barrel": "jug",
+    "barrels": "jugs",
+    "the Holy One, Blessed be He": "God",
+    "the Merciful One": "God",
+    "the Almighty": "God",
+    "engage in intercourse": "have sex",
+    "engages in intercourse": "has sex",
+    "engaged in intercourse": "had sex",
+    "engaging in intercourse": "having sex",
+    "had intercourse": "had sex",
+    "intercourse with": "sex with",
+    "Sages": "rabbis",
+    "mishna": "Mishnah",
+    "rainy season": "winter",
+    "son of R'": "ben"
+  };
+  
+  let processedText = text;
+  
+  // Apply term replacements
+  Object.entries(termReplacements).forEach(([original, replacement]) => {
+    // Use word boundaries to avoid partial matches, case-insensitive for some terms
+    const regex = new RegExp(`\\b${original.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'g');
+    processedText = processedText.replace(regex, replacement);
+  });
+  
+  return processedText;
+}
+
+/**
  * Split English text into paragraphs based on specific punctuation marks
  */
 export function splitEnglishText(text: string): string {
@@ -117,6 +169,9 @@ export function processEnglishText(text: string): string {
   
   let processed = text;
   
+  // Apply term replacements first
+  processed = replaceTerms(processed);
+  
   // Split text based on punctuation marks
   processed = splitEnglishText(processed);
   
@@ -129,18 +184,18 @@ export function processEnglishText(text: string): string {
     .replace(/[ \t]+\n/g, '\n')  // Remove trailing whitespace before new lines
     .trim();
   
-  // Enhanced formatting for common patterns
+  // Enhanced formatting for common patterns (updated to reflect term replacements)
   processed = processed
-    // MISHNA/GEMARA headers - make them stand out
-    .replace(/^(MISHNA|GEMARA|MISHNAH):/gm, '**$1:**')
-    // Rabbi names - add emphasis
-    .replace(/\b(Rabbi|Rav|R\.|Rebbe)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/g, '*$1 $2*')
+    // MISHNA/TALMUD headers - make them stand out
+    .replace(/^(MISHNA|TALMUD|MISHNAH):/gm, '**$1:**')
+    // R' names - add emphasis (updated to use R' instead of Rabbi)
+    .replace(/\b(R'|Rav|Rebbe)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/g, '*$1 $2*')
     // Talmudic terms - add emphasis
     .replace(/\b(Tanya|Tanu Rabbanan|Amar|Amri)\b/g, '*$1*')
     // Questions and responses
     .replace(/\b(What is the reason|Why|How so|From where do we know)\?/g, '**$1?**')
-    // Common Aramaic/Hebrew terms
-    .replace(/\b(halakha|Halakha|mitzvah|Mitzvah|Torah|Talmud|Mishnah|Gemara)\b/g, '*$1*');
+    // Common Aramaic/Hebrew terms (updated to reflect replacements)
+    .replace(/\b(halakha|Halakha|mitzvah|Mitzvah|Torah|Talmud|Mishnah|tefillin|Shekhina)\b/g, '*$1*');
   
   return processed;
 }
