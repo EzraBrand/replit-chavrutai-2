@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { BreadcrumbNav } from "@/components/navigation/breadcrumb-nav";
-import { MobileNav } from "@/components/navigation/mobile-nav";
 import { SectionedBilingualDisplay } from "@/components/text/sectioned-bilingual-display";
 import { PageNavigation } from "@/components/navigation/page-navigation";
 import { Footer } from "@/components/footer";
@@ -39,25 +38,24 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="bg-card border-b border-border shadow-sm">
+      <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            {/* Mobile Menu Button */}
-            <MobileNav location={location} onLocationChange={handleLocationChange} />
-            
             {/* Logo */}
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-3 flex-shrink-0">
               <div className="w-10 h-10 bg-talmud-brown rounded-full flex items-center justify-center">
                 <Book className="w-5 h-5 text-white" />
               </div>
               <h1 className="text-2xl font-bold text-primary">ChavrutAI</h1>
             </div>
             
-            {/* Desktop Navigation Breadcrumbs */}
-            <BreadcrumbNav location={location} onLocationChange={handleLocationChange} />
+            {/* Navigation - Always Visible */}
+            <div className="flex-1 flex justify-center">
+              <BreadcrumbNav location={location} onLocationChange={handleLocationChange} />
+            </div>
             
             {/* Empty space for balance */}
-            <div className="w-10"></div>
+            <div className="w-10 flex-shrink-0"></div>
           </div>
         </div>
       </header>

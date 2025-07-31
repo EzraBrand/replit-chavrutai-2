@@ -111,3 +111,14 @@ The system prioritizes rapid development and easy deployment while maintaining a
   - Updated CSS variables for warm manuscript-like colors (light sepia backgrounds, dark brown text)
   - Applied sepia theme to all components: navigation, text display, alerts, mobile sheets, page controls
   - Maintained accessibility with proper contrast ratios while achieving traditional manuscript aesthetic
+- **Comprehensive Text Processing**: Enhanced English text processing with ordinal conversions and formatting preservation
+  - Added ordinal number conversion for numbers 3+ ("twenty-ninth" → "29th", "thirty-seventh" → "37th")
+  - Fixed compound ordinal processing order to prevent partial replacements ("twenty-9th" bug)
+  - Improved HTML formatting preservation during text splitting and line breaks
+- **Footer and About Page**: Added project attribution and information page
+  - Footer includes Sefaria data attribution, "Talmud & Tech" credit, and About link
+  - About page with project description and link to detailed blog post
+- **Sticky Navigation Enhancement**: Improved navigation UX for better accessibility
+  - Made header navigation sticky at top when scrolling for constant access to controls
+  - Moved navigation dropdowns from mobile hamburger menu to always-visible top position
+  - Optimized mobile navigation with responsive sizing and spacing
