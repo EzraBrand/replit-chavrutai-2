@@ -191,14 +191,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { tractate } = z.object({ tractate: z.string() }).parse(req.query);
       
-      // Expanded chapter data with larger folio ranges (up to 150 pages)
+      // Import would be: import { getMaxFolio } from '../client/src/lib/tractate-ranges';
+      // But for server simplicity, using direct data
+      const tractateFolloRanges: Record<string, number> = {
+        "Berakhot": 64, "Shabbat": 157, "Eruvin": 105, "Pesachim": 121, "Shekalim": 22, "Yoma": 88,
+        "Sukkah": 56, "Beitza": 40, "Rosh Hashanah": 35, "Ta'anit": 31, "Megillah": 32,
+        "Mo'ed Katan": 29, "Chagigah": 27, "Yevamot": 122, "Ketubot": 112, "Nedarim": 91, 
+        "Nazir": 66, "Sotah": 49, "Gittin": 90, "Kiddushin": 82, "Bava Kamma": 119, 
+        "Bava Metzia": 119, "Bava Batra": 176, "Sanhedrin": 113, "Makkot": 24, "Shevu'ot": 49, 
+        "Avodah Zarah": 76, "Horayot": 14, "Zevahim": 120, "Menachot": 110, "Chullin": 142, 
+        "Bekhorot": 61, "Arachin": 34, "Temurah": 34, "Keritot": 28, "Me'ilah": 22, 
+        "Tamid": 8, "Middot": 3, "Kinnim": 4, "Niddah": 73
+      };
+      
+      const maxFolio = tractateFolloRanges[tractate] || 150;
+      
+      // Return a single chapter covering the full folio range
       const chapters = [
-        { number: 1, folioRange: "2-25" },
-        { number: 2, folioRange: "25-50" }, 
-        { number: 3, folioRange: "50-75" },
-        { number: 4, folioRange: "75-100" },
-        { number: 5, folioRange: "100-125" },
-        { number: 6, folioRange: "125-150" }
+        { number: 1, folioRange: `2-${maxFolio}` }
       ];
       
       res.json({ chapters });

@@ -6,6 +6,7 @@ import type { TalmudLocation, Chapter, Work } from "@/types/talmud";
 import { WORKS } from "@/types/talmud";
 import { useQuery } from "@tanstack/react-query";
 import { sefariaAPI } from "@/lib/sefaria";
+import { getMaxFolio } from "@/lib/tractate-ranges";
 
 interface BreadcrumbNavProps {
   location: TalmudLocation;
@@ -88,12 +89,14 @@ export function BreadcrumbNav({ location, onLocationChange }: BreadcrumbNavProps
     setActiveDropdown(null);
   };
 
-  // Generate page options for current chapter with expanded ranges
+  // Generate page options for current tractate with accurate folio ranges
   const generatePageOptions = () => {
     const pages: Array<{ folio: number; side: 'a' | 'b'; label: string }> = [];
     
-    // Generate all pages from 2 to 150 to support full range navigation
-    for (let folio = 2; folio <= 150; folio++) {
+    const maxFolio = getMaxFolio(location.tractate);
+    
+    // Generate pages from 2 to the tractate's maximum folio
+    for (let folio = 2; folio <= maxFolio; folio++) {
       pages.push({ folio, side: 'a', label: `${folio}a` });
       pages.push({ folio, side: 'b', label: `${folio}b` });
     }

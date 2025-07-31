@@ -1,6 +1,7 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { TalmudLocation } from "@/types/talmud";
+import { getMaxFolio } from "@/lib/tractate-ranges";
 
 interface PageNavigationProps {
   location: TalmudLocation;
@@ -33,6 +34,8 @@ export function PageNavigation({ location, onLocationChange }: PageNavigationPro
     let newFolio = location.folio;
     let newSide = location.side;
     
+    const maxFolio = getMaxFolio(location.tractate);
+    
     if (location.side === 'a') {
       newSide = 'b';
     } else {
@@ -40,8 +43,8 @@ export function PageNavigation({ location, onLocationChange }: PageNavigationPro
       newSide = 'a';
     }
     
-    // Don't go beyond page 150
-    if (newFolio > 150) {
+    // Don't go beyond the tractate's maximum folio
+    if (newFolio > maxFolio) {
       return;
     }
     
@@ -68,7 +71,7 @@ export function PageNavigation({ location, onLocationChange }: PageNavigationPro
       
       <div className="text-center">
         <p className="text-gray-600 text-sm">Page {location.folio}{location.side}</p>
-        <p className="text-gray-500 text-xs">{location.tractate}, Chapter {location.chapter}</p>
+        <p className="text-gray-500 text-xs">{location.tractate}</p>
       </div>
       
       <Button
