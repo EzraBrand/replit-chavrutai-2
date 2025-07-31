@@ -1,0 +1,107 @@
+/**
+ * Text processing utilities for Hebrew and English text formatting
+ */
+
+// Unicode ranges for Hebrew nikud (diacritical marks)
+const NIKUD_RANGES = [
+  [0x0591, 0x05AF], // Hebrew accents
+  [0x05B0, 0x05BD], // Hebrew points
+  [0x05BF, 0x05BF], // Hebrew point RAFE
+  [0x05C1, 0x05C2], // Hebrew points SIN/SHIN DOT
+  [0x05C4, 0x05C5], // Hebrew punctuation
+  [0x05C7, 0x05C7], // Hebrew point QAMATS QATAN
+];
+
+/**
+ * Removes nikud (vowel points and cantillation marks) from Hebrew text
+ */
+export function removeNikud(hebrewText: string): string {
+  return hebrewText.replace(/[\u0591-\u05AF\u05B0-\u05BD\u05BF\u05C1-\u05C2\u05C4-\u05C5\u05C7]/g, '');
+}
+
+/**
+ * Processes Hebrew text by removing nikud and normalizing spacing
+ */
+export function processHebrewText(text: string): string {
+  if (!text) return '';
+  
+  // Remove nikud
+  let processed = removeNikud(text);
+  
+  // Normalize whitespace while preserving paragraph breaks
+  processed = processed
+    .replace(/[ \t]+/g, ' ')  // Multiple spaces/tabs to single space
+    .replace(/\n[ \t]+/g, '\n')  // Remove leading whitespace on new lines
+    .replace(/[ \t]+\n/g, '\n')  // Remove trailing whitespace before new lines
+    .trim();
+    
+  return processed;
+}
+
+/**
+ * Processes English text to preserve and enhance formatting
+ */
+export function processEnglishText(text: string): string {
+  if (!text) return '';
+  
+  let processed = text;
+  
+  // Preserve paragraph breaks and normalize spacing
+  processed = processed
+    .replace(/\r\n/g, '\n')  // Normalize line endings
+    .replace(/\n{3,}/g, '\n\n')  // Multiple line breaks to double
+    .replace(/[ \t]+/g, ' ')  // Multiple spaces/tabs to single space
+    .replace(/\n[ \t]+/g, '\n')  // Remove leading whitespace on new lines
+    .replace(/[ \t]+\n/g, '\n')  // Remove trailing whitespace before new lines
+    .trim();
+  
+  // Enhanced formatting for common patterns
+  processed = processed
+    // MISHNA/GEMARA headers - make them stand out
+    .replace(/^(MISHNA|GEMARA|MISHNAH):/gm, '**$1:**')
+    // Rabbi names - add emphasis
+    .replace(/\b(Rabbi|Rav|R\.|Rebbe)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/g, '*$1 $2*')
+    // Talmudic terms - add emphasis
+    .replace(/\b(Tanya|Tanu Rabbanan|Amar|Amri)\b/g, '*$1*')
+    // Questions and responses
+    .replace(/\b(What is the reason|Why|How so|From where do we know)\?/g, '**$1?**')
+    // Common Aramaic/Hebrew terms
+    .replace(/\b(halakha|Halakha|mitzvah|Mitzvah|Torah|Talmud|Mishnah|Gemara)\b/g, '*$1*');
+  
+  return processed;
+}
+
+/**
+ * Enhanced formatting for English text with markdown-like syntax
+ */
+export function formatEnglishText(text: string): string {
+  if (!text) return '';
+  
+  // Process inline formatting markers for later rendering
+  let formatted = text
+    // Bold text markers
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    // Italic text markers
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    // Line breaks within paragraphs
+    .replace(/\n(?!\n)/g, '<br />');
+    
+  return formatted;
+}
+
+/**
+ * Utility to detect if text contains Hebrew characters
+ */
+export function containsHebrew(text: string): boolean {
+  return /[\u0590-\u05FF]/.test(text);
+}
+
+/**
+ * Utility to clean and normalize text from API responses
+ */
+export function normalizeApiText(text: string | string[]): string {
+  if (Array.isArray(text)) {
+    return text.join('\n\n');
+  }
+  return text || '';
+}

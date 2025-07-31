@@ -82,11 +82,33 @@
     font-family: 'Times New Roman', serif;
   }
   
+  .hebrew-text strong {
+    color: var(--talmud-brown);
+    font-weight: 900;
+  }
+  
+  .hebrew-text em {
+    color: var(--talmud-lightbrown);
+    font-style: normal;
+    font-weight: 700;
+  }
+  
   .english-text {
     direction: ltr;
     font-size: 1.05em;
     line-height: 1.7;
     font-family: Georgia, 'Times New Roman', serif;
+  }
+  
+  .english-text strong {
+    color: var(--talmud-brown);
+    font-weight: 700;
+  }
+  
+  .english-text em {
+    color: var(--talmud-lightbrown);
+    font-style: italic;
+    font-weight: 500;
   }
   
   .sepia-bg {

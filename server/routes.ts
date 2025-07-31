@@ -4,6 +4,45 @@ import { storage } from "./storage";
 import { insertTextSchema } from "@shared/schema";
 import { z } from "zod";
 
+// Text processing utilities
+function removeNikud(hebrewText: string): string {
+  return hebrewText.replace(/[\u0591-\u05AF\u05B0-\u05BD\u05BF\u05C1-\u05C2\u05C4-\u05C5\u05C7]/g, '');
+}
+
+function processHebrewText(text: string): string {
+  if (!text) return '';
+  
+  let processed = removeNikud(text);
+  processed = processed
+    .replace(/[ \t]+/g, ' ')
+    .replace(/\n[ \t]+/g, '\n')
+    .replace(/[ \t]+\n/g, '\n')
+    .trim();
+    
+  return processed;
+}
+
+function processEnglishText(text: string): string {
+  if (!text) return '';
+  
+  let processed = text
+    .replace(/\r\n/g, '\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .replace(/[ \t]+/g, ' ')
+    .replace(/\n[ \t]+/g, '\n')
+    .replace(/[ \t]+\n/g, '\n')
+    .trim();
+  
+  processed = processed
+    .replace(/^(MISHNA|GEMARA|MISHNAH):/gm, '**$1:**')
+    .replace(/\b(Rabbi|Rav|R\.|Rebbe)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/g, '*$1 $2*')
+    .replace(/\b(Tanya|Tanu Rabbanan|Amar|Amri)\b/g, '*$1*')
+    .replace(/\b(What is the reason|Why|How so|From where do we know)\?/g, '**$1?**')
+    .replace(/\b(halakha|Halakha|mitzvah|Mitzvah|Torah|Talmud|Mishnah|Gemara)\b/g, '*$1*');
+  
+  return processed;
+}
+
 const sefariaAPIBaseURL = "https://www.sefaria.org/api";
 
 // Query parameters schema for text requests
@@ -39,8 +78,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
             const sefariaData = await response.json();
             
             // Parse Sefaria response and create text entry
-            const hebrewText = Array.isArray(sefariaData.he) ? sefariaData.he.join('\n\n') : sefariaData.he || '';
-            const englishText = Array.isArray(sefariaData.text) ? sefariaData.text.join('\n\n') : sefariaData.text || '';
+            const rawHebrewText = Array.isArray(sefariaData.he) ? sefariaData.he.join('\n\n') : sefariaData.he || '';
+            const rawEnglishText = Array.isArray(sefariaData.text) ? sefariaData.text.join('\n\n') : sefariaData.text || '';
+            
+            // Process texts: remove nikud from Hebrew, enhance English formatting
+            const hebrewText = processHebrewText(rawHebrewText);
+            const englishText = processEnglishText(rawEnglishText);
             
             const newText = {
               work,
