@@ -145,25 +145,8 @@ export function replaceTerms(text: string): string {
   };
   
   // Ordinal number mappings (3rd and up)
-  const ordinalReplacements: Record<string, string> = {
-    "third": "3rd",
-    "fourth": "4th",
-    "fifth": "5th",
-    "sixth": "6th",
-    "seventh": "7th",
-    "eighth": "8th",
-    "ninth": "9th",
-    "tenth": "10th",
-    "eleventh": "11th",
-    "twelfth": "12th",
-    "thirteenth": "13th",
-    "fourteenth": "14th",
-    "fifteenth": "15th",
-    "sixteenth": "16th",
-    "seventeenth": "17th",
-    "eighteenth": "18th",
-    "nineteenth": "19th",
-    "twentieth": "20th",
+  // Process compound ordinals first to avoid conflicts
+  const compoundOrdinalReplacements: Record<string, string> = {
     "twenty-first": "21st",
     "twenty first": "21st",
     "twenty-second": "22nd",
@@ -182,9 +165,30 @@ export function replaceTerms(text: string): string {
     "twenty eighth": "28th",
     "twenty-ninth": "29th",
     "twenty ninth": "29th",
-    "thirtieth": "30th",
     "thirty-first": "31st",
     "thirty first": "31st",
+  };
+  
+  const basicOrdinalReplacements: Record<string, string> = {
+    "third": "3rd",
+    "fourth": "4th",
+    "fifth": "5th",
+    "sixth": "6th",
+    "seventh": "7th",
+    "eighth": "8th",
+    "ninth": "9th",
+    "tenth": "10th",
+    "eleventh": "11th",
+    "twelfth": "12th",
+    "thirteenth": "13th",
+    "fourteenth": "14th",
+    "fifteenth": "15th",
+    "sixteenth": "16th",
+    "seventeenth": "17th",
+    "eighteenth": "18th",
+    "nineteenth": "19th",
+    "twentieth": "20th",
+    "thirtieth": "30th",
     "fortieth": "40th",
     "fiftieth": "50th",
     "sixtieth": "60th",
@@ -203,8 +207,14 @@ export function replaceTerms(text: string): string {
     processedText = processedText.replace(regex, replacement);
   });
   
-  // Apply ordinal replacements (case-insensitive)
-  Object.entries(ordinalReplacements).forEach(([original, replacement]) => {
+  // Apply compound ordinal replacements first (case-insensitive)
+  Object.entries(compoundOrdinalReplacements).forEach(([original, replacement]) => {
+    const regex = new RegExp(`\\b${original.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'gi');
+    processedText = processedText.replace(regex, replacement);
+  });
+  
+  // Then apply basic ordinal replacements (case-insensitive)
+  Object.entries(basicOrdinalReplacements).forEach(([original, replacement]) => {
     const regex = new RegExp(`\\b${original.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'gi');
     processedText = processedText.replace(regex, replacement);
   });
