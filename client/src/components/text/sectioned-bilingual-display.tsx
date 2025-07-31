@@ -27,19 +27,21 @@ export function SectionedBilingualDisplay({ text }: SectionedBilingualDisplayPro
           
           return (
             <div key={index} className="border-b border-sepia-100 pb-6 last:border-b-0 last:pb-0">
-              {/* Section Number Header */}
+              {/* Sefaria Link Header */}
               <div className="flex items-center justify-center mb-4">
-                <span className="bg-sepia-100 text-gray-800 px-3 py-1 rounded-full text-sm font-semibold">
-                  Section {index + 1}
-                </span>
+                <a 
+                  href={`https://www.sefaria.org.il/${text.tractate}.${text.folio}${text.side}.${index + 1}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-sepia-100 hover:bg-sepia-200 text-gray-800 px-3 py-1 rounded-full text-sm font-semibold transition-colors duration-200 flex items-center gap-1"
+                >
+                  sefaria <span className="text-xs">→</span>
+                </a>
               </div>
               
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* English Section (Left Side) */}
                 <div className="space-y-3">
-                  <h4 className="text-base font-semibold text-gray-800 border-b border-sepia-200 pb-1">
-                    English Translation
-                  </h4>
                   {englishSection.trim() && (
                     <div className="english-text text-gray-800">
                       {processEnglishText(englishSection).split('\n').filter(line => line.trim()).map((line, lineIndex) => (
@@ -55,9 +57,6 @@ export function SectionedBilingualDisplay({ text }: SectionedBilingualDisplayPro
 
                 {/* Hebrew Section (Right Side) */}
                 <div className="space-y-3">
-                  <h4 className="text-base font-semibold text-gray-800 border-b border-sepia-200 pb-1">
-                    טקסט עברי
-                  </h4>
                   {hebrewSection.trim() && (
                     <div className="hebrew-text text-gray-800">
                       {processHebrewText(hebrewSection).split('\n').filter(line => line.trim()).map((line, lineIndex) => (
