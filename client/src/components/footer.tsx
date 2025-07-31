@@ -7,6 +7,8 @@ export function Footer() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-2 text-sm text-muted-foreground">
           <span>ChavrutAI</span>
           <span className="hidden sm:inline">|</span>
+          <span>Uses data from Sefaria (not affiliated)</span>
+          <span className="hidden sm:inline">|</span>
           <span>A project of "Talmud & Tech"</span>
           <span className="hidden sm:inline">|</span>
           <Link 
