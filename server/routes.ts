@@ -33,13 +33,7 @@ function processEnglishText(text: string): string {
     .replace(/[ \t]+\n/g, '\n')
     .trim();
   
-  processed = processed
-    .replace(/^(MISHNA|GEMARA|MISHNAH):/gm, '**$1:**')
-    .replace(/\b(Rabbi|Rav|R\.|Rebbe)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/g, '*$1 $2*')
-    .replace(/\b(Tanya|Tanu Rabbanan|Amar|Amri)\b/g, '*$1*')
-    .replace(/\b(What is the reason|Why|How so|From where do we know)\?/g, '**$1?**')
-    .replace(/\b(halakha|Halakha|mitzvah|Mitzvah|Torah|Talmud|Mishnah|Gemara)\b/g, '*$1*');
-  
+  // No additional formatting - preserve original text
   return processed;
 }
 

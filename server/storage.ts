@@ -28,49 +28,10 @@ export class MemStorage implements IStorage {
     this.texts = new Map();
     this.bookmarks = new Map();
     
-    // Initialize with sample Talmud text
-    this.initializeSampleData();
+    // No sample data - fetch from Sefaria API
   }
 
-  private initializeSampleData() {
-    const sampleText: Text = {
-      id: randomUUID(),
-      work: "Talmud Bavli",
-      tractate: "Berakhot",
-      chapter: 1,
-      folio: 2,
-      side: "a",
-      hebrewText: `**משנה:** מאימתי קורין את שמע בערבין? משעה שהכהנים נכנסין לאכול בתרומתן, דברי *רבי אליעזר*. וחכמים אומרים: משעה שהכוכבים נראין. ועד מתי? עד סוף האשמורה הראשונה, דברי *רבי אליעזר*. וחכמים אומרים: עד חצות.
-
-**גמרא:** תנא מאימתי? **למה פתח בערבית?** ליפתח בשחרית! משום דכתיב: "ובשכבך ובקומך" - הכתוב הקדים שכיבה לקימה.
-
-אי נמי, קא סליק ליה לתנא כסדר בראשית, דכתיב: "ויהי ערב ויהי בקר יום אחד".
-
-והיינו דקאמר רחמנא: "ובשכבך" - זה ערבית, "ובקומך" - זה שחרית.`,
-      englishText: `**MISHNA:** From when do we recite *Shema* in the evening? From the time when the priests enter to partake of their *teruma*. These are the words of *Rabbi Eliezer*. And the Rabbis say: From the time when the stars emerge. And until when does the time for the recitation of the evening *Shema* extend? Until midnight. This is the statement of *Rabbi Eliezer*. And the Rabbis say: Until dawn.
-
-**GEMARA:** The *mishna* opens with the question: From when do we recite *Shema* in the evening? The *Gemara* asks: **Why does the mishna begin with the evening Shema?** Let it begin with the morning *Shema*, which is the first *mitzvah* of the day.
-
-The *Gemara* answers: The *mishna* is following the order established by the verse, as it is written: "When you lie down and when you rise up" (Deuteronomy 6:7). The verse mentions lying down, which refers to the evening, before rising up, which refers to the morning.
-
-Alternatively, the *mishna* follows the order of Creation, as it is written: "And there was evening and there was morning, one day" (Genesis 1:5). Evening precedes morning in the daily cycle.`,
-      hebrewSections: [
-        "**משנה:** מאימתי קורין את שמע בערבין? משעה שהכהנים נכנסין לאכול בתרומתן, דברי *רבי אליעזר*. וחכמים אומרים: משעה שהכוכבים נראין. ועד מתי? עד סוף האשמורה הראשונה, דברי *רבי אליעזר*. וחכמים אומרים: עד חצות.",
-        "**גמרא:** תנא מאימתי? **למה פתח בערבית?** ליפתח בשחרית! משום דכתיב: \"ובשכבך ובקומך\" - הכתוב הקדים שכיבה לקימה.",
-        "אי נמי, קא סליק ליה לתנא כסדר בראשית, דכתיב: \"ויהי ערב ויהי בקר יום אחד\".",
-        "והיינו דקאמר רחמנא: \"ובשכבך\" - זה ערבית, \"ובקומך\" - זה שחרית."
-      ],
-      englishSections: [
-        "**MISHNA:** From when do we recite *Shema* in the evening? From the time when the priests enter to partake of their *teruma*. These are the words of *Rabbi Eliezer*. And the Rabbis say: From the time when the stars emerge. And until when does the time for the recitation of the evening *Shema* extend? Until midnight. This is the statement of *Rabbi Eliezer*. And the Rabbis say: Until dawn.",
-        "**GEMARA:** The *mishna* opens with the question: From when do we recite *Shema* in the evening? The *Gemara* asks: **Why does the mishna begin with the evening Shema?** Let it begin with the morning *Shema*, which is the first *mitzvah* of the day.",
-        "The *Gemara* answers: The *mishna* is following the order established by the verse, as it is written: \"When you lie down and when you rise up\" (Deuteronomy 6:7). The verse mentions lying down, which refers to the evening, before rising up, which refers to the morning.",
-        "Alternatively, the *mishna* follows the order of Creation, as it is written: \"And there was evening and there was morning, one day\" (Genesis 1:5). Evening precedes morning in the daily cycle."
-      ],
-      sefariaRef: "Berakhot.2a"
-    };
-    
-    this.texts.set(this.getTextKey(sampleText.work, sampleText.tractate, sampleText.chapter, sampleText.folio, sampleText.side), sampleText);
-  }
+  // Removed sample data - fetch from Sefaria API instead
 
   private getTextKey(work: string, tractate: string, chapter: number, folio: number, side: string): string {
     return `${work}:${tractate}:${chapter}:${folio}:${side}`;
