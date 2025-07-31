@@ -259,40 +259,43 @@ export function splitEnglishText(text: string): string {
     return placeholder;
   });
   
-  // Protect quoted content by replacing with placeholders
-  const quotedSections: string[] = [];
-  const quotePlaceholders: string[] = [];
+  // Split on periods, but avoid splitting after "i.e."
+  processedText = processedText.replace(/\.(?!\s*[a-z])/g, '.\n');
+  // Don't split after "i.e." specifically
+  processedText = processedText.replace(/i\.e\.\n/g, 'i.e.');
   
-  // Find and protect quoted sections (including smart quotes)
-  processedText = processedText.replace(/"[^"]*"/g, (match) => {
-    const placeholder = `__QUOTE_${quotedSections.length}__`;
-    quotedSections.push(match);
-    quotePlaceholders.push(placeholder);
-    return placeholder;
-  });
+  // Split on question marks
+  processedText = processedText.replace(/\?/g, '?\n');
   
-  // Also handle smart quotes
-  processedText = processedText.replace(/[""][^""]*["]/g, (match) => {
-    const placeholder = `__QUOTE_${quotedSections.length}__`;
-    quotedSections.push(match);
-    quotePlaceholders.push(placeholder);
-    return placeholder;
-  });
+  // Split on colons, but exclude colons that are inside parentheses (like biblical citations)
+  // Use a more sophisticated approach to handle nested contexts
+  const colonSplitText = [];
+  let currentSegment = '';
+  let parenthesesDepth = 0;
   
-  // Now do the splitting on protected text
-  // Split on colons (excluding those in parentheses)
-  processedText = processedText.replace(/:(?![^(]*\))/g, ':\n');
+  for (let i = 0; i < processedText.length; i++) {
+    const char = processedText[i];
+    
+    if (char === '(') {
+      parenthesesDepth++;
+    } else if (char === ')') {
+      parenthesesDepth--;
+    } else if (char === ':' && parenthesesDepth === 0) {
+      // Colon outside parentheses - split here
+      colonSplitText.push(currentSegment + ':');
+      currentSegment = '';
+      continue;
+    }
+    
+    currentSegment += char;
+  }
   
-  // Split on periods (excluding those in parentheses and "i.e.")
-  processedText = processedText.replace(/\.(?!\s*e\.)(?![^(]*\))(?!\s*[a-z])/g, '.\n');
+  // Add the final segment
+  if (currentSegment) {
+    colonSplitText.push(currentSegment);
+  }
   
-  // Split on question marks (excluding those in parentheses)
-  processedText = processedText.replace(/\?(?![^(]*\))/g, '?\n');
-  
-  // Restore quoted sections
-  quotePlaceholders.forEach((placeholder, index) => {
-    processedText = processedText.replace(placeholder, quotedSections[index]);
-  });
+  processedText = colonSplitText.join('\n');
   
   // Clean up multiple consecutive line breaks and trim
   processedText = processedText
