@@ -107,7 +107,7 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
                   {/* Tractate Header */}
                   <button
                     onClick={() => toggleSection(section.name)}
-                    className="w-full flex items-center justify-between px-4 py-3 rounded-lg hover:bg-secondary/50 transition-colors duration-200 text-foreground font-medium"
+                    className="w-full flex items-center justify-between px-4 py-3 rounded-lg hover:bg-secondary/50 transition-colors duration-100 text-foreground font-medium"
                   >
                     <span>{section.name}</span>
                     {expandedSections.has(section.name) ? (
@@ -124,7 +124,7 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
                         <button
                           key={`${page.tractate}-${page.folio}${page.side}`}
                           onClick={() => handleSuggestedPageClick(page.tractate, page.folio, page.side)}
-                          className="w-full text-left px-4 py-2 rounded-lg hover:bg-secondary transition-colors duration-200 text-foreground text-sm"
+                          className="w-full text-left px-4 py-2 rounded-lg hover:bg-secondary transition-colors duration-100 text-foreground text-sm"
                         >
                           {page.label}
                         </button>
@@ -141,7 +141,7 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
             <Link 
               href="/about"
               onClick={() => setOpen(false)}
-              className="block w-full text-left px-4 py-3 rounded-lg hover:bg-secondary transition-colors duration-200 text-foreground"
+              className="block w-full text-left px-4 py-3 rounded-lg hover:bg-secondary transition-colors duration-100 text-foreground"
             >
               About
             </Link>
