@@ -8,6 +8,7 @@ import { BreadcrumbNav } from "@/components/navigation/breadcrumb-nav";
 import { MobileNav } from "@/components/navigation/mobile-nav";
 import { SectionedBilingualDisplay } from "@/components/text/sectioned-bilingual-display";
 import { PageNavigation } from "@/components/navigation/page-navigation";
+import { Footer } from "@/components/footer";
 import { sefariaAPI } from "@/lib/sefaria";
 import type { TalmudLocation } from "@/types/talmud";
 
@@ -122,18 +123,7 @@ export default function Home() {
         )}
       </main>
 
-      {/* Footer */}
-      <footer className="bg-card border-t border-border mt-12">
-        <div className="max-w-7xl mx-auto px-4 py-6">
-          <div className="text-center text-sm text-muted-foreground">
-            <p>
-              ChavrutAI - Making the Talmud more accessible for contemporary study | 
-              Data provided by Sefaria (not affiliated) | 
-              Open-source project
-            </p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
