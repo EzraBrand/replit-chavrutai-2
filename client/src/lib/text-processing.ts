@@ -301,7 +301,8 @@ export function splitEnglishText(text: string): string {
   processedText = processedText
     .replace(/\n\s*\n/g, '\n')  // Remove empty lines
     .replace(/^\s+|\s+$/g, '')  // Trim whitespace
-    .replace(/\n\s+/g, '\n');   // Remove leading spaces on new lines
+    .replace(/\n\s+/g, '\n')    // Remove leading spaces on new lines
+    .replace(/\n\s*"/g, ' "');  // Join quote marks that start a new line to previous line
   
   // Restore HTML tags
   htmlPlaceholders.forEach((placeholder, index) => {
