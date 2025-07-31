@@ -315,22 +315,19 @@ export function processEnglishText(text: string): string {
 export function formatEnglishText(text: string): string {
   if (!text) return '';
   
-  // Handle line breaks while preserving existing HTML formatting
-  let formatted = text
-    // Convert single line breaks to <br /> tags (within paragraphs)
-    .replace(/\n(?!\n)/g, '<br />')
-    // Convert double line breaks to paragraph breaks
-    .replace(/\n\n/g, '</p><p>')
-    // Wrap the entire content in paragraph tags if it doesn't start with HTML
-    .replace(/^(?!<)/, '<p>')
-    .replace(/(?!>)$/, '</p>')
-    // Clean up empty paragraphs
-    .replace(/<p><\/p>/g, '')
-    // Fix cases where we might have created malformed paragraph tags
-    .replace(/<p><p>/g, '<p>')
-    .replace(/<\/p><\/p>/g, '</p>');
-    
-  return formatted;
+  // Split text into lines and create paragraph tags with proper spacing
+  const lines = text.split('\n').filter(line => line.trim());
+  
+  if (lines.length === 0) return '';
+  
+  // Create properly spaced paragraphs
+  const paragraphs = lines.map(line => {
+    const trimmedLine = line.trim();
+    if (!trimmedLine) return '';
+    return `<p class="mb-3 leading-relaxed">${trimmedLine}</p>`;
+  }).filter(p => p);
+  
+  return paragraphs.join('');
 }
 
 /**

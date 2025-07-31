@@ -58,9 +58,8 @@ export function SectionedBilingualDisplay({ text }: SectionedBilingualDisplayPro
                 {/* English Section (Second on Mobile, Left Side on Desktop) */}
                 <div className="space-y-3 lg:order-1">
                   {englishSection.trim() && (
-                    <div className="english-text text-foreground [&>p]:mb-3">
+                    <div className="english-text text-foreground">
                       <div 
-                        className="leading-relaxed"
                         dangerouslySetInnerHTML={{ __html: formatEnglishText(processEnglishText(englishSection)) }}
                       />
                     </div>
@@ -99,9 +98,8 @@ export function SectionedBilingualDisplay({ text }: SectionedBilingualDisplayPro
               {/* English Continuation (Second on Mobile, Left Side on Desktop) */}
               <div className="space-y-3 lg:order-1">
                 {text.nextPageFirstSection.english.trim() && (
-                  <div className="english-text text-muted-foreground [&>p]:mb-3">
+                  <div className="english-text text-muted-foreground">
                     <div 
-                      className="leading-relaxed"
                       dangerouslySetInnerHTML={{ __html: formatEnglishText(processEnglishText(text.nextPageFirstSection.english)) }}
                     />
                   </div>
