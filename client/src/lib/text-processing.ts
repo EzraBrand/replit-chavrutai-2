@@ -36,6 +36,7 @@ export function splitHebrewText(text: string): string {
     ',',     // Comma
     '–',     // M-dash
     ':',     // Colon
+    ';',     // Semicolon
     '!',     // Exclamation mark (but not when preceded by ?)
     '?',     // Question mark (but not when followed by !)
     '״ ',    // Hebrew quotation mark + space
