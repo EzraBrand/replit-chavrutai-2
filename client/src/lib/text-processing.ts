@@ -259,23 +259,16 @@ export function splitEnglishText(text: string): string {
     return placeholder;
   });
   
-  // Split on periods, but avoid splitting after "i.e."
-  processedText = processedText.replace(/\.(?!\s*[a-z])/g, '.\n');
-  // Don't split after "i.e." specifically
-  processedText = processedText.replace(/i\.e\.\n/g, 'i.e.');
-  
-  // Split on question marks
-  processedText = processedText.replace(/\?/g, '?\n');
-  
-  // Split on colons, but exclude colons that are inside parentheses or quotes
-  // Use a more sophisticated approach to handle nested contexts
-  const colonSplitText = [];
+  // Use a unified approach to handle all punctuation splitting while respecting quotes and parentheses
+  const splitText = [];
   let currentSegment = '';
   let parenthesesDepth = 0;
   let insideQuotes = false;
   
   for (let i = 0; i < processedText.length; i++) {
     const char = processedText[i];
+    const nextChar = i < processedText.length - 1 ? processedText[i + 1] : '';
+    const prevChar = i > 0 ? processedText[i - 1] : '';
     
     if (char === '(') {
       parenthesesDepth++;
@@ -283,22 +276,39 @@ export function splitEnglishText(text: string): string {
       parenthesesDepth--;
     } else if (char === '"') {
       insideQuotes = !insideQuotes;
-    } else if (char === ':' && parenthesesDepth === 0 && !insideQuotes) {
-      // Colon outside parentheses and quotes - split here
-      colonSplitText.push(currentSegment + ':');
-      currentSegment = '';
-      continue;
+    }
+    
+    // Check if we should split after this character
+    let shouldSplit = false;
+    
+    if (parenthesesDepth === 0 && !insideQuotes) {
+      if (char === ':') {
+        shouldSplit = true;
+      } else if (char === '.' && nextChar !== 'e' && !/[a-z]/.test(nextChar)) {
+        // Split on periods, but not after "i.e." or when followed by lowercase
+        shouldSplit = true;
+      } else if (char === '?') {
+        shouldSplit = true;
+      }
     }
     
     currentSegment += char;
+    
+    if (shouldSplit) {
+      splitText.push(currentSegment);
+      currentSegment = '';
+    }
   }
   
   // Add the final segment
   if (currentSegment) {
-    colonSplitText.push(currentSegment);
+    splitText.push(currentSegment);
   }
   
-  processedText = colonSplitText.join('\n');
+  processedText = splitText.join('\n');
+  
+  // Clean up "i.e." splitting
+  processedText = processedText.replace(/i\.e\.\n/g, 'i.e.');
   
   // Clean up multiple consecutive line breaks and trim
   processedText = processedText
