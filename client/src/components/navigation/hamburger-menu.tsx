@@ -39,7 +39,10 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
     {
       name: "Shabbat",
       pages: [
-        { tractate: "Shabbat", folio: 31, side: 'a', label: "Shabbat 31a (Hillel)" }
+        { tractate: "Shabbat", folio: 31, side: 'a', label: "Shabbat 31a (Hillel)" },
+        { tractate: "Shabbat", folio: 32, side: 'b', label: "Shabbat 32b (Divine Punishments)" },
+        { tractate: "Shabbat", folio: 33, side: 'b', label: "Shabbat 33b (R' Shimon's Flight from the Romans)" },
+        { tractate: "Shabbat", folio: 88, side: 'b', label: "Shabbat 88b (Giving of the Torah)" }
       ]
     },
     {
