@@ -102,28 +102,12 @@ export function MobileNav({ location, onLocationChange }: MobileNavProps) {
           <div className="border-b border-sepia-200 pb-4">
             <h3 className="font-semibold text-talmud-brown mb-2">Current Location</h3>
             <p className="text-sm text-gray-600">
-              {location.work} › {location.tractate} › Chapter {location.chapter} › {location.folio}{location.side}
+              {location.tractate} › {location.folio}{location.side}
             </p>
           </div>
           
           {/* Navigation Selectors */}
           <div className="space-y-4">
-            <div>
-              <label className="text-sm font-medium text-gray-700 mb-2 block">Work</label>
-              <Select value={location.work} onValueChange={handleWorkChange}>
-                <SelectTrigger className="w-full">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {WORKS.map((work) => (
-                    <SelectItem key={work} value={work}>
-                      {work}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            
             <div>
               <label className="text-sm font-medium text-gray-700 mb-2 block">Tractate</label>
               <Select value={location.tractate} onValueChange={handleTractateChange}>
@@ -134,22 +118,6 @@ export function MobileNav({ location, onLocationChange }: MobileNavProps) {
                   {tractates.map((tractate) => (
                     <SelectItem key={tractate} value={tractate}>
                       {tractate}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            
-            <div>
-              <label className="text-sm font-medium text-gray-700 mb-2 block">Chapter</label>
-              <Select value={location.chapter.toString()} onValueChange={handleChapterChange}>
-                <SelectTrigger className="w-full">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {chapters.map((chapter) => (
-                    <SelectItem key={chapter.number} value={chapter.number.toString()}>
-                      Chapter {chapter.number} ({chapter.folioRange})
                     </SelectItem>
                   ))}
                 </SelectContent>

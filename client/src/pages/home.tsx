@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Book, Settings } from "lucide-react";
+import { Book } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -55,10 +55,8 @@ export default function Home() {
             {/* Desktop Navigation Breadcrumbs */}
             <BreadcrumbNav location={location} onLocationChange={handleLocationChange} />
             
-            {/* Settings Icon */}
-            <Button variant="ghost" size="icon" className="text-gray-600 hover:text-talmud-brown">
-              <Settings className="w-5 h-5" />
-            </Button>
+            {/* Empty space for balance */}
+            <div className="w-10"></div>
           </div>
         </div>
       </header>
@@ -71,7 +69,7 @@ export default function Home() {
             {location.tractate} {location.folio}{location.side}
           </h2>
           <p className="text-gray-600">
-            Tractate {location.tractate}, Chapter {location.chapter}, Folio {location.folio}, Page {location.side}
+            Tractate {location.tractate}, Folio {location.folio}, Page {location.side}
           </p>
         </div>
 

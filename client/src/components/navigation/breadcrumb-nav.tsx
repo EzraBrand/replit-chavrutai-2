@@ -162,26 +162,6 @@ export function BreadcrumbNav({ location, onLocationChange }: BreadcrumbNavProps
 
   return (
     <nav className="hidden lg:flex items-center space-x-2 bg-white rounded-lg px-4 py-2 shadow-sm border border-sepia-200">
-      {/* Work Dropdown */}
-      <div className="relative">
-        <DropdownButton id="work">
-          <span>{location.work}</span>
-        </DropdownButton>
-        <DropdownContent id="work">
-          {WORKS.map((work) => (
-            <DropdownItem
-              key={work}
-              onClick={() => handleWorkChange(work)}
-              isActive={location.work === work}
-            >
-              {work}
-            </DropdownItem>
-          ))}
-        </DropdownContent>
-      </div>
-
-      <span className="text-gray-400">›</span>
-
       {/* Tractate Dropdown */}
       <div className="relative">
         <DropdownButton id="tractate">
@@ -199,26 +179,6 @@ export function BreadcrumbNav({ location, onLocationChange }: BreadcrumbNavProps
               </DropdownItem>
             ))}
           </div>
-        </DropdownContent>
-      </div>
-
-      <span className="text-gray-400">›</span>
-
-      {/* Chapter Dropdown */}
-      <div className="relative">
-        <DropdownButton id="chapter">
-          <span>Chapter {location.chapter}</span>
-        </DropdownButton>
-        <DropdownContent id="chapter" className="w-64">
-          {chapters.map((chapter) => (
-            <DropdownItem
-              key={chapter.number}
-              onClick={() => handleChapterChange(chapter.number)}
-              isActive={location.chapter === chapter.number}
-            >
-              Chapter {chapter.number} ({chapter.folioRange})
-            </DropdownItem>
-          ))}
         </DropdownContent>
       </div>
 
