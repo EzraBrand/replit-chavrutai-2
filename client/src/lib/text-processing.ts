@@ -267,6 +267,37 @@ export function splitEnglishText(text: string): string {
   // Split on question marks
   processedText = processedText.replace(/\?/g, '?\n');
   
+  // Split on colons, but exclude colons that are inside parentheses (like biblical citations)
+  // Use a more sophisticated approach to handle nested contexts
+  const colonSplitText = [];
+  let currentSegment = '';
+  let parenthesesDepth = 0;
+  
+  for (let i = 0; i < processedText.length; i++) {
+    const char = processedText[i];
+    
+    if (char === '(') {
+      parenthesesDepth++;
+    } else if (char === ')') {
+      parenthesesDepth--;
+    } else if (char === ':' && parenthesesDepth === 0) {
+      // Colon outside parentheses - split here
+      currentSegment += ':';
+      colonSplitText.push(currentSegment);
+      currentSegment = '';
+      continue;
+    }
+    
+    currentSegment += char;
+  }
+  
+  // Add the final segment
+  if (currentSegment) {
+    colonSplitText.push(currentSegment);
+  }
+  
+  processedText = colonSplitText.join(':\n');
+  
   // Clean up multiple consecutive line breaks and trim
   processedText = processedText
     .replace(/\n\s*\n/g, '\n')  // Remove empty lines
