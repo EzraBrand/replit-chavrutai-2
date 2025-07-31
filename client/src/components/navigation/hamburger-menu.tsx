@@ -42,7 +42,11 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
         { tractate: "Shabbat", folio: 31, side: 'a', label: "Shabbat 31a (Hillel)" },
         { tractate: "Shabbat", folio: 32, side: 'b', label: "Shabbat 32b (Divine Punishments)" },
         { tractate: "Shabbat", folio: 33, side: 'b', label: "Shabbat 33b (R' Shimon's Flight from the Romans)" },
-        { tractate: "Shabbat", folio: 88, side: 'b', label: "Shabbat 88b (Giving of the Torah)" }
+        { tractate: "Shabbat", folio: 88, side: 'b', label: "Shabbat 88b (Giving of the Torah)" },
+        { tractate: "Shabbat", folio: 104, side: 'a', label: "Shabbat 104a (Hebrew alphabet)" },
+        { tractate: "Shabbat", folio: 109, side: 'b', label: "Shabbat 109b (Snakes)" },
+        { tractate: "Shabbat", folio: 152, side: 'a', label: "Shabbat 152a (Old age)" },
+        { tractate: "Shabbat", folio: 156, side: 'a', label: "Shabbat 156a (Astrology)" }
       ]
     },
     {
