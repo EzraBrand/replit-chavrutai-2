@@ -133,12 +133,17 @@ export function replaceTerms(text: string): string {
     "The Holy One, Blessed be He,": "God",
     "the Merciful One": "God",
     "the Almighty": "God",
+    "the Omnipresent": "God",
     "engage in intercourse": "have sex",
+    "engage in sexual intercourse": "have sex",
     "engages in intercourse": "has sex",
+    "engages in sexual intercourse": "has sex",
     "engaged in intercourse": "had sex",
+    "engaged in sexual intercourse": "had sex",
     "engaging in intercourse": "having sex",
-    "had intercourse": "had sex",
-    "intercourse with": "sex with",
+    "engaging in sexual intercourse": "having sex",
+    "sexual intercourse": "sex",
+    "intercourse": "sex",
     "Sages": "rabbis",
     "mishna": "Mishnah",
     "rainy season": "winter",
@@ -266,6 +271,17 @@ export function splitEnglishText(text: string): string {
   
   // Split on question marks
   processedText = processedText.replace(/\?/g, '?\n');
+  
+  // Split on bolded commas and semicolons
+  // Match comma or semicolon inside bold tags - handle both self-contained and mixed content
+  processedText = processedText.replace(/<(b|strong)[^>]*>([^<]*?[,;][^<]*?)<\/\1>/g, (match, tagName, content) => {
+    // Split after each comma or semicolon within the bold content
+    const splitContent = content.replace(/([,;])/g, '$1\n');
+    return `<${tagName}>${splitContent}</${tagName}>`;
+  });
+  
+  // Also handle cases where just the punctuation mark itself is bolded
+  processedText = processedText.replace(/<(b|strong)[^>]*>([,;])<\/\1>/g, '$2\n');
   
   // Split on colons, but exclude colons that are inside parentheses (like biblical citations)
   // Use a more sophisticated approach to handle nested contexts
