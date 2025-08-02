@@ -74,6 +74,16 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
       ]
     },
     {
+      name: "Pesachim",
+      pages: [
+        { tractate: "Pesachim", folio: 49, side: 'b', label: "Pesachim 49b (Am Ha'aretz)" },
+        { tractate: "Pesachim", folio: 54, side: 'a', label: "Pesachim 54a (Lists of creations)" },
+        { tractate: "Pesachim", folio: 111, side: 'b', label: "Pesachim 111b (Demons)" },
+        { tractate: "Pesachim", folio: 112, side: 'b', label: "Pesachim 112b (Advice)" },
+        { tractate: "Pesachim", folio: 117, side: 'a', label: "Pesachim 117a (Hallel)" }
+      ]
+    },
+    {
       name: "Sanhedrin",
       pages: [
         { tractate: "Sanhedrin", folio: 44, side: 'a', label: "Sanhedrin 44a (Achan)" }
