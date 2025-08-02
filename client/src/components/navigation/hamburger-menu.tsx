@@ -58,6 +58,9 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
     {
       name: "Gittin",
       pages: [
+        { tractate: "Gittin", folio: 56, side: 'a', label: "Gittin 56a (Siege of Jerusalem)" },
+        { tractate: "Gittin", folio: 56, side: 'b', label: "Gittin 56b (Rabban Yoḥanan ben Zakkai)" },
+        { tractate: "Gittin", folio: 58, side: 'a', label: "Gittin 58a (Roman atrocities)" },
         { tractate: "Gittin", folio: 69, side: 'a', label: "Gittin 69a (Remedies)" },
         { tractate: "Gittin", folio: 70, side: 'a', label: "Gittin 70a (Remedies and dangerous activities)" }
       ]
