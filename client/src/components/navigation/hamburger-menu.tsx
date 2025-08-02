@@ -58,7 +58,16 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
     {
       name: "Gittin",
       pages: [
-        { tractate: "Gittin", folio: 69, side: 'a', label: "Gittin 69a (Remedies)" }
+        { tractate: "Gittin", folio: 69, side: 'a', label: "Gittin 69a (Remedies)" },
+        { tractate: "Gittin", folio: 70, side: 'a', label: "Gittin 70a (Remedies and dangerous activities)" }
+      ]
+    },
+    {
+      name: "Kiddushin",
+      pages: [
+        { tractate: "Kiddushin", folio: 70, side: 'b', label: "Kiddushin 70b (Lineage)" },
+        { tractate: "Kiddushin", folio: 72, side: 'a', label: "Kiddushin 72a (Babylonian Jewish Geography)" },
+        { tractate: "Kiddushin", folio: 82, side: 'a', label: "Kiddushin 82a (Professions)" }
       ]
     },
     {
