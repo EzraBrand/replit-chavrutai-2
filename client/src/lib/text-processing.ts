@@ -252,7 +252,20 @@ export function splitEnglishText(text: string): string {
   
   let processedText = text;
   
-  // First, protect HTML tags by temporarily replacing them with placeholders
+  // Split on bolded commas and semicolons BEFORE protecting HTML tags
+  // Match comma or semicolon inside bold tags - handle both self-contained and mixed content
+  processedText = processedText.replace(/<(b|strong)[^>]*>([^<]*?[,;][^<]*?)<\/\1>/g, (match, tagName, content) => {
+    // Split after each comma or semicolon within the bold content
+    const splitContent = content.replace(/([,;])/g, '$1\n');
+    return `<${tagName}>${splitContent}</${tagName}>`;
+  });
+  
+  // Also handle cases where just the punctuation mark itself is bolded
+  processedText = processedText.replace(/<(b|strong)[^>]*>([,;])<\/\1>/g, '$2\n');
+  
+
+  
+  // Now protect HTML tags by temporarily replacing them with placeholders
   const htmlTagPattern = /<\/?\w+(?:\s+[^>]*)?>/g;
   const htmlTags: string[] = [];
   const htmlPlaceholders: string[] = [];
@@ -271,17 +284,6 @@ export function splitEnglishText(text: string): string {
   
   // Split on question marks
   processedText = processedText.replace(/\?/g, '?\n');
-  
-  // Split on bolded commas and semicolons
-  // Match comma or semicolon inside bold tags - handle both self-contained and mixed content
-  processedText = processedText.replace(/<(b|strong)[^>]*>([^<]*?[,;][^<]*?)<\/\1>/g, (match, tagName, content) => {
-    // Split after each comma or semicolon within the bold content
-    const splitContent = content.replace(/([,;])/g, '$1\n');
-    return `<${tagName}>${splitContent}</${tagName}>`;
-  });
-  
-  // Also handle cases where just the punctuation mark itself is bolded
-  processedText = processedText.replace(/<(b|strong)[^>]*>([,;])<\/\1>/g, '$2\n');
   
   // Split on colons, but exclude colons that are inside parentheses (like biblical citations)
   // Use a more sophisticated approach to handle nested contexts
