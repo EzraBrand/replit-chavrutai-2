@@ -84,6 +84,20 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
       ]
     },
     {
+      name: "Rosh Hashanah",
+      pages: [
+        { tractate: "Rosh Hashanah", folio: 11, side: 'a', label: "Rosh Hashanah 11a (Tishrei vs. Nisan)" },
+        { tractate: "Rosh Hashanah", folio: 26, side: 'b', label: "Rosh Hashanah 26b (Word Definitions)" }
+      ]
+    },
+    {
+      name: "Yoma",
+      pages: [
+        { tractate: "Yoma", folio: 20, side: 'b', label: "Yoma 20b (Loud sounds)" },
+        { tractate: "Yoma", folio: 35, side: 'b', label: "Yoma 35b (Posthumous judgement)" }
+      ]
+    },
+    {
       name: "Sanhedrin",
       pages: [
         { tractate: "Sanhedrin", folio: 44, side: 'a', label: "Sanhedrin 44a (Achan)" }
