@@ -252,16 +252,30 @@ export function splitEnglishText(text: string): string {
   
   let processedText = text;
   
-  // Split on bolded commas and semicolons BEFORE protecting HTML tags
-  // Match comma or semicolon inside bold tags - handle both self-contained and mixed content
-  processedText = processedText.replace(/<(b|strong)[^>]*>([^<]*?[,;][^<]*?)<\/\1>/g, (match, tagName, content) => {
-    // Split after each comma or semicolon within the bold content
-    const splitContent = content.replace(/([,;])/g, '$1\n');
+  // Split on bolded punctuation marks BEFORE protecting HTML tags
+  // Match periods, colons, commas, or semicolons inside bold tags - handle both self-contained and mixed content
+  processedText = processedText.replace(/<(b|strong)[^>]*>([^<]*?[.,:;][^<]*?)<\/\1>/g, (match, tagName, content) => {
+    // Split after each punctuation mark within the bold content, but avoid splitting after "i.e."
+    let splitContent = content;
+    
+    // Handle periods - avoid splitting after "i.e."
+    splitContent = splitContent.replace(/\.(?!\s*[a-z])/g, '.\n');
+    splitContent = splitContent.replace(/i\.e\.\n/g, 'i.e.');
+    
+    // Handle colons, commas, and semicolons
+    splitContent = splitContent.replace(/([,:;])/g, '$1\n');
+    
     return `<${tagName}>${splitContent}</${tagName}>`;
   });
   
   // Also handle cases where just the punctuation mark itself is bolded
-  processedText = processedText.replace(/<(b|strong)[^>]*>([,;])<\/\1>/g, '$2\n');
+  processedText = processedText.replace(/<(b|strong)[^>]*>([.,:;])<\/\1>/g, (match, tagName, punct) => {
+    // For periods, check if it's "i.e." context
+    if (punct === '.' && match.includes('i.e.')) {
+      return match; // Don't split i.e.
+    }
+    return `${punct}\n`;
+  });
   
 
   
@@ -277,43 +291,8 @@ export function splitEnglishText(text: string): string {
     return placeholder;
   });
   
-  // Split on periods, but avoid splitting after "i.e."
-  processedText = processedText.replace(/\.(?!\s*[a-z])/g, '.\n');
-  // Don't split after "i.e." specifically
-  processedText = processedText.replace(/i\.e\.\n/g, 'i.e.');
-  
-  // Split on question marks
+  // Split on question marks (these are not typically bolded, so keep this logic)
   processedText = processedText.replace(/\?/g, '?\n');
-  
-  // Split on colons, but exclude colons that are inside parentheses (like biblical citations)
-  // Use a more sophisticated approach to handle nested contexts
-  const colonSplitText = [];
-  let currentSegment = '';
-  let parenthesesDepth = 0;
-  
-  for (let i = 0; i < processedText.length; i++) {
-    const char = processedText[i];
-    
-    if (char === '(') {
-      parenthesesDepth++;
-    } else if (char === ')') {
-      parenthesesDepth--;
-    } else if (char === ':' && parenthesesDepth === 0) {
-      // Colon outside parentheses - split here
-      colonSplitText.push(currentSegment + ':');
-      currentSegment = '';
-      continue;
-    }
-    
-    currentSegment += char;
-  }
-  
-  // Add the final segment
-  if (currentSegment) {
-    colonSplitText.push(currentSegment);
-  }
-  
-  processedText = colonSplitText.join('\n');
   
   // Clean up multiple consecutive line breaks and trim
   processedText = processedText
