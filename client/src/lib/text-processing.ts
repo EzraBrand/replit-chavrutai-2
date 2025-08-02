@@ -136,6 +136,7 @@ export function replaceTerms(text: string): string {
     "the Merciful One": "God",
     "the Almighty": "God",
     "the Omnipresent": "God",
+    "Master of the Universe": "God!",
     "engage in intercourse": "have sex",
     "engage in sexual intercourse": "have sex",
     "engage in intimacy": "have sex",
