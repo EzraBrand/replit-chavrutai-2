@@ -253,9 +253,13 @@ export function splitEnglishText(text: string): string {
   let processedText = text;
   
   // Split on bolded punctuation marks BEFORE protecting HTML tags
-  // Match periods, colons, commas, or semicolons inside bold tags - handle both self-contained and mixed content
-  processedText = processedText.replace(/<(b|strong)[^>]*>([^<]*?[.,:;][^<]*?)<\/\1>/g, (match, tagName, content) => {
-    // Split after each punctuation mark within the bold content, but avoid splitting after "i.e."
+  // Use a more comprehensive approach to handle nested tags and complex content
+  processedText = processedText.replace(/<(b|strong)[^>]*>([\s\S]*?)<\/\1>/g, (match, tagName, content) => {
+    // Only process if the content contains punctuation marks we want to split on
+    if (!/[.,:;]/.test(content)) {
+      return match; // No punctuation to split, return as-is
+    }
+    
     let splitContent = content;
     
     // Handle periods - avoid splitting after "i.e."
@@ -275,6 +279,12 @@ export function splitEnglishText(text: string): string {
       return match; // Don't split i.e.
     }
     return `${punct}\n`;
+  });
+  
+  // Handle cross-tag scenarios where punctuation might be at tag boundaries
+  // Match patterns like </b>, <b> or </strong>, <strong> with punctuation between
+  processedText = processedText.replace(/<\/(b|strong)>([.,:;])\s*<\1[^>]*>/g, (match, tagName, punct) => {
+    return `</${tagName}>${punct}\n<${tagName}>`;
   });
   
 
