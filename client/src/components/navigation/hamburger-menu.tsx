@@ -52,6 +52,7 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
     {
       name: "Ta'anit",
       pages: [
+        { tractate: "Ta'anit", folio: 24, side: 'b', label: "Taanit 24b (Rainmaking)" },
         { tractate: "Ta'anit", folio: 29, side: 'a', label: "Taanit 29a (Tisha B'Av)" }
       ]
     },
@@ -94,7 +95,16 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
       name: "Yoma",
       pages: [
         { tractate: "Yoma", folio: 20, side: 'b', label: "Yoma 20b (Loud sounds)" },
-        { tractate: "Yoma", folio: 35, side: 'b', label: "Yoma 35b (Posthumous judgement)" }
+        { tractate: "Yoma", folio: 35, side: 'b', label: "Yoma 35b (Posthumous judgement)" },
+        { tractate: "Yoma", folio: 39, side: 'b', label: "Yoma 39b (Omens of the Destruction)" },
+        { tractate: "Yoma", folio: 69, side: 'b', label: "Yoma 69b (Destroying inclination for idolatry)" },
+        { tractate: "Yoma", folio: 77, side: 'a', label: "Yoma 77a (Gabriel)" }
+      ]
+    },
+    {
+      name: "Megillah",
+      pages: [
+        { tractate: "Megillah", folio: 11, side: 'a', label: "Megillah 11a (Intro to Esther)" }
       ]
     },
     {
