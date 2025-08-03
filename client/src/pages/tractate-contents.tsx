@@ -202,7 +202,7 @@ const CHAPTER_DATA: Record<string, Array<{
     { number: 3, englishName: "Mi She'amar", hebrewName: "מי שאמר", startFolio: 16, startSide: 'a', endFolio: 20, endSide: 'b' },
     { number: 4, englishName: "Mi She'amar", hebrewName: "מי שאמר", startFolio: 20, startSide: 'b', endFolio: 30, endSide: 'b' },
     { number: 5, englishName: "Beit Shammai", hebrewName: "בית שמאי", startFolio: 30, startSide: 'b', endFolio: 34, endSide: 'a' },
-    { number: 6, englishName: "Shloshah Minein", hebrewName: "שלשה מינין", startFolio: 34, startSide: 'a', endFolio: 47, endSide: 'a' },
+    { number: 6, englishName: "Shloshah Minin", hebrewName: "שלשה מינין", startFolio: 34, startSide: 'a', endFolio: 47, endSide: 'a' },
     { number: 7, englishName: "Kohen Gadol", hebrewName: "כהן גדול", startFolio: 47, startSide: 'a', endFolio: 54, endSide: 'a' },
     { number: 8, englishName: "Shnei Nezirim", hebrewName: "שני נזירים", startFolio: 54, startSide: 'a', endFolio: 57, endSide: 'a' },
     { number: 9, englishName: "HaKutim Ein Lahem", hebrewName: "הכותים אין להם", startFolio: 57, startSide: 'a', endFolio: 66, endSide: 'b' }
@@ -211,12 +211,11 @@ const CHAPTER_DATA: Record<string, Array<{
     { number: 1, englishName: "HaMekane", hebrewName: "המקנא", startFolio: 2, startSide: 'a', endFolio: 14, endSide: 'a' },
     { number: 2, englishName: "Hayah Mevi", hebrewName: "היה מביא", startFolio: 14, startSide: 'a', endFolio: 19, endSide: 'a' },
     { number: 3, englishName: "Hayah Notel", hebrewName: "היה נוטל", startFolio: 19, startSide: 'a', endFolio: 27, endSide: 'b' },
-    { number: 4, englishName: "Erusah Vecheile'ah", hebrewName: "ארוסה וכילאה", startFolio: 27, startSide: 'b', endFolio: 31, endSide: 'a' },
-    { number: 5, englishName: "KeShem SheHaMayim", hebrewName: "כשם שהמים", startFolio: 31, startSide: 'a', endFolio: 32, endSide: 'a' },
-    { number: 6, englishName: "Mi SheKina", hebrewName: "מי שקינא", startFolio: 32, startSide: 'a', endFolio: 42, endSide: 'a' },
-    { number: 7, englishName: "Eilu Ne'emarin", hebrewName: "אלו נאמרין", startFolio: 42, startSide: 'a', endFolio: 44, endSide: 'b' },
-    { number: 8, englishName: "Mashuach Milchamah", hebrewName: "משוח מלחמה", startFolio: 44, startSide: 'b', endFolio: 47, endSide: 'b' },
-    { number: 9, englishName: "Eglah Arufah", hebrewName: "עגלה ערופה", startFolio: 47, startSide: 'b', endFolio: 49, endSide: 'b' }
+    { number: 5, englishName: "KeShem SheHaMayim", hebrewName: "כשם שהמים", startFolio: 27, startSide: 'b', endFolio: 31, endSide: 'a' },
+    { number: 6, englishName: "Mi SheKina", hebrewName: "מי שקינא", startFolio: 31, startSide: 'a', endFolio: 32, endSide: 'a' },
+    { number: 7, englishName: "Eilu Ne'emarin", hebrewName: "אלו נאמרין", startFolio: 32, startSide: 'a', endFolio: 42, endSide: 'a' },
+    { number: 8, englishName: "Mashuach Milchamah", hebrewName: "משוח מלחמה", startFolio: 42, startSide: 'a', endFolio: 44, endSide: 'b' },
+    { number: 9, englishName: "Eglah Arufah", hebrewName: "עגלה ערופה", startFolio: 44, startSide: 'b', endFolio: 49, endSide: 'b' }
   ],
   "bava kamma": [
     { number: 1, englishName: "Arba'ah Avot", hebrewName: "ארבעה אבות", startFolio: 2, startSide: 'a', endFolio: 15, endSide: 'b' },
