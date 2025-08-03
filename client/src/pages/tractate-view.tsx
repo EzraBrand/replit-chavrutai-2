@@ -105,12 +105,12 @@ export default function TractateView() {
             </div>
             
             {/* Center Section: Navigation + Page Controls */}
-            <div className="flex-1 flex items-center justify-center gap-4">
+            <div className="flex-1 flex items-center justify-center gap-2 min-w-0">
               {/* Next Button (Left side) */}
               <Button
                 variant="outline"
                 size="sm"
-                className="flex items-center gap-2 px-3 py-2"
+                className="flex items-center gap-1 px-2 py-1 flex-shrink-0"
                 onClick={() => {
                   const maxFolio = getMaxFolio(talmudLocation.tractate);
                   let newFolio = talmudLocation.folio;
@@ -138,7 +138,7 @@ export default function TractateView() {
                 })()}
               >
                 <ChevronLeft className="w-3 h-3" />
-                <span className="text-xs">
+                <span className="text-xs whitespace-nowrap">
                   Next {(() => {
                     const maxFolio = getMaxFolio(talmudLocation.tractate);
                     if (talmudLocation.side === 'a') {
@@ -158,7 +158,7 @@ export default function TractateView() {
               <Button
                 variant="outline"
                 size="sm"
-                className="flex items-center gap-2 px-3 py-2"
+                className="flex items-center gap-1 px-2 py-1 flex-shrink-0"
                 onClick={() => {
                   let newFolio = talmudLocation.folio;
                   let newSide = talmudLocation.side;
@@ -180,7 +180,7 @@ export default function TractateView() {
                 }}
                 disabled={talmudLocation.folio === 2 && talmudLocation.side === 'a'}
               >
-                <span className="text-xs">
+                <span className="text-xs whitespace-nowrap">
                   Previous {(() => {
                     if (talmudLocation.side === 'b') {
                       return `(${talmudLocation.folio}a)`;
