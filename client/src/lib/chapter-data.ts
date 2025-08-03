@@ -33,7 +33,7 @@ export const CHAPTER_DATA: Record<string, Array<{
     { number: 11, englishName: "HaZorek", hebrewName: "הזורק", startFolio: 96, startSide: 'a', endFolio: 102, endSide: 'b' },
     { number: 12, englishName: "HaBoneh", hebrewName: "הבונה", startFolio: 102, startSide: 'b', endFolio: 105, endSide: 'a' },
     { number: 13, englishName: "HaOreg", hebrewName: "האורג", startFolio: 105, startSide: 'a', endFolio: 107, endSide: 'a' },
-    { number: 14, englishName: "Shmonah Sheratzim", hebrewName: "שמונה שרצים", startFolio: 107, startSide: 'a', endFolio: 111, endSide: 'b' },
+    { number: 14, englishName: "Shmoneh Sheratzim", hebrewName: "שמונה שרצים", startFolio: 107, startSide: 'a', endFolio: 111, endSide: 'b' },
     { number: 15, englishName: "V'Eilu Kesharim", hebrewName: "ואלו קשרים", startFolio: 111, startSide: 'b', endFolio: 115, endSide: 'a' },
     { number: 16, englishName: "Kol Kitvei", hebrewName: "כל כתבי", startFolio: 115, startSide: 'a', endFolio: 122, endSide: 'b' },
     { number: 17, englishName: "Kol HaKelim", hebrewName: "כל הכלים", startFolio: 122, startSide: 'b', endFolio: 126, endSide: 'b' },
@@ -54,37 +54,45 @@ export const CHAPTER_DATA: Record<string, Array<{
     { number: 6, englishName: "HaDar", hebrewName: "הדר", startFolio: 61, startSide: 'b', endFolio: 76, endSide: 'a' },
     { number: 7, englishName: "Chalon", hebrewName: "חלון", startFolio: 76, startSide: 'a', endFolio: 82, endSide: 'a' },
     { number: 8, englishName: "Keytzad Mishtatin", hebrewName: "כיצד משתתפין", startFolio: 82, startSide: 'a', endFolio: 89, endSide: 'a' },
-    { number: 9, englishName: "Kol Gagot", hebrewName: "כל גגות", startFolio: 89, startSide: 'a', endFolio: 95, endSide: 'a' },
-    { number: 10, englishName: "HaMotzei Tefilin", hebrewName: "המוצא תפילין", startFolio: 95, startSide: 'a', endFolio: 105, endSide: 'a' }
+    { number: 9, englishName: "Kol HaGag", hebrewName: "כל הגג", startFolio: 89, startSide: 'a', endFolio: 95, endSide: 'a' },
+    { number: 10, englishName: "HaOseh", hebrewName: "העושה", startFolio: 95, startSide: 'a', endFolio: 105, endSide: 'a' }
   ]
+  // Add more tractates as needed
 };
 
 // Utility function to find which chapter a folio belongs to
-export function findChapterForFolio(tractate: string, folio: number, side: 'a' | 'b'): {
-  number: number;
+export function getChapterForFolio(tractate: string, folio: number, side: 'a' | 'b'): {
   englishName: string;
   hebrewName: string;
+  number: number;
   startFolio: number;
   startSide: 'a' | 'b';
 } | null {
   const tractateKey = tractate.toLowerCase().replace(/\s+/g, '');
   const chapters = CHAPTER_DATA[tractateKey];
   
-  if (!chapters) {
-    return null;
-  }
-
-  // Convert folio and side to a comparable number
-  const folioNum = folio * 2 + (side === 'a' ? 0 : 1);
+  if (!chapters) return null;
+  
+  // Convert folio + side to comparable number (a = .0, b = .5)
+  const folioValue = folio + (side === 'a' ? 0 : 0.5);
   
   for (const chapter of chapters) {
-    const chapterStart = chapter.startFolio * 2 + (chapter.startSide === 'a' ? 0 : 1);
-    const chapterEnd = chapter.endFolio * 2 + (chapter.endSide === 'a' ? 0 : 1);
+    const startValue = chapter.startFolio + (chapter.startSide === 'a' ? 0 : 0.5);
+    const endValue = chapter.endFolio + (chapter.endSide === 'a' ? 0 : 0.5);
     
-    if (folioNum >= chapterStart && folioNum <= chapterEnd) {
+    if (folioValue >= startValue && folioValue <= endValue) {
       return chapter;
     }
   }
   
   return null;
+}
+
+// Function to generate URL for first page of a chapter
+export function getChapterFirstPageUrl(tractate: string, chapter: {
+  startFolio: number;
+  startSide: 'a' | 'b';
+}): string {
+  const tractateSlug = tractate.toLowerCase().replace(/\s+/g, '-');
+  return `/tractate/${tractateSlug}/${chapter.startFolio}${chapter.startSide}`;
 }

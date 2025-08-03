@@ -8,7 +8,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { findChapterForFolio } from "@/lib/chapter-data";
+import { getChapterForFolio, getChapterFirstPageUrl } from "@/lib/chapter-data";
 
 interface BreadcrumbNavigationItem {
   label: string;
@@ -64,29 +64,32 @@ export function BreadcrumbNavigation({ items }: BreadcrumbNavigationProps) {
 
 // Helper function to generate breadcrumb items for different page types
 export const breadcrumbHelpers = {
-  // Tractate view breadcrumbs (main text page) - includes chapter navigation
+  // Tractate view breadcrumbs (main text page) - includes chapter information
   tractateView: (tractate: string, folio: number, side: 'a' | 'b'): BreadcrumbNavigationItem[] => {
-    const chapter = findChapterForFolio(tractate, folio, side);
-    const items: BreadcrumbNavigationItem[] = [
+    const chapter = getChapterForFolio(tractate, folio, side);
+    const breadcrumbs: BreadcrumbNavigationItem[] = [
       { label: tractate, href: `/contents/${tractate.toLowerCase().replace(/\s+/g, '-')}` }
     ];
     
+    // Add chapter if found
     if (chapter) {
-      // Add chapter as clickable breadcrumb that goes to first folio of chapter
-      items.push({ 
+      const chapterUrl = getChapterFirstPageUrl(tractate, chapter);
+      breadcrumbs.push({ 
         label: chapter.englishName, 
-        href: `/tractate/${tractate.toLowerCase().replace(/\s+/g, '-')}/${chapter.startFolio}${chapter.startSide}`
+        href: chapterUrl
       });
     }
     
-    // Add current folio as final breadcrumb (not clickable)
-    items.push({ label: `${folio}${side}` });
+    // Add current folio
+    breadcrumbs.push({ label: `${folio}${side}` });
     
-    return items;
+    return breadcrumbs;
   },
 
   // Contents page breadcrumbs
-  contents: (): BreadcrumbNavigationItem[] => [],
+  contents: (): BreadcrumbNavigationItem[] => [
+    { label: "Contents" }
+  ],
 
   // Tractate contents page breadcrumbs  
   tractateContents: (tractate: string): BreadcrumbNavigationItem[] => [
