@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -22,6 +22,29 @@ export default function Home() {
     folio: 2,
     side: 'a'
   });
+
+  // Read URL parameters on component mount
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const tractateParam = urlParams.get('tractate');
+    const folioParam = urlParams.get('folio');
+    const sideParam = urlParams.get('side');
+
+    if (tractateParam && folioParam && sideParam) {
+      const folio = parseInt(folioParam, 10);
+      const side = sideParam as 'a' | 'b';
+      
+      if (!isNaN(folio) && (side === 'a' || side === 'b')) {
+        setLocation({
+          work: "Talmud Bavli",
+          tractate: tractateParam,
+          chapter: 1,
+          folio,
+          side
+        });
+      }
+    }
+  }, []);
 
   // Fetch current text
   const { 
