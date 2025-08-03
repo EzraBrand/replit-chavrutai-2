@@ -8,11 +8,13 @@ import { HamburgerMenu } from "@/components/navigation/hamburger-menu";
 import { SectionedBilingualDisplay } from "@/components/text/sectioned-bilingual-display";
 import { PageNavigation } from "@/components/navigation/page-navigation";
 import { Footer } from "@/components/footer";
+import { usePreferences } from "@/context/preferences-context";
 import { sefariaAPI } from "@/lib/sefaria";
 import hebrewBookIcon from "@/assets/hebrew-book-icon.png";
 import type { TalmudLocation } from "@/types/talmud";
 
 export default function Home() {
+  const { preferences } = usePreferences();
   const [location, setLocation] = useState<TalmudLocation>({
     work: "Talmud Bavli",
     tractate: "Berakhot",
@@ -69,7 +71,7 @@ export default function Home() {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 py-6">
+      <main className={`max-w-7xl mx-auto px-4 py-6 text-size-${preferences.textSize} hebrew-font-${preferences.hebrewFont}`}>
         {/* Page Title */}
         <div className="mb-6">
           <h2 className="text-2xl font-semibold text-primary mb-2">

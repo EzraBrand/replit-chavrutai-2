@@ -77,6 +77,36 @@
     @apply font-sans antialiased bg-background text-foreground;
   }
   
+  /* Text Size Classes */
+  .text-size-small .hebrew-text { font-size: 0.95em; }
+  .text-size-small .english-text { font-size: 0.9em; }
+  
+  .text-size-medium .hebrew-text { font-size: 1.1em; }
+  .text-size-medium .english-text { font-size: 1.05em; }
+  
+  .text-size-large .hebrew-text { font-size: 1.25em; }
+  .text-size-large .english-text { font-size: 1.2em; }
+  
+  .text-size-extra-large .hebrew-text { font-size: 1.4em; }
+  .text-size-extra-large .english-text { font-size: 1.35em; }
+
+  /* Hebrew Font Classes */
+  .hebrew-font-calibri .hebrew-text {
+    font-family: 'Calibri', 'Segoe UI', sans-serif;
+  }
+  
+  .hebrew-font-times .hebrew-text {
+    font-family: 'Times New Roman', serif;
+  }
+  
+  .hebrew-font-david .hebrew-text {
+    font-family: 'David', 'Times New Roman', serif;
+  }
+  
+  .hebrew-font-frank-ruehl .hebrew-text {
+    font-family: 'Frank Ruehl CLM', 'Times New Roman', serif;
+  }
+
   .hebrew-text {
     direction: rtl;
     font-weight: bold;
