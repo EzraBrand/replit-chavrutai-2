@@ -112,7 +112,11 @@ function generateSexualTerms(): Record<string, string> {
     { prefix: "engage in", replacement: "have sex" },
     { prefix: "engages in", replacement: "has sex" },
     { prefix: "engaged in", replacement: "had sex" },
-    { prefix: "engaging in", replacement: "having sex" }
+    { prefix: "engaging in", replacement: "having sex" },
+    { prefix: "have", replacement: "have sex" },
+    { prefix: "has", replacement: "has sex" },
+    { prefix: "had", replacement: "had sex" },
+    { prefix: "having", replacement: "having sex" }
   ];
   
   const result: Record<string, string> = {};
@@ -128,7 +132,7 @@ function generateSexualTerms(): Record<string, string> {
   result["sexual intercourse"] = "sex";
   result["intercourse"] = "sex";
   result["conjugal relations"] = "sex";
-  result["have relations"] = "have sex";
+  result["relations"] = "sex";
   
   return result;
 }
