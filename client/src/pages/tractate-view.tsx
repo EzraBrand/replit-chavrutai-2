@@ -105,12 +105,12 @@ export default function TractateView() {
             </div>
             
             {/* Center Section: Navigation + Page Controls */}
-            <div className="flex-1 flex items-center justify-center gap-4">
+            <div className="flex-1 flex items-center justify-center gap-2 min-w-0">
               {/* Next Button (Left side) */}
               <Button
                 variant="outline"
                 size="sm"
-                className="flex items-center gap-2 px-3 py-2"
+                className="flex items-center gap-1 px-2 py-2 flex-shrink-0"
                 onClick={() => {
                   const maxFolio = getMaxFolio(talmudLocation.tractate);
                   let newFolio = talmudLocation.folio;
@@ -152,13 +152,15 @@ export default function TractateView() {
               </Button>
               
               {/* Central Navigation */}
-              <BreadcrumbNav location={talmudLocation} onLocationChange={handleLocationChange} />
+              <div className="flex-1 min-w-0 max-w-md">
+                <BreadcrumbNav location={talmudLocation} onLocationChange={handleLocationChange} />
+              </div>
               
               {/* Previous Button (Right side) */}
               <Button
                 variant="outline"
                 size="sm"
-                className="flex items-center gap-2 px-3 py-2"
+                className="flex items-center gap-1 px-2 py-2 flex-shrink-0"
                 onClick={() => {
                   let newFolio = talmudLocation.folio;
                   let newSide = talmudLocation.side;

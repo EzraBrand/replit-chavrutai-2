@@ -115,7 +115,7 @@ export function BreadcrumbNav({ location, onLocationChange }: BreadcrumbNavProps
   }) => (
     <Button
       variant="ghost"
-      className={`flex items-center space-x-1 px-2 sm:px-3 py-1 sm:py-2 text-sm sm:text-base text-primary hover:bg-secondary rounded transition-colors ${className}`}
+      className={`flex items-center space-x-1 px-2 py-1 text-sm text-primary hover:bg-secondary rounded transition-colors min-w-0 ${className}`}
       onClick={() => toggleDropdown(id)}
     >
       {children}
@@ -134,7 +134,7 @@ export function BreadcrumbNav({ location, onLocationChange }: BreadcrumbNavProps
   }) => (
     <div 
       ref={(el) => dropdownRefs.current[id] = el}
-      className={`absolute top-full mt-1 w-48 sm:w-56 bg-popover border border-border rounded-lg shadow-lg z-30 ${
+      className={`absolute top-full mt-1 w-48 bg-popover border border-border rounded-lg shadow-lg z-30 ${
         activeDropdown === id ? 'block' : 'hidden'
       } ${className}`}
     >
@@ -164,7 +164,7 @@ export function BreadcrumbNav({ location, onLocationChange }: BreadcrumbNavProps
   );
 
   return (
-    <nav className="flex items-center space-x-1 sm:space-x-2 bg-card rounded-lg px-2 sm:px-4 py-2 shadow-sm border border-border">
+    <nav className="flex items-center space-x-1 bg-card rounded-lg px-2 py-2 shadow-sm border border-border min-w-0 w-full">
       {/* Tractate Dropdown */}
       <div className="relative">
         <DropdownButton id="tractate">
