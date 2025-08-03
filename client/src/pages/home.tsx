@@ -10,6 +10,7 @@ import { PageNavigation } from "@/components/navigation/page-navigation";
 import { Footer } from "@/components/footer";
 import { usePreferences } from "@/context/preferences-context";
 import { sefariaAPI } from "@/lib/sefaria";
+import { normalizeDisplayTractateName } from "@shared/tractates";
 import hebrewBookIcon from "@/assets/hebrew-book-icon.png";
 import type { TalmudLocation } from "@/types/talmud";
 
@@ -37,7 +38,7 @@ export default function Home() {
       if (!isNaN(folio) && (side === 'a' || side === 'b')) {
         setLocation({
           work: "Talmud Bavli",
-          tractate: tractateParam,
+          tractate: normalizeDisplayTractateName(tractateParam),
           chapter: 1,
           folio,
           side

@@ -139,3 +139,9 @@ export function normalizeSefariaTractateName(urlTractate: string): string {
   const normalized = URL_TO_SEFARIA_TRACTATE_MAP[urlTractate.toLowerCase()];
   return normalized || urlTractate;
 }
+
+// Helper function to convert URL tractate names to proper case for display
+export function normalizeDisplayTractateName(urlTractate: string): string {
+  const normalized = URL_TO_SEFARIA_TRACTATE_MAP[urlTractate.toLowerCase()];
+  return normalized || urlTractate;
+}

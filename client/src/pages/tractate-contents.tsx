@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { HamburgerMenu } from "@/components/navigation/hamburger-menu";
 import { sefariaAPI } from "@/lib/sefaria";
 import { getMaxFolio } from "@/lib/tractate-ranges";
-import { TRACTATE_HEBREW_NAMES } from "@shared/tractates";
+import { TRACTATE_HEBREW_NAMES, normalizeDisplayTractateName } from "@shared/tractates";
 import hebrewBookIcon from "@/assets/hebrew-book-icon.png";
 import type { TalmudLocation } from "@/types/talmud";
 
@@ -307,7 +307,7 @@ function generateFolioButtons(startFolio: number, startSide: 'a' | 'b', endFolio
 export default function TractateContents() {
   const [match, params] = useRoute("/contents/:tractate");
   const tractate = params?.tractate || "";
-  const tractateDisplayName = tractate.charAt(0).toUpperCase() + tractate.slice(1);
+  const tractateDisplayName = normalizeDisplayTractateName(tractate);
   
   const { data: chapters, isLoading } = useQuery({
     queryKey: ['/api/chapters', tractate],
