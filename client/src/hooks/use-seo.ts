@@ -167,5 +167,25 @@ export const generateSEOData = {
       "name": "About ChavrutAI",
       "description": "Information about ChavrutAI digital Talmud study platform"
     }
+  }),
+
+  suggestedPages: (): SEOData => ({
+    title: "Suggested Pages - Famous Talmud Folios | ChavrutAI",
+    description: "Explore the most famous and significant discussions in the Talmud. Discover foundational teachings, inspiring stories, and profound wisdom from centuries of Jewish learning.",
+    keywords: "Talmud highlights, famous folios, Jewish wisdom, Hillel, Hannah, significant teachings, ChavrutAI",
+    canonical: `${window.location.origin}/suggested-pages`,
+    structuredData: {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": "Suggested Talmud Pages",
+      "description": "A curated collection of the most significant and famous pages in the Babylonian Talmud",
+      "about": {
+        "@type": "Book",
+        "name": "Babylonian Talmud",
+        "alternateName": "Talmud Bavli",
+        "inLanguage": ["he", "en"],
+        "genre": "Religious Text"
+      }
+    }
   })
 };

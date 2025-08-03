@@ -102,5 +102,10 @@ export const breadcrumbHelpers = {
   // About page breadcrumbs
   about: (): BreadcrumbNavigationItem[] => [
     { label: "About" }
+  ],
+
+  // Suggested pages breadcrumbs
+  suggestedPages: (): BreadcrumbNavigationItem[] => [
+    { label: "Suggested Pages" }
   ]
 };
