@@ -210,7 +210,8 @@ const CHAPTER_DATA: Record<string, Array<{
   "sotah": [
     { number: 1, englishName: "HaMekane", hebrewName: "המקנא", startFolio: 2, startSide: 'a', endFolio: 14, endSide: 'a' },
     { number: 2, englishName: "Hayah Mevi", hebrewName: "היה מביא", startFolio: 14, startSide: 'a', endFolio: 19, endSide: 'a' },
-    { number: 3, englishName: "Hayah Notel", hebrewName: "היה נוטל", startFolio: 19, startSide: 'a', endFolio: 27, endSide: 'b' },
+    { number: 3, englishName: "Hayah Notel", hebrewName: "היה נוטל", startFolio: 19, startSide: 'a', endFolio: 23, endSide: 'b' },
+    { number: 4, englishName: "Erusah", hebrewName: "ארוסה", startFolio: 23, startSide: 'b', endFolio: 27, endSide: 'b' },
     { number: 5, englishName: "KeShem SheHaMayim", hebrewName: "כשם שהמים", startFolio: 27, startSide: 'b', endFolio: 31, endSide: 'a' },
     { number: 6, englishName: "Mi SheKina", hebrewName: "מי שקינא", startFolio: 31, startSide: 'a', endFolio: 32, endSide: 'a' },
     { number: 7, englishName: "Eilu Ne'emarin", hebrewName: "אלו נאמרין", startFolio: 32, startSide: 'a', endFolio: 42, endSide: 'a' },
