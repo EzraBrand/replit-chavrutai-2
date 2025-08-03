@@ -8,12 +8,20 @@ import { BreadcrumbNavigation, breadcrumbHelpers } from "@/components/navigation
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
 import { sefariaAPI } from "@/lib/sefaria";
 import { getMaxFolio } from "@/lib/tractate-ranges";
-import { CHAPTER_DATA } from "@/lib/chapter-data";
 import { TRACTATE_HEBREW_NAMES, normalizeDisplayTractateName } from "@shared/tractates";
 import hebrewBookIcon from "@/assets/hebrew-book-icon.png";
 import type { TalmudLocation } from "@/types/talmud";
 
-
+// Complete authentic chapter data for all Talmud Bavli tractates
+const CHAPTER_DATA: Record<string, Array<{
+  number: number;
+  englishName: string;
+  hebrewName: string;
+  startFolio: number;
+  startSide: 'a' | 'b';
+  endFolio: number;
+  endSide: 'a' | 'b';
+}>> = {
   "berakhot": [
     { number: 1, englishName: "Me'eimatay", hebrewName: "מאימתי", startFolio: 2, startSide: 'a', endFolio: 13, endSide: 'a' },
     { number: 2, englishName: "Hayah Korei", hebrewName: "היה קורא", startFolio: 13, startSide: 'a', endFolio: 17, endSide: 'b' },
