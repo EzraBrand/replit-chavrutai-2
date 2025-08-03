@@ -141,7 +141,13 @@ export default function TractateView() {
           talmudLocation.side
         )} />
         
-
+        {/* Top Page Navigation */}
+        <div className="my-6 py-4 border-y border-border">
+          <PageNavigation 
+            location={talmudLocation} 
+            onLocationChange={handleLocationChange}
+          />
+        </div>
 
         {/* Error State */}
         {error && (
