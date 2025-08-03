@@ -3,7 +3,10 @@ import { TRACTATE_LISTS } from '../../shared/tractates';
 import { TRACTATE_FOLIO_RANGES } from '../../client/src/lib/tractate-ranges';
 
 export function generateSitemap(req: Request, res: Response) {
-  const baseUrl = req.protocol + '://' + req.get('host');
+  // Use production URL for deployed site
+  const baseUrl = process.env.NODE_ENV === 'production' 
+    ? 'https://chavrutai.com' 
+    : req.protocol + '://' + req.get('host');
   
   let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

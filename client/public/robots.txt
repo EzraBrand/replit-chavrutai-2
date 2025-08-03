@@ -16,7 +16,7 @@ User-agent: Bingbot
 Crawl-delay: 2
 
 # Sitemap
-Sitemap: https://chavrutai.replit.app/sitemap.xml
+Sitemap: https://chavrutai.com/sitemap.xml
 
 # Strategic SEO for Jewish text accessibility
 # Focus on key educational content and entry points
