@@ -174,7 +174,7 @@ export default function TractateView() {
               </Button>
               
               {/* Central Navigation */}
-              <div className="flex-1 min-w-0 max-w-md">
+              <div className="flex-1 flex justify-center min-w-0">
                 <BreadcrumbNav location={talmudLocation} onLocationChange={handleLocationChange} />
               </div>
               

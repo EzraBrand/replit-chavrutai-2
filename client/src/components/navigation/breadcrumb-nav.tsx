@@ -164,7 +164,7 @@ export function BreadcrumbNav({ location, onLocationChange }: BreadcrumbNavProps
   );
 
   return (
-    <nav className="flex items-center gap-1 bg-card rounded-lg px-2 py-1 shadow-sm border border-border min-w-0 max-w-fit">
+    <nav className="inline-flex items-center gap-1 bg-card rounded-lg px-2 py-1 shadow-sm border border-border">
       {/* Tractate Dropdown */}
       <div className="relative">
         <Button
