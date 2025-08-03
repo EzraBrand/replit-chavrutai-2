@@ -1,4 +1,5 @@
 import { Menu, Type, Palette, Moon, Sun } from "lucide-react";
+import hebrewBookIcon from "@assets/20250731_1721_Hebrew Book Icon_remix_01k1gdhqpbetsb13vbtjceet4e_1753973105554.png";
 import { useState } from "react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
@@ -34,13 +35,20 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
         </SheetHeader>
         
         <div className="flex flex-col h-full pt-6">
-          {/* Contents Link */}
+          {/* Contents Link with Logo */}
           <div className="mb-6">
             <Link 
               href="/contents"
               onClick={() => setOpen(false)}
-              className="block w-full text-left px-4 py-3 rounded-lg hover:bg-secondary transition-colors duration-100 text-foreground font-medium text-lg"
+              className="flex items-center gap-3 w-full text-left px-4 py-3 rounded-lg hover:bg-secondary transition-colors duration-100 text-foreground font-medium text-lg"
             >
+              <div className="w-8 h-8 rounded-full flex items-center justify-center overflow-hidden flex-shrink-0">
+                <img 
+                  src={hebrewBookIcon} 
+                  alt="ChavrutAI Logo" 
+                  className="w-8 h-8 object-cover"
+                />
+              </div>
               Contents
             </Link>
           </div>

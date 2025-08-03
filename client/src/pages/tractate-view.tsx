@@ -196,24 +196,7 @@ export default function TractateView() {
               </Button>
             </div>
             
-            {/* Right Section: Logo + Home Button */}
-            <div className="flex items-center space-x-2 flex-shrink-0">
-              <div className="w-8 h-8 rounded-full flex items-center justify-center overflow-hidden">
-                <img 
-                  src={hebrewBookIcon} 
-                  alt="ChavrutAI Logo" 
-                  className="w-8 h-8 object-cover"
-                />
-              </div>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={handleGoHome}
-                title="Go to Home"
-              >
-                <Home className="h-4 w-4" />
-              </Button>
-            </div>
+
           </div>
         </div>
       </header>
