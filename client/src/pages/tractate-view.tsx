@@ -99,19 +99,9 @@ export default function TractateView() {
       <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between gap-4">
-            {/* Left Section: Hamburger + Logo */}
-            <div className="flex items-center space-x-3 flex-shrink-0">
+            {/* Left Section: Hamburger Menu */}
+            <div className="flex items-center flex-shrink-0">
               <HamburgerMenu onLocationChange={handleLocationChange} />
-              <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 rounded-full flex items-center justify-center overflow-hidden">
-                  <img 
-                    src={hebrewBookIcon} 
-                    alt="ChavrutAI Logo" 
-                    className="w-8 h-8 object-cover"
-                  />
-                </div>
-                <h1 className="text-lg font-semibold text-primary font-roboto">ChavrutAI</h1>
-              </div>
             </div>
             
             {/* Center Section: Navigation + Page Controls */}
@@ -204,16 +194,24 @@ export default function TractateView() {
               </Button>
             </div>
             
-            {/* Right Section: Home Button */}
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={handleGoHome}
-              className="flex-shrink-0"
-              title="Go to Home"
-            >
-              <Home className="h-4 w-4" />
-            </Button>
+            {/* Right Section: Logo + Home Button */}
+            <div className="flex items-center space-x-2 flex-shrink-0">
+              <div className="w-8 h-8 rounded-full flex items-center justify-center overflow-hidden">
+                <img 
+                  src={hebrewBookIcon} 
+                  alt="ChavrutAI Logo" 
+                  className="w-8 h-8 object-cover"
+                />
+              </div>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handleGoHome}
+                title="Go to Home"
+              >
+                <Home className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
         </div>
       </header>
