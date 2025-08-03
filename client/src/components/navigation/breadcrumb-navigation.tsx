@@ -42,12 +42,12 @@ export function BreadcrumbNavigation({ items }: BreadcrumbNavigationProps) {
             <BreadcrumbItem>
               {item.href ? (
                 <BreadcrumbLink asChild>
-                  <Link href={item.href} className="truncate max-w-[150px] sm:max-w-none" title={typeof item.label === 'string' ? item.label : undefined}>
+                  <Link href={item.href} title={typeof item.label === 'string' ? item.label : undefined}>
                     {item.label}
                   </Link>
                 </BreadcrumbLink>
               ) : (
-                <BreadcrumbPage className="truncate max-w-[150px] sm:max-w-none" title={typeof item.label === 'string' ? item.label : undefined}>
+                <BreadcrumbPage title={typeof item.label === 'string' ? item.label : undefined}>
                   {item.label}
                 </BreadcrumbPage>
               )}
