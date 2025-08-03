@@ -103,6 +103,181 @@ const SUGGESTED_PAGES = [
     folio: "20a",
     title: "Modesty and purity",
     description: "The spiritual benefits of living with proper modesty and moral boundaries"
+  },
+  // Additional suggested pages from the original comprehensive list
+  {
+    tractate: "Berakhot",
+    folio: "17a",
+    title: "Prayers and devotion",
+    description: "Essential teachings about proper prayer and spiritual connection"
+  },
+  {
+    tractate: "Berakhot",
+    folio: "28a",
+    title: "Rabban Gamliel's leadership",
+    description: "Lessons in leadership and the balance between authority and humility"
+  },
+  {
+    tractate: "Berakhot",
+    folio: "56b",
+    title: "The meaning of dreams",
+    description: "Talmudic wisdom about dreams and their spiritual significance"
+  },
+  {
+    tractate: "Berakhot",
+    folio: "62a",
+    title: "Dignity in all circumstances",
+    description: "Maintaining human dignity even in the most private moments"
+  },
+  {
+    tractate: "Berakhot",
+    folio: "63b",
+    title: "The academy at Yavne",
+    description: "How Jewish learning was preserved after the Temple's destruction"
+  },
+  {
+    tractate: "Shabbat",
+    folio: "32b",
+    title: "Divine punishments",
+    description: "Understanding suffering and divine justice in the world"
+  },
+  {
+    tractate: "Shabbat",
+    folio: "33b",
+    title: "Rabbi Shimon's flight from Romans",
+    description: "Standing up for principles even when facing persecution"
+  },
+  {
+    tractate: "Shabbat",
+    folio: "88b",
+    title: "The giving of the Torah",
+    description: "How the Jewish people accepted the Torah at Mount Sinai"
+  },
+  {
+    tractate: "Shabbat",
+    folio: "104a",
+    title: "The Hebrew alphabet",
+    description: "The mystical and educational significance of Hebrew letters"
+  },
+  {
+    tractate: "Shabbat",
+    folio: "109b",
+    title: "Dealing with dangerous creatures",
+    description: "Practical and spiritual approaches to handling life's dangers"
+  },
+  {
+    tractate: "Shabbat",
+    folio: "152a",
+    title: "The wisdom of old age",
+    description: "Respecting elders and learning from life experience"
+  },
+  {
+    tractate: "Shabbat",
+    folio: "156a",
+    title: "Free will vs fate",
+    description: "The tension between astrology, destiny, and human choice"
+  },
+  {
+    tractate: "Taanit",
+    folio: "24b",
+    title: "Miracle workers and rainmaking",
+    description: "The power of righteous individuals to influence nature through prayer"
+  },
+  {
+    tractate: "Taanit",
+    folio: "29a",
+    title: "Tisha B'Av mourning",
+    description: "Commemorating national tragedies and finding hope in darkness"
+  },
+  {
+    tractate: "Gittin",
+    folio: "56a",
+    title: "The siege of Jerusalem",
+    description: "Historical account of Jerusalem's destruction and its lessons"
+  },
+  {
+    tractate: "Gittin",
+    folio: "56b",
+    title: "Rabban Yochanan ben Zakkai",
+    description: "How one leader saved Jewish learning during the Temple's destruction"
+  },
+  {
+    tractate: "Gittin",
+    folio: "58a",
+    title: "Roman atrocities and Jewish resilience",
+    description: "Stories of persecution and the strength to survive through faith"
+  },
+  {
+    tractate: "Gittin",
+    folio: "69a",
+    title: "Ancient remedies and healing",
+    description: "Traditional medicine and the intersection of physical and spiritual healing"
+  },
+  {
+    tractate: "Gittin",
+    folio: "70a",
+    title: "Remedies and dangerous activities",
+    description: "Being cautious while still engaging with the world around us"
+  },
+  {
+    tractate: "Kiddushin",
+    folio: "70b",
+    title: "Jewish lineage and identity",
+    description: "Understanding family background and maintaining Jewish continuity"
+  },
+  {
+    tractate: "Kiddushin",
+    folio: "72a",
+    title: "Babylonian Jewish geography",
+    description: "The spread of Jewish communities and maintaining connections"
+  },
+  {
+    tractate: "Kiddushin",
+    folio: "82a",
+    title: "Choosing a profession",
+    description: "Balancing worldly occupation with spiritual values"
+  },
+  {
+    tractate: "Pesachim",
+    folio: "49b",
+    title: "The Am Ha'aretz",
+    description: "Relationships between scholars and common people"
+  },
+  {
+    tractate: "Pesachim",
+    folio: "54a",
+    title: "Things created before the world",
+    description: "Philosophical reflections on divine planning and creation"
+  },
+  {
+    tractate: "Pesachim",
+    folio: "111b",
+    title: "Demons and spiritual protection",
+    description: "Understanding unseen forces and spiritual safeguards"
+  },
+  {
+    tractate: "Pesachim",
+    folio: "112b",
+    title: "Life advice and wisdom",
+    description: "Practical guidance for navigating life's challenges"
+  },
+  {
+    tractate: "Pesachim",
+    folio: "117a",
+    title: "Reciting Hallel",
+    description: "When and how to express praise and gratitude to God"
+  },
+  {
+    tractate: "Rosh Hashanah",
+    folio: "11a",
+    title: "Tishrei vs Nisan as New Year",
+    description: "Different calendars and their spiritual significance"
+  },
+  {
+    tractate: "Rosh Hashanah",
+    folio: "26b",
+    title: "Defining key terms",
+    description: "The importance of precise language in Jewish law and learning"
   }
 ];
 
