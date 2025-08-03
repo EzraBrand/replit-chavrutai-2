@@ -65,7 +65,6 @@ export function BreadcrumbNavigation({ items }: BreadcrumbNavigationProps) {
 export const breadcrumbHelpers = {
   // Tractate view breadcrumbs (main text page)
   tractateView: (tractate: string, folio: number, side: 'a' | 'b'): BreadcrumbNavigationItem[] => [
-    { label: "Contents", href: "/" },
     { label: tractate, href: `/contents/${tractate.toLowerCase().replace(/\s+/g, '-')}` },
     { label: `${folio}${side}` }
   ],
@@ -77,7 +76,6 @@ export const breadcrumbHelpers = {
 
   // Tractate contents page breadcrumbs  
   tractateContents: (tractate: string): BreadcrumbNavigationItem[] => [
-    { label: "Contents", href: "/" },
     { label: tractate }
   ],
 
