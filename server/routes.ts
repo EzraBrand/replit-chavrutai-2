@@ -146,41 +146,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/tractates", async (req, res) => {
     try {
       const { work } = tractateListSchema.parse(req.query);
+      const { TRACTATE_LISTS } = await import('../shared/tractates');
       
-      // Hardcoded tractate lists based on traditional ordering
-      const tractates: Record<string, string[]> = {
-        "Bible": [
-          "Genesis", "Exodus", "Leviticus", "Numbers", "Deuteronomy",
-          "Joshua", "Judges", "Samuel I", "Samuel II", "Kings I", "Kings II",
-          "Isaiah", "Jeremiah", "Ezekiel", "Hosea", "Joel", "Amos", "Obadiah",
-          "Jonah", "Micah", "Nahum", "Habakkuk", "Zephaniah", "Haggai", "Zechariah", "Malachi",
-          "Psalms", "Proverbs", "Job", "Song of Songs", "Ruth", "Lamentations",
-          "Ecclesiastes", "Esther", "Daniel", "Ezra", "Nehemiah", "Chronicles I", "Chronicles II"
-        ],
-        "Mishnah": [
-          "Berakhot", "Peah", "Demai", "Kilayim", "Sheviit", "Terumot", "Maasrot", "Maaser Sheni", "Challah", "Orlah", "Bikkurim",
-          "Shabbat", "Eruvin", "Pesachim", "Shekalim", "Yoma", "Sukkah", "Beitzah", "Rosh Hashanah", "Taanit", "Megillah", "Moed Katan", "Chagigah",
-          "Yevamot", "Ketubot", "Nedarim", "Nazir", "Sotah", "Gittin", "Kiddushin",
-          "Bava Kamma", "Bava Metzia", "Bava Batra", "Sanhedrin", "Makkot", "Shevuot", "Eduyot", "Avodah Zarah", "Avot", "Horayot",
-          "Zevachim", "Menachot", "Chullin", "Bekhorot", "Arakhin", "Temurah", "Keritot", "Meilah", "Tamid", "Middot", "Kinnim",
-          "Kelim", "Oholot", "Negaim", "Parah", "Taharot", "Mikvaot", "Niddah", "Makhshirin", "Zavim", "Tevul Yom", "Yadayim", "Uktzin"
-        ],
-        "Talmud Yerushalmi": [
-          "Berakhot", "Peah", "Demai", "Kilayim", "Sheviit", "Terumot", "Maasrot", "Maaser Sheni", "Challah", "Orlah", "Bikkurim",
-          "Shabbat", "Eruvin", "Pesachim", "Shekalim", "Yoma", "Sukkah", "Beitzah", "Rosh Hashanah", "Taanit", "Megillah", "Chagigah",
-          "Yevamot", "Ketubot", "Nedarim", "Nazir", "Sotah", "Gittin", "Kiddushin",
-          "Bava Kamma", "Bava Metzia", "Bava Batra", "Sanhedrin", "Makkot", "Shevuot", "Avodah Zarah", "Horayot", "Niddah"
-        ],
-        "Talmud Bavli": [
-          "Berakhot",
-          "Shabbat", "Eruvin", "Pesachim", "Rosh Hashanah", "Yoma", "Sukkah", "Beitza", "Ta'anit", "Megillah", "Mo'ed Katan", "Chagigah",
-          "Yevamot", "Ketubot", "Nedarim", "Nazir", "Sotah", "Gittin", "Kiddushin",
-          "Bava Kamma", "Bava Metzia", "Bava Batra", "Sanhedrin", "Makkot", "Shevu'ot", "Avodah Zarah", "Horayot",
-          "Zevahim", "Menachot", "Chullin", "Bekhorot", "Arachin", "Temurah", "Keritot", "Me'ilah", "Tamid", "Middot", "Kinnim", "Niddah"
-        ]
-      };
-      
-      res.json({ tractates: tractates[work] || [] });
+      res.json({ tractates: TRACTATE_LISTS[work as keyof typeof TRACTATE_LISTS] || [] });
     } catch (error) {
       res.status(400).json({ message: "Invalid work parameter" });
     }
@@ -191,20 +159,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { tractate } = z.object({ tractate: z.string() }).parse(req.query);
       
-      // Import would be: import { getMaxFolio } from '../client/src/lib/tractate-ranges';
-      // But for server simplicity, using direct data
-      const tractateFolloRanges: Record<string, number> = {
-        "Berakhot": 64, "Shabbat": 157, "Eruvin": 105, "Pesachim": 121, "Shekalim": 22, "Yoma": 88,
-        "Sukkah": 56, "Beitza": 40, "Rosh Hashanah": 35, "Ta'anit": 31, "Megillah": 32,
-        "Mo'ed Katan": 29, "Chagigah": 27, "Yevamot": 122, "Ketubot": 112, "Nedarim": 91, 
-        "Nazir": 66, "Sotah": 49, "Gittin": 90, "Kiddushin": 82, "Bava Kamma": 119, 
-        "Bava Metzia": 119, "Bava Batra": 176, "Sanhedrin": 113, "Makkot": 24, "Shevu'ot": 49, 
-        "Avodah Zarah": 76, "Horayot": 14, "Zevahim": 120, "Menachot": 110, "Chullin": 142, 
-        "Bekhorot": 61, "Arachin": 34, "Temurah": 34, "Keritot": 28, "Me'ilah": 22, 
-        "Tamid": 8, "Middot": 3, "Kinnim": 4, "Niddah": 73
-      };
+      const { TRACTATE_FOLIO_RANGES } = await import('../shared/tractates');
       
-      const maxFolio = tractateFolloRanges[tractate] || 150;
+      const maxFolio = TRACTATE_FOLIO_RANGES[tractate as keyof typeof TRACTATE_FOLIO_RANGES] || 150;
       
       // Return a single chapter covering the full folio range
       const chapters = [

@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { HamburgerMenu } from "@/components/navigation/hamburger-menu";
 import { sefariaAPI } from "@/lib/sefaria";
 import { getMaxFolio } from "@/lib/tractate-ranges";
+import { TRACTATE_HEBREW_NAMES } from "@shared/tractates";
 import hebrewBookIcon from "@/assets/hebrew-book-icon.png";
 import type { TalmudLocation } from "@/types/talmud";
 
@@ -263,21 +264,7 @@ const CHAPTER_DATA: Record<string, Array<{
   ]
 };
 
-// Hebrew names for tractates
-const TRACTATE_HEBREW_NAMES: Record<string, string> = {
-  "berakhot": "ברכות",
-  "shabbat": "שבת", 
-  "eruvin": "עירובין",
-  "pesachim": "פסחים",
-  "rosh hashanah": "ראש השנה", 
-  "yoma": "יומא",
-  "sukkah": "סוכה",
-  "beitza": "ביצה",
-  "ta'anit": "תענית",
-  "megillah": "מגילה", 
-  "mo'ed katan": "מועד קטן",
-  "chagigah": "חגיגה"
-};
+
 
 function generateFolioButtons(startFolio: number, startSide: 'a' | 'b', endFolio: number, endSide: 'a' | 'b', tractate: string) {
   const folios: Array<{ folio: number; side: 'a' | 'b'; label: string }> = [];
@@ -375,7 +362,9 @@ export default function TractateContents() {
 
   const tractateChapters = CHAPTER_DATA[tractate.toLowerCase()] || [];
   const maxFolio = getMaxFolio(tractateDisplayName);
-  const hebrewName = TRACTATE_HEBREW_NAMES[tractate.toLowerCase()] || tractate;
+  // Convert tractate name to proper case for Hebrew name lookup
+  const properCaseTractate = tractateDisplayName;
+  const hebrewName = TRACTATE_HEBREW_NAMES[properCaseTractate as keyof typeof TRACTATE_HEBREW_NAMES] || tractate;
 
   return (
     <div className="min-h-screen bg-background">

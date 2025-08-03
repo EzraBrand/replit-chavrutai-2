@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { HamburgerMenu } from "@/components/navigation/hamburger-menu";
 import { sefariaAPI } from "@/lib/sefaria";
+import { TRACTATE_LISTS, TRACTATE_HEBREW_NAMES } from "@shared/tractates";
 import hebrewBookIcon from "@/assets/hebrew-book-icon.png";
 import type { TalmudLocation } from "@/types/talmud";
 
@@ -40,48 +41,7 @@ const SEDER_ORGANIZATION = {
   }
 };
 
-// Tractate Hebrew names
-const TRACTATE_HEBREW_NAMES: Record<string, string> = {
-  "Berakhot": "ברכות",
-  "Shabbat": "שבת", 
-  "Eruvin": "עירובין",
-  "Pesachim": "פסחים",
-  "Rosh Hashanah": "ראש השנה", 
-  "Yoma": "יומא",
-  "Sukkah": "סוכה",
-  "Beitza": "ביצה",
-  "Ta'anit": "תענית",
-  "Megillah": "מגילה", 
-  "Mo'ed Katan": "מועד קטן",
-  "Chagigah": "חגיגה",
-  "Yevamot": "יבמות",
-  "Ketubot": "כתובות",
-  "Nedarim": "נדרים",
-  "Nazir": "נזיר", 
-  "Sotah": "סוטה",
-  "Gittin": "גיטין",
-  "Kiddushin": "קידושין",
-  "Bava Kamma": "בבא קמא",
-  "Bava Metzia": "בבא מציעא",
-  "Bava Batra": "בבא בתרא",
-  "Sanhedrin": "סנהדרין",
-  "Makkot": "מכות",
-  "Shevu'ot": "שבועות",
-  "Avodah Zarah": "עבודה זרה", 
-  "Horayot": "הוריות",
-  "Zevahim": "זבחים",
-  "Menachot": "מנחות",
-  "Chullin": "חולין",
-  "Bekhorot": "בכורות",
-  "Arachin": "ערכין",
-  "Temurah": "תמורה",
-  "Keritot": "כריתות",
-  "Me'ilah": "מעילה",
-  "Tamid": "תמיד",
-  "Middot": "מדות", 
-  "Kinnim": "קינים",
-  "Niddah": "נדה"
-};
+
 
 export default function Contents() {
   const { data: tractatesData, isLoading } = useQuery({
@@ -204,7 +164,7 @@ export default function Contents() {
                           <CardTitle className="text-lg">
                             <div className="text-primary">{tractate}</div>
                             <div className="text-sm text-primary/70 font-hebrew mt-1">
-                              {TRACTATE_HEBREW_NAMES[tractate] || tractate}
+                              {TRACTATE_HEBREW_NAMES[tractate as keyof typeof TRACTATE_HEBREW_NAMES] || tractate}
                             </div>
                           </CardTitle>
                         </CardHeader>
