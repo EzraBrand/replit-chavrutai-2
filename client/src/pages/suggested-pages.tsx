@@ -18,7 +18,7 @@ const SUGGESTED_PAGES = [
     tractate: "Berakhot", 
     folio: "5a",
     title: "Why do the righteous suffer?",
-    description: "Deep theological discussion about suffering and divine justice"
+    description: "Theological discussion about suffering and divine justice"
   },
   {
     tractate: "Berakhot",
@@ -84,7 +84,7 @@ const SUGGESTED_PAGES = [
     tractate: "Bava Batra",
     folio: "74a",
     title: "Rabbah bar bar Hana's tales",
-    description: "Fantastic travel stories with deep allegorical meanings"
+    description: "Fantastic travel stories"
   },
   {
     tractate: "Sanhedrin",
@@ -102,31 +102,31 @@ const SUGGESTED_PAGES = [
     tractate: "Avoda Zara",
     folio: "20a",
     title: "Modesty and purity",
-    description: "The spiritual benefits of living with proper modesty and moral boundaries"
+    description: "Proper modesty and moral boundaries"
   },
   // Additional suggested pages from the original comprehensive list
   {
     tractate: "Berakhot",
     folio: "17a",
     title: "Prayers and devotion",
-    description: "Essential teachings about proper prayer and spiritual connection"
+    description: "Teachings about proper prayer and spiritual connection"
   },
   {
     tractate: "Berakhot",
     folio: "28a",
     title: "Rabban Gamliel's leadership",
-    description: "Lessons in leadership and the balance between authority and humility"
+    description: "Leadership and the balance between authority and humility"
   },
   {
     tractate: "Berakhot",
     folio: "56b",
     title: "The meaning of dreams",
-    description: "Talmudic wisdom about dreams and their spiritual significance"
+    description: "Dreams and their significance"
   },
   {
     tractate: "Berakhot",
     folio: "62a",
-    title: "Dignity in all circumstances",
+    title: "Outhouse decorum",
     description: "Maintaining human dignity even in the most private moments"
   },
   {
@@ -145,7 +145,7 @@ const SUGGESTED_PAGES = [
     tractate: "Shabbat",
     folio: "33b",
     title: "Rabbi Shimon's flight from Romans",
-    description: "Standing up for principles even when facing persecution"
+    description: "In a time of persecution"
   },
   {
     tractate: "Shabbat",
@@ -157,19 +157,19 @@ const SUGGESTED_PAGES = [
     tractate: "Shabbat",
     folio: "104a",
     title: "The Hebrew alphabet",
-    description: "The mystical and educational significance of Hebrew letters"
+    description: "The mystical significance of Hebrew letters"
   },
   {
     tractate: "Shabbat",
     folio: "109b",
     title: "Dealing with dangerous creatures",
-    description: "Practical and spiritual approaches to handling life's dangers"
+    description: "Practical approaches to handling life's dangers"
   },
   {
     tractate: "Shabbat",
     folio: "152a",
-    title: "The wisdom of old age",
-    description: "Respecting elders and learning from life experience"
+    title: "Old age",
+    description: "Homiletic readings related to old age"
   },
   {
     tractate: "Shabbat",
@@ -187,7 +187,7 @@ const SUGGESTED_PAGES = [
     tractate: "Taanit",
     folio: "29a",
     title: "Tisha B'Av mourning",
-    description: "Commemorating national tragedies and finding hope in darkness"
+    description: "Commemorating national tragedies"
   },
   {
     tractate: "Gittin",
@@ -199,37 +199,37 @@ const SUGGESTED_PAGES = [
     tractate: "Gittin",
     folio: "56b",
     title: "Rabban Yochanan ben Zakkai",
-    description: "How one leader saved Jewish learning during the Temple's destruction"
+    description: "One leader during the Temple's destruction"
   },
   {
     tractate: "Gittin",
     folio: "58a",
     title: "Roman atrocities and Jewish resilience",
-    description: "Stories of persecution and the strength to survive through faith"
+    description: "Stories of persecution"
   },
   {
     tractate: "Gittin",
     folio: "69a",
     title: "Ancient remedies and healing",
-    description: "Traditional medicine and the intersection of physical and spiritual healing"
+    description: "Traditional medicine"
   },
   {
     tractate: "Gittin",
     folio: "70a",
     title: "Remedies and dangerous activities",
-    description: "Being cautious while still engaging with the world around us"
+    description: "Balancing health and safety"
   },
   {
     tractate: "Kiddushin",
     folio: "70b",
     title: "Jewish lineage and identity",
-    description: "Understanding family background and maintaining Jewish continuity"
+    description: "Understanding family background"
   },
   {
     tractate: "Kiddushin",
     folio: "72a",
     title: "Babylonian Jewish geography",
-    description: "The spread of Jewish communities and maintaining connections"
+    description: "The Jewish world in the Talmudic era"
   },
   {
     tractate: "Kiddushin",
@@ -247,19 +247,19 @@ const SUGGESTED_PAGES = [
     tractate: "Pesachim",
     folio: "54a",
     title: "Things created before the world",
-    description: "Philosophical reflections on divine planning and creation"
+    description: "Reflections on divine planning and creation"
   },
   {
     tractate: "Pesachim",
     folio: "111b",
     title: "Demons and spiritual protection",
-    description: "Understanding unseen forces and spiritual safeguards"
+    description: "Understanding unseen forces"
   },
   {
     tractate: "Pesachim",
     folio: "112b",
     title: "Life advice and wisdom",
-    description: "Practical guidance for navigating life's challenges"
+    description: "Practical guidance"
   },
   {
     tractate: "Pesachim",
@@ -270,14 +270,14 @@ const SUGGESTED_PAGES = [
   {
     tractate: "Rosh Hashanah",
     folio: "11a",
-    title: "Tishrei vs Nisan as New Year",
-    description: "Different calendars and their spiritual significance"
+    title: "Tishrei vs Nisan",
+    description: "The significance of the months from a historical perspective"
   },
   {
     tractate: "Rosh Hashanah",
     folio: "26b",
     title: "Defining key terms",
-    description: "The importance of precise language in Jewish law and learning"
+    description: "Clarifying terms"
   }
 ];
 
