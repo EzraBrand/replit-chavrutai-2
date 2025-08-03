@@ -104,12 +104,42 @@ export function processHebrewText(text: string): string {
 }
 
 /**
+ * Generate sexual relations term replacements programmatically
+ */
+function generateSexualTerms(): Record<string, string> {
+  const baseTerms = ["intercourse", "sexual intercourse", "sexual relations", "intimacy"];
+  const conjugations = [
+    { prefix: "engage in", replacement: "have sex" },
+    { prefix: "engages in", replacement: "has sex" },
+    { prefix: "engaged in", replacement: "had sex" },
+    { prefix: "engaging in", replacement: "having sex" }
+  ];
+  
+  const result: Record<string, string> = {};
+  
+  // Generate all combinations
+  conjugations.forEach(({ prefix, replacement }) => {
+    baseTerms.forEach(term => {
+      result[`${prefix} ${term}`] = replacement;
+    });
+  });
+  
+  // Add standalone terms
+  result["sexual intercourse"] = "sex";
+  result["intercourse"] = "sex";
+  result["conjugal relations"] = "sex";
+  result["have relations"] = "have sex";
+  
+  return result;
+}
+
+/**
  * Replace specific terms in English text with preferred alternatives
  */
 export function replaceTerms(text: string): string {
   if (!text) return '';
   
-  const termReplacements: Record<string, string> = {
+  const basicTerms: Record<string, string> = {
     "GEMARA": "Talmud",
     "Gemara": "Talmud",
     "Rabbi": "R'",
@@ -137,27 +167,14 @@ export function replaceTerms(text: string): string {
     "the Almighty": "God",
     "the Omnipresent": "God",
     "Master of the Universe": "God!",
-    "engage in intercourse": "have sex",
-    "engage in sexual intercourse": "have sex",
-    "engage in intimacy": "have sex",
-    "engages in intercourse": "has sex",
-    "engages in sexual intercourse": "has sex",
-    "engages in intimacy": "has sex",
-    "engaged in intercourse": "had sex",
-    "engaged in sexual intercourse": "had sex",
-    "engaged in intimacy": "had sex",
-    "engaging in intercourse": "having sex",
-    "engaging in sexual intercourse": "having sex",
-    "engaging in intimacy": "having sex",
-    "sexual intercourse": "sex",
-    "intercourse": "sex",
-    "conjugal relations": "sex",
-    "have relations": "have sex",
     "Sages": "rabbis",
     "mishna": "Mishnah",
     "rainy season": "winter",
     ", son of R' ": " ben "
   };
+  
+  // Combine basic terms with generated sexual terms
+  const termReplacements = { ...basicTerms, ...generateSexualTerms() };
   
   // Ordinal number mappings (3rd and up)
   // Process compound ordinals first to avoid conflicts
