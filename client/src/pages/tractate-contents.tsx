@@ -3,8 +3,11 @@ import { useQuery } from "@tanstack/react-query";
 import { ChevronLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { HamburgerMenu } from "@/components/navigation/hamburger-menu";
 import { sefariaAPI } from "@/lib/sefaria";
 import { getMaxFolio } from "@/lib/tractate-ranges";
+import hebrewBookIcon from "@/assets/hebrew-book-icon.png";
+import type { TalmudLocation } from "@/types/talmud";
 
 // Complete authentic chapter data for all Talmud Bavli tractates
 const CHAPTER_DATA: Record<string, Array<{
@@ -325,6 +328,12 @@ export default function TractateContents() {
     enabled: !!tractate
   });
 
+  // Navigation handler for hamburger menu
+  const handleLocationChange = (newLocation: TalmudLocation) => {
+    // Navigate to home page with the selected location
+    window.location.href = `/?tractate=${newLocation.tractate}&folio=${newLocation.folio}&side=${newLocation.side}`;
+  };
+
   if (!match) {
     return <div>Tractate not found</div>;
   }
@@ -332,6 +341,31 @@ export default function TractateContents() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background">
+        {/* Header */}
+        <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
+          <div className="max-w-7xl mx-auto px-4 py-4">
+            <div className="flex items-center justify-between">
+              {/* Hamburger Menu */}
+              <HamburgerMenu onLocationChange={handleLocationChange} />
+              
+              {/* Logo */}
+              <div className="flex items-center space-x-2 flex-shrink-0">
+                <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden">
+                  <img 
+                    src={hebrewBookIcon} 
+                    alt="ChavrutAI Logo" 
+                    className="w-10 h-10 object-cover"
+                  />
+                </div>
+                <h1 className="text-xl font-semibold text-primary font-roboto">ChavrutAI</h1>
+              </div>
+              
+              {/* Empty space for balance */}
+              <div className="w-10 flex-shrink-0"></div>
+            </div>
+          </div>
+        </header>
+        
         <div className="max-w-6xl mx-auto px-4 py-8">
           <div className="text-center">Loading...</div>
         </div>
@@ -345,6 +379,31 @@ export default function TractateContents() {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            {/* Hamburger Menu */}
+            <HamburgerMenu onLocationChange={handleLocationChange} />
+            
+            {/* Logo */}
+            <div className="flex items-center space-x-2 flex-shrink-0">
+              <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden">
+                <img 
+                  src={hebrewBookIcon} 
+                  alt="ChavrutAI Logo" 
+                  className="w-10 h-10 object-cover"
+                />
+              </div>
+              <h1 className="text-xl font-semibold text-primary font-roboto">ChavrutAI</h1>
+            </div>
+            
+            {/* Empty space for balance */}
+            <div className="w-10 flex-shrink-0"></div>
+          </div>
+        </div>
+      </header>
+
       <div className="max-w-6xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex items-center gap-4 mb-6">
@@ -381,7 +440,7 @@ export default function TractateContents() {
                   {/* Chapter Header */}
                   <div className="border-b border-border pb-3">
                     <h3 className="text-xl font-semibold text-primary">
-                      Chapter {chapter.number}: '{chapter.englishName}' ({chapter.hebrewName})
+                      Chapter {chapter.number}: <em>{chapter.englishName}</em> ({chapter.hebrewName})
                     </h3>
                   </div>
 

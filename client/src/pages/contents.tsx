@@ -1,7 +1,10 @@
 import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { HamburgerMenu } from "@/components/navigation/hamburger-menu";
 import { sefariaAPI } from "@/lib/sefaria";
+import hebrewBookIcon from "@/assets/hebrew-book-icon.png";
+import type { TalmudLocation } from "@/types/talmud";
 
 // Seder organization with Hebrew names
 const SEDER_ORGANIZATION = {
@@ -86,9 +89,40 @@ export default function Contents() {
     queryFn: () => sefariaAPI.getTractates("Talmud Bavli")
   });
 
+  // Navigation handler for hamburger menu
+  const handleLocationChange = (newLocation: TalmudLocation) => {
+    // Navigate to home page with the selected location
+    window.location.href = `/?tractate=${newLocation.tractate}&folio=${newLocation.folio}&side=${newLocation.side}`;
+  };
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background">
+        {/* Header */}
+        <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
+          <div className="max-w-7xl mx-auto px-4 py-4">
+            <div className="flex items-center justify-between">
+              {/* Hamburger Menu */}
+              <HamburgerMenu onLocationChange={handleLocationChange} />
+              
+              {/* Logo */}
+              <div className="flex items-center space-x-2 flex-shrink-0">
+                <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden">
+                  <img 
+                    src={hebrewBookIcon} 
+                    alt="ChavrutAI Logo" 
+                    className="w-10 h-10 object-cover"
+                  />
+                </div>
+                <h1 className="text-xl font-semibold text-primary font-roboto">ChavrutAI</h1>
+              </div>
+              
+              {/* Empty space for balance */}
+              <div className="w-10 flex-shrink-0"></div>
+            </div>
+          </div>
+        </header>
+        
         <div className="max-w-6xl mx-auto px-4 py-8">
           <div className="text-center">Loading...</div>
         </div>
@@ -100,6 +134,31 @@ export default function Contents() {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            {/* Hamburger Menu */}
+            <HamburgerMenu onLocationChange={handleLocationChange} />
+            
+            {/* Logo */}
+            <div className="flex items-center space-x-2 flex-shrink-0">
+              <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden">
+                <img 
+                  src={hebrewBookIcon} 
+                  alt="ChavrutAI Logo" 
+                  className="w-10 h-10 object-cover"
+                />
+              </div>
+              <h1 className="text-xl font-semibold text-primary font-roboto">ChavrutAI</h1>
+            </div>
+            
+            {/* Empty space for balance */}
+            <div className="w-10 flex-shrink-0"></div>
+          </div>
+        </div>
+      </header>
+
       <div className="max-w-6xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-center mb-8">
