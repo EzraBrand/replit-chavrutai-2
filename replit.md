@@ -155,3 +155,5 @@ The system prioritizes rapid development and easy deployment while maintaining a
 - **Tractate Name Normalization**: Fixed case consistency bug in hamburger menu suggestions to ensure proper URL generation
 - **Comprehensive Breadcrumb Navigation**: Implemented breadcrumb navigation system across all main pages (Contents, Tractate View, Tractate Contents, About) with proper hierarchy and accessibility
 - **Homepage Architecture Change**: Set Contents page as the new homepage (root "/" route) while maintaining backward compatibility with "/contents" route
+- **Strategic Sitemap Optimization**: Redesigned sitemap focusing on key entry points rather than exhaustive coverage - includes all tractate contents pages, first folio (2a) of each tractate, and 15+ famous/significant folios with educational value (Hillel stories, ethical discussions, foundational laws)
+- **Enhanced Robots.txt**: Added crawl delays (1-2 seconds) to respect Sefaria API limits, blocked API endpoints from indexing, and optimized for major search engines
