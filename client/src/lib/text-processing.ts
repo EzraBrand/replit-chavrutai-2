@@ -151,6 +151,8 @@ export function replaceTerms(text: string): string {
     "engaging in intimacy": "having sex",
     "sexual intercourse": "sex",
     "intercourse": "sex",
+    "conjugal relations": "sex",
+    "have relations": "have sex",
     "Sages": "rabbis",
     "mishna": "Mishnah",
     "rainy season": "winter",
