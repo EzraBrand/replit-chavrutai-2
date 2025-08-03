@@ -115,11 +115,11 @@ export function BreadcrumbNav({ location, onLocationChange }: BreadcrumbNavProps
   }) => (
     <Button
       variant="ghost"
-      className={`flex items-center space-x-1 px-2 py-1 text-sm text-primary hover:bg-secondary rounded transition-colors ${className}`}
+      className={`flex items-center space-x-1 px-2 sm:px-3 py-1 sm:py-2 text-sm sm:text-base text-primary hover:bg-secondary rounded transition-colors ${className}`}
       onClick={() => toggleDropdown(id)}
     >
       {children}
-      <ChevronDown className="w-3 h-3 flex-shrink-0" />
+      <ChevronDown className="w-3 h-3" />
     </Button>
   );
 
@@ -164,11 +164,11 @@ export function BreadcrumbNav({ location, onLocationChange }: BreadcrumbNavProps
   );
 
   return (
-    <nav className="flex items-center space-x-1 bg-card rounded-lg px-2 py-1 shadow-sm border border-border flex-1 min-w-0">
+    <nav className="flex items-center space-x-1 sm:space-x-2 bg-card rounded-lg px-2 sm:px-4 py-2 shadow-sm border border-border">
       {/* Tractate Dropdown */}
-      <div className="relative min-w-0 flex-1">
-        <DropdownButton id="tractate" className="w-full justify-center min-w-0">
-          <span className="truncate max-w-[150px] lg:max-w-[250px]">{location.tractate}</span>
+      <div className="relative">
+        <DropdownButton id="tractate">
+          <span>{location.tractate}</span>
         </DropdownButton>
         <DropdownContent id="tractate">
           <div className="max-h-64 overflow-y-auto">
@@ -185,11 +185,11 @@ export function BreadcrumbNav({ location, onLocationChange }: BreadcrumbNavProps
         </DropdownContent>
       </div>
 
-      <span className="text-muted-foreground flex-shrink-0">›</span>
+      <span className="text-muted-foreground">›</span>
 
       {/* Page Dropdown */}
-      <div className="relative flex-shrink-0">
-        <DropdownButton id="page" className="flex-shrink-0">
+      <div className="relative">
+        <DropdownButton id="page">
           <span>{location.folio}{location.side}</span>
         </DropdownButton>
         <DropdownContent id="page" className="right-0 w-32">
