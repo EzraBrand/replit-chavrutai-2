@@ -167,7 +167,7 @@ export default function Contents() {
                   {availableSederTractates.map((tractate) => (
                     <Link 
                       key={tractate} 
-                      href={`/contents/${tractate.toLowerCase()}`}
+                      href={`/contents/${encodeURIComponent(tractate.toLowerCase())}`}
                     >
                       <Card className="h-full hover:shadow-md transition-shadow cursor-pointer border-border hover:border-primary/20">
                         <CardHeader className="pb-3">

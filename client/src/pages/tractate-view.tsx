@@ -70,7 +70,7 @@ export default function TractateView() {
   const handleLocationChange = (newLocation: TalmudLocation) => {
     setTalmudLocation(newLocation);
     // Update URL to match new location
-    const tractateSlug = newLocation.tractate.toLowerCase().replace(/\s+/g, '-');
+    const tractateSlug = encodeURIComponent(newLocation.tractate.toLowerCase());
     const folioSlug = `${newLocation.folio}${newLocation.side}`;
     setLocation(`/tractate/${tractateSlug}/${folioSlug}`);
   };

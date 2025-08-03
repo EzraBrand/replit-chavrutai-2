@@ -464,7 +464,7 @@ export default function TractateContents() {
   // Navigation handler for hamburger menu
   const handleLocationChange = (newLocation: TalmudLocation) => {
     // Navigate to clean URL
-    const tractateSlug = newLocation.tractate.toLowerCase().replace(/\s+/g, '-');
+    const tractateSlug = encodeURIComponent(newLocation.tractate.toLowerCase());
     const folioSlug = `${newLocation.folio}${newLocation.side}`;
     window.location.href = `/tractate/${tractateSlug}/${folioSlug}`;
   };
