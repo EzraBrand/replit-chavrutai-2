@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+
+# Allow all main content
+Allow: /tractate/
+Allow: /contents/
+Allow: /about
+
+# Sitemap
+Sitemap: https://chavrutai.replit.app/sitemap.xml
+
+# SEO optimizations
+# Allow search engines to index all Jewish text content
+# for better accessibility and discoverability

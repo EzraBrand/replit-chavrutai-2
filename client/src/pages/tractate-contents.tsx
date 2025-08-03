@@ -4,6 +4,7 @@ import { ChevronLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { HamburgerMenu } from "@/components/navigation/hamburger-menu";
+import { useSEO, generateSEOData } from "@/hooks/use-seo";
 import { sefariaAPI } from "@/lib/sefaria";
 import { getMaxFolio } from "@/lib/tractate-ranges";
 import { TRACTATE_HEBREW_NAMES, normalizeDisplayTractateName } from "@shared/tractates";
@@ -450,6 +451,9 @@ export default function TractateContents() {
   const tractate = params?.tractate || "";
   const tractateDisplayName = normalizeDisplayTractateName(tractate);
   
+  // Set up SEO
+  useSEO(generateSEOData.tractatePage(tractateDisplayName));
+  
   const { data: chapters, isLoading } = useQuery({
     queryKey: ['/api/chapters', tractate],
     queryFn: () => sefariaAPI.getChapters(tractateDisplayName),
@@ -458,8 +462,10 @@ export default function TractateContents() {
 
   // Navigation handler for hamburger menu
   const handleLocationChange = (newLocation: TalmudLocation) => {
-    // Navigate to home page with the selected location
-    window.location.href = `/?tractate=${newLocation.tractate}&folio=${newLocation.folio}&side=${newLocation.side}`;
+    // Navigate to clean URL
+    const tractateSlug = newLocation.tractate.toLowerCase().replace(/\s+/g, '-');
+    const folioSlug = `${newLocation.folio}${newLocation.side}`;
+    window.location.href = `/tractate/${tractateSlug}/${folioSlug}`;
   };
 
   if (!match) {
@@ -579,7 +585,7 @@ export default function TractateContents() {
                     {folios.map((folio) => (
                       <Link 
                         key={`${folio.folio}${folio.side}`}
-                        href={`/?tractate=${tractateDisplayName}&folio=${folio.folio}&side=${folio.side}`}
+                        href={`/tractate/${tractateDisplayName.toLowerCase().replace(/\s+/g, '-')}/${folio.folio}${folio.side}`}
                       >
                         <Card className="hover:shadow-md transition-shadow cursor-pointer border-border hover:border-primary/20">
                           <CardContent className="p-3 text-center">
@@ -607,7 +613,7 @@ export default function TractateContents() {
                 ['a', 'b'].map((side) => (
                   <Link 
                     key={`${folio}${side}`}
-                    href={`/?tractate=${tractateDisplayName}&folio=${folio}&side=${side}`}
+                    href={`/tractate/${tractateDisplayName.toLowerCase().replace(/\s+/g, '-')}/${folio}${side}`}
                   >
                     <Card className="hover:shadow-md transition-shadow cursor-pointer border-border hover:border-primary/20">
                       <CardContent className="p-3 text-center">

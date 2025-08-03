@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -9,6 +10,7 @@ import { SectionedBilingualDisplay } from "@/components/text/sectioned-bilingual
 import { PageNavigation } from "@/components/navigation/page-navigation";
 import { Footer } from "@/components/footer";
 import { usePreferences } from "@/context/preferences-context";
+import { useSEO, generateSEOData } from "@/hooks/use-seo";
 import { sefariaAPI } from "@/lib/sefaria";
 import { normalizeDisplayTractateName } from "@shared/tractates";
 import hebrewBookIcon from "@/assets/hebrew-book-icon.png";
@@ -16,6 +18,7 @@ import type { TalmudLocation } from "@/types/talmud";
 
 export default function Home() {
   const { preferences } = usePreferences();
+  const [currentLocation, setCurrentLocation] = useLocation();
   const [location, setLocation] = useState<TalmudLocation>({
     work: "Talmud Bavli",
     tractate: "Berakhot",
@@ -23,6 +26,9 @@ export default function Home() {
     folio: 2,
     side: 'a'
   });
+
+  // Set up SEO
+  useSEO(generateSEOData.homePage(location.tractate, location.folio, location.side));
 
   // Read URL parameters on component mount
   useEffect(() => {
@@ -60,6 +66,11 @@ export default function Home() {
 
   const handleLocationChange = (newLocation: TalmudLocation) => {
     setLocation(newLocation);
+    
+    // Redirect to clean URL for SEO
+    const tractateSlug = newLocation.tractate.toLowerCase().replace(/\s+/g, '-');
+    const folioSlug = `${newLocation.folio}${newLocation.side}`;
+    setCurrentLocation(`/tractate/${tractateSlug}/${folioSlug}`);
   };
 
   return (

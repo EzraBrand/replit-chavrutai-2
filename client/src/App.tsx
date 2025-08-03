@@ -8,6 +8,7 @@ import Home from "@/pages/home";
 import About from "@/pages/about";
 import Contents from "@/pages/contents";
 import TractateContents from "@/pages/tractate-contents";
+import TractateView from "./pages/tractate-view";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -17,6 +18,7 @@ function Router() {
       <Route path="/about" component={About} />
       <Route path="/contents" component={Contents} />
       <Route path="/contents/:tractate" component={TractateContents} />
+      <Route path="/tractate/:tractate/:folio" component={TractateView} />
       <Route component={NotFound} />
     </Switch>
   );

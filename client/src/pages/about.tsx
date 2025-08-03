@@ -1,6 +1,9 @@
 import { Link } from "wouter";
+import { useSEO, generateSEOData } from "@/hooks/use-seo";
 
 export default function About() {
+  // Set up SEO
+  useSEO(generateSEOData.aboutPage());
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">

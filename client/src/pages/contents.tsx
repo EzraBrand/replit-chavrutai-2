@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { HamburgerMenu } from "@/components/navigation/hamburger-menu";
+import { useSEO, generateSEOData } from "@/hooks/use-seo";
 import { sefariaAPI } from "@/lib/sefaria";
 import { TRACTATE_LISTS, TRACTATE_HEBREW_NAMES } from "@shared/tractates";
 import hebrewBookIcon from "@/assets/hebrew-book-icon.png";
@@ -44,6 +45,9 @@ const SEDER_ORGANIZATION = {
 
 
 export default function Contents() {
+  // Set up SEO
+  useSEO(generateSEOData.contentsPage());
+
   const { data: tractatesData, isLoading } = useQuery({
     queryKey: ['/api/tractates'],
     queryFn: () => sefariaAPI.getTractates("Talmud Bavli")
@@ -51,8 +55,10 @@ export default function Contents() {
 
   // Navigation handler for hamburger menu
   const handleLocationChange = (newLocation: TalmudLocation) => {
-    // Navigate to home page with the selected location
-    window.location.href = `/?tractate=${newLocation.tractate}&folio=${newLocation.folio}&side=${newLocation.side}`;
+    // Navigate to clean URL
+    const tractateSlug = newLocation.tractate.toLowerCase().replace(/\s+/g, '-');
+    const folioSlug = `${newLocation.folio}${newLocation.side}`;
+    window.location.href = `/tractate/${tractateSlug}/${folioSlug}`;
   };
 
   if (isLoading) {
