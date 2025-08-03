@@ -106,7 +106,7 @@ export default function TractateView() {
             
             {/* Center Section: Navigation + Page Controls */}
             <div className="flex-1 flex items-center justify-center gap-2 min-w-0">
-              {/* Next Button (Left side) */}
+              {/* Next Button (Left side) - Adaptive */}
               <Button
                 variant="outline"
                 size="sm"
@@ -136,9 +136,19 @@ export default function TractateView() {
                   if (talmudLocation.side === 'a') return false;
                   return talmudLocation.folio >= maxFolio;
                 })()}
+                title={(() => {
+                  const maxFolio = getMaxFolio(talmudLocation.tractate);
+                  if (talmudLocation.side === 'a') {
+                    return `Next: ${talmudLocation.folio}b`;
+                  } else if (talmudLocation.folio < maxFolio) {
+                    return `Next: ${talmudLocation.folio + 1}a`;
+                  }
+                  return 'Next page';
+                })()}
               >
                 <ChevronLeft className="w-3 h-3" />
-                <span className="text-xs">
+                {/* Desktop: Full text */}
+                <span className="text-xs hidden lg:inline">
                   Next {(() => {
                     const maxFolio = getMaxFolio(talmudLocation.tractate);
                     if (talmudLocation.side === 'a') {
@@ -149,6 +159,19 @@ export default function TractateView() {
                     return '';
                   })()}
                 </span>
+                {/* Tablet: Short text */}
+                <span className="text-xs hidden md:inline lg:hidden">
+                  {(() => {
+                    const maxFolio = getMaxFolio(talmudLocation.tractate);
+                    if (talmudLocation.side === 'a') {
+                      return `${talmudLocation.folio}b`;
+                    } else if (talmudLocation.folio < maxFolio) {
+                      return `${talmudLocation.folio + 1}a`;
+                    }
+                    return '';
+                  })()}
+                </span>
+                {/* Mobile: Icon only - no text span needed */}
               </Button>
               
               {/* Central Navigation */}
@@ -156,7 +179,7 @@ export default function TractateView() {
                 <BreadcrumbNav location={talmudLocation} onLocationChange={handleLocationChange} />
               </div>
               
-              {/* Previous Button (Right side) */}
+              {/* Previous Button (Right side) - Adaptive */}
               <Button
                 variant="outline"
                 size="sm"
@@ -181,13 +204,33 @@ export default function TractateView() {
                   });
                 }}
                 disabled={talmudLocation.folio === 2 && talmudLocation.side === 'a'}
+                title={(() => {
+                  if (talmudLocation.side === 'b') {
+                    return `Previous: ${talmudLocation.folio}a`;
+                  } else if (talmudLocation.folio > 2) {
+                    return `Previous: ${talmudLocation.folio - 1}b`;
+                  }
+                  return 'Previous page';
+                })()}
               >
-                <span className="text-xs">
+                {/* Desktop: Full text */}
+                <span className="text-xs hidden lg:inline">
                   Previous {(() => {
                     if (talmudLocation.side === 'b') {
                       return `(${talmudLocation.folio}a)`;
                     } else if (talmudLocation.folio > 2) {
                       return `(${talmudLocation.folio - 1}b)`;
+                    }
+                    return '';
+                  })()}
+                </span>
+                {/* Tablet: Short text */}
+                <span className="text-xs hidden md:inline lg:hidden">
+                  {(() => {
+                    if (talmudLocation.side === 'b') {
+                      return `${talmudLocation.folio}a`;
+                    } else if (talmudLocation.folio > 2) {
+                      return `${talmudLocation.folio - 1}b`;
                     }
                     return '';
                   })()}
