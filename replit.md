@@ -135,3 +135,13 @@ The system prioritizes rapid development and easy deployment while maintaining a
 - **Preferences Context**: Created React context with localStorage integration for preference persistence
 - **Dynamic CSS Classes**: Implemented responsive text sizing and font switching through CSS classes
 - **Font Integration**: Added Google Fonts imports for Noto Sans Hebrew and Frank Ruhl Libre to ensure proper Hebrew font rendering
+
+### February 3, 2025 - Contents System and Naming Consistency
+- **Contents Page System**: Built comprehensive table of contents with traditional Seder organization showing all 37 Talmud Bavli tractates
+- **Individual Tractate Pages**: Created detailed tractate contents pages with authentic chapter data and folio range navigation  
+- **Naming Standardization**: Implemented full consistency across all tractate names throughout application
+  - Removed apostrophes: "Mo'ed Katan" → "Moed Katan", "Ta'anit" → "Taanit", "Shevu'ot" → "Shevuot", "Me'ilah" → "Meilah"
+  - Updated shared constants, Seder organization, API mappings, and chapter data for complete consistency
+  - Created URL-to-Sefaria normalization system to handle case conversions for external API calls
+- **Navigation Bug Fixes**: Fixed critical URL parameter reading issues that prevented proper navigation from Contents pages to main text view
+- **TypeScript Error Resolution**: Fixed type assertion issues with tractate name lookups using proper keyof type casting

@@ -17,7 +17,7 @@ const SEDER_ORGANIZATION = {
   "Seder Moed": {
     hebrew: "סדר מועד", 
     description: "Holidays and appointed times",
-    tractates: ["Shabbat", "Eruvin", "Pesachim", "Rosh Hashanah", "Yoma", "Sukkah", "Beitza", "Ta'anit", "Megillah", "Mo'ed Katan", "Chagigah"]
+    tractates: ["Shabbat", "Eruvin", "Pesachim", "Rosh Hashanah", "Yoma", "Sukkah", "Beitza", "Taanit", "Megillah", "Moed Katan", "Chagigah"]
   },
   "Seder Nashim": {
     hebrew: "סדר נשים",
@@ -27,12 +27,12 @@ const SEDER_ORGANIZATION = {
   "Seder Nezikin": {
     hebrew: "סדר נזיקין",
     description: "Damages and civil law",
-    tractates: ["Bava Kamma", "Bava Metzia", "Bava Batra", "Sanhedrin", "Makkot", "Shevu'ot", "Avodah Zarah", "Horayot"]
+    tractates: ["Bava Kamma", "Bava Metzia", "Bava Batra", "Sanhedrin", "Makkot", "Shevuot", "Avodah Zarah", "Horayot"]
   },
   "Seder Kodashim": {
     hebrew: "סדר קדשים", 
     description: "Holy things and sacrifices",
-    tractates: ["Zevahim", "Menachot", "Chullin", "Bekhorot", "Arachin", "Temurah", "Keritot", "Me'ilah", "Tamid", "Middot", "Kinnim"]
+    tractates: ["Zevachim", "Menachot", "Chullin", "Bekhorot", "Arachin", "Temurah", "Keritot", "Meilah", "Tamid", "Middot", "Kinnim"]
   },
   "Seder Tohorot": {
     hebrew: "סדר טהרות",

@@ -88,7 +88,7 @@ const CHAPTER_DATA: Record<string, Array<{
     { number: 3, englishName: "Ra'uhu Beit Din", hebrewName: "ראוהו בית דין", startFolio: 29, startSide: 'a', endFolio: 34, endSide: 'a' },
     { number: 4, englishName: "Yom Tov", hebrewName: "יום טוב", startFolio: 29, startSide: 'b', endFolio: 35, endSide: 'a' }
   ],
-  "ta'anit": [
+  "taanit": [
     { number: 1, englishName: "Me'eimathay", hebrewName: "מאימתי", startFolio: 2, startSide: 'a', endFolio: 9, endSide: 'a' },
     { number: 2, englishName: "Seder Ta'aniyot", hebrewName: "סדר תעניות", startFolio: 10, startSide: 'a', endFolio: 18, endSide: 'a' },
     { number: 3, englishName: "Seder Ta'aniyot Kayitzad", hebrewName: "סדר תעניות כיצד", startFolio: 18, startSide: 'a', endFolio: 26, endSide: 'a' },
@@ -131,7 +131,7 @@ const CHAPTER_DATA: Record<string, Array<{
     { number: 3, englishName: "HaKoreh Omed", hebrewName: "הקורא עומד", startFolio: 21, startSide: 'a', endFolio: 26, endSide: 'a' },
     { number: 4, englishName: "Anshei Ir", hebrewName: "אנשי עיר", startFolio: 26, startSide: 'a', endFolio: 32, endSide: 'a' }
   ],
-  "mo'ed katan": [
+  "moed katan": [
     { number: 1, englishName: "Eilu Metahdim", hebrewName: "אלו מתחדין", startFolio: 2, startSide: 'a', endFolio: 9, endSide: 'b' },
     { number: 2, englishName: "Mi She'hafach", hebrewName: "מי שהפך", startFolio: 10, startSide: 'a', endFolio: 14, endSide: 'a' },
     { number: 3, englishName: "Eilu Megalchin", hebrewName: "אלו מגלחין", startFolio: 14, startSide: 'a', endFolio: 29, endSide: 'a' }
