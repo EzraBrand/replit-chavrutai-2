@@ -255,17 +255,17 @@ const CHAPTER_DATA: Record<string, Array<{
     { number: 10, englishName: "Get Pashut", hebrewName: "גט פשוט", startFolio: 146, startSide: 'a', endFolio: 176, endSide: 'b' }
   ],
   "sanhedrin": [
-    { number: 1, englishName: "Dinei Mamonot", hebrewName: "דיני ממונות", startFolio: 2, startSide: 'a', endFolio: 18, endSide: 'a' },
-    { number: 2, englishName: "Eilu Hen HaNe'emarin", hebrewName: "אלו הן הנאמנין", startFolio: 18, startSide: 'a', endFolio: 24, endSide: 'a' },
-    { number: 3, englishName: "Zeh Borer", hebrewName: "זה בורר", startFolio: 24, startSide: 'a', endFolio: 31, endSide: 'a' },
-    { number: 4, englishName: "Echad Dinei Mamonot", hebrewName: "אחד דיני ממונות", startFolio: 31, startSide: 'a', endFolio: 35, endSide: 'a' },
-    { number: 5, englishName: "Hayah Zaken", hebrewName: "היה זקן", startFolio: 35, startSide: 'a', endFolio: 42, endSide: 'a' },
-    { number: 6, englishName: "Nigmar HaDin", hebrewName: "נגמר הדין", startFolio: 42, startSide: 'a', endFolio: 49, endSide: 'b' },
-    { number: 7, englishName: "Arba Mitot", hebrewName: "ארבע מיתות", startFolio: 49, startSide: 'b', endFolio: 67, endSide: 'a' },
-    { number: 8, englishName: "Ben Sorer U'Moreh", hebrewName: "בן סורר ומורה", startFolio: 67, startSide: 'a', endFolio: 71, endSide: 'a' },
-    { number: 9, englishName: "Ir HaNidachat", hebrewName: "עיר הנדחת", startFolio: 71, startSide: 'a', endFolio: 75, endSide: 'a' },
-    { number: 10, englishName: "Eilu Hen HaNiskalin", hebrewName: "אלו הן הנסקלין", startFolio: 75, startSide: 'a', endFolio: 84, endSide: 'b' },
-    { number: 11, englishName: "Kol Yisrael", hebrewName: "כל ישראל", startFolio: 84, startSide: 'b', endFolio: 113, endSide: 'b' }
+    { number: 1, englishName: "Dinei Mamonot BiShloshah", hebrewName: "דיני ממונות בשלשה", startFolio: 2, startSide: 'a', endFolio: 18, endSide: 'a' },
+    { number: 2, englishName: "Kohen Gadol", hebrewName: "כהן גדול", startFolio: 18, startSide: 'a', endFolio: 23, endSide: 'a' },
+    { number: 3, englishName: "Zeh Borer", hebrewName: "זה בורר", startFolio: 23, startSide: 'a', endFolio: 32, endSide: 'a' },
+    { number: 4, englishName: "Echad Dinei Mamonot", hebrewName: "אחד דיני ממונות", startFolio: 32, startSide: 'a', endFolio: 40, endSide: 'a' },
+    { number: 5, englishName: "Hayu Bodkin", hebrewName: "היו בודקין", startFolio: 40, startSide: 'a', endFolio: 42, endSide: 'b' },
+    { number: 6, englishName: "Nigmar HaDin", hebrewName: "נגמר הדין", startFolio: 42, startSide: 'b', endFolio: 49, endSide: 'b' },
+    { number: 7, englishName: "Arba Mitot", hebrewName: "ארבע מיתות", startFolio: 49, startSide: 'b', endFolio: 68, endSide: 'b' },
+    { number: 8, englishName: "Ben Sorer U'Moreh", hebrewName: "בן סורר ומורה", startFolio: 68, startSide: 'b', endFolio: 75, endSide: 'a' },
+    { number: 9, englishName: "HaNisrafin", hebrewName: "הנשרפין", startFolio: 75, startSide: 'a', endFolio: 84, endSide: 'b' },
+    { number: 10, englishName: "Eilu Hen HaNechnakin", hebrewName: "אלו הן הנחנקין", startFolio: 84, startSide: 'b', endFolio: 90, endSide: 'a' },
+    { number: 11, englishName: "Chelek", hebrewName: "חלק", startFolio: 90, startSide: 'a', endFolio: 113, endSide: 'b' }
   ],
   "avodah zarah": [
     { number: 1, englishName: "Lifnei Eideihen", hebrewName: "לפני אידיהן", startFolio: 2, startSide: 'a', endFolio: 22, endSide: 'a' },
