@@ -158,6 +158,17 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
         </SheetHeader>
         
         <div className="flex flex-col h-full pt-6">
+          {/* Contents Link */}
+          <div className="mb-6">
+            <Link 
+              href="/contents"
+              onClick={() => setOpen(false)}
+              className="block w-full text-left px-4 py-3 rounded-lg hover:bg-secondary transition-colors duration-100 text-foreground font-medium text-lg"
+            >
+              Contents
+            </Link>
+          </div>
+          
           {/* Suggested Pages Section */}
           <div className="flex-1 overflow-hidden">
             <h3 className="text-lg font-semibold text-foreground mb-4">Suggested pages</h3>

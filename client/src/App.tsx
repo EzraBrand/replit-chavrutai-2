@@ -6,6 +6,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { PreferencesProvider } from "@/context/preferences-context";
 import Home from "@/pages/home";
 import About from "@/pages/about";
+import Contents from "@/pages/contents";
+import TractateContents from "@/pages/tractate-contents";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -13,6 +15,8 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/about" component={About} />
+      <Route path="/contents" component={Contents} />
+      <Route path="/contents/:tractate" component={TractateContents} />
       <Route component={NotFound} />
     </Switch>
   );
