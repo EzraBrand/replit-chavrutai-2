@@ -8,6 +8,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { findChapterForFolio } from "@/lib/chapter-data";
 
 interface BreadcrumbNavigationItem {
   label: string;
@@ -63,21 +64,32 @@ export function BreadcrumbNavigation({ items }: BreadcrumbNavigationProps) {
 
 // Helper function to generate breadcrumb items for different page types
 export const breadcrumbHelpers = {
-  // Tractate view breadcrumbs (main text page)
-  tractateView: (tractate: string, folio: number, side: 'a' | 'b'): BreadcrumbNavigationItem[] => [
-    { label: "Contents", href: "/" },
-    { label: tractate, href: `/contents/${tractate.toLowerCase().replace(/\s+/g, '-')}` },
-    { label: `${folio}${side}` }
-  ],
+  // Tractate view breadcrumbs (main text page) - includes chapter navigation
+  tractateView: (tractate: string, folio: number, side: 'a' | 'b'): BreadcrumbNavigationItem[] => {
+    const chapter = findChapterForFolio(tractate, folio, side);
+    const items: BreadcrumbNavigationItem[] = [
+      { label: tractate, href: `/contents/${tractate.toLowerCase().replace(/\s+/g, '-')}` }
+    ];
+    
+    if (chapter) {
+      // Add chapter as clickable breadcrumb that goes to first folio of chapter
+      items.push({ 
+        label: chapter.englishName, 
+        href: `/tractate/${tractate.toLowerCase().replace(/\s+/g, '-')}/${chapter.startFolio}${chapter.startSide}`
+      });
+    }
+    
+    // Add current folio as final breadcrumb (not clickable)
+    items.push({ label: `${folio}${side}` });
+    
+    return items;
+  },
 
   // Contents page breadcrumbs
-  contents: (): BreadcrumbNavigationItem[] => [
-    { label: "Contents" }
-  ],
+  contents: (): BreadcrumbNavigationItem[] => [],
 
   // Tractate contents page breadcrumbs  
   tractateContents: (tractate: string): BreadcrumbNavigationItem[] => [
-    { label: "Contents", href: "/" },
     { label: tractate }
   ],
 

@@ -141,15 +141,7 @@ export default function TractateView() {
           talmudLocation.side
         )} />
         
-        {/* Page Title */}
-        <div className="mb-6">
-          <h2 className="text-2xl font-semibold text-primary mb-2">
-            {talmudLocation.tractate} {talmudLocation.folio}{talmudLocation.side}
-          </h2>
-          <p className="text-muted-foreground">
-            {talmudLocation.work}
-          </p>
-        </div>
+
 
         {/* Error State */}
         {error && (
