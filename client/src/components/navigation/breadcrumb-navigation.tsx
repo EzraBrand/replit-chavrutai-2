@@ -11,7 +11,7 @@ import {
 import { findChapterForFolio, getChapterFirstPageUrl } from "@/lib/chapter-data";
 
 interface BreadcrumbNavigationItem {
-  label: string;
+  label: string | React.ReactNode;
   href?: string;
 }
 
@@ -42,12 +42,12 @@ export function BreadcrumbNavigation({ items }: BreadcrumbNavigationProps) {
             <BreadcrumbItem>
               {item.href ? (
                 <BreadcrumbLink asChild>
-                  <Link href={item.href} className="truncate max-w-[150px] sm:max-w-none" title={item.label}>
+                  <Link href={item.href} className="truncate max-w-[150px] sm:max-w-none" title={typeof item.label === 'string' ? item.label : undefined}>
                     {item.label}
                   </Link>
                 </BreadcrumbLink>
               ) : (
-                <BreadcrumbPage className="truncate max-w-[150px] sm:max-w-none" title={item.label}>
+                <BreadcrumbPage className="truncate max-w-[150px] sm:max-w-none" title={typeof item.label === 'string' ? item.label : undefined}>
                   {item.label}
                 </BreadcrumbPage>
               )}
@@ -74,7 +74,11 @@ export const breadcrumbHelpers = {
     const chapter = findChapterForFolio(tractate, folio, side);
     if (chapter) {
       items.push({ 
-        label: chapter.englishName, 
+        label: (
+          <>
+            Chapter {chapter.number}: <em>{chapter.englishName}</em>
+          </>
+        ), 
         href: getChapterFirstPageUrl(tractate, chapter)
       });
     }
