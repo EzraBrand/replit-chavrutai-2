@@ -45,7 +45,18 @@ export const CHAPTER_DATA: Record<string, Array<{
     { number: 23, englishName: "Sho'el", hebrewName: "שואל", startFolio: 148, startSide: 'a', endFolio: 153, endSide: 'a' },
     { number: 24, englishName: "Mi She'hechshikh", hebrewName: "מי שהחשיך", startFolio: 153, startSide: 'a', endFolio: 157, endSide: 'b' }
   ],
-  // Add more tractates as needed...
+  "eruvin": [
+    { number: 1, englishName: "Mavoy She'hu Gavoah", hebrewName: "מבוי שהוא גבוה", startFolio: 2, startSide: 'a', endFolio: 17, endSide: 'b' },
+    { number: 2, englishName: "Osin Pasin", hebrewName: "עושין פסין", startFolio: 17, startSide: 'b', endFolio: 26, endSide: 'b' },
+    { number: 3, englishName: "BaKol Me'arvin", hebrewName: "בכל מערבין", startFolio: 26, startSide: 'b', endFolio: 41, endSide: 'b' },
+    { number: 4, englishName: "Mi She'hotziuhu", hebrewName: "מי שהוציאוהו", startFolio: 41, startSide: 'b', endFolio: 52, endSide: 'b' },
+    { number: 5, englishName: "Keytzad Me'abrin", hebrewName: "כיצד מעברין", startFolio: 52, startSide: 'b', endFolio: 61, endSide: 'b' },
+    { number: 6, englishName: "HaDar", hebrewName: "הדר", startFolio: 61, startSide: 'b', endFolio: 76, endSide: 'a' },
+    { number: 7, englishName: "Chalon", hebrewName: "חלון", startFolio: 76, startSide: 'a', endFolio: 82, endSide: 'a' },
+    { number: 8, englishName: "Keytzad Mishtatin", hebrewName: "כיצד משתתפין", startFolio: 82, startSide: 'a', endFolio: 89, endSide: 'a' },
+    { number: 9, englishName: "Kol Gagot", hebrewName: "כל גגות", startFolio: 89, startSide: 'a', endFolio: 95, endSide: 'a' },
+    { number: 10, englishName: "HaMotzei Tefilin", hebrewName: "המוצא תפילין", startFolio: 95, startSide: 'a', endFolio: 105, endSide: 'a' }
+  ]
 };
 
 // Utility function to find which chapter a folio belongs to
