@@ -94,7 +94,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
             try {
               const nextFolio = side === 'a' ? folio : folio + 1;
               const nextSide = side === 'a' ? 'b' : 'a';
-              const nextSefariaRef = `${tractate}.${nextFolio}${nextSide}`;
+              const nextSefariaRef = `${normalizedTractate}.${nextFolio}${nextSide}`;
               const nextResponse = await fetch(`${sefariaAPIBaseURL}/texts/${nextSefariaRef}?lang=bi&commentary=0`);
               
               if (nextResponse.ok) {
