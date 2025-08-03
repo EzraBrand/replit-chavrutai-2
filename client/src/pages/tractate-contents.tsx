@@ -13,7 +13,7 @@ import hebrewBookIcon from "@/assets/hebrew-book-icon.png";
 import type { TalmudLocation } from "@/types/talmud";
 
 // Complete authentic chapter data for all Talmud Bavli tractates
-const CHAPTER_DATA: Record<string, Array<{
+export const CHAPTER_DATA: Record<string, Array<{
   number: number;
   englishName: string;
   hebrewName: string;

@@ -8,6 +8,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { findChapterForFolio, getChapterFirstPageUrl } from "@/lib/chapter-data";
 
 interface BreadcrumbNavigationItem {
   label: string;
@@ -64,10 +65,25 @@ export function BreadcrumbNavigation({ items }: BreadcrumbNavigationProps) {
 // Helper function to generate breadcrumb items for different page types
 export const breadcrumbHelpers = {
   // Tractate view breadcrumbs (main text page)
-  tractateView: (tractate: string, folio: number, side: 'a' | 'b'): BreadcrumbNavigationItem[] => [
-    { label: tractate, href: `/contents/${encodeURIComponent(tractate.toLowerCase())}` },
-    { label: `${folio}${side}` }
-  ],
+  tractateView: (tractate: string, folio: number, side: 'a' | 'b'): BreadcrumbNavigationItem[] => {
+    const items: BreadcrumbNavigationItem[] = [
+      { label: tractate, href: `/contents/${encodeURIComponent(tractate.toLowerCase())}` }
+    ];
+    
+    // Find the chapter for this folio
+    const chapter = findChapterForFolio(tractate, folio, side);
+    if (chapter) {
+      items.push({ 
+        label: chapter.englishName, 
+        href: getChapterFirstPageUrl(tractate, chapter)
+      });
+    }
+    
+    // Add the current folio
+    items.push({ label: `${folio}${side}` });
+    
+    return items;
+  },
 
   // Contents page breadcrumbs
   contents: (): BreadcrumbNavigationItem[] => [
