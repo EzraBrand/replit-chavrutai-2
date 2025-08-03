@@ -167,9 +167,14 @@ export function BreadcrumbNav({ location, onLocationChange }: BreadcrumbNavProps
     <nav className="flex items-center space-x-1 bg-card rounded-lg px-2 py-1 shadow-sm border border-border min-w-0 w-full">
       {/* Tractate Dropdown */}
       <div className="relative">
-        <DropdownButton id="tractate">
+        <Button
+          variant="ghost"
+          className="flex items-center space-x-1 px-2 py-0.5 text-sm text-primary hover:bg-secondary rounded transition-colors min-w-0"
+          onClick={() => toggleDropdown("tractate")}
+        >
           <span>{location.tractate}</span>
-        </DropdownButton>
+          <ChevronDown className="w-3 h-3" />
+        </Button>
         <DropdownContent id="tractate">
           <div className="max-h-64 overflow-y-auto">
             {tractates.map((tractate) => (
@@ -189,9 +194,14 @@ export function BreadcrumbNav({ location, onLocationChange }: BreadcrumbNavProps
 
       {/* Page Dropdown */}
       <div className="relative">
-        <DropdownButton id="page">
+        <Button
+          variant="ghost"
+          className="flex items-center space-x-1 px-2 py-0.5 text-sm text-primary hover:bg-secondary rounded transition-colors min-w-0"
+          onClick={() => toggleDropdown("page")}
+        >
           <span>{location.folio}{location.side}</span>
-        </DropdownButton>
+          <ChevronDown className="w-3 h-3" />
+        </Button>
         <DropdownContent id="page" className="right-0 w-32">
           <div className="max-h-64 overflow-y-auto">
             {generatePageOptions().map((page) => (
