@@ -3,7 +3,8 @@ import { useParams, useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import { AlertCircle, Home } from "lucide-react";
+import { AlertCircle, Home, ChevronLeft, ChevronRight } from "lucide-react";
+import { getMaxFolio } from "@/lib/tractate-ranges";
 import { SectionedBilingualDisplay } from "@/components/text/sectioned-bilingual-display";
 import { PageNavigation } from "@/components/navigation/page-navigation";
 import { HamburgerMenu } from "@/components/navigation/hamburger-menu";
@@ -97,28 +98,113 @@ export default function TractateView() {
       {/* Header */}
       <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
         <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            {/* Hamburger Menu */}
-            <HamburgerMenu onLocationChange={handleLocationChange} />
-            
-            {/* Logo */}
-            <div className="flex items-center space-x-2 flex-shrink-0">
-              <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden">
-                <img 
-                  src={hebrewBookIcon} 
-                  alt="ChavrutAI Logo" 
-                  className="w-10 h-10 object-cover"
-                />
+          <div className="flex items-center justify-between gap-4">
+            {/* Left Section: Hamburger + Logo */}
+            <div className="flex items-center space-x-3 flex-shrink-0">
+              <HamburgerMenu onLocationChange={handleLocationChange} />
+              <div className="flex items-center space-x-2">
+                <div className="w-8 h-8 rounded-full flex items-center justify-center overflow-hidden">
+                  <img 
+                    src={hebrewBookIcon} 
+                    alt="ChavrutAI Logo" 
+                    className="w-8 h-8 object-cover"
+                  />
+                </div>
+                <h1 className="text-lg font-semibold text-primary font-roboto">ChavrutAI</h1>
               </div>
-              <h1 className="text-xl font-semibold text-primary font-roboto">ChavrutAI</h1>
             </div>
             
-            {/* Navigation - Always Visible */}
-            <div className="flex-1 flex justify-center">
+            {/* Center Section: Navigation + Page Controls */}
+            <div className="flex-1 flex items-center justify-center gap-4">
+              {/* Next Button (Left side) */}
+              <Button
+                variant="outline"
+                size="sm"
+                className="flex items-center gap-2 px-3 py-2"
+                onClick={() => {
+                  const maxFolio = getMaxFolio(talmudLocation.tractate);
+                  let newFolio = talmudLocation.folio;
+                  let newSide = talmudLocation.side;
+                  
+                  if (talmudLocation.side === 'a') {
+                    newSide = 'b';
+                  } else {
+                    newFolio = talmudLocation.folio + 1;
+                    newSide = 'a';
+                  }
+                  
+                  if (newFolio <= maxFolio) {
+                    handleLocationChange({
+                      ...talmudLocation,
+                      folio: newFolio,
+                      side: newSide
+                    });
+                  }
+                }}
+                disabled={(() => {
+                  const maxFolio = getMaxFolio(talmudLocation.tractate);
+                  if (talmudLocation.side === 'a') return false;
+                  return talmudLocation.folio >= maxFolio;
+                })()}
+              >
+                <ChevronLeft className="w-3 h-3" />
+                <span className="text-xs">
+                  Next {(() => {
+                    const maxFolio = getMaxFolio(talmudLocation.tractate);
+                    if (talmudLocation.side === 'a') {
+                      return `(${talmudLocation.folio}b)`;
+                    } else if (talmudLocation.folio < maxFolio) {
+                      return `(${talmudLocation.folio + 1}a)`;
+                    }
+                    return '';
+                  })()}
+                </span>
+              </Button>
+              
+              {/* Central Navigation */}
               <BreadcrumbNav location={talmudLocation} onLocationChange={handleLocationChange} />
+              
+              {/* Previous Button (Right side) */}
+              <Button
+                variant="outline"
+                size="sm"
+                className="flex items-center gap-2 px-3 py-2"
+                onClick={() => {
+                  let newFolio = talmudLocation.folio;
+                  let newSide = talmudLocation.side;
+                  
+                  if (talmudLocation.side === 'b') {
+                    newSide = 'a';
+                  } else if (talmudLocation.folio > 2) {
+                    newFolio = talmudLocation.folio - 1;
+                    newSide = 'b';
+                  } else {
+                    return;
+                  }
+                  
+                  handleLocationChange({
+                    ...talmudLocation,
+                    folio: newFolio,
+                    side: newSide
+                  });
+                }}
+                disabled={talmudLocation.folio === 2 && talmudLocation.side === 'a'}
+              >
+                <span className="text-xs">
+                  Previous {(() => {
+                    if (talmudLocation.side === 'b') {
+                      return `(${talmudLocation.folio}a)`;
+                    } else if (talmudLocation.folio > 2) {
+                      return `(${talmudLocation.folio - 1}b)`;
+                    }
+                    return '';
+                  })()}
+                </span>
+                <ChevronRight className="w-3 h-3" />
+              </Button>
             </div>
             
-            {/* Home Button */}
+            {/* Right Section: Home Button */}
             <Button
               variant="ghost"
               size="icon"
@@ -141,13 +227,7 @@ export default function TractateView() {
           talmudLocation.side
         )} />
         
-        {/* Top Page Navigation */}
-        <div className="my-6 py-4 border-y border-border">
-          <PageNavigation 
-            location={talmudLocation} 
-            onLocationChange={handleLocationChange}
-          />
-        </div>
+
 
         {/* Error State */}
         {error && (
