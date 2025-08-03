@@ -4,6 +4,7 @@ import { ChevronLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { HamburgerMenu } from "@/components/navigation/hamburger-menu";
+import { BreadcrumbNavigation, breadcrumbHelpers } from "@/components/navigation/breadcrumb-navigation";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
 import { sefariaAPI } from "@/lib/sefaria";
 import { getMaxFolio } from "@/lib/tractate-ranges";
@@ -541,6 +542,9 @@ export default function TractateContents() {
       </header>
 
       <div className="max-w-6xl mx-auto px-4 py-8">
+        {/* Breadcrumbs */}
+        <BreadcrumbNavigation items={breadcrumbHelpers.tractateContents(tractateDisplayName)} />
+        
         {/* Header */}
         <div className="flex items-center gap-4 mb-6">
           <Link href="/contents">

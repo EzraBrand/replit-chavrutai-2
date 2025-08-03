@@ -8,6 +8,7 @@ import { SectionedBilingualDisplay } from "@/components/text/sectioned-bilingual
 import { PageNavigation } from "@/components/navigation/page-navigation";
 import { HamburgerMenu } from "@/components/navigation/hamburger-menu";
 import { BreadcrumbNav } from "@/components/navigation/breadcrumb-nav";
+import { BreadcrumbNavigation, breadcrumbHelpers } from "@/components/navigation/breadcrumb-navigation";
 import { Footer } from "@/components/footer";
 import { usePreferences } from "@/context/preferences-context";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
@@ -133,6 +134,13 @@ export default function TractateView() {
 
       {/* Main Content */}
       <main className={`max-w-7xl mx-auto px-4 py-6 text-size-${preferences.textSize} hebrew-font-${preferences.hebrewFont}`}>
+        {/* Breadcrumbs */}
+        <BreadcrumbNavigation items={breadcrumbHelpers.tractateView(
+          talmudLocation.tractate, 
+          talmudLocation.folio, 
+          talmudLocation.side
+        )} />
+        
         {/* Page Title */}
         <div className="mb-6">
           <h2 className="text-2xl font-semibold text-primary mb-2">

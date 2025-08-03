@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { HamburgerMenu } from "@/components/navigation/hamburger-menu";
+import { BreadcrumbNavigation, breadcrumbHelpers } from "@/components/navigation/breadcrumb-navigation";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
 import { sefariaAPI } from "@/lib/sefaria";
 import { TRACTATE_LISTS, TRACTATE_HEBREW_NAMES } from "@shared/tractates";
@@ -126,6 +127,9 @@ export default function Contents() {
       </header>
 
       <div className="max-w-6xl mx-auto px-4 py-8">
+        {/* Breadcrumbs */}
+        <BreadcrumbNavigation items={breadcrumbHelpers.contents()} />
+        
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-primary mb-2">Talmud Bavli</h1>

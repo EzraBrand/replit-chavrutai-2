@@ -1,4 +1,5 @@
 import { Link } from "wouter";
+import { BreadcrumbNavigation, breadcrumbHelpers } from "@/components/navigation/breadcrumb-navigation";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
 
 export default function About() {
@@ -8,6 +9,9 @@ export default function About() {
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
+          {/* Breadcrumbs */}
+          <BreadcrumbNavigation items={breadcrumbHelpers.about()} />
+          
           <div className="mb-8">
             <Link 
               href="/"
