@@ -27,7 +27,7 @@ export function BreadcrumbNavigation({ items }: BreadcrumbNavigationProps) {
           <BreadcrumbLink asChild>
             <Link href="/" className="flex items-center">
               <Home className="h-4 w-4" />
-              <span className="sr-only">Home</span>
+              <span className="sr-only">Contents</span>
             </Link>
           </BreadcrumbLink>
         </BreadcrumbItem>
@@ -65,7 +65,7 @@ export function BreadcrumbNavigation({ items }: BreadcrumbNavigationProps) {
 export const breadcrumbHelpers = {
   // Tractate view breadcrumbs (main text page)
   tractateView: (tractate: string, folio: number, side: 'a' | 'b'): BreadcrumbNavigationItem[] => [
-    { label: "Contents", href: "/contents" },
+    { label: "Contents", href: "/" },
     { label: tractate, href: `/contents/${tractate.toLowerCase().replace(/\s+/g, '-')}` },
     { label: `${folio}${side}` }
   ],
@@ -77,7 +77,7 @@ export const breadcrumbHelpers = {
 
   // Tractate contents page breadcrumbs  
   tractateContents: (tractate: string): BreadcrumbNavigationItem[] => [
-    { label: "Contents", href: "/contents" },
+    { label: "Contents", href: "/" },
     { label: tractate }
   ],
 

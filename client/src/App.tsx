@@ -14,7 +14,7 @@ import NotFound from "@/pages/not-found";
 function Router() {
   return (
     <Switch>
-      <Route path="/" component={Home} />
+      <Route path="/" component={Contents} />
       <Route path="/about" component={About} />
       <Route path="/contents" component={Contents} />
       <Route path="/contents/:tractate" component={TractateContents} />

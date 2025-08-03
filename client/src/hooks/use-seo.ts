@@ -123,7 +123,7 @@ export const generateSEOData = {
     title: "Talmud Bavli Contents - All Tractates | ChavrutAI",
     description: "Browse all 37 tractates of the Babylonian Talmud organized by traditional Seder. Start your digital Talmud study journey with ChavrutAI's comprehensive table of contents.",
     keywords: "Talmud Bavli, tractates, contents, Seder, Jewish texts, study guide, ChavrutAI",
-    canonical: `${window.location.origin}/contents`,
+    canonical: `${window.location.origin}/`,
     structuredData: {
       "@context": "https://schema.org",
       "@type": "CollectionPage",
