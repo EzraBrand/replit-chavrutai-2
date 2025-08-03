@@ -164,16 +164,16 @@ export function BreadcrumbNav({ location, onLocationChange }: BreadcrumbNavProps
   );
 
   return (
-    <nav className="flex items-center space-x-1 bg-card rounded-lg px-2 py-1 shadow-sm border border-border min-w-0 w-full">
+    <nav className="flex items-center gap-1 bg-card rounded-lg px-2 py-1 shadow-sm border border-border min-w-0 max-w-fit">
       {/* Tractate Dropdown */}
       <div className="relative">
         <Button
           variant="ghost"
-          className="flex items-center space-x-1 px-2 py-0.5 text-sm text-primary hover:bg-secondary rounded transition-colors min-w-0"
+          className="flex items-center gap-1 px-2 py-0.5 text-sm text-primary hover:bg-secondary rounded transition-colors h-auto"
           onClick={() => toggleDropdown("tractate")}
         >
-          <span>{location.tractate}</span>
-          <ChevronDown className="w-3 h-3" />
+          <span className="whitespace-nowrap">{location.tractate}</span>
+          <ChevronDown className="w-3 h-3 flex-shrink-0" />
         </Button>
         <DropdownContent id="tractate">
           <div className="max-h-64 overflow-y-auto">
