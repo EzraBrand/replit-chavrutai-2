@@ -156,7 +156,7 @@ export function replaceTerms(text: string): string {
     "Sages": "rabbis",
     "mishna": "Mishnah",
     "rainy season": "winter",
-    "son of R'": "ben"
+    ", son of R' ": " ben "
   };
   
   // Ordinal number mappings (3rd and up)

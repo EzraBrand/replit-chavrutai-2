@@ -2,6 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertTextSchema } from "@shared/schema";
+import { normalizeSefariaTractateName } from "@shared/tractates";
 import { z } from "zod";
 
 // Text processing utilities
@@ -65,7 +66,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // If not found locally, try to fetch from Sefaria
       if (!text) {
         try {
-          const sefariaRef = `${tractate}.${folio}${side}`;
+          // Normalize tractate name for Sefaria API
+          const normalizedTractate = normalizeSefariaTractateName(tractate);
+          const sefariaRef = `${normalizedTractate}.${folio}${side}`;
+          console.log(`Fetching from Sefaria: ${sefariaRef} (original: ${tractate})`);
           const response = await fetch(`${sefariaAPIBaseURL}/texts/${sefariaRef}?lang=bi&commentary=0`);
           
           if (response.ok) {

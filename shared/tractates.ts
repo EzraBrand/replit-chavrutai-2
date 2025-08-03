@@ -90,3 +90,52 @@ export const TRACTATE_FOLIO_RANGES = {
 
 export type WorkName = keyof typeof TRACTATE_LISTS;
 export type TalmudBavliTractate = typeof TRACTATE_LISTS["Talmud Bavli"][number];
+
+// URL-safe to proper case mapping for Sefaria API calls
+export const URL_TO_SEFARIA_TRACTATE_MAP: Record<string, string> = {
+  "berakhot": "Berakhot",
+  "shabbat": "Shabbat", 
+  "eruvin": "Eruvin",
+  "pesachim": "Pesachim",
+  "rosh hashanah": "Rosh Hashanah",
+  "yoma": "Yoma",
+  "sukkah": "Sukkah", 
+  "beitza": "Beitzah",
+  "ta'anit": "Taanit",
+  "megillah": "Megillah",
+  "mo'ed katan": "Moed Katan", // Note: Sefaria uses without apostrophe
+  "chagigah": "Chagigah",
+  "yevamot": "Yevamot",
+  "ketubot": "Ketubot", 
+  "nedarim": "Nedarim",
+  "nazir": "Nazir",
+  "sotah": "Sotah",
+  "gittin": "Gittin",
+  "kiddushin": "Kiddushin",
+  "bava kamma": "Bava Kamma",
+  "bava metzia": "Bava Metzia", 
+  "bava batra": "Bava Batra",
+  "sanhedrin": "Sanhedrin",
+  "makkot": "Makkot",
+  "shevu'ot": "Shevuot",
+  "avodah zarah": "Avodah Zarah",
+  "horayot": "Horayot",
+  "zevahim": "Zevachim",
+  "menachot": "Menachot",
+  "chullin": "Chullin",
+  "bekhorot": "Bekhorot", 
+  "arachin": "Arachin",
+  "temurah": "Temurah",
+  "keritot": "Keritot", 
+  "me'ilah": "Meilah",
+  "tamid": "Tamid",
+  "middot": "Middot",
+  "kinnim": "Kinnim",
+  "niddah": "Niddah"
+};
+
+// Helper function to normalize tractate names for Sefaria API calls
+export function normalizeSefariaTractateName(urlTractate: string): string {
+  const normalized = URL_TO_SEFARIA_TRACTATE_MAP[urlTractate.toLowerCase()];
+  return normalized || urlTractate;
+}
