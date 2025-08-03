@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { TRACTATE_LISTS } from '../shared/tractates';
-import { TRACTATE_FOLIO_RANGES } from '../client/src/lib/tractate-ranges';
+import { TRACTATE_LISTS } from '../../shared/tractates';
+import { TRACTATE_FOLIO_RANGES } from '../../client/src/lib/tractate-ranges';
 
 export function generateSitemap(req: Request, res: Response) {
   const baseUrl = req.protocol + '://' + req.get('host');

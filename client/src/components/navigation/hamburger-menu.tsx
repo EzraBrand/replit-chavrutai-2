@@ -54,10 +54,10 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
       ]
     },
     {
-      name: "Ta'anit",
+      name: "Taanit",
       pages: [
-        { tractate: "Ta'anit", folio: 24, side: 'b', label: "Taanit 24b (Rainmaking)" },
-        { tractate: "Ta'anit", folio: 29, side: 'a', label: "Taanit 29a (Tisha B'Av)" }
+        { tractate: "Taanit", folio: 24, side: 'b', label: "Taanit 24b (Rainmaking)" },
+        { tractate: "Taanit", folio: 29, side: 'a', label: "Taanit 29a (Tisha B'Av)" }
       ]
     },
     {

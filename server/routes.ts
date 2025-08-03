@@ -3,6 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertTextSchema } from "@shared/schema";
 import { normalizeSefariaTractateName } from "@shared/tractates";
+import { generateSitemap } from "./routes/sitemap";
 import { z } from "zod";
 
 // Text processing utilities
@@ -177,6 +178,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(400).json({ message: "Invalid tractate parameter" });
     }
   });
+
+  // SEO Routes
+  app.get('/sitemap.xml', generateSitemap);
 
   const httpServer = createServer(app);
   return httpServer;
