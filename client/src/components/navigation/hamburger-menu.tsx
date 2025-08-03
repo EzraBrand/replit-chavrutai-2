@@ -235,8 +235,8 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
                   <SelectContent>
                     <SelectItem value="calibri">Calibri</SelectItem>
                     <SelectItem value="times">Times New Roman</SelectItem>
-                    <SelectItem value="david">David</SelectItem>
-                    <SelectItem value="frank-ruehl">Frank Ruehl</SelectItem>
+                    <SelectItem value="david">Noto Sans Hebrew</SelectItem>
+                    <SelectItem value="frank-ruehl">Frank Ruhl Libre</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

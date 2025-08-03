@@ -126,3 +126,12 @@ The system prioritizes rapid development and easy deployment while maintaining a
   - Replaced favicon with ChavrutAI logo featuring Hebrew "תלמוד" text in open book design
   - Updated header logo from generic book icon to custom Tav (ת) book icon with warm golden background
   - Maintained consistent sepia theme while incorporating distinctive Hebrew lettering for brand recognition
+
+### February 3, 2025 - User Preferences System
+- **Comprehensive Preferences System**: Added user customization options in hamburger menu
+  - Text size controls (Small, Medium, Large, Extra Large) for both Hebrew and English text
+  - Hebrew font selection with proper Google Fonts integration (Calibri, Times New Roman, Noto Sans Hebrew, Frank Ruhl Libre)
+  - Dark mode toggle with automatic theme switching and localStorage persistence
+- **Preferences Context**: Created React context with localStorage integration for preference persistence
+- **Dynamic CSS Classes**: Implemented responsive text sizing and font switching through CSS classes
+- **Font Integration**: Added Google Fonts imports for Noto Sans Hebrew and Frank Ruhl Libre to ensure proper Hebrew font rendering

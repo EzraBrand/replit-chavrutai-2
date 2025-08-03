@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -100,11 +102,11 @@
   }
   
   .hebrew-font-david .hebrew-text {
-    font-family: 'David', 'Times New Roman', serif;
+    font-family: 'Noto Sans Hebrew', 'David', 'Times New Roman', serif;
   }
   
   .hebrew-font-frank-ruehl .hebrew-text {
-    font-family: 'Frank Ruehl CLM', 'Times New Roman', serif;
+    font-family: 'Frank Ruhl Libre', 'Frank Ruehl CLM', 'Times New Roman', serif;
   }
 
   .hebrew-text {
