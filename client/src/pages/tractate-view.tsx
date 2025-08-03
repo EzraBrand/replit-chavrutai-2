@@ -159,8 +159,8 @@ export default function TractateView() {
                     return '';
                   })()}
                 </span>
-                {/* Tablet: Short text */}
-                <span className="text-xs hidden md:inline lg:hidden">
+                {/* Tablet & Mobile: Just page numbers */}
+                <span className="text-xs inline lg:hidden">
                   {(() => {
                     const maxFolio = getMaxFolio(talmudLocation.tractate);
                     if (talmudLocation.side === 'a') {
@@ -171,7 +171,6 @@ export default function TractateView() {
                     return '';
                   })()}
                 </span>
-                {/* Mobile: Icon only - no text span needed */}
               </Button>
               
               {/* Central Navigation */}
@@ -224,8 +223,8 @@ export default function TractateView() {
                     return '';
                   })()}
                 </span>
-                {/* Tablet: Short text */}
-                <span className="text-xs hidden md:inline lg:hidden">
+                {/* Tablet & Mobile: Just page numbers */}
+                <span className="text-xs inline lg:hidden">
                   {(() => {
                     if (talmudLocation.side === 'b') {
                       return `${talmudLocation.folio}a`;
