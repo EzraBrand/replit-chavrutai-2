@@ -33,8 +33,8 @@ export default function About() {
               
               <p className="text-muted-foreground leading-relaxed mb-6">
                 The platform features bilingual Hebrew-English text display, hierarchical 
-                navigation through complex religious texts, and comprehensive text processing 
-                to enhance readability while maintaining the authenticity of the source material.
+                navigation, and comprehensive text processing 
+                to enhance precision  while maintaining the authenticity of the source material.
               </p>
               
               <p className="text-muted-foreground leading-relaxed mb-8">
@@ -61,7 +61,7 @@ export default function About() {
                 <li>Hierarchical Breadcrumb Navigation: Dropdown system for selecting Tractate and Page locations.</li>
                 <li>Previous/Next page controls</li>
                 <li>Warm color scheme throughout the interface</li>
-                <li>User Preferences System: Customizable text size controls (Small, Medium, Large, Extra Large) for both Hebrew and English. Hebrew font selection including Google Fonts integration and dark mode toggle with localStorage persistence.</li>
+                <li>User Preferences System: Customizable text size controls (Small, Medium, Large, Extra Large) for both Hebrew and English. Hebrew font selection including Google Fonts integration and dark mode toggle.</li>
               </ol>
 
               <h3 className="text-xl font-semibold text-foreground mb-3">Text Processing Features</h3>
