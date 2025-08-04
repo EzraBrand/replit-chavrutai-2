@@ -37,7 +37,7 @@ export default function About() {
                 to enhance readability while maintaining the authenticity of the source material.
               </p>
               
-              <p className="text-muted-foreground leading-relaxed">
+              <p className="text-muted-foreground leading-relaxed mb-8">
                 Find out more about this project at{" "}
                 <a 
                   href="https://www.ezrabrand.com/p/designing-chavrutai-building-a-customized"
@@ -48,6 +48,29 @@ export default function About() {
                   "Designing ChavrutAI: Building a Customized Talmud Interface for the Digital Age"
                 </a>
               </p>
+
+              <h2 className="text-2xl font-bold text-foreground mb-4">ChavrutAI Features Overview</h2>
+              
+              <p className="text-sm text-muted-foreground mb-6 italic">
+                (Focusing on aspects that are significantly different from Sefaria's.)
+              </p>
+
+              <h3 className="text-xl font-semibold text-foreground mb-3">Display & Navigation Features</h3>
+              
+              <ol className="list-decimal list-inside space-y-2 mb-6 text-muted-foreground">
+                <li>Hierarchical Breadcrumb Navigation: Dropdown system for selecting Tractate and Page locations.</li>
+                <li>Previous/Next page controls</li>
+                <li>Warm color scheme throughout the interface</li>
+                <li>User Preferences System: Customizable text size controls (Small, Medium, Large, Extra Large) for both Hebrew and English. Hebrew font selection including Google Fonts integration and dark mode toggle with localStorage persistence.</li>
+              </ol>
+
+              <h3 className="text-xl font-semibold text-foreground mb-3">Text Processing Features</h3>
+              
+              <ol className="list-decimal list-inside space-y-2 text-muted-foreground">
+                <li>Intelligent English Text Splitting: Advanced punctuation-based paragraph breaks</li>
+                <li>Term Replacement System: Text processing via a dictionary for more precise terminology</li>
+                <li>Ordinal Number Conversion: Automatic conversion of written ordinals to numeric format for enhanced readability. (E.g. "fourth" → "4th", "twenty-ninth" → "29th")</li>
+              </ol>
             </div>
           </div>
         </div>
