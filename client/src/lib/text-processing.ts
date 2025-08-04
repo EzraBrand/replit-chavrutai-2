@@ -282,6 +282,28 @@ export function splitEnglishText(text: string): string {
   
   let processedText = text;
   
+  // Split on bolded commas BEFORE protecting HTML tags
+  processedText = processedText.replace(/<(b|strong)[^>]*>([\s\S]*?)<\/\1>/g, (match, tagName, content) => {
+    // Only process if the content contains commas
+    if (!/,/.test(content)) {
+      return match; // No commas to split, return as-is
+    }
+    
+    let splitContent = content;
+    // Handle commas
+    splitContent = splitContent.replace(/,/g, ',\n');
+    
+    return `<${tagName}>${splitContent}</${tagName}>`;
+  });
+  
+  // Also handle cases where just the comma itself is bolded
+  processedText = processedText.replace(/<(b|strong)[^>]*>,<\/\1>/g, ',\n');
+  
+  // Handle cross-tag scenarios where commas might be at tag boundaries
+  processedText = processedText.replace(/<\/(b|strong)>,\s*<\1[^>]*>/g, (match, tagName) => {
+    return `</${tagName}>,\n<${tagName}>`;
+  });
+  
   // Now protect HTML tags by temporarily replacing them with placeholders
   const htmlTagPattern = /<\/?\w+(?:\s+[^>]*)?>/g;
   const htmlTags: string[] = [];
@@ -305,8 +327,8 @@ export function splitEnglishText(text: string): string {
   // Split on question marks
   processedText = processedText.replace(/\?/g, '?\n');
   
-  // Split on colons, commas, and semicolons
-  processedText = processedText.replace(/([,:;])/g, '$1\n');
+  // Split on colons and semicolons (but NOT regular commas)
+  processedText = processedText.replace(/([;:])/g, '$1\n');
   
   // Clean up multiple consecutive line breaks and trim
   processedText = processedText
