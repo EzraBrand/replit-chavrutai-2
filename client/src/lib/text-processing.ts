@@ -327,8 +327,32 @@ export function splitEnglishText(text: string): string {
   // Split on question marks
   processedText = processedText.replace(/\?/g, '?\n');
   
-  // Split on colons and semicolons (but NOT regular commas)
-  processedText = processedText.replace(/([;:])/g, '$1\n');
+  // Split on semicolons
+  processedText = processedText.replace(/;/g, ';\n');
+  
+  // Split on colons but NOT when inside parentheses (to preserve Bible citations)
+  // Use a more sophisticated approach to handle parentheses
+  let colonProcessed = '';
+  let inParentheses = 0;
+  
+  for (let i = 0; i < processedText.length; i++) {
+    const char = processedText[i];
+    
+    if (char === '(') {
+      inParentheses++;
+      colonProcessed += char;
+    } else if (char === ')') {
+      inParentheses--;
+      colonProcessed += char;
+    } else if (char === ':' && inParentheses === 0) {
+      // Only split colons when NOT inside parentheses
+      colonProcessed += ':\n';
+    } else {
+      colonProcessed += char;
+    }
+  }
+  
+  processedText = colonProcessed;
   
   // Clean up multiple consecutive line breaks and trim
   processedText = processedText
