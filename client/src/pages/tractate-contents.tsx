@@ -292,32 +292,7 @@ export const CHAPTER_DATA: Record<string, Array<{
     { number: 13, englishName: "Shchatat Kodesh", hebrewName: "שחיטת קודש", startFolio: 102, startSide: 'a', endFolio: 108, endSide: 'a' },
     { number: 14, englishName: "Parah Adumah", hebrewName: "פרה אדומה", startFolio: 113, startSide: 'a', endFolio: 120, endSide: 'b' }
   ],
-  "chullin": [
-    { number: 1, englishName: "HaKol Shochtin", hebrewName: "הכל שוחטין", startFolio: 2, startSide: 'a', endFolio: 27, endSide: 'a' },
-    { number: 2, englishName: "HaShochet", hebrewName: "השוחט", startFolio: 27, startSide: 'a', endFolio: 42, endSide: 'a' },
-    { number: 3, englishName: "Eilu Tereifot", hebrewName: "אלו טרפות", startFolio: 42, startSide: 'a', endFolio: 78, endSide: 'b' },
-    { number: 4, englishName: "Oto V'Et Beno", hebrewName: "אותו ואת בנו", startFolio: 78, startSide: 'b', endFolio: 83, endSide: 'a' },
-    { number: 5, englishName: "Kisui HaDam", hebrewName: "כיסוי הדם", startFolio: 83, startSide: 'a', endFolio: 89, endSide: 'a' },
-    { number: 6, englishName: "Gid HaNasheh", hebrewName: "גיד הנשה", startFolio: 89, startSide: 'a', endFolio: 94, endSide: 'a' },
-    { number: 7, englishName: "Kol HaBasar", hebrewName: "כל הבשר", startFolio: 94, startSide: 'a', endFolio: 103, endSide: 'b' },
-    { number: 8, englishName: "Kol HaBasar Lo Yevashel", hebrewName: "כל הבשר לא יבושל", startFolio: 103, startSide: 'b', endFolio: 113, endSide: 'a' },
-    { number: 9, englishName: "HaOr VeHaRotev", hebrewName: "העור והרוטב", startFolio: 113, startSide: 'a', endFolio: 122, endSide: 'a' },
-    { number: 10, englishName: "Reishit HaGez", hebrewName: "ראשית הגז", startFolio: 130, startSide: 'a', endFolio: 137, endSide: 'a' },
-    { number: 11, englishName: "Shiluach HaKen", hebrewName: "שילוח הקן", startFolio: 138, startSide: 'a', endFolio: 142, endSide: 'a' },
-    { number: 12, englishName: "HaBasar BeChalav", hebrewName: "הבשר בחלב", startFolio: 122, startSide: 'a', endFolio: 142, endSide: 'a' }
-  ],
-  "niddah": [
-    { number: 1, englishName: "Shammai Omer", hebrewName: "שמאי אומר", startFolio: 2, startSide: 'a', endFolio: 13, endSide: 'a' },
-    { number: 2, englishName: "Kol HaYad", hebrewName: "כל היד", startFolio: 13, startSide: 'a', endFolio: 19, endSide: 'a' },
-    { number: 3, englishName: "BaMeh Ishah", hebrewName: "במה אשה", startFolio: 19, startSide: 'a', endFolio: 28, endSide: 'a' },
-    { number: 4, englishName: "Yotzei Dofen", hebrewName: "יוצא דופן", startFolio: 28, startSide: 'a', endFolio: 40, endSide: 'a' },
-    { number: 5, englishName: "V'Lad Behemah", hebrewName: "ולד בהמה", startFolio: 40, startSide: 'a', endFolio: 45, endSide: 'a' },
-    { number: 6, englishName: "HaMafelet", hebrewName: "המפלת", startFolio: 45, startSide: 'a', endFolio: 54, endSide: 'a' },
-    { number: 7, englishName: "Dam HaNiddah", hebrewName: "דם הנדה", startFolio: 54, startSide: 'a', endFolio: 59, endSide: 'a' },
-    { number: 8, englishName: "HaIshah SheHi Be'Chezkat", hebrewName: "האשה שהיא בחזקת", startFolio: 59, startSide: 'a', endFolio: 67, endSide: 'a' },
-    { number: 9, englishName: "Chesronot", hebrewName: "חסרונות", startFolio: 67, startSide: 'a', endFolio: 69, endSide: 'a' },
-    { number: 10, englishName: "HaRo'eh Ketemet", hebrewName: "הרואה כתמת", startFolio: 57, startSide: 'b', endFolio: 73, endSide: 'a' }
-  ],
+
   "makkot": [
     { number: 1, englishName: "Keytzad Ha'Edim", hebrewName: "כיצד העדים", startFolio: 2, startSide: 'a', endFolio: 7, endSide: 'a' },
     { number: 2, englishName: "Eilu Hen HaGolin", hebrewName: "אלו הן הגולין", startFolio: 7, startSide: 'a', endFolio: 13, endSide: 'a' },
@@ -353,28 +328,7 @@ export const CHAPTER_DATA: Record<string, Array<{
     { number: 12, englishName: "HaMinchot VeHaNesachim", hebrewName: "המנחות והנסכים", startFolio: 104, startSide: 'b', endFolio: 110, endSide: 'a' },
     { number: 13, englishName: "Harei Alai Isaron", hebrewName: "הרי עלי עשרון", startFolio: 110, startSide: 'a', endFolio: 110, endSide: 'a' }
   ],
-  "bekhorot": [
-    { number: 1, englishName: "HaLokach Ubar Chamoro", hebrewName: "הלוקח עובר חמורו", startFolio: 2, startSide: 'a', endFolio: 13, endSide: 'a' },
-    { number: 2, englishName: "HaLokach Ubar Parato", hebrewName: "הלוקח עובר פרתו", startFolio: 13, startSide: 'a', endFolio: 19, endSide: 'b' },
-    { number: 3, englishName: "HaLokach Behemah", hebrewName: "הלוקח בהמה", startFolio: 19, startSide: 'b', endFolio: 26, endSide: 'b' },
-    { number: 4, englishName: "Ad Kamah", hebrewName: "עד כמה", startFolio: 26, startSide: 'b', endFolio: 31, endSide: 'a' },
-    { number: 5, englishName: "Kol Pesulei HaMukdashin", hebrewName: "כל פסולי המוקדשין", startFolio: 31, startSide: 'a', endFolio: 37, endSide: 'a' },
-    { number: 6, englishName: "Al Eilu Mumin", hebrewName: "על אלו מומין", startFolio: 37, startSide: 'a', endFolio: 46, endSide: 'a' },
-    { number: 7, englishName: "Yesh Bekhor LaNachalah", hebrewName: "יש בכור לנחלה", startFolio: 46, startSide: 'a', endFolio: 53, endSide: 'a' },
-    { number: 8, englishName: "Yesh Bekhor", hebrewName: "יש בכור", startFolio: 53, startSide: 'a', endFolio: 61, endSide: 'a' },
-    { number: 9, englishName: "Ma'aser Behemah", hebrewName: "מעשר בהמה", startFolio: 61, startSide: 'a', endFolio: 61, endSide: 'a' }
-  ],
-  "arakhin": [
-    { number: 1, englishName: "HaKol Ma'arikhin", hebrewName: "הכל מעריכין", startFolio: 2, startSide: 'a', endFolio: 7, endSide: 'b' },
-    { number: 2, englishName: "Ein Ne'erakhin", hebrewName: "אין נערכין", startFolio: 7, startSide: 'b', endFolio: 13, endSide: 'b' },
-    { number: 3, englishName: "Yesh BeArakhin", hebrewName: "יש בערכין", startFolio: 13, startSide: 'b', endFolio: 17, endSide: 'a' },
-    { number: 4, englishName: "Haseg Yad", hebrewName: "השג יד", startFolio: 17, startSide: 'a', endFolio: 19, endSide: 'a' },
-    { number: 5, englishName: "HaOmer Mishkali Alai", hebrewName: "האומר משקלי עלי", startFolio: 19, startSide: 'a', endFolio: 21, endSide: 'b' },
-    { number: 6, englishName: "Shum HaYetomim", hebrewName: "שום היתומים", startFolio: 21, startSide: 'b', endFolio: 24, endSide: 'a' },
-    { number: 7, englishName: "Ein Makdishin", hebrewName: "אין מקדישין", startFolio: 24, startSide: 'a', endFolio: 27, endSide: 'a' },
-    { number: 8, englishName: "HaMakdish Sadehu", hebrewName: "המקדיש שדהו", startFolio: 27, startSide: 'a', endFolio: 29, endSide: 'b' },
-    { number: 9, englishName: "HaMokher Sadehu", hebrewName: "המוכר שדהו", startFolio: 29, startSide: 'b', endFolio: 34, endSide: 'a' }
-  ],
+
   "temurah": [
     { number: 1, englishName: "HaKol Memirin", hebrewName: "הכל ממירין", startFolio: 2, startSide: 'a', endFolio: 14, endSide: 'a' },
     { number: 2, englishName: "Yesh BeKorbanot", hebrewName: "יש בקרבנות", startFolio: 14, startSide: 'a', endFolio: 17, endSide: 'b' },
@@ -404,6 +358,54 @@ export const CHAPTER_DATA: Record<string, Array<{
     { number: 1, englishName: "BiShloshah Mekomot", hebrewName: "בשלשה מקומות", startFolio: 25, startSide: 'b', endFolio: 28, endSide: 'b' },
     { number: 2, englishName: "Ra'uhu Achav", hebrewName: "ראוהו אחיו", startFolio: 28, startSide: 'b', endFolio: 30, endSide: 'b' },
     { number: 3, englishName: "Lo Hayu Koftin", hebrewName: "לא היו כופתין", startFolio: 30, startSide: 'b', endFolio: 33, endSide: 'b' }
+  ],
+  "niddah": [
+    { number: 1, englishName: "Shammai", hebrewName: "שמאי", startFolio: 2, startSide: 'a', endFolio: 13, endSide: 'a' },
+    { number: 2, englishName: "Kol HaYad", hebrewName: "כל היד", startFolio: 13, startSide: 'a', endFolio: 21, endSide: 'a' },
+    { number: 3, englishName: "HaMafelet Chitchah", hebrewName: "המפלת חתיכה", startFolio: 21, startSide: 'a', endFolio: 31, endSide: 'b' },
+    { number: 4, englishName: "Bnot Kutim", hebrewName: "בנות כותים", startFolio: 31, startSide: 'b', endFolio: 40, endSide: 'a' },
+    { number: 5, englishName: "Yotzei Dofen", hebrewName: "יוצא דופן", startFolio: 40, startSide: 'a', endFolio: 48, endSide: 'a' },
+    { number: 6, englishName: "Ba Siman", hebrewName: "בא סימן", startFolio: 48, startSide: 'a', endFolio: 54, endSide: 'b' },
+    { number: 7, englishName: "Dam HaNiddah", hebrewName: "דם הנדה", startFolio: 54, startSide: 'b', endFolio: 57, endSide: 'b' },
+    { number: 8, englishName: "HaRo'ah Ktem", hebrewName: "הרואה כתם", startFolio: 57, startSide: 'b', endFolio: 59, endSide: 'b' },
+    { number: 9, englishName: "HaIshah She'hi Osah", hebrewName: "האשה שהיא עושה", startFolio: 59, startSide: 'b', endFolio: 64, endSide: 'b' },
+    { number: 10, englishName: "Tinoket", hebrewName: "תינוקת", startFolio: 64, startSide: 'b', endFolio: 73, endSide: 'a' }
+  ],
+  "bekhorot": [
+    { number: 1, englishName: "HaLokei'ach Ubar Chamoro", hebrewName: "הלוקח עובר חמורו", startFolio: 2, startSide: 'a', endFolio: 13, endSide: 'a' },
+    { number: 2, englishName: "HaLokei'ach Ubar Parato", hebrewName: "הלוקח עובר פרתו", startFolio: 13, startSide: 'a', endFolio: 19, endSide: 'b' },
+    { number: 3, englishName: "HaLokei'ach Behemah", hebrewName: "הלוקח בהמה", startFolio: 19, startSide: 'b', endFolio: 26, endSide: 'b' },
+    { number: 4, englishName: "Ad Kamah", hebrewName: "עד כמה", startFolio: 26, startSide: 'b', endFolio: 31, endSide: 'a' },
+    { number: 5, englishName: "Kol Psulei HaMukdashim", hebrewName: "כל פסולי המוקדשין", startFolio: 31, startSide: 'a', endFolio: 37, endSide: 'a' },
+    { number: 6, englishName: "Al Eilu Mumin", hebrewName: "על אלו מומין", startFolio: 37, startSide: 'a', endFolio: 43, endSide: 'a' },
+    { number: 7, englishName: "Mumin Eilu", hebrewName: "מומין אלו", startFolio: 43, startSide: 'a', endFolio: 46, endSide: 'a' },
+    { number: 8, englishName: "Yesh Bekhor", hebrewName: "יש בכור", startFolio: 46, startSide: 'a', endFolio: 53, endSide: 'a' },
+    { number: 9, englishName: "Ma'aser Behemah", hebrewName: "מעשר בהמה", startFolio: 53, startSide: 'a', endFolio: 61, endSide: 'a' }
+  ],
+  "arakhin": [
+    { number: 1, englishName: "HaKol Ma'arikhin", hebrewName: "הכל מעריכין", startFolio: 2, startSide: 'a', endFolio: 7, endSide: 'b' },
+    { number: 2, englishName: "Ein Ne'erakhin", hebrewName: "אין נערכין", startFolio: 7, startSide: 'b', endFolio: 13, endSide: 'b' },
+    { number: 3, englishName: "Yesh Ba'arakhin", hebrewName: "יש בערכין", startFolio: 13, startSide: 'b', endFolio: 17, endSide: 'a' },
+    { number: 4, englishName: "Hasag Yad", hebrewName: "השג יד", startFolio: 17, startSide: 'a', endFolio: 19, endSide: 'a' },
+    { number: 5, englishName: "HaOmer Mishkali Alai", hebrewName: "האומר משקלי עלי", startFolio: 19, startSide: 'a', endFolio: 21, endSide: 'b' },
+    { number: 6, englishName: "Shum HaYetomim", hebrewName: "שום היתומים", startFolio: 21, startSide: 'b', endFolio: 24, endSide: 'a' },
+    { number: 7, englishName: "Ein Makdishin", hebrewName: "אין מקדישין", startFolio: 24, startSide: 'a', endFolio: 27, endSide: 'a' },
+    { number: 8, englishName: "HaMakdish Sadehu", hebrewName: "המקדיש שדהו", startFolio: 27, startSide: 'a', endFolio: 29, endSide: 'b' },
+    { number: 9, englishName: "HaMokher Sadehu", hebrewName: "המוכר שדהו", startFolio: 29, startSide: 'b', endFolio: 34, endSide: 'a' }
+  ],
+  "chullin": [
+    { number: 1, englishName: "HaKol Shochtin", hebrewName: "הכל שוחטין", startFolio: 2, startSide: 'a', endFolio: 27, endSide: 'a' },
+    { number: 2, englishName: "HaShoheit", hebrewName: "השוחט", startFolio: 27, startSide: 'a', endFolio: 42, endSide: 'a' },
+    { number: 3, englishName: "Eilu Terefot", hebrewName: "אלו טרפות", startFolio: 42, startSide: 'a', endFolio: 68, endSide: 'a' },
+    { number: 4, englishName: "Behemah HaMakshah", hebrewName: "בהמה המקשה", startFolio: 68, startSide: 'a', endFolio: 78, endSide: 'a' },
+    { number: 5, englishName: "Oto VeEt Beno", hebrewName: "אותו ואת בנו", startFolio: 78, startSide: 'a', endFolio: 83, endSide: 'b' },
+    { number: 6, englishName: "Kisui HaDam", hebrewName: "כסוי הדם", startFolio: 83, startSide: 'b', endFolio: 89, endSide: 'b' },
+    { number: 7, englishName: "Gid HaNasheh", hebrewName: "גיד הנשה", startFolio: 89, startSide: 'b', endFolio: 103, endSide: 'b' },
+    { number: 8, englishName: "Kol HaBasar", hebrewName: "כל הבשר", startFolio: 103, startSide: 'b', endFolio: 117, endSide: 'b' },
+    { number: 9, englishName: "HaOr VeHaRotev", hebrewName: "העור והרוטב", startFolio: 117, startSide: 'b', endFolio: 130, endSide: 'a' },
+    { number: 10, englishName: "HaZroa VeHaLechayaim", hebrewName: "הזרוע והלחיים", startFolio: 130, startSide: 'a', endFolio: 135, endSide: 'a' },
+    { number: 11, englishName: "Reishit HaGez", hebrewName: "ראשית הגז", startFolio: 135, startSide: 'a', endFolio: 138, endSide: 'b' },
+    { number: 12, englishName: "Shiluach HaKen", hebrewName: "שילוח הקן", startFolio: 138, startSide: 'b', endFolio: 142, endSide: 'a' }
   ]
 };
 
