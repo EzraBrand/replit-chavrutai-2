@@ -325,8 +325,9 @@ export function splitEnglishText(text: string): string {
   processedText = processedText.replace(/cf\.\n/g, 'cf.');
   
   // Split on question marks, but handle question mark + end quote pattern
-  processedText = processedText.replace(/\?"/g, '?"\n'); // Handle ?" as a unit
-  processedText = processedText.replace(/\?(?!")/g, '?\n'); // Handle other question marks
+  // Handle both straight quotes (") and curly quotes (") 
+  processedText = processedText.replace(/\?["""]/g, (match) => match + '\n'); // Handle ?", ?", ?" as units
+  processedText = processedText.replace(/\?(?!["""])/g, '?\n'); // Handle other question marks
   
   // Split on semicolons
   processedText = processedText.replace(/;/g, ';\n');
