@@ -206,8 +206,8 @@ export const CHAPTER_DATA: Record<string, Array<{
     { number: 5, englishName: "Beit Shammai", hebrewName: "בית שמאי", startFolio: 30, startSide: 'b', endFolio: 34, endSide: 'a' },
     { number: 6, englishName: "Shloshah Minin", hebrewName: "שלשה מינין", startFolio: 34, startSide: 'a', endFolio: 47, endSide: 'a' },
     { number: 7, englishName: "Kohen Gadol", hebrewName: "כהן גדול", startFolio: 47, startSide: 'a', endFolio: 54, endSide: 'a' },
-    { number: 8, englishName: "Shnei Nezirim", hebrewName: "שני נזירים", startFolio: 54, startSide: 'a', endFolio: 57, endSide: 'a' },
-    { number: 9, englishName: "HaKutim Ein Lahem", hebrewName: "הכותים אין להם", startFolio: 57, startSide: 'a', endFolio: 66, endSide: 'b' }
+    { number: 8, englishName: "Shnei Nezirim", hebrewName: "שני נזירים", startFolio: 57, startSide: 'a', endFolio: 61, endSide: 'a' },
+    { number: 9, englishName: "HaKutim Ein Lahem", hebrewName: "הכותים אין להם", startFolio: 61, startSide: 'a', endFolio: 66, endSide: 'b' }
   ],
   "sotah": [
     { number: 1, englishName: "HaMekane", hebrewName: "המקנא", startFolio: 2, startSide: 'a', endFolio: 14, endSide: 'a' },
