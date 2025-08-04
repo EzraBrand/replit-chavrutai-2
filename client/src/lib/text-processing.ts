@@ -343,6 +343,14 @@ export function splitEnglishText(text: string): string {
     processedText = processedText.replace(placeholder, htmlTags[index]);
   });
   
+  // Final cleanup: Fix orphaned quotes that end up on their own lines
+  // This handles cases where quotes get separated from preceding text
+  processedText = processedText
+    .replace(/,\n\n["""]\s*\n/g, ',\n\n') // Remove orphaned quotes after commas
+    .replace(/\n\n["""]\s*$/g, '') // Remove orphaned quotes at end
+    .replace(/\n["""]\s*\n/g, '\n') // Remove orphaned quotes on their own lines
+    .replace(/\n["""]\s*$/g, ''); // Remove orphaned quotes at end of lines
+  
   return processedText;
 }
 
