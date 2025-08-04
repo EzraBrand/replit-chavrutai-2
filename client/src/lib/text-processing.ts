@@ -282,43 +282,6 @@ export function splitEnglishText(text: string): string {
   
   let processedText = text;
   
-  // Split on bolded punctuation marks BEFORE protecting HTML tags
-  // Use a more comprehensive approach to handle nested tags and complex content
-  processedText = processedText.replace(/<(b|strong)[^>]*>([\s\S]*?)<\/\1>/g, (match, tagName, content) => {
-    // Only process if the content contains punctuation marks we want to split on
-    if (!/[.,:;]/.test(content)) {
-      return match; // No punctuation to split, return as-is
-    }
-    
-    let splitContent = content;
-    
-    // Handle periods - avoid splitting after "i.e."
-    splitContent = splitContent.replace(/\.(?!\s*[a-z])/g, '.\n');
-    splitContent = splitContent.replace(/i\.e\.\n/g, 'i.e.');
-    
-    // Handle colons, commas, and semicolons
-    splitContent = splitContent.replace(/([,:;])/g, '$1\n');
-    
-    return `<${tagName}>${splitContent}</${tagName}>`;
-  });
-  
-  // Also handle cases where just the punctuation mark itself is bolded
-  processedText = processedText.replace(/<(b|strong)[^>]*>([.,:;])<\/\1>/g, (match, tagName, punct) => {
-    // For periods, check if it's "i.e." context
-    if (punct === '.' && match.includes('i.e.')) {
-      return match; // Don't split i.e.
-    }
-    return `${punct}\n`;
-  });
-  
-  // Handle cross-tag scenarios where punctuation might be at tag boundaries
-  // Match patterns like </b>, <b> or </strong>, <strong> with punctuation between
-  processedText = processedText.replace(/<\/(b|strong)>([.,:;])\s*<\1[^>]*>/g, (match, tagName, punct) => {
-    return `</${tagName}>${punct}\n<${tagName}>`;
-  });
-  
-
-  
   // Now protect HTML tags by temporarily replacing them with placeholders
   const htmlTagPattern = /<\/?\w+(?:\s+[^>]*)?>/g;
   const htmlTags: string[] = [];
@@ -331,8 +294,19 @@ export function splitEnglishText(text: string): string {
     return placeholder;
   });
   
-  // Split on question marks (these are not typically bolded, so keep this logic)
+  // Split on ALL periods - avoid splitting after "i.e." and other abbreviations
+  processedText = processedText.replace(/\.(?!\s*[a-z])/g, '.\n');
+  processedText = processedText.replace(/i\.e\.\n/g, 'i.e.');
+  processedText = processedText.replace(/e\.g\.\n/g, 'e.g.');
+  processedText = processedText.replace(/etc\.\n/g, 'etc.');
+  processedText = processedText.replace(/vs\.\n/g, 'vs.');
+  processedText = processedText.replace(/cf\.\n/g, 'cf.');
+  
+  // Split on question marks
   processedText = processedText.replace(/\?/g, '?\n');
+  
+  // Split on colons, commas, and semicolons
+  processedText = processedText.replace(/([,:;])/g, '$1\n');
   
   // Clean up multiple consecutive line breaks and trim
   processedText = processedText
