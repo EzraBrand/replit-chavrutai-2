@@ -282,26 +282,26 @@ export function splitEnglishText(text: string): string {
   
   let processedText = text;
   
-  // Split on bolded commas BEFORE protecting HTML tags
+  // Split on bolded commas and colons BEFORE protecting HTML tags
   processedText = processedText.replace(/<(b|strong)[^>]*>([\s\S]*?)<\/\1>/g, (match, tagName, content) => {
-    // Only process if the content contains commas
-    if (!/,/.test(content)) {
-      return match; // No commas to split, return as-is
+    // Only process if the content contains commas or colons
+    if (!/[,:]/.test(content)) {
+      return match; // No commas or colons to split, return as-is
     }
     
     let splitContent = content;
-    // Handle commas
-    splitContent = splitContent.replace(/,/g, ',\n');
+    // Handle commas and colons
+    splitContent = splitContent.replace(/([,:])/g, '$1\n');
     
     return `<${tagName}>${splitContent}</${tagName}>`;
   });
   
-  // Also handle cases where just the comma itself is bolded
-  processedText = processedText.replace(/<(b|strong)[^>]*>,<\/\1>/g, ',\n');
+  // Also handle cases where just the comma or colon itself is bolded
+  processedText = processedText.replace(/<(b|strong)[^>]*>([,:])<\/\1>/g, '$2\n');
   
-  // Handle cross-tag scenarios where commas might be at tag boundaries
-  processedText = processedText.replace(/<\/(b|strong)>,\s*<\1[^>]*>/g, (match, tagName) => {
-    return `</${tagName}>,\n<${tagName}>`;
+  // Handle cross-tag scenarios where commas or colons might be at tag boundaries
+  processedText = processedText.replace(/<\/(b|strong)>([,:])(\s*)<\1[^>]*>/g, (match, tagName, punct, whitespace) => {
+    return `</${tagName}>${punct}\n${whitespace}<${tagName}>`;
   });
   
   // Now protect HTML tags by temporarily replacing them with placeholders
@@ -329,30 +329,6 @@ export function splitEnglishText(text: string): string {
   
   // Split on semicolons
   processedText = processedText.replace(/;/g, ';\n');
-  
-  // Split on colons but NOT when inside parentheses (to preserve Bible citations)
-  // Use a more sophisticated approach to handle parentheses
-  let colonProcessed = '';
-  let inParentheses = 0;
-  
-  for (let i = 0; i < processedText.length; i++) {
-    const char = processedText[i];
-    
-    if (char === '(') {
-      inParentheses++;
-      colonProcessed += char;
-    } else if (char === ')') {
-      inParentheses--;
-      colonProcessed += char;
-    } else if (char === ':' && inParentheses === 0) {
-      // Only split colons when NOT inside parentheses
-      colonProcessed += ':\n';
-    } else {
-      colonProcessed += char;
-    }
-  }
-  
-  processedText = colonProcessed;
   
   // Clean up multiple consecutive line breaks and trim
   processedText = processedText
