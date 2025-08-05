@@ -155,41 +155,18 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
               id={`section-${index + 1}`}
               className="border-b border-border/50 pb-6 last:border-b-0 last:pb-0 scroll-mt-24"
             >
-              {/* Section Header with Links */}
+              {/* Section Header - Combined Link to Sefaria */}
               <div className="flex items-center justify-center gap-2 mb-4">
-                {/* Internal Section Link */}
-                <button
-                  onClick={() => {
-                    const newHash = `#section-${index + 1}`;
-                    window.history.pushState(null, '', newHash);
-                    // Trigger scroll to section
-                    const sectionElement = document.getElementById(`section-${index + 1}`);
-                    if (sectionElement) {
-                      const headerOffset = 100;
-                      const elementPosition = sectionElement.offsetTop;
-                      const offsetPosition = elementPosition - headerOffset;
-                      
-                      window.scrollTo({
-                        top: offsetPosition,
-                        behavior: 'smooth'
-                      });
-                    }
-                  }}
-                  className="bg-primary hover:bg-primary/90 text-primary-foreground px-3 py-1 rounded-full text-sm font-semibold transition-colors duration-200 flex items-center gap-1"
-                  data-testid={`button-section-${index + 1}`}
-                >
-                  section {index + 1} <span className="text-xs">#</span>
-                </button>
-                
-                {/* External Sefaria Link */}
+                {/* Combined Section Link to Sefaria */}
                 <a 
                   href={`https://www.sefaria.org.il/${text.tractate}.${text.folio}${text.side}.${index + 1}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-secondary hover:bg-secondary/80 text-secondary-foreground px-3 py-1 rounded-full text-sm font-semibold transition-colors duration-200 flex items-center gap-1"
                   data-testid={`link-sefaria-section-${index + 1}`}
+                  title={`View section ${index + 1} on Sefaria`}
                 >
-                  sefaria <span className="text-xs">↗</span>
+                  section {index + 1} <span className="text-xs">↗</span>
                 </a>
               </div>
               
