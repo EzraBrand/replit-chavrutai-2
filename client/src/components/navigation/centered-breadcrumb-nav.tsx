@@ -66,20 +66,46 @@ export function CenteredBreadcrumbNav({ location, onLocationChange }: CenteredBr
   };
 
   return (
-    <div className="flex items-center justify-center w-full">
+    <div className="flex items-center justify-between w-full max-w-md">
       {/* Previous Page Button */}
       <Button
-        variant="ghost"
+        variant="outline"
         size="sm"
         onClick={handlePrevPage}
         disabled={!canGoPrev}
-        className="flex items-center gap-1 text-sm px-2 py-1 h-auto"
+        className="flex items-center gap-1 px-2 py-2 flex-shrink-0"
+        title={(() => {
+          if (location.side === 'b') {
+            return `Previous: ${location.folio}a`;
+          } else if (location.folio > 2) {
+            return `Previous: ${location.folio - 1}b`;
+          }
+          return 'Previous page';
+        })()}
       >
-        <ChevronLeft className="w-4 h-4" />
-        <span className="hidden sm:inline">
-          {canGoPrev && location.side === 'b' ? `${location.folio}a` : 
-           canGoPrev ? `${location.folio - 1}b` : ''}
+        {/* Desktop: Full text */}
+        <span className="text-xs hidden lg:inline">
+          Previous {(() => {
+            if (location.side === 'b') {
+              return `(${location.folio}a)`;
+            } else if (location.folio > 2) {
+              return `(${location.folio - 1}b)`;
+            }
+            return '';
+          })()}
         </span>
+        {/* Tablet & Mobile: Just page numbers */}
+        <span className="text-xs inline lg:hidden">
+          {(() => {
+            if (location.side === 'b') {
+              return `${location.folio}a`;
+            } else if (location.folio > 2) {
+              return `${location.folio - 1}b`;
+            }
+            return '';
+          })()}
+        </span>
+        <ChevronLeft className="w-3 h-3" />
       </Button>
 
       {/* Centered Breadcrumb Content */}
@@ -106,17 +132,43 @@ export function CenteredBreadcrumbNav({ location, onLocationChange }: CenteredBr
 
       {/* Next Page Button */}
       <Button
-        variant="ghost"
+        variant="outline"
         size="sm"
         onClick={handleNextPage}
         disabled={!canGoNext}
-        className="flex items-center gap-1 text-sm px-2 py-1 h-auto"
+        className="flex items-center gap-1 px-2 py-2 flex-shrink-0"
+        title={(() => {
+          if (location.side === 'a') {
+            return `Next: ${location.folio}b`;
+          } else if (location.folio < maxFolio) {
+            return `Next: ${location.folio + 1}a`;
+          }
+          return 'Next page';
+        })()}
       >
-        <span className="hidden sm:inline">
-          {canGoNext && location.side === 'a' ? `${location.folio}b` : 
-           canGoNext ? `${location.folio + 1}a` : ''}
+        <ChevronRight className="w-3 h-3" />
+        {/* Desktop: Full text */}
+        <span className="text-xs hidden lg:inline">
+          Next {(() => {
+            if (location.side === 'a') {
+              return `(${location.folio}b)`;
+            } else if (location.folio < maxFolio) {
+              return `(${location.folio + 1}a)`;
+            }
+            return '';
+          })()}
         </span>
-        <ChevronRight className="w-4 h-4" />
+        {/* Tablet & Mobile: Just page numbers */}
+        <span className="text-xs inline lg:hidden">
+          {(() => {
+            if (location.side === 'a') {
+              return `${location.folio}b`;
+            } else if (location.folio < maxFolio) {
+              return `${location.folio + 1}a`;
+            }
+            return '';
+          })()}
+        </span>
       </Button>
     </div>
   );
