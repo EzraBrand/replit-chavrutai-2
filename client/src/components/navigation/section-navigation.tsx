@@ -26,6 +26,9 @@ export function SectionNavigation({ totalSections, currentSection, onSectionChan
         if (sectionNumber >= 1 && sectionNumber <= totalSections) {
           setActiveSection(sectionNumber);
         }
+      } else {
+        // If no hash, show section 1 as default
+        setActiveSection(1);
       }
     };
 
