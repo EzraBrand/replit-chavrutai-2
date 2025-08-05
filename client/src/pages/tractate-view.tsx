@@ -10,6 +10,7 @@ import { PageNavigation } from "@/components/navigation/page-navigation";
 import { HamburgerMenu } from "@/components/navigation/hamburger-menu";
 import { BreadcrumbNav } from "@/components/navigation/breadcrumb-nav";
 import { BreadcrumbNavigation, breadcrumbHelpers } from "@/components/navigation/breadcrumb-navigation";
+import { SectionNavigation } from "@/components/navigation/section-navigation";
 import { Footer } from "@/components/footer";
 import { usePreferences } from "@/context/preferences-context";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
@@ -34,6 +35,8 @@ export default function TractateView() {
     folio: parsedFolio,
     side: parsedSide
   });
+
+  const [currentSection, setCurrentSection] = useState<number>(1);
 
   // Update location when URL params change
   useEffect(() => {
@@ -70,10 +73,21 @@ export default function TractateView() {
 
   const handleLocationChange = (newLocation: TalmudLocation) => {
     setTalmudLocation(newLocation);
+    // Clear hash when changing pages
+    window.history.pushState(null, '', window.location.pathname);
+    setCurrentSection(1);
     // Update URL to match new location
     const tractateSlug = encodeURIComponent(newLocation.tractate.toLowerCase());
     const folioSlug = `${newLocation.folio}${newLocation.side}`;
     setLocation(`/tractate/${tractateSlug}/${folioSlug}`);
+  };
+
+  const handleSectionChange = (section: number) => {
+    setCurrentSection(section);
+  };
+
+  const handleSectionVisible = (section: number) => {
+    setCurrentSection(section);
   };
 
   const handleGoHome = () => {
@@ -284,7 +298,10 @@ export default function TractateView() {
         {/* Text Content */}
         {text && !isLoading && (
           <div className="space-y-6">
-            <SectionedBilingualDisplay text={text} />
+            <SectionedBilingualDisplay 
+              text={text} 
+              onSectionVisible={handleSectionVisible}
+            />
           </div>
         )}
 
@@ -299,6 +316,18 @@ export default function TractateView() {
         {/* Footer */}
         <Footer />
       </main>
+
+      {/* Section Navigation */}
+      {text && (
+        <SectionNavigation 
+          totalSections={Math.max(
+            (text.hebrewSections || [text.hebrewText]).length,
+            (text.englishSections || [text.englishText]).length
+          )}
+          currentSection={currentSection}
+          onSectionChange={handleSectionChange}
+        />
+      )}
     </div>
   );
 }
