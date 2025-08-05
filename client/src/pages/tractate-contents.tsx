@@ -246,14 +246,14 @@ export const CHAPTER_DATA: Record<string, Array<{
   ],
   "bava batra": [
     { number: 1, englishName: "HaShutafin", hebrewName: "השותפין", startFolio: 2, startSide: 'a', endFolio: 17, endSide: 'a' },
-    { number: 2, englishName: "Lo Yachpor", hebrewName: "לא יחפור", startFolio: 17, startSide: 'a', endFolio: 28, endSide: 'b' },
-    { number: 3, englishName: "Chezkat HaBatim", hebrewName: "חזקת הבתים", startFolio: 28, startSide: 'a', endFolio: 61, endSide: 'a' },
+    { number: 2, englishName: "Lo Yachpor", hebrewName: "לא יחפור", startFolio: 17, startSide: 'a', endFolio: 27, endSide: 'b' },
+    { number: 3, englishName: "Chezkat HaBatim", hebrewName: "חזקת הבתים", startFolio: 28, startSide: 'a', endFolio: 60, endSide: 'b' },
     { number: 4, englishName: "HaMokher Et HaBayit", hebrewName: "המוכר את הבית", startFolio: 61, startSide: 'a', endFolio: 73, endSide: 'a' },
-    { number: 5, englishName: "HaMokher Et HaSefinah", hebrewName: "המוכר את הספינה", startFolio: 73, startSide: 'a', endFolio: 92, endSide: 'a' },
+    { number: 5, englishName: "HaMokher Et HaSefinah", hebrewName: "המוכר את הספינה", startFolio: 73, startSide: 'a', endFolio: 91, endSide: 'b' },
     { number: 6, englishName: "HaMokher Peirot", hebrewName: "המוכר פירות", startFolio: 92, startSide: 'a', endFolio: 102, endSide: 'b' },
     { number: 7, englishName: "Beit Kor", hebrewName: "בית כור", startFolio: 102, startSide: 'b', endFolio: 108, endSide: 'a' },
     { number: 8, englishName: "Yesh Nochlin", hebrewName: "יש נוחלין", startFolio: 108, startSide: 'a', endFolio: 139, endSide: 'b' },
-    { number: 9, englishName: "Mi She'met", hebrewName: "מי שמת", startFolio: 139, startSide: 'b', endFolio: 160, endSide: 'a' },
+    { number: 9, englishName: "Mi She'met", hebrewName: "מי שמת", startFolio: 139, startSide: 'b', endFolio: 159, endSide: 'b' },
     { number: 10, englishName: "Get Pashut", hebrewName: "גט פשוט", startFolio: 160, startSide: 'a', endFolio: 176, endSide: 'b' }
   ],
   "sanhedrin": [
