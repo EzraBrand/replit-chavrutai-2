@@ -61,6 +61,7 @@ export default function About() {
                 <li>Breadcrumb Navigation: Breadcrumb hierarchy displaying tractate, chapter number and title, and page.</li>
                 <li>Previous/Next page controls</li>
                 <li>Section Navigation: Individual sections within each page are clickable with direct links to Sefaria, plus a floating navigation widget in the bottom-right corner showing current section position and allowing quick navigation between sections.</li>
+                <li>Page Continuation Preview: When text continues onto the next page, a preview of the following page's opening section is displayed with visual indication, helping maintain reading flow across page boundaries.</li>
                 <li>Warm color scheme throughout the interface</li>
                 <li>User Preferences System: Customizable text size controls (Small, Medium, Large, Extra Large) for both Hebrew and English. Alternative Hebrew font selection and dark mode toggle.</li>
               </ol>
