@@ -68,16 +68,30 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
     };
   }, [maxSections, onSectionVisible]);
 
-  // Passive scroll tracking using scroll events instead of intersection observer
+  // Passive scroll tracking using scroll events - only when no hash navigation
   useEffect(() => {
     let scrollTimeout: NodeJS.Timeout;
+    let isUserScrolling = false;
+    let scrollStartTime = 0;
     
     const handleScroll = () => {
+      // Mark that user is actively scrolling
+      isUserScrolling = true;
+      scrollStartTime = Date.now();
+      
       // Clear previous timeout
       clearTimeout(scrollTimeout);
       
       // Debounce scroll events to avoid excessive updates
       scrollTimeout = setTimeout(() => {
+        // If user scrolled manually while there was a hash, clear the hash
+        const currentHash = window.location.hash;
+        if (currentHash && currentHash.startsWith('#section-') && isUserScrolling) {
+          // Clear hash without affecting history
+          const newUrl = window.location.pathname + window.location.search;
+          window.history.replaceState(null, '', newUrl);
+        }
+        
         // Find which section is most visible in the center of the viewport
         const viewportHeight = window.innerHeight;
         const centerY = window.scrollY + viewportHeight / 2;
@@ -99,16 +113,23 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
           }
         }
         
-        // Only update the indicator, never interfere with scrolling
+        // Only update the indicator
         onSectionVisible?.(closestSection);
-      }, 100); // 100ms debounce
+        
+        // Reset user scrolling flag after a delay
+        setTimeout(() => {
+          isUserScrolling = false;
+        }, 200);
+      }, 150); // Slightly longer debounce for stability
     };
 
     // Add scroll listener
     window.addEventListener('scroll', handleScroll, { passive: true });
     
-    // Initial check
-    handleScroll();
+    // Initial check only if no hash
+    if (!window.location.hash) {
+      handleScroll();
+    }
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
