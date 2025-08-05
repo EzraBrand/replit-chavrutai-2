@@ -25,7 +25,7 @@ export const CHAPTER_DATA: Record<string, Array<{
   "berakhot": [
     { number: 1, englishName: "Me'eimatay", hebrewName: "מאימתי", startFolio: 2, startSide: 'a', endFolio: 13, endSide: 'a' },
     { number: 2, englishName: "Hayah Korei", hebrewName: "היה קורא", startFolio: 13, startSide: 'a', endFolio: 17, endSide: 'b' },
-    { number: 3, englishName: "Mi She'meto", hebrewName: "מי שמתו", startFolio: 17, startSide: 'b', endFolio: 26, endSide: 'a' },
+    { number: 3, englishName: "Mi She'metu", hebrewName: "מי שמתו", startFolio: 17, startSide: 'b', endFolio: 26, endSide: 'a' },
     { number: 4, englishName: "Tefilat HaShachar", hebrewName: "תפילת השחר", startFolio: 26, startSide: 'a', endFolio: 30, endSide: 'b' },
     { number: 5, englishName: "Ein Omdin", hebrewName: "אין עומדין", startFolio: 30, startSide: 'b', endFolio: 35, endSide: 'a' },
     { number: 6, englishName: "Keytzad Mevarkhim", hebrewName: "כיצד מברכין", startFolio: 35, startSide: 'a', endFolio: 45, endSide: 'a' },
@@ -67,7 +67,7 @@ export const CHAPTER_DATA: Record<string, Array<{
     { number: 5, englishName: "Keytzad Me'abrin", hebrewName: "כיצד מעברין", startFolio: 52, startSide: 'b', endFolio: 61, endSide: 'b' },
     { number: 6, englishName: "HaDar", hebrewName: "הדר", startFolio: 61, startSide: 'b', endFolio: 76, endSide: 'a' },
     { number: 7, englishName: "Chalon", hebrewName: "חלון", startFolio: 76, startSide: 'a', endFolio: 82, endSide: 'a' },
-    { number: 8, englishName: "Keytzad Mishtatin", hebrewName: "כיצד משתתפין", startFolio: 82, startSide: 'a', endFolio: 89, endSide: 'a' },
+    { number: 8, englishName: "Keytzad Mishtattfin", hebrewName: "כיצד משתתפין", startFolio: 82, startSide: 'a', endFolio: 89, endSide: 'a' },
     { number: 9, englishName: "Kol Gagot", hebrewName: "כל גגות", startFolio: 89, startSide: 'a', endFolio: 95, endSide: 'a' },
     { number: 10, englishName: "HaMotzei Tefilin", hebrewName: "המוצא תפילין", startFolio: 95, startSide: 'a', endFolio: 105, endSide: 'a' }
   ],
@@ -334,7 +334,7 @@ export const CHAPTER_DATA: Record<string, Array<{
     { number: 2, englishName: "Yesh BeKorbanot", hebrewName: "יש בקרבנות", startFolio: 14, startSide: 'a', endFolio: 17, endSide: 'b' },
     { number: 3, englishName: "Eilu Kodashim", hebrewName: "אלו קדשים", startFolio: 17, startSide: 'b', endFolio: 21, endSide: 'b' },
     { number: 4, englishName: "V'lad Chatat", hebrewName: "ולד חטאת", startFolio: 21, startSide: 'b', endFolio: 24, endSide: 'b' },
-    { number: 5, englishName: "Keytzad Ma'arimin", hebrewName: "כיצד מערימין", startFolio: 24, startSide: 'b', endFolio: 28, endSide: 'a' },
+    { number: 5, englishName: "Keytzad Me'arimim", hebrewName: "כיצד מערימין", startFolio: 24, startSide: 'b', endFolio: 28, endSide: 'a' },
     { number: 6, englishName: "Kol Ha'asurin", hebrewName: "כל האסורין", startFolio: 28, startSide: 'a', endFolio: 31, endSide: 'a' },
     { number: 7, englishName: "Yesh BeKodshei Mizbe'ach", hebrewName: "יש בקדשי מזבח", startFolio: 31, startSide: 'a', endFolio: 34, endSide: 'a' }
   ],
