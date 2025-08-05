@@ -96,10 +96,7 @@ export function PageNavigation({ location, onLocationChange }: PageNavigationPro
         </span>
       </Button>
       
-      <div className="text-center">
-        <p className="text-foreground text-sm">Page {location.folio}{location.side}</p>
-        <p className="text-muted-foreground text-xs">{location.tractate}</p>
-      </div>
+
       
       {/* Previous button on right (Hebrew right-to-left logic) */}
       <Button

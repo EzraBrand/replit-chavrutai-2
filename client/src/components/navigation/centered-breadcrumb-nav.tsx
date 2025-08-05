@@ -67,70 +67,7 @@ export function CenteredBreadcrumbNav({ location, onLocationChange }: CenteredBr
 
   return (
     <div className="flex items-center justify-between w-full max-w-md">
-      {/* Previous Page Button */}
-      <Button
-        variant="outline"
-        size="sm"
-        onClick={handlePrevPage}
-        disabled={!canGoPrev}
-        className="flex items-center gap-1 px-2 py-2 flex-shrink-0"
-        title={(() => {
-          if (location.side === 'b') {
-            return `Previous: ${location.folio}a`;
-          } else if (location.folio > 2) {
-            return `Previous: ${location.folio - 1}b`;
-          }
-          return 'Previous page';
-        })()}
-      >
-        {/* Desktop: Full text */}
-        <span className="text-xs hidden lg:inline">
-          Previous {(() => {
-            if (location.side === 'b') {
-              return `(${location.folio}a)`;
-            } else if (location.folio > 2) {
-              return `(${location.folio - 1}b)`;
-            }
-            return '';
-          })()}
-        </span>
-        {/* Tablet & Mobile: Just page numbers */}
-        <span className="text-xs inline lg:hidden">
-          {(() => {
-            if (location.side === 'b') {
-              return `${location.folio}a`;
-            } else if (location.folio > 2) {
-              return `${location.folio - 1}b`;
-            }
-            return '';
-          })()}
-        </span>
-        <ChevronLeft className="w-3 h-3" />
-      </Button>
-
-      {/* Centered Breadcrumb Content */}
-      <div className="flex flex-col items-center justify-center text-center mx-4 min-w-0">
-        {/* Row 1: Tractate */}
-        <div className="text-sm font-medium text-primary truncate max-w-full">
-          {location.tractate}
-        </div>
-        
-        {/* Row 2: Chapter */}
-        <div className="text-xs text-muted-foreground truncate max-w-full">
-          {currentChapter ? (
-            <>Chapter {currentChapter.number}: <em>{currentChapter.englishName}</em></>
-          ) : (
-            `Chapter 1`
-          )}
-        </div>
-        
-        {/* Row 3: Page */}
-        <div className="text-xs text-muted-foreground">
-          {location.folio}{location.side}
-        </div>
-      </div>
-
-      {/* Next Page Button */}
+      {/* Next Page Button (Left side - for Hebrew RTL flow) */}
       <Button
         variant="outline"
         size="sm"
@@ -169,6 +106,69 @@ export function CenteredBreadcrumbNav({ location, onLocationChange }: CenteredBr
             return '';
           })()}
         </span>
+      </Button>
+
+      {/* Centered Breadcrumb Content */}
+      <div className="flex flex-col items-center justify-center text-center mx-4 min-w-0">
+        {/* Row 1: Tractate */}
+        <div className="text-sm font-medium text-primary truncate max-w-full">
+          {location.tractate}
+        </div>
+        
+        {/* Row 2: Chapter */}
+        <div className="text-xs text-muted-foreground truncate max-w-full">
+          {currentChapter ? (
+            <>Chapter {currentChapter.number}: <em>{currentChapter.englishName}</em></>
+          ) : (
+            `Chapter 1`
+          )}
+        </div>
+        
+        {/* Row 3: Page */}
+        <div className="text-xs text-muted-foreground">
+          {location.folio}{location.side}
+        </div>
+      </div>
+
+      {/* Previous Page Button (Right side - for Hebrew RTL flow) */}
+      <Button
+        variant="outline"
+        size="sm"
+        onClick={handlePrevPage}
+        disabled={!canGoPrev}
+        className="flex items-center gap-1 px-2 py-2 flex-shrink-0"
+        title={(() => {
+          if (location.side === 'b') {
+            return `Previous: ${location.folio}a`;
+          } else if (location.folio > 2) {
+            return `Previous: ${location.folio - 1}b`;
+          }
+          return 'Previous page';
+        })()}
+      >
+        {/* Desktop: Full text */}
+        <span className="text-xs hidden lg:inline">
+          Previous {(() => {
+            if (location.side === 'b') {
+              return `(${location.folio}a)`;
+            } else if (location.folio > 2) {
+              return `(${location.folio - 1}b)`;
+            }
+            return '';
+          })()}
+        </span>
+        {/* Tablet & Mobile: Just page numbers */}
+        <span className="text-xs inline lg:hidden">
+          {(() => {
+            if (location.side === 'b') {
+              return `${location.folio}a`;
+            } else if (location.folio > 2) {
+              return `${location.folio - 1}b`;
+            }
+            return '';
+          })()}
+        </span>
+        <ChevronLeft className="w-3 h-3" />
       </Button>
     </div>
   );
