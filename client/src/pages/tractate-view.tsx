@@ -8,7 +8,7 @@ import { getMaxFolio } from "@/lib/tractate-ranges";
 import { SectionedBilingualDisplay } from "@/components/text/sectioned-bilingual-display";
 import { PageNavigation } from "@/components/navigation/page-navigation";
 import { HamburgerMenu } from "@/components/navigation/hamburger-menu";
-import { BreadcrumbNav } from "@/components/navigation/breadcrumb-nav";
+import { CenteredBreadcrumbNav } from "@/components/navigation/centered-breadcrumb-nav";
 import { BreadcrumbNavigation, breadcrumbHelpers } from "@/components/navigation/breadcrumb-navigation";
 import { SectionNavigation } from "@/components/navigation/section-navigation";
 import { Footer } from "@/components/footer";
@@ -118,138 +118,9 @@ export default function TractateView() {
               <HamburgerMenu onLocationChange={handleLocationChange} />
             </div>
             
-            {/* Center Section: Navigation + Page Controls */}
-            <div className="flex-1 flex items-center justify-center gap-2 min-w-0">
-              {/* Next Button (Left side) - Adaptive */}
-              <Button
-                variant="outline"
-                size="sm"
-                className="flex items-center gap-1 px-2 py-2 flex-shrink-0"
-                onClick={() => {
-                  const maxFolio = getMaxFolio(talmudLocation.tractate);
-                  let newFolio = talmudLocation.folio;
-                  let newSide = talmudLocation.side;
-                  
-                  if (talmudLocation.side === 'a') {
-                    newSide = 'b';
-                  } else {
-                    newFolio = talmudLocation.folio + 1;
-                    newSide = 'a';
-                  }
-                  
-                  if (newFolio <= maxFolio) {
-                    handleLocationChange({
-                      ...talmudLocation,
-                      folio: newFolio,
-                      side: newSide
-                    });
-                  }
-                }}
-                disabled={(() => {
-                  const maxFolio = getMaxFolio(talmudLocation.tractate);
-                  if (talmudLocation.side === 'a') return false;
-                  return talmudLocation.folio >= maxFolio;
-                })()}
-                title={(() => {
-                  const maxFolio = getMaxFolio(talmudLocation.tractate);
-                  if (talmudLocation.side === 'a') {
-                    return `Next: ${talmudLocation.folio}b`;
-                  } else if (talmudLocation.folio < maxFolio) {
-                    return `Next: ${talmudLocation.folio + 1}a`;
-                  }
-                  return 'Next page';
-                })()}
-              >
-                <ChevronLeft className="w-3 h-3" />
-                {/* Desktop: Full text */}
-                <span className="text-xs hidden lg:inline">
-                  Next {(() => {
-                    const maxFolio = getMaxFolio(talmudLocation.tractate);
-                    if (talmudLocation.side === 'a') {
-                      return `(${talmudLocation.folio}b)`;
-                    } else if (talmudLocation.folio < maxFolio) {
-                      return `(${talmudLocation.folio + 1}a)`;
-                    }
-                    return '';
-                  })()}
-                </span>
-                {/* Tablet & Mobile: Just page numbers */}
-                <span className="text-xs inline lg:hidden">
-                  {(() => {
-                    const maxFolio = getMaxFolio(talmudLocation.tractate);
-                    if (talmudLocation.side === 'a') {
-                      return `${talmudLocation.folio}b`;
-                    } else if (talmudLocation.folio < maxFolio) {
-                      return `${talmudLocation.folio + 1}a`;
-                    }
-                    return '';
-                  })()}
-                </span>
-              </Button>
-              
-              {/* Central Navigation */}
-              <div className="flex-1 flex justify-center min-w-0">
-                <BreadcrumbNav location={talmudLocation} onLocationChange={handleLocationChange} />
-              </div>
-              
-              {/* Previous Button (Right side) - Adaptive */}
-              <Button
-                variant="outline"
-                size="sm"
-                className="flex items-center gap-1 px-2 py-2 flex-shrink-0"
-                onClick={() => {
-                  let newFolio = talmudLocation.folio;
-                  let newSide = talmudLocation.side;
-                  
-                  if (talmudLocation.side === 'b') {
-                    newSide = 'a';
-                  } else if (talmudLocation.folio > 2) {
-                    newFolio = talmudLocation.folio - 1;
-                    newSide = 'b';
-                  } else {
-                    return;
-                  }
-                  
-                  handleLocationChange({
-                    ...talmudLocation,
-                    folio: newFolio,
-                    side: newSide
-                  });
-                }}
-                disabled={talmudLocation.folio === 2 && talmudLocation.side === 'a'}
-                title={(() => {
-                  if (talmudLocation.side === 'b') {
-                    return `Previous: ${talmudLocation.folio}a`;
-                  } else if (talmudLocation.folio > 2) {
-                    return `Previous: ${talmudLocation.folio - 1}b`;
-                  }
-                  return 'Previous page';
-                })()}
-              >
-                {/* Desktop: Full text */}
-                <span className="text-xs hidden lg:inline">
-                  Previous {(() => {
-                    if (talmudLocation.side === 'b') {
-                      return `(${talmudLocation.folio}a)`;
-                    } else if (talmudLocation.folio > 2) {
-                      return `(${talmudLocation.folio - 1}b)`;
-                    }
-                    return '';
-                  })()}
-                </span>
-                {/* Tablet & Mobile: Just page numbers */}
-                <span className="text-xs inline lg:hidden">
-                  {(() => {
-                    if (talmudLocation.side === 'b') {
-                      return `${talmudLocation.folio}a`;
-                    } else if (talmudLocation.folio > 2) {
-                      return `${talmudLocation.folio - 1}b`;
-                    }
-                    return '';
-                  })()}
-                </span>
-                <ChevronRight className="w-3 h-3" />
-              </Button>
+            {/* Center Section: Centered Breadcrumb Navigation */}
+            <div className="flex-1 flex items-center justify-center min-w-0">
+              <CenteredBreadcrumbNav location={talmudLocation} onLocationChange={handleLocationChange} />
             </div>
             
 
@@ -259,12 +130,7 @@ export default function TractateView() {
 
       {/* Main Content */}
       <main className={`max-w-7xl mx-auto px-4 py-6 text-size-${preferences.textSize} hebrew-font-${preferences.hebrewFont}`}>
-        {/* Breadcrumbs */}
-        <BreadcrumbNavigation items={breadcrumbHelpers.tractateView(
-          talmudLocation.tractate, 
-          talmudLocation.folio, 
-          talmudLocation.side
-        )} />
+
         
 
 
