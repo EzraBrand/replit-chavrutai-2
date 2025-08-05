@@ -66,7 +66,7 @@ export default function About() {
               <h3 className="text-xl font-semibold text-foreground mb-3">Text Processing Features</h3>
               
               <ol className="list-decimal list-inside space-y-2 text-muted-foreground">
-                <li>Intelligent English Text Splitting: Advanced punctuation-based paragraph breaks</li>
+                <li>Intelligent Hebrew and English Text Splitting: Sophisticated punctuation-based paragraph breaks, to enhance readability</li>
                 <li>Term Replacement System: Text processing via a dictionary for more precise terminology</li>
                 <li>Ordinal Number Conversion: Automatic conversion of written ordinals to numeric format for enhanced readability. (E.g. "fourth" → "4th", "twenty-ninth" → "29th")</li>
               </ol>
