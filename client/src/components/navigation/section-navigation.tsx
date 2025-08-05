@@ -43,12 +43,12 @@ export function SectionNavigation({ totalSections, currentSection, onSectionChan
     };
   }, [totalSections]);
 
-  // Update active section when prop changes
+  // Update active section when prop changes (from intersection observer)
   useEffect(() => {
-    if (currentSection && currentSection !== activeSection) {
+    if (currentSection) {
       setActiveSection(currentSection);
     }
-  }, [currentSection, activeSection]);
+  }, [currentSection]);
 
   const navigateToSection = (sectionNumber: number) => {
     if (sectionNumber >= 1 && sectionNumber <= totalSections) {

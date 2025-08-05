@@ -45,7 +45,7 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
     }
   }, [maxSections, text.tractate, text.folio, text.side, onSectionVisible]);
 
-  // Simplified: Only track hash changes, no intersection observer interference
+  // Track hash changes for direct navigation
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash;
@@ -65,6 +65,49 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
 
     return () => {
       window.removeEventListener('hashchange', handleHashChange);
+    };
+  }, [maxSections, onSectionVisible]);
+
+  // Lightweight intersection observer to update section indicator during scroll
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // Find the most visible section
+        let mostVisibleSection = null;
+        let maxIntersectionRatio = 0;
+
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && entry.intersectionRatio > maxIntersectionRatio) {
+            const sectionId = entry.target.id;
+            if (sectionId.startsWith('section-')) {
+              const sectionNumber = parseInt(sectionId.replace('section-', ''));
+              mostVisibleSection = sectionNumber;
+              maxIntersectionRatio = entry.intersectionRatio;
+            }
+          }
+        });
+
+        // Update section indicator if we found a visible section
+        if (mostVisibleSection) {
+          onSectionVisible?.(mostVisibleSection);
+        }
+      },
+      {
+        threshold: [0.1, 0.3, 0.5, 0.7], // Multiple thresholds for better tracking
+        rootMargin: '-20% 0px -20% 0px' // Focus on middle area of viewport
+      }
+    );
+
+    // Observe all section elements
+    for (let i = 1; i <= maxSections; i++) {
+      const element = document.getElementById(`section-${i}`);
+      if (element) {
+        observer.observe(element);
+      }
+    }
+
+    return () => {
+      observer.disconnect();
     };
   }, [maxSections, onSectionVisible]);
   
