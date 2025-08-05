@@ -65,10 +65,28 @@ export default function About() {
 
               <h3 className="text-xl font-semibold text-foreground mb-3">Text Processing Features</h3>
               
-              <ol className="list-decimal list-inside space-y-2 text-muted-foreground">
+              <ol className="list-decimal list-inside space-y-2 mb-6 text-muted-foreground">
                 <li>Intelligent English Text Splitting: Advanced punctuation-based paragraph breaks</li>
                 <li>Term Replacement System: Text processing via a dictionary for more precise terminology</li>
                 <li>Ordinal Number Conversion: Automatic conversion of written ordinals to numeric format for enhanced readability. (E.g. "fourth" → "4th", "twenty-ninth" → "29th")</li>
+              </ol>
+
+              <h3 className="text-xl font-semibold text-foreground mb-3">English Text Processing</h3>
+              
+              <ol className="list-decimal list-inside space-y-2 mb-6 text-muted-foreground">
+                <li>Advanced Punctuation Analysis: Sophisticated parsing of complex sentence structures including parenthetical expressions, quotations, and nested clauses</li>
+                <li>Contextual Paragraph Breaking: Smart identification of logical thought units rather than simple sentence boundaries, preserving meaning flow</li>
+                <li>Citation and Reference Handling: Specialized processing for Talmudic citations, biblical references, and scholarly annotations</li>
+                <li>Grammatical Structure Recognition: Analysis of English translations to maintain proper subject-verb relationships across paragraph breaks</li>
+              </ol>
+
+              <h3 className="text-xl font-semibold text-foreground mb-3">Hebrew and English Text Splitting</h3>
+              
+              <ol className="list-decimal list-inside space-y-2 text-muted-foreground">
+                <li>Bilingual Synchronization: Intelligent alignment of Hebrew source text with English translations, ensuring corresponding passages maintain logical cohesion</li>
+                <li>Hebrew Punctuation Processing: Recognition of Hebrew punctuation marks (geresh, gershayim, sof pasuk) and their semantic meaning for proper text segmentation</li>
+                <li>Cross-Language Boundary Detection: Advanced algorithms that identify natural breaking points that work for both Hebrew and English text flow</li>
+                <li>Dialectical Structure Preservation: Maintaining the integrity of Talmudic argumentation patterns across both languages during text splitting operations</li>
               </ol>
             </div>
           </div>
