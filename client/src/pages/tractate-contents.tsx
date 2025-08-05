@@ -249,12 +249,12 @@ export const CHAPTER_DATA: Record<string, Array<{
     { number: 2, englishName: "Lo Yachpor", hebrewName: "לא יחפור", startFolio: 17, startSide: 'a', endFolio: 28, endSide: 'b' },
     { number: 3, englishName: "Chezkat HaBatim", hebrewName: "חזקת הבתים", startFolio: 28, startSide: 'b', endFolio: 45, endSide: 'b' },
     { number: 4, englishName: "HaMokher Et HaBayit", hebrewName: "המוכר את הבית", startFolio: 61, startSide: 'a', endFolio: 79, endSide: 'b' },
-    { number: 5, englishName: "V'Eilu Shedarkhah", hebrewName: "ואלו שדרכן", startFolio: 79, startSide: 'b', endFolio: 93, endSide: 'a' },
-    { number: 6, englishName: "HaLokach Peirot", hebrewName: "הלוקח פירות", startFolio: 93, startSide: 'a', endFolio: 107, endSide: 'b' },
-    { number: 7, englishName: "Yesh Nochlin", hebrewName: "יש נוחלין", startFolio: 107, startSide: 'b', endFolio: 115, endSide: 'a' },
-    { number: 8, englishName: "Yesh Mutav", hebrewName: "יש מותב", startFolio: 115, startSide: 'a', endFolio: 126, endSide: 'b' },
-    { number: 9, englishName: "HaKotev Et Nechasyav", hebrewName: "הכותב את נכסיו", startFolio: 126, startSide: 'b', endFolio: 146, endSide: 'a' },
-    { number: 10, englishName: "Get Pashut", hebrewName: "גט פשוט", startFolio: 146, startSide: 'a', endFolio: 176, endSide: 'b' }
+    { number: 5, englishName: "HaMokher Et HaSefinah", hebrewName: "המוכר את הספינה", startFolio: 73, startSide: 'a', endFolio: 92, endSide: 'a' },
+    { number: 6, englishName: "HaMokher Peirot", hebrewName: "המוכר פירות", startFolio: 92, startSide: 'a', endFolio: 102, endSide: 'b' },
+    { number: 7, englishName: "Beit Kor", hebrewName: "בית כור", startFolio: 102, startSide: 'b', endFolio: 108, endSide: 'a' },
+    { number: 8, englishName: "Yesh Nochlin", hebrewName: "יש נוחלין", startFolio: 108, startSide: 'a', endFolio: 139, endSide: 'b' },
+    { number: 9, englishName: "Mi She'met", hebrewName: "מי שמת", startFolio: 139, startSide: 'b', endFolio: 160, endSide: 'a' },
+    { number: 10, englishName: "Get Pashut", hebrewName: "גט פשוט", startFolio: 160, startSide: 'a', endFolio: 176, endSide: 'b' }
   ],
   "sanhedrin": [
     { number: 1, englishName: "Dinei Mamonot BiShloshah", hebrewName: "דיני ממונות בשלשה", startFolio: 2, startSide: 'a', endFolio: 18, endSide: 'a' },
