@@ -25,7 +25,7 @@ export const CHAPTER_DATA: Record<string, Array<{
   "berakhot": [
     { number: 1, englishName: "Me'eimatay", hebrewName: "מאימתי", startFolio: 2, startSide: 'a', endFolio: 13, endSide: 'a' },
     { number: 2, englishName: "Hayah Korei", hebrewName: "היה קורא", startFolio: 13, startSide: 'a', endFolio: 17, endSide: 'b' },
-    { number: 3, englishName: "Mi She'metu", hebrewName: "מי שמתו", startFolio: 17, startSide: 'b', endFolio: 26, endSide: 'a' },
+    { number: 3, englishName: "Mi She'meto", hebrewName: "מי שמתו", startFolio: 17, startSide: 'b', endFolio: 26, endSide: 'a' },
     { number: 4, englishName: "Tefilat HaShachar", hebrewName: "תפילת השחר", startFolio: 26, startSide: 'a', endFolio: 30, endSide: 'b' },
     { number: 5, englishName: "Ein Omdin", hebrewName: "אין עומדין", startFolio: 30, startSide: 'b', endFolio: 35, endSide: 'a' },
     { number: 6, englishName: "Keytzad Mevarkhim", hebrewName: "כיצד מברכין", startFolio: 35, startSide: 'a', endFolio: 45, endSide: 'a' },
@@ -248,7 +248,7 @@ export const CHAPTER_DATA: Record<string, Array<{
     { number: 1, englishName: "HaShutafin", hebrewName: "השותפין", startFolio: 2, startSide: 'a', endFolio: 17, endSide: 'a' },
     { number: 2, englishName: "Lo Yachpor", hebrewName: "לא יחפור", startFolio: 17, startSide: 'a', endFolio: 28, endSide: 'b' },
     { number: 3, englishName: "Chezkat HaBatim", hebrewName: "חזקת הבתים", startFolio: 28, startSide: 'b', endFolio: 45, endSide: 'b' },
-    { number: 4, englishName: "Mi She'mecher Et HaBayit", hebrewName: "מי שמכר את הבית", startFolio: 61, startSide: 'a', endFolio: 79, endSide: 'b' },
+    { number: 4, englishName: "HaMokher Et HaBayit", hebrewName: "המוכר את הבית", startFolio: 61, startSide: 'a', endFolio: 79, endSide: 'b' },
     { number: 5, englishName: "V'Eilu Shedarkhah", hebrewName: "ואלו שדרכן", startFolio: 79, startSide: 'b', endFolio: 93, endSide: 'a' },
     { number: 6, englishName: "HaLokach Peirot", hebrewName: "הלוקח פירות", startFolio: 93, startSide: 'a', endFolio: 107, endSide: 'b' },
     { number: 7, englishName: "Yesh Nochlin", hebrewName: "יש נוחלין", startFolio: 107, startSide: 'b', endFolio: 115, endSide: 'a' },
