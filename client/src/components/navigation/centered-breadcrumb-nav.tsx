@@ -83,7 +83,7 @@ export function CenteredBreadcrumbNav({ location, onLocationChange }: CenteredBr
           return 'Next page';
         })()}
       >
-        <ChevronRight className="w-3 h-3" />
+        <ChevronLeft className="w-3 h-3" />
         {/* Desktop: Full text */}
         <span className="text-xs hidden lg:inline">
           Next {(() => {
@@ -168,7 +168,7 @@ export function CenteredBreadcrumbNav({ location, onLocationChange }: CenteredBr
             return '';
           })()}
         </span>
-        <ChevronLeft className="w-3 h-3" />
+        <ChevronRight className="w-3 h-3" />
       </Button>
     </div>
   );
