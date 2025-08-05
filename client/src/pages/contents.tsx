@@ -6,6 +6,7 @@ import { BreadcrumbNavigation, breadcrumbHelpers } from "@/components/navigation
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
 import { sefariaAPI } from "@/lib/sefaria";
 import { TRACTATE_LISTS, TRACTATE_HEBREW_NAMES } from "@shared/tractates";
+import { trackEvent } from "@/lib/analytics";
 import hebrewBookIcon from "@/assets/hebrew-book-icon.png";
 import type { TalmudLocation } from "@/types/talmud";
 
@@ -168,6 +169,7 @@ export default function Contents() {
                     <Link 
                       key={tractate} 
                       href={`/contents/${encodeURIComponent(tractate.toLowerCase())}`}
+                      onClick={() => trackEvent('select_tractate', 'navigation', tractate)}
                     >
                       <Card className="h-full hover:shadow-md transition-shadow cursor-pointer border-border hover:border-primary/20">
                         <CardHeader className="pb-3">

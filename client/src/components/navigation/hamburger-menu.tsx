@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Separator } from "@/components/ui/separator";
 import { usePreferences, type TextSize, type HebrewFont, type Theme } from "@/context/preferences-context";
 import type { TalmudLocation } from "@/types/talmud";
+import { trackEvent } from "@/lib/analytics";
 
 interface HamburgerMenuProps {
   onLocationChange: (location: TalmudLocation) => void;
@@ -39,7 +40,10 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
           <div className="mb-6">
             <Link 
               href="/contents"
-              onClick={() => setOpen(false)}
+              onClick={() => {
+                trackEvent('navigate_menu', 'navigation', 'contents');
+                setOpen(false);
+              }}
               className="flex items-center gap-3 w-full text-left px-4 py-3 rounded-lg hover:bg-secondary transition-colors duration-100 text-foreground font-medium text-lg"
             >
               <div className="w-8 h-8 rounded-full flex items-center justify-center overflow-hidden flex-shrink-0">
@@ -76,7 +80,10 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
                   <Type className="w-4 h-4 text-foreground/60" />
                   <span className="text-sm text-foreground/80">Text Size</span>
                 </div>
-                <Select value={preferences.textSize} onValueChange={(value: TextSize) => setTextSize(value)}>
+                <Select value={preferences.textSize} onValueChange={(value: TextSize) => {
+                  trackEvent('change_preference', 'settings', `text_size_${value}`);
+                  setTextSize(value);
+                }}>
                   <SelectTrigger className="w-full h-8">
                     <SelectValue />
                   </SelectTrigger>
@@ -95,7 +102,10 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
                   <Palette className="w-4 h-4 text-foreground/60" />
                   <span className="text-sm text-foreground/80">Hebrew Font</span>
                 </div>
-                <Select value={preferences.hebrewFont} onValueChange={(value: HebrewFont) => setHebrewFont(value)}>
+                <Select value={preferences.hebrewFont} onValueChange={(value: HebrewFont) => {
+                  trackEvent('change_preference', 'settings', `hebrew_font_${value}`);
+                  setHebrewFont(value);
+                }}>
                   <SelectTrigger className="w-full h-8">
                     <SelectValue />
                   </SelectTrigger>
@@ -122,7 +132,11 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
                   <Button
                     variant="ghost"
                     size="sm"
-                    onClick={() => setTheme(preferences.theme === "light" ? "dark" : "light")}
+                    onClick={() => {
+                      const newTheme = preferences.theme === "light" ? "dark" : "light";
+                      trackEvent('change_preference', 'settings', `theme_${newTheme}`);
+                      setTheme(newTheme);
+                    }}
                     className="h-8 px-3"
                   >
                     {preferences.theme === "light" ? "Dark" : "Light"}

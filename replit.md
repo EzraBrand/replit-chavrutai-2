@@ -157,3 +157,17 @@ The system prioritizes rapid development and easy deployment while maintaining a
 - **Homepage Architecture Change**: Set Contents page as the new homepage (root "/" route) while maintaining backward compatibility with "/contents" route
 - **Strategic Sitemap Optimization**: Redesigned sitemap focusing on key entry points rather than exhaustive coverage - includes all tractate contents pages, first folio (2a) of each tractate, and 15+ famous/significant folios with educational value (Hillel stories, ethical discussions, foundational laws)
 - **Enhanced Robots.txt**: Added crawl delays (1-2 seconds) to respect Sefaria API limits, blocked API endpoints from indexing, and optimized for major search engines
+
+### February 3, 2025 - Google Analytics Integration
+- **Complete Analytics Setup**: Integrated Google Analytics 4 with measurement ID G-ZNPTD2QV1F for comprehensive user behavior tracking
+- **Automatic Page Tracking**: Implemented automatic page view tracking for single-page application navigation using `useAnalytics` hook
+- **Event Tracking System**: Added comprehensive event tracking for user interactions including:
+  - Page navigation (next/previous folio navigation with tractate and folio details)
+  - Tractate selection from Contents page with source tracking
+  - User preference changes (text size, Hebrew font, theme switching)
+  - Menu navigation patterns
+- **Analytics Architecture**: Created modular analytics system with `initGA`, `trackPageView`, and `trackEvent` functions
+- **Environment Configuration**: Properly configured VITE_GA_MEASUREMENT_ID environment variable for secure API key management
+- **TypeScript Integration**: Added proper TypeScript definitions for Google Analytics global functions
+- **Event Examples Library**: Created comprehensive analytics-examples.ts with detailed patterns for tracking study behavior, engagement metrics, error monitoring, and user preferences
+- **Production Ready**: Analytics system is fully deployed and active on chavrutai.com domain

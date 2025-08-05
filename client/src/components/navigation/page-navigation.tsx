@@ -2,6 +2,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { TalmudLocation } from "@/types/talmud";
 import { getMaxFolio } from "@/lib/tractate-ranges";
+import { trackEvent } from "@/lib/analytics";
 
 interface PageNavigationProps {
   location: TalmudLocation;
@@ -22,6 +23,9 @@ export function PageNavigation({ location, onLocationChange }: PageNavigationPro
       // At the beginning, don't go back further
       return;
     }
+    
+    // Track page navigation event
+    trackEvent('navigate_page', 'navigation', `${location.tractate} ${newFolio}${newSide}`, newFolio);
     
     onLocationChange({
       ...location,
@@ -47,6 +51,9 @@ export function PageNavigation({ location, onLocationChange }: PageNavigationPro
     if (newFolio > maxFolio) {
       return;
     }
+    
+    // Track page navigation event
+    trackEvent('navigate_page', 'navigation', `${location.tractate} ${newFolio}${newSide}`, newFolio);
     
     onLocationChange({
       ...location,
