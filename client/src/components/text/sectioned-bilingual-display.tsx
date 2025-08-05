@@ -68,46 +68,51 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
     };
   }, [maxSections, onSectionVisible]);
 
-  // Lightweight intersection observer to update section indicator during scroll
+  // Passive scroll tracking using scroll events instead of intersection observer
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        // Find the most visible section
-        let mostVisibleSection = null;
-        let maxIntersectionRatio = 0;
-
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && entry.intersectionRatio > maxIntersectionRatio) {
-            const sectionId = entry.target.id;
-            if (sectionId.startsWith('section-')) {
-              const sectionNumber = parseInt(sectionId.replace('section-', ''));
-              mostVisibleSection = sectionNumber;
-              maxIntersectionRatio = entry.intersectionRatio;
+    let scrollTimeout: NodeJS.Timeout;
+    
+    const handleScroll = () => {
+      // Clear previous timeout
+      clearTimeout(scrollTimeout);
+      
+      // Debounce scroll events to avoid excessive updates
+      scrollTimeout = setTimeout(() => {
+        // Find which section is most visible in the center of the viewport
+        const viewportHeight = window.innerHeight;
+        const centerY = window.scrollY + viewportHeight / 2;
+        
+        let closestSection = 1;
+        let closestDistance = Infinity;
+        
+        for (let i = 1; i <= maxSections; i++) {
+          const element = document.getElementById(`section-${i}`);
+          if (element) {
+            const rect = element.getBoundingClientRect();
+            const elementCenterY = window.scrollY + rect.top + rect.height / 2;
+            const distance = Math.abs(centerY - elementCenterY);
+            
+            if (distance < closestDistance) {
+              closestDistance = distance;
+              closestSection = i;
             }
           }
-        });
-
-        // Update section indicator if we found a visible section
-        if (mostVisibleSection) {
-          onSectionVisible?.(mostVisibleSection);
         }
-      },
-      {
-        threshold: [0.1, 0.3, 0.5, 0.7], // Multiple thresholds for better tracking
-        rootMargin: '-20% 0px -20% 0px' // Focus on middle area of viewport
-      }
-    );
+        
+        // Only update the indicator, never interfere with scrolling
+        onSectionVisible?.(closestSection);
+      }, 100); // 100ms debounce
+    };
 
-    // Observe all section elements
-    for (let i = 1; i <= maxSections; i++) {
-      const element = document.getElementById(`section-${i}`);
-      if (element) {
-        observer.observe(element);
-      }
-    }
+    // Add scroll listener
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    // Initial check
+    handleScroll();
 
     return () => {
-      observer.disconnect();
+      window.removeEventListener('scroll', handleScroll);
+      clearTimeout(scrollTimeout);
     };
   }, [maxSections, onSectionVisible]);
   
