@@ -58,8 +58,9 @@ export default function About() {
               <h3 className="text-xl font-semibold text-foreground mb-3">Display & Navigation Features</h3>
               
               <ol className="list-decimal list-inside space-y-2 mb-6 text-muted-foreground">
-                <li>Dropdown and Breadcrumb Navigation: Dual systems — dropdown menus for selecting tractate and page, and hyperlinked breadcrumb hierarchy displaying tractate, chapter number and title, and page.</li>
+                <li>Breadcrumb Navigation: Breadcrumb hierarchy displaying tractate, chapter number and title, and page.</li>
                 <li>Previous/Next page controls</li>
+                <li>Section Navigation: Individual sections within each page are clickable with direct links to Sefaria, plus a floating navigation widget in the bottom-right corner showing current section position and allowing quick navigation between sections.</li>
                 <li>Warm color scheme throughout the interface</li>
                 <li>User Preferences System: Customizable text size controls (Small, Medium, Large, Extra Large) for both Hebrew and English. Alternative Hebrew font selection and dark mode toggle.</li>
               </ol>
