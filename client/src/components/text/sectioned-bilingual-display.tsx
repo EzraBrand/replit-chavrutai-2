@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { formatEnglishText, processHebrewText, processEnglishText } from "@/lib/text-processing";
 import type { TalmudText } from "@/types/talmud";
 
@@ -14,6 +14,10 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
   
   // Ensure we have the same number of sections for both languages
   const maxSections = Math.max(hebrewSections.length, englishSections.length);
+  
+  // Track programmatic scrolling to avoid interference with natural scrolling
+  const lastProgrammaticScrollRef = useRef<number | null>(null);
+  const isScrollingProgrammaticallyRef = useRef(false);
 
   // Handle hash navigation for sections
   useEffect(() => {
@@ -30,10 +34,19 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
             const elementPosition = sectionElement.offsetTop;
             const offsetPosition = elementPosition - headerOffset;
             
+            // Mark this as programmatic scroll
+            lastProgrammaticScrollRef.current = offsetPosition;
+            isScrollingProgrammaticallyRef.current = true;
+            
             window.scrollTo({
               top: offsetPosition,
               behavior: 'smooth'
             });
+            
+            // Reset programmatic scroll flag after scroll completes
+            setTimeout(() => {
+              isScrollingProgrammaticallyRef.current = false;
+            }, 500);
             
             // Notify parent component about visible section
             onSectionVisible?.(sectionNumber);
@@ -43,23 +56,30 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
     }
   }, [maxSections, text.tractate, text.folio, text.side, onSectionVisible]);
 
-  // Set up intersection observer to track visible sections
+  // Set up intersection observer to track visible sections (passive tracking only)
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const sectionId = entry.target.id;
-            if (sectionId.startsWith('section-')) {
-              const sectionNumber = parseInt(sectionId.replace('section-', ''));
-              onSectionVisible?.(sectionNumber);
+        // Only update if user is actively scrolling, not when programmatically navigating
+        const isUserScrolling = !isScrollingProgrammaticallyRef.current && 
+          (!lastProgrammaticScrollRef.current || 
+           Math.abs(window.scrollY - lastProgrammaticScrollRef.current) > 50);
+        
+        if (isUserScrolling) {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting && entry.intersectionRatio > 0.6) {
+              const sectionId = entry.target.id;
+              if (sectionId.startsWith('section-')) {
+                const sectionNumber = parseInt(sectionId.replace('section-', ''));
+                onSectionVisible?.(sectionNumber);
+              }
             }
-          }
-        });
+          });
+        }
       },
       {
-        threshold: 0.5, // Trigger when 50% of section is visible
-        rootMargin: '-100px 0px -100px 0px' // Account for header/footer
+        threshold: [0.6], // Trigger when 60% of section is visible
+        rootMargin: '-80px 0px -80px 0px' // Account for header/footer
       }
     );
 
@@ -107,10 +127,20 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
                       const headerOffset = 100;
                       const elementPosition = sectionElement.offsetTop;
                       const offsetPosition = elementPosition - headerOffset;
+                      
+                      // Mark this as programmatic scroll
+                      lastProgrammaticScrollRef.current = offsetPosition;
+                      isScrollingProgrammaticallyRef.current = true;
+                      
                       window.scrollTo({
                         top: offsetPosition,
                         behavior: 'smooth'
                       });
+                      
+                      // Reset programmatic scroll flag after scroll completes
+                      setTimeout(() => {
+                        isScrollingProgrammaticallyRef.current = false;
+                      }, 500);
                     }
                   }}
                   className="bg-primary hover:bg-primary/90 text-primary-foreground px-3 py-1 rounded-full text-sm font-semibold transition-colors duration-200 flex items-center gap-1"
