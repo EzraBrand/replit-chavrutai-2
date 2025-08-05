@@ -70,6 +70,32 @@ export default function About() {
                 <li>Term Replacement System: Text processing via a dictionary for more precise terminology</li>
                 <li>Ordinal Number Conversion: Automatic conversion of written ordinals to numeric format for enhanced readability. (E.g. "fourth" → "4th", "twenty-ninth" → "29th")</li>
               </ol>
+
+              {/* Contact and Attribution Section */}
+              <div className="mt-12 pt-8 border-t border-border">
+                <p className="text-muted-foreground leading-relaxed mb-4">
+                  ChavrutAI is a project of{" "}
+                  <a 
+                    href="https://www.ezrabrand.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary hover:text-primary/80 underline transition-colors duration-200"
+                  >
+                    "Talmud & Tech"
+                  </a>
+                  . It uses data from Sefaria (not affiliated).
+                </p>
+                
+                <p className="text-muted-foreground leading-relaxed">
+                  For questions, comments, or to report an error, please email:{" "}
+                  <a 
+                    href="mailto:ezra@chavrutai.com"
+                    className="text-primary hover:text-primary/80 underline transition-colors duration-200"
+                  >
+                    ezra@chavrutai.com
+                  </a>
+                </p>
+              </div>
             </div>
           </div>
         </div>
