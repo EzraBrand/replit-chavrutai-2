@@ -32,6 +32,7 @@ The interface honors traditional Talmud layout, adapting it for digital consumpt
 ### Key Features
 - **Accurate Folio Ranges**: Implements exact page counts for all 37 Talmud Bavli tractates based on Vilna edition data.
 - **Contents System**: Comprehensive table of contents with traditional Seder organization and individual tractate pages with authentic chapter data.
+- **Hebrew Font Selection**: Comprehensive Hebrew typography options including Google Fonts (Noto Sans Hebrew, Noto Serif Hebrew, Noto Rashi Hebrew, Frank Ruhl Libre, David Libre, Assistant) and system fonts, with visual Hebrew letter previews (aleph) in preferences dropdown.
 - **SEO Optimization**: Dynamic page titles, meta tags, clean URL structure (`/tractate/berakhot/2a`), JSON-LD structured data, and an SEO hook system.
 - **Analytics**: Google Analytics 4 integration for comprehensive user behavior tracking and event tracking (page navigation, preferences, menu interactions).
 

@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { formatEnglishText, processHebrewText, processEnglishText } from "@/lib/text-processing";
+import { usePreferences } from "@/context/preferences-context";
 import type { TalmudText } from "@/types/talmud";
 
 interface SectionedBilingualDisplayProps {
@@ -8,12 +9,17 @@ interface SectionedBilingualDisplayProps {
 }
 
 export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedBilingualDisplayProps) {
+  const { preferences } = usePreferences();
+  
   // Use sections if available, otherwise fall back to combined text
   const hebrewSections = text.hebrewSections || [text.hebrewText];
   const englishSections = text.englishSections || [text.englishText];
   
   // Ensure we have the same number of sections for both languages
   const maxSections = Math.max(hebrewSections.length, englishSections.length);
+  
+  // Get Hebrew font class based on selected font
+  const getHebrewFontClass = () => `hebrew-font-${preferences.hebrewFont}`;
   
 
 
@@ -185,7 +191,7 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
                 {/* Hebrew Section (Second on Mobile, Right Side on Desktop) */}
                 <div className="text-column space-y-3 lg:order-2">
                   {hebrewSection.trim() && (
-                    <div className="hebrew-text text-foreground">
+                    <div className={`hebrew-text text-foreground ${getHebrewFontClass()}`}>
                       {processHebrewText(hebrewSection).split('\n').filter(line => line.trim()).map((line, lineIndex, array) => (
                         <p 
                           key={lineIndex} 
@@ -225,7 +231,7 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
               {/* Hebrew Continuation (Second on Mobile, Right Side on Desktop) */}
               <div className="text-column space-y-3 lg:order-2">
                 {text.nextPageFirstSection.hebrew.trim() && (
-                  <div className="hebrew-text text-muted-foreground">
+                  <div className={`hebrew-text text-muted-foreground ${getHebrewFontClass()}`}>
                     {processHebrewText(text.nextPageFirstSection.hebrew).split('\n').filter(line => line.trim()).map((line, lineIndex, array) => (
                       <p 
                         key={lineIndex} 

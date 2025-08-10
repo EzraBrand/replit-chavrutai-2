@@ -111,10 +111,60 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="calibri">Calibri</SelectItem>
-                    <SelectItem value="times">Times New Roman</SelectItem>
-                    <SelectItem value="david">Noto Sans Hebrew</SelectItem>
-                    <SelectItem value="frank-ruehl">Frank Ruhl Libre</SelectItem>
+                    <SelectItem value="calibri">
+                      <div className="flex items-center gap-2">
+                        <span className="hebrew-font-calibri text-lg">א</span>
+                        <span>Calibri</span>
+                      </div>
+                    </SelectItem>
+                    <SelectItem value="times">
+                      <div className="flex items-center gap-2">
+                        <span className="hebrew-font-times text-lg">א</span>
+                        <span>Times New Roman</span>
+                      </div>
+                    </SelectItem>
+                    <SelectItem value="david">
+                      <div className="flex items-center gap-2">
+                        <span className="hebrew-font-david text-lg">א</span>
+                        <span>David</span>
+                      </div>
+                    </SelectItem>
+                    <SelectItem value="frank-ruehl">
+                      <div className="flex items-center gap-2">
+                        <span className="hebrew-font-frank-ruehl text-lg">א</span>
+                        <span>Frank Ruhl Libre</span>
+                      </div>
+                    </SelectItem>
+                    <SelectItem value="noto-sans-hebrew">
+                      <div className="flex items-center gap-2">
+                        <span className="hebrew-font-noto-sans-hebrew text-lg">א</span>
+                        <span>Noto Sans Hebrew</span>
+                      </div>
+                    </SelectItem>
+                    <SelectItem value="noto-serif-hebrew">
+                      <div className="flex items-center gap-2">
+                        <span className="hebrew-font-noto-serif-hebrew text-lg">א</span>
+                        <span>Noto Serif Hebrew</span>
+                      </div>
+                    </SelectItem>
+                    <SelectItem value="noto-rashi-hebrew">
+                      <div className="flex items-center gap-2">
+                        <span className="hebrew-font-noto-rashi-hebrew text-lg">א</span>
+                        <span>Noto Rashi Hebrew</span>
+                      </div>
+                    </SelectItem>
+                    <SelectItem value="assistant">
+                      <div className="flex items-center gap-2">
+                        <span className="hebrew-font-assistant text-lg">א</span>
+                        <span>Assistant</span>
+                      </div>
+                    </SelectItem>
+                    <SelectItem value="david-libre">
+                      <div className="flex items-center gap-2">
+                        <span className="hebrew-font-david-libre text-lg">א</span>
+                        <span>David Libre</span>
+                      </div>
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>

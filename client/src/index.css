@@ -1,11 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Hebrew:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Rashi+Hebrew:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Assistant:wght@200;300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=David+Libre:wght@400;500;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
 
 :root {
   --background: hsl(45, 25%, 95%);
@@ -149,7 +155,43 @@
     font-weight: bold;
     font-size: 1.1em;
     line-height: 1.8;
+  }
+
+  /* Hebrew font family classes */
+  .hebrew-font-calibri {
     font-family: 'Calibri', 'Segoe UI', sans-serif;
+  }
+
+  .hebrew-font-times {
+    font-family: 'Times New Roman', serif;
+  }
+
+  .hebrew-font-david {
+    font-family: 'David', serif;
+  }
+
+  .hebrew-font-frank-ruehl {
+    font-family: 'Frank Ruhl Libre', serif;
+  }
+
+  .hebrew-font-noto-sans-hebrew {
+    font-family: 'Noto Sans Hebrew', sans-serif;
+  }
+
+  .hebrew-font-noto-serif-hebrew {
+    font-family: 'Noto Serif Hebrew', serif;
+  }
+
+  .hebrew-font-noto-rashi-hebrew {
+    font-family: 'Noto Rashi Hebrew', serif;
+  }
+
+  .hebrew-font-assistant {
+    font-family: 'Assistant', sans-serif;
+  }
+
+  .hebrew-font-david-libre {
+    font-family: 'David Libre', serif;
   }
   
   /* Flexible Hebrew paragraph spacing for better column alignment */

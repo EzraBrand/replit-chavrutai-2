@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 
 export type TextSize = "extra-small" | "small" | "medium" | "large" | "extra-large";
-export type HebrewFont = "calibri" | "times" | "david" | "frank-ruehl";
+export type HebrewFont = "calibri" | "times" | "david" | "frank-ruehl" | "noto-sans-hebrew" | "noto-serif-hebrew" | "noto-rashi-hebrew" | "assistant" | "david-libre";
 export type Theme = "light" | "dark";
 export type Layout = "side-by-side" | "stacked";
 
@@ -24,7 +24,7 @@ const PreferencesContext = createContext<PreferencesContextType | undefined>(und
 
 const DEFAULT_PREFERENCES: Preferences = {
   textSize: "medium",
-  hebrewFont: "calibri",
+  hebrewFont: "noto-sans-hebrew",
   theme: "light",
   layout: "side-by-side",
 };
