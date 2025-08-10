@@ -23,6 +23,7 @@ const GAZETTEER_URLS = {
 // Fetch and parse a single gazetteer file
 async function fetchGazetteerFile(url: string): Promise<string[]> {
   try {
+    console.log(`Fetching gazetteer from: ${url}`);
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error(`Failed to fetch gazetteer: ${response.status}`);
@@ -30,11 +31,14 @@ async function fetchGazetteerFile(url: string): Promise<string[]> {
     const text = await response.text();
     
     // Parse the text file - each line is a term, ignore empty lines
-    return text
+    const terms = text
       .split('\n')
       .map(line => line.trim())
       .filter(line => line.length > 0)
       .sort(); // Sort alphabetically for consistent ordering
+    
+    console.log(`Loaded ${terms.length} terms from ${url.split('/').pop()}`);
+    return terms;
   } catch (error) {
     console.warn(`Failed to fetch gazetteer from ${url}:`, error);
     return [];
@@ -43,6 +47,8 @@ async function fetchGazetteerFile(url: string): Promise<string[]> {
 
 // Fetch all gazetteer data
 async function fetchAllGazetteers(): Promise<GazetteerData> {
+  console.log('Starting gazetteer data fetch...');
+  
   const [concepts, names, biblicalNames, biblicalNations, biblicalPlaces, talmudToponyms] = 
     await Promise.all([
       fetchGazetteerFile(GAZETTEER_URLS.concepts),
@@ -53,7 +59,7 @@ async function fetchAllGazetteers(): Promise<GazetteerData> {
       fetchGazetteerFile(GAZETTEER_URLS.talmudToponyms),
     ]);
 
-  return {
+  const gazetteerData = {
     concepts,
     names,
     biblicalNames,
@@ -61,6 +67,26 @@ async function fetchAllGazetteers(): Promise<GazetteerData> {
     biblicalPlaces,
     talmudToponyms,
   };
+  
+  console.log('Gazetteer data loaded:', {
+    concepts: concepts.length,
+    names: names.length,
+    biblicalNames: biblicalNames.length,
+    biblicalNations: biblicalNations.length,
+    biblicalPlaces: biblicalPlaces.length,
+    talmudToponyms: talmudToponyms.length,
+    totalTerms: concepts.length + names.length + biblicalNames.length + biblicalNations.length + biblicalPlaces.length + talmudToponyms.length
+  });
+  
+  // Check if "Hillel" is in the names data
+  if (names.includes('Hillel')) {
+    console.log('✓ "Hillel" found in names gazetteer');
+  } else {
+    console.log('✗ "Hillel" NOT found in names gazetteer');
+    console.log('Names containing "hillel" (case-insensitive):', names.filter(name => name.toLowerCase().includes('hillel')));
+  }
+  
+  return gazetteerData;
 }
 
 // React hook for fetching gazetteer data with caching

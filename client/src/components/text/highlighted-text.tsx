@@ -12,6 +12,15 @@ export function HighlightedText({ text, className = "" }: HighlightedTextProps) 
   const { preferences } = usePreferences();
   const { data: gazetteerData, isLoading, error } = useGazetteerData();
 
+  console.log('HighlightedText rendered with:', {
+    textLength: text.length,
+    textPreview: text.substring(0, 50) + '...',
+    highlightingEnabled: preferences.highlighting.enabled,
+    isLoading,
+    hasData: !!gazetteerData,
+    hasError: !!error
+  });
+
   // Determine which categories should be highlighted
   const enabledCategories = useMemo((): HighlightCategory[] => {
     if (!preferences.highlighting.enabled) return [];
