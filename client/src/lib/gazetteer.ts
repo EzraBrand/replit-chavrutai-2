@@ -75,138 +75,133 @@ export function useGazetteerData() {
   });
 }
 
-// Highlighting category type
+// Highlighting categories
 export type HighlightCategory = 'concept' | 'name' | 'place';
 
-// Term matching interface
-export interface MatchedTerm {
+// Text match interface for highlighting results
+export interface TextMatch {
   term: string;
-  category: HighlightCategory;
   startIndex: number;
   endIndex: number;
+  category: HighlightCategory;
 }
 
 // Text highlighting engine
 export class TextHighlighter {
   private gazetteerData: GazetteerData;
-  
+
   constructor(gazetteerData: GazetteerData) {
     this.gazetteerData = gazetteerData;
   }
 
-  // Create consolidated term lists by category
-  private getTermsByCategory(): Record<HighlightCategory, string[]> {
-    return {
-      concept: this.gazetteerData.concepts,
-      name: [
-        ...this.gazetteerData.names,
-        ...this.gazetteerData.biblicalNames,
-      ],
-      place: [
-        ...this.gazetteerData.biblicalPlaces,
-        ...this.gazetteerData.biblicalNations,
-        ...this.gazetteerData.talmudToponyms,
-      ],
-    };
-  }
-
-  // Find all term matches in text
-  findMatches(text: string, enabledCategories: HighlightCategory[]): MatchedTerm[] {
-    const termsByCategory = this.getTermsByCategory();
-    const matches: MatchedTerm[] = [];
-
-    // Process each enabled category
+  // Find all matching terms in the text
+  findMatches(text: string, enabledCategories: HighlightCategory[]): TextMatch[] {
+    const matches: TextMatch[] = [];
+    
     for (const category of enabledCategories) {
-      const terms = termsByCategory[category];
+      const terms = this.getTermsForCategory(category);
       
       for (const term of terms) {
-        // Create regex for word boundary matching (case-insensitive)
-        // Handle both single words and multi-word phrases
-        const escapedTerm = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        const regex = new RegExp(`\\b${escapedTerm}\\b`, 'gi');
-        
+        // Create word boundary regex to match whole words only
+        const regex = new RegExp(`\\b${this.escapeRegex(term)}\\b`, 'gi');
         let match;
+        
         while ((match = regex.exec(text)) !== null) {
           matches.push({
-            term: match[0], // Preserve original casing from text
-            category,
+            term,
             startIndex: match.index,
             endIndex: match.index + match[0].length,
+            category,
           });
         }
       }
     }
-
-    // Sort matches by start index to ensure proper processing order
+    
+    // Sort matches by start position to avoid overlapping issues
     return matches.sort((a, b) => a.startIndex - b.startIndex);
   }
 
-  // Apply highlighting to text
-  applyHighlighting(
-    text: string, 
-    enabledCategories: HighlightCategory[],
-    options: {
-      conceptClass?: string;
-      nameClass?: string;
-      placeClass?: string;
-    } = {}
-  ): string {
+  // Apply highlighting to text and return HTML
+  applyHighlighting(text: string, enabledCategories: HighlightCategory[]): string {
     const matches = this.findMatches(text, enabledCategories);
     
     if (matches.length === 0) {
       return text;
     }
 
-    // Remove overlapping matches (keep the first one found)
-    const nonOverlappingMatches = this.removeOverlaps(matches);
-    
-    // Apply highlighting from right to left to maintain correct indices
-    let highlightedText = text;
-    
-    for (let i = nonOverlappingMatches.length - 1; i >= 0; i--) {
-      const match = nonOverlappingMatches[i];
-      const className = this.getCategoryClass(match.category, options);
-      
-      const before = highlightedText.substring(0, match.startIndex);
-      const highlighted = highlightedText.substring(match.startIndex, match.endIndex);
-      const after = highlightedText.substring(match.endIndex);
-      
-      highlightedText = before + 
-        `<span class="${className}" data-term="${match.term}" data-category="${match.category}" data-testid="highlighted-term-${match.category}">${highlighted}</span>` + 
-        after;
-    }
-
-    return highlightedText;
-  }
-
-  // Remove overlapping matches, preferring earlier matches
-  private removeOverlaps(matches: MatchedTerm[]): MatchedTerm[] {
-    if (matches.length <= 1) return matches;
-
-    const result: MatchedTerm[] = [];
-    let lastEnd = -1;
+    // Build highlighted text by replacing matches with HTML spans
+    let result = '';
+    let lastIndex = 0;
 
     for (const match of matches) {
-      if (match.startIndex >= lastEnd) {
-        result.push(match);
-        lastEnd = match.endIndex;
+      // Skip overlapping matches
+      if (match.startIndex < lastIndex) {
+        continue;
       }
+
+      // Add text before the match
+      result += text.substring(lastIndex, match.startIndex);
+
+      // Add highlighted term with appropriate styling
+      const highlightClass = this.getCssClassForCategory(match.category);
+      const originalText = text.substring(match.startIndex, match.endIndex);
+      
+      result += `<span class="${highlightClass}" data-term="${this.escapeHtml(match.term)}" data-category="${match.category}">${this.escapeHtml(originalText)}</span>`;
+
+      lastIndex = match.endIndex;
     }
+
+    // Add remaining text
+    result += text.substring(lastIndex);
 
     return result;
   }
 
-  // Get CSS class for highlighting category
-  private getCategoryClass(
-    category: HighlightCategory, 
-    options: { conceptClass?: string; nameClass?: string; placeClass?: string; }
-  ): string {
-    const defaultClasses = {
-      concept: 'bg-blue-100 dark:bg-blue-900/30 text-blue-900 dark:text-blue-100 rounded px-1 cursor-help',
-      name: 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-900 dark:text-yellow-100 rounded px-1 cursor-help', 
-      place: 'bg-green-100 dark:bg-green-900/30 text-green-900 dark:text-green-100 rounded px-1 cursor-help',
-    };
+  // Get terms for a specific category
+  private getTermsForCategory(category: HighlightCategory): string[] {
+    switch (category) {
+      case 'concept':
+        return this.gazetteerData.concepts;
+      case 'name':
+        return [
+          ...this.gazetteerData.names,
+          ...this.gazetteerData.biblicalNames,
+        ];
+      case 'place':
+        return [
+          ...this.gazetteerData.biblicalPlaces,
+          ...this.gazetteerData.talmudToponyms,
+        ];
+      default:
+        return [];
+    }
+  }
 
-    return options[`${category}Class`] || defaultClasses[category];
+  // Get CSS class for highlighting category
+  private getCssClassForCategory(category: HighlightCategory): string {
+    const baseClasses = 'rounded px-1 transition-colors';
+    
+    switch (category) {
+      case 'concept':
+        return `${baseClasses} bg-blue-100 dark:bg-blue-900/30 text-blue-900 dark:text-blue-100`;
+      case 'name':
+        return `${baseClasses} bg-yellow-100 dark:bg-yellow-900/30 text-yellow-900 dark:text-yellow-100`;
+      case 'place':
+        return `${baseClasses} bg-green-100 dark:bg-green-900/30 text-green-900 dark:text-green-100`;
+      default:
+        return baseClasses;
+    }
+  }
+
+  // Escape special regex characters
+  private escapeRegex(text: string): string {
+    return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  // Escape HTML characters
+  private escapeHtml(text: string): string {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
   }
 }

@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useGazetteerData, TextHighlighter, type HighlightCategory } from "@/lib/gazetteer";
+import { useGazetteerData, TextHighlighter, type HighlightCategory, type TextMatch } from "@/lib/gazetteer";
 import { usePreferences } from "@/context/preferences-context";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
