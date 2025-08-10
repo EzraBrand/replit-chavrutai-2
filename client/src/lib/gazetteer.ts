@@ -30,11 +30,11 @@ async function fetchGazetteerFile(url: string): Promise<string[]> {
     }
     const text = await response.text();
     
-    // Parse the text file - each line is a term, ignore empty lines
+    // Parse the text file - each line is a term, ignore empty lines and filter out "on"
     const terms = text
       .split('\n')
       .map(line => line.trim())
-      .filter(line => line.length > 0)
+      .filter(line => line.length > 0 && line.toLowerCase() !== 'on')
       .sort(); // Sort alphabetically for consistent ordering
     
     console.log(`Loaded ${terms.length} terms from ${url.split('/').pop()}`);
