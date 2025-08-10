@@ -53,9 +53,10 @@ Successfully implemented intelligent highlighting of technical terms in Talmudic
 
 **Implementation Status: COMPLETE - August 10, 2025**
 - ✅ Phase 1: Infrastructure and core functionality completed
-- ✅ 5,385 terms loaded from 6 gazetteer files
+- ✅ 5,385+ terms loaded from 6 gazetteer files
 - ✅ Real-time highlighting with 3 categories (concepts, names, places)
 - ✅ Full UI integration in hamburger menu preferences
+- ✅ Rabbi/R' abbreviation mapping: 934 variants created (e.g., "R' Abba bar Kahana" matches "Rabbi Abba bar Kahana")
 
 ### Technical Specifications
 

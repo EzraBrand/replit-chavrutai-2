@@ -129,12 +129,17 @@ export class TextHighlighter {
       
       for (const term of terms) {
         // Create word boundary regex to match whole words only
-        const regex = new RegExp(`\\b${this.escapeRegex(term)}\\b`, 'gi');
+        // For R' terms, we need to handle the apostrophe correctly
+        const escapedTerm = this.escapeRegex(term);
+        const regex = new RegExp(`\\b${escapedTerm}\\b`, 'gi');
         let match;
         
         while ((match = regex.exec(text)) !== null) {
+          // Determine the original gazetteer term for R' variants
+          const originalTerm = this.getOriginalTerm(term);
+          
           matches.push({
-            term,
+            term: originalTerm, // Store the original Rabbi form for data-term attribute
             startIndex: match.index,
             endIndex: match.index + match[0].length,
             category,
@@ -183,24 +188,49 @@ export class TextHighlighter {
     return result;
   }
 
-  // Get terms for a specific category
+  // Get terms for a specific category, including Rabbi/R' variants for names
   private getTermsForCategory(category: HighlightCategory): string[] {
+    let terms: string[] = [];
+    
     switch (category) {
       case 'concept':
-        return this.gazetteerData.concepts;
+        terms = [...this.gazetteerData.concepts];
+        break;
       case 'name':
-        return [
+        terms = [
           ...this.gazetteerData.names,
           ...this.gazetteerData.biblicalNames,
         ];
+        break;
       case 'place':
-        return [
+        terms = [
           ...this.gazetteerData.biblicalPlaces,
           ...this.gazetteerData.talmudToponyms,
         ];
+        break;
       default:
         return [];
     }
+
+    // For names category, add R' variants of Rabbi terms
+    if (category === 'name') {
+      const rabbiVariants: string[] = [];
+      terms.forEach(term => {
+        if (term.startsWith('Rabbi ')) {
+          // Create abbreviated form: "Rabbi Name" -> "R' Name"
+          const abbreviated = term.replace(/^Rabbi /, "R' ");
+          rabbiVariants.push(abbreviated);
+        }
+      });
+      
+      if (rabbiVariants.length > 0) {
+        console.log(`✓ Created ${rabbiVariants.length} R' variants for Rabbi terms (e.g., "R' Abba bar Kahana" → "Rabbi Abba bar Kahana")`);
+      }
+      
+      terms.push(...rabbiVariants);
+    }
+
+    return terms;
   }
 
   // Get CSS class for highlighting category
@@ -229,5 +259,22 @@ export class TextHighlighter {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
+  }
+
+  // Get original gazetteer term (convert R' back to Rabbi for data attributes)
+  private getOriginalTerm(term: string): string {
+    if (term.startsWith("R' ")) {
+      // Check if this R' variant has a corresponding Rabbi term in gazetteers
+      const rabbiForm = term.replace(/^R' /, "Rabbi ");
+      const allNameTerms = [
+        ...this.gazetteerData.names,
+        ...this.gazetteerData.biblicalNames,
+      ];
+      
+      if (allNameTerms.includes(rabbiForm)) {
+        return rabbiForm;
+      }
+    }
+    return term;
   }
 }
