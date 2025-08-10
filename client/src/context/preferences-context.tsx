@@ -1,13 +1,15 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 
-export type TextSize = "small" | "medium" | "large" | "extra-large";
+export type TextSize = "extra-small" | "small" | "medium" | "large" | "extra-large";
 export type HebrewFont = "calibri" | "times" | "david" | "frank-ruehl";
 export type Theme = "light" | "dark";
+export type Layout = "side-by-side" | "stacked";
 
 interface Preferences {
   textSize: TextSize;
   hebrewFont: HebrewFont;
   theme: Theme;
+  layout: Layout;
 }
 
 interface PreferencesContextType {
@@ -15,6 +17,7 @@ interface PreferencesContextType {
   setTextSize: (size: TextSize) => void;
   setHebrewFont: (font: HebrewFont) => void;
   setTheme: (theme: Theme) => void;
+  setLayout: (layout: Layout) => void;
 }
 
 const PreferencesContext = createContext<PreferencesContextType | undefined>(undefined);
@@ -23,6 +26,7 @@ const DEFAULT_PREFERENCES: Preferences = {
   textSize: "medium",
   hebrewFont: "calibri",
   theme: "light",
+  layout: "side-by-side",
 };
 
 const PREFERENCES_STORAGE_KEY = "talmud-study-preferences";
@@ -67,6 +71,10 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
     setPreferences(prev => ({ ...prev, theme }));
   };
 
+  const setLayout = (layout: Layout) => {
+    setPreferences(prev => ({ ...prev, layout }));
+  };
+
   return (
     <PreferencesContext.Provider
       value={{
@@ -74,6 +82,7 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
         setTextSize,
         setHebrewFont,
         setTheme,
+        setLayout,
       }}
     >
       {children}

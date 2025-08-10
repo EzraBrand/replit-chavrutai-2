@@ -170,9 +170,9 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
                 </a>
               </div>
               
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="text-display flex flex-col lg:flex-row gap-6">
                 {/* Hebrew Section (First on Mobile, Right Side on Desktop) */}
-                <div className="space-y-3 lg:order-2">
+                <div className="text-column space-y-3 lg:order-2">
                   {hebrewSection.trim() && (
                     <div className="hebrew-text text-foreground">
                       {processHebrewText(hebrewSection).split('\n').filter(line => line.trim()).map((line, lineIndex) => (
@@ -187,7 +187,7 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
                 </div>
 
                 {/* English Section (Second on Mobile, Left Side on Desktop) */}
-                <div className="space-y-3 lg:order-1">
+                <div className="text-column space-y-3 lg:order-1">
                   {englishSection.trim() && (
                     <div className="english-text text-foreground">
                       <div 
@@ -210,9 +210,9 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
               </div>
             </div>
             
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 opacity-60">
+            <div className="text-display flex flex-col lg:flex-row gap-6 opacity-60">
               {/* Hebrew Continuation (First on Mobile, Right Side on Desktop) */}
-              <div className="space-y-3 lg:order-2">
+              <div className="text-column space-y-3 lg:order-2">
                 {text.nextPageFirstSection.hebrew.trim() && (
                   <div className="hebrew-text text-muted-foreground">
                     {processHebrewText(text.nextPageFirstSection.hebrew).split('\n').filter(line => line.trim()).map((line, lineIndex) => (
@@ -227,7 +227,7 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
               </div>
 
               {/* English Continuation (Second on Mobile, Left Side on Desktop) */}
-              <div className="space-y-3 lg:order-1">
+              <div className="text-column space-y-3 lg:order-1">
                 {text.nextPageFirstSection.english.trim() && (
                   <div className="english-text text-muted-foreground">
                     <div 

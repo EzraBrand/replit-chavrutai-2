@@ -80,6 +80,9 @@
   }
   
   /* Text Size Classes */
+  .text-size-extra-small .hebrew-text { font-size: 0.85em; }
+  .text-size-extra-small .english-text { font-size: 0.8em; }
+  
   .text-size-small .hebrew-text { font-size: 0.95em; }
   .text-size-small .english-text { font-size: 0.9em; }
   
@@ -107,6 +110,38 @@
   
   .hebrew-font-frank-ruehl .hebrew-text {
     font-family: 'Frank Ruhl Libre', 'Frank Ruehl CLM', 'Times New Roman', serif;
+  }
+
+  /* Layout Classes */
+  .layout-stacked .text-display {
+    flex-direction: column;
+  }
+  
+  .layout-stacked .text-display .text-column {
+    width: 100% !important;
+    max-width: none !important;
+    margin-bottom: 1rem;
+  }
+  
+  .layout-side-by-side .text-display {
+    flex-direction: row;
+  }
+  
+  .layout-side-by-side .text-display .text-column {
+    width: 50%;
+    padding: 0 0.75rem;
+  }
+  
+  /* Override mobile responsive behavior when stacked layout is selected */
+  @media (max-width: 768px) {
+    .layout-side-by-side .text-display {
+      flex-direction: row !important;
+    }
+    
+    .layout-side-by-side .text-display .text-column {
+      width: 50% !important;
+      padding: 0 0.5rem;
+    }
   }
 
   .hebrew-text {
