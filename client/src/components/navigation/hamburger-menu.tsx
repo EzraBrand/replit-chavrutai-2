@@ -123,12 +123,7 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
                         <span>Times New Roman</span>
                       </div>
                     </SelectItem>
-                    <SelectItem value="david">
-                      <div className="flex items-center gap-2">
-                        <span className="hebrew-font-david text-lg">א</span>
-                        <span>David</span>
-                      </div>
-                    </SelectItem>
+
                     <SelectItem value="frank-ruehl">
                       <div className="flex items-center gap-2">
                         <span className="hebrew-font-frank-ruehl text-lg">א</span>
@@ -147,12 +142,7 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
                         <span>Noto Serif Hebrew</span>
                       </div>
                     </SelectItem>
-                    <SelectItem value="noto-rashi-hebrew">
-                      <div className="flex items-center gap-2">
-                        <span className="hebrew-font-noto-rashi-hebrew text-lg">א</span>
-                        <span>Noto Rashi Hebrew</span>
-                      </div>
-                    </SelectItem>
+
                     <SelectItem value="assistant">
                       <div className="flex items-center gap-2">
                         <span className="hebrew-font-assistant text-lg">א</span>
