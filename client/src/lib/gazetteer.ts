@@ -148,8 +148,13 @@ export class TextHighlighter {
       }
     }
     
-    // Sort matches by start position to avoid overlapping issues
-    return matches.sort((a, b) => a.startIndex - b.startIndex);
+    // Sort matches by start position, then by length (descending) to prioritize longer matches
+    return matches.sort((a, b) => {
+      if (a.startIndex !== b.startIndex) {
+        return a.startIndex - b.startIndex;
+      }
+      return b.term.length - a.term.length; // Longer terms first if same start position
+    });
   }
 
   // Apply highlighting to text and return HTML
@@ -159,16 +164,24 @@ export class TextHighlighter {
     if (matches.length === 0) {
       return text;
     }
+    
+    // Debug log for multi-word name detection
+    const multiWordMatches = matches.filter(m => m.term.includes(' '));
+    if (multiWordMatches.length > 0 && text.includes('Rabba bar Rav Sheila')) {
+      console.log('🔍 Multi-word name matches found:', multiWordMatches.map(m => `"${m.term}" at ${m.startIndex}-${m.endIndex}`));
+    }
 
     // Build highlighted text by replacing matches with HTML spans
     let result = '';
     let lastIndex = 0;
 
     for (const match of matches) {
-      // Skip overlapping matches
+      // Skip overlapping matches - this prevents shorter terms from interfering with longer ones
       if (match.startIndex < lastIndex) {
         continue;
       }
+      
+
 
       // Add text before the match
       result += text.substring(lastIndex, match.startIndex);
@@ -230,7 +243,9 @@ export class TextHighlighter {
       terms.push(...rabbiVariants);
     }
 
-    return terms;
+    // Sort terms by length (descending) to prioritize longer matches
+    // This prevents "Rabba" and "Sheila" from matching before "Rabba bar Rav Sheila"
+    return terms.sort((a, b) => b.length - a.length);
   }
 
   // Get CSS class for highlighting category
