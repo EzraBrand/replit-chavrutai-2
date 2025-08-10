@@ -161,14 +161,14 @@
   }
   
   .layout-side-by-side .hebrew-text p {
-    margin-bottom: 2rem !important;
+    margin-bottom: 1.2rem !important;
     flex-grow: 1;
     display: flex;
     align-items: flex-start;
   }
   
   .layout-side-by-side .hebrew-text p:not(:last-child) {
-    margin-bottom: 3rem !important;
+    margin-bottom: 1.8rem !important;
   }
   
   .layout-side-by-side .hebrew-text p:last-child {
@@ -188,11 +188,11 @@
   /* Enhanced Hebrew text spacing specifically for side-by-side layout */
   @media (min-width: 1024px) {
     .layout-side-by-side .hebrew-text p {
-      margin-bottom: 2.5rem !important;
+      margin-bottom: 1.5rem !important;
     }
     
     .layout-side-by-side .hebrew-text p:not(:last-child) {
-      margin-bottom: 4rem !important;
+      margin-bottom: 2.2rem !important;
     }
   }
   
