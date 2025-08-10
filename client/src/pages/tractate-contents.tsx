@@ -14,9 +14,11 @@ import { getMaxFolio } from "@/lib/tractate-ranges";
 import {
   TRACTATE_HEBREW_NAMES,
   normalizeDisplayTractateName,
+  isValidTractate,
 } from "@shared/tractates";
 import hebrewBookIcon from "@/assets/hebrew-book-icon.png";
 import type { TalmudLocation } from "@/types/talmud";
+import NotFound from "@/pages/not-found";
 
 // Complete authentic chapter data for all Talmud Bavli tractates
 export const CHAPTER_DATA: Record<
@@ -3494,6 +3496,11 @@ export default function TractateContents() {
 
   if (!match) {
     return <div>Tractate not found</div>;
+  }
+
+  // Validate tractate name and show 404 if invalid
+  if (tractate && !isValidTractate(tractate)) {
+    return <NotFound />;
   }
 
   if (isLoading) {

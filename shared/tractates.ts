@@ -151,3 +151,8 @@ export function normalizeDisplayTractateName(urlTractate: string): string {
   const normalized = URL_TO_SEFARIA_TRACTATE_MAP[urlTractate.toLowerCase()];
   return normalized || urlTractate;
 }
+
+// Helper function to check if a tractate name is valid
+export function isValidTractate(urlTractate: string): boolean {
+  return !!URL_TO_SEFARIA_TRACTATE_MAP[urlTractate.toLowerCase()];
+}
