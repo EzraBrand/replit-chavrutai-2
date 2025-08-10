@@ -56,7 +56,7 @@ Successfully implemented intelligent highlighting of technical terms in Talmudic
 - ✅ 5,385+ terms loaded from 6 gazetteer files
 - ✅ Real-time highlighting with 3 categories (concepts, names, places)
 - ✅ Full UI integration in hamburger menu preferences
-- ✅ Rabbi/R' abbreviation mapping: 934 variants created (e.g., "R' Abba bar Kahana" matches "Rabbi Abba bar Kahana")
+- ✅ Rabbi/R' abbreviation mapping: 1,219 variants created, including mid-phrase matches (e.g., "R' Abba bar Kahana" matches "Rabbi Abba bar Kahana", "the school of R' Yishmael" matches "the school of Rabbi Yishmael")
 
 ### Technical Specifications
 

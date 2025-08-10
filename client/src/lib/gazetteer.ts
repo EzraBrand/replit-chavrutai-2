@@ -229,15 +229,21 @@ export class TextHighlighter {
     if (category === 'name') {
       const rabbiVariants: string[] = [];
       terms.forEach(term => {
+        // Handle Rabbi at the beginning of terms
         if (term.startsWith('Rabbi ')) {
-          // Create abbreviated form: "Rabbi Name" -> "R' Name"
           const abbreviated = term.replace(/^Rabbi /, "R' ");
+          rabbiVariants.push(abbreviated);
+        }
+        
+        // Handle Rabbi in the middle of phrases (e.g., "the school of Rabbi Yishmael")
+        if (term.includes(' Rabbi ')) {
+          const abbreviated = term.replace(/ Rabbi /g, " R' ");
           rabbiVariants.push(abbreviated);
         }
       });
       
       if (rabbiVariants.length > 0) {
-        console.log(`✓ Created ${rabbiVariants.length} R' variants for Rabbi terms (e.g., "R' Abba bar Kahana" → "Rabbi Abba bar Kahana")`);
+        console.log(`✓ Created ${rabbiVariants.length} R' variants for Rabbi terms (including mid-phrase matches)`);
       }
       
       terms.push(...rabbiVariants);
@@ -278,18 +284,27 @@ export class TextHighlighter {
 
   // Get original gazetteer term (convert R' back to Rabbi for data attributes)
   private getOriginalTerm(term: string): string {
+    const allNameTerms = [
+      ...this.gazetteerData.names,
+      ...this.gazetteerData.biblicalNames,
+    ];
+    
+    // Handle R' at the beginning
     if (term.startsWith("R' ")) {
-      // Check if this R' variant has a corresponding Rabbi term in gazetteers
       const rabbiForm = term.replace(/^R' /, "Rabbi ");
-      const allNameTerms = [
-        ...this.gazetteerData.names,
-        ...this.gazetteerData.biblicalNames,
-      ];
-      
       if (allNameTerms.includes(rabbiForm)) {
         return rabbiForm;
       }
     }
+    
+    // Handle R' in the middle of phrases
+    if (term.includes(" R' ")) {
+      const rabbiForm = term.replace(/ R' /g, " Rabbi ");
+      if (allNameTerms.includes(rabbiForm)) {
+        return rabbiForm;
+      }
+    }
+    
     return term;
   }
 }
