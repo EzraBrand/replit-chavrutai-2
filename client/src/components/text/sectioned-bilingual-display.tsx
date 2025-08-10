@@ -186,10 +186,10 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
                 <div className="text-column space-y-3 lg:order-2">
                   {hebrewSection.trim() && (
                     <div className="hebrew-text text-foreground">
-                      {processHebrewText(hebrewSection).split('\n').filter(line => line.trim()).map((line, lineIndex) => (
+                      {processHebrewText(hebrewSection).split('\n').filter(line => line.trim()).map((line, lineIndex, array) => (
                         <p 
                           key={lineIndex} 
-                          className="leading-relaxed mb-2"
+                          className={`leading-relaxed ${lineIndex < array.length - 1 ? 'mb-6 lg:mb-8' : 'mb-2'}`}
                           dangerouslySetInnerHTML={{ __html: line.trim() }}
                         />
                       ))}
@@ -226,10 +226,10 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
               <div className="text-column space-y-3 lg:order-2">
                 {text.nextPageFirstSection.hebrew.trim() && (
                   <div className="hebrew-text text-muted-foreground">
-                    {processHebrewText(text.nextPageFirstSection.hebrew).split('\n').filter(line => line.trim()).map((line, lineIndex) => (
+                    {processHebrewText(text.nextPageFirstSection.hebrew).split('\n').filter(line => line.trim()).map((line, lineIndex, array) => (
                       <p 
                         key={lineIndex} 
-                        className="leading-relaxed mb-2"
+                        className={`leading-relaxed ${lineIndex < array.length - 1 ? 'mb-6 lg:mb-8' : 'mb-2'}`}
                         dangerouslySetInnerHTML={{ __html: line.trim() }}
                       />
                     ))}
