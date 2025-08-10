@@ -27,18 +27,16 @@ export default function NotFound() {
             </Link>
             
             <div className="text-center">
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
-                Need help? Contact our support team
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                If errors persist, contact{" "}
+                <a 
+                  href="mailto:ezra@chavrutai.com"
+                  className="text-primary hover:underline font-medium"
+                  data-testid="link-contact-support"
+                >
+                  ezra@chavrutai.com
+                </a>
               </p>
-              <Button 
-                variant="outline" 
-                className="w-full"
-                onClick={() => window.open('mailto:support@chavrutai.com', '_blank')}
-                data-testid="button-contact-support"
-              >
-                <Mail className="h-4 w-4 mr-2" />
-                Contact Support
-              </Button>
             </div>
           </div>
         </CardContent>
