@@ -57,8 +57,8 @@ export default function TractateView() {
     }
   }, [tractate, folio]);
 
-  // Set up SEO
-  useSEO(generateSEOData.homePage(talmudLocation.tractate, talmudLocation.folio, talmudLocation.side));
+  // Set up SEO - use noindex for dynamic content pages
+  useSEO(generateSEOData.folioPage(talmudLocation.tractate, talmudLocation.folio, talmudLocation.side));
 
   // Fetch current text
   const { 

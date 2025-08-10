@@ -48,7 +48,7 @@ const SEDER_ORGANIZATION = {
 
 export default function Contents() {
   // Set up SEO
-  useSEO(generateSEOData.contentsPage());
+  useSEO(generateSEOData.homePage());
 
   const { data: tractatesData, isLoading } = useQuery({
     queryKey: ['/api/tractates'],

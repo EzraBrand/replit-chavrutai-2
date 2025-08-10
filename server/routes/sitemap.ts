@@ -21,6 +21,11 @@ export function generateSitemap(req: Request, res: Response) {
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
+  <url>
+    <loc>${baseUrl}/suggested-pages</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
 
   
   <!-- Tractate contents pages -->`;

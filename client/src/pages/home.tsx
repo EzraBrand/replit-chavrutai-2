@@ -27,8 +27,8 @@ export default function Home() {
     side: 'a'
   });
 
-  // Set up SEO
-  useSEO(generateSEOData.homePage(location.tractate, location.folio, location.side));
+  // Set up SEO - this is actually the main page, use homepage SEO
+  useSEO(generateSEOData.homePage());
 
   // Read URL parameters on component mount
   useEffect(() => {

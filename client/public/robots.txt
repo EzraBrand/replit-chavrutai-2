@@ -18,5 +18,9 @@ Crawl-delay: 2
 # Sitemap
 Sitemap: https://chavrutai.com/sitemap.xml
 
+# Allow indexing of main pages, disallow dynamic content
+# This ensures search engines focus on core navigation pages
+# and don't index the thousands of individual folio pages
+
 # Strategic SEO for Jewish text accessibility
 # Focus on key educational content and entry points
