@@ -171,7 +171,18 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
               </div>
               
               <div className="text-display flex flex-col lg:flex-row gap-6">
-                {/* Hebrew Section (First on Mobile, Right Side on Desktop) */}
+                {/* English Section (First on Mobile, Left Side on Desktop) */}
+                <div className="text-column space-y-3 lg:order-1">
+                  {englishSection.trim() && (
+                    <div className="english-text text-foreground">
+                      <div 
+                        dangerouslySetInnerHTML={{ __html: formatEnglishText(processEnglishText(englishSection)) }}
+                      />
+                    </div>
+                  )}
+                </div>
+
+                {/* Hebrew Section (Second on Mobile, Right Side on Desktop) */}
                 <div className="text-column space-y-3 lg:order-2">
                   {hebrewSection.trim() && (
                     <div className="hebrew-text text-foreground">
@@ -182,17 +193,6 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
                           dangerouslySetInnerHTML={{ __html: line.trim() }}
                         />
                       ))}
-                    </div>
-                  )}
-                </div>
-
-                {/* English Section (Second on Mobile, Left Side on Desktop) */}
-                <div className="text-column space-y-3 lg:order-1">
-                  {englishSection.trim() && (
-                    <div className="english-text text-foreground">
-                      <div 
-                        dangerouslySetInnerHTML={{ __html: formatEnglishText(processEnglishText(englishSection)) }}
-                      />
                     </div>
                   )}
                 </div>
@@ -211,7 +211,18 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
             </div>
             
             <div className="text-display flex flex-col lg:flex-row gap-6 opacity-60">
-              {/* Hebrew Continuation (First on Mobile, Right Side on Desktop) */}
+              {/* English Continuation (First on Mobile, Left Side on Desktop) */}
+              <div className="text-column space-y-3 lg:order-1">
+                {text.nextPageFirstSection.english.trim() && (
+                  <div className="english-text text-muted-foreground">
+                    <div 
+                      dangerouslySetInnerHTML={{ __html: formatEnglishText(processEnglishText(text.nextPageFirstSection.english)) }}
+                    />
+                  </div>
+                )}
+              </div>
+
+              {/* Hebrew Continuation (Second on Mobile, Right Side on Desktop) */}
               <div className="text-column space-y-3 lg:order-2">
                 {text.nextPageFirstSection.hebrew.trim() && (
                   <div className="hebrew-text text-muted-foreground">
@@ -222,17 +233,6 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
                         dangerouslySetInnerHTML={{ __html: line.trim() }}
                       />
                     ))}
-                  </div>
-                )}
-              </div>
-
-              {/* English Continuation (Second on Mobile, Left Side on Desktop) */}
-              <div className="text-column space-y-3 lg:order-1">
-                {text.nextPageFirstSection.english.trim() && (
-                  <div className="english-text text-muted-foreground">
-                    <div 
-                      dangerouslySetInnerHTML={{ __html: formatEnglishText(processEnglishText(text.nextPageFirstSection.english)) }}
-                    />
                   </div>
                 )}
               </div>
