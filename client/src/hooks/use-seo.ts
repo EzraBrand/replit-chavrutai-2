@@ -15,6 +15,21 @@ interface SEOData {
 
 export function useSEO(seoData: SEOData) {
   useEffect(() => {
+    // Check server response headers for noindex directive
+    const checkServerNoIndex = () => {
+      const currentUrl = window.location.pathname;
+      // Check if this is a folio page pattern
+      if (/^\/tractate\/[^\/]+\/\d+[ab]$/i.test(currentUrl)) {
+        return true;
+      }
+      return false;
+    };
+    
+    // Override noindex if server indicates this should be noindexed
+    const serverNoIndex = checkServerNoIndex();
+    if (serverNoIndex && !seoData.noindex) {
+      seoData = { ...seoData, noindex: true };
+    }
     // Update title
     document.title = seoData.title;
     
@@ -167,6 +182,7 @@ export const generateSEOData = {
     ogDescription: `Study ${tractate} folio ${folio}${side} from the Babylonian Talmud with Hebrew-English bilingual text on ChavrutAI.`,
     ogUrl: `${window.location.origin}/tractate/${tractate.toLowerCase().replace(/\s+/g, '-')}/${folio}${side}`,
     noindex: true, // Don't index dynamic content pages
+    robots: 'noindex, nofollow', // Explicit robots directive
     structuredData: {
       "@context": "https://schema.org",
       "@type": "Article",

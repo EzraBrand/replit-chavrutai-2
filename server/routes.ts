@@ -54,7 +54,22 @@ const tractateListSchema = z.object({
   work: z.string()
 });
 
+// SEO route handler for tractate pages
+function shouldNoIndex(url: string): boolean {
+  // Folio pages should be noindexed (e.g., /tractate/berakhot/2a)
+  return /^\/tractate\/[^\/]+\/\d+[ab]$/i.test(url);
+}
+
 export async function registerRoutes(app: Express): Promise<Server> {
+  
+  // SEO middleware for dynamic meta tags
+  app.use('*', (req, res, next) => {
+    if (shouldNoIndex(req.originalUrl)) {
+      // Set custom headers for client-side detection
+      res.setHeader('X-SEO-NoIndex', 'true');
+    }
+    next();
+  });
   
   // Get specific text
   app.get("/api/text", async (req, res) => {
