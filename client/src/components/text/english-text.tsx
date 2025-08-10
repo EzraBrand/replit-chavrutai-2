@@ -7,11 +7,15 @@ interface EnglishTextProps {
 }
 
 export function EnglishText({ text, className = "" }: EnglishTextProps) {
+  console.log('EnglishText rendering with text length:', text.length);
+  
   // Process text for enhanced formatting
   const formattedText = formatEnglishText(text);
   
   // Split text into paragraphs and format
   const paragraphs = formattedText.split('\n\n').filter(p => p.trim());
+  
+  console.log('EnglishText paragraphs:', paragraphs.length);
   
   return (
     <div className={`english-text space-y-4 text-gray-800 ${className}`}>
