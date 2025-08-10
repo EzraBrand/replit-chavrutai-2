@@ -1,4 +1,5 @@
 import { processHebrewText, formatEnglishText } from "@/lib/text-processing";
+import { HighlightedText } from "./highlighted-text";
 
 interface HebrewTextProps {
   text: string;
@@ -17,11 +18,11 @@ export function HebrewText({ text, className = "" }: HebrewTextProps) {
   return (
     <div className={`hebrew-text space-y-4 text-gray-800 ${className}`}>
       {paragraphs.map((paragraph, index) => (
-        <p 
-          key={index} 
-          className="leading-relaxed"
-          dangerouslySetInnerHTML={{ __html: paragraph }}
-        />
+        <p key={index} className="leading-relaxed">
+          <HighlightedText 
+            text={paragraph}
+          />
+        </p>
       ))}
     </div>
   );

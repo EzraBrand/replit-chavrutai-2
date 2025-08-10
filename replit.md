@@ -44,3 +44,97 @@ The interface honors traditional Talmud layout, adapting it for digital consumpt
 - **Drizzle Kit**: Database migrations and schema management.
 - **Google Analytics 4**: For user behavior tracking.
 - **Google Fonts**: For Hebrew font integration (Noto Sans Hebrew, Frank Ruhl Libre).
+
+## Major Feature Development Plan: Technical Term Highlighting with Gazetteers
+
+### Feature Overview
+Implement intelligent highlighting of technical terms in Talmudic texts using curated gazetteers from the talmud-nlp-indexer repository. The feature will be optional (default: off) and accessible via the hamburger menu to maintain current UX/UI while adding sophisticated term recognition capabilities.
+
+### Technical Specifications
+
+#### Gazetteer Data Sources
+- **Repository**: https://github.com/EzraBrand/talmud-nlp-indexer/tree/main/data
+- **Gazetteer Files**:
+  - `talmud_concepts_gazetteer.txt` - Religious/theological concepts (Shekhina, tefillin, Gehenna, etc.)
+  - `talmud_names_gazetteer.txt` - Rabbinic names and personas (Abaye, Rava, specific individuals)
+  - `bible_names_gazetteer.txt` - Biblical figures and names (David, Solomon, Moses, etc.)
+  - `bible_nations_gazetteer.txt` - Ancient nations and peoples
+  - `bible_places_gazetteer.txt` - Geographic locations from biblical/talmudic texts
+  - `talmud_toponyms_gazetteer.txt` - Talmudic geographic references
+
+#### Implementation Architecture
+
+**1. Data Layer**
+- Create gazetteer data fetching service
+- Implement client-side caching for gazetteer data
+- Structure for categorized highlighting (concepts, names, places)
+
+**2. Text Processing Layer** 
+- Develop text analysis engine for term matching
+- Handle Hebrew and English text variants
+- Implement case-insensitive matching with word boundary detection
+- Support multi-word entity recognition (e.g., "Bar Kochba rebellion", "World-to-Come")
+
+**3. UI/UX Layer**
+- Add toggle in hamburger menu preferences section
+- Implement visual highlighting with distinct colors per category:
+  - Concepts: Light blue highlight
+  - Names: Light yellow highlight  
+  - Places: Light green highlight
+- Create hover tooltips showing term category
+- Ensure accessibility compliance (ARIA labels, keyboard navigation)
+
+**4. State Management**
+- Extend preferences context to include highlighting state
+- Persist highlighting preference in localStorage
+- Track analytics events for feature usage
+
+#### Development Phases
+
+**Phase 1: Infrastructure Setup**
+- Create gazetteer data fetching utilities
+- Extend preferences context with highlighting options
+- Add menu toggle UI components
+
+**Phase 2: Core Highlighting Engine**
+- Implement text analysis and matching algorithms
+- Create highlighting component with category support
+- Integrate with existing text display components
+
+**Phase 3: UX Polish & Testing**
+- Add tooltips and interactive elements
+- Implement accessibility features
+- Performance optimization for large texts
+- Analytics integration
+
+**Phase 4: Advanced Features**
+- Context-aware highlighting intensity
+- User feedback mechanisms
+- Export highlighted text functionality
+
+#### Technical Considerations
+- **Performance**: Lazy loading of gazetteer data, debounced text processing
+- **Accessibility**: Semantic markup, keyboard navigation, screen reader support
+- **Internationalization**: Support for Hebrew RTL text highlighting
+- **Mobile Responsiveness**: Touch-friendly highlighting on mobile devices
+- **Privacy**: Client-side processing to maintain user privacy
+
+#### Success Metrics
+- Feature adoption rate via analytics
+- User engagement with highlighted terms
+- Performance impact on text rendering
+- User feedback on highlighting accuracy
+
+#### Timeline
+- **Week 1**: Infrastructure and data layer
+- **Week 2**: Core highlighting engine  
+- **Week 3**: UI integration and testing
+- **Week 4**: Polish, accessibility, and deployment
+
+### Integration Points
+- Hamburger menu preferences section
+- SectionedBilingualDisplay component
+- Text processing utilities
+- Analytics tracking system
+
+*Feature design prioritizes maintaining current UX while providing sophisticated scholarly tools for enhanced Talmud study experience.*

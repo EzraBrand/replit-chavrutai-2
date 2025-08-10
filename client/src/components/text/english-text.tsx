@@ -1,4 +1,5 @@
 import { formatEnglishText } from "@/lib/text-processing";
+import { HighlightedText } from "./highlighted-text";
 
 interface EnglishTextProps {
   text: string;
@@ -15,11 +16,11 @@ export function EnglishText({ text, className = "" }: EnglishTextProps) {
   return (
     <div className={`english-text space-y-4 text-gray-800 ${className}`}>
       {paragraphs.map((paragraph, index) => (
-        <p 
-          key={index} 
-          className="leading-relaxed"
-          dangerouslySetInnerHTML={{ __html: paragraph }}
-        />
+        <p key={index} className="leading-relaxed">
+          <HighlightedText 
+            text={paragraph}
+          />
+        </p>
       ))}
     </div>
   );

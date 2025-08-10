@@ -5,11 +5,19 @@ export type HebrewFont = "calibri" | "times" | "frank-ruehl" | "noto-sans-hebrew
 export type Theme = "light" | "dark";
 export type Layout = "side-by-side" | "stacked";
 
+interface HighlightingSettings {
+  enabled: boolean;
+  concepts: boolean;
+  names: boolean;
+  places: boolean;
+}
+
 interface Preferences {
   textSize: TextSize;
   hebrewFont: HebrewFont;
   theme: Theme;
   layout: Layout;
+  highlighting: HighlightingSettings;
 }
 
 interface PreferencesContextType {
@@ -18,6 +26,7 @@ interface PreferencesContextType {
   setHebrewFont: (font: HebrewFont) => void;
   setTheme: (theme: Theme) => void;
   setLayout: (layout: Layout) => void;
+  setHighlighting: (highlighting: HighlightingSettings) => void;
 }
 
 const PreferencesContext = createContext<PreferencesContextType | undefined>(undefined);
@@ -27,6 +36,12 @@ const DEFAULT_PREFERENCES: Preferences = {
   hebrewFont: "noto-sans-hebrew",
   theme: "light",
   layout: "side-by-side",
+  highlighting: {
+    enabled: false,
+    concepts: true,
+    names: true,
+    places: true,
+  },
 };
 
 const PREFERENCES_STORAGE_KEY = "talmud-study-preferences";
@@ -75,6 +90,10 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
     setPreferences(prev => ({ ...prev, layout }));
   };
 
+  const setHighlighting = (highlighting: HighlightingSettings) => {
+    setPreferences(prev => ({ ...prev, highlighting }));
+  };
+
   return (
     <PreferencesContext.Provider
       value={{
@@ -83,6 +102,7 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
         setHebrewFont,
         setTheme,
         setLayout,
+        setHighlighting,
       }}
     >
       {children}

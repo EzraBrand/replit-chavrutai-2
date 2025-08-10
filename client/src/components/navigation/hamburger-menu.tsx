@@ -1,4 +1,4 @@
-import { Menu, Type, Palette, Moon, Sun, Columns } from "lucide-react";
+import { Menu, Type, Palette, Moon, Sun, Columns, Highlighter } from "lucide-react";
 import hebrewBookIcon from "@assets/20250731_1721_Hebrew Book Icon_remix_01k1gdhqpbetsb13vbtjceet4e_1753973105554.png";
 import { useState } from "react";
 import { Link } from "wouter";
@@ -7,6 +7,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/co
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { usePreferences, type TextSize, type HebrewFont, type Theme, type Layout } from "@/context/preferences-context";
+import { Switch } from "@/components/ui/switch";
 import type { TalmudLocation } from "@/types/talmud";
 import { trackEvent } from "@/lib/analytics";
 
@@ -16,7 +17,7 @@ interface HamburgerMenuProps {
 
 export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
   const [open, setOpen] = useState(false);
-  const { preferences, setTextSize, setHebrewFont, setTheme, setLayout } = usePreferences();
+  const { preferences, setTextSize, setHebrewFont, setTheme, setLayout, setHighlighting } = usePreferences();
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -179,6 +180,78 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
                 </Select>
               </div>
               
+              {/* Term Highlighting */}
+              <div className="px-4">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-2">
+                    <Highlighter className="w-4 h-4 text-foreground/60" />
+                    <span className="text-sm text-foreground/80">Term Highlighting</span>
+                  </div>
+                  <Switch
+                    checked={preferences.highlighting.enabled}
+                    onCheckedChange={(enabled) => {
+                      trackEvent('change_preference', 'settings', `highlighting_${enabled ? 'enabled' : 'disabled'}`);
+                      setHighlighting({
+                        ...preferences.highlighting,
+                        enabled,
+                      });
+                    }}
+                    data-testid="switch-highlighting"
+                  />
+                </div>
+                
+                {/* Highlighting category controls - only show when enabled */}
+                {preferences.highlighting.enabled && (
+                  <div className="space-y-2 pl-6">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-foreground/70">Concepts</span>
+                      <Switch
+                        checked={preferences.highlighting.concepts}
+                        onCheckedChange={(concepts) => {
+                          trackEvent('change_preference', 'settings', `highlighting_concepts_${concepts ? 'enabled' : 'disabled'}`);
+                          setHighlighting({
+                            ...preferences.highlighting,
+                            concepts,
+                          });
+                        }}
+                        data-testid="switch-highlighting-concepts"
+                        className="scale-75"
+                      />
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-foreground/70">Names</span>
+                      <Switch
+                        checked={preferences.highlighting.names}
+                        onCheckedChange={(names) => {
+                          trackEvent('change_preference', 'settings', `highlighting_names_${names ? 'enabled' : 'disabled'}`);
+                          setHighlighting({
+                            ...preferences.highlighting,
+                            names,
+                          });
+                        }}
+                        data-testid="switch-highlighting-names"
+                        className="scale-75"
+                      />
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-foreground/70">Places</span>
+                      <Switch
+                        checked={preferences.highlighting.places}
+                        onCheckedChange={(places) => {
+                          trackEvent('change_preference', 'settings', `highlighting_places_${places ? 'enabled' : 'disabled'}`);
+                          setHighlighting({
+                            ...preferences.highlighting,
+                            places,
+                          });
+                        }}
+                        data-testid="switch-highlighting-places"
+                        className="scale-75"
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
+
               {/* Dark Mode */}
               <div className="px-4">
                 <div className="flex items-center justify-between">
