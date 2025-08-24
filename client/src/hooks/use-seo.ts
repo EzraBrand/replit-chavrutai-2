@@ -1,5 +1,18 @@
 import { useEffect } from 'react';
 
+// Performance monitoring for Core Web Vitals
+const reportWebVitals = (metric: any) => {
+  // In production, you might want to send this to analytics
+  if (typeof window !== 'undefined' && window.gtag) {
+    window.gtag('event', metric.name, {
+      event_category: 'Web Vitals',
+      event_label: metric.id,
+      value: Math.round(metric.name === 'CLS' ? metric.value * 1000 : metric.value),
+      non_interaction: true,
+    });
+  }
+};
+
 interface SEOData {
   title: string;
   description: string;
@@ -222,12 +235,12 @@ export const generateSEOData = {
 
   // Main homepage/contents page
   homePage: (): SEOData => ({
-    title: "ChavrutAI - Digital Talmud Study Platform | All Tractates",
-    description: "Browse all 37 tractates of the Babylonian Talmud organized by traditional Seder. Start your digital Talmud study journey with ChavrutAI's comprehensive table of contents.",
-    keywords: "Talmud Bavli, tractates, contents, Seder, Jewish texts, study guide, ChavrutAI, digital Talmud",
+    title: "Study Talmud Online - Free Digital Platform | ChavrutAI",
+    description: "Access all 37 tractates of the Babylonian Talmud with Hebrew-English text, chapter navigation, and modern study tools. Start learning today - completely free.",
+    keywords: "Talmud online, study Talmud free, Babylonian Talmud Hebrew English, digital Talmud study, Jewish learning, ChavrutAI",
     canonical: `${window.location.origin}/`,
-    ogTitle: "ChavrutAI - Digital Talmud Study Platform",
-    ogDescription: "Browse all 37 tractates of the Babylonian Talmud organized by traditional Seder on ChavrutAI's digital study platform.",
+    ogTitle: "Study Talmud Online Free - Digital Platform",
+    ogDescription: "Access all 37 tractates of the Babylonian Talmud with Hebrew-English text, chapter navigation, and modern study tools. Start learning today - completely free.",
     ogUrl: `${window.location.origin}/`,
     robots: 'index, follow',
     structuredData: {
@@ -254,17 +267,54 @@ export const generateSEOData = {
           "@type": "ImageObject",
           "url": `${window.location.origin}/favicon-192x192.png`
         }
+      },
+      "hasPart": [
+        {
+          "@type": "EducationalOrganization",
+          "name": "Digital Talmud Learning Platform",
+          "educationalUse": "Religious Study",
+          "teaches": "Talmudic Studies"
+        }
+      ],
+      "mainEntity": {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is ChavrutAI?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "ChavrutAI is a free digital platform for studying the Babylonian Talmud with Hebrew-English bilingual text display and modern navigation tools."
+            }
+          },
+          {
+            "@type": "Question", 
+            "name": "Is ChavrutAI free to use?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, ChavrutAI is completely free to use for all learners. Access all 37 tractates of the Babylonian Talmud at no cost."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What languages does ChavrutAI support?",
+            "acceptedAnswer": {
+              "@type": "Answer", 
+              "text": "ChavrutAI displays text in Hebrew, Aramaic, and English, making it accessible to learners at all levels."
+            }
+          }
+        ]
       }
     }
   }),
 
   contentsPage: (): SEOData => ({
-    title: "Talmud Bavli Contents - All Tractates | ChavrutAI",
-    description: "Browse all 37 tractates of the Babylonian Talmud organized by traditional Seder. Start your digital Talmud study journey with ChavrutAI's comprehensive table of contents.",
-    keywords: "Talmud Bavli, tractates, contents, Seder, Jewish texts, study guide, ChavrutAI",
+    title: "Talmud Study Guide - All 37 Tractates Organized | ChavrutAI",
+    description: "Navigate through all tractates of the Babylonian Talmud organized by traditional Seder. Easy chapter breakdown with Hebrew-English text display.",
+    keywords: "Talmud study guide, Babylonian Talmud tractates, Seder organization, Hebrew English Talmud, Jewish text navigation",
     canonical: `${window.location.origin}/contents`,
-    ogTitle: "Talmud Bavli Contents - All Tractates",
-    ogDescription: "Browse all 37 tractates of the Babylonian Talmud organized by traditional Seder on ChavrutAI's digital study platform.",
+    ogTitle: "Complete Talmud Study Guide - All Tractates",
+    ogDescription: "Navigate through all tractates of the Babylonian Talmud organized by traditional Seder. Easy chapter breakdown with Hebrew-English text display.",
     ogUrl: `${window.location.origin}/contents`,
     structuredData: {
       "@context": "https://schema.org",
@@ -288,12 +338,12 @@ export const generateSEOData = {
   }),
 
   tractatePage: (tractate: string): SEOData => ({
-    title: `${tractate} Contents - Chapters & Folios | ChavrutAI`,
-    description: `Navigate through ${tractate} tractate with detailed chapter breakdown and folio ranges. Study this Talmudic tractate with ChavrutAI's digital platform.`,
-    keywords: `${tractate}, Talmud, chapters, folios, Jewish texts, study, ChavrutAI`,
+    title: `${tractate} Talmud - Complete Chapter Guide | ChavrutAI`,
+    description: `Study ${tractate} tractate chapter by chapter with Hebrew-English text, detailed folio navigation, and traditional commentary access. Free online Talmud learning.`,
+    keywords: `${tractate} Talmud, ${tractate} chapters, Hebrew English ${tractate}, Talmud study online, Jewish learning`,
     canonical: `${window.location.origin}/contents/${tractate.toLowerCase().replace(/\s+/g, '-')}`,
-    ogTitle: `${tractate} - Talmud Contents`,
-    ogDescription: `Navigate through ${tractate} tractate chapters and folios on ChavrutAI's digital Talmud study platform.`,
+    ogTitle: `${tractate} Talmud - Complete Study Guide`,
+    ogDescription: `Study ${tractate} tractate chapter by chapter with Hebrew-English text, detailed folio navigation, and traditional commentary access.`,
     ogUrl: `${window.location.origin}/contents/${tractate.toLowerCase().replace(/\s+/g, '-')}`,
     robots: 'index, follow',
     structuredData: {
@@ -318,9 +368,9 @@ export const generateSEOData = {
   }),
 
   aboutPage: (): SEOData => ({
-    title: "About ChavrutAI - Digital Talmud Study Platform",
-    description: "Learn about ChavrutAI's mission to make Jewish texts accessible through modern technology. Discover our approach to digital Talmud study with bilingual text display.",
-    keywords: "ChavrutAI, about, digital Talmud, Jewish texts, study platform, technology",
+    title: "About ChavrutAI - Free Digital Talmud Learning Platform",
+    description: "Discover how ChavrutAI makes Jewish texts accessible with modern technology. Learn about our free bilingual Talmud study platform designed for learners at all levels.",
+    keywords: "ChavrutAI about, free Talmud platform, digital Jewish learning, bilingual Talmud study, Jewish education technology",
     canonical: `${window.location.origin}/about`,
     robots: 'index, follow',
     structuredData: {
@@ -342,9 +392,9 @@ export const generateSEOData = {
   }),
 
   suggestedPages: (): SEOData => ({
-    title: "Suggested Pages - Famous Talmud Folios | ChavrutAI",
-    description: "Explore the most famous and significant discussions in the Talmud. Discover foundational teachings, inspiring stories, and profound wisdom from centuries of Jewish learning.",
-    keywords: "Talmud highlights, famous folios, Jewish wisdom, Hillel, Hannah, significant teachings, ChavrutAI",
+    title: "Famous Talmud Pages - Essential Teachings & Stories | ChavrutAI",
+    description: "Start with the most famous Talmud pages including Hillel's wisdom, Hannah's prayer, and other essential teachings. Perfect introduction for new learners.",
+    keywords: "famous Talmud pages, essential Talmud teachings, Hillel quotes, Jewish wisdom stories, beginner Talmud study",
     canonical: `${window.location.origin}/suggested-pages`,
     robots: 'index, follow',
     structuredData: {

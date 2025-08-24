@@ -133,9 +133,51 @@ export default function Contents() {
         
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-primary mb-2">Talmud Bavli</h1>
-          <h2 className="text-2xl text-primary/80 mb-4">תלמוד בבלי</h2>
-          <p className="text-lg text-muted-foreground">Table of Contents</p>
+          <h1 className="text-4xl font-bold text-primary mb-2">Study Talmud Online Free</h1>
+          <h2 className="text-2xl text-primary/80 mb-4">תלמוד בבלי - Babylonian Talmud</h2>
+          <p className="text-lg text-muted-foreground mb-4">Complete digital collection of all 37 tractates with Hebrew-English text display</p>
+          <div className="max-w-2xl mx-auto text-sm text-muted-foreground leading-relaxed">
+            <p>Access the full Babylonian Talmud for free. Navigate through traditional Seder organization, explore famous teachings, and study with modern digital tools designed for learners at all levels.</p>
+          </div>
+        </div>
+
+        {/* Quick Links Section */}
+        <div className="mb-12 bg-card border border-border rounded-lg p-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="text-center">
+              <h3 className="text-lg font-semibold text-primary mb-2">New to Talmud Study?</h3>
+              <p className="text-sm text-muted-foreground mb-3">Start with the most famous and accessible teachings.</p>
+              <Link 
+                href="/suggested-pages"
+                className="inline-flex items-center text-primary hover:text-primary/80 font-medium text-sm"
+                data-testid="link-suggested-pages"
+              >
+                Explore Famous Pages →
+              </Link>
+            </div>
+            <div className="text-center">
+              <h3 className="text-lg font-semibold text-primary mb-2">Learn More</h3>
+              <p className="text-sm text-muted-foreground mb-3">Discover ChavrutAI's features and approach to digital learning.</p>
+              <Link 
+                href="/about"
+                className="inline-flex items-center text-primary hover:text-primary/80 font-medium text-sm"
+                data-testid="link-about"
+              >
+                About ChavrutAI →
+              </Link>
+            </div>
+            <div className="text-center">
+              <h3 className="text-lg font-semibold text-primary mb-2">Popular Tractates</h3>
+              <p className="text-sm text-muted-foreground mb-3">Begin with the most studied tractates.</p>
+              <Link 
+                href="/contents/berakhot"
+                className="inline-flex items-center text-primary hover:text-primary/80 font-medium text-sm"
+                data-testid="link-berakhot"
+              >
+                Start with Berakhot →
+              </Link>
+            </div>
+          </div>
         </div>
 
         {/* Seder Sections */}

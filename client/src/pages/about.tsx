@@ -22,29 +22,35 @@ export default function About() {
           </div>
           
           <div className="bg-card rounded-lg shadow-sm border border-border p-8">
-            <h1 className="text-3xl font-bold text-foreground mb-6">About ChavrutAI</h1>
+            <h1 className="text-3xl font-bold text-foreground mb-6">About ChavrutAI - Free Digital Talmud Study Platform</h1>
             
             <div className="prose prose-sepia max-w-none">
-              <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                ChavrutAI is a modern digital platform designed to make the Talmud, more accessible through an intuitive interface.
-              </p>
-              
-              <p className="text-muted-foreground leading-relaxed mb-6">
-                The platform features bilingual Hebrew-English text display, hierarchical 
-                navigation, and comprehensive text processing.
-              </p>
-              
-              <p className="text-muted-foreground leading-relaxed mb-8">
-                Find out more about this project at{" "}
-                <a 
-                  href="https://www.ezrabrand.com/p/chavrutai-talmud-web-app-launch-review"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary hover:text-primary/80 underline transition-colors duration-200"
-                >
-                  "ChavrutAI Talmud Web App Launch: Review and Comparison with Similar Platforms"
-                </a>
-              </p>
+              <section className="mb-8">
+                <h2 className="text-xl font-semibold text-foreground mb-4">Making Talmud Study Accessible to Everyone</h2>
+                <p className="text-lg text-muted-foreground leading-relaxed mb-6">
+                  ChavrutAI is a free digital platform designed to make the Babylonian Talmud accessible through modern technology and intuitive design. Whether you're a beginner or advanced learner, our platform provides the tools you need to study effectively.
+                </p>
+                
+                <p className="text-muted-foreground leading-relaxed mb-6">
+                  The platform features bilingual Hebrew-English text display, hierarchical 
+                  navigation, and comprehensive text processing - all completely free for learners worldwide.
+                </p>
+              </section>
+
+              <section className="mb-8">
+                <h2 className="text-xl font-semibold text-foreground mb-4">Why Choose ChavrutAI for Digital Talmud Study?</h2>
+                <p className="text-muted-foreground leading-relaxed mb-8">
+                  Find out more about this project at{" "}
+                  <a 
+                    href="https://www.ezrabrand.com/p/chavrutai-talmud-web-app-launch-review"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary hover:text-primary/80 underline transition-colors duration-200"
+                  >
+                    "ChavrutAI Talmud Web App Launch: Review and Comparison with Similar Platforms"
+                  </a>
+                </p>
+              </section>
 
               <h2 className="text-2xl font-bold text-foreground mb-4">ChavrutAI Features Overview</h2>
               
