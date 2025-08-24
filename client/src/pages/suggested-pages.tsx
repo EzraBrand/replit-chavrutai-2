@@ -318,53 +318,48 @@ export default function SuggestedPages() {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 py-8">
+      <main className="max-w-7xl mx-auto px-4 py-4">
         {/* Breadcrumb Navigation */}
         <BreadcrumbNavigation items={breadcrumbHelpers.suggestedPages()} />
 
         {/* Page Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-4">
-            Suggested Pages
+        <div className="mb-4">
+          <h1 className="text-2xl font-bold text-foreground mb-2">
+            Famous Talmud Pages
           </h1>
-          <p className="text-lg text-muted-foreground">
-            Explore some of the most famous and significant discussions in the Talmud. 
-            These pages contain foundational teachings, inspiring stories, and profound wisdom 
-            that have shaped Jewish thought for centuries.
+          <p className="text-base text-muted-foreground">
+            Explore the most famous discussions, stories, and wisdom from the Talmud.
           </p>
         </div>
 
         {/* Suggested Pages Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
           {SUGGESTED_PAGES.map((page, index) => (
             <Link 
               key={index}
               href={`/tractate/${encodeURIComponent(page.tractate.toLowerCase())}/${page.folio}`}
             >
-              <Card className="h-full hover:shadow-md transition-shadow cursor-pointer border-border hover:border-primary/20">
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-lg">
+              <Card className="hover:shadow-sm transition-shadow cursor-pointer border-border hover:border-primary/20 bg-card/50">
+                <div className="p-3">
+                  <div className="text-primary font-medium text-sm mb-1">
                     {page.tractate} {page.folio}
-                  </CardTitle>
-                  <h3 className="text-base font-semibold text-primary">
+                  </div>
+                  <h3 className="text-sm font-semibold text-foreground mb-2 leading-tight">
                     {page.title}
                   </h3>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
+                  <p className="text-xs text-muted-foreground leading-relaxed">
                     {page.description}
                   </p>
-                </CardContent>
+                </div>
               </Card>
             </Link>
           ))}
         </div>
 
         {/* Footer note */}
-        <div className="mt-12 text-center">
-          <p className="text-sm text-muted-foreground">
-            These selections represent just a small sample of the wisdom contained in the Talmud. 
-            Each page opens doorways to deeper understanding and connection with centuries of Jewish learning.
+        <div className="mt-6 text-center">
+          <p className="text-xs text-muted-foreground">
+            A curated selection of the most significant pages in the Talmud.
           </p>
         </div>
       </main>
