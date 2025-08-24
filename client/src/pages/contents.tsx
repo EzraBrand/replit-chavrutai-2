@@ -127,61 +127,46 @@ export default function Contents() {
         </div>
       </header>
 
-      <div className="max-w-6xl mx-auto px-4 py-8">
+      <div className="max-w-6xl mx-auto px-4 py-4">
         {/* Breadcrumbs */}
         <BreadcrumbNavigation items={breadcrumbHelpers.contents()} />
         
         {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-primary mb-2">Study Talmud Online Free</h1>
-          <h2 className="text-2xl text-primary/80 mb-4">תלמוד בבלי - Babylonian Talmud</h2>
-          <p className="text-lg text-muted-foreground mb-4">Complete digital collection of all 37 tractates with Hebrew-English text display</p>
-          <div className="max-w-2xl mx-auto text-sm text-muted-foreground leading-relaxed">
-            <p>Access the full Babylonian Talmud for free. Navigate through traditional Seder organization, explore famous teachings, and study with modern digital tools designed for learners at all levels.</p>
-          </div>
+        <div className="text-center mb-4">
+          <h1 className="text-3xl font-bold text-primary mb-1">Study Talmud Online</h1>
+          <h2 className="text-xl text-primary/80 mb-2">תלמוד בבלי - Babylonian Talmud</h2>
+          <p className="text-base text-muted-foreground">Complete digital collection of all 37 tractates with Hebrew-English text display</p>
         </div>
 
         {/* Quick Links Section */}
-        <div className="mb-12 bg-card border border-border rounded-lg p-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="text-center">
-              <h3 className="text-lg font-semibold text-primary mb-2">New to Talmud Study?</h3>
-              <p className="text-sm text-muted-foreground mb-3">Start with the most famous and accessible teachings.</p>
-              <Link 
-                href="/suggested-pages"
-                className="inline-flex items-center text-primary hover:text-primary/80 font-medium text-sm"
-                data-testid="link-suggested-pages"
-              >
-                Explore Famous Pages →
-              </Link>
-            </div>
-            <div className="text-center">
-              <h3 className="text-lg font-semibold text-primary mb-2">Learn More</h3>
-              <p className="text-sm text-muted-foreground mb-3">Discover ChavrutAI's features and approach to digital learning.</p>
-              <Link 
-                href="/about"
-                className="inline-flex items-center text-primary hover:text-primary/80 font-medium text-sm"
-                data-testid="link-about"
-              >
-                About ChavrutAI →
-              </Link>
-            </div>
-            <div className="text-center">
-              <h3 className="text-lg font-semibold text-primary mb-2">Popular Tractates</h3>
-              <p className="text-sm text-muted-foreground mb-3">Begin with the most studied tractates.</p>
-              <Link 
-                href="/contents/berakhot"
-                className="inline-flex items-center text-primary hover:text-primary/80 font-medium text-sm"
-                data-testid="link-berakhot"
-              >
-                Start with Berakhot →
-              </Link>
-            </div>
+        <div className="mb-6 bg-card border border-border rounded-lg p-3">
+          <div className="flex flex-wrap justify-center gap-4 text-sm">
+            <Link 
+              href="/suggested-pages"
+              className="flex items-center gap-1 text-primary hover:text-primary/80 font-medium"
+              data-testid="link-suggested-pages"
+            >
+              ⭐ Famous Pages
+            </Link>
+            <Link 
+              href="/about"
+              className="flex items-center gap-1 text-primary hover:text-primary/80 font-medium"
+              data-testid="link-about"
+            >
+              ℹ️ About ChavrutAI
+            </Link>
+            <Link 
+              href="/contents/berakhot"
+              className="flex items-center gap-1 text-primary hover:text-primary/80 font-medium"
+              data-testid="link-berakhot"
+            >
+              📚 Start with Berakhot
+            </Link>
           </div>
         </div>
 
         {/* Seder Sections */}
-        <div className="space-y-8">
+        <div className="space-y-4">
           {Object.entries(SEDER_ORGANIZATION).map(([sederName, sederData]) => {
             // Filter tractates that are available in our data
             const availableSederTractates = sederData.tractates.filter(
@@ -191,42 +176,35 @@ export default function Contents() {
             if (availableSederTractates.length === 0) return null;
 
             return (
-              <div key={sederName} className="space-y-4">
+              <div key={sederName} className="space-y-2">
                 {/* Seder Header */}
-                <div className="text-center border-b border-border pb-4">
-                  <h3 className="text-2xl font-semibold text-primary">
+                <div className="text-center border-b border-border pb-2">
+                  <h3 className="text-xl font-semibold text-primary">
                     {sederName}
                   </h3>
-                  <p className="text-lg text-primary/70 font-hebrew">
+                  <p className="text-base text-primary/70 font-hebrew">
                     {sederData.hebrew}
                   </p>
-                  <p className="text-sm text-muted-foreground mt-1">
+                  <p className="text-xs text-muted-foreground">
                     {sederData.description}
                   </p>
                 </div>
 
                 {/* Tractates Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-2">
                   {availableSederTractates.map((tractate) => (
                     <Link 
                       key={tractate} 
                       href={`/contents/${encodeURIComponent(tractate.toLowerCase())}`}
                       onClick={() => trackEvent('select_tractate', 'navigation', tractate)}
                     >
-                      <Card className="h-full hover:shadow-md transition-shadow cursor-pointer border-border hover:border-primary/20">
-                        <CardHeader className="pb-3">
-                          <CardTitle className="text-lg">
-                            <div className="text-primary">{tractate}</div>
-                            <div className="text-sm text-primary/70 font-hebrew mt-1">
-                              {TRACTATE_HEBREW_NAMES[tractate as keyof typeof TRACTATE_HEBREW_NAMES] || tractate}
-                            </div>
-                          </CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                          <p className="text-sm text-muted-foreground">
-                            Click to view chapters and pages
-                          </p>
-                        </CardContent>
+                      <Card className="hover:shadow-sm transition-shadow cursor-pointer border-border hover:border-primary/20 bg-card/50">
+                        <div className="p-3">
+                          <div className="text-primary font-medium text-base">{tractate}</div>
+                          <div className="text-sm text-primary/70 font-hebrew">
+                            {TRACTATE_HEBREW_NAMES[tractate as keyof typeof TRACTATE_HEBREW_NAMES] || tractate}
+                          </div>
+                        </div>
                       </Card>
                     </Link>
                   ))}
