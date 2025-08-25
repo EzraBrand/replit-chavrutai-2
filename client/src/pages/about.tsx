@@ -12,14 +12,39 @@ export default function About() {
           {/* Breadcrumbs */}
           <BreadcrumbNavigation items={breadcrumbHelpers.about()} />
           
-          <div className="mb-8">
-            <Link 
-              href="/"
-              className="text-muted-foreground hover:text-foreground transition-colors duration-200 inline-flex items-center gap-2"
-            >
-              ← Back to Study
-            </Link>
-          </div>
+          {/* Quick Navigation */}
+          <nav className="mb-8 bg-card border border-border rounded-lg p-4" role="navigation" aria-label="Quick navigation">
+            <div className="flex flex-wrap gap-4 justify-center">
+              <Link 
+                href="/"
+                className="text-primary hover:text-primary/80 font-medium inline-flex items-center gap-2 transition-colors"
+                data-testid="nav-home"
+              >
+                🏠 Home & Contents
+              </Link>
+              <Link 
+                href="/suggested-pages"
+                className="text-primary hover:text-primary/80 font-medium inline-flex items-center gap-2 transition-colors"
+                data-testid="nav-suggested"
+              >
+                📚 Famous Pages
+              </Link>
+              <Link 
+                href="/contents/berakhot"
+                className="text-primary hover:text-primary/80 font-medium inline-flex items-center gap-2 transition-colors"
+                data-testid="nav-berakhot"
+              >
+                🙏 Start with Berakhot
+              </Link>
+              <Link 
+                href="/contents/shabbat"
+                className="text-primary hover:text-primary/80 font-medium inline-flex items-center gap-2 transition-colors"
+                data-testid="nav-shabbat"
+              >
+                🕯️ Shabbat
+              </Link>
+            </div>
+          </nav>
           
           <div className="bg-card rounded-lg shadow-sm border border-border p-8">
             <h1 className="text-3xl font-bold text-foreground mb-6">About ChavrutAI - Free Digital Talmud Study Platform</h1>

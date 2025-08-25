@@ -15,16 +15,25 @@ export function generateSitemap(req: Request, res: Response) {
     <loc>${baseUrl}/</loc>
     <priority>1.0</priority>
     <changefreq>weekly</changefreq>
+    <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
   </url>
   <url>
-    <loc>${baseUrl}/about</loc>
-    <priority>0.8</priority>
-    <changefreq>monthly</changefreq>
+    <loc>${baseUrl}/contents</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+    <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
   </url>
   <url>
     <loc>${baseUrl}/suggested-pages</loc>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
+    <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
+  </url>
+  <url>
+    <loc>${baseUrl}/about</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
   </url>
 
   

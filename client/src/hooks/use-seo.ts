@@ -245,66 +245,109 @@ export const generateSEOData = {
     robots: 'index, follow',
     structuredData: {
       "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "ChavrutAI",
-      "description": "Digital platform for studying Jewish texts with modern technology",
-      "url": window.location.origin,
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": `${window.location.origin}/contents/{search_term}`,
-        "query-input": "required name=search_term"
-      },
-      "author": {
-        "@type": "Organization",
-        "name": "ChavrutAI",
-        "url": window.location.origin
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": "ChavrutAI",
-        "url": window.location.origin,
-        "logo": {
-          "@type": "ImageObject",
-          "url": `${window.location.origin}/favicon-192x192.png`
-        }
-      },
-      "hasPart": [
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": `${window.location.origin}/#website`,
+          "name": "ChavrutAI",
+          "description": "Digital platform for studying Jewish texts with modern technology",
+          "url": window.location.origin,
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": `${window.location.origin}/contents/{search_term}`,
+            "query-input": "required name=search_term"
+          },
+          "publisher": {
+            "@id": `${window.location.origin}/#organization`
+          }
+        },
+        {
+          "@type": "Organization",
+          "@id": `${window.location.origin}/#organization`,
+          "name": "ChavrutAI",
+          "url": window.location.origin,
+          "logo": {
+            "@type": "ImageObject",
+            "url": `${window.location.origin}/favicon-192x192.png`
+          }
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "@id": `${window.location.origin}/#navigation`,
+          "name": "Main Navigation",
+          "url": window.location.origin,
+          "hasPart": [
+            {
+              "@type": "SiteNavigationElement",
+              "name": "Famous Pages",
+              "description": "Start with the most significant and well-known Talmud passages",
+              "url": `${window.location.origin}/suggested-pages`
+            },
+            {
+              "@type": "SiteNavigationElement",
+              "name": "Berakhot",
+              "description": "Begin your study with blessings and prayers",
+              "url": `${window.location.origin}/contents/berakhot`
+            },
+            {
+              "@type": "SiteNavigationElement",
+              "name": "Shabbat",
+              "description": "Sabbath laws and stories",
+              "url": `${window.location.origin}/contents/shabbat`
+            },
+            {
+              "@type": "SiteNavigationElement",
+              "name": "Sanhedrin",
+              "description": "Ethics and justice",
+              "url": `${window.location.origin}/contents/sanhedrin`
+            },
+            {
+              "@type": "SiteNavigationElement",
+              "name": "About ChavrutAI",
+              "description": "Learn about our platform and features",
+              "url": `${window.location.origin}/about`
+            }
+          ]
+        },
         {
           "@type": "EducationalOrganization",
           "name": "Digital Talmud Learning Platform",
           "educationalUse": "Religious Study",
-          "teaches": "Talmudic Studies"
-        }
-      ],
-      "mainEntity": {
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "What is ChavrutAI?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "ChavrutAI is a free digital platform for studying the Babylonian Talmud with Hebrew-English bilingual text display and modern navigation tools."
-            }
-          },
-          {
-            "@type": "Question", 
-            "name": "Is ChavrutAI free to use?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Yes, ChavrutAI is completely free to use for all learners. Access all 37 tractates of the Babylonian Talmud at no cost."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "What languages does ChavrutAI support?",
-            "acceptedAnswer": {
-              "@type": "Answer", 
-              "text": "ChavrutAI displays text in Hebrew, Aramaic, and English, making it accessible to learners at all levels."
-            }
+          "teaches": "Talmudic Studies",
+          "isPartOf": {
+            "@id": `${window.location.origin}/#website`
           }
-        ]
-      }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is ChavrutAI?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "ChavrutAI is a free digital platform for studying the Babylonian Talmud with Hebrew-English bilingual text display and modern navigation tools."
+              }
+            },
+            {
+              "@type": "Question", 
+              "name": "Is ChavrutAI free to use?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, ChavrutAI is completely free to use for all learners. Access all 37 tractates of the Babylonian Talmud at no cost."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What languages does ChavrutAI support?",
+              "acceptedAnswer": {
+                "@type": "Answer", 
+                "text": "ChavrutAI displays text in Hebrew, Aramaic, and English, making it accessible to learners at all levels."
+              }
+            }
+          ]
+        }
+      ]
     }
   }),
 
