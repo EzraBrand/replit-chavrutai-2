@@ -1,0 +1,103 @@
+DUPLICATE ANALYSIS FOR: BEITZA
+============================================================
+
+INSTANCE 1 (Lines 442-488):
+----------------------------------------
+beitza: [
+    {
+      number: 1,
+      englishName: "Chapter 1",
+      hebrewName: "פרק א",
+      startFolio: 2,
+      startSide: "a",
+      endFolio: 15,
+      endSide: "a",
+    },
+    {
+      number: 2,
+      englishName: "Chapter 2",
+      hebrewName: "פרק ב",
+      startFolio: 15,
+      startSide: "b",
+      endFolio: 23,
+      endSide: "b",
+    },
+    {
+      number: 3,
+      englishName: "Chapter 3",
+      hebrewName: "פרק ג",
+      startFolio: 23,
+      startSide: "b",
+      endFolio: 29,
+      endSide: "b",
+    },
+    {
+      number: 4,
+      englishName: "Chapter 4",
+      hebrewName: "פרק ד",
+      startFolio: 29,
+      startSide: "b",
+      endFolio: 35,
+      endSide: "b",
+    },
+    {
+      number: 5,
+      englishName: "Chapter 5",
+      hebrewName: "פרק ה",
+      startFolio: 35,
+      startSide: "b",
+      endFolio: 40,
+      endSide: "b",
+    },
+  ],
+
+INSTANCE 2 (Lines 1375-1421):
+----------------------------------------
+beitza: [
+    {
+      number: 1,
+      englishName: "Beitzah",
+      hebrewName: "ביצה",
+      startFolio: 2,
+      startSide: "a",
+      endFolio: 15,
+      endSide: "b",
+    },
+    {
+      number: 2,
+      englishName: "Yom Tov",
+      hebrewName: "יום טוב",
+      startFolio: 15,
+      startSide: "b",
+      endFolio: 23,
+      endSide: "b",
+    },
+    {
+      number: 3,
+      englishName: "Ein Tzadin",
+      hebrewName: "אין צדין",
+      startFolio: 23,
+      startSide: "b",
+      endFolio: 29,
+      endSide: "b",
+    },
+    {
+      number: 4,
+      englishName: "HaMevi",
+      hebrewName: "המביא",
+      startFolio: 29,
+      startSide: "b",
+      endFolio: 35,
+      endSide: "b",
+    },
+    {
+      number: 5,
+      englishName: "Mashilin",
+      hebrewName: "משילין",
+      startFolio: 35,
+      startSide: "b",
+      endFolio: 40,
+      endSide: "b",
+    },
+  ],
+
