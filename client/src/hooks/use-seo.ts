@@ -312,9 +312,14 @@ export const generateSEOData = {
         {
           "@type": "EducationalOrganization",
           "name": "Digital Talmud Learning Platform",
-          "educationalUse": "Religious Study",
-          "teaches": "Talmudic Studies",
-          "isPartOf": {
+          "description": "Platform specializing in Talmudic religious studies",
+          "educationalLevel": "Advanced",
+          "subjectOf": {
+            "@type": "Book",
+            "name": "Babylonian Talmud",
+            "genre": "Religious Text"
+          },
+          "mainEntityOfPage": {
             "@id": `${window.location.origin}/#website`
           }
         },
