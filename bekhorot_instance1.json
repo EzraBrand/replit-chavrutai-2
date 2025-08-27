@@ -1,0 +1,83 @@
+[
+  {
+    "number": 1,
+    "englishName": "Chapter 1",
+    "hebrewName": "פרק א",
+    "startFolio": 2,
+    "startSide": "a",
+    "endFolio": 13,
+    "endSide": "a"
+  },
+  {
+    "number": 2,
+    "englishName": "Chapter 2",
+    "hebrewName": "פרק ב",
+    "startFolio": 13,
+    "startSide": "a",
+    "endFolio": 19,
+    "endSide": "b"
+  },
+  {
+    "number": 3,
+    "englishName": "Chapter 3",
+    "hebrewName": "פרק ג",
+    "startFolio": 19,
+    "startSide": "b",
+    "endFolio": 26,
+    "endSide": "b"
+  },
+  {
+    "number": 4,
+    "englishName": "Chapter 4",
+    "hebrewName": "פרק ד",
+    "startFolio": 26,
+    "startSide": "b",
+    "endFolio": 31,
+    "endSide": "a"
+  },
+  {
+    "number": 5,
+    "englishName": "Chapter 5",
+    "hebrewName": "פרק ה",
+    "startFolio": 31,
+    "startSide": "a",
+    "endFolio": 37,
+    "endSide": "a"
+  },
+  {
+    "number": 6,
+    "englishName": "Chapter 6",
+    "hebrewName": "פרק ו",
+    "startFolio": 37,
+    "startSide": "a",
+    "endFolio": 43,
+    "endSide": "a"
+  },
+  {
+    "number": 7,
+    "englishName": "Chapter 7",
+    "hebrewName": "פרק ז",
+    "startFolio": 43,
+    "startSide": "a",
+    "endFolio": 46,
+    "endSide": "a"
+  },
+  {
+    "number": 8,
+    "englishName": "Chapter 8",
+    "hebrewName": "פרק ח",
+    "startFolio": 46,
+    "startSide": "a",
+    "endFolio": 52,
+    "endSide": "b"
+  },
+  {
+    "number": 9,
+    "englishName": "Chapter 9",
+    "hebrewName": "פרק ט",
+    "startFolio": 53,
+    "startSide": "a",
+    "endFolio": 61,
+    "endSide": "a"
+  }
+]

@@ -1,0 +1,83 @@
+[
+  {
+    "number": 1,
+    "englishName": "HaKol Ma'arikhin",
+    "hebrewName": "הכל מעריכין",
+    "startFolio": 2,
+    "startSide": "a",
+    "endFolio": 7,
+    "endSide": "b"
+  },
+  {
+    "number": 2,
+    "englishName": "Ein Ne'erakhin",
+    "hebrewName": "אין נערכין",
+    "startFolio": 7,
+    "startSide": "b",
+    "endFolio": 13,
+    "endSide": "b"
+  },
+  {
+    "number": 3,
+    "englishName": "Yesh Ba'arakhin",
+    "hebrewName": "יש בערכין",
+    "startFolio": 13,
+    "startSide": "b",
+    "endFolio": 17,
+    "endSide": "a"
+  },
+  {
+    "number": 4,
+    "englishName": "Hasag Yad",
+    "hebrewName": "השג יד",
+    "startFolio": 17,
+    "startSide": "a",
+    "endFolio": 19,
+    "endSide": "a"
+  },
+  {
+    "number": 5,
+    "englishName": "HaOmer Mishkali Alai",
+    "hebrewName": "האומר משקלי עלי",
+    "startFolio": 19,
+    "startSide": "a",
+    "endFolio": 21,
+    "endSide": "b"
+  },
+  {
+    "number": 6,
+    "englishName": "Shum HaYetomim",
+    "hebrewName": "שום היתומים",
+    "startFolio": 21,
+    "startSide": "b",
+    "endFolio": 24,
+    "endSide": "a"
+  },
+  {
+    "number": 7,
+    "englishName": "Ein Makdishin",
+    "hebrewName": "אין מקדישין",
+    "startFolio": 24,
+    "startSide": "a",
+    "endFolio": 27,
+    "endSide": "a"
+  },
+  {
+    "number": 8,
+    "englishName": "HaMakdish Sadehu",
+    "hebrewName": "המקדיש שדהו",
+    "startFolio": 27,
+    "startSide": "a",
+    "endFolio": 29,
+    "endSide": "b"
+  },
+  {
+    "number": 9,
+    "englishName": "HaMokher Sadehu",
+    "hebrewName": "המוכר שדהו",
+    "startFolio": 29,
+    "startSide": "b",
+    "endFolio": 34,
+    "endSide": "a"
+  }
+]

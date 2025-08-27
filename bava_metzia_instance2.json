@@ -1,0 +1,92 @@
+[
+  {
+    "number": 1,
+    "englishName": "Shnayim Ochazin",
+    "hebrewName": "שנים אוחזין",
+    "startFolio": 2,
+    "startSide": "a",
+    "endFolio": 21,
+    "endSide": "b"
+  },
+  {
+    "number": 2,
+    "englishName": "Eilu Metziot",
+    "hebrewName": "אלו מציאות",
+    "startFolio": 21,
+    "startSide": "b",
+    "endFolio": 33,
+    "endSide": "a"
+  },
+  {
+    "number": 3,
+    "englishName": "HaMafkid",
+    "hebrewName": "המפקיד",
+    "startFolio": 33,
+    "startSide": "a",
+    "endFolio": 42,
+    "endSide": "a"
+  },
+  {
+    "number": 4,
+    "englishName": "HaZahav",
+    "hebrewName": "הזהב",
+    "startFolio": 42,
+    "startSide": "a",
+    "endFolio": 60,
+    "endSide": "b"
+  },
+  {
+    "number": 5,
+    "englishName": "Eizehu Neshech",
+    "hebrewName": "איזהו נשך",
+    "startFolio": 60,
+    "startSide": "b",
+    "endFolio": 73,
+    "endSide": "b"
+  },
+  {
+    "number": 6,
+    "englishName": "HaMaskir",
+    "hebrewName": "המשכיר",
+    "startFolio": 73,
+    "startSide": "b",
+    "endFolio": 83,
+    "endSide": "a"
+  },
+  {
+    "number": 7,
+    "englishName": "HaMaskir Et HaPo'alim",
+    "hebrewName": "המשכיר את הפועלים",
+    "startFolio": 83,
+    "startSide": "a",
+    "endFolio": 94,
+    "endSide": "b"
+  },
+  {
+    "number": 8,
+    "englishName": "HaMaskir Et HaChamar",
+    "hebrewName": "המשכיר את החמור",
+    "startFolio": 94,
+    "startSide": "b",
+    "endFolio": 101,
+    "endSide": "b"
+  },
+  {
+    "number": 9,
+    "englishName": "HaMaskir Et HaBayit",
+    "hebrewName": "המשכיר את הבית",
+    "startFolio": 101,
+    "startSide": "b",
+    "endFolio": 107,
+    "endSide": "a"
+  },
+  {
+    "number": 10,
+    "englishName": "HaBayit VeHaAliyah",
+    "hebrewName": "הבית והעליה",
+    "startFolio": 107,
+    "startSide": "a",
+    "endFolio": 119,
+    "endSide": "b"
+  }
+]
