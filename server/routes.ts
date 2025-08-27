@@ -67,6 +67,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     if (shouldNoIndex(req.originalUrl)) {
       // Set custom headers for client-side detection
       res.setHeader('X-SEO-NoIndex', 'true');
+      // Set official robots header for search engines
+      res.setHeader('X-Robots-Tag', 'noindex, nofollow');
     }
     next();
   });
