@@ -142,7 +142,7 @@ export default function Contents() {
         {/* Main Navigation Section */}
         <nav className="mb-8" role="navigation" aria-label="Main study sections">
           <h2 className="text-lg font-semibold text-primary mb-4 text-center">Study Options</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <div className="grid grid-cols-3 gap-3 max-w-2xl mx-auto mb-6">
             <Link 
               href="/suggested-pages"
               className="group block"
@@ -150,11 +150,10 @@ export default function Contents() {
               data-testid="nav-suggested-pages"
             >
               <Card className="hover:shadow-md transition-all duration-200 cursor-pointer border-border hover:border-primary/30 bg-card/50 group-hover:bg-card h-full">
-                <div className="p-6 text-center">
-                  <div className="text-3xl mb-3">📚</div>
-                  <h3 className="text-xl font-semibold text-primary mb-2">Famous Pages</h3>
-                  <p className="text-sm text-muted-foreground mb-3">Start with the most significant and well-known Talmud passages</p>
-                  <p className="text-xs text-primary/70">Perfect for beginners</p>
+                <div className="p-3 text-center">
+                  <div className="text-2xl mb-2">📚</div>
+                  <h3 className="text-base font-semibold text-primary mb-1">Famous Pages</h3>
+                  <p className="text-xs text-muted-foreground">Start with the most significant passages</p>
                 </div>
               </Card>
             </Link>
@@ -166,11 +165,10 @@ export default function Contents() {
               data-testid="nav-berakhot"
             >
               <Card className="hover:shadow-md transition-all duration-200 cursor-pointer border-border hover:border-primary/30 bg-card/50 group-hover:bg-card h-full">
-                <div className="p-6 text-center">
-                  <div className="text-3xl mb-3">🙏</div>
-                  <h3 className="text-xl font-semibold text-primary mb-2">Start with Berakhot</h3>
-                  <p className="text-sm text-muted-foreground mb-3">Begin your study with blessings and prayers</p>
-                  <p className="text-xs text-primary/70">Traditional starting point</p>
+                <div className="p-3 text-center">
+                  <div className="text-2xl mb-2">🙏</div>
+                  <h3 className="text-base font-semibold text-primary mb-1">Start with Berakhot</h3>
+                  <p className="text-xs text-muted-foreground">Begin your study with blessings</p>
                 </div>
               </Card>
             </Link>
@@ -182,32 +180,13 @@ export default function Contents() {
               data-testid="nav-about"
             >
               <Card className="hover:shadow-md transition-all duration-200 cursor-pointer border-border hover:border-primary/30 bg-card/50 group-hover:bg-card h-full">
-                <div className="p-6 text-center">
-                  <div className="text-3xl mb-3">ℹ️</div>
-                  <h3 className="text-xl font-semibold text-primary mb-2">About ChavrutAI</h3>
-                  <p className="text-sm text-muted-foreground mb-3">Learn about our platform and features</p>
-                  <p className="text-xs text-primary/70">Get started guide</p>
+                <div className="p-3 text-center">
+                  <div className="text-2xl mb-2">ℹ️</div>
+                  <h3 className="text-base font-semibold text-primary mb-1">About ChavrutAI</h3>
+                  <p className="text-xs text-muted-foreground">Learn about our platform</p>
                 </div>
               </Card>
             </Link>
-          </div>
-          
-          {/* Popular Tractates Quick Access */}
-          <div className="bg-card border border-border rounded-lg p-4">
-            <h3 className="text-base font-semibold text-primary mb-3 text-center">Popular Tractates</h3>
-            <div className="flex flex-wrap justify-center gap-3">
-              {["Shabbat", "Sanhedrin", "Bava Metzia", "Yoma", "Pesachim"].map((tractate) => (
-                <Link 
-                  key={tractate}
-                  href={`/contents/${tractate.toLowerCase().replace(/\s+/g, '-')}`}
-                  className="inline-flex items-center gap-1 px-3 py-1 bg-primary/10 hover:bg-primary/20 text-primary rounded-full text-sm font-medium transition-colors"
-                  onClick={() => trackEvent('select_popular_tractate', 'navigation', tractate)}
-                  data-testid={`popular-${tractate.toLowerCase()}`}
-                >
-                  {tractate}
-                </Link>
-              ))}
-            </div>
           </div>
         </nav>
 
