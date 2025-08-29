@@ -1,17 +1,17 @@
 # ChavrutAI - Modern Talmud Study Interface
 
-A sophisticated web application designed to make Jewish texts, particularly the Talmud, more accessible through a digital interface that honors traditional study patterns while leveraging modern web technologies.
+A web app designed to make the Talmud, more accessible through a digital interface leveraging modern web technologies.
 
 ## Overview
 
-ChavrutAI provides bilingual (Hebrew/English) text display with intuitive navigation, creating a familiar yet accessible experience for studying the Babylonian Talmud. The interface combines traditional Talmudic layout with digital innovation, featuring a custom sepia color palette and typography that reflects the aesthetic of ancient manuscripts.
+ChavrutAI provides bilingual (Hebrew/English) text display with intuitive navigation, creating an accessible experience for studying the Babylonian Talmud. 
 
 ## Key Features
 
 ### 📚 **Comprehensive Text Access**
 - All 37 tractates of the Babylonian Talmud
-- Accurate folio ranges based on Vilna edition data
-- Seamless integration with Sefaria API for authentic content
+-  folio ranges based on Vilna edition data
+-  integration with Sefaria API for authentic content
 
 ### 🎨 **Traditional Design**
 - Manuscript-inspired sepia color palette
@@ -56,8 +56,6 @@ ChavrutAI provides bilingual (Hebrew/English) text display with intuitive naviga
 
 ### Infrastructure
 - **Neon Database** (PostgreSQL-compatible serverless)
-- **Google Analytics 4** for comprehensive tracking
-- **Replit** hosting and development environment
 
 ## Getting Started
 
@@ -109,21 +107,4 @@ The application provides intuitive navigation through complex Talmudic structure
 - **Responsive stacking** on mobile devices (Hebrew first)
 - **Smart text processing** for improved readability
 - **Term highlighting** for concepts, names, and places
-
-### Technical Innovation
-- **Gazetteer integration** with 5,385+ authentic Talmudic terms
-- **SEO optimization** for educational content discovery
-- **Performance optimization** with intelligent caching
-- **Accessibility features** throughout the interface
-
-## Contributing
-
-ChavrutAI welcomes contributions from developers interested in Jewish text technology. Please review the contribution guidelines and development setup documentation.
-
-## License
-
-This project is developed for educational and scholarly purposes, making ancient Jewish texts more accessible to modern learners.
-
----
-
-**ChavrutAI** - Where ancient wisdom meets modern technology 📚
+- **Gazetteer integration** with 5,385+  Talmudic terms
