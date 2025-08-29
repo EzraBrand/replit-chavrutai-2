@@ -20,7 +20,6 @@ import {
 import hebrewBookIcon from "@/assets/hebrew-book-icon.png";
 import type { TalmudLocation } from "@/types/talmud";
 import NotFound from "@/pages/not-found";
-import chapterDataJson from "../../talmud data/chapter-data.json";
 
 // Complete authentic chapter data for all Talmud Bavli tractates
 export const CHAPTER_DATA: Record<
@@ -34,10 +33,11 @@ export const CHAPTER_DATA: Record<
     endFolio: number;
     endSide: "a" | "b";
   }>
-> = chapterDataJson;
-
-// Function to generate folio buttons for a chapter range
-function generateFolioButtons(
+> = {
+  berakhot: [
+    {
+      number: 1,
+      englishName: "Me'eimatay",
       hebrewName: "פרק א",
       startFolio: 2,
       startSide: "a",

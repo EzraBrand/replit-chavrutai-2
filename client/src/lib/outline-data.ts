@@ -1,5 +1,37 @@
 import type { ChapterOutline } from '@shared/schema';
-import sanhedrinOutlineJson from "../../talmud data/sanhedrin-outline.json";
 
 // Parse CSV data for Sanhedrin 10 (Perek Chelek)
-export const sanhedrin10Outline: ChapterOutline = sanhedrinOutlineJson as ChapterOutline;
+export const sanhedrin10Outline: ChapterOutline = {
+  tractate: "Sanhedrin",
+  chapter: 10,
+  chapterName: "Perek Chelek",
+  entries: [
+    {
+      rowNumber: 1,
+      locationRange: "90a:15 - 90a:17",
+      sectionCount: 3,
+      sectionHeader: "Mishna: Those denied the World-to-Come - Three categories of heretics (resurrection deniers, Torah critics, epikoros), additional exclusions by Tannaim, and the dispute over King Manasseh's repentance",
+      keywords: "World-to-Come, Torah, King Manasseh, Repentance",
+      blogpostUrl: "",
+      macroSugya: "Fundamental Principles: Those Excluded from World-to-Come"
+    },
+    {
+      rowNumber: 2,
+      locationRange: "90a:18 - 90b:1",
+      sectionCount: 2,
+      sectionHeader: "Measure-for-measure divine justice: Why resurrection deniers lose their share in resurrection, with the officer's death at Samaria's gate as paradigmatic example of proportional punishment",
+      keywords: "Divine Justice, Resurrection, Samaria",
+      blogpostUrl: "",
+      macroSugya: "Divine Measure-for-Measure Justice"
+    },
+    {
+      rowNumber: 3,
+      locationRange: "90b:2 - 90b:6",
+      sectionCount: 5,
+      sectionHeader: "Torah proofs of resurrection: Rabbi Yochanan's derivation from teruma given to Aaron the priest, laws of giving teruma to am ha'aretz priests, and consequences of improper teruma distribution",
+      keywords: "Torah, Resurrection, Teruma, Aaron, Priest",
+      blogpostUrl: "Pt1 Scripture, Logic, and Polemic: Proofs for the Principle of the Mass Resurrection of the Jewish Dead in the Future Messianic Era (Sanhedrin 90b-91a)",
+      macroSugya: "Torah Sources for Resurrection: Rabbinic Proofs Through Debates with Heretics and Gentile Rulers"
+    }
+  ]
+};
