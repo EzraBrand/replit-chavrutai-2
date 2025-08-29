@@ -1,5 +1,5 @@
 import { Menu, Type, Palette, Moon, Sun, Columns, Highlighter } from "lucide-react";
-import hebrewBookIcon from "@assets/20250731_1721_Hebrew Book Icon_remix_01k1gdhqpbetsb13vbtjceet4e_1753973105554.png";
+import hebrewBookIcon from "@/assets/hebrew-book-icon.png";
 import { useState } from "react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
