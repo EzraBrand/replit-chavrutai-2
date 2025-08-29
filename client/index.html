@@ -53,6 +53,38 @@
   </head>
   <body>
     <div id="root"></div>
+    
+    <!-- Fallback navigation for crawlers without JavaScript -->
+    <noscript>
+      <div style="padding: 20px; font-family: system-ui, -apple-system, sans-serif; max-width: 800px; margin: 0 auto;">
+        <h1>ChavrutAI - Study Talmud Online</h1>
+        <p>Access all 37 tractates of the Babylonian Talmud with Hebrew-English text and modern study tools.</p>
+        
+        <nav style="margin: 20px 0;">
+          <h2>Navigation</h2>
+          <ul>
+            <li><a href="/">Homepage</a></li>
+            <li><a href="/contents">Browse All Tractates</a></li>
+            <li><a href="/suggested-pages">Famous Talmud Pages</a></li>
+            <li><a href="/about">About ChavrutAI</a></li>
+          </ul>
+        </nav>
+        
+        <div style="margin: 20px 0;">
+          <h2>Popular Tractates</h2>
+          <ul>
+            <li><a href="/contents/berakhot">Berakhot (Blessings)</a></li>
+            <li><a href="/contents/shabbat">Shabbat</a></li>
+            <li><a href="/contents/bava-metzia">Bava Metzia (Middle Gate)</a></li>
+            <li><a href="/contents/sanhedrin">Sanhedrin (Court)</a></li>
+            <li><a href="/contents/yoma">Yoma (Day of Atonement)</a></li>
+          </ul>
+        </div>
+        
+        <p><strong>Note:</strong> This site requires JavaScript for the full interactive experience. Please enable JavaScript in your browser to access all features.</p>
+      </div>
+    </noscript>
+    
     <script type="module" src="/src/main.tsx"></script>
     <!-- This is a replit script which adds a banner on the top of the page when opened in development mode outside the replit environment -->
     <script type="text/javascript" src="https://replit.com/public/js/replit-dev-banner.js"></script>

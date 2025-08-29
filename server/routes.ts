@@ -1,5 +1,7 @@
-import type { Express } from "express";
+import express, { type Express } from "express";
 import { createServer, type Server } from "http";
+import fs from "fs";
+import path from "path";
 import { storage } from "./storage";
 import { insertTextSchema } from "@shared/schema";
 import { normalizeSefariaTractateName } from "@shared/tractates";
@@ -54,6 +56,149 @@ const tractateListSchema = z.object({
   work: z.string()
 });
 
+// Generate SEO meta tags based on URL route
+function generateServerSideMetaTags(url: string): { title: string; description: string; ogTitle: string; ogDescription: string; canonical: string; robots: string } {
+  const baseUrl = process.env.NODE_ENV === 'production' ? 'https://chavrutai.com' : 'http://localhost:5000';
+  
+  // Default fallback (current static meta)
+  let seoData = {
+    title: "Study Talmud Online - Free Digital Platform | ChavrutAI",
+    description: "Access all 37 tractates of the Babylonian Talmud with Hebrew-English text, chapter navigation, and modern study tools. Start learning today - completely free.",
+    ogTitle: "Study Talmud Online Free - Digital Platform",
+    ogDescription: "Access all 37 tractates of the Babylonian Talmud with Hebrew-English text, chapter navigation, and modern study tools. Start learning today - completely free.",
+    canonical: `${baseUrl}/`,
+    robots: "index, follow"
+  };
+
+  // Route-specific SEO data (mirroring client-side generateSEOData)
+  if (url === '/' || url === '/contents') {
+    // Homepage/Contents - keep current data
+    seoData.canonical = `${baseUrl}${url === '/' ? '/' : '/contents'}`;
+  } else if (url === '/about') {
+    seoData = {
+      title: "About ChavrutAI - Free Digital Talmud Learning Platform",
+      description: "Discover how ChavrutAI makes Jewish texts accessible with modern technology. Learn about our free bilingual Talmud study platform designed for learners at all levels.",
+      ogTitle: "About ChavrutAI - Free Digital Talmud Learning Platform",
+      ogDescription: "Discover how ChavrutAI makes Jewish texts accessible with modern technology. Learn about our free bilingual Talmud study platform designed for learners at all levels.",
+      canonical: `${baseUrl}/about`,
+      robots: "index, follow"
+    };
+  } else if (url === '/suggested-pages') {
+    seoData = {
+      title: "Famous Talmud Pages - Essential Teachings & Stories | ChavrutAI",
+      description: "Start with the most famous Talmud pages including Hillel's wisdom, Hannah's prayer, and other essential teachings. Perfect introduction for new learners.",
+      ogTitle: "Famous Talmud Pages - Essential Teachings & Stories",
+      ogDescription: "Start with the most famous Talmud pages including Hillel's wisdom, Hannah's prayer, and other essential teachings. Perfect introduction for new learners.",
+      canonical: `${baseUrl}/suggested-pages`,
+      robots: "index, follow"
+    };
+  } else if (url.match(/^\/contents\/[^/]+$/)) {
+    // Tractate pages like /contents/berakhot
+    const tractate = url.split('/')[2];
+    const tractateTitle = tractate.charAt(0).toUpperCase() + tractate.slice(1);
+    seoData = {
+      title: `${tractateTitle} Talmud - Complete Chapter Guide | ChavrutAI`,
+      description: `Study ${tractateTitle} tractate chapter by chapter with Hebrew-English text, detailed folio navigation, and traditional commentary access. Free online Talmud learning.`,
+      ogTitle: `${tractateTitle} Talmud - Complete Study Guide`,
+      ogDescription: `Study ${tractateTitle} tractate chapter by chapter with Hebrew-English text, detailed folio navigation, and traditional commentary access.`,
+      canonical: `${baseUrl}/contents/${tractate}`,
+      robots: "index, follow"
+    };
+  }
+  
+  return seoData;
+}
+
+// Check if request is from a search engine crawler
+function isCrawlerRequest(userAgent: string): boolean {
+  const crawlerPatterns = [
+    /googlebot/i,
+    /bingbot/i,
+    /slurp/i, // Yahoo
+    /duckduckbot/i,
+    /baiduspider/i,
+    /yandexbot/i,
+    /facebookexternalhit/i,
+    /twitterbot/i,
+    /linkedinbot/i,
+    /whatsapp/i,
+    /telegrambot/i,
+    /applebot/i,
+    /crawler/i,
+    /spider/i,
+    /bot/i
+  ];
+  
+  return crawlerPatterns.some(pattern => pattern.test(userAgent));
+}
+
+// Serve HTML page with server-side injected meta tags (only for crawlers in development)
+async function servePageWithMeta(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
+  try {
+    const userAgent = req.get('User-Agent') || '';
+    const isDevelopment = process.env.NODE_ENV === 'development';
+    
+    // In development, only serve SSR for crawlers - let Vite handle regular browsers
+    if (isDevelopment && !isCrawlerRequest(userAgent)) {
+      return next(); // Let Vite handle this request
+    }
+    
+    const clientTemplate = path.resolve(
+      import.meta.dirname,
+      "..",
+      "client",
+      "index.html",
+    );
+
+    // Read the HTML template
+    let template = await fs.promises.readFile(clientTemplate, "utf-8");
+    
+    // Generate SEO data for this route
+    const seoData = generateServerSideMetaTags(req.originalUrl);
+    
+    // Replace static meta tags with dynamic ones
+    template = template
+      .replace(
+        /<title>.*?<\/title>/,
+        `<title>${seoData.title}</title>`
+      )
+      .replace(
+        /<meta name="description" content=".*?"/,
+        `<meta name="description" content="${seoData.description}"`
+      )
+      .replace(
+        /<meta property="og:title" content=".*?"/,
+        `<meta property="og:title" content="${seoData.ogTitle}"`
+      )
+      .replace(
+        /<meta property="og:description" content=".*?"/,
+        `<meta property="og:description" content="${seoData.ogDescription}"`
+      )
+      .replace(
+        /<meta property="og:url" content=".*?"/,
+        `<meta property="og:url" content="${seoData.canonical}"`
+      )
+      .replace(
+        /<meta name="robots" content=".*?"/,
+        `<meta name="robots" content="${seoData.robots}"`
+      );
+    
+    // Add canonical tag if not present
+    if (!template.includes('<link rel="canonical"')) {
+      template = template.replace(
+        '</head>',
+        `  <link rel="canonical" href="${seoData.canonical}" />\n  </head>`
+      );
+    }
+    
+    res.status(200).set({ "Content-Type": "text/html" }).end(template);
+  } catch (error) {
+    console.error('Error serving page with meta:', error);
+    // Fall through to next middleware (Vite)
+    next(error);
+  }
+}
+
 // SEO route handler for tractate pages
 function shouldNoIndex(url: string): boolean {
   // Folio pages should be noindexed (e.g., /tractate/berakhot/2a)
@@ -62,7 +207,14 @@ function shouldNoIndex(url: string): boolean {
 
 export async function registerRoutes(app: Express): Promise<Server> {
   
-  // SEO middleware for dynamic meta tags
+  // Server-side meta tag injection for critical pages
+  app.get('/', servePageWithMeta);
+  app.get('/about', servePageWithMeta);
+  app.get('/contents', servePageWithMeta);
+  app.get('/suggested-pages', servePageWithMeta);
+  app.get('/contents/:tractate', servePageWithMeta);
+  
+  // SEO middleware for dynamic meta tags (for remaining routes)
   app.use('*', (req, res, next) => {
     if (shouldNoIndex(req.originalUrl)) {
       // Set custom headers for client-side detection
