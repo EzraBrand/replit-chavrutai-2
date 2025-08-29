@@ -4,13 +4,10 @@ import { ChevronLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { HamburgerMenu } from "@/components/navigation/hamburger-menu";
-import {
-  BreadcrumbNavigation,
-  breadcrumbHelpers,
-} from "@/components/navigation/breadcrumb-navigation";
+import { BreadcrumbNavigation } from "@/components/navigation/breadcrumb-navigation";
 import { getChapterDataByTractate } from "@/lib/chapter-data";
 import { Footer } from "@/components/footer";
-import { useSEO, generateSEOData } from "@/hooks/use-seo";
+import { useSEO } from "@/hooks/use-seo";
 import { sefariaAPI } from "@/lib/sefaria";
 import { getMaxFolio } from "@/lib/tractate-ranges";
 import {
@@ -81,7 +78,7 @@ function generateFolioButtons(
 }
 
 export default function TractateContents() {
-  const [, params] = useRoute("/tractate/:tractate");
+  const [, params] = useRoute("/contents/:tractate");
   const tractate = params?.tractate;
 
   if (!tractate || !isValidTractate(tractate)) {
@@ -97,25 +94,21 @@ export default function TractateContents() {
   const maxFolio = getMaxFolio(tractate);
 
   // SEO setup for tractate contents page
-  const seoData = generateSEOData({
+  const seoData = {
     title: `Tractate ${displayName} - Contents`,
     description: `Browse chapters and pages of Tractate ${displayName} (${hebrewName}) from the Talmud Bavli. Navigate through all ${chapters?.length || 0} chapters with detailed folio listings.`,
-    path: `/tractate/${tractate}`,
-    tractate: displayName,
-    canonicalUrl: `https://chavrutai.com/tractate/${tractate}`,
-  });
+    canonical: `https://chavrutai.com/contents/${tractate}`,
+    ogTitle: `Tractate ${displayName} - Contents`,
+    ogDescription: `Browse chapters and pages of Tractate ${displayName} (${hebrewName}) from the Talmud Bavli. Navigate through all ${chapters?.length || 0} chapters with detailed folio listings.`,
+    ogUrl: `https://chavrutai.com/contents/${tractate}`,
+  };
 
   useSEO(seoData);
 
-  const location: TalmudLocation = {
-    work: "Talmud Bavli",
-    tractate: displayName,
-    chapter: null,
-    folio: null,
-    side: null,
-  };
-
-  const breadcrumbItems = breadcrumbHelpers.generateBreadcrumbItems(location);
+  const breadcrumbItems = [
+    { label: "Contents", href: "/contents" },
+    { label: displayName, href: `/contents/${tractate}` },
+  ];
 
   return (
     <div className="min-h-screen bg-sepia-25 dark:bg-sepia-900">
