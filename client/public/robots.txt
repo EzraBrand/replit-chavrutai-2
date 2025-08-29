@@ -5,15 +5,15 @@ Allow: /tractate/
 Allow: /about
 Disallow: /api/
 
-# Crawl delay to respect Sefaria API limits and server resources
-Crawl-delay: 2
+# Optimized crawl delay for better indexing performance
+Crawl-delay: 1
 
 # Rate limits for major crawlers
 User-agent: Googlebot
 Crawl-delay: 1
 
 User-agent: Bingbot  
-Crawl-delay: 2
+Crawl-delay: 1
 
 # Sitemap
 Sitemap: https://chavrutai.com/sitemap.xml
