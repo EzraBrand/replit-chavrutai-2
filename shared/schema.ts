@@ -3,6 +3,27 @@ import { pgTable, text, varchar, integer, json, boolean } from "drizzle-orm/pg-c
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
+// Talmud Outline Schema
+export const TalmudOutlineEntrySchema = z.object({
+  rowNumber: z.number(),
+  locationRange: z.string(),
+  sectionCount: z.number(),
+  sectionHeader: z.string(),
+  keywords: z.string(),
+  blogpostUrl: z.string().optional(),
+  macroSugya: z.string(),
+});
+
+export const ChapterOutlineSchema = z.object({
+  tractate: z.string(),
+  chapter: z.number(),
+  chapterName: z.string(),
+  entries: z.array(TalmudOutlineEntrySchema),
+});
+
+export type TalmudOutlineEntry = z.infer<typeof TalmudOutlineEntrySchema>;
+export type ChapterOutline = z.infer<typeof ChapterOutlineSchema>;
+
 export const users = pgTable("users", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   username: text("username").notNull().unique(),

@@ -9,6 +9,7 @@ import About from "@/pages/about";
 import Contents from "@/pages/contents";
 import TractateContents from "@/pages/tractate-contents";
 import TractateView from "./pages/tractate-view";
+import TractateOutlinePage from "@/pages/tractate-outline";
 import SuggestedPages from "@/pages/suggested-pages";
 import NotFound from "@/pages/not-found";
 import { useEffect } from "react";
@@ -27,6 +28,7 @@ function Router() {
       <Route path="/contents" component={Contents} />
       <Route path="/contents/:tractate" component={TractateContents} />
       <Route path="/tractate/:tractate/:folio" component={TractateView} />
+      <Route path="/outline/:tractate/:chapter" component={TractateOutlinePage} />
       <Route component={NotFound} />
     </Switch>
   );
