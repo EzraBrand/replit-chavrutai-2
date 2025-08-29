@@ -11,19 +11,17 @@ ChavrutAI provides bilingual (Hebrew/English) text display with intuitive naviga
 ### 📚 **Comprehensive Text Access**
 - All 37 tractates of the Babylonian Talmud
 -  folio ranges based on Vilna edition data
--  integration with Sefaria API for authentic content
+-  integration with Sefaria API 
 
 ### 🎨 **Traditional Design**
-- Manuscript-inspired sepia color palette
-- Custom Hebrew iconography and typography
+- sepia color palette
 - Responsive design adapting from mobile to desktop
 
 ### 🧭 **Intelligent Navigation**
 - Hierarchical breadcrumb system (Work → Tractate → Chapter → Folio)
 - Understanding of Talmudic folio patterns (2a, 2b, 3a, etc.)
-- Mobile-first design with responsive sheet overlays
 
-### 🔤 **Enhanced Text Processing**
+### 🔤 ** Text Processing**
 - Intelligent paragraph splitting for better readability
 - Bilingual layout with proper Hebrew RTL support
 - Technical term highlighting with authentic gazetteers (5,385+ terms)
