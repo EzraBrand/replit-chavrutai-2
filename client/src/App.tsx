@@ -10,7 +10,6 @@ import Contents from "@/pages/contents";
 import TractateContents from "@/pages/tractate-contents";
 import TractateView from "./pages/tractate-view";
 import SuggestedPages from "@/pages/suggested-pages";
-import SitemapPage from "@/pages/sitemap";
 import NotFound from "@/pages/not-found";
 import { useEffect } from "react";
 import { initGA } from "@/lib/analytics";
@@ -25,7 +24,6 @@ function Router() {
       <Route path="/" component={Contents} />
       <Route path="/about" component={About} />
       <Route path="/suggested-pages" component={SuggestedPages} />
-      <Route path="/sitemap" component={SitemapPage} />
       <Route path="/contents" component={Contents} />
       <Route path="/contents/:tractate" component={TractateContents} />
       <Route path="/tractate/:tractate/:folio" component={TractateView} />
