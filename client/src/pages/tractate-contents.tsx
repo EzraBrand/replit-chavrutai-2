@@ -8,6 +8,7 @@ import {
   BreadcrumbNavigation,
   breadcrumbHelpers,
 } from "@/components/navigation/breadcrumb-navigation";
+import { getChapterDataByTractate } from "@/lib/chapter-data";
 import { Footer } from "@/components/footer";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
 import { sefariaAPI } from "@/lib/sefaria";
@@ -3005,7 +3006,7 @@ export default function TractateContents() {
     );
   }
 
-  const tractateChapters = CHAPTER_DATA[tractate.toLowerCase()] || [];
+  const tractateChapters = getChapterDataByTractate(tractate.toLowerCase().replace(/\s+/g, ' '));
   const maxFolio = getMaxFolio(tractateDisplayName);
   // Convert tractate name to proper case for Hebrew name lookup
   const properCaseTractate = tractateDisplayName;

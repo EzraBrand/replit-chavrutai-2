@@ -99,6 +99,13 @@ function getChapterData(tractate: string): ChapterInfo[] | null {
   return JSON_CHAPTER_DATA[tractateKey] || null;
 }
 
+/**
+ * Public function to get chapter data for external components
+ */
+export function getChapterDataByTractate(tractate: string): ChapterInfo[] {
+  return getChapterData(tractate) || [];
+}
+
 export interface ChapterInfo {
   number: number;
   englishName: string;
