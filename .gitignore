@@ -62,6 +62,12 @@ __pycache__/
 /client/*.ico
 /client/*.png
 
-# Documentation files (except README.md)
+# Internal documentation (exclude from public repository)
+CLONE_SETUP_GUIDE.md
+CODEBASE_CLEANUP_ANALYSIS.md
+replit.md
+docs/assets/README.md
+
+# All other markdown files (except public README.md)
 *.md
 !README.md
