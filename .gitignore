@@ -61,3 +61,7 @@ __pycache__/
 /client/apple-touch-icon*
 /client/*.ico
 /client/*.png
+
+# Documentation files (except README.md)
+*.md
+!README.md
