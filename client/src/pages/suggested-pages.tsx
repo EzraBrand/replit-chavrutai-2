@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BreadcrumbNavigation, breadcrumbHelpers } from "@/components/navigation/breadcrumb-navigation";
 import { HamburgerMenu } from "@/components/navigation/hamburger-menu";
+import { Footer } from "@/components/footer";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
 import hebrewBookIcon from "@/assets/hebrew-book-icon.png";
 import type { TalmudLocation } from "@/types/talmud";
@@ -408,6 +409,8 @@ export default function SuggestedPages() {
           </p>
         </div>
       </main>
+      
+      <Footer />
     </div>
   );
 }

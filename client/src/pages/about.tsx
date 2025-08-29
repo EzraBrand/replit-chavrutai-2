@@ -1,5 +1,6 @@
 import { Link } from "wouter";
 import { BreadcrumbNavigation, breadcrumbHelpers } from "@/components/navigation/breadcrumb-navigation";
+import { Footer } from "@/components/footer";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
 
 export default function About() {
@@ -131,6 +132,8 @@ export default function About() {
           </div>
         </div>
       </div>
+      
+      <Footer />
     </div>
   );
 }

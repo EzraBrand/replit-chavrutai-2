@@ -8,6 +8,7 @@ import {
   BreadcrumbNavigation,
   breadcrumbHelpers,
 } from "@/components/navigation/breadcrumb-navigation";
+import { Footer } from "@/components/footer";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
 import { sefariaAPI } from "@/lib/sefaria";
 import { getMaxFolio } from "@/lib/tractate-ranges";
@@ -3150,6 +3151,8 @@ export default function TractateContents() {
           </div>
         )}
       </div>
+      
+      <Footer />
     </div>
   );
 }

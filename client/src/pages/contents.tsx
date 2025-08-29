@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { HamburgerMenu } from "@/components/navigation/hamburger-menu";
 import { BreadcrumbNavigation, breadcrumbHelpers } from "@/components/navigation/breadcrumb-navigation";
+import { Footer } from "@/components/footer";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
 import { sefariaAPI } from "@/lib/sefaria";
 import { TRACTATE_LISTS, TRACTATE_HEBREW_NAMES } from "@shared/tractates";
@@ -259,6 +260,8 @@ export default function Contents() {
           })}
         </div>
       </div>
+      
+      <Footer />
     </div>
   );
 }

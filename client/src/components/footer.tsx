@@ -4,19 +4,45 @@ export function Footer() {
   return (
     <footer className="border-t border-border bg-card mt-12">
       <div className="container mx-auto px-4 py-6">
+        {/* Navigation Links */}
+        <div className="flex flex-wrap justify-center gap-4 mb-4 text-sm">
+          <Link 
+            href="/"
+            className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200"
+            data-testid="footer-link-home"
+          >
+            Home
+          </Link>
+          <Link 
+            href="/contents"
+            className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200"
+            data-testid="footer-link-contents"
+          >
+            All Tractates
+          </Link>
+          <Link 
+            href="/outline/sanhedrin/10"
+            className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200"
+            data-testid="footer-link-sanhedrin-outline"
+          >
+            Sanhedrin Outline
+          </Link>
+          <Link 
+            href="/about"
+            className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200"
+            data-testid="footer-link-about"
+          >
+            About
+          </Link>
+        </div>
+
+        {/* Project Info */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-2 text-sm text-muted-foreground">
           <span>ChavrutAI</span>
           <span className="hidden sm:inline">|</span>
           <span>Uses data from Sefaria (not affiliated)</span>
           <span className="hidden sm:inline">|</span>
           <span>A project of "Talmud & Tech"</span>
-          <span className="hidden sm:inline">|</span>
-          <Link 
-            href="/about"
-            className="hover:text-foreground transition-colors duration-200 underline"
-          >
-            About
-          </Link>
         </div>
       </div>
     </footer>
