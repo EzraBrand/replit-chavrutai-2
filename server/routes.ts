@@ -221,24 +221,45 @@ async function servePageWithMeta(req: express.Request, res: express.Response, ne
   }
 }
 
-// SEO route handler for tractate pages
+// SEO route handler for strategic indexing
 function shouldNoIndex(url: string): boolean {
-  // Note: Folio pages are now indexed to improve SEO visibility per professional audit
-  // Only noindex invalid/error pages that aren't handled by server-side SEO
-  return false; // Temporarily disabled - all pages can be indexed
+  // Strategic indexing: Only index pages that are in our sitemap
+  // This prevents indexing of all 2,700+ folio pages (wrapper strategy)
+  
+  // Allow main pages, tractate contents, and strategic folios
+  if (url === '/' || url === '/contents' || url === '/about' || url === '/suggested-pages') {
+    return false; // Index main pages
+  }
+  
+  if (url.match(/^\/contents\/[^/]+$/)) {
+    return false; // Index tractate contents pages
+  }
+  
+  // Strategic folios - first folios (2a) for each tractate
+  if (url.match(/^\/tractate\/[^/]+\/2a$/)) {
+    return false; // Index 2a pages as entry points
+  }
+  
+  // Famous/significant folios (matching our sitemap)
+  const strategicFolios = [
+    '/tractate/berakhot/3a', '/tractate/berakhot/5a', '/tractate/berakhot/17a', '/tractate/berakhot/28b',
+    '/tractate/shabbat/31a', '/tractate/shabbat/7a', '/tractate/shabbat/119a',
+    '/tractate/eruvin/13b', '/tractate/pesachim/10a', '/tractate/pesachim/116a',
+    '/tractate/rosh-hashanah/16a', '/tractate/yoma/85b', '/tractate/bava-metzia/59b',
+    '/tractate/sanhedrin/37a', '/tractate/sanhedrin/99a', '/tractate/avodah-zarah/3b'
+  ];
+  
+  if (strategicFolios.includes(url)) {
+    return false; // Index significant folios
+  }
+  
+  // NoIndex all other folio pages (maintaining wrapper strategy)
+  return true;
 }
 
 export async function registerRoutes(app: Express): Promise<Server> {
   
-  // Server-side meta tag injection for critical pages
-  app.get('/', servePageWithMeta);
-  app.get('/about', servePageWithMeta);
-  app.get('/contents', servePageWithMeta);
-  app.get('/suggested-pages', servePageWithMeta);
-  app.get('/contents/:tractate', servePageWithMeta);
-  app.get('/tractate/:tractate/:folio', servePageWithMeta);
-  
-  // SEO middleware for dynamic meta tags (for remaining routes)
+  // SEO middleware for strategic indexing (must run before specific routes)
   app.use('*', (req, res, next) => {
     if (shouldNoIndex(req.originalUrl)) {
       // Set custom headers for client-side detection
@@ -248,6 +269,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
     next();
   });
+  
+  // Server-side meta tag injection for critical pages
+  app.get('/', servePageWithMeta);
+  app.get('/about', servePageWithMeta);
+  app.get('/contents', servePageWithMeta);
+  app.get('/suggested-pages', servePageWithMeta);
+  app.get('/contents/:tractate', servePageWithMeta);
+  app.get('/tractate/:tractate/:folio', servePageWithMeta);
   
   // Get specific text
   app.get("/api/text", async (req, res) => {
