@@ -22,51 +22,29 @@ import hebrewBookIcon from "@/assets/hebrew-book-icon.png";
 import type { TalmudLocation } from "@/types/talmud";
 import NotFound from "@/pages/not-found";
 
-function generateFolioButtons(
-  startFolio: number,
-  startSide: "a" | "b",
-  endFolio: number,
-  endSide: "a" | "b",
-  tractate: string,
-) {
-  const folios: Array<{ folio: number; side: "a" | "b"; label: string }> = [];
-
-  for (let folio = startFolio; folio <= endFolio; folio++) {
-    if (folio === startFolio && folio === endFolio) {
-      // Same folio range
-      if (startSide === "a") {
-        folios.push({ folio, side: "a", label: `${folio}a` });
-        if (endSide === "b") {
-          folios.push({ folio, side: "b", label: `${folio}b` });
-        }
-      } else {
-        folios.push({ folio, side: "b", label: `${folio}b` });
-      }
-    } else if (folio === startFolio) {
-      // First folio
-      if (startSide === "a") {
-        folios.push({ folio, side: "a", label: `${folio}a` });
-        folios.push({ folio, side: "b", label: `${folio}b` });
-      } else {
-        folios.push({ folio, side: "b", label: `${folio}b` });
-      }
-    } else if (folio === endFolio) {
-      // Last folio
-      folios.push({ folio, side: "a", label: `${folio}a` });
-      if (endSide === "b") {
-        folios.push({ folio, side: "b", label: `${folio}b` });
-      }
-    } else {
-      // Middle folios
-      folios.push({ folio, side: "a", label: `${folio}a` });
-      folios.push({ folio, side: "b", label: `${folio}b` });
-    }
-  }
-
-  return folios;
-}
-
-export default function TractateContents() {
+// Complete authentic chapter data for all Talmud Bavli tractates
+export const CHAPTER_DATA: Record<
+  string,
+  Array<{
+    number: number;
+    englishName: string;
+    hebrewName: string;
+    startFolio: number;
+    startSide: "a" | "b";
+    endFolio: number;
+    endSide: "a" | "b";
+  }>
+> = {
+  berakhot: [
+    {
+      number: 1,
+      englishName: "Me'eimatay",
+      hebrewName: "פרק א",
+      startFolio: 2,
+      startSide: "a",
+      endFolio: 13,
+      endSide: "a",
+    },
     {
       number: 2,
       englishName: "Hayah Korei",
