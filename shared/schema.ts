@@ -24,6 +24,19 @@ export const ChapterOutlineSchema = z.object({
 export type TalmudOutlineEntry = z.infer<typeof TalmudOutlineEntrySchema>;
 export type ChapterOutline = z.infer<typeof ChapterOutlineSchema>;
 
+// Chapter information for tractate contents
+export const ChapterInfoSchema = z.object({
+  number: z.number(),
+  englishName: z.string(),
+  hebrewName: z.string(),
+  startFolio: z.number(),
+  startSide: z.enum(["a", "b"]),
+  endFolio: z.number(),
+  endSide: z.enum(["a", "b"]),
+});
+
+export type ChapterInfo = z.infer<typeof ChapterInfoSchema>;
+
 export const users = pgTable("users", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   username: text("username").notNull().unique(),
