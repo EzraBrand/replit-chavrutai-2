@@ -4,3 +4,42 @@ dist
 server/public
 vite.config.ts.*
 *.tar.gz
+
+# Development artifacts
+attached_assets/
+temp/
+tmp/
+*.log
+*.tmp
+
+# Data processing artifacts
+*.xlsx
+*.xls
+*.csv
+*-extract.txt
+*-analysis.txt
+chapter_data_only.ts
+full-chapter-data-raw.txt
+excel_analysis.txt
+
+# SEO and testing artifacts
+test-seo.html
+seo-*.html
+*.test.html
+
+# Python development artifacts (prevent reintroduction)
+pyproject.toml
+uv.lock
+*.py
+__pycache__/
+*.pyc
+
+# Editor and IDE artifacts
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Documentation assets should be tracked
+!docs/assets/
