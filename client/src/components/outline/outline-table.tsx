@@ -27,7 +27,7 @@ export function OutlineTable({ outline }: OutlineTableProps) {
             <th className="text-left font-semibold text-sepia-900 dark:text-sepia-100 text-sm p-4">
               Content
             </th>
-            <th className="text-left font-semibold text-sepia-900 dark:text-sepia-100 text-sm p-4 w-80">
+            <th className="text-left font-semibold text-sepia-900 dark:text-sepia-100 text-sm p-4 w-32">
               Keywords
             </th>
             <th className="text-left font-semibold text-sepia-900 dark:text-sepia-100 text-sm p-4 w-40">
