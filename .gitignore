@@ -71,3 +71,14 @@ docs/assets/README.md
 # All other markdown files (except public README.md)
 *.md
 !README.md
+
+# Temporary and backup files
+*.tmp
+*.temp
+*-backup.*
+*-copy.*
+debug-*
+test-*
+screenshot-*
+image_*.png
+temp-*
