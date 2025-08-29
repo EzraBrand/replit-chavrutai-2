@@ -13,15 +13,6 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
   const { preferences } = usePreferences();
   const { data: gazetteerData, isLoading: isGazetteerLoading, error: gazetteerError } = useGazetteerData();
 
-  console.log('SectionedBilingualDisplay rendering with highlighting:', {
-    enabled: preferences.highlighting.enabled,
-    concepts: preferences.highlighting.concepts,
-    names: preferences.highlighting.names,
-    places: preferences.highlighting.places,
-    gazetteerLoading: isGazetteerLoading,
-    hasGazetteerData: !!gazetteerData,
-    gazetteerError: !!gazetteerError
-  });
   
   // Use sections if available, otherwise fall back to combined text
   const hebrewSections = text.hebrewSections || [text.hebrewText];
@@ -36,7 +27,6 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
   // Function to apply highlighting to text if enabled
   const applyHighlighting = (text: string): string => {
     if (!preferences.highlighting.enabled || !gazetteerData) {
-      console.log('Highlighting skipped - not enabled or no data');
       return text;
     }
 
@@ -46,18 +36,12 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
     if (preferences.highlighting.places) enabledCategories.push('place');
 
     if (enabledCategories.length === 0) {
-      console.log('Highlighting skipped - no categories enabled');
       return text;
     }
 
     try {
       const highlighter = new TextHighlighter(gazetteerData);
       const highlighted = highlighter.applyHighlighting(text, enabledCategories);
-      
-      if (highlighted !== text) {
-        console.log('Text highlighting applied successfully');
-      }
-      
       return highlighted;
     } catch (error) {
       console.warn('Failed to apply highlighting:', error);

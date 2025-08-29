@@ -12,14 +12,6 @@ export function HighlightedText({ text, className = "" }: HighlightedTextProps) 
   const { preferences } = usePreferences();
   const { data: gazetteerData, isLoading, error } = useGazetteerData();
 
-  console.log('HighlightedText rendered with:', {
-    textLength: text.length,
-    textPreview: text.substring(0, 50) + '...',
-    highlightingEnabled: preferences.highlighting.enabled,
-    isLoading,
-    hasData: !!gazetteerData,
-    hasError: !!error
-  });
 
   // Determine which categories should be highlighted
   const enabledCategories = useMemo((): HighlightCategory[] => {
@@ -37,27 +29,14 @@ export function HighlightedText({ text, className = "" }: HighlightedTextProps) 
   const processedText = useMemo(() => {
     // If highlighting is disabled or data isn't available, return original text
     if (!preferences.highlighting.enabled || !gazetteerData || enabledCategories.length === 0) {
-      console.log('Highlighting skipped:', { 
-        enabled: preferences.highlighting.enabled, 
-        hasData: !!gazetteerData, 
-        categories: enabledCategories.length 
-      });
       return text;
     }
 
     try {
-      console.log('Applying highlighting to text:', text.substring(0, 100) + '...');
-      console.log('Enabled categories:', enabledCategories);
-      console.log('Gazetteer data loaded:', {
-        concepts: gazetteerData.concepts?.length || 0,
-        names: gazetteerData.names?.length || 0,
-        places: gazetteerData.biblicalPlaces?.length || 0 + gazetteerData.talmudToponyms?.length || 0
-      });
       
       const highlighter = new TextHighlighter(gazetteerData);
       const result = highlighter.applyHighlighting(text, enabledCategories);
       
-      console.log('Highlighting result changed:', result !== text);
       return result;
     } catch (error) {
       console.warn('Failed to apply text highlighting:', error);

@@ -23,7 +23,6 @@ const GAZETTEER_URLS = {
 // Fetch and parse a single gazetteer file
 async function fetchGazetteerFile(url: string): Promise<string[]> {
   try {
-    console.log(`Fetching gazetteer from: ${url}`);
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error(`Failed to fetch gazetteer: ${response.status}`);
@@ -37,7 +36,6 @@ async function fetchGazetteerFile(url: string): Promise<string[]> {
       .filter(line => line.length > 0 && line.toLowerCase() !== 'on')
       .sort(); // Sort alphabetically for consistent ordering
     
-    console.log(`Loaded ${terms.length} terms from ${url.split('/').pop()}`);
     return terms;
   } catch (error) {
     console.warn(`Failed to fetch gazetteer from ${url}:`, error);
@@ -47,7 +45,6 @@ async function fetchGazetteerFile(url: string): Promise<string[]> {
 
 // Fetch all gazetteer data
 async function fetchAllGazetteers(): Promise<GazetteerData> {
-  console.log('Starting gazetteer data fetch...');
   
   const [concepts, names, biblicalNames, biblicalNations, biblicalPlaces, talmudToponyms] = 
     await Promise.all([
@@ -68,23 +65,7 @@ async function fetchAllGazetteers(): Promise<GazetteerData> {
     talmudToponyms,
   };
   
-  console.log('Gazetteer data loaded:', {
-    concepts: concepts.length,
-    names: names.length,
-    biblicalNames: biblicalNames.length,
-    biblicalNations: biblicalNations.length,
-    biblicalPlaces: biblicalPlaces.length,
-    talmudToponyms: talmudToponyms.length,
-    totalTerms: concepts.length + names.length + biblicalNames.length + biblicalNations.length + biblicalPlaces.length + talmudToponyms.length
-  });
   
-  // Check if "Hillel" is in the names data
-  if (names.includes('Hillel')) {
-    console.log('✓ "Hillel" found in names gazetteer');
-  } else {
-    console.log('✗ "Hillel" NOT found in names gazetteer');
-    console.log('Names containing "hillel" (case-insensitive):', names.filter(name => name.toLowerCase().includes('hillel')));
-  }
   
   return gazetteerData;
 }
@@ -165,11 +146,6 @@ export class TextHighlighter {
       return text;
     }
     
-    // Debug log for multi-word name detection
-    const multiWordMatches = matches.filter(m => m.term.includes(' '));
-    if (multiWordMatches.length > 0 && text.includes('Rabba bar Rav Sheila')) {
-      console.log('🔍 Multi-word name matches found:', multiWordMatches.map(m => `"${m.term}" at ${m.startIndex}-${m.endIndex}`));
-    }
 
     // Build highlighted text by replacing matches with HTML spans
     let result = '';
@@ -242,9 +218,6 @@ export class TextHighlighter {
         }
       });
       
-      if (rabbiVariants.length > 0) {
-        console.log(`✓ Created ${rabbiVariants.length} R' variants for Rabbi terms (including mid-phrase matches)`);
-      }
       
       terms.push(...rabbiVariants);
     }
