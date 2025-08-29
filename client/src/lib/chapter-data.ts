@@ -1,49 +1,102 @@
 // Chapter data utility functions
 // This file provides access to chapter information for breadcrumb navigation
 
-import { CHAPTER_DATA } from '@/pages/tractate-contents';
+// Chapter data migration complete - now using JSON files exclusively
 
-// NEW: JSON-based chapter data cache (will replace CHAPTER_DATA)
-const CHAPTER_DATA_CACHE = new Map<string, ChapterInfo[]>();
+// Static imports for all JSON files
+import arakhinData from '../../../talmud-data/chapters/arakhin.json';
+import avodahZarahData from '../../../talmud-data/chapters/avodah-zarah.json';
+import bavaBartraData from '../../../talmud-data/chapters/bava-batra.json';
+import bavaKammaData from '../../../talmud-data/chapters/bava-kamma.json';
+import bavaMetzeaData from '../../../talmud-data/chapters/bava-metzia.json';
+import bekhorotData from '../../../talmud-data/chapters/bekhorot.json';
+import berakhottData from '../../../talmud-data/chapters/berakhot.json';
+import beitzaData from '../../../talmud-data/chapters/beitza.json';
+import chagigahData from '../../../talmud-data/chapters/chagigah.json';
+import chullinData from '../../../talmud-data/chapters/chullin.json';
+import eruvinData from '../../../talmud-data/chapters/eruvin.json';
+import gittinData from '../../../talmud-data/chapters/gittin.json';
+import horayotData from '../../../talmud-data/chapters/horayot.json';
+import keritotData from '../../../talmud-data/chapters/keritot.json';
+import ketubotData from '../../../talmud-data/chapters/ketubot.json';
+import kiddushinData from '../../../talmud-data/chapters/kiddushin.json';
+import makkotData from '../../../talmud-data/chapters/makkot.json';
+import megillahData from '../../../talmud-data/chapters/megillah.json';
+import meilahData from '../../../talmud-data/chapters/meilah.json';
+import menachotData from '../../../talmud-data/chapters/menachot.json';
+import moedKatanData from '../../../talmud-data/chapters/moed-katan.json';
+import nazirData from '../../../talmud-data/chapters/nazir.json';
+import nedarimData from '../../../talmud-data/chapters/nedarim.json';
+import niddahData from '../../../talmud-data/chapters/niddah.json';
+import pesachimData from '../../../talmud-data/chapters/pesachim.json';
+import roshHashanahData from '../../../talmud-data/chapters/rosh-hashanah.json';
+import sanhedrinData from '../../../talmud-data/chapters/sanhedrin.json';
+import shabbatData from '../../../talmud-data/chapters/shabbat.json';
+import shevuotData from '../../../talmud-data/chapters/shevuot.json';
+import sotahData from '../../../talmud-data/chapters/sotah.json';
+import sukkahData from '../../../talmud-data/chapters/sukkah.json';
+import taanittData from '../../../talmud-data/chapters/taanit.json';
+import tamidData from '../../../talmud-data/chapters/tamid.json';
+import temurahData from '../../../talmud-data/chapters/temurah.json';
+import yevamotData from '../../../talmud-data/chapters/yevamot.json';
+import yomaData from '../../../talmud-data/chapters/yoma.json';
+import zevachimData from '../../../talmud-data/chapters/zevachim.json';
+
+// JSON data registry
+const JSON_CHAPTER_DATA: Record<string, ChapterInfo[]> = {
+  'arakhin': arakhinData as ChapterInfo[],
+  'avodah zarah': avodahZarahData as ChapterInfo[],
+  'bava batra': bavaBartraData as ChapterInfo[],
+  'bava kamma': bavaKammaData as ChapterInfo[],
+  'bava metzia': bavaMetzeaData as ChapterInfo[],
+  'bekhorot': bekhorotData as ChapterInfo[],
+  'berakhot': berakhottData as ChapterInfo[],
+  'beitza': beitzaData as ChapterInfo[],
+  'chagigah': chagigahData as ChapterInfo[],
+  'chullin': chullinData as ChapterInfo[],
+  'eruvin': eruvinData as ChapterInfo[],
+  'gittin': gittinData as ChapterInfo[],
+  'horayot': horayotData as ChapterInfo[],
+  'keritot': keritotData as ChapterInfo[],
+  'ketubot': ketubotData as ChapterInfo[],
+  'kiddushin': kiddushinData as ChapterInfo[],
+  'makkot': makkotData as ChapterInfo[],
+  'megillah': megillahData as ChapterInfo[],
+  'meilah': meilahData as ChapterInfo[],
+  'menachot': menachotData as ChapterInfo[],
+  'moed katan': moedKatanData as ChapterInfo[],
+  'nazir': nazirData as ChapterInfo[],
+  'nedarim': nedarimData as ChapterInfo[],
+  'niddah': niddahData as ChapterInfo[],
+  'pesachim': pesachimData as ChapterInfo[],
+  'rosh hashanah': roshHashanahData as ChapterInfo[],
+  'sanhedrin': sanhedrinData as ChapterInfo[],
+  'shabbat': shabbatData as ChapterInfo[],
+  'shevuot': shevuotData as ChapterInfo[],
+  'sotah': sotahData as ChapterInfo[],
+  'sukkah': sukkahData as ChapterInfo[],
+  'taanit': taanittData as ChapterInfo[],
+  'tamid': tamidData as ChapterInfo[],
+  'temurah': temurahData as ChapterInfo[],
+  'yevamot': yevamotData as ChapterInfo[],
+  'yoma': yomaData as ChapterInfo[],
+  'zevachim': zevachimData as ChapterInfo[],
+};
 
 /**
- * NEW: Preload chapter data from JSON files (async initialization)
- * This function allows us to gradually migrate away from CHAPTER_DATA
+ * Preload function (now a no-op since we use static imports)
  */
 export async function preloadChapterData() {
-  const tractates = [
-    'berakhot', 'shabbat', 'eruvin', 'pesachim', 'yoma', 'sukkah', 'beitza',
-    'rosh-hashanah', 'taanit', 'megillah', 'moed-katan', 'chagigah',
-    'yevamot', 'ketubot', 'nedarim', 'nazir', 'sotah', 'gittin', 'kiddushin',
-    'bava-kamma', 'bava-metzia', 'bava-batra', 'sanhedrin', 'makkot', 
-    'shevuot', 'avodah-zarah', 'horayot', 'zevachim', 'menachot', 'chullin',
-    'bekhorot', 'arakhin', 'temurah', 'keritot', 'meilah', 'tamid', 'niddah'
-  ];
-
-  for (const tractate of tractates) {
-    try {
-      const module = await import(`../../../../talmud-data/chapters/${tractate}.json`);
-      CHAPTER_DATA_CACHE.set(tractate, module.default || module);
-    } catch (error) {
-      console.warn(`Failed to preload ${tractate}:`, error);
-    }
-  }
+  // Data is already loaded via static imports
+  return Promise.resolve();
 }
 
 /**
- * NEW: Get chapter data from JSON (with fallback to CHAPTER_DATA)
+ * Get chapter data for a tractate (using JSON files exclusively)
  */
 function getChapterData(tractate: string): ChapterInfo[] | null {
   const tractateKey = tractate.toLowerCase().replace(/\s+/g, ' ');
-  const jsonKey = tractateKey.replace(/\s+/g, '-');
-  
-  // Try JSON data first
-  if (CHAPTER_DATA_CACHE.has(jsonKey)) {
-    return CHAPTER_DATA_CACHE.get(jsonKey)!;
-  }
-  
-  // Fallback to old CHAPTER_DATA
-  return CHAPTER_DATA[tractateKey] || null;
+  return JSON_CHAPTER_DATA[tractateKey] || null;
 }
 
 export interface ChapterInfo {

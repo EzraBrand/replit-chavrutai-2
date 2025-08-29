@@ -66,63 +66,63 @@
     "number": 8,
     "englishName": "Tevul Yom",
     "hebrewName": "טבול יום",
-    "startFolio": 70,
-    "startSide": "a",
-    "endFolio": 89,
-    "endSide": "a"
-  },
-  {
-    "number": 9,
-    "englishName": "Kol HaMinchot",
-    "hebrewName": "כל המנחות",
     "startFolio": 89,
     "startSide": "a",
     "endFolio": 96,
     "endSide": "a"
   },
   {
-    "number": 10,
-    "englishName": "Ha'Omer",
-    "hebrewName": "העומר",
+    "number": 9,
+    "englishName": "Kol HaMinchot",
+    "hebrewName": "כל המנחות",
     "startFolio": 96,
     "startSide": "a",
     "endFolio": 103,
     "endSide": "a"
   },
   {
-    "number": 11,
-    "englishName": "Shnei Seirei Rosh HaShanah",
-    "hebrewName": "שני שעירי ראש השנה",
+    "number": 10,
+    "englishName": "Ha'Omer",
+    "hebrewName": "העומר",
     "startFolio": 103,
     "startSide": "a",
     "endFolio": 111,
     "endSide": "a"
   },
   {
-    "number": 12,
-    "englishName": "Shchatat Kodesh",
-    "hebrewName": "שחיטת קודש",
+    "number": 11,
+    "englishName": "Shnei Seirei Rosh HaShanah",
+    "hebrewName": "שני שעירי ראש השנה",
     "startFolio": 111,
     "startSide": "a",
     "endFolio": 113,
     "endSide": "a"
   },
   {
-    "number": 13,
-    "englishName": "Parah Adumah",
-    "hebrewName": "פרה אדומה",
+    "number": 12,
+    "englishName": "Shchatat Kodesh",
+    "hebrewName": "שחיטת קודש",
     "startFolio": 113,
     "startSide": "a",
     "endFolio": 116,
     "endSide": "b"
   },
   {
-    "number": 14,
-    "englishName": "Kol HaKometz",
-    "hebrewName": "כל הקומץ",
+    "number": 13,
+    "englishName": "Parah Adumah",
+    "hebrewName": "פרה אדומה",
     "startFolio": 116,
     "startSide": "b",
     "endFolio": 120,
+    "endSide": "b"
+  },
+  {
+    "number": 14,
+    "englishName": "Kol HaKometz",
+    "hebrewName": "כל הקומץ",
+    "startFolio": 120,
+    "startSide": "b",
+    "endFolio": 122,
     "endSide": "b"
   }
 ]
