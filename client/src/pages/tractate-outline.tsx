@@ -85,12 +85,12 @@ export default function TractateOutlinePage() {
       <div className="mb-6">
         <div className="flex items-center gap-2 mb-4">
           <Link 
-            href={`/tractate/${tractate.toLowerCase()}`}
+            href="/"
             className="text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-2"
-            data-testid="link-back-to-tractate"
+            data-testid="link-home"
           >
             <ArrowLeft className="h-4 w-4" />
-            Back to {outline.tractate}
+            Home
           </Link>
         </div>
 
@@ -126,23 +126,6 @@ export default function TractateOutlinePage() {
         <OutlineTable outline={outline} />
       </div>
 
-      {/* Navigation Footer */}
-      <div className="mt-8 flex justify-center space-x-6 text-sm">
-        <Link 
-          href="/contents"
-          className="text-blue-600 dark:text-blue-400 hover:underline"
-          data-testid="link-all-tractates"
-        >
-          All Tractates
-        </Link>
-        <Link 
-          href={`/tractate/${tractate.toLowerCase()}`}
-          className="text-blue-600 dark:text-blue-400 hover:underline"
-          data-testid="link-tractate-contents"
-        >
-          {outline.tractate} Contents
-        </Link>
-      </div>
     </div>
   );
 }
