@@ -132,15 +132,21 @@ function isCrawlerRequest(userAgent: string): boolean {
   return crawlerPatterns.some(pattern => pattern.test(userAgent));
 }
 
-// Serve HTML page with server-side injected meta tags (only for crawlers in development)
+// Serve HTML page with server-side injected meta tags (only for crawlers)
 async function servePageWithMeta(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
   try {
     const userAgent = req.get('User-Agent') || '';
     const isDevelopment = process.env.NODE_ENV === 'development';
     
-    // In development, only serve SSR for crawlers - let Vite handle regular browsers
-    if (isDevelopment && !isCrawlerRequest(userAgent)) {
-      return next(); // Let Vite handle this request
+    // Only serve SSR for crawlers - let static/Vite handle regular browsers and assets
+    if (!isCrawlerRequest(userAgent)) {
+      return next(); // Let Vite (dev) or static serving (prod) handle this request
+    }
+    
+    // Additional safety: don't serve SSR for asset requests
+    const isAssetRequest = req.path.match(/\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)$/i);
+    if (isAssetRequest) {
+      return next();
     }
     
     const clientTemplate = path.resolve(
