@@ -43,3 +43,21 @@ __pycache__/
 
 # Documentation assets should be tracked
 !docs/assets/
+
+# Additional cache and system directories
+.cache/
+.local/state/
+**/archive-v0/
+**/dist-info/
+
+# Large development data files
+*-raw.txt
+*-data-extract.txt
+*_data_only.ts
+*-analysis.txt
+
+# Duplicate asset prevention
+/client/favicon*
+/client/apple-touch-icon*
+/client/*.ico
+/client/*.png
