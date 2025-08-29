@@ -12,9 +12,12 @@ export function OutlineTable({ outline }: OutlineTableProps) {
   };
 
   const createTextLink = (locationRange: string, tractate: string) => {
-    // Convert "90a:15 - 90a:17" to link to first page "90a"
-    const firstPage = locationRange.split(' - ')[0].split(':')[0];
-    return `/tractate/${tractate.toLowerCase()}/${firstPage}`;
+    // Convert "90a:15 - 90a:17" to link to page with specific section anchor
+    const [startLocation] = locationRange.split(' - ');
+    const [page, section] = startLocation.split(':');
+    
+    // Create link with section anchor: /tractate/sanhedrin/90a#section-15
+    return `/tractate/${tractate.toLowerCase()}/${page}${section ? `#section-${section}` : ''}`;
   };
 
   return (
