@@ -8,7 +8,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { useChapterData, getChapterFirstPageUrl } from "@/hooks/use-chapter-data";
+import { findChapterForFolio, getChapterFirstPageUrl } from "@/lib/chapter-data";
 
 interface BreadcrumbNavigationItem {
   label: string | React.ReactNode;
@@ -65,7 +65,7 @@ export function BreadcrumbNavigation({ items }: BreadcrumbNavigationProps) {
 // Helper function to generate breadcrumb items for different page types
 export const breadcrumbHelpers = {
   // Tractate view breadcrumbs (main text page)
-  tractateView: (tractate: string, folio: number, side: 'a' | 'b', findChapterForFolio: (tractate: string, folio: number, side: 'a' | 'b') => any): BreadcrumbNavigationItem[] => {
+  tractateView: (tractate: string, folio: number, side: 'a' | 'b'): BreadcrumbNavigationItem[] => {
     const items: BreadcrumbNavigationItem[] = [
       { label: tractate, href: `/contents/${encodeURIComponent(tractate.toLowerCase())}` }
     ];

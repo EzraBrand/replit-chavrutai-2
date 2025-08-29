@@ -1,7 +1,7 @@
 // Chapter data utility functions
 // This file provides access to chapter information for breadcrumb navigation
 
-import { loadTractateChapters } from '../../../talmud-data/index';
+import { CHAPTER_DATA } from '@/pages/tractate-contents';
 
 export interface ChapterInfo {
   number: number;
@@ -16,14 +16,14 @@ export interface ChapterInfo {
 /**
  * Find which chapter a given folio belongs to for a specific tractate
  */
-export async function findChapterForFolio(
+export function findChapterForFolio(
   tractate: string, 
   folio: number, 
   side: 'a' | 'b'
-): Promise<ChapterInfo | null> {
+): ChapterInfo | null {
   const tractateKey = tractate.toLowerCase().replace(/\s+/g, ' ');
   
-  const chapters = await loadTractateChapters(tractateKey);
+  const chapters = CHAPTER_DATA[tractateKey];
   if (!chapters) return null;
 
   // Convert folio and side to a comparable number (2a = 2.0, 2b = 2.5)
