@@ -22,7 +22,7 @@ export async function preloadChapterData() {
 
   for (const tractate of tractates) {
     try {
-      const module = await import(`@/talmud-data/chapters/${tractate}.json`);
+      const module = await import(`../../../../talmud-data/chapters/${tractate}.json`);
       CHAPTER_DATA_CACHE.set(tractate, module.default || module);
     } catch (error) {
       console.warn(`Failed to preload ${tractate}:`, error);
@@ -64,9 +64,7 @@ export function findChapterForFolio(
   folio: number, 
   side: 'a' | 'b'
 ): ChapterInfo | null {
-  const tractateKey = tractate.toLowerCase().replace(/\s+/g, ' ');
-  
-  const chapters = CHAPTER_DATA[tractateKey];
+  const chapters = getChapterData(tractate);
   if (!chapters) return null;
 
   // Convert folio and side to a comparable number (2a = 2.0, 2b = 2.5)
