@@ -7,7 +7,7 @@ import { HamburgerMenu } from "@/components/navigation/hamburger-menu";
 import { BreadcrumbNavigation } from "@/components/navigation/breadcrumb-navigation";
 import { getChapterDataByTractate } from "@/lib/chapter-data";
 import { Footer } from "@/components/footer";
-import { useSEO } from "@/hooks/use-seo";
+import { useSEO, generateSEOData } from "@/hooks/use-seo";
 import { sefariaAPI } from "@/lib/sefaria";
 import { getMaxFolio } from "@/lib/tractate-ranges";
 import {
@@ -94,16 +94,7 @@ export default function TractateContents() {
   const maxFolio = getMaxFolio(tractate);
 
   // SEO setup for tractate contents page
-  const seoData = {
-    title: `Tractate ${displayName} - Contents`,
-    description: `Browse chapters and pages of Tractate ${displayName} (${hebrewName}) from the Talmud Bavli. Navigate through all ${chapters?.length || 0} chapters with detailed folio listings.`,
-    canonical: `https://chavrutai.com/contents/${tractate}`,
-    ogTitle: `Tractate ${displayName} - Contents`,
-    ogDescription: `Browse chapters and pages of Tractate ${displayName} (${hebrewName}) from the Talmud Bavli. Navigate through all ${chapters?.length || 0} chapters with detailed folio listings.`,
-    ogUrl: `https://chavrutai.com/contents/${tractate}`,
-  };
-
-  useSEO(seoData);
+  useSEO(generateSEOData.tractatePage(displayName));
 
   const breadcrumbItems = [
     { label: "Contents", href: "/contents" },
