@@ -21,15 +21,14 @@ export async function loadTractateChapters(tractate: string): Promise<ChapterInf
  * @returns Promise resolving to Record of tractate name -> chapters
  */
 export async function loadAllChapterData(): Promise<Record<string, ChapterInfo[]>> {
-  // List of available tractates (will be populated as we extract data)
+  // List of available tractates (extracted from existing JSON files)
   const availableTractates = [
     'berakhot', 'shabbat', 'eruvin', 'pesachim', 'yoma', 'sukkah', 'beitza',
     'rosh-hashanah', 'taanit', 'megillah', 'moed-katan', 'chagigah',
     'yevamot', 'ketubot', 'nedarim', 'nazir', 'sotah', 'gittin', 'kiddushin',
     'bava-kamma', 'bava-metzia', 'bava-batra', 'sanhedrin', 'makkot', 
     'shevuot', 'avodah-zarah', 'horayot', 'zevachim', 'menachot', 'chullin',
-    'bekhorot', 'arachin', 'temurah', 'keritot', 'meilah', 'tamid', 'middot',
-    'kinnim', 'niddah'
+    'bekhorot', 'arakhin', 'temurah', 'keritot', 'meilah', 'tamid', 'niddah'
   ];
 
   const chapterData: Record<string, ChapterInfo[]> = {};

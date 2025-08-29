@@ -1,0 +1,29 @@
+[
+  {
+    "number": 1,
+    "englishName": "Keytzad Ha'Edim",
+    "hebrewName": "כיצד העדים",
+    "startFolio": 2,
+    "startSide": "a",
+    "endFolio": 7,
+    "endSide": "a"
+  },
+  {
+    "number": 2,
+    "englishName": "Eilu Hen HaGolin",
+    "hebrewName": "אלו הן הגולין",
+    "startFolio": 7,
+    "startSide": "a",
+    "endFolio": 13,
+    "endSide": "a"
+  },
+  {
+    "number": 3,
+    "englishName": "Eilu Hen HaLukin",
+    "hebrewName": "אלו הן הלוקין",
+    "startFolio": 13,
+    "startSide": "a",
+    "endFolio": 24,
+    "endSide": "b"
+  }
+]

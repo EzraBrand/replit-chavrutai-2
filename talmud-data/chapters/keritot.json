@@ -1,0 +1,56 @@
+[
+  {
+    "number": 1,
+    "englishName": "Shloshim VeSheish",
+    "hebrewName": "שלשים ושש",
+    "startFolio": 2,
+    "startSide": "a",
+    "endFolio": 8,
+    "endSide": "b"
+  },
+  {
+    "number": 2,
+    "englishName": "Arba'ah Mechusarei Kaparah",
+    "hebrewName": "ארבעה מחוסרי כפרה",
+    "startFolio": 8,
+    "startSide": "b",
+    "endFolio": 11,
+    "endSide": "b"
+  },
+  {
+    "number": 3,
+    "englishName": "Amru Lo",
+    "hebrewName": "אמרו לו",
+    "startFolio": 11,
+    "startSide": "b",
+    "endFolio": 17,
+    "endSide": "a"
+  },
+  {
+    "number": 4,
+    "englishName": "Safek Achal Chelev",
+    "hebrewName": "ספק אכל חלב",
+    "startFolio": 17,
+    "startSide": "a",
+    "endFolio": 20,
+    "endSide": "b"
+  },
+  {
+    "number": 5,
+    "englishName": "Dam Shechitah",
+    "hebrewName": "דם שחיטה",
+    "startFolio": 20,
+    "startSide": "b",
+    "endFolio": 23,
+    "endSide": "b"
+  },
+  {
+    "number": 6,
+    "englishName": "HaMevi Asham",
+    "hebrewName": "המביא אשם",
+    "startFolio": 23,
+    "startSide": "b",
+    "endFolio": 28,
+    "endSide": "a"
+  }
+]

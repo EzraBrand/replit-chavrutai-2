@@ -1,0 +1,110 @@
+[
+  {
+    "number": 1,
+    "englishName": "HaKol Shochtin",
+    "hebrewName": "הכל שוחטין",
+    "startFolio": 2,
+    "startSide": "a",
+    "endFolio": 27,
+    "endSide": "a"
+  },
+  {
+    "number": 2,
+    "englishName": "HaShoheit",
+    "hebrewName": "השוחט",
+    "startFolio": 27,
+    "startSide": "a",
+    "endFolio": 42,
+    "endSide": "a"
+  },
+  {
+    "number": 3,
+    "englishName": "Eilu Terefot",
+    "hebrewName": "אלו טרפות",
+    "startFolio": 42,
+    "startSide": "a",
+    "endFolio": 68,
+    "endSide": "a"
+  },
+  {
+    "number": 4,
+    "englishName": "Behemah HaMakshah",
+    "hebrewName": "בהמה המקשה",
+    "startFolio": 68,
+    "startSide": "a",
+    "endFolio": 78,
+    "endSide": "a"
+  },
+  {
+    "number": 5,
+    "englishName": "Oto VeEt Beno",
+    "hebrewName": "אותו ואת בנו",
+    "startFolio": 78,
+    "startSide": "a",
+    "endFolio": 83,
+    "endSide": "b"
+  },
+  {
+    "number": 6,
+    "englishName": "Kisui HaDam",
+    "hebrewName": "כסוי הדם",
+    "startFolio": 83,
+    "startSide": "b",
+    "endFolio": 89,
+    "endSide": "b"
+  },
+  {
+    "number": 7,
+    "englishName": "Gid HaNasheh",
+    "hebrewName": "גיד הנשה",
+    "startFolio": 89,
+    "startSide": "b",
+    "endFolio": 103,
+    "endSide": "b"
+  },
+  {
+    "number": 8,
+    "englishName": "Kol HaBasar",
+    "hebrewName": "כל הבשר",
+    "startFolio": 103,
+    "startSide": "b",
+    "endFolio": 117,
+    "endSide": "b"
+  },
+  {
+    "number": 9,
+    "englishName": "HaOr VeHaRotev",
+    "hebrewName": "העור והרוטב",
+    "startFolio": 117,
+    "startSide": "b",
+    "endFolio": 130,
+    "endSide": "a"
+  },
+  {
+    "number": 10,
+    "englishName": "HaZroa VeHaLechayaim",
+    "hebrewName": "הזרוע והלחיים",
+    "startFolio": 130,
+    "startSide": "a",
+    "endFolio": 135,
+    "endSide": "a"
+  },
+  {
+    "number": 11,
+    "englishName": "Reishit HaGez",
+    "hebrewName": "ראשית הגז",
+    "startFolio": 135,
+    "startSide": "a",
+    "endFolio": 138,
+    "endSide": "b"
+  },
+  {
+    "number": 12,
+    "englishName": "Shiluach HaKen",
+    "hebrewName": "שילוח הקן",
+    "startFolio": 138,
+    "startSide": "b",
+    "endFolio": 142,
+    "endSide": "a"
+  }
+]

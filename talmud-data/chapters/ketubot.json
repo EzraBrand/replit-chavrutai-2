@@ -1,0 +1,119 @@
+[
+  {
+    "number": 1,
+    "englishName": "Betulah Niset",
+    "hebrewName": "בתולה נשאת",
+    "startFolio": 2,
+    "startSide": "a",
+    "endFolio": 15,
+    "endSide": "b"
+  },
+  {
+    "number": 2,
+    "englishName": "HaIshah She'nitarmelah",
+    "hebrewName": "האשה שנתארמלה",
+    "startFolio": 15,
+    "startSide": "b",
+    "endFolio": 29,
+    "endSide": "a"
+  },
+  {
+    "number": 3,
+    "englishName": "Eilu Na'arot",
+    "hebrewName": "אלו נערות",
+    "startFolio": 29,
+    "startSide": "a",
+    "endFolio": 41,
+    "endSide": "b"
+  },
+  {
+    "number": 4,
+    "englishName": "Na'arah She'nitpatah",
+    "hebrewName": "נערה שנתפתתה",
+    "startFolio": 41,
+    "startSide": "b",
+    "endFolio": 54,
+    "endSide": "b"
+  },
+  {
+    "number": 5,
+    "englishName": "Af Al Pi",
+    "hebrewName": "אף על פי",
+    "startFolio": 54,
+    "startSide": "b",
+    "endFolio": 65,
+    "endSide": "b"
+  },
+  {
+    "number": 6,
+    "englishName": "Metziat HaIshah",
+    "hebrewName": "מציאת האשה",
+    "startFolio": 65,
+    "startSide": "b",
+    "endFolio": 70,
+    "endSide": "a"
+  },
+  {
+    "number": 7,
+    "englishName": "HaMadir",
+    "hebrewName": "המדיר",
+    "startFolio": 70,
+    "startSide": "a",
+    "endFolio": 78,
+    "endSide": "a"
+  },
+  {
+    "number": 8,
+    "englishName": "HaIshah She'naflu",
+    "hebrewName": "האשה שנפלו",
+    "startFolio": 78,
+    "startSide": "a",
+    "endFolio": 83,
+    "endSide": "a"
+  },
+  {
+    "number": 9,
+    "englishName": "HaKotev Le'ishto",
+    "hebrewName": "הכותב לאשתו",
+    "startFolio": 83,
+    "startSide": "a",
+    "endFolio": 90,
+    "endSide": "a"
+  },
+  {
+    "number": 10,
+    "englishName": "Mi She'hayah Nasui",
+    "hebrewName": "מי שהיה נשוי",
+    "startFolio": 90,
+    "startSide": "a",
+    "endFolio": 95,
+    "endSide": "b"
+  },
+  {
+    "number": 11,
+    "englishName": "Almanah Nizont",
+    "hebrewName": "אלמנה ניזונת",
+    "startFolio": 95,
+    "startSide": "b",
+    "endFolio": 101,
+    "endSide": "b"
+  },
+  {
+    "number": 12,
+    "englishName": "HaNosee Et HaIshah",
+    "hebrewName": "הנושא את האשה",
+    "startFolio": 101,
+    "startSide": "b",
+    "endFolio": 104,
+    "endSide": "b"
+  },
+  {
+    "number": 13,
+    "englishName": "Shnei Dayyanei",
+    "hebrewName": "שני דייני",
+    "startFolio": 104,
+    "startSide": "b",
+    "endFolio": 112,
+    "endSide": "a"
+  }
+]

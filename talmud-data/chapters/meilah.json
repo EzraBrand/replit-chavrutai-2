@@ -1,0 +1,56 @@
+[
+  {
+    "number": 1,
+    "englishName": "Kodshei Kodashim",
+    "hebrewName": "קדשי קדשים",
+    "startFolio": 2,
+    "startSide": "a",
+    "endFolio": 8,
+    "endSide": "a"
+  },
+  {
+    "number": 2,
+    "englishName": "Chatat Ha'Of",
+    "hebrewName": "חטאת העוף",
+    "startFolio": 8,
+    "startSide": "a",
+    "endFolio": 10,
+    "endSide": "b"
+  },
+  {
+    "number": 3,
+    "englishName": "V'lad Chatat",
+    "hebrewName": "ולד חטאת",
+    "startFolio": 10,
+    "startSide": "b",
+    "endFolio": 15,
+    "endSide": "a"
+  },
+  {
+    "number": 4,
+    "englishName": "Kodshei Mizbe'ach",
+    "hebrewName": "קדשי מזבח",
+    "startFolio": 15,
+    "startSide": "a",
+    "endFolio": 18,
+    "endSide": "a"
+  },
+  {
+    "number": 5,
+    "englishName": "HaNehena Min HaHekdesh",
+    "hebrewName": "הנהנה מן ההקדש",
+    "startFolio": 18,
+    "startSide": "a",
+    "endFolio": 20,
+    "endSide": "a"
+  },
+  {
+    "number": 6,
+    "englishName": "HaShaliach She'asah",
+    "hebrewName": "השליח שעשה",
+    "startFolio": 20,
+    "startSide": "a",
+    "endFolio": 22,
+    "endSide": "a"
+  }
+]

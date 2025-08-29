@@ -1,0 +1,38 @@
+[
+  {
+    "number": 1,
+    "englishName": "HaIshah Niknet",
+    "hebrewName": "האשה נקנית",
+    "startFolio": 2,
+    "startSide": "a",
+    "endFolio": 41,
+    "endSide": "a"
+  },
+  {
+    "number": 2,
+    "englishName": "HaIsh Mekadesh",
+    "hebrewName": "האיש מקדש",
+    "startFolio": 41,
+    "startSide": "a",
+    "endFolio": 58,
+    "endSide": "b"
+  },
+  {
+    "number": 3,
+    "englishName": "HaOmer",
+    "hebrewName": "האומר",
+    "startFolio": 58,
+    "startSide": "b",
+    "endFolio": 69,
+    "endSide": "a"
+  },
+  {
+    "number": 4,
+    "englishName": "Asarah Yuchasin",
+    "hebrewName": "עשרה יוחסין",
+    "startFolio": 69,
+    "startSide": "a",
+    "endFolio": 82,
+    "endSide": "b"
+  }
+]

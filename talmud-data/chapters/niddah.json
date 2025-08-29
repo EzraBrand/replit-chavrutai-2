@@ -1,0 +1,92 @@
+[
+  {
+    "number": 1,
+    "englishName": "Shammai",
+    "hebrewName": "שמאי",
+    "startFolio": 2,
+    "startSide": "a",
+    "endFolio": 13,
+    "endSide": "a"
+  },
+  {
+    "number": 2,
+    "englishName": "Kol HaYad",
+    "hebrewName": "כל היד",
+    "startFolio": 13,
+    "startSide": "a",
+    "endFolio": 21,
+    "endSide": "a"
+  },
+  {
+    "number": 3,
+    "englishName": "HaMafelet Chitchah",
+    "hebrewName": "המפלת חתיכה",
+    "startFolio": 21,
+    "startSide": "a",
+    "endFolio": 31,
+    "endSide": "b"
+  },
+  {
+    "number": 4,
+    "englishName": "Bnot Kutim",
+    "hebrewName": "בנות כותים",
+    "startFolio": 31,
+    "startSide": "b",
+    "endFolio": 40,
+    "endSide": "a"
+  },
+  {
+    "number": 5,
+    "englishName": "Yotzei Dofen",
+    "hebrewName": "יוצא דופן",
+    "startFolio": 40,
+    "startSide": "a",
+    "endFolio": 48,
+    "endSide": "a"
+  },
+  {
+    "number": 6,
+    "englishName": "Ba Siman",
+    "hebrewName": "בא סימן",
+    "startFolio": 48,
+    "startSide": "a",
+    "endFolio": 54,
+    "endSide": "b"
+  },
+  {
+    "number": 7,
+    "englishName": "Dam HaNiddah",
+    "hebrewName": "דם הנדה",
+    "startFolio": 54,
+    "startSide": "b",
+    "endFolio": 57,
+    "endSide": "b"
+  },
+  {
+    "number": 8,
+    "englishName": "HaRo'ah Ktem",
+    "hebrewName": "הרואה כתם",
+    "startFolio": 57,
+    "startSide": "b",
+    "endFolio": 59,
+    "endSide": "b"
+  },
+  {
+    "number": 9,
+    "englishName": "HaIshah She'hi Osah",
+    "hebrewName": "האשה שהיא עושה",
+    "startFolio": 59,
+    "startSide": "b",
+    "endFolio": 64,
+    "endSide": "b"
+  },
+  {
+    "number": 10,
+    "englishName": "Tinoket",
+    "hebrewName": "תינוקת",
+    "startFolio": 64,
+    "startSide": "b",
+    "endFolio": 73,
+    "endSide": "a"
+  }
+]

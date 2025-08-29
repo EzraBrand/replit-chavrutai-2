@@ -1,0 +1,29 @@
+[
+  {
+    "number": 1,
+    "englishName": "HaKol Chaiyavin",
+    "hebrewName": "הכל חייבין",
+    "startFolio": 2,
+    "startSide": "a",
+    "endFolio": 11,
+    "endSide": "b"
+  },
+  {
+    "number": 2,
+    "englishName": "Ein Dorshin",
+    "hebrewName": "אין דורשין",
+    "startFolio": 11,
+    "startSide": "b",
+    "endFolio": 20,
+    "endSide": "b"
+  },
+  {
+    "number": 3,
+    "englishName": "Chomer BaKodesh",
+    "hebrewName": "חומר בקודש",
+    "startFolio": 20,
+    "startSide": "b",
+    "endFolio": 27,
+    "endSide": "a"
+  }
+]

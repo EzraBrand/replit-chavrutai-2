@@ -1,0 +1,146 @@
+[
+  {
+    "number": 1,
+    "englishName": "Chamesh Esreh Nashim",
+    "hebrewName": "חמש עשרה נשים",
+    "startFolio": 2,
+    "startSide": "a",
+    "endFolio": 17,
+    "endSide": "a"
+  },
+  {
+    "number": 2,
+    "englishName": "Keytzad",
+    "hebrewName": "כיצד",
+    "startFolio": 17,
+    "startSide": "a",
+    "endFolio": 26,
+    "endSide": "a"
+  },
+  {
+    "number": 3,
+    "englishName": "Arba'ah Achin",
+    "hebrewName": "ארבעה אחין",
+    "startFolio": 26,
+    "startSide": "a",
+    "endFolio": 35,
+    "endSide": "b"
+  },
+  {
+    "number": 4,
+    "englishName": "HaCholetz Li'Yevimto",
+    "hebrewName": "החולץ ליבמתו",
+    "startFolio": 35,
+    "startSide": "b",
+    "endFolio": 50,
+    "endSide": "a"
+  },
+  {
+    "number": 5,
+    "englishName": "Rabban Gamliel",
+    "hebrewName": "רבן גמליאל",
+    "startFolio": 50,
+    "startSide": "a",
+    "endFolio": 53,
+    "endSide": "b"
+  },
+  {
+    "number": 6,
+    "englishName": "HaBa Al Yevimto",
+    "hebrewName": "הבא על יבמתו",
+    "startFolio": 53,
+    "startSide": "b",
+    "endFolio": 66,
+    "endSide": "a"
+  },
+  {
+    "number": 7,
+    "englishName": "Almanah LeKohen Gadol",
+    "hebrewName": "אלמנה לכהן גדול",
+    "startFolio": 66,
+    "startSide": "a",
+    "endFolio": 70,
+    "endSide": "a"
+  },
+  {
+    "number": 8,
+    "englishName": "HaArel",
+    "hebrewName": "הערל",
+    "startFolio": 70,
+    "startSide": "a",
+    "endFolio": 84,
+    "endSide": "a"
+  },
+  {
+    "number": 9,
+    "englishName": "Yesh Mutar",
+    "hebrewName": "יש מותרות",
+    "startFolio": 84,
+    "startSide": "a",
+    "endFolio": 87,
+    "endSide": "b"
+  },
+  {
+    "number": 10,
+    "englishName": "HaIshah Rabbah",
+    "hebrewName": "האשה רבה",
+    "startFolio": 87,
+    "startSide": "b",
+    "endFolio": 97,
+    "endSide": "a"
+  },
+  {
+    "number": 11,
+    "englishName": "Nosei Al HaAnusah",
+    "hebrewName": "נושאין על האנוסה",
+    "startFolio": 97,
+    "startSide": "a",
+    "endFolio": 101,
+    "endSide": "a"
+  },
+  {
+    "number": 12,
+    "englishName": "Mitzvat Chalitzah",
+    "hebrewName": "מצות חליצה",
+    "startFolio": 101,
+    "startSide": "a",
+    "endFolio": 107,
+    "endSide": "a"
+  },
+  {
+    "number": 13,
+    "englishName": "Beit Shammai",
+    "hebrewName": "בית שמאי",
+    "startFolio": 107,
+    "startSide": "a",
+    "endFolio": 112,
+    "endSide": "b"
+  },
+  {
+    "number": 14,
+    "englishName": "Cheresh She'nasa",
+    "hebrewName": "חרש שנשא",
+    "startFolio": 112,
+    "startSide": "b",
+    "endFolio": 114,
+    "endSide": "b"
+  },
+  {
+    "number": 15,
+    "englishName": "HaIshah Shalom",
+    "hebrewName": "האשה שלום",
+    "startFolio": 114,
+    "startSide": "b",
+    "endFolio": 119,
+    "endSide": "a"
+  },
+  {
+    "number": 16,
+    "englishName": "HaIshah Batra",
+    "hebrewName": "האשה בתרא",
+    "startFolio": 119,
+    "startSide": "a",
+    "endFolio": 122,
+    "endSide": "a"
+  }
+]

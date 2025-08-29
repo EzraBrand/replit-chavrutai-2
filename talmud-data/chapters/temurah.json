@@ -1,0 +1,65 @@
+[
+  {
+    "number": 1,
+    "englishName": "HaKol Memirin",
+    "hebrewName": "הכל ממירין",
+    "startFolio": 2,
+    "startSide": "a",
+    "endFolio": 14,
+    "endSide": "a"
+  },
+  {
+    "number": 2,
+    "englishName": "Yesh BeKorbanot",
+    "hebrewName": "יש בקרבנות",
+    "startFolio": 14,
+    "startSide": "a",
+    "endFolio": 17,
+    "endSide": "b"
+  },
+  {
+    "number": 3,
+    "englishName": "Eilu Kodashim",
+    "hebrewName": "אלו קדשים",
+    "startFolio": 17,
+    "startSide": "b",
+    "endFolio": 21,
+    "endSide": "b"
+  },
+  {
+    "number": 4,
+    "englishName": "V'lad Chatat",
+    "hebrewName": "ולד חטאת",
+    "startFolio": 21,
+    "startSide": "b",
+    "endFolio": 24,
+    "endSide": "b"
+  },
+  {
+    "number": 5,
+    "englishName": "Keytzad Me'arimim",
+    "hebrewName": "כיצד מערימין",
+    "startFolio": 24,
+    "startSide": "b",
+    "endFolio": 28,
+    "endSide": "a"
+  },
+  {
+    "number": 6,
+    "englishName": "Kol Ha'asurin",
+    "hebrewName": "כל האסורין",
+    "startFolio": 28,
+    "startSide": "a",
+    "endFolio": 31,
+    "endSide": "a"
+  },
+  {
+    "number": 7,
+    "englishName": "Yesh BeKodshei Mizbe'ach",
+    "hebrewName": "יש בקדשי מזבח",
+    "startFolio": 31,
+    "startSide": "a",
+    "endFolio": 34,
+    "endSide": "a"
+  }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "number": 1,
+    "englishName": "Megillah Nikret",
+    "hebrewName": "מגילה נקראת",
+    "startFolio": 2,
+    "startSide": "a",
+    "endFolio": 17,
+    "endSide": "a"
+  },
+  {
+    "number": 2,
+    "englishName": "HaKoreh LeMafrei'a",
+    "hebrewName": "הקורא למפרע",
+    "startFolio": 17,
+    "startSide": "a",
+    "endFolio": 21,
+    "endSide": "a"
+  },
+  {
+    "number": 3,
+    "englishName": "HaKoreh Omed",
+    "hebrewName": "הקורא עומד",
+    "startFolio": 21,
+    "startSide": "a",
+    "endFolio": 26,
+    "endSide": "a"
+  },
+  {
+    "number": 4,
+    "englishName": "Bnei HaIr",
+    "hebrewName": "בני העיר",
+    "startFolio": 26,
+    "startSide": "a",
+    "endFolio": 32,
+    "endSide": "a"
+  }
+]

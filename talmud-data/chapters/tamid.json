@@ -1,0 +1,29 @@
+[
+  {
+    "number": 1,
+    "englishName": "BiShloshah Mekomot",
+    "hebrewName": "בשלשה מקומות",
+    "startFolio": 25,
+    "startSide": "b",
+    "endFolio": 28,
+    "endSide": "b"
+  },
+  {
+    "number": 2,
+    "englishName": "Ra'uhu Achav",
+    "hebrewName": "ראוהו אחיו",
+    "startFolio": 28,
+    "startSide": "b",
+    "endFolio": 30,
+    "endSide": "b"
+  },
+  {
+    "number": 3,
+    "englishName": "Lo Hayu Koftin",
+    "hebrewName": "לא היו כופתין",
+    "startFolio": 30,
+    "startSide": "b",
+    "endFolio": 33,
+    "endSide": "b"
+  }
+]

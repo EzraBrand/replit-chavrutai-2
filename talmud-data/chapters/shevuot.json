@@ -1,0 +1,74 @@
+[
+  {
+    "number": 1,
+    "englishName": "Shevuot Shtayim",
+    "hebrewName": "שבועות שתים",
+    "startFolio": 2,
+    "startSide": "a",
+    "endFolio": 14,
+    "endSide": "a"
+  },
+  {
+    "number": 2,
+    "englishName": "Yediot HaTumah",
+    "hebrewName": "ידיעות הטומאה",
+    "startFolio": 14,
+    "startSide": "a",
+    "endFolio": 19,
+    "endSide": "b"
+  },
+  {
+    "number": 3,
+    "englishName": "Shevuot Shtayim",
+    "hebrewName": "שבועות שתים",
+    "startFolio": 19,
+    "startSide": "b",
+    "endFolio": 30,
+    "endSide": "a"
+  },
+  {
+    "number": 4,
+    "englishName": "Shevuat Ha'Edut",
+    "hebrewName": "שבועת העדות",
+    "startFolio": 30,
+    "startSide": "a",
+    "endFolio": 36,
+    "endSide": "b"
+  },
+  {
+    "number": 5,
+    "englishName": "Shevuat HaPikadon",
+    "hebrewName": "שבועת הפקדון",
+    "startFolio": 36,
+    "startSide": "b",
+    "endFolio": 38,
+    "endSide": "b"
+  },
+  {
+    "number": 6,
+    "englishName": "Shevuat HaDayanin",
+    "hebrewName": "שבועת הדיינין",
+    "startFolio": 38,
+    "startSide": "b",
+    "endFolio": 44,
+    "endSide": "b"
+  },
+  {
+    "number": 7,
+    "englishName": "Kol HaNishba'in",
+    "hebrewName": "כל הנשבעין",
+    "startFolio": 44,
+    "startSide": "b",
+    "endFolio": 49,
+    "endSide": "a"
+  },
+  {
+    "number": 8,
+    "englishName": "Arba'ah Shomrim",
+    "hebrewName": "ארבעה שומרין",
+    "startFolio": 49,
+    "startSide": "a",
+    "endFolio": 49,
+    "endSide": "b"
+  }
+]

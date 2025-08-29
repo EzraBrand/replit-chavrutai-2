@@ -3,6 +3,49 @@
 
 import { CHAPTER_DATA } from '@/pages/tractate-contents';
 
+// NEW: JSON-based chapter data cache (will replace CHAPTER_DATA)
+const CHAPTER_DATA_CACHE = new Map<string, ChapterInfo[]>();
+
+/**
+ * NEW: Preload chapter data from JSON files (async initialization)
+ * This function allows us to gradually migrate away from CHAPTER_DATA
+ */
+export async function preloadChapterData() {
+  const tractates = [
+    'berakhot', 'shabbat', 'eruvin', 'pesachim', 'yoma', 'sukkah', 'beitza',
+    'rosh-hashanah', 'taanit', 'megillah', 'moed-katan', 'chagigah',
+    'yevamot', 'ketubot', 'nedarim', 'nazir', 'sotah', 'gittin', 'kiddushin',
+    'bava-kamma', 'bava-metzia', 'bava-batra', 'sanhedrin', 'makkot', 
+    'shevuot', 'avodah-zarah', 'horayot', 'zevachim', 'menachot', 'chullin',
+    'bekhorot', 'arakhin', 'temurah', 'keritot', 'meilah', 'tamid', 'niddah'
+  ];
+
+  for (const tractate of tractates) {
+    try {
+      const module = await import(`@/talmud-data/chapters/${tractate}.json`);
+      CHAPTER_DATA_CACHE.set(tractate, module.default || module);
+    } catch (error) {
+      console.warn(`Failed to preload ${tractate}:`, error);
+    }
+  }
+}
+
+/**
+ * NEW: Get chapter data from JSON (with fallback to CHAPTER_DATA)
+ */
+function getChapterData(tractate: string): ChapterInfo[] | null {
+  const tractateKey = tractate.toLowerCase().replace(/\s+/g, ' ');
+  const jsonKey = tractateKey.replace(/\s+/g, '-');
+  
+  // Try JSON data first
+  if (CHAPTER_DATA_CACHE.has(jsonKey)) {
+    return CHAPTER_DATA_CACHE.get(jsonKey)!;
+  }
+  
+  // Fallback to old CHAPTER_DATA
+  return CHAPTER_DATA[tractateKey] || null;
+}
+
 export interface ChapterInfo {
   number: number;
   englishName: string;
