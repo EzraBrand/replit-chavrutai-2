@@ -72,7 +72,13 @@ export class MemStorage implements IStorage {
       id,
       sefariaRef: insertText.sefariaRef || null,
       hebrewSections: insertText.hebrewSections ? [...insertText.hebrewSections] : null,
-      englishSections: insertText.englishSections ? [...insertText.englishSections] : null
+      englishSections: insertText.englishSections ? [...insertText.englishSections] : null,
+      nextPageFirstSection: (insertText.nextPageFirstSection && 
+        typeof insertText.nextPageFirstSection === 'object' &&
+        'hebrew' in insertText.nextPageFirstSection &&
+        'english' in insertText.nextPageFirstSection) 
+        ? insertText.nextPageFirstSection as { hebrew: string; english: string }
+        : null
     };
     const key = this.getTextKey(text.work, text.tractate, text.chapter, text.folio, text.side);
     this.texts.set(key, text);

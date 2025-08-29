@@ -48,35 +48,35 @@
     "number": 6,
     "englishName": "HaChovel Ba'Chaveiro",
     "hebrewName": "החובל בחבירו",
-    "startFolio": 79,
-    "startSide": "a",
-    "endFolio": 83,
-    "endSide": "b"
-  },
-  {
-    "number": 7,
-    "englishName": "Merubah",
-    "hebrewName": "מרובה",
     "startFolio": 55,
     "startSide": "b",
     "endFolio": 63,
     "endSide": "a"
   },
   {
+    "number": 7,
+    "englishName": "Merubah",
+    "hebrewName": "מרובה",
+    "startFolio": 63,
+    "startSide": "a",
+    "endFolio": 79,
+    "endSide": "a"
+  },
+  {
     "number": 8,
     "englishName": "HaGonev",
     "hebrewName": "הגונב",
-    "startFolio": 63,
+    "startFolio": 79,
     "startSide": "a",
-    "endFolio": 83,
-    "endSide": "b"
+    "endFolio": 96,
+    "endSide": "a"
   },
   {
     "number": 9,
     "englishName": "HaChovel",
     "hebrewName": "החובל",
-    "startFolio": 83,
-    "startSide": "b",
+    "startFolio": 96,
+    "startSide": "a",
     "endFolio": 97,
     "endSide": "b"
   },
@@ -84,8 +84,8 @@
     "number": 10,
     "englishName": "HaGozeil Etzim",
     "hebrewName": "הגוזל עצים",
-    "startFolio": 96,
-    "startSide": "a",
+    "startFolio": 97,
+    "startSide": "b",
     "endFolio": 119,
     "endSide": "b"
   }

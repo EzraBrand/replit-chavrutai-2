@@ -41,20 +41,11 @@
     "hebrewName": "איזהו מקומן",
     "startFolio": 59,
     "startSide": "a",
-    "endFolio": 70,
+    "endFolio": 63,
     "endSide": "a"
   },
   {
     "number": 6,
-    "englishName": "Kol HaTadir",
-    "hebrewName": "כל התדיר",
-    "startFolio": 89,
-    "startSide": "a",
-    "endFolio": 97,
-    "endSide": "a"
-  },
-  {
-    "number": 7,
     "englishName": "Chatat HaOf",
     "hebrewName": "חטאת העוף",
     "startFolio": 63,
@@ -63,7 +54,25 @@
     "endSide": "a"
   },
   {
+    "number": 7,
+    "englishName": "Kol HaTadir",
+    "hebrewName": "כל התדיר",
+    "startFolio": 70,
+    "startSide": "a",
+    "endFolio": 89,
+    "endSide": "a"
+  },
+  {
     "number": 8,
+    "englishName": "Tevul Yom",
+    "hebrewName": "טבול יום",
+    "startFolio": 70,
+    "startSide": "a",
+    "endFolio": 89,
+    "endSide": "a"
+  },
+  {
+    "number": 9,
     "englishName": "Kol HaMinchot",
     "hebrewName": "כל המנחות",
     "startFolio": 89,
@@ -72,7 +81,7 @@
     "endSide": "a"
   },
   {
-    "number": 9,
+    "number": 10,
     "englishName": "Ha'Omer",
     "hebrewName": "העומר",
     "startFolio": 96,
@@ -81,7 +90,7 @@
     "endSide": "a"
   },
   {
-    "number": 10,
+    "number": 11,
     "englishName": "Shnei Seirei Rosh HaShanah",
     "hebrewName": "שני שעירי ראש השנה",
     "startFolio": 103,
@@ -90,38 +99,29 @@
     "endSide": "a"
   },
   {
-    "number": 11,
-    "englishName": "Kol HaKometz",
-    "hebrewName": "כל הקומץ",
+    "number": 12,
+    "englishName": "Shchatat Kodesh",
+    "hebrewName": "שחיטת קודש",
     "startFolio": 111,
     "startSide": "a",
-    "endFolio": 120,
-    "endSide": "b"
-  },
-  {
-    "number": 12,
-    "englishName": "Tevul Yom",
-    "hebrewName": "טבול יום",
-    "startFolio": 100,
-    "startSide": "a",
-    "endFolio": 102,
+    "endFolio": 113,
     "endSide": "a"
   },
   {
     "number": 13,
-    "englishName": "Shchatat Kodesh",
-    "hebrewName": "שחיטת קודש",
-    "startFolio": 102,
-    "startSide": "a",
-    "endFolio": 108,
-    "endSide": "a"
-  },
-  {
-    "number": 14,
     "englishName": "Parah Adumah",
     "hebrewName": "פרה אדומה",
     "startFolio": 113,
     "startSide": "a",
+    "endFolio": 116,
+    "endSide": "b"
+  },
+  {
+    "number": 14,
+    "englishName": "Kol HaKometz",
+    "hebrewName": "כל הקומץ",
+    "startFolio": 116,
+    "startSide": "b",
     "endFolio": 120,
     "endSide": "b"
   }
