@@ -104,6 +104,22 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
       canonical: `${baseUrl}/contents/${tractate}`,
       robots: "index, follow"
     };
+  } else if (url.match(/^\/tractate\/[^/]+\/\d+[ab]$/)) {
+    // Individual folio pages like /tractate/berakhot/2a
+    const urlParts = url.split('/');
+    const tractate = urlParts[2];
+    const folio = urlParts[3];
+    const tractateTitle = tractate.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+    const folioUpper = folio.toUpperCase();
+    
+    seoData = {
+      title: `${tractateTitle} ${folioUpper} – Hebrew & English Talmud | ChavrutAI`,
+      description: `Study ${tractateTitle} folio ${folioUpper} with parallel Hebrew-English text, traditional commentary, and modern study tools. Free access to Babylonian Talmud online.`,
+      ogTitle: `${tractateTitle} ${folioUpper} – Talmud Study Page`,
+      ogDescription: `Study ${tractateTitle} folio ${folioUpper} with parallel Hebrew-English text, traditional commentary, and modern study tools.`,
+      canonical: `${baseUrl}/tractate/${tractate}/${folio}`,
+      robots: "index, follow"
+    };
   }
   
   return seoData;
@@ -207,8 +223,9 @@ async function servePageWithMeta(req: express.Request, res: express.Response, ne
 
 // SEO route handler for tractate pages
 function shouldNoIndex(url: string): boolean {
-  // Folio pages should be noindexed (e.g., /tractate/berakhot/2a)
-  return /^\/tractate\/[^\/]+\/\d+[ab]$/i.test(url);
+  // Note: Folio pages are now indexed to improve SEO visibility per professional audit
+  // Only noindex invalid/error pages that aren't handled by server-side SEO
+  return false; // Temporarily disabled - all pages can be indexed
 }
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -219,6 +236,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/contents', servePageWithMeta);
   app.get('/suggested-pages', servePageWithMeta);
   app.get('/contents/:tractate', servePageWithMeta);
+  app.get('/tractate/:tractate/:folio', servePageWithMeta);
   
   // SEO middleware for dynamic meta tags (for remaining routes)
   app.use('*', (req, res, next) => {
