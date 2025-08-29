@@ -1,4 +1,4 @@
-import { ExternalLink, ChevronDown, ChevronRight } from "lucide-react";
+import { ExternalLink, BookOpen } from "lucide-react";
 import { Link } from "wouter";
 import { useState } from "react";
 import type { ChapterOutline } from '@shared/schema';
@@ -8,7 +8,7 @@ interface OutlineTableProps {
 }
 
 export function OutlineTable({ outline }: OutlineTableProps) {
-  const [expandedCards, setExpandedCards] = useState<Set<number>>(new Set());
+  const [selectedEntry, setSelectedEntry] = useState<number | null>(null);
 
   const parseKeywords = (keywordString: string): string[] => {
     return keywordString.split(',').map(keyword => keyword.trim());
@@ -23,131 +23,119 @@ export function OutlineTable({ outline }: OutlineTableProps) {
     return `/tractate/${tractate.toLowerCase()}/${page}${section ? `#section-${section}` : ''}`;
   };
 
-  const toggleExpanded = (rowNumber: number) => {
-    setExpandedCards(prev => {
-      const newSet = new Set(prev);
-      if (newSet.has(rowNumber)) {
-        newSet.delete(rowNumber);
-      } else {
-        newSet.add(rowNumber);
-      }
-      return newSet;
-    });
-  };
-
   return (
-    <div className="space-y-3">
-      {outline.entries.map((entry) => {
-        const isExpanded = expandedCards.has(entry.rowNumber);
-        const keywords = parseKeywords(entry.keywords);
-        
-        return (
-          <div 
+    <div>
+      {/* Clean Badge Layout */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        {outline.entries.map((entry) => (
+          <div
             key={entry.rowNumber}
-            className="bg-sepia-50 dark:bg-sepia-900 border border-sepia-200 dark:border-sepia-700 rounded-lg shadow-sm transition-all duration-200 hover:shadow-md"
+            className={`group relative cursor-pointer transition-all duration-200 ${
+              selectedEntry === entry.rowNumber 
+                ? 'ring-2 ring-blue-500 ring-opacity-50' 
+                : ''
+            }`}
+            onClick={() => setSelectedEntry(selectedEntry === entry.rowNumber ? null : entry.rowNumber)}
+            data-testid={`badge-entry-${entry.rowNumber}`}
           >
-            {/* Primary View - Always Visible */}
-            <div 
-              className="p-4 cursor-pointer"
-              onClick={() => toggleExpanded(entry.rowNumber)}
-              data-testid={`accordion-header-${entry.rowNumber}`}
-            >
-              <div className="flex items-start justify-between">
-                {/* Left Side: Core Info */}
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-3 mb-2">
-                    {/* Row Number */}
-                    <span className="bg-sepia-200 dark:bg-sepia-800 text-sepia-900 dark:text-sepia-100 text-sm font-semibold px-2 py-1 rounded flex-shrink-0">
+            <div className="bg-sepia-50 dark:bg-sepia-900 border border-sepia-200 dark:border-sepia-700 rounded-lg p-4 hover:shadow-md hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-200">
+              {/* Location Badge */}
+              <div className="flex items-center justify-between mb-2">
+                <Link 
+                  href={createTextLink(entry.locationRange, outline.tractate)}
+                  className="bg-blue-600 dark:bg-blue-500 text-white px-3 py-1 rounded-md font-semibold text-sm hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
+                  data-testid={`link-location-badge-${entry.rowNumber}`}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  {entry.locationRange}
+                </Link>
+                <span className="text-sepia-500 dark:text-sepia-400 text-xs">
+                  #{entry.rowNumber}
+                </span>
+              </div>
+
+              {/* Topic Preview */}
+              <div className="text-sepia-800 dark:text-sepia-200 text-sm leading-relaxed">
+                {entry.sectionHeader.length > 60 ? `${entry.sectionHeader.substring(0, 60)}...` : entry.sectionHeader}
+              </div>
+
+              {/* Section Count Indicator */}
+              <div className="flex items-center justify-between mt-3">
+                <span className="text-xs text-sepia-600 dark:text-sepia-400">
+                  {entry.sectionCount} sections
+                </span>
+                {entry.blogpostUrl && (
+                  <a 
+                    href={entry.blogpostUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300 text-xs"
+                    data-testid={`link-blog-badge-${entry.rowNumber}`}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    Blog ↗
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Selected Entry Details */}
+      {selectedEntry && (
+        <div className="mt-6 p-6 bg-sepia-25 dark:bg-sepia-950 border border-sepia-200 dark:border-sepia-700 rounded-lg">
+          {(() => {
+            const entry = outline.entries.find(e => e.rowNumber === selectedEntry);
+            if (!entry) return null;
+            
+            const keywords = parseKeywords(entry.keywords);
+            
+            return (
+              <div>
+                {/* Header */}
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <span className="bg-blue-600 dark:bg-blue-500 text-white text-sm font-semibold px-3 py-1 rounded-md">
                       #{entry.rowNumber}
                     </span>
-                    
-                    {/* Location Link */}
                     <Link 
                       href={createTextLink(entry.locationRange, outline.tractate)}
-                      className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium underline decoration-dotted underline-offset-2 transition-colors text-sm flex-shrink-0"
-                      data-testid={`link-location-${entry.rowNumber}`}
-                      onClick={(e) => e.stopPropagation()}
+                      className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-semibold underline decoration-dotted underline-offset-2 transition-colors"
+                      data-testid={`link-location-detail-${entry.rowNumber}`}
                     >
                       {entry.locationRange}
                     </Link>
-
-                    {/* Section Count */}
-                    <span className="bg-amber-100 dark:bg-amber-900 text-amber-800 dark:text-amber-200 text-xs px-2 py-1 rounded flex-shrink-0">
+                    <span className="bg-amber-100 dark:bg-amber-900 text-amber-800 dark:text-amber-200 text-xs px-2 py-1 rounded">
                       {entry.sectionCount} sections
                     </span>
                   </div>
-                  
-                  {/* Condensed Topic Title */}
-                  <h3 className="text-sepia-900 dark:text-sepia-100 font-medium text-base leading-normal pr-4">
-                    {entry.sectionHeader.length > 80 ? `${entry.sectionHeader.substring(0, 80)}...` : entry.sectionHeader}
-                  </h3>
-                  
-                  {/* Preview Keywords (first 2) */}
-                  <div className="flex gap-2 mt-2">
-                    {keywords.slice(0, 2).map((keyword, keywordIndex) => (
-                      <span 
-                        key={keywordIndex}
-                        className="inline-block bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs px-2 py-1 rounded-full font-medium"
-                        data-testid={`tag-keyword-preview-${keywordIndex}`}
-                      >
-                        {keyword}
-                      </span>
-                    ))}
-                    {keywords.length > 2 && (
-                      <span className="text-xs text-sepia-500 dark:text-sepia-400 px-2 py-1">
-                        +{keywords.length - 2} more
-                      </span>
-                    )}
-                  </div>
+                  <button 
+                    onClick={() => setSelectedEntry(null)}
+                    className="text-sepia-500 dark:text-sepia-400 hover:text-sepia-700 dark:hover:text-sepia-200 text-sm"
+                  >
+                    ✕
+                  </button>
                 </div>
 
-                {/* Right Side: Expand Button */}
-                <div className="flex items-center gap-2 flex-shrink-0">
-                  {entry.blogpostUrl && (
-                    <a 
-                      href={entry.blogpostUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300 text-sm font-medium underline decoration-dotted underline-offset-2 transition-colors"
-                      data-testid={`link-blog-${entry.rowNumber}`}
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      Blog ↗
-                    </a>
-                  )}
-                  {isExpanded ? (
-                    <ChevronDown className="h-5 w-5 text-sepia-600 dark:text-sepia-400" />
-                  ) : (
-                    <ChevronRight className="h-5 w-5 text-sepia-600 dark:text-sepia-400" />
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {/* Expanded View - Conditional */}
-            {isExpanded && (
-              <div className="border-t border-sepia-200 dark:border-sepia-700 p-4 bg-sepia-25 dark:bg-sepia-950">
-                {/* Full Section Header */}
+                {/* Full Topic Description */}
                 <div className="mb-4">
-                  <h4 className="text-sepia-800 dark:text-sepia-200 font-medium text-sm uppercase tracking-wide mb-2">
-                    Full Topic Description
-                  </h4>
-                  <p className="text-sepia-900 dark:text-sepia-100 text-base leading-relaxed">
+                  <h3 className="text-sepia-900 dark:text-sepia-100 font-semibold text-lg leading-relaxed mb-2">
                     {entry.sectionHeader}
-                  </p>
+                  </h3>
                 </div>
 
-                {/* All Keywords */}
+                {/* Keywords */}
                 <div className="mb-4">
-                  <h4 className="text-sepia-800 dark:text-sepia-200 font-medium text-sm uppercase tracking-wide mb-2">
+                  <h4 className="text-sepia-800 dark:text-sepia-200 font-medium text-sm uppercase tracking-wide mb-3">
                     Keywords & Concepts
                   </h4>
                   <div className="flex flex-wrap gap-2">
                     {keywords.map((keyword, keywordIndex) => (
                       <span 
                         key={keywordIndex}
-                        className="inline-block bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-sm px-3 py-1 rounded-full font-medium"
-                        data-testid={`tag-keyword-expanded-${keywordIndex}`}
+                        className="inline-block bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-sm px-3 py-2 rounded-full font-medium"
+                        data-testid={`tag-keyword-detail-${keywordIndex}`}
                       >
                         {keyword}
                       </span>
@@ -155,11 +143,11 @@ export function OutlineTable({ outline }: OutlineTableProps) {
                   </div>
                 </div>
 
-                {/* Additional Details */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Additional Info & Actions */}
+                <div className="flex flex-col sm:flex-row gap-4 justify-between items-start">
                   {/* Macro Sugya */}
                   {entry.macroSugya && (
-                    <div>
+                    <div className="flex-1">
                       <h4 className="text-sepia-800 dark:text-sepia-200 font-medium text-sm uppercase tracking-wide mb-2">
                         Macro Sugya
                       </h4>
@@ -169,40 +157,34 @@ export function OutlineTable({ outline }: OutlineTableProps) {
                     </div>
                   )}
 
-                  {/* Blog Link */}
-                  {entry.blogpostUrl && (
-                    <div>
-                      <h4 className="text-sepia-800 dark:text-sepia-200 font-medium text-sm uppercase tracking-wide mb-2">
-                        Related Blog Post
-                      </h4>
+                  {/* Action Buttons */}
+                  <div className="flex gap-3 flex-shrink-0">
+                    {entry.blogpostUrl && (
                       <a 
                         href={entry.blogpostUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300 font-medium underline decoration-dotted underline-offset-2 transition-colors flex items-center gap-1"
-                        data-testid={`link-blog-expanded-${entry.rowNumber}`}
+                        className="inline-flex items-center gap-2 bg-green-600 dark:bg-green-500 text-white px-4 py-2 rounded-md font-medium hover:bg-green-700 dark:hover:bg-green-600 transition-colors text-sm"
+                        data-testid={`link-blog-detail-${entry.rowNumber}`}
                       >
-                        View Blog Post <ExternalLink className="h-4 w-4" />
+                        Blog Post <ExternalLink className="h-4 w-4" />
                       </a>
-                    </div>
-                  )}
-                </div>
-
-                {/* Quick Navigation */}
-                <div className="mt-4 pt-3 border-t border-sepia-200 dark:border-sepia-700">
-                  <Link 
-                    href={createTextLink(entry.locationRange, outline.tractate)}
-                    className="inline-flex items-center gap-2 bg-blue-600 dark:bg-blue-500 text-white px-4 py-2 rounded-md font-medium hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
-                    data-testid={`button-navigate-${entry.rowNumber}`}
-                  >
-                    📖 Read This Section
-                  </Link>
+                    )}
+                    <Link 
+                      href={createTextLink(entry.locationRange, outline.tractate)}
+                      className="inline-flex items-center gap-2 bg-blue-600 dark:bg-blue-500 text-white px-4 py-2 rounded-md font-medium hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors text-sm"
+                      data-testid={`button-read-section-${entry.rowNumber}`}
+                    >
+                      <BookOpen className="h-4 w-4" />
+                      Read Section
+                    </Link>
+                  </div>
                 </div>
               </div>
-            )}
-          </div>
-        );
-      })}
+            );
+          })()}
+        </div>
+      )}
     </div>
   );
 }
