@@ -11,6 +11,9 @@ temp/
 tmp/
 *.log
 *.tmp
+*.pid
+.env.local
+.env.development
 
 # Data processing artifacts
 *.xlsx
@@ -26,6 +29,8 @@ excel_analysis.txt
 test-seo.html
 seo-*.html
 *.test.html
+coverage/
+.nyc_output/
 
 # Python development artifacts (prevent reintroduction)
 pyproject.toml
@@ -49,6 +54,10 @@ __pycache__/
 .local/state/
 **/archive-v0/
 **/dist-info/
+.config/configstore/
+
+# Replit-specific artifacts
+.upm/
 
 # Large development data files
 *-raw.txt
