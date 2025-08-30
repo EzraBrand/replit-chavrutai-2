@@ -21,9 +21,7 @@ tmp/
 *.csv
 *-extract.txt
 *-analysis.txt
-chapter_data_only.ts
-full-chapter-data-raw.txt
-excel_analysis.txt
+
 
 # SEO and testing artifacts
 test-seo.html
@@ -46,8 +44,7 @@ __pycache__/
 *.swo
 *~
 
-# Documentation assets should be tracked
-!docs/assets/
+
 
 # Additional cache and system directories
 .cache/
@@ -71,11 +68,7 @@ __pycache__/
 /client/*.ico
 /client/*.png
 
-# Internal documentation (exclude from public repository)
-CLONE_SETUP_GUIDE.md
-CODEBASE_CLEANUP_ANALYSIS.md
-replit.md
-docs/assets/README.md
+
 
 # All other markdown files (except public README.md)
 *.md
