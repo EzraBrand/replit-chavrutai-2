@@ -140,7 +140,7 @@ export default function TractateContents() {
                   </div>
 
                   {/* Folio buttons */}
-                  <div className="grid grid-cols-9 gap-1 justify-items-center">
+                  <div className="grid grid-cols-9 gap-2 justify-items-center">
                     {folios.map((folio) => (
                       <Link
                         key={`${folio.folio}${folio.side}`}
@@ -151,7 +151,7 @@ export default function TractateContents() {
                         <Button
                           variant="outline"
                           size="sm"
-                          className="h-8 px-3 text-sm min-w-[3rem] hover:bg-primary hover:text-primary-foreground"
+                          className="h-10 px-4 text-base font-normal min-w-[3.5rem] hover:bg-primary hover:text-primary-foreground"
                         >
                           {folio.label}
                         </Button>
