@@ -105,19 +105,19 @@ export default function TractateContents() {
         </div>
 
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-primary mb-2">
+          <h1 className="text-5xl font-bold text-primary mb-2">
             {tractateDisplayName}
           </h1>
-          <h2 className="text-2xl text-primary/80 mb-4 font-hebrew">
+          <h2 className="text-3xl text-primary/80 mb-4 font-hebrew">
             {hebrewName}
           </h2>
-          <p className="text-lg text-muted-foreground">
+          <p className="text-xl text-muted-foreground">
             {tractateChapters?.length || 0} Chapters • {maxFolio} Folios
           </p>
         </div>
 
         {/* Chapter Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 gap-6">
           {tractateChapters?.map((chapter) => {
             const folios = generateFolioButtons(
               chapter.startFolio,
@@ -133,15 +133,14 @@ export default function TractateContents() {
               >
                 <CardContent className="p-6">
                   <div className="mb-4">
-                    <h3 className="text-lg text-primary mb-2">
-                      <span className="font-bold">Chapter {chapter.number}:</span>{' '}
-                      <span className="italic">{chapter.englishName}</span>{' '}
+                    <h3 className="text-xl text-primary mb-2">
+                      Chapter {chapter.number}: <span className="italic">{chapter.englishName}</span>{' '}
                       <span className="font-hebrew">({chapter.hebrewName})</span>
                     </h3>
                   </div>
 
                   {/* Folio buttons */}
-                  <div className="flex flex-wrap gap-1">
+                  <div className="grid grid-cols-9 gap-1 justify-items-center">
                     {folios.map((folio) => (
                       <Link
                         key={`${folio.folio}${folio.side}`}
@@ -152,7 +151,7 @@ export default function TractateContents() {
                         <Button
                           variant="outline"
                           size="sm"
-                          className="h-7 px-2 text-xs hover:bg-primary hover:text-primary-foreground"
+                          className="h-8 px-3 text-sm min-w-[3rem] hover:bg-primary hover:text-primary-foreground"
                         >
                           {folio.label}
                         </Button>
