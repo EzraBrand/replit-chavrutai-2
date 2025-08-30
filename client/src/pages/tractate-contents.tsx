@@ -133,8 +133,9 @@ export default function TractateContents() {
               >
                 <CardContent className="p-6">
                   <div className="mb-4">
-                    <h3 className="text-lg font-bold text-primary mb-2">
-                      Chapter {chapter.number}: {chapter.englishName}{' '}
+                    <h3 className="text-lg text-primary mb-2">
+                      <span className="font-bold">Chapter {chapter.number}:</span>{' '}
+                      <span className="italic">{chapter.englishName}</span>{' '}
                       <span className="font-hebrew">({chapter.hebrewName})</span>
                     </h3>
                   </div>
