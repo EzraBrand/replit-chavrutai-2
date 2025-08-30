@@ -40,4 +40,3 @@ args = "npm run dev"
 waitForPort = 5000
 
 [agent]
-integrations = ["javascript_google_analytics==1.0.0"]
