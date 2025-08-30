@@ -140,7 +140,7 @@ export default function TractateContents() {
                   </div>
 
                   {/* Folio buttons */}
-                  <div className="mx-0 sm:mx-4 md:mx-8 lg:mx-16 xl:mx-24">
+                  <div className="mx-0 sm:mx-8 md:mx-16 lg:mx-32 xl:mx-48">
                     <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-6 lg:grid-cols-6 xl:grid-cols-6 gap-2 justify-items-center">
                     {folios.map((folio) => (
                       <Link
