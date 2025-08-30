@@ -117,7 +117,7 @@ export default function TractateContents() {
         </div>
 
         {/* Chapter Cards Grid */}
-        <div className="grid grid-cols-1 gap-6 max-w-none sm:max-w-2xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 gap-6 max-w-none sm:max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-3xl mx-auto">
           {tractateChapters?.map((chapter) => {
             const folios = generateFolioButtons(
               chapter.startFolio,
