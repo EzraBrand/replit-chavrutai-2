@@ -133,31 +133,20 @@ export default function TractateContents() {
               >
                 <CardContent className="p-6">
                   <div className="mb-4">
-                    <h3 className="text-lg font-bold text-primary mb-1">
-                      Chapter {chapter.number}
+                    <h3 className="text-lg font-bold text-primary mb-2">
+                      Chapter {chapter.number}: {chapter.englishName}{' '}
+                      <span className="font-hebrew">({chapter.hebrewName})</span>
                     </h3>
-                    <h4 className="text-base font-medium text-primary/80 mb-1">
-                      {chapter.englishName}
-                    </h4>
-                    <p className="text-sm text-muted-foreground font-hebrew">
-                      {chapter.hebrewName}
-                    </p>
-                    <p className="text-xs text-muted-foreground mt-1">
-                      {chapter.startFolio}
-                      {chapter.startSide} - {chapter.endFolio}
-                      {chapter.endSide}
-                    </p>
                   </div>
 
                   {/* Folio buttons */}
-                  <div className="flex flex-wrap gap-1 max-w-full overflow-hidden">
+                  <div className="flex flex-wrap gap-1">
                     {folios.map((folio) => (
                       <Link
                         key={`${folio.folio}${folio.side}`}
                         href={`/tractate/${encodeURIComponent(
                           tractate.toLowerCase(),
                         )}/${folio.folio}${folio.side}`}
-                        className="inline-block"
                       >
                         <Button
                           variant="outline"
