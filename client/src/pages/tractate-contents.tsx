@@ -150,13 +150,14 @@ export default function TractateContents() {
                   </div>
 
                   {/* Folio buttons */}
-                  <div className="flex flex-wrap gap-1">
+                  <div className="flex flex-wrap gap-1 max-w-full overflow-hidden">
                     {folios.map((folio) => (
                       <Link
                         key={`${folio.folio}${folio.side}`}
                         href={`/tractate/${encodeURIComponent(
                           tractate.toLowerCase(),
                         )}/${folio.folio}${folio.side}`}
+                        className="inline-block"
                       >
                         <Button
                           variant="outline"
