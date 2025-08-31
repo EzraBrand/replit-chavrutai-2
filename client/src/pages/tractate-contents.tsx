@@ -73,9 +73,9 @@ export default function TractateContents() {
                   className="w-10 h-10 object-cover"
                 />
               </div>
-              <h1 className="text-xl font-semibold text-primary font-roboto">
+              <div className="text-xl font-semibold text-primary font-roboto">
                 ChavrutAI
-              </h1>
+              </div>
             </div>
 
             {/* Empty space for balance */}

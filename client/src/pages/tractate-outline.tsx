@@ -22,9 +22,9 @@ export default function TractateOutlinePage() {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-sepia-800 dark:text-sepia-200 mb-4">
+          <h2 className="text-2xl font-bold text-sepia-800 dark:text-sepia-200 mb-4">
             Invalid Outline Request
-          </h1>
+          </h2>
           <p className="text-sepia-600 dark:text-sepia-400 mb-6">
             Please specify both tractate and chapter for the outline.
           </p>
@@ -45,9 +45,9 @@ export default function TractateOutlinePage() {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-sepia-800 dark:text-sepia-200 mb-4">
+          <h2 className="text-2xl font-bold text-sepia-800 dark:text-sepia-200 mb-4">
             Outline Not Available
-          </h1>
+          </h2>
           <p className="text-sepia-600 dark:text-sepia-400 mb-6">
             The outline for {tractate.charAt(0).toUpperCase() + tractate.slice(1)} chapter {chapter} is not yet available.
           </p>

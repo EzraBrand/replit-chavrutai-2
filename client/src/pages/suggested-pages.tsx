@@ -309,7 +309,7 @@ export default function SuggestedPages() {
                 alt="ChavrutAI" 
                 className="h-8 w-8 object-contain"
               />
-              <h1 className="text-xl font-bold text-foreground">ChavrutAI</h1>
+              <div className="text-xl font-bold text-foreground">ChavrutAI</div>
             </Link>
             
             {/* Spacer for centering */}

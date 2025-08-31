@@ -91,7 +91,7 @@ export default function Home() {
                   className="w-10 h-10 object-cover"
                 />
               </div>
-              <h1 className="text-xl font-semibold text-primary font-roboto">ChavrutAI</h1>
+              <div className="text-xl font-semibold text-primary font-roboto">ChavrutAI</div>
             </div>
             
             {/* Navigation - Always Visible */}
@@ -109,9 +109,9 @@ export default function Home() {
       <main className={`max-w-7xl mx-auto px-4 py-6 text-size-${preferences.textSize} hebrew-font-${preferences.hebrewFont}`}>
         {/* Page Title */}
         <div className="mb-6">
-          <h2 className="text-2xl font-semibold text-primary mb-2">
+          <h1 className="text-2xl font-semibold text-primary mb-2">
             {location.tractate} {location.folio}{location.side}
-          </h2>
+          </h1>
           <p className="text-muted-foreground">
             Tractate {location.tractate}, Folio {location.folio}, Page {location.side}
           </p>

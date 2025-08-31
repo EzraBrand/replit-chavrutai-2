@@ -83,7 +83,7 @@ export default function Contents() {
                     className="w-10 h-10 object-cover"
                   />
                 </div>
-                <h1 className="text-xl font-semibold text-primary font-roboto">ChavrutAI</h1>
+                <div className="text-xl font-semibold text-primary font-roboto">ChavrutAI</div>
               </div>
               
               {/* Empty space for balance */}
@@ -119,7 +119,7 @@ export default function Contents() {
                   className="w-10 h-10 object-cover"
                 />
               </div>
-              <h1 className="text-xl font-semibold text-primary font-roboto">ChavrutAI</h1>
+              <div className="text-xl font-semibold text-primary font-roboto">ChavrutAI</div>
             </div>
             
             {/* Empty space for balance */}
