@@ -5,7 +5,9 @@ import path from "path";
 import { storage } from "./storage";
 import { insertTextSchema } from "@shared/schema";
 import { normalizeSefariaTractateName } from "@shared/tractates";
-import { generateSitemap } from "./routes/sitemap";
+import { generateSitemapIndex } from "./routes/sitemap-index";
+import { generateMainSitemap } from "./routes/sitemap-main";
+import { generateSederSitemap } from "./routes/sitemap-seder";
 import { z } from "zod";
 
 // Text processing utilities
@@ -372,8 +374,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // SEO Routes
-  app.get('/sitemap.xml', generateSitemap);
+  // SEO Routes - Nested sitemap structure
+  app.get('/sitemap.xml', generateSitemapIndex);
+  app.get('/sitemap-main.xml', generateMainSitemap);
+  app.get('/sitemap-seder-zeraim.xml', generateSederSitemap('zeraim'));
+  app.get('/sitemap-seder-moed.xml', generateSederSitemap('moed'));
+  app.get('/sitemap-seder-nashim.xml', generateSederSitemap('nashim'));
+  app.get('/sitemap-seder-nezikin.xml', generateSederSitemap('nezikin'));
+  app.get('/sitemap-seder-kodashim.xml', generateSederSitemap('kodashim'));
+  app.get('/sitemap-seder-tohorot.xml', generateSederSitemap('tohorot'));
 
   const httpServer = createServer(app);
   return httpServer;
