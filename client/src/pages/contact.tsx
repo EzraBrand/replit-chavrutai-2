@@ -41,7 +41,7 @@ export default function Contact() {
                 <h2 className="text-xl font-semibold text-foreground mb-4">Direct Email Contact</h2>
                 <div className="bg-muted/50 rounded-lg p-6 border border-border">
                   <p className="text-muted-foreground leading-relaxed mb-4">
-                    You can also reach us directly via email:
+                    You can reach us via email:
                   </p>
                   <a 
                     href="mailto:ezra@chavrutai.com"
