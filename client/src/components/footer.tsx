@@ -49,6 +49,13 @@ export function Footer() {
           >
             Changelog
           </Link>
+          <Link 
+            href="/contact"
+            className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200"
+            data-testid="footer-link-contact"
+          >
+            Contact
+          </Link>
           <a 
             href="https://github.com/EzraBrand/replit-chavrutai-2"
             target="_blank"
@@ -67,7 +74,16 @@ export function Footer() {
           <span className="hidden sm:inline">|</span>
           <span>Uses data from Sefaria (not affiliated)</span>
           <span className="hidden sm:inline">|</span>
-          <span>A project of "Talmud & Tech"</span>
+          <span>A project of <a 
+            href="https://www.ezrabrand.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200 inline-flex items-center gap-1"
+            data-testid="footer-link-talmud-tech"
+          >
+            "Talmud & Tech"
+            <ExternalLink size={12} />
+          </a></span>
         </div>
       </div>
     </footer>
