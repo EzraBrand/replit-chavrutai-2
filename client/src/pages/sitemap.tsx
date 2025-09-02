@@ -164,38 +164,24 @@ export default function Sitemap() {
                       {tractate.folios} folios • {tractate.pages} pages
                     </div>
                     
-                    {/* Sample Page Links */}
-                    <div className="flex flex-wrap gap-2 text-xs">
-                      <Link 
-                        href={`/tractate/${tractate.slug}/2a`}
-                        className="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 bg-blue-50 dark:bg-blue-900/20 px-2 py-1 rounded transition-colors"
-                      >
-                        2a
-                      </Link>
-                      {tractate.folios > 5 && (
-                        <Link 
-                          href={`/tractate/${tractate.slug}/10a`}
-                          className="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 bg-blue-50 dark:bg-blue-900/20 px-2 py-1 rounded transition-colors"
-                        >
-                          10a
-                        </Link>
-                      )}
-                      {tractate.folios > 20 && (
-                        <Link 
-                          href={`/tractate/${tractate.slug}/${Math.floor(tractate.folios / 2)}a`}
-                          className="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 bg-blue-50 dark:bg-blue-900/20 px-2 py-1 rounded transition-colors"
-                        >
-                          {Math.floor(tractate.folios / 2)}a
-                        </Link>
-                      )}
-                      {tractate.folios > 10 && (
-                        <Link 
-                          href={`/tractate/${tractate.slug}/${tractate.folios}b`}
-                          className="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 bg-blue-50 dark:bg-blue-900/20 px-2 py-1 rounded transition-colors"
-                        >
-                          {tractate.folios}b
-                        </Link>
-                      )}
+                    {/* All Folio Page Links */}
+                    <div className="flex flex-wrap gap-1 text-xs max-h-32 overflow-y-auto">
+                      {Array.from({ length: tractate.folios - 1 }, (_, i) => i + 2).map(folio => (
+                        <div key={folio} className="flex gap-1">
+                          <Link 
+                            href={`/tractate/${tractate.slug}/${folio}a`}
+                            className="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 bg-blue-50 dark:bg-blue-900/20 px-2 py-1 rounded transition-colors"
+                          >
+                            {folio}a
+                          </Link>
+                          <Link 
+                            href={`/tractate/${tractate.slug}/${folio}b`}
+                            className="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 bg-blue-50 dark:bg-blue-900/20 px-2 py-1 rounded transition-colors"
+                          >
+                            {folio}b
+                          </Link>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 ))}
