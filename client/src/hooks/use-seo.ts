@@ -220,8 +220,8 @@ export const generateSEOData = {
     ogTitle: `${tractate} ${folio}${side} - Study Talmud Bavli`,
     ogDescription: `Study ${tractate} folio ${folio}${side} from the Babylonian Talmud with Hebrew-English bilingual text on ChavrutAI.`,
     ogUrl: `${window.location.origin}/tractate/${tractate.toLowerCase().replace(/\s+/g, "-")}/${folio}${side}`,
-    noindex: true, // Don't index dynamic content pages
-    robots: "noindex, nofollow", // Explicit robots directive
+    noindex: false, // Allow indexing of all folio pages
+    robots: "index, follow", // Allow search engine indexing
     structuredData: {
       "@context": "https://schema.org",
       "@type": "Article",

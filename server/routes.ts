@@ -221,40 +221,11 @@ async function servePageWithMeta(req: express.Request, res: express.Response, ne
   }
 }
 
-// SEO route handler for strategic indexing
+// SEO route handler - now allowing all pages to be indexed
 function shouldNoIndex(url: string): boolean {
-  // Strategic indexing: Only index pages that are in our sitemap
-  // This prevents indexing of all 2,700+ folio pages (wrapper strategy)
-  
-  // Allow main pages, tractate contents, and strategic folios
-  if (url === '/' || url === '/contents' || url === '/about' || url === '/suggested-pages') {
-    return false; // Index main pages
-  }
-  
-  if (url.match(/^\/contents\/[^/]+$/)) {
-    return false; // Index tractate contents pages
-  }
-  
-  // Strategic folios - first folios (2a) for each tractate
-  if (url.match(/^\/tractate\/[^/]+\/2a$/)) {
-    return false; // Index 2a pages as entry points
-  }
-  
-  // Famous/significant folios (matching our sitemap)
-  const strategicFolios = [
-    '/tractate/berakhot/3a', '/tractate/berakhot/5a', '/tractate/berakhot/17a', '/tractate/berakhot/28b',
-    '/tractate/shabbat/31a', '/tractate/shabbat/7a', '/tractate/shabbat/119a',
-    '/tractate/eruvin/13b', '/tractate/pesachim/10a', '/tractate/pesachim/116a',
-    '/tractate/rosh-hashanah/16a', '/tractate/yoma/85b', '/tractate/bava-metzia/59b',
-    '/tractate/sanhedrin/37a', '/tractate/sanhedrin/99a', '/tractate/avodah-zarah/3b'
-  ];
-  
-  if (strategicFolios.includes(url)) {
-    return false; // Index significant folios
-  }
-  
-  // NoIndex all other folio pages (maintaining wrapper strategy)
-  return true;
+  // Allow all pages to be indexed for comprehensive search coverage
+  // This enables indexing of all 5,496+ folio pages across 37 tractates
+  return false; // Index all pages
 }
 
 export async function registerRoutes(app: Express): Promise<Server> {
