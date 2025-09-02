@@ -105,7 +105,7 @@ export default function Contents() {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 py-4">
+        <div className="max-w-5xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             {/* Hamburger Menu */}
             <HamburgerMenu onLocationChange={handleLocationChange} />
@@ -128,7 +128,7 @@ export default function Contents() {
         </div>
       </header>
 
-      <div className="max-w-6xl mx-auto px-4 py-4">
+      <div className="max-w-4xl mx-auto px-4 py-4">
         {/* Breadcrumbs */}
         <BreadcrumbNavigation items={breadcrumbHelpers.contents()} />
         
