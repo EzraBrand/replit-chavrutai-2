@@ -35,6 +35,13 @@ export function Footer() {
           >
             About
           </Link>
+          <Link 
+            href="/sitemap"
+            className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200"
+            data-testid="footer-link-sitemap"
+          >
+            Sitemap
+          </Link>
           <a 
             href="https://github.com/EzraBrand/replit-chavrutai-2"
             target="_blank"

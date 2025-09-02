@@ -107,5 +107,10 @@ export const breadcrumbHelpers = {
   // Suggested pages breadcrumbs
   suggestedPages: (): BreadcrumbNavigationItem[] => [
     { label: "Suggested Pages" }
+  ],
+
+  // Sitemap page breadcrumbs
+  sitemap: (): BreadcrumbNavigationItem[] => [
+    { label: "Sitemap" }
   ]
 };

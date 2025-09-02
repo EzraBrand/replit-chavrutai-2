@@ -374,6 +374,108 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get sitemap data for human-readable HTML sitemap page
+  app.get("/api/sitemap", async (req, res) => {
+    try {
+      // Import the same SEDER_TRACTATES data structure used for XML sitemaps
+      const SEDER_TRACTATES = {
+        zeraim: [
+          { name: 'Berakhot', folios: 64 }
+        ],
+        moed: [
+          { name: 'Shabbat', folios: 157 },
+          { name: 'Eruvin', folios: 105 },
+          { name: 'Pesachim', folios: 121 },
+          { name: 'Rosh Hashanah', folios: 35 },
+          { name: 'Yoma', folios: 88 },
+          { name: 'Sukkah', folios: 56 },
+          { name: 'Beitza', folios: 40 },
+          { name: 'Taanit', folios: 31 },
+          { name: 'Megillah', folios: 32 },
+          { name: 'Moed Katan', folios: 29 },
+          { name: 'Chagigah', folios: 27 }
+        ],
+        nashim: [
+          { name: 'Yevamot', folios: 122 },
+          { name: 'Ketubot', folios: 112 },
+          { name: 'Nedarim', folios: 91 },
+          { name: 'Nazir', folios: 66 },
+          { name: 'Sotah', folios: 49 },
+          { name: 'Gittin', folios: 90 },
+          { name: 'Kiddushin', folios: 82 }
+        ],
+        nezikin: [
+          { name: 'Bava Kamma', folios: 119 },
+          { name: 'Bava Metzia', folios: 119 },
+          { name: 'Bava Batra', folios: 176 },
+          { name: 'Sanhedrin', folios: 113 },
+          { name: 'Makkot', folios: 24 },
+          { name: 'Shevuot', folios: 49 },
+          { name: 'Avodah Zarah', folios: 76 },
+          { name: 'Horayot', folios: 14 }
+        ],
+        kodashim: [
+          { name: 'Zevachim', folios: 120 },
+          { name: 'Menachot', folios: 110 },
+          { name: 'Chullin', folios: 142 },
+          { name: 'Bekhorot', folios: 61 },
+          { name: 'Arachin', folios: 34 },
+          { name: 'Temurah', folios: 34 },
+          { name: 'Keritot', folios: 28 },
+          { name: 'Meilah', folios: 22 },
+          { name: 'Tamid', folios: 8 },
+          { name: 'Middot', folios: 3 },
+          { name: 'Kinnim', folios: 4 }
+        ],
+        tohorot: [
+          { name: 'Niddah', folios: 73 }
+        ]
+      };
+
+      const sederInfo = {
+        zeraim: { name: 'Zeraim', description: 'Order of Seeds - Agricultural laws and blessings' },
+        moed: { name: 'Moed', description: 'Order of Appointed Times - Sabbath and festivals' },
+        nashim: { name: 'Nashim', description: 'Order of Women - Marriage and divorce laws' },
+        nezikin: { name: 'Nezikin', description: 'Order of Damages - Civil and criminal law' },
+        kodashim: { name: 'Kodashim', description: 'Order of Holy Things - Temple service and ritual slaughter' },
+        tohorot: { name: 'Tohorot', description: 'Order of Purities - Ritual purity laws' }
+      };
+
+      // Calculate total pages for each Seder
+      const sitemapData = Object.entries(SEDER_TRACTATES).map(([sederKey, tractates]) => {
+        const totalFolios = tractates.reduce((sum, t) => sum + t.folios, 0);
+        const totalPages = totalFolios * 2; // Each folio has 'a' and 'b' sides
+        
+        return {
+          seder: sederKey,
+          name: sederInfo[sederKey as keyof typeof sederInfo].name,
+          description: sederInfo[sederKey as keyof typeof sederInfo].description,
+          tractates: tractates.map(t => ({
+            ...t,
+            slug: t.name.toLowerCase().replace(/\s+/g, '-'),
+            pages: t.folios * 2
+          })),
+          totalTractates: tractates.length,
+          totalFolios,
+          totalPages
+        };
+      });
+
+      res.json({ 
+        sedarim: sitemapData,
+        summary: {
+          totalSedarim: 6,
+          totalTractates: Object.values(SEDER_TRACTATES).flat().length,
+          totalFolios: Object.values(SEDER_TRACTATES).flat().reduce((sum, t) => sum + t.folios, 0),
+          totalPages: Object.values(SEDER_TRACTATES).flat().reduce((sum, t) => sum + t.folios, 0) * 2
+        }
+      });
+    } catch (error) {
+      console.error('Error in /api/sitemap:', error);
+      res.status(500).json({ message: "Error generating sitemap data" });
+    }
+  });
+
   // SEO Routes - Nested sitemap structure
   app.get('/sitemap.xml', generateSitemapIndex);
   app.get('/sitemap-main.xml', generateMainSitemap);
