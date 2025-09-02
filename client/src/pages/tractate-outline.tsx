@@ -20,9 +20,9 @@ export default function TractateOutlinePage() {
 
   if (!tractate || !chapter) {
     return (
-      <div className="container mx-auto px-4 py-8">
+      <div className="max-w-5xl mx-auto px-6 py-8">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-sepia-800 dark:text-sepia-200 mb-4">
+          <h2 className="text-2xl text-sepia-800 dark:text-sepia-200 mb-4">
             Invalid Outline Request
           </h2>
           <p className="text-sepia-600 dark:text-sepia-400 mb-6">
@@ -43,9 +43,9 @@ export default function TractateOutlinePage() {
 
   if (!outline) {
     return (
-      <div className="container mx-auto px-4 py-8">
+      <div className="max-w-5xl mx-auto px-6 py-8">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-sepia-800 dark:text-sepia-200 mb-4">
+          <h2 className="text-2xl text-sepia-800 dark:text-sepia-200 mb-4">
             Outline Not Available
           </h2>
           <p className="text-sepia-600 dark:text-sepia-400 mb-6">
@@ -80,7 +80,7 @@ export default function TractateOutlinePage() {
   });
 
   return (
-    <div className="container mx-auto px-4 py-6">
+    <div className="max-w-5xl mx-auto px-6 py-6">
       {/* Header */}
       <div className="mb-6">
         <div className="flex items-center gap-2 mb-4">
@@ -96,7 +96,7 @@ export default function TractateOutlinePage() {
 
         <div className="flex items-center gap-3 mb-2">
           <BookOpen className="h-6 w-6 text-sepia-600 dark:text-sepia-400" />
-          <h1 className="text-3xl font-bold text-sepia-800 dark:text-sepia-200">
+          <h1 className="text-3xl text-sepia-800 dark:text-sepia-200">
             Outline of {outline.tractate} {outline.chapter}
             {outline.chapterName && (
               <span className="text-sepia-600 dark:text-sepia-400 ml-2">
@@ -115,7 +115,7 @@ export default function TractateOutlinePage() {
       {/* Outline Table */}
       <div className="bg-white dark:bg-sepia-900 rounded-lg shadow-lg p-6">
         <div className="mb-4">
-          <h2 className="text-xl font-semibold text-sepia-800 dark:text-sepia-200 mb-2">
+          <h2 className="text-xl text-sepia-800 dark:text-sepia-200 mb-2">
             Chapter Outline
           </h2>
           <div className="text-sm text-sepia-600 dark:text-sepia-400">

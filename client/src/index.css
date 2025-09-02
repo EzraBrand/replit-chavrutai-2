@@ -203,6 +203,29 @@
     justify-content: space-evenly;
     min-height: 100%;
   }
+
+  /* Outline table responsive behavior */
+  @media (max-width: 768px) {
+    .outline-table th:first-child {
+      width: 45% !important;
+    }
+    
+    .outline-table th:nth-child(2) {
+      width: 30% !important;
+    }
+    
+    .outline-table th:nth-child(3) {
+      width: 25% !important;
+    }
+    
+    .outline-table {
+      font-size: 0.875rem;
+    }
+    
+    .outline-table td, .outline-table th {
+      padding: 0.5rem !important;
+    }
+  }
   
   .layout-side-by-side .hebrew-text p {
     margin-bottom: 1rem !important;
