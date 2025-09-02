@@ -1,4 +1,5 @@
 import { Link } from "wouter";
+import { ExternalLink } from "lucide-react";
 
 export function Footer() {
   return (
@@ -38,10 +39,11 @@ export function Footer() {
             href="https://github.com/EzraBrand/replit-chavrutai-2"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200"
+            className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200 flex items-center gap-1"
             data-testid="footer-link-github"
           >
             GitHub
+            <ExternalLink size={12} />
           </a>
         </div>
 
