@@ -9,6 +9,12 @@ export const useAnalytics = () => {
   useEffect(() => {
     if (location !== prevLocationRef.current) {
       trackPageView(location);
+      
+      // Scroll to top on page navigation unless there's an anchor tag
+      if (!window.location.hash) {
+        window.scrollTo(0, 0);
+      }
+      
       prevLocationRef.current = location;
     }
   }, [location]);
