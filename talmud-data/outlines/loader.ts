@@ -9,7 +9,7 @@ import type { ChapterOutline } from '../../shared/schema';
 export async function loadChapterOutline(tractate: string, chapter: number): Promise<ChapterOutline | null> {
   try {
     const filename = `${tractate.toLowerCase()}-${chapter}.json`;
-    const module = await import(`./${filename}`);
+    const module = await import(/* @vite-ignore */ `./${filename}`);
     return module.default || module;
   } catch (error) {
     console.warn(`Failed to load outline data for ${tractate} chapter ${chapter}`, error);
