@@ -34,6 +34,15 @@ export function Footer() {
           >
             About
           </Link>
+          <a 
+            href="https://github.com/EzraBrand/replit-chavrutai-2"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200"
+            data-testid="footer-link-github"
+          >
+            GitHub
+          </a>
         </div>
 
         {/* Project Info */}
