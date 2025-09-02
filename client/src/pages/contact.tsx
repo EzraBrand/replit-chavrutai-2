@@ -1,17 +1,9 @@
-import { useState } from "react";
-import { BreadcrumbNavigation, breadcrumbHelpers } from "@/components/navigation/breadcrumb-navigation";
+import { BreadcrumbNavigation } from "@/components/navigation/breadcrumb-navigation";
 import { Footer } from "@/components/footer";
-import { useSEO, generateSEOData } from "@/hooks/use-seo";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import { useToast } from "@/hooks/use-toast";
+import { useSEO } from "@/hooks/use-seo";
 import { Mail } from "lucide-react";
 
 export default function Contact() {
-  const [feedback, setFeedback] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const { toast } = useToast();
 
   // Set up SEO
   useSEO({
@@ -20,30 +12,6 @@ export default function Contact() {
     keywords: "contact, feedback, suggestions, corrections, ChavrutAI, Talmud study, support"
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!feedback.trim()) {
-      toast({
-        title: "Please enter your feedback",
-        description: "We'd love to hear what you have to say!",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    setIsSubmitting(true);
-    
-    // For now, just show a success message and clear the form
-    // In the future, this could be connected to a backend endpoint
-    setTimeout(() => {
-      toast({
-        title: "Thank you for your feedback!",
-        description: "We appreciate you taking the time to share your thoughts with us.",
-      });
-      setFeedback("");
-      setIsSubmitting(false);
-    }, 1000);
-  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -67,36 +35,6 @@ export default function Contact() {
                 </p>
               </section>
 
-              {/* Feedback Form */}
-              <section className="mb-8">
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div>
-                    <Label htmlFor="feedback" className="text-base font-medium text-foreground">
-                      Share Your Feedback, Suggestions, or Corrections
-                    </Label>
-                    <p className="text-sm text-muted-foreground mt-1 mb-3">
-                      Tell us about your experience, report any issues, or suggest improvements
-                    </p>
-                    <Textarea
-                      id="feedback"
-                      placeholder="Share your thoughts here..."
-                      value={feedback}
-                      onChange={(e) => setFeedback(e.target.value)}
-                      className="min-h-[120px] resize-y"
-                      data-testid="input-feedback"
-                    />
-                  </div>
-                  
-                  <Button 
-                    type="submit" 
-                    disabled={isSubmitting}
-                    className="w-full sm:w-auto"
-                    data-testid="button-submit-feedback"
-                  >
-                    {isSubmitting ? "Sending..." : "Send Feedback"}
-                  </Button>
-                </form>
-              </section>
 
               {/* Direct Email Contact */}
               <section className="mb-8">

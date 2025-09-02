@@ -72,7 +72,16 @@ export function Footer() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-2 text-sm text-muted-foreground">
           <span>ChavrutAI</span>
           <span className="hidden sm:inline">|</span>
-          <span>Uses data from Sefaria (not affiliated)</span>
+          <span>Uses data from <a 
+            href="https://www.sefaria.org/texts/Talmud"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200 inline-flex items-center gap-1"
+            data-testid="footer-link-sefaria"
+          >
+            Sefaria
+            <ExternalLink size={12} />
+          </a> (not affiliated)</span>
           <span className="hidden sm:inline">|</span>
           <span>A project of <a 
             href="https://www.ezrabrand.com/"
