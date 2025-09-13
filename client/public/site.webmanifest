@@ -3,6 +3,7 @@
   "short_name": "ChavrutAI",
   "description": "Access all 37 tractates of the Babylonian Talmud with Hebrew-English text, chapter navigation, and modern study tools.",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#f7f1e8",
   "theme_color": "#1b4a6e",
