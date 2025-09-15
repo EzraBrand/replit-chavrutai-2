@@ -14,6 +14,7 @@ import SuggestedPages from "@/pages/suggested-pages";
 import Sitemap from "@/pages/sitemap";
 import Changelog from "@/pages/changelog";
 import Contact from "@/pages/contact";
+import Privacy from "@/pages/privacy";
 import NotFound from "@/pages/not-found";
 import { useEffect } from "react";
 import { initGA } from "@/lib/analytics";
@@ -32,6 +33,7 @@ function Router() {
       <Route path="/sitemap" component={Sitemap} />
       <Route path="/changelog" component={Changelog} />
       <Route path="/contact" component={Contact} />
+      <Route path="/privacy" component={Privacy} />
       <Route path="/contents" component={Contents} />
       <Route path="/contents/:tractate" component={TractateContents} />
       <Route path="/tractate/:tractate/:folio" component={TractateView} />

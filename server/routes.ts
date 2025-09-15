@@ -248,6 +248,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/about', servePageWithMeta);
   app.get('/contents', servePageWithMeta);
   app.get('/suggested-pages', servePageWithMeta);
+  app.get('/privacy', servePageWithMeta);
   app.get('/contents/:tractate', servePageWithMeta);
   app.get('/tractate/:tractate/:folio', servePageWithMeta);
   
