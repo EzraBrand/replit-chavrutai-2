@@ -2,26 +2,6 @@
 
 A web app designed to make the Talmud, more accessible through a digital interface leveraging modern web technologies.
 
-## Screenshots
-
-### Mobile Interface
-![Mobile Homepage](attached_assets/image_1757779143229.png)
-*Clean, responsive homepage design optimized for mobile study*
-
-![Talmud Text Display](attached_assets/image_1757779822282.png)
-*Hebrew-English bilingual text display with modern typography*
-
-### Desktop Features
-![Tractate Navigation](attached_assets/image_1757780063405.png)
-*Intuitive navigation through all 37 tractates*
-
-![Study Interface](attached_assets/image_1757780514451.png)
-*Modern study interface with customizable text settings*
-
-### App Store Assets
-![Feature Graphic](attached_assets/generated_images/ChavrutAI_app_store_feature_graphic_90f7e08c.png)
-*Professional feature graphic for Google Play Store listing*
-
 ## Overview
 
 ChavrutAI provides bilingual (Hebrew/English) text display with intuitive navigation, creating an accessible experience for studying the Babylonian Talmud. 
