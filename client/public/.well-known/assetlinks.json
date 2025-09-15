@@ -1,11 +1,26 @@
 [
   {
-    "relation": ["delegate_permission/common.handle_all_urls"],
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
     "target": {
       "namespace": "android_app",
       "package_name": "com.chavrut.ai.talmud",
       "sha256_cert_fingerprints": [
-        "YOUR_ACTUAL_SHA256_FINGERPRINT_HERE"
+        "TODO: Replace with actual SHA-256 fingerprint from Bubblewrap"
+      ]
+    }
+  },
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls",
+      "delegate_permission/common.get_login_creds"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.chavrut.ai",
+      "sha256_cert_fingerprints": [
+        "06:9B:90:5B:6C:0F:16:E2:A1:36:E7:83:05:9F:2B:DE:11:0F:18:F6:86:DE:89:BF:E7:9D:3A:78:64:2E:D4:9F"
       ]
     }
   }
