@@ -106,3 +106,22 @@ The application provides intuitive navigation through complex Talmudic structure
 - **Smart text processing** for improved readability
 - **Term highlighting** for concepts, names, and places
 - **Gazetteer integration** with 5,385+  Talmudic terms
+
+## Screenshots
+
+### Desktop & Tablet Views
+![Homepage Navigation](homepage_main_navigation.png)
+*Main homepage with navigation and tractate organization*
+
+![Tractate Overview](sukkah_tractate_overview.png)
+*Tractate overview page showing chapter navigation (Sukkah)*
+
+![Reading Interface](sukkah_2a_reading_interface.png)
+*Hebrew-English text reading interface with study tools*
+
+### Mobile Views
+![Mobile Homepage](mobile_homepage.png)
+*Mobile homepage displaying all 37 tractates organized by Seder*
+
+![Mobile Reading](mobile_sukkah_2a.png)
+*Mobile text reading interface with responsive Hebrew-English layout*
