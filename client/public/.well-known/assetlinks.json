@@ -5,7 +5,7 @@
       "namespace": "android_app",
       "package_name": "com.chavrut.ai.talmud",
       "sha256_cert_fingerprints": [
-        "TODO: Replace with actual SHA-256 fingerprint from Bubblewrap"
+        "YOUR_ACTUAL_SHA256_FINGERPRINT_HERE"
       ]
     }
   }
