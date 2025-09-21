@@ -10,6 +10,7 @@ import Contents from "@/pages/contents";
 import TractateContents from "@/pages/tractate-contents";
 import TractateView from "./pages/tractate-view";
 import TractateOutlinePage from "@/pages/tractate-outline";
+import BlogPostsPage from "@/pages/blog-posts";
 import SuggestedPages from "@/pages/suggested-pages";
 import Sitemap from "@/pages/sitemap";
 import Changelog from "@/pages/changelog";
@@ -29,6 +30,7 @@ function Router() {
     <Switch>
       <Route path="/" component={Contents} />
       <Route path="/about" component={About} />
+      <Route path="/blog-posts" component={BlogPostsPage} />
       <Route path="/suggested-pages" component={SuggestedPages} />
       <Route path="/sitemap" component={Sitemap} />
       <Route path="/changelog" component={Changelog} />
