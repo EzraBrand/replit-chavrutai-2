@@ -24,6 +24,27 @@ export const ChapterOutlineSchema = z.object({
 export type TalmudOutlineEntry = z.infer<typeof TalmudOutlineEntrySchema>;
 export type ChapterOutline = z.infer<typeof ChapterOutlineSchema>;
 
+// Blog Posts Schema
+export const BlogPostEntrySchema = z.object({
+  rowNumber: z.number(),
+  title: z.string(),
+  tractate: z.string(),
+  talmudLocation: z.string(),
+  blogUrl: z.string(),
+  caiLink: z.string(),
+  keywords: z.string(),
+});
+
+export const BlogPostsSchema = z.object({
+  title: z.string(),
+  description: z.string(),
+  totalPosts: z.number(),
+  entries: z.array(BlogPostEntrySchema),
+});
+
+export type BlogPostEntry = z.infer<typeof BlogPostEntrySchema>;
+export type BlogPosts = z.infer<typeof BlogPostsSchema>;
+
 // Chapter information for tractate contents
 export const ChapterInfoSchema = z.object({
   number: z.number(),
