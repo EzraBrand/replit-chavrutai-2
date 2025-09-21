@@ -26,9 +26,9 @@ export default function BlogPostsPage() {
 
   // SEO optimization
   useSEO({
-    title: 'Talmud Blog Posts by Location - Comprehensive Index | ChavrutAI',
-    description: 'Explore hundreds of Talmud blog posts organized by tractate and page location. Deep analysis of Talmudic passages with links to original sources.',
-    keywords: 'Talmud blog posts, Jewish learning, Talmudic analysis, Torah study, rabbinical literature',
+    title: '"Talmud & Tech" Blog Posts by Talmud Location | ChavrutAI',
+    description: 'Blog posts analyzing Talmudic passages, organized by tractate and page location. Click on titles to go to the full articles at the "Talmud & Tech" Blog, or use location links to jump to the corresponding text in ChavrutAI.',
+    keywords: 'Talmud & Tech, Talmud blog posts, Jewish learning, Talmudic analysis, Torah study, rabbinical literature',
     canonical: `${window.location.origin}/blog-posts`,
     robots: 'index, follow'
   });
@@ -101,13 +101,13 @@ export default function BlogPostsPage() {
         <div className="flex items-center gap-3 mb-2">
           <BookOpen className="h-6 w-6 text-sepia-600 dark:text-sepia-400" />
           <h1 className="text-3xl text-sepia-800 dark:text-sepia-200">
-            Talmud Blog Posts by Location
+            "Talmud & Tech" Blog Posts by Talmud Location
           </h1>
         </div>
         
         <p className="text-sepia-600 dark:text-sepia-400 max-w-4xl mb-6">
-          Comprehensive collection of {blogPosts.totalPosts} blog posts analyzing Talmudic passages, 
-          organized by tractate and page location. Click on titles to read the full articles, 
+          Blog posts analyzing Talmudic passages, organized by tractate and page location. 
+          Click on titles to go to the full articles at the "Talmud & Tech" Blog, 
           or use location links to jump to the corresponding text in ChavrutAI.
         </p>
 

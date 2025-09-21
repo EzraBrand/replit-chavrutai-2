@@ -29,6 +29,13 @@ export function Footer() {
             Sanhedrin Outline
           </Link>
           <Link 
+            href="/blog-posts"
+            className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200"
+            data-testid="footer-link-blog-posts"
+          >
+            Blog Posts
+          </Link>
+          <Link 
             href="/about"
             className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200"
             data-testid="footer-link-about"
