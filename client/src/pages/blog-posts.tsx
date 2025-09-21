@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { ArrowLeft, BookOpen, Search } from "lucide-react";
 import { Link } from "wouter";
 import { BlogPostsTable } from "@/components/blog-posts/blog-posts-table";
+import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
 import { getBlogPostsData } from "@/lib/outline-data";
 import type { BlogPosts } from '@shared/schema';
@@ -184,6 +185,8 @@ export default function BlogPostsPage() {
           </div>
         )}
       </div>
+      
+      <Footer />
     </div>
   );
 }

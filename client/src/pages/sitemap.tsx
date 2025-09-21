@@ -112,7 +112,7 @@ export default function Sitemap() {
             <FileText size={20} />
             Main Pages
           </h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-6">
             <Link href="/" className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 p-2 bg-card rounded border transition-colors">
               Home
             </Link>
@@ -121,6 +121,12 @@ export default function Sitemap() {
             </Link>
             <Link href="/suggested-pages" className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 p-2 bg-card rounded border transition-colors">
               Famous Pages
+            </Link>
+            <Link href="/blog-posts" className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 p-2 bg-card rounded border transition-colors">
+              Blog Posts
+            </Link>
+            <Link href="/outline/sanhedrin/10" className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 p-2 bg-card rounded border transition-colors">
+              Sanhedrin Outline
             </Link>
             <Link href="/about" className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 p-2 bg-card rounded border transition-colors">
               About

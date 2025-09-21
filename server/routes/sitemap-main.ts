@@ -36,6 +36,18 @@ export function generateMainSitemap(req: Request, res: Response) {
     <changefreq>monthly</changefreq>
     <lastmod>${currentDate}</lastmod>
   </url>
+  <url>
+    <loc>${baseUrl}/blog-posts</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+    <lastmod>${currentDate}</lastmod>
+  </url>
+  <url>
+    <loc>${baseUrl}/outline/sanhedrin/10</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>${currentDate}</lastmod>
+  </url>
 
   <!-- Tractate contents pages -->`;
 

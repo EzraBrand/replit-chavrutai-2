@@ -2,6 +2,7 @@ import { useParams } from 'wouter';
 import { ArrowLeft, BookOpen } from "lucide-react";
 import { Link } from "wouter";
 import { OutlineTable } from "@/components/outline/outline-table";
+import { Footer } from "@/components/footer";
 import { sanhedrin10Outline } from "@/lib/outline-data";
 import { useSEO } from "@/hooks/use-seo";
 import type { ChapterOutline } from '@shared/schema';
@@ -126,6 +127,7 @@ export default function TractateOutlinePage() {
         <OutlineTable outline={outline} />
       </div>
 
+      <Footer />
     </div>
   );
 }
