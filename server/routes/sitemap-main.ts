@@ -43,6 +43,12 @@ export function generateMainSitemap(req: Request, res: Response) {
     <lastmod>${currentDate}</lastmod>
   </url>
   <url>
+    <loc>${baseUrl}/biblical-index</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>${currentDate}</lastmod>
+  </url>
+  <url>
     <loc>${baseUrl}/outline/sanhedrin/10</loc>
     <priority>0.7</priority>
     <changefreq>monthly</changefreq>
@@ -58,6 +64,24 @@ export function generateMainSitemap(req: Request, res: Response) {
   <url>
     <loc>${baseUrl}/contents/${tractateSlug}</loc>
     <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>`;
+  });
+
+  // Add biblical index book pages
+  const biblicalBooks = [
+    'Genesis', 'Exodus', 'Leviticus_part1', 'Leviticus_part2', 'Numbers', 'Deuteronomy_part1', 'Deuteronomy_part2',
+    'Joshua', 'Judges', '1_Samuel', '2_Samuel', '1_Kings', '2_Kings', 'Isaiah', 'Jeremiah', 'Ezekiel', 
+    'Hosea', 'Joel', 'Amos', 'Obadiah', 'Jonah', 'Micah', 'Nahum', 'Habakkuk', 'Zephaniah', 'Haggai', 'Zechariah', 'Malachi',
+    'Psalms', 'Proverbs', 'Job', 'Ruth', 'Lamentations', 'Ecclesiastes', 'Esther', 'Daniel', 'Ezra', 'Nehemiah', '1_Chronicles', '2_Chronicles'
+  ];
+  
+  biblicalBooks.forEach((book: string) => {
+    const bookSlug = book.toLowerCase();
+    sitemap += `
+  <url>
+    <loc>${baseUrl}/biblical-index/book/${bookSlug}</loc>
+    <priority>0.6</priority>
     <changefreq>monthly</changefreq>
   </url>`;
   });
