@@ -55,6 +55,7 @@ __pycache__/
 
 # Replit-specific artifacts
 .upm/
+replit
 
 # Large development data files
 *-raw.txt
@@ -83,4 +84,5 @@ debug-*
 test-*
 screenshot-*
 image_*.png
+*.png
 temp-*
