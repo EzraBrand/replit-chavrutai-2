@@ -144,12 +144,12 @@ export default function BiblicalBookPage() {
           <Card>
             <CardContent className="p-0">
               <Table>
-                <TableHeader>
+                <TableHeader className="sticky top-0 bg-background z-10">
                   <TableRow>
-                    <TableHead className="w-[140px]">Verse</TableHead>
-                    <TableHead className="w-[160px]">Quoted Text</TableHead>
-                    <TableHead className="w-[140px]">Talmud Location</TableHead>
-                    <TableHead className="w-[400px]">Context</TableHead>
+                    <TableHead className="w-[140px] bg-background">Verse</TableHead>
+                    <TableHead className="w-[160px] bg-background">Quoted Text</TableHead>
+                    <TableHead className="w-[140px] bg-background">Talmud Location</TableHead>
+                    <TableHead className="w-[400px] bg-background">Context</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
