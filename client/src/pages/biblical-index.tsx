@@ -1,19 +1,12 @@
 import { Link } from "wouter";
 import { getBiblicalIndexMetadata, getBookDisplayName } from "@/lib/biblical-index-data";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { BookOpen, Scroll, Crown } from "lucide-react";
-
-const categoryIcons = {
-  torah: BookOpen,
-  neviim: Scroll,
-  ketuvim: Crown
-};
+import { Footer } from "@/components/footer";
 
 const categoryDescriptions = {
-  torah: "The Five Books of Moses",
-  neviim: "The Prophets",
-  ketuvim: "The Writings"
+  torah: "Torah (The Five Books of Moses)",
+  neviim: "Nevi'im (The Prophets)",
+  ketuvim: "Ketuvim (The Writings)"
 };
 
 export default function BiblicalIndexPage() {
@@ -38,28 +31,20 @@ export default function BiblicalIndexPage() {
 
       <div className="space-y-8">
         {Object.entries(metadata.categories).map(([category, books]) => {
-          const Icon = categoryIcons[category as keyof typeof categoryIcons];
-          const displayName = category.charAt(0).toUpperCase() + category.slice(1);
-          
           return (
-            <div key={category} className="space-y-4">
-              <div className="flex items-center gap-3 border-b pb-2">
-                <Icon className="h-6 w-6 text-primary" />
-                <h2 className="text-2xl font-semibold">{displayName}</h2>
-                <Badge variant="outline" className="text-xs">
-                  {books.length} books
-                </Badge>
+            <div key={category} className="space-y-6">
+              <div className="border-b pb-3">
+                <h2 className="text-3xl font-bold mb-2">
+                  {categoryDescriptions[category as keyof typeof categoryDescriptions]}
+                </h2>
               </div>
-              <p className="text-sm text-muted-foreground">
-                {categoryDescriptions[category as keyof typeof categoryDescriptions]}
-              </p>
               
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                 {books.map((book) => (
                   <Link
                     key={book}
                     href={`/biblical-index/book/${book.toLowerCase()}`}
-                    className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors py-2 px-3 rounded-md hover:bg-muted/50"
+                    className="text-lg font-medium text-foreground hover:text-primary hover:underline transition-colors py-3 px-4 rounded-lg hover:bg-muted/30 border border-transparent hover:border-muted"
                     data-testid={`link-book-${book.toLowerCase()}`}
                   >
                     {getBookDisplayName(book)}
@@ -92,6 +77,8 @@ export default function BiblicalIndexPage() {
           This resource is open access and freely available for academic and personal study.
         </p>
       </div>
+      
+      <Footer />
     </div>
   );
 }
