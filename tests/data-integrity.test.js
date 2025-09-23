@@ -273,6 +273,102 @@ class DataIntegrityTester {
     }
   }
 
+  async testEmptyFolioPages() {
+    this.info('Testing for empty folio pages...');
+    
+    try {
+      const tractates = await this.loadTractateList();
+      const testCases = [
+        // Test a few known good pages
+        { tractate: 'berakhot', folio: '2a', shouldHaveContent: true },
+        { tractate: 'shabbat', folio: '2a', shouldHaveContent: true },
+        
+        // Test removed tractates should return errors
+        { tractate: 'middot', folio: '2a', shouldHaveContent: false, expectError: true },
+        { tractate: 'kinnim', folio: '3a', shouldHaveContent: false, expectError: true },
+        
+        // Test invalid folio numbers 
+        { tractate: 'berakhot', folio: '999a', shouldHaveContent: false, expectError: true },
+      ];
+
+      for (const testCase of testCases) {
+        try {
+          // Simulate API call to /api/text
+          const url = `http://localhost:5000/api/text?work=Talmud Bavli&tractate=${testCase.tractate}&chapter=1&folio=${testCase.folio.slice(0, -1)}&side=${testCase.folio.slice(-1)}`;
+          
+          const response = await fetch(url);
+          const isError = !response.ok;
+          
+          if (testCase.expectError) {
+            if (isError) {
+              this.pass(`${testCase.tractate} ${testCase.folio}: Correctly returns error (expected for removed/invalid tractates)`);
+            } else {
+              this.error(`${testCase.tractate} ${testCase.folio}: Should return error but got success response`);
+            }
+          } else if (testCase.shouldHaveContent) {
+            if (response.ok) {
+              const data = await response.json();
+              if (data.hebrewText || data.englishText || (data.hebrewSections && data.hebrewSections.length > 0)) {
+                this.pass(`${testCase.tractate} ${testCase.folio}: Has content`);
+              } else {
+                this.error(`${testCase.tractate} ${testCase.folio}: API returned success but no text content`);
+              }
+            } else {
+              this.error(`${testCase.tractate} ${testCase.folio}: API returned error when content expected`);
+            }
+          }
+          
+        } catch (fetchError) {
+          if (testCase.expectError) {
+            this.pass(`${testCase.tractate} ${testCase.folio}: Network error as expected for invalid tractate`);
+          } else {
+            this.error(`${testCase.tractate} ${testCase.folio}: Network error - ${fetchError.message}`);
+          }
+        }
+      }
+
+    } catch (error) {
+      this.error(`Failed to test empty folio pages: ${error.message}`);
+    }
+  }
+
+  async testTractateValidation() {
+    this.info('Testing tractate validation...');
+    
+    try {
+      const validTractates = await this.loadTractateList();
+      const invalidTractates = ['middot', 'kinnim', 'nonexistent', 'invalid-tractate'];
+      
+      // Test that removed tractates are not in the valid list
+      for (const invalidTractate of ['middot', 'kinnim']) {
+        if (validTractates.includes(invalidTractate.charAt(0).toUpperCase() + invalidTractate.slice(1))) {
+          this.error(`${invalidTractate} found in valid tractates list - should have been removed`);
+        } else {
+          this.pass(`${invalidTractate} correctly removed from valid tractates list`);
+        }
+      }
+
+      // Test API returns proper error for invalid tractates
+      for (const invalidTractate of invalidTractates) {
+        try {
+          const url = `http://localhost:5000/api/text?work=Talmud Bavli&tractate=${invalidTractate}&chapter=1&folio=2&side=a`;
+          const response = await fetch(url);
+          
+          if (!response.ok) {
+            this.pass(`Invalid tractate '${invalidTractate}': API correctly returns error`);
+          } else {
+            this.error(`Invalid tractate '${invalidTractate}': API should return error but returned success`);
+          }
+        } catch (error) {
+          this.pass(`Invalid tractate '${invalidTractate}': Network request failed as expected`);
+        }
+      }
+
+    } catch (error) {
+      this.error(`Failed to test tractate validation: ${error.message}`);
+    }
+  }
+
   async runAllTests() {
     console.log('\n' + '='.repeat(60));
     log('blue', 'ChavrutAI Data Integrity Test Suite');
@@ -285,6 +381,10 @@ class DataIntegrityTester {
     await this.testChapterDataMapping();
     console.log();
     await this.testNoZeroChapterIssues();
+    console.log();
+    await this.testEmptyFolioPages();
+    console.log();
+    await this.testTractateValidation();
 
     // Summary
     console.log('\n' + '='.repeat(60));

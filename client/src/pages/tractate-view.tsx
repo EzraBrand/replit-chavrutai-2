@@ -16,13 +16,19 @@ import { usePreferences } from "@/context/preferences-context";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
 import type { TalmudLocation } from "@/types/talmud";
 import { sefariaAPI } from "@/lib/sefaria";
-import { normalizeDisplayTractateName } from "@shared/tractates";
+import { normalizeDisplayTractateName, isValidTractate } from "@shared/tractates";
 import hebrewBookIcon from "@/assets/hebrew-book-icon.png";
+import NotFound from "@/pages/not-found";
 
 export default function TractateView() {
   const { tractate, folio } = useParams<{ tractate: string; folio: string }>();
   const [location, setLocation] = useLocation();
   const { preferences } = usePreferences();
+
+  // Validate tractate name and show 404 if invalid
+  if (tractate && !isValidTractate(tractate)) {
+    return <NotFound />;
+  }
   
   // Parse folio parameter (e.g., "2a" -> folio: 2, side: "a")
   const parsedFolio = folio ? parseInt(folio.slice(0, -1)) : 2;
