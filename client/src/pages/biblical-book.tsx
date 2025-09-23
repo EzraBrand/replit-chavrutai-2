@@ -81,7 +81,6 @@ export default function BiblicalBookPage() {
         </Link>
         
         <div className="flex items-center gap-3 mb-4">
-          <BookOpen className="h-8 w-8 text-primary" />
           <h1 className="text-3xl font-bold" data-testid="book-title">
             {displayName} — Biblical Citations
           </h1>
@@ -148,28 +147,20 @@ export default function BiblicalBookPage() {
                 <TableHeader>
                   <TableRow>
                     <TableHead className="w-[140px]">Verse</TableHead>
-                    <TableHead className="w-[200px]">Quoted Text</TableHead>
+                    <TableHead className="w-[160px]">Quoted Text</TableHead>
                     <TableHead className="w-[140px]">Talmud Location</TableHead>
-                    <TableHead>Context</TableHead>
+                    <TableHead className="w-[400px]">Context</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {filteredCitations.map((citation, index) => (
                     <TableRow key={index} className="hover:bg-muted/50">
                       <TableCell className="font-medium" data-testid={`verse-${index}`}>
-                        <div className="flex flex-col">
-                          <span>{citation.verseLocation}</span>
-                          <Badge variant="outline" className="text-xs w-fit mt-1">
-                            Ch. {citation.chapterNumber}
-                          </Badge>
-                        </div>
+                        <span>{citation.verseLocation}</span>
                       </TableCell>
-                      <TableCell className="max-w-xs">
-                        <div className="text-sm text-muted-foreground truncate" title={citation.verseText}>
-                          {citation.verseText.length > 100 
-                            ? `${citation.verseText.substring(0, 100)}...`
-                            : citation.verseText
-                          }
+                      <TableCell>
+                        <div className="text-sm text-muted-foreground whitespace-normal break-words">
+                          {citation.verseText}
                         </div>
                       </TableCell>
                       <TableCell>
@@ -184,15 +175,11 @@ export default function BiblicalBookPage() {
                           <ExternalLink className="h-3 w-3 ml-1" />
                         </a>
                       </TableCell>
-                      <TableCell className="max-w-lg">
+                      <TableCell>
                         <div 
-                          className="text-sm"
+                          className="text-sm whitespace-normal break-words"
                           dangerouslySetInnerHTML={{
-                            __html: sanitizeHtml(
-                              citation.talmudFullText.length > 200
-                                ? `${citation.talmudFullText.substring(0, 200)}...`
-                                : citation.talmudFullText
-                            )
+                            __html: sanitizeHtml(citation.talmudFullText)
                           }}
                         />
                       </TableCell>
