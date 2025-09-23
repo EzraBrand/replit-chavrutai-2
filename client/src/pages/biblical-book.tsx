@@ -81,50 +81,47 @@ export default function BiblicalBookPage() {
           </Button>
         </Link>
         
-        <div className="flex items-center gap-3 mb-4">
-          <h1 className="text-3xl font-bold" data-testid="book-title">
-            {displayName} — Biblical Citations
-          </h1>
-        </div>
+        <h1 className="text-3xl font-bold mb-6" data-testid="book-title">
+          {displayName} — Biblical Citations
+        </h1>
 
-        {book && (
-          <div className="flex items-center gap-4 mb-6">
-            <Badge variant="secondary" data-testid="total-entries-badge">
-              {book.totalEntries} Total Citations
-            </Badge>
-            <Badge variant="outline" data-testid="total-chapters-badge">
-              {book.chapters.length} Chapters
-            </Badge>
-          </div>
-        )}
-
-        {/* Search and Filter Controls */}
-        <div className="flex flex-col sm:flex-row gap-4 mb-6">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="Search citations..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10"
-              data-testid="search-input"
-            />
+        {/* Search Controls and Results Count */}
+        <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between mb-6">
+          <div className="flex flex-col sm:flex-row gap-4 flex-1">
+            <div className="relative flex-1 max-w-md">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Search citations..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10"
+                data-testid="search-input"
+              />
+            </div>
+            
+            {book && (
+              <select
+                value={selectedChapter || ""}
+                onChange={(e) => setSelectedChapter(e.target.value ? parseInt(e.target.value) : null)}
+                className="px-3 py-2 border border-input bg-background rounded-md whitespace-nowrap"
+                data-testid="chapter-filter"
+              >
+                <option value="">All Chapters</option>
+                {book.chapters.map(chapter => (
+                  <option key={chapter.chapterNumber} value={chapter.chapterNumber}>
+                    Chapter {chapter.chapterNumber}
+                  </option>
+                ))}
+              </select>
+            )}
           </div>
           
           {book && (
-            <select
-              value={selectedChapter || ""}
-              onChange={(e) => setSelectedChapter(e.target.value ? parseInt(e.target.value) : null)}
-              className="px-3 py-2 border border-input bg-background rounded-md"
-              data-testid="chapter-filter"
-            >
-              <option value="">All Chapters</option>
-              {book.chapters.map(chapter => (
-                <option key={chapter.chapterNumber} value={chapter.chapterNumber}>
-                  Chapter {chapter.chapterNumber}
-                </option>
-              ))}
-            </select>
+            <div className="text-sm text-muted-foreground whitespace-nowrap">
+              Showing {filteredCitations.length} of {book.totalEntries} citations
+              {selectedChapter && ` from Chapter ${selectedChapter}`}
+              {searchTerm && ` matching "${searchTerm}"`}
+            </div>
           )}
         </div>
       </div>
@@ -136,12 +133,6 @@ export default function BiblicalBookPage() {
         </div>
       ) : book ? (
         <>
-          <div className="mb-4 text-sm text-muted-foreground">
-            Showing {filteredCitations.length} of {book.totalEntries} citations
-            {selectedChapter && ` from Chapter ${selectedChapter}`}
-            {searchTerm && ` matching "${searchTerm}"`}
-          </div>
-
           <Card>
             <CardContent className="p-0">
               {filteredCitations.length === 0 ? (
