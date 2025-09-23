@@ -40,7 +40,7 @@ export default function BiblicalIndexPage() {
                   <Link
                     key={book}
                     href={`/biblical-index/book/${book.toLowerCase()}`}
-                    className="text-sm font-medium text-foreground hover:text-primary hover:underline transition-colors py-2 px-3 rounded-md hover:bg-muted/20 border border-transparent hover:border-muted"
+                    className="text-sm font-medium text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 hover:underline underline-offset-2 transition-colors py-2 px-3 rounded-md hover:bg-blue-50 dark:hover:bg-blue-950/20 border border-transparent"
                     data-testid={`link-book-${book.toLowerCase()}`}
                   >
                     {getBookDisplayName(book)}

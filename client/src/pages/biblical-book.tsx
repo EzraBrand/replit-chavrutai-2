@@ -144,15 +144,16 @@ export default function BiblicalBookPage() {
 
           <Card>
             <CardContent className="p-0">
-              <Table>
-                <TableHeader className="sticky top-0 bg-background z-10">
-                  <TableRow>
-                    <TableHead className="w-[140px] bg-background">Verse</TableHead>
-                    <TableHead className="w-[160px] bg-background">Quoted Text</TableHead>
-                    <TableHead className="w-[140px] bg-background">Talmud Location</TableHead>
-                    <TableHead className="w-[400px] bg-background">Context</TableHead>
-                  </TableRow>
-                </TableHeader>
+              <div className="overflow-auto max-h-[70vh]">
+                <Table>
+                  <TableHeader className="sticky top-0 bg-background z-10 border-b">
+                    <TableRow>
+                      <TableHead className="w-[140px] bg-background border-r">Verse</TableHead>
+                      <TableHead className="w-[160px] bg-background border-r">Quoted Text</TableHead>
+                      <TableHead className="w-[140px] bg-background border-r">Talmud Location</TableHead>
+                      <TableHead className="w-[400px] bg-background">Context</TableHead>
+                    </TableRow>
+                  </TableHeader>
                 <TableBody>
                   {filteredCitations.map((citation, index) => (
                     <TableRow key={index} className="hover:bg-muted/50">
@@ -187,7 +188,8 @@ export default function BiblicalBookPage() {
                     </TableRow>
                   ))}
                 </TableBody>
-              </Table>
+                </Table>
+              </div>
               
               {filteredCitations.length === 0 && (
                 <div className="text-center py-12">
