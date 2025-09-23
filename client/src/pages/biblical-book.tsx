@@ -158,51 +158,60 @@ export default function BiblicalBookPage() {
                   </p>
                 </div>
               ) : (
-                <div className="overflow-auto max-h-[70vh]">
-                  <Table>
-                    <TableHeader className="sticky top-0 bg-background z-10 border-b">
-                      <TableRow>
-                        <TableHead className="w-[140px] bg-background border-r">Verse</TableHead>
-                        <TableHead className="w-[160px] bg-background border-r">Quoted Text</TableHead>
-                        <TableHead className="w-[140px] bg-background border-r">Talmud Location</TableHead>
-                        <TableHead className="w-[400px] bg-background">Context</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {filteredCitations.map((citation, index) => (
-                        <TableRow key={index} className="hover:bg-muted/50">
-                          <TableCell className="font-medium" data-testid={`verse-${index}`}>
-                            <span>{citation.verseLocation}</span>
-                          </TableCell>
-                          <TableCell>
-                            <div className="text-sm text-muted-foreground whitespace-normal break-words">
-                              {citation.verseText}
-                            </div>
-                          </TableCell>
-                          <TableCell>
-                            <a
-                              href={citation.talmudLocationUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center text-primary hover:underline text-sm"
-                              data-testid={`talmud-link-${index}`}
-                            >
-                              {citation.talmudLocation}
-                              <ExternalLink className="h-3 w-3 ml-1" />
-                            </a>
-                          </TableCell>
-                          <TableCell>
-                            <div 
-                              className="text-sm whitespace-normal break-words"
-                              dangerouslySetInnerHTML={{
-                                __html: sanitizeHtml(citation.talmudFullText)
-                              }}
-                            />
-                          </TableCell>
+                <div className="relative">
+                  {/* Fixed Headers */}
+                  <div className="sticky top-0 z-20 bg-background border-b">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead className="w-[140px] bg-background border-r">Verse</TableHead>
+                          <TableHead className="w-[160px] bg-background border-r">Quoted Text</TableHead>
+                          <TableHead className="w-[140px] bg-background border-r">Talmud Location</TableHead>
+                          <TableHead className="w-[400px] bg-background">Context</TableHead>
                         </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
+                      </TableHeader>
+                    </Table>
+                  </div>
+                  
+                  {/* Scrollable Body */}
+                  <div className="overflow-auto max-h-[60vh]">
+                    <Table>
+                      <TableBody>
+                        {filteredCitations.map((citation, index) => (
+                          <TableRow key={index} className="hover:bg-muted/50">
+                            <TableCell className="w-[140px] font-medium border-r" data-testid={`verse-${index}`}>
+                              <span>{citation.verseLocation}</span>
+                            </TableCell>
+                            <TableCell className="w-[160px] border-r">
+                              <div className="text-sm text-muted-foreground whitespace-normal break-words">
+                                {citation.verseText}
+                              </div>
+                            </TableCell>
+                            <TableCell className="w-[140px] border-r">
+                              <a
+                                href={citation.talmudLocationUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center text-primary hover:underline text-sm"
+                                data-testid={`talmud-link-${index}`}
+                              >
+                                {citation.talmudLocation}
+                                <ExternalLink className="h-3 w-3 ml-1" />
+                              </a>
+                            </TableCell>
+                            <TableCell className="w-[400px]">
+                              <div 
+                                className="text-sm whitespace-normal break-words"
+                                dangerouslySetInnerHTML={{
+                                  __html: sanitizeHtml(citation.talmudFullText)
+                                }}
+                              />
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </div>
                 </div>
               )}
             </CardContent>
