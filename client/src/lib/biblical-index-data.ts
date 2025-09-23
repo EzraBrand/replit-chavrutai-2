@@ -67,10 +67,10 @@ export function getBookDisplayName(filename: string): string {
   
   // Special handling for parts with chapter ranges
   const specialNames: { [key: string]: string } = {
-    'leviticus_part1': 'Leviticus part1 (Ch. 1-14)',
-    'leviticus_part2': 'Leviticus part2 (Ch. 15-27)',
-    'deuteronomy_part1': 'Deuteronomy part1 (Ch. 1-17)',
-    'deuteronomy_part2': 'Deuteronomy part2 (Ch. 18-34)'
+    'Leviticus_part1': 'Leviticus part1 (Ch. 1-14)',
+    'Leviticus_part2': 'Leviticus part2 (Ch. 15-27)', 
+    'Deuteronomy_part1': 'Deuteronomy part1 (Ch. 1-17)',
+    'Deuteronomy_part2': 'Deuteronomy part2 (Ch. 18-34)'
   };
   
   if (specialNames[cleanFilename]) {
