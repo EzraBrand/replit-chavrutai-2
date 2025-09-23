@@ -4,7 +4,7 @@
 // Chapter data migration complete - now using JSON files exclusively
 
 // Static imports for all JSON files
-import arakhinData from '../../../talmud-data/chapters/arakhin.json';
+import arachinData from '../../../talmud-data/chapters/arachin.json';
 import avodahZarahData from '../../../talmud-data/chapters/avodah-zarah.json';
 import bavaBartraData from '../../../talmud-data/chapters/bava-batra.json';
 import bavaKammaData from '../../../talmud-data/chapters/bava-kamma.json';
@@ -46,7 +46,7 @@ import zevachimData from '../../../talmud-data/chapters/zevachim.json';
 
 // JSON data registry
 const JSON_CHAPTER_DATA: Record<string, ChapterInfo[]> = {
-  'arachin': arakhinData as ChapterInfo[],
+  'arachin': arachinData as ChapterInfo[],
   'avodah zarah': avodahZarahData as ChapterInfo[],
   'bava batra': bavaBartraData as ChapterInfo[],
   'bava kamma': bavaKammaData as ChapterInfo[],
