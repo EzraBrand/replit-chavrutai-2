@@ -29,7 +29,7 @@ export const TRACTATE_LISTS = {
     "Shabbat", "Eruvin", "Pesachim", "Rosh Hashanah", "Yoma", "Sukkah", "Beitza", "Taanit", "Megillah", "Moed Katan", "Chagigah",
     "Yevamot", "Ketubot", "Nedarim", "Nazir", "Sotah", "Gittin", "Kiddushin",
     "Bava Kamma", "Bava Metzia", "Bava Batra", "Sanhedrin", "Makkot", "Shevuot", "Avodah Zarah", "Horayot",
-    "Zevachim", "Menachot", "Chullin", "Bekhorot", "Arachin", "Temurah", "Keritot", "Meilah", "Tamid", "Middot", "Kinnim", "Niddah"
+    "Zevachim", "Menachot", "Chullin", "Bekhorot", "Arachin", "Temurah", "Keritot", "Meilah", "Tamid", "Niddah"
   ]
 } as const;
 
@@ -71,8 +71,6 @@ export const TRACTATE_HEBREW_NAMES = {
   "Keritot": "כריתות",
   "Meilah": "מעילה",
   "Tamid": "תמיד",
-  "Middot": "מדות", 
-  "Kinnim": "קינים",
   "Niddah": "נדה"
 } as const;
 
@@ -85,7 +83,7 @@ export const TRACTATE_FOLIO_RANGES = {
   "Bava Metzia": 119, "Bava Batra": 176, "Sanhedrin": 113, "Makkot": 24, "Shevuot": 49, 
   "Avodah Zarah": 76, "Horayot": 14, "Zevachim": 120, "Menachot": 110, "Chullin": 142, 
   "Bekhorot": 61, "Arachin": 34, "Temurah": 34, "Keritot": 28, "Meilah": 22, 
-  "Tamid": 8, "Middot": 3, "Kinnim": 4, "Niddah": 73
+  "Tamid": 8, "Niddah": 73
 } as const;
 
 export type WorkName = keyof typeof TRACTATE_LISTS;
@@ -135,8 +133,6 @@ export const URL_TO_SEFARIA_TRACTATE_MAP: Record<string, string> = {
   "keritot": "Keritot", 
   "meilah": "Meilah",
   "tamid": "Tamid",
-  "middot": "Middot",
-  "kinnim": "Kinnim",
   "niddah": "Niddah"
 };
 

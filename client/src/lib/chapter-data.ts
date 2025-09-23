@@ -20,12 +20,10 @@ import horayotData from '../../../talmud-data/chapters/horayot.json';
 import keritotData from '../../../talmud-data/chapters/keritot.json';
 import ketubotData from '../../../talmud-data/chapters/ketubot.json';
 import kiddushinData from '../../../talmud-data/chapters/kiddushin.json';
-import kinnimData from '../../../talmud-data/chapters/kinnim.json';
 import makkotData from '../../../talmud-data/chapters/makkot.json';
 import megillahData from '../../../talmud-data/chapters/megillah.json';
 import meilahData from '../../../talmud-data/chapters/meilah.json';
 import menachotData from '../../../talmud-data/chapters/menachot.json';
-import middotData from '../../../talmud-data/chapters/middot.json';
 import moedKatanData from '../../../talmud-data/chapters/moed-katan.json';
 import nazirData from '../../../talmud-data/chapters/nazir.json';
 import nedarimData from '../../../talmud-data/chapters/nedarim.json';
@@ -62,12 +60,10 @@ const JSON_CHAPTER_DATA: Record<string, ChapterInfo[]> = {
   'keritot': keritotData as ChapterInfo[],
   'ketubot': ketubotData as ChapterInfo[],
   'kiddushin': kiddushinData as ChapterInfo[],
-  'kinnim': kinnimData as ChapterInfo[],
   'makkot': makkotData as ChapterInfo[],
   'megillah': megillahData as ChapterInfo[],
   'meilah': meilahData as ChapterInfo[],
   'menachot': menachotData as ChapterInfo[],
-  'middot': middotData as ChapterInfo[],
   'moed katan': moedKatanData as ChapterInfo[],
   'nazir': nazirData as ChapterInfo[],
   'nedarim': nedarimData as ChapterInfo[],
