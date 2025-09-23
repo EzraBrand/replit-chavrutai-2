@@ -1,0 +1,29 @@
+[
+  {
+    "number": 1,
+    "englishName": "Olah Shel Tzibbur",
+    "hebrewName": "עולה של ציבור",
+    "startFolio": 2,
+    "startSide": "a",
+    "endFolio": 8,
+    "endSide": "a"
+  },
+  {
+    "number": 2,
+    "englishName": "Kol Ha'Asuyah",
+    "hebrewName": "כל העשויה",
+    "startFolio": 8,
+    "startSide": "a",
+    "endFolio": 13,
+    "endSide": "a"
+  },
+  {
+    "number": 3,
+    "englishName": "Kol Ha'Pesulot",
+    "hebrewName": "כל הפסולות",
+    "startFolio": 13,
+    "startSide": "a",
+    "endFolio": 16,
+    "endSide": "a"
+  }
+]

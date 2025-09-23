@@ -1,0 +1,47 @@
+[
+  {
+    "number": 1,
+    "englishName": "Bi'Shloshah Mekomot",
+    "hebrewName": "בשלושה מקומות",
+    "startFolio": 2,
+    "startSide": "a",
+    "endFolio": 7,
+    "endSide": "a"
+  },
+  {
+    "number": 2,
+    "englishName": "Har Ha'Bayit",
+    "hebrewName": "הר הבית",
+    "startFolio": 7,
+    "startSide": "a",
+    "endFolio": 12,
+    "endSide": "a"
+  },
+  {
+    "number": 3,
+    "englishName": "Ha'Mizbe'ach",
+    "hebrewName": "המזבח",
+    "startFolio": 12,
+    "startSide": "a",
+    "endFolio": 16,
+    "endSide": "a"
+  },
+  {
+    "number": 4,
+    "englishName": "Ha'Heikhal",
+    "hebrewName": "ההיכל",
+    "startFolio": 16,
+    "startSide": "a",
+    "endFolio": 19,
+    "endSide": "a"
+  },
+  {
+    "number": 5,
+    "englishName": "Kol Ha'Azarah",
+    "hebrewName": "כל העזרה",
+    "startFolio": 19,
+    "startSide": "a",
+    "endFolio": 22,
+    "endSide": "a"
+  }
+]
