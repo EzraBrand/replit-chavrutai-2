@@ -64,6 +64,19 @@ export function getBooksInCategory(category: 'torah' | 'neviim' | 'ketuvim'): st
  */
 export function getBookDisplayName(filename: string): string {
   const cleanFilename = filename.replace('.json', '');
+  
+  // Special handling for parts with chapter ranges
+  const specialNames: { [key: string]: string } = {
+    'leviticus_part1': 'Leviticus part1 (Ch. 1-14)',
+    'leviticus_part2': 'Leviticus part2 (Ch. 15-27)',
+    'deuteronomy_part1': 'Deuteronomy part1 (Ch. 1-17)',
+    'deuteronomy_part2': 'Deuteronomy part2 (Ch. 18-34)'
+  };
+  
+  if (specialNames[cleanFilename]) {
+    return specialNames[cleanFilename];
+  }
+  
   const bookInfo = biblicalIndexMetadata.books.find(
     book => book.filename === `${cleanFilename}.json`
   );

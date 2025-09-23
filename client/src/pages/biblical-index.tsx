@@ -39,12 +39,14 @@ export default function BiblicalIndexPage() {
                 </h2>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                {books.map((book) => (
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+                {books
+                  .filter(book => book !== 'Song_of_Songs')
+                  .map((book) => (
                   <Link
                     key={book}
                     href={`/biblical-index/book/${book.toLowerCase()}`}
-                    className="text-lg font-medium text-foreground hover:text-primary hover:underline transition-colors py-3 px-4 rounded-lg hover:bg-muted/30 border border-transparent hover:border-muted"
+                    className="text-sm font-medium text-foreground hover:text-primary hover:underline transition-colors py-2 px-3 rounded-md hover:bg-muted/20 border border-transparent hover:border-muted"
                     data-testid={`link-book-${book.toLowerCase()}`}
                   >
                     {getBookDisplayName(book)}
