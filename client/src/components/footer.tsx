@@ -36,6 +36,13 @@ export function Footer() {
             Blog Posts
           </Link>
           <Link 
+            href="/biblical-index"
+            className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200"
+            data-testid="footer-link-biblical-index"
+          >
+            Biblical Index
+          </Link>
+          <Link 
             href="/about"
             className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200"
             data-testid="footer-link-about"
