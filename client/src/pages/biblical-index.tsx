@@ -49,13 +49,6 @@ export default function BiblicalIndexPage() {
                 <Badge variant="outline" className="text-xs">
                   {books.length} books
                 </Badge>
-                <Link 
-                  href={`/biblical-index/${category}`}
-                  className="text-primary hover:underline text-sm ml-auto"
-                  data-testid={`link-category-${category}`}
-                >
-                  View all →
-                </Link>
               </div>
               <p className="text-sm text-muted-foreground">
                 {categoryDescriptions[category as keyof typeof categoryDescriptions]}
