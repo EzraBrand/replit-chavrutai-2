@@ -21,12 +21,6 @@ export default function BiblicalIndexPage() {
         <p className="text-lg text-muted-foreground mb-2">
           A comprehensive digital index mapping biblical verses to their citations throughout the Babylonian Talmud
         </p>
-        <div className="flex items-center gap-4 text-sm text-muted-foreground">
-          <Badge variant="secondary" data-testid="total-books-badge">
-            {metadata.totalBooks} Books Available
-          </Badge>
-          <span>Based on the Steinsaltz English Translation</span>
-        </div>
       </div>
 
       <div className="space-y-8">
@@ -39,7 +33,7 @@ export default function BiblicalIndexPage() {
                 </h2>
               </div>
               
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+              <div className="grid grid-cols-1 gap-2">
                 {books
                   .filter(book => book !== 'Song_of_Songs')
                   .map((book) => (
@@ -74,10 +68,6 @@ export default function BiblicalIndexPage() {
           <li>Searchable and browseable interface</li>
         </ul>
 
-        <p className="text-sm text-muted-foreground">
-          Data source: Steinsaltz English Translation of the Babylonian Talmud. 
-          This resource is open access and freely available for academic and personal study.
-        </p>
       </div>
       
       <Footer />
