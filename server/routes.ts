@@ -4,7 +4,7 @@ import fs from "fs";
 import path from "path";
 import { storage } from "./storage";
 import { insertTextSchema } from "@shared/schema";
-import { normalizeSefariaTractateName } from "@shared/tractates";
+import { normalizeSefariaTractateName, isValidTractate } from "@shared/tractates";
 import { generateSitemapIndex } from "./routes/sitemap-index";
 import { generateMainSitemap } from "./routes/sitemap-main";
 import { generateSederSitemap } from "./routes/sitemap-seder";
@@ -256,6 +256,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/text", async (req, res) => {
     try {
       const { work, tractate, chapter, folio, side } = textQuerySchema.parse(req.query);
+      
+      // Validate tractate name
+      if (!isValidTractate(tractate)) {
+        res.status(404).json({ error: `Invalid tractate: ${tractate}` });
+        return;
+      }
       
       // Try to get from local storage first
       let text = await storage.getText(work, tractate, chapter, folio, side);
