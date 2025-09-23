@@ -130,7 +130,7 @@ function parseMarkdownTable(markdownContent, bookName) {
             verseText,
             talmudLocation,
             talmudLocationUrl,
-            talmudFullText: talmudFullText.replace(/<[^>]*>/g, '') // Remove HTML tags
+            talmudFullText: talmudFullText // Preserve HTML formatting
           });
         }
       }

@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { ArrowLeft, Search, ExternalLink, BookOpen } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { sanitizeHtml } from "@/lib/html-sanitizer";
 
 export default function BiblicalBookPage() {
   const [, params] = useRoute("/biblical-index/book/:bookName");
@@ -184,12 +185,16 @@ export default function BiblicalBookPage() {
                         </a>
                       </TableCell>
                       <TableCell className="max-w-lg">
-                        <div className="text-sm">
-                          {citation.talmudFullText.length > 200
-                            ? `${citation.talmudFullText.substring(0, 200)}...`
-                            : citation.talmudFullText
-                          }
-                        </div>
+                        <div 
+                          className="text-sm"
+                          dangerouslySetInnerHTML={{
+                            __html: sanitizeHtml(
+                              citation.talmudFullText.length > 200
+                                ? `${citation.talmudFullText.substring(0, 200)}...`
+                                : citation.talmudFullText
+                            )
+                          }}
+                        />
                       </TableCell>
                     </TableRow>
                   ))}
