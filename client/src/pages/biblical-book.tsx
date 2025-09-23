@@ -153,10 +153,10 @@ export default function BiblicalBookPage() {
                     <Table>
                       <TableHeader>
                         <TableRow>
-                          <TableHead className="w-[140px] bg-background border-r">Verse</TableHead>
-                          <TableHead className="w-[160px] bg-background border-r">Quoted Text</TableHead>
-                          <TableHead className="w-[140px] bg-background border-r">Talmud Location</TableHead>
-                          <TableHead className="w-[400px] bg-background">Context</TableHead>
+                          <TableHead className="w-20 sm:w-[140px] bg-background border-r text-xs sm:text-sm">Verse</TableHead>
+                          <TableHead className="w-24 sm:w-[160px] bg-background border-r text-xs sm:text-sm">Quoted Text</TableHead>
+                          <TableHead className="w-24 sm:w-[140px] bg-background border-r text-xs sm:text-sm">Talmud Location</TableHead>
+                          <TableHead className="flex-1 sm:w-[400px] bg-background text-xs sm:text-sm">Context</TableHead>
                         </TableRow>
                       </TableHeader>
                     </Table>
@@ -168,29 +168,29 @@ export default function BiblicalBookPage() {
                       <TableBody>
                         {filteredCitations.map((citation, index) => (
                           <TableRow key={index} className="hover:bg-muted/50">
-                            <TableCell className="w-[140px] font-medium border-r" data-testid={`verse-${index}`}>
+                            <TableCell className="w-20 sm:w-[140px] font-medium border-r text-xs sm:text-sm" data-testid={`verse-${index}`}>
                               <span>{citation.verseLocation}</span>
                             </TableCell>
-                            <TableCell className="w-[160px] border-r">
-                              <div className="text-sm text-muted-foreground whitespace-normal break-words">
+                            <TableCell className="w-24 sm:w-[160px] border-r">
+                              <div className="text-xs sm:text-sm text-muted-foreground whitespace-normal break-words">
                                 {citation.verseText}
                               </div>
                             </TableCell>
-                            <TableCell className="w-[140px] border-r">
+                            <TableCell className="w-24 sm:w-[140px] border-r">
                               <a
                                 href={citation.talmudLocationUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center text-primary hover:underline text-sm"
+                                className="inline-flex items-center text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 hover:underline text-xs sm:text-sm"
                                 data-testid={`talmud-link-${index}`}
                               >
                                 {citation.talmudLocation}
                                 <ExternalLink className="h-3 w-3 ml-1" />
                               </a>
                             </TableCell>
-                            <TableCell className="w-[400px]">
+                            <TableCell className="flex-1 sm:w-[400px]">
                               <div 
-                                className="text-sm whitespace-normal break-words"
+                                className="text-xs sm:text-sm whitespace-normal break-words"
                                 dangerouslySetInnerHTML={{
                                   __html: sanitizeHtml(citation.talmudFullText)
                                 }}
