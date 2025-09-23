@@ -10,6 +10,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { ArrowLeft, Search, ExternalLink, BookOpen } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { sanitizeHtml } from "@/lib/html-sanitizer";
+import { Footer } from "@/components/footer";
 
 export default function BiblicalBookPage() {
   const [, params] = useRoute("/biblical-index/book/:bookName");
@@ -214,6 +215,8 @@ export default function BiblicalBookPage() {
           </p>
         </div>
       )}
+      
+      <Footer />
     </div>
   );
 }
