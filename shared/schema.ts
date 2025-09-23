@@ -58,6 +58,30 @@ export const ChapterInfoSchema = z.object({
 
 export type ChapterInfo = z.infer<typeof ChapterInfoSchema>;
 
+// Biblical Index Schema
+export const BiblicalCitationSchema = z.object({
+  verseLocation: z.string(), // e.g., "Genesis 1:1"
+  verseText: z.string(), // The quoted biblical text
+  talmudLocation: z.string(), // e.g., "Chagigah 12a:16"
+  talmudLocationUrl: z.string(), // The ChavrutAI URL
+  talmudFullText: z.string(), // Complete context from Talmud
+});
+
+export const BiblicalChapterSchema = z.object({
+  chapterNumber: z.number(),
+  citations: z.array(BiblicalCitationSchema),
+});
+
+export const BiblicalBookSchema = z.object({
+  bookName: z.string(), // e.g., "Genesis", "Psalms"
+  totalEntries: z.number(),
+  chapters: z.array(BiblicalChapterSchema),
+});
+
+export type BiblicalCitation = z.infer<typeof BiblicalCitationSchema>;
+export type BiblicalChapter = z.infer<typeof BiblicalChapterSchema>;
+export type BiblicalBook = z.infer<typeof BiblicalBookSchema>;
+
 export const users = pgTable("users", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   username: text("username").notNull().unique(),
