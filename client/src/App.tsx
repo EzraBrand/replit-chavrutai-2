@@ -19,7 +19,6 @@ import Changelog from "@/pages/changelog";
 import Contact from "@/pages/contact";
 import Privacy from "@/pages/privacy";
 import NotFound from "@/pages/not-found";
-import SefariaExplorer from "@/pages/sefaria-explorer";
 import { useEffect } from "react";
 import { initGA } from "@/lib/analytics";
 import { useAnalytics } from "@/hooks/use-analytics";
@@ -45,7 +44,6 @@ function Router() {
       <Route path="/contents/:tractate" component={TractateContents} />
       <Route path="/tractate/:tractate/:folio" component={TractateView} />
       <Route path="/outline/:tractate/:chapter" component={TractateOutlinePage} />
-      <Route path="/sefaria-explorer" component={SefariaExplorer} />
       <Route component={NotFound} />
     </Switch>
   );
