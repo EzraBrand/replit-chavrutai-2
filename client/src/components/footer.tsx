@@ -1,5 +1,6 @@
 import { Link } from "wouter";
 import { ExternalLink } from "lucide-react";
+import poweredBySefariaPath from "@assets/powered-by-sefaria-87c5652-image_1758709536972.png";
 
 export function Footer() {
   return (
@@ -93,7 +94,7 @@ export function Footer() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-2 text-sm text-muted-foreground">
           <span>ChavrutAI</span>
           <span className="hidden sm:inline">|</span>
-          <span>Uses data from <a 
+          <span className="flex items-center gap-2">Uses data from <a 
             href="https://www.sefaria.org/texts/Talmud"
             target="_blank"
             rel="noopener noreferrer"
@@ -102,7 +103,14 @@ export function Footer() {
           >
             Sefaria
             <ExternalLink size={12} />
-          </a> (not affiliated)</span>
+          </a> (not affiliated)
+            <img 
+              src={poweredBySefariaPath} 
+              alt="Powered by Sefaria" 
+              className="h-4 w-auto opacity-70"
+              data-testid="sefaria-powered-by-image"
+            />
+          </span>
           <span className="hidden sm:inline">|</span>
           <span>A project of <a 
             href="https://www.ezrabrand.com/"
