@@ -99,7 +99,7 @@ export const URL_TO_SEFARIA_TRACTATE_MAP: Record<string, string> = {
   "rosh-hashanah": "Rosh Hashanah",
   "yoma": "Yoma",
   "sukkah": "Sukkah", 
-  "beitza": "Beitzah",
+  "beitza": "Beitza",
   "taanit": "Taanit",
   "megillah": "Megillah",
   "moed katan": "Moed Katan",
