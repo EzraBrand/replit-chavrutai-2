@@ -3,7 +3,7 @@ import { createServer, type Server } from "http";
 import fs from "fs";
 import path from "path";
 import { storage } from "./storage";
-import { insertTextSchema } from "@shared/schema";
+import { insertTextSchema, searchRequestSchema, browseRequestSchema, autosuggestRequestSchema } from "@shared/schema";
 import { normalizeSefariaTractateName, isValidTractate } from "@shared/tractates";
 import { generateSitemapIndex } from "./routes/sitemap-index";
 import { generateMainSitemap } from "./routes/sitemap-main";
@@ -492,6 +492,55 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/sitemap-seder-nezikin.xml', generateSederSitemap('nezikin'));
   app.get('/sitemap-seder-kodashim.xml', generateSederSitemap('kodashim'));
   app.get('/sitemap-seder-tohorot.xml', generateSederSitemap('tohorot'));
+
+  // Dictionary API Routes
+  // Search dictionary entries
+  app.get("/api/dictionary/search", async (req, res) => {
+    try {
+      const { query } = searchRequestSchema.parse(req.query);
+      const entries = await storage.searchEntries({ query });
+      res.json(entries);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ error: "Invalid search query" });
+      } else {
+        console.error("Dictionary search error:", error);
+        res.status(500).json({ error: "Dictionary search failed" });
+      }
+    }
+  });
+
+  // Browse entries by Hebrew letter
+  app.get("/api/dictionary/browse", async (req, res) => {
+    try {
+      const { letter } = browseRequestSchema.parse(req.query);
+      const entries = await storage.browseByLetter({ letter });
+      res.json(entries);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ error: "Invalid letter parameter" });
+      } else {
+        console.error("Dictionary browse error:", error);
+        res.status(500).json({ error: "Dictionary browse failed" });
+      }
+    }
+  });
+
+  // Autosuggest for search terms
+  app.get("/api/dictionary/autosuggest", async (req, res) => {
+    try {
+      const { query } = autosuggestRequestSchema.parse(req.query);
+      const suggestions = await storage.getAutosuggest({ query });
+      res.json(suggestions);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ error: "Invalid autosuggest query" });
+      } else {
+        console.error("Dictionary autosuggest error:", error);
+        res.status(500).json({ error: "Dictionary autosuggest failed" });
+      }
+    }
+  });
 
   const httpServer = createServer(app);
   return httpServer;
