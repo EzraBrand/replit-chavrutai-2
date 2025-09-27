@@ -166,6 +166,7 @@ export class SefariaAPI {
       const directResponse = await fetch(`${this.baseURL}/words/${encodeURIComponent(request.query)}`);
       let allEntries: DictionaryEntry[] = [];
 
+
       if (directResponse.ok) {
         const directData = await directResponse.json();
         if (Array.isArray(directData)) {
