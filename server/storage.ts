@@ -139,14 +139,21 @@ export class SefariaAPI {
     // Transform Sefaria internal links to external URLs
     let transformed = htmlContent;
 
-    // Pattern 1: href="/Jastrow,_something.1" -> href="https://www.sefaria.org/Jastrow%2C_something"
+    // Pattern 1: Jerusalem Talmud links - add Sefaria base URL
+    // href="Jerusalem_Talmud_Nedarim.5.6.3" -> href="https://www.sefaria.org/Jerusalem_Talmud_Nedarim.5.6.3"
+    transformed = transformed.replace(
+      /href="(Jerusalem_Talmud_[^"]+)"/g,
+      'href="https://www.sefaria.org/$1"'
+    );
+
+    // Pattern 2: href="/Jastrow,_something.1" -> href="https://www.sefaria.org/Jastrow%2C_something"
     // Keep original text for Jastrow entries
     transformed = transformed.replace(
       /href="\/Jastrow,_([^"]+)\.1"/g,
       'href="https://www.sefaria.org/Jastrow%2C_$1"'
     );
 
-    // Pattern 2: Primary works links - replace both href and text content
+    // Pattern 3: Primary works links - replace both href and text content
     // <a href="/Daniel.5.25">Dan. V, 25</a> -> <a href="https://www.sefaria.org/Daniel.5.25">Daniel.5.25</a>
     transformed = transformed.replace(
       /<a([^>]*?)href="\/([^"\/][^"]*\.[^"]+)"([^>]*)>([^<]+)<\/a>/g,
