@@ -148,9 +148,8 @@ export class SefariaAPI {
 
     // Pattern 2: Primary works links - replace both href and text content
     // <a href="/Daniel.5.25">Dan. V, 25</a> -> <a href="https://www.sefaria.org/Daniel.5.25">Daniel.5.25</a>
-    // Also handles URLs without leading slash like Jerusalem_Talmud_Nedarim.5.6.3
     transformed = transformed.replace(
-      /<a([^>]*?)href="\/?([^"\/][^"]*\.[^"]+)"([^>]*)>([^<]+)<\/a>/g,
+      /<a([^>]*?)href="\/([^"\/][^"]*\.[^"]+)"([^>]*)>([^<]+)<\/a>/g,
       (match, before, url, after, text) => {
         return `<a${before}href="https://www.sefaria.org/${url}"${after}>${url}</a>`;
       }
