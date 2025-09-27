@@ -153,12 +153,21 @@ export class SefariaAPI {
       'href="https://www.sefaria.org/Jastrow%2C_$1"'
     );
 
-    // Pattern 3: Primary works links - replace both href and text content
-    // <a href="/Daniel.5.25">Dan. V, 25</a> -> <a href="https://www.sefaria.org/Daniel.5.25">Daniel.5.25</a>
+    // Pattern 3: Primary works links - replace href and use data-ref for text content
+    // <a class="refLink" href="/Bamidbar_Rabbah.10.8" data-ref="Bamidbar Rabbah 10:8">text</a> 
+    // -> <a class="refLink" href="https://www.sefaria.org/Bamidbar_Rabbah.10.8" data-ref="Bamidbar Rabbah 10:8">Bamidbar Rabbah 10:8</a>
     transformed = transformed.replace(
-      /<a([^>]*?)href="\/([^"\/][^"]*\.[^"]+)"([^>]*)>([^<]+)<\/a>/g,
-      (match, before, url, after, text) => {
-        return `<a${before}href="https://www.sefaria.org/${url}"${after}>${url}</a>`;
+      /<a([^>]*?)href="\/([^"\/][^"]*\.[^"]+)"([^>]*?)data-ref="([^"]*)"([^>]*)>([^<]+)<\/a>/g,
+      (match, before, url, middle, dataRef, after, text) => {
+        return `<a${before}href="https://www.sefaria.org/${url}"${middle}data-ref="${dataRef}"${after}>${dataRef}</a>`;
+      }
+    );
+
+    // Pattern 4: Handle links where data-ref comes before href
+    transformed = transformed.replace(
+      /<a([^>]*?)data-ref="([^"]*)"([^>]*?)href="\/([^"\/][^"]*\.[^"]+)"([^>]*)>([^<]+)<\/a>/g,
+      (match, before, dataRef, middle, url, after, text) => {
+        return `<a${before}data-ref="${dataRef}"${middle}href="https://www.sefaria.org/${url}"${after}>${dataRef}</a>`;
       }
     );
 
