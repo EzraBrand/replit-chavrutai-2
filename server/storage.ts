@@ -139,11 +139,6 @@ export class SefariaAPI {
     // Transform Sefaria internal links to external URLs
     let transformed = htmlContent;
 
-    // Debug specific case
-    if (htmlContent.includes('Jerusalem_Talmud_Nedarim') || htmlContent.includes('Y. Ned.')) {
-      console.log('DEBUG: Found Jerusalem Talmud content:', htmlContent);
-    }
-
     // Pattern 1: href="/Jastrow,_something.1" -> href="https://www.sefaria.org/Jastrow%2C_something"
     // Keep original text for Jastrow entries
     transformed = transformed.replace(
@@ -153,13 +148,9 @@ export class SefariaAPI {
 
     // Pattern 2: Primary works links - replace both href and text content
     // <a href="/Daniel.5.25">Dan. V, 25</a> -> <a href="https://www.sefaria.org/Daniel.5.25">Daniel.5.25</a>
-    // Also handles URLs with underscores like /Jerusalem_Talmud_Nedarim.5.6.3
     transformed = transformed.replace(
       /<a([^>]*?)href="\/([^"\/][^"]*\.[^"]+)"([^>]*)>([^<]+)<\/a>/g,
       (match, before, url, after, text) => {
-        if (url.includes('Jerusalem_Talmud_Nedarim')) {
-          console.log('DEBUG: Jerusalem Talmud match found:', { match, before, url, after, text });
-        }
         return `<a${before}href="https://www.sefaria.org/${url}"${after}>${url}</a>`;
       }
     );
