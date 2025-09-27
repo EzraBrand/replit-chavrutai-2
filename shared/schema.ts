@@ -128,3 +128,46 @@ export type InsertText = z.infer<typeof insertTextSchema>;
 export type Text = typeof texts.$inferSelect;
 export type InsertBookmark = z.infer<typeof insertBookmarkSchema>;
 export type Bookmark = typeof bookmarks.$inferSelect;
+
+// Jastrow Dictionary Entry Types
+export const dictionaryEntrySchema = z.object({
+  headword: z.string(),
+  rid: z.string().optional(),
+  parent_lexicon: z.string(),
+  language_code: z.string().optional(),
+  content: z.object({
+    senses: z.array(z.object({
+      definition: z.string()
+    }))
+  }),
+  refs: z.array(z.string()).optional(),
+  prev_hw: z.string().optional(),
+  next_hw: z.string().optional()
+});
+
+export type DictionaryEntry = z.infer<typeof dictionaryEntrySchema>;
+
+// Search/Browse request schemas
+export const searchRequestSchema = z.object({
+  query: z.string().min(1)
+});
+
+export const browseRequestSchema = z.object({
+  letter: z.string().length(1)
+});
+
+export const autosuggestRequestSchema = z.object({
+  query: z.string().min(1, "Query is required"),
+});
+
+export type SearchRequest = z.infer<typeof searchRequestSchema>;
+export type BrowseRequest = z.infer<typeof browseRequestSchema>;
+export type AutosuggestRequest = z.infer<typeof autosuggestRequestSchema>;
+
+// Autosuggest response type
+export type AutosuggestSuggestion = {
+  unvoweled: string;
+  voweled: string;
+};
+
+export type AutosuggestResponse = AutosuggestSuggestion[];
