@@ -139,11 +139,22 @@ export class SefariaAPI {
     // Transform Sefaria internal links to external URLs
     let transformed = htmlContent;
 
-    // Pattern 1: Jerusalem Talmud links - add Sefaria base URL
-    // href="Jerusalem_Talmud_Nedarim.5.6.3" -> href="https://www.sefaria.org/Jerusalem_Talmud_Nedarim.5.6.3"
+    // Pattern 1: Jerusalem Talmud links - add Sefaria base URL and use data-ref for text
+    // <a class="refLink" href="Jerusalem_Talmud_Nedarim.5.6.3" data-ref="Jerusalem Talmud Nedarim 5:6">text</a>
+    // -> <a class="refLink" href="https://www.sefaria.org/Jerusalem_Talmud_Nedarim.5.6.3" data-ref="Jerusalem Talmud Nedarim 5:6">Jerusalem Talmud Nedarim 5:6</a>
     transformed = transformed.replace(
-      /href="(Jerusalem_Talmud_[^"]+)"/g,
-      'href="https://www.sefaria.org/$1"'
+      /<a([^>]*?)href="(Jerusalem_Talmud_[^"]+)"([^>]*?)data-ref="([^"]*)"([^>]*)>([^<]+)<\/a>/g,
+      (match, before, url, middle, dataRef, after, text) => {
+        return `<a${before}href="https://www.sefaria.org/${url}"${middle}data-ref="${dataRef}"${after}>${dataRef}</a>`;
+      }
+    );
+
+    // Pattern 1b: Handle Jerusalem Talmud links where data-ref comes before href
+    transformed = transformed.replace(
+      /<a([^>]*?)data-ref="([^"]*)"([^>]*?)href="(Jerusalem_Talmud_[^"]+)"([^>]*)>([^<]+)<\/a>/g,
+      (match, before, dataRef, middle, url, after, text) => {
+        return `<a${before}data-ref="${dataRef}"${middle}href="https://www.sefaria.org/${url}"${after}>${dataRef}</a>`;
+      }
     );
 
     // Pattern 2: href="/Jastrow,_something.1" -> href="https://www.sefaria.org/Jastrow%2C_something"
