@@ -26,6 +26,30 @@ interface AutosuggestSuggestion {
 }
 
 export default function Dictionary() {
+  // Add CSS for dictionary content styling
+  const dictionaryStyles = `
+    .dictionary-content a.refLink {
+      color: #2563eb;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    .dictionary-content a.refLink:hover {
+      color: #1d4ed8;
+      text-decoration: underline;
+    }
+    .dark .dictionary-content a.refLink {
+      color: #60a5fa;
+    }
+    .dark .dictionary-content a.refLink:hover {
+      color: #93c5fd;
+    }
+    .dictionary-content span[dir="rtl"] {
+      font-weight: 500;
+    }
+    .dictionary-content i {
+      font-style: italic;
+    }
+  `;
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedLetter, setSelectedLetter] = useState("");
   const [results, setResults] = useState<DictionaryEntry[]>([]);
@@ -35,8 +59,13 @@ export default function Dictionary() {
   const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
-  // Function to split text into paragraphs by long dash
+  // Function to split text into paragraphs by long dash (only if no HTML tags present)
   const splitIntoParagraphs = (text: string) => {
+    // If the text contains HTML tags, don't split - preserve the original formatting
+    if (text.includes('<') && text.includes('>')) {
+      return text;
+    }
+
     // Check for various dash types: em dash (—), en dash (–), and HTML entities
     const dashPatterns = ['—', '–', '&mdash;', '&#8212;', '&#x2014;'];
     let foundDash = '';
@@ -67,6 +96,7 @@ export default function Dictionary() {
   };
 
   // Function to expand abbreviations using comprehensive Jastrow mappings
+  // This function preserves HTML tags while expanding abbreviations
   const expandAbbreviations = (text: string) => {
     let result = text;
 
@@ -75,26 +105,26 @@ export default function Dictionary() {
       ([a], [b]) => b.length - a.length
     );
 
-    // Apply all mappings
+    // Apply all mappings, but only to text outside of HTML tags
     for (const [abbreviation, expansion] of sortedMappings) {
       // Create appropriate regex pattern based on the abbreviation format
       let pattern: RegExp;
 
       if (abbreviation === '&c.') {
         // Special case for &c. - don't use word boundary since & is not a word character
-        pattern = new RegExp('&c\\.', 'g');
+        pattern = new RegExp('&c\\.(?![^<]*>)', 'g');
       } else if (abbreviation.includes(' ')) {
-        // Multi-word abbreviations - match as exact phrases
+        // Multi-word abbreviations - match as exact phrases, but not inside HTML tags
         const escaped = abbreviation.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        pattern = new RegExp(escaped, 'g');
+        pattern = new RegExp(`${escaped}(?![^<]*>)`, 'g');
       } else if (abbreviation.endsWith('.')) {
-        // Abbreviations ending with period - match with word boundary before
+        // Abbreviations ending with period - match with word boundary before, not inside HTML tags
         const escaped = abbreviation.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        pattern = new RegExp(`\\b${escaped}`, 'g');
+        pattern = new RegExp(`\\b${escaped}(?![^<]*>)`, 'g');
       } else {
-        // Other abbreviations - use word boundaries on both sides
+        // Other abbreviations - use word boundaries on both sides, not inside HTML tags
         const escaped = abbreviation.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        pattern = new RegExp(`\\b${escaped}\\b`, 'g');
+        pattern = new RegExp(`\\b${escaped}\\b(?![^<]*>)`, 'g');
       }
 
       result = result.replace(pattern, expansion);
@@ -235,6 +265,9 @@ export default function Dictionary() {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Inject CSS for dictionary links */}
+      <style dangerouslySetInnerHTML={{ __html: dictionaryStyles }} />
+      
       {/* Simple Header */}
       <header className="border-b bg-background px-6 py-4">
         <div className="flex items-center gap-3 max-w-4xl mx-auto">
@@ -339,9 +372,13 @@ export default function Dictionary() {
                     <h3 className="text-lg font-bold font-hebrew text-primary min-w-fit">
                       {entry.headword}
                     </h3>
-                    <div className="text-foreground flex-1">
+                    <div className="text-foreground flex-1 prose prose-sm max-w-none">
                       {entry.content.senses.map((sense, senseIndex) => (
-                        <div key={senseIndex} className="mb-2 last:mb-0" dangerouslySetInnerHTML={{ __html: expandAbbreviations(splitIntoParagraphs(sense.definition)) }} />
+                        <div 
+                          key={senseIndex} 
+                          className="mb-2 last:mb-0 dictionary-content" 
+                          dangerouslySetInnerHTML={{ __html: expandAbbreviations(splitIntoParagraphs(sense.definition)) }} 
+                        />
                       ))}
                     </div>
                   </div>
