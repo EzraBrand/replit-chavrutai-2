@@ -78,6 +78,20 @@ export function Footer() {
           >
             Privacy
           </Link>
+          <Link 
+            href="/suggested-pages"
+            className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200"
+            data-testid="footer-link-suggested-pages"
+          >
+            Suggested Pages
+          </Link>
+          <Link 
+            href="/dictionary"
+            className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200"
+            data-testid="footer-link-dictionary"
+          >
+            Jastrow Dictionary
+          </Link>
           <a 
             href="https://github.com/EzraBrand/replit-chavrutai-2"
             target="_blank"

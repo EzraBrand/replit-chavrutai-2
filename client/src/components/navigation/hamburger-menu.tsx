@@ -58,27 +58,6 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
             </Link>
           </div>
           
-          {/* Suggested Pages Link */}
-          <div className="mb-6">
-            <Link 
-              href="/suggested-pages"
-              onClick={() => setOpen(false)}
-              className="block w-full text-left px-4 py-3 rounded-lg hover:bg-secondary transition-colors duration-100 text-foreground font-medium text-lg"
-            >
-              Suggested Pages
-            </Link>
-          </div>
-          
-          {/* Dictionary Link */}
-          <div className="mb-6">
-            <Link 
-              href="/dictionary"
-              onClick={() => setOpen(false)}
-              className="block w-full text-left px-4 py-3 rounded-lg hover:bg-secondary transition-colors duration-100 text-foreground font-medium text-lg"
-            >
-              Jastrow Dictionary
-            </Link>
-          </div>
           
           {/* Bottom Section */}
           <div className="border-t border-border pt-4 mt-4 space-y-4">
