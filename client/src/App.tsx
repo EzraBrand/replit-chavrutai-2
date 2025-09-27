@@ -18,6 +18,7 @@ import Sitemap from "@/pages/sitemap";
 import Changelog from "@/pages/changelog";
 import Contact from "@/pages/contact";
 import Privacy from "@/pages/privacy";
+import Dictionary from "@/pages/dictionary";
 import NotFound from "@/pages/not-found";
 import { useEffect } from "react";
 import { initGA } from "@/lib/analytics";
@@ -40,6 +41,7 @@ function Router() {
       <Route path="/changelog" component={Changelog} />
       <Route path="/contact" component={Contact} />
       <Route path="/privacy" component={Privacy} />
+      <Route path="/dictionary" component={Dictionary} />
       <Route path="/contents" component={Contents} />
       <Route path="/contents/:tractate" component={TractateContents} />
       <Route path="/tractate/:tractate/:folio" component={TractateView} />
