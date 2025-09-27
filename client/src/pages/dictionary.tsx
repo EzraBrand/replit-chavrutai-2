@@ -59,13 +59,8 @@ export default function Dictionary() {
   const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
-  // Function to split text into paragraphs by long dash (only if no HTML tags present)
+  // Function to split text into paragraphs by long dash while preserving HTML structure
   const splitIntoParagraphs = (text: string) => {
-    // If the text contains HTML tags, don't split - preserve the original formatting
-    if (text.includes('<') && text.includes('>')) {
-      return text;
-    }
-
     // Check for various dash types: em dash (—), en dash (–), and HTML entities
     const dashPatterns = ['—', '–', '&mdash;', '&#8212;', '&#x2014;'];
     let foundDash = '';
@@ -89,7 +84,7 @@ export default function Dictionary() {
       return text;
     }
 
-    // Wrap each part in a paragraph tag with extra spacing
+    // Wrap each part in a paragraph tag with extra spacing, preserving HTML
     return parts
       .map(part => `<p class="mb-4">${part.trim()}</p>`)
       .join('');
