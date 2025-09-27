@@ -2,7 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Search, BookOpen, Loader2 } from "lucide-react";
+import { Search, Loader2 } from "lucide-react";
+import { Footer } from "@/components/footer";
 import jastrowMappings from "@/data/jastrow-mappings.json";
 
 const HEBREW_ALPHABET = [
@@ -28,6 +29,7 @@ interface AutosuggestSuggestion {
 export default function Dictionary() {
   // Add CSS for dictionary content styling
   const dictionaryStyles = `
+    /* Link styling */
     .dictionary-content a.refLink {
       color: #2563eb;
       text-decoration: underline;
@@ -43,11 +45,27 @@ export default function Dictionary() {
     .dark .dictionary-content a.refLink:hover {
       color: #93c5fd;
     }
+    
+    /* Font styling */
+    .dictionary-content {
+      font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
     .dictionary-content span[dir="rtl"] {
+      font-family: 'Assistant', -apple-system, BlinkMacSystemFont, sans-serif;
       font-weight: 500;
     }
     .dictionary-content i {
       font-style: italic;
+    }
+    
+    /* Hebrew letter buttons and search input */
+    .font-hebrew {
+      font-family: 'Assistant', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    
+    /* Header title */
+    .dictionary-header {
+      font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     }
   `;
   const [searchQuery, setSearchQuery] = useState("");
@@ -266,8 +284,7 @@ export default function Dictionary() {
       {/* Simple Header */}
       <header className="border-b bg-background px-6 py-4">
         <div className="flex items-center gap-3 max-w-4xl mx-auto">
-          <BookOpen className="h-6 w-6 text-primary" />
-          <h1 className="text-xl font-bold text-foreground">Jastrow Dictionary - Modernized</h1>
+          <h1 className="text-xl font-bold text-foreground dictionary-header">Jastrow Dictionary - Modernized</h1>
         </div>
       </header>
 
@@ -383,6 +400,7 @@ export default function Dictionary() {
           )}
         </div>
       </main>
+      <Footer />
     </div>
   );
 }
