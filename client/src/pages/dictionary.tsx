@@ -399,6 +399,22 @@ export default function Dictionary() {
             </div>
           )}
         </div>
+
+        {/* About Link */}
+        <div className="mt-12 pt-8 border-t border-border text-center">
+          <p className="text-sm text-muted-foreground">
+            To find out more about this, see:{" "}
+            <a 
+              href="https://www.ezrabrand.com/p/jastrows-talmud-dictionary-a-modernized"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary hover:underline"
+              data-testid="link-about"
+            >
+              https://www.ezrabrand.com/p/jastrows-talmud-dictionary-a-modernized
+            </a>
+          </p>
+        </div>
       </main>
       <Footer />
     </div>
