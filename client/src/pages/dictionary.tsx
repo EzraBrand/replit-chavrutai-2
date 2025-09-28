@@ -403,7 +403,6 @@ export default function Dictionary() {
         {/* About Link */}
         <div className="mt-12 pt-8 border-t border-border text-center">
           <p className="text-sm text-muted-foreground">
-            To find out more about this, see:{" "}
             <a 
               href="https://www.ezrabrand.com/p/jastrows-talmud-dictionary-a-modernized"
               target="_blank"
@@ -411,8 +410,10 @@ export default function Dictionary() {
               className="text-primary hover:underline"
               data-testid="link-about"
             >
-              https://www.ezrabrand.com/p/jastrows-talmud-dictionary-a-modernized
+              Jastrow's Talmud Dictionary: A Modernized and Enhanced Digital Presentation at ChavrutAI
             </a>
+            {" "}
+            <span className="text-muted-foreground">(Sep 28, 2025)</span>
           </p>
         </div>
       </main>
