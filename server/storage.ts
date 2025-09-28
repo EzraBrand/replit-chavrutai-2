@@ -323,39 +323,59 @@ export class SefariaAPI {
       const processedIds = new Set(initialResults.map(entry => entry.rid));
 
       // Try to get more entries by following the next_hw chain
-      let lastEntry = initialResults[initialResults.length - 1];
-      const maxAdditionalEntries = 15; // Limit to prevent infinite loops
+      // Reduce the number of additional entries for better performance
+      const maxAdditionalEntries = 8; // Reduced from 15 for faster response
       let additionalCount = 0;
+      let currentHeadwords = initialResults.map(entry => entry.next_hw).filter(Boolean);
 
-      while (lastEntry?.next_hw && additionalCount < maxAdditionalEntries) {
-        console.log(`Following next_hw chain: ${lastEntry.next_hw}`);
+      // Make parallel requests for better performance
+      while (currentHeadwords.length > 0 && additionalCount < maxAdditionalEntries) {
+        console.log(`Following next_hw chain in parallel for: ${currentHeadwords.slice(0, 3).join(', ')}`);
 
         try {
-          const nextResults = await this.searchEntries({ query: lastEntry.next_hw });
+          // Process up to 3 headwords in parallel to avoid overwhelming the API
+          const batchSize = Math.min(3, currentHeadwords.length);
+          const currentBatch = currentHeadwords.slice(0, batchSize);
+          
+          const searchPromises = currentBatch
+            .filter((headword): headword is string => Boolean(headword))
+            .map(headword => 
+              this.searchEntries({ query: headword }).catch(error => {
+                console.log(`Error searching for ${headword}:`, error instanceof Error ? error.message : String(error));
+                return [];
+              })
+            );
 
-          if (nextResults.length === 0) {
-            console.log('No more results found in chain');
-            break;
-          }
+          const batchResults = await Promise.all(searchPromises);
+          const newHeadwords: string[] = [];
 
-          // Check if the first result starts with the same letter
-          const nextEntry = nextResults[0];
-          if (!nextEntry.headword.startsWith(request.letter)) {
-            console.log(`Reached different letter: ${nextEntry.headword} - stopping chain`);
-            break;
-          }
+          for (const nextResults of batchResults) {
+            if (nextResults.length === 0) continue;
 
-          // Add new entries that we haven't seen before
-          for (const entry of nextResults) {
-            if (!processedIds.has(entry.rid)) {
-              allResults.push(entry);
-              processedIds.add(entry.rid);
-              additionalCount++;
+            // Check if the first result starts with the same letter
+            const nextEntry = nextResults[0];
+            if (!nextEntry.headword.startsWith(request.letter)) {
+              console.log(`Reached different letter: ${nextEntry.headword} - stopping chain`);
+              continue;
+            }
+
+            // Add new entries that we haven't seen before
+            for (const entry of nextResults) {
+              if (!processedIds.has(entry.rid)) {
+                allResults.push(entry);
+                processedIds.add(entry.rid);
+                additionalCount++;
+                
+                // Collect next headwords for the next batch
+                if (entry.next_hw && additionalCount < maxAdditionalEntries) {
+                  newHeadwords.push(entry.next_hw);
+                }
+              }
             }
           }
 
-          // Update lastEntry for next iteration
-          lastEntry = nextResults[nextResults.length - 1];
+          // Update currentHeadwords for next iteration
+          currentHeadwords = [...currentHeadwords.slice(batchSize), ...newHeadwords];
 
         } catch (error) {
           console.log('Error following chain, stopping:', error instanceof Error ? error.message : String(error));
