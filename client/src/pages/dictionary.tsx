@@ -403,6 +403,7 @@ export default function Dictionary() {
         {/* About Link */}
         <div className="mt-12 pt-8 border-t border-border text-center">
           <p className="text-sm text-muted-foreground">
+            To find out more about this, see:{" "}
             <a 
               href="https://www.ezrabrand.com/p/jastrows-talmud-dictionary-a-modernized"
               target="_blank"
