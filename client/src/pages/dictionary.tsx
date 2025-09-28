@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Search, Loader2 } from "lucide-react";
+import { Search, Loader2, ExternalLink } from "lucide-react";
 import { Footer } from "@/components/footer";
 import jastrowMappings from "@/data/jastrow-mappings.json";
 
@@ -408,10 +408,11 @@ export default function Dictionary() {
               href="https://www.ezrabrand.com/p/jastrows-talmud-dictionary-a-modernized"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-primary hover:underline"
+              className="text-primary hover:underline inline-flex items-center gap-1"
               data-testid="link-about"
             >
               Jastrow's Talmud Dictionary: A Modernized and Enhanced Digital Presentation at ChavrutAI
+              <ExternalLink className="h-3 w-3" />
             </a>
             {" "}
             <span className="text-muted-foreground">(Sep 28, 2025)</span>
