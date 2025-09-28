@@ -408,7 +408,7 @@ export default function Dictionary() {
               href="https://www.ezrabrand.com/p/jastrows-talmud-dictionary-a-modernized"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-primary hover:underline inline-flex items-center gap-1"
+              className="text-blue-600 hover:text-blue-800 hover:underline inline-flex items-center gap-1"
               data-testid="link-about"
             >
               Jastrow's Talmud Dictionary: A Modernized and Enhanced Digital Presentation at ChavrutAI
