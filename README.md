@@ -31,10 +31,6 @@ ChavrutAI provides bilingual (Hebrew/English) text display with intuitive naviga
 - Light/dark mode with sepia theme
 - Layout preferences (side-by-side vs stacked)
 
-### 🔍 **SEO Optimized**
-- Dynamic page titles and meta descriptions
-- Strategic sitemap covering key entry points
-- Structured data for educational content
 
 ## Technology Stack
 
@@ -106,19 +102,3 @@ The application provides intuitive navigation through complex Talmudic structure
 - **Smart text processing** for improved readability
 - **Term highlighting** for concepts, names, and places
 - **Gazetteer integration** with 5,385+  Talmudic terms
-
-## Screenshots
-
-### Desktop & Tablet Views
-Main homepage with navigation and tractate organization:
-![Homepage Navigation](homepage_main_navigation.png)
-
-Tractate overview page showing chapter navigation (Sukkah):
-![Tractate Overview](sukkah_tractate_overview.png)
-
-### Mobile Views
-Mobile homepage displaying all 37 tractates organized by Seder:
-![Mobile Homepage](mobile_homepage.png)
-
-Mobile text reading interface with responsive Hebrew-English layout:
-![Mobile Reading](mobile_sukkah_2a.png)
