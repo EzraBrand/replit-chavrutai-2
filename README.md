@@ -13,7 +13,7 @@ ChavrutAI provides bilingual (Hebrew/English) text display with intuitive naviga
 -  folio ranges based on Vilna edition data
 -  integration with Sefaria API 
 
-### 🎨 **Traditional Design**
+### 🎨 ** Design**
 - sepia color palette
 - Responsive design adapting from mobile to desktop
 
@@ -31,10 +31,6 @@ ChavrutAI provides bilingual (Hebrew/English) text display with intuitive naviga
 - Light/dark mode with sepia theme
 - Layout preferences (side-by-side vs stacked)
 
-### 🔍 **SEO Optimized**
-- Dynamic page titles and meta descriptions
-- Strategic sitemap covering key entry points
-- Structured data for educational content
 
 ## Technology Stack
 
@@ -55,26 +51,6 @@ ChavrutAI provides bilingual (Hebrew/English) text display with intuitive naviga
 ### Infrastructure
 - **Neon Database** (PostgreSQL-compatible serverless)
 
-## Getting Started
-
-### Prerequisites
-- Node.js 18+ 
-- npm or yarn package manager
-
-### Installation
-
-1. Clone the repository
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-3. Start the development server:
-   ```bash
-   npm run dev
-   ```
-
-The application will be available at `http://localhost:5000`
 
 ## Project Structure
 
@@ -107,18 +83,3 @@ The application provides intuitive navigation through complex Talmudic structure
 - **Term highlighting** for concepts, names, and places
 - **Gazetteer integration** with 5,385+  Talmudic terms
 
-## Screenshots
-
-### Desktop & Tablet Views
-Main homepage with navigation and tractate organization:
-![Homepage Navigation](homepage_main_navigation.png)
-
-Tractate overview page showing chapter navigation (Sukkah):
-![Tractate Overview](sukkah_tractate_overview.png)
-
-### Mobile Views
-Mobile homepage displaying all 37 tractates organized by Seder:
-![Mobile Homepage](mobile_homepage.png)
-
-Mobile text reading interface with responsive Hebrew-English layout:
-![Mobile Reading](mobile_sukkah_2a.png)
