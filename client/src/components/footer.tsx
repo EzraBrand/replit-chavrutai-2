@@ -1,5 +1,6 @@
 import { Link } from "wouter";
 import { ExternalLink } from "lucide-react";
+import poweredBySefariaPath from "@assets/powered-by-sefaria-87c5652-image_1758709536972.png";
 
 export function Footer() {
   return (
@@ -116,7 +117,14 @@ export function Footer() {
           >
             Sefaria
             <ExternalLink size={12} />
-          </a> (not affiliated)</span>
+          </a> (not affiliated)
+            <img 
+              src={poweredBySefariaPath} 
+              alt="Powered by Sefaria" 
+              className="h-4 w-auto opacity-70"
+              data-testid="sefaria-powered-by-image"
+            />
+          </span>
           <span className="hidden sm:inline">|</span>
           <span>A project of <a 
             href="https://www.ezrabrand.com/"
