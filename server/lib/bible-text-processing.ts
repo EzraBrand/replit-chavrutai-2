@@ -130,16 +130,47 @@ export function processBibleEnglish(text: string): string {
 }
 
 /**
- * Split English text by commas
+ * Split English text by commas and sentence endings with quotes
  */
 export function splitEnglishByCommas(text: string): string[] {
   if (!text) return [text];
   
-  // Split on commas followed by space, trim each segment
-  return text
-    .split(/,\s+/)
-    .map(s => s.trim())
-    .filter(s => s.length > 0);
+  // Split on:
+  // 1. Commas followed by space
+  // 2. Period/question mark/exclamation followed by closing quote and space
+  // Using a regex that captures the delimiter so we can keep quotes with their sentences
+  
+  const segments: string[] = [];
+  let currentSegment = '';
+  
+  for (let i = 0; i < text.length; i++) {
+    const char = text[i];
+    const nextChar = i + 1 < text.length ? text[i + 1] : '';
+    const nextNextChar = i + 2 < text.length ? text[i + 2] : '';
+    
+    currentSegment += char;
+    
+    // Check for comma followed by space - split here
+    if (char === ',' && nextChar === ' ') {
+      segments.push(currentSegment.trim());
+      currentSegment = '';
+      i++; // Skip the space
+    }
+    // Check for period/question/exclamation followed by quote and space - keep quote, then split
+    else if ((char === '.' || char === '?' || char === '!') && nextChar === '"' && nextNextChar === ' ') {
+      currentSegment += nextChar; // Add the closing quote
+      segments.push(currentSegment.trim());
+      currentSegment = '';
+      i += 2; // Skip the quote and space
+    }
+  }
+  
+  // Add any remaining text
+  if (currentSegment.trim().length > 0) {
+    segments.push(currentSegment.trim());
+  }
+  
+  return segments.filter(s => s.length > 0);
 }
 
 /**
