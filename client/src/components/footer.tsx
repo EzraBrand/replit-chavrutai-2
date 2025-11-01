@@ -43,6 +43,13 @@ export function Footer() {
             Biblical Index
           </Link>
           <Link 
+            href="/bible"
+            className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200"
+            data-testid="footer-link-bible"
+          >
+            Bible
+          </Link>
+          <Link 
             href="/about"
             className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200"
             data-testid="footer-link-about"

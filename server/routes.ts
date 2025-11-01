@@ -381,6 +381,129 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Bible API Routes
+  // Get Bible text for a specific book and chapter
+  app.get("/api/bible/text", async (req, res) => {
+    try {
+      const { BibleQuerySchema } = await import('../shared/schema');
+      const { book, chapter } = BibleQuerySchema.parse(req.query);
+      
+      // Import Bible books configuration
+      const { isValidBook, normalizeSefariaBookName, getChapterCount } = await import('../shared/bible-books');
+      
+      // Validate book name
+      if (!isValidBook(book)) {
+        return res.status(404).json({ error: `Invalid book: ${book}` });
+      }
+      
+      // Validate chapter number
+      const maxChapters = getChapterCount(book);
+      if (chapter < 1 || chapter > maxChapters) {
+        return res.status(404).json({ 
+          error: `Invalid chapter: ${chapter}. ${book} has ${maxChapters} chapters.` 
+        });
+      }
+      
+      try {
+        // Normalize book name for Sefaria API
+        const sefariaBook = normalizeSefariaBookName(book);
+        const sefariaRef = `${sefariaBook}.${chapter}`;
+        console.log(`Fetching Bible from Sefaria: ${sefariaRef}`);
+        
+        // Fetch from Sefaria with JPS 1985 version
+        const response = await fetch(
+          `${sefariaAPIBaseURL}/texts/${sefariaRef}?lang=bi&version=english:JPS_1985`
+        );
+        
+        if (!response.ok) {
+          throw new Error(`Sefaria API returned ${response.status}`);
+        }
+        
+        const sefariaData = await response.json();
+        
+        // Parse Sefaria response
+        const hebrewVerses = Array.isArray(sefariaData.he) ? sefariaData.he : [sefariaData.he || ''];
+        const englishVerses = Array.isArray(sefariaData.text) ? sefariaData.text : [sefariaData.text || ''];
+        
+        // Import Bible text processing utilities
+        const { processHebrewVerses, processEnglishVerses, flattenVerseSegments } = 
+          await import('./lib/bible-text-processing');
+        
+        // Process verses: FIRST split by cantillation/commas, THEN remove marks
+        const processedHebrewVerses = processHebrewVerses(hebrewVerses);
+        const processedEnglishVerses = processEnglishVerses(englishVerses);
+        
+        // Flatten into single arrays for display
+        const flatHebrewVerses = flattenVerseSegments(processedHebrewVerses);
+        const flatEnglishVerses = flattenVerseSegments(processedEnglishVerses);
+        
+        // Also create combined text for backward compatibility
+        const hebrewText = flatHebrewVerses.join(' ');
+        const englishText = flatEnglishVerses.join(' ');
+        
+        const bibleText = {
+          work: "Bible" as const,
+          book,
+          chapter,
+          hebrewText,
+          englishText,
+          hebrewVerses: flatHebrewVerses,
+          englishVerses: flatEnglishVerses,
+          sefariaRef,
+          verseCount: hebrewVerses.length,
+        };
+        
+        res.json(bibleText);
+      } catch (sefariaError) {
+        console.error('Error fetching from Sefaria:', sefariaError);
+        return res.status(500).json({ 
+          error: `Failed to fetch Bible text from Sefaria` 
+        });
+      }
+    } catch (error) {
+      console.error('Error in /api/bible/text:', error);
+      res.status(400).json({ message: "Invalid request parameters" });
+    }
+  });
+
+  // Get list of all Bible books
+  app.get("/api/bible/books", async (req, res) => {
+    try {
+      const { ALL_BIBLE_BOOKS, BIBLE_SECTIONS } = await import('../shared/bible-books');
+      
+      res.json({ 
+        books: ALL_BIBLE_BOOKS,
+        sections: BIBLE_SECTIONS
+      });
+    } catch (error) {
+      console.error('Error in /api/bible/books:', error);
+      res.status(500).json({ message: "Error fetching Bible books" });
+    }
+  });
+
+  // Get chapters for a Bible book
+  app.get("/api/bible/chapters", async (req, res) => {
+    try {
+      const { book } = z.object({ book: z.string() }).parse(req.query);
+      
+      const { getChapterCount, isValidBook } = await import('../shared/bible-books');
+      
+      if (!isValidBook(book)) {
+        return res.status(404).json({ error: `Invalid book: ${book}` });
+      }
+      
+      const chapterCount = getChapterCount(book);
+      
+      // Return array of chapter numbers
+      const chapters = Array.from({ length: chapterCount }, (_, i) => i + 1);
+      
+      res.json({ chapters, count: chapterCount });
+    } catch (error) {
+      console.error('Error in /api/bible/chapters:', error);
+      res.status(400).json({ message: "Invalid book parameter" });
+    }
+  });
+
   // Get sitemap data for human-readable HTML sitemap page
   app.get("/api/sitemap", async (req, res) => {
     try {
