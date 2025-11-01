@@ -5,10 +5,12 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { AlertCircle, ChevronLeft, ChevronRight } from "lucide-react";
 import { BibleTextDisplay } from "@/components/bible/bible-text-display";
+import { HamburgerMenu } from "@/components/navigation/hamburger-menu";
 import { Footer } from "@/components/footer";
 import { usePreferences } from "@/context/preferences-context";
 import { useSEO } from "@/hooks/use-seo";
 import type { BibleLocation } from "@/types/bible";
+import type { TalmudLocation } from "@/types/talmud";
 import { bibleAPI } from "@/lib/bible-api";
 import NotFound from "@/pages/not-found";
 
@@ -71,6 +73,14 @@ export default function BibleChapterPage() {
     }
   };
 
+  // Handler for hamburger menu navigation (Bible doesn't use same navigation structure as Talmud)
+  const handleLocationChange = (newLocation: TalmudLocation) => {
+    // Navigate to Talmud tractate
+    const tractateSlug = newLocation.tractate.toLowerCase().replace(/\s+/g, '-');
+    const folioSlug = `${newLocation.folio}${newLocation.side}`;
+    window.location.href = `/tractate/${tractateSlug}/${folioSlug}`;
+  };
+
   if (!book || !chapter) {
     return <NotFound />;
   }
@@ -81,16 +91,9 @@ export default function BibleChapterPage() {
       <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
         <div className="max-w-5xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between gap-4">
-            {/* Left Section: Back Button */}
+            {/* Left Section: Hamburger Menu */}
             <div className="flex items-center flex-shrink-0">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setLocation('/bible')}
-                data-testid="button-back-to-bible"
-              >
-                ← Bible
-              </Button>
+              <HamburgerMenu onLocationChange={handleLocationChange} />
             </div>
             
             {/* Center Section: Title */}
@@ -101,7 +104,7 @@ export default function BibleChapterPage() {
             </div>
             
             {/* Right Section: Spacer for symmetry */}
-            <div className="flex-shrink-0" style={{ width: '80px' }} />
+            <div className="flex-shrink-0" style={{ width: '48px' }} />
           </div>
         </div>
       </header>

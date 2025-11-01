@@ -1,0 +1,120 @@
+import { useParams, Link, useLocation } from "wouter";
+import { useQuery } from "@tanstack/react-query";
+import { ChevronLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Footer } from "@/components/footer";
+import { useSEO } from "@/hooks/use-seo";
+import { bibleAPI } from "@/lib/bible-api";
+import NotFound from "@/pages/not-found";
+
+export default function BibleBookPage() {
+  const { book } = useParams<{ book: string }>();
+  const [, setLocation] = useLocation();
+
+  // Fetch book info and chapters
+  const { data: booksData } = useQuery({
+    queryKey: ['/api/bible/books'],
+    queryFn: () => bibleAPI.getBooks()
+  });
+
+  const { data: chapters } = useQuery({
+    queryKey: ['/api/bible/chapters', book],
+    queryFn: () => bibleAPI.getChapters(book || ''),
+    enabled: !!book,
+  });
+
+  // Find the book details
+  const bookInfo = booksData?.books.find(b => b.slug === book);
+
+  // Set up SEO
+  const bookTitle = bookInfo?.name || (book ? book.charAt(0).toUpperCase() + book.slice(1).replace(/-/g, ' ') : 'Bible');
+  useSEO({
+    title: `${bookTitle} - Hebrew & English Bible | ChavrutAI`,
+    description: `Read all ${chapters?.length || ''} chapters of ${bookTitle} with Hebrew and English text from JPS 1985 translation. Free access to the Bible online.`,
+    ogTitle: `${bookTitle} - Bible Study`,
+    ogDescription: `Read all chapters of ${bookTitle} with parallel Hebrew-English text.`,
+    canonical: `/bible/${book}`,
+    robots: "index, follow"
+  });
+
+  if (!book || !bookInfo) {
+    return <NotFound />;
+  }
+
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <Link href="/bible">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="flex items-center gap-2"
+                data-testid="button-back-to-bible"
+              >
+                <ChevronLeft className="w-4 h-4" />
+                Back to Bible
+              </Button>
+            </Link>
+            
+            <h1 className="text-xl font-semibold text-primary">ChavrutAI</h1>
+            
+            <div className="w-24" /> {/* Spacer */}
+          </div>
+        </div>
+      </header>
+
+      <div className="max-w-6xl mx-auto px-4 py-8">
+        {/* Book Header */}
+        <div className="text-center mb-8">
+          <h1 className="text-5xl font-bold text-primary mb-2" data-testid="text-book-title">
+            {bookInfo.name}
+          </h1>
+          <h2 className="text-3xl text-primary/80 mb-4 hebrew-font-noto-sans-hebrew" dir="rtl">
+            {bookInfo.hebrew}
+          </h2>
+          <p className="text-xl text-muted-foreground">
+            {chapters?.length || 0} Chapters
+          </p>
+        </div>
+
+        {/* Chapters Grid */}
+        <div className="grid grid-cols-1 gap-6 max-w-none sm:max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-3xl mx-auto">
+          <Card className="hover:shadow-lg transition-shadow duration-200">
+            <CardContent className="p-6">
+              <div className="mb-4">
+                <h3 className="text-xl text-primary mb-2">
+                  All Chapters
+                </h3>
+              </div>
+
+              {/* Chapter buttons */}
+              <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-2 justify-items-center">
+                {chapters?.map((chapterNum) => (
+                  <Link
+                    key={chapterNum}
+                    href={`/bible/${book}/${chapterNum}`}
+                  >
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="h-10 px-2 text-base font-normal w-full min-w-[3rem] max-w-[4rem] hover:bg-primary hover:text-primary-foreground"
+                      data-testid={`button-chapter-${chapterNum}`}
+                    >
+                      {chapterNum}
+                    </Button>
+                  </Link>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+
+      <Footer />
+    </div>
+  );
+}

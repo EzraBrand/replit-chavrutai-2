@@ -62,7 +62,7 @@ export default function BibleContents() {
           <p className="text-xl text-right hebrew-font-noto-sans-hebrew" dir="rtl">
             {book.hebrew}
           </p>
-          <Link href={`/bible/${book.slug}/1`}>
+          <Link href={`/bible/${book.slug}`}>
             <Button 
               variant="outline" 
               className="w-full"
