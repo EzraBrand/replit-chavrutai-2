@@ -181,7 +181,7 @@ export function processBibleEnglish(text: string): string {
 }
 
 /**
- * Split English text by commas and sentence endings with quotes
+ * Split English text by commas, semicolons, colons, em-dashes, and sentence endings with quotes
  */
 export function splitEnglishByCommas(text: string): string[] {
   if (!text) return [text];
@@ -189,20 +189,17 @@ export function splitEnglishByCommas(text: string): string[] {
   // Split on:
   // 1. Period/question/exclamation followed by quote - keep quote, then split
   // 2. Period/question/exclamation followed directly by space (no quote) - split here
-  // 3. Commas followed by space - split here (only if NOT inside quotes)
+  // 3. Commas, semicolons, colons, em-dashes followed by space - split here (even inside quotes)
   
   // Helper to check if character is a quote (straight or curly)
   // Using Unicode escape sequences to be explicit:
   // \u0022 = " (straight quote)
   // \u201C = " (left double quotation mark)
   // \u201D = " (right double quotation mark)
-  const isQuote = (char: string) => char === '\u0022' || char === '\u201C' || char === '\u201D';
-  const isOpenQuote = (char: string) => char === '\u0022' || char === '\u201C';
   const isCloseQuote = (char: string) => char === '\u0022' || char === '\u201D';
   
   const segments: string[] = [];
   let currentSegment = '';
-  let insideQuotes = false;
   
   for (let i = 0; i < text.length; i++) {
     const char = text[i];
@@ -216,7 +213,6 @@ export function splitEnglishByCommas(text: string): string[] {
       currentSegment += nextChar; // Add the closing quote
       segments.push(currentSegment.trim());
       currentSegment = '';
-      insideQuotes = false; // We just closed the quote
       i++; // Skip the quote
       // If there's a space after the quote, skip it too
       if (charAfterNext === ' ') {
@@ -229,24 +225,11 @@ export function splitEnglishByCommas(text: string): string[] {
       currentSegment = '';
       i++; // Skip the space
     }
-    // PRIORITY 3: Check for comma followed by space - split here ONLY if not inside quotes
-    else if (char === ',' && nextChar === ' ' && !insideQuotes) {
+    // PRIORITY 3: Check for comma, semicolon, colon, or em-dash followed by space - split here
+    else if ((char === ',' || char === ';' || char === ':' || char === '—') && nextChar === ' ') {
       segments.push(currentSegment.trim());
       currentSegment = '';
       i++; // Skip the space
-    }
-    // PRIORITY 4: Check for semicolon followed by space - split here ONLY if not inside quotes
-    else if (char === ';' && nextChar === ' ' && !insideQuotes) {
-      segments.push(currentSegment.trim());
-      currentSegment = '';
-      i++; // Skip the space
-    }
-    // Track if we're inside quotes (do this AFTER checking for splits)
-    else if (isOpenQuote(char)) {
-      insideQuotes = true;
-    }
-    else if (isCloseQuote(char)) {
-      insideQuotes = false;
     }
   }
   
