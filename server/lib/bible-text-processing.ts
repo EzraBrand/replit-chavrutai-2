@@ -136,12 +136,22 @@ export function splitEnglishByCommas(text: string): string[] {
   if (!text) return [text];
   
   // Split on:
-  // 1. Commas followed by space
-  // 2. Period/question/exclamation followed by space (with or without quote)
-  //    - If followed by quote, keep quote with the sentence
+  // 1. Period/question/exclamation followed by quote - keep quote, then split
+  // 2. Period/question/exclamation followed directly by space (no quote) - split here
+  // 3. Commas followed by space - split here (only if NOT inside quotes)
+  
+  // Helper to check if character is a quote (straight or curly)
+  // Using Unicode escape sequences to be explicit:
+  // \u0022 = " (straight quote)
+  // \u201C = " (left double quotation mark)
+  // \u201D = " (right double quotation mark)
+  const isQuote = (char: string) => char === '\u0022' || char === '\u201C' || char === '\u201D';
+  const isOpenQuote = (char: string) => char === '\u0022' || char === '\u201C';
+  const isCloseQuote = (char: string) => char === '\u0022' || char === '\u201D';
   
   const segments: string[] = [];
   let currentSegment = '';
+  let insideQuotes = false;
   
   for (let i = 0; i < text.length; i++) {
     const char = text[i];
@@ -150,28 +160,36 @@ export function splitEnglishByCommas(text: string): string[] {
     
     currentSegment += char;
     
-    // Check for comma followed by space - split here
-    if (char === ',' && nextChar === ' ') {
-      segments.push(currentSegment.trim());
-      currentSegment = '';
-      i++; // Skip the space
-    }
-    // Check for period/question/exclamation followed by quote - keep quote, then split
-    else if ((char === '.' || char === '?' || char === '!') && nextChar === '"') {
+    // PRIORITY 1: Check for period/question/exclamation followed by closing quote - keep quote, then split
+    if ((char === '.' || char === '?' || char === '!') && isCloseQuote(nextChar)) {
       currentSegment += nextChar; // Add the closing quote
       segments.push(currentSegment.trim());
       currentSegment = '';
+      insideQuotes = false; // We just closed the quote
       i++; // Skip the quote
       // If there's a space after the quote, skip it too
       if (charAfterNext === ' ') {
         i++;
       }
     }
-    // Check for period/question/exclamation followed directly by space (no quote) - split here
+    // PRIORITY 2: Check for period/question/exclamation followed directly by space (no quote) - split here
     else if ((char === '.' || char === '?' || char === '!') && nextChar === ' ') {
       segments.push(currentSegment.trim());
       currentSegment = '';
       i++; // Skip the space
+    }
+    // PRIORITY 3: Check for comma followed by space - split here ONLY if not inside quotes
+    else if (char === ',' && nextChar === ' ' && !insideQuotes) {
+      segments.push(currentSegment.trim());
+      currentSegment = '';
+      i++; // Skip the space
+    }
+    // Track if we're inside quotes (do this AFTER checking for splits)
+    else if (isOpenQuote(char)) {
+      insideQuotes = true;
+    }
+    else if (isCloseQuote(char)) {
+      insideQuotes = false;
     }
   }
   
