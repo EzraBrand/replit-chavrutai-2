@@ -12,6 +12,15 @@ export function BibleTextDisplay({ text }: BibleTextDisplayProps) {
   // Get Hebrew font class based on selected font
   const getHebrewFontClass = () => `hebrew-font-${preferences.hebrewFont}`;
   
+  // Safety check for verses array
+  if (!text.verses || !Array.isArray(text.verses)) {
+    return (
+      <div className="bg-card rounded-lg shadow-sm border border-border p-6">
+        <p className="text-muted-foreground">Loading verses...</p>
+      </div>
+    );
+  }
+  
   return (
     <div className="bg-card rounded-lg shadow-sm border border-border p-6" data-testid="bible-text-display">
       <div className="space-y-8">
