@@ -426,29 +426,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
         const englishVerses = Array.isArray(sefariaData.text) ? sefariaData.text : [sefariaData.text || ''];
         
         // Import Bible text processing utilities
-        const { processHebrewVerses, processEnglishVerses, flattenVerseSegments } = 
+        const { processHebrewVerses, processEnglishVerses } = 
           await import('./lib/bible-text-processing');
         
         // Process verses: FIRST split by cantillation/commas, THEN remove marks
         const processedHebrewVerses = processHebrewVerses(hebrewVerses);
         const processedEnglishVerses = processEnglishVerses(englishVerses);
         
-        // Flatten into single arrays for display
-        const flatHebrewVerses = flattenVerseSegments(processedHebrewVerses);
-        const flatEnglishVerses = flattenVerseSegments(processedEnglishVerses);
-        
-        // Also create combined text for backward compatibility
-        const hebrewText = flatHebrewVerses.join(' ');
-        const englishText = flatEnglishVerses.join(' ');
+        // Build verse objects with segments (maintain verse boundaries)
+        const maxVerses = Math.max(processedHebrewVerses.length, processedEnglishVerses.length);
+        const verses = Array.from({ length: maxVerses }, (_, index) => ({
+          verseNumber: index + 1,
+          hebrewSegments: processedHebrewVerses[index] || [],
+          englishSegments: processedEnglishVerses[index] || [],
+        }));
         
         const bibleText = {
           work: "Bible" as const,
           book,
           chapter,
-          hebrewText,
-          englishText,
-          hebrewVerses: flatHebrewVerses,
-          englishVerses: flatEnglishVerses,
+          verses,
           sefariaRef,
           verseCount: hebrewVerses.length,
         };

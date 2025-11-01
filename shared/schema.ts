@@ -183,18 +183,23 @@ export const BibleLocationSchema = z.object({
 export type BibleLocation = z.infer<typeof BibleLocationSchema>;
 
 // Bible Text Schema
+// Bible Verse with segments (split by cantillation/punctuation)
+export const BibleVerseSchema = z.object({
+  verseNumber: z.number(),
+  hebrewSegments: z.array(z.string()),
+  englishSegments: z.array(z.string()),
+});
+
 export const BibleTextSchema = z.object({
   work: z.literal("Bible"),
   book: z.string(),
   chapter: z.number(),
-  hebrewText: z.string(),
-  englishText: z.string(),
-  hebrewVerses: z.array(z.string()),
-  englishVerses: z.array(z.string()),
+  verses: z.array(BibleVerseSchema),
   sefariaRef: z.string(),
   verseCount: z.number(),
 });
 
+export type BibleVerse = z.infer<typeof BibleVerseSchema>;
 export type BibleText = z.infer<typeof BibleTextSchema>;
 
 // Bible Query Schema for API requests
