@@ -146,7 +146,7 @@ export function splitEnglishByCommas(text: string): string[] {
   for (let i = 0; i < text.length; i++) {
     const char = text[i];
     const nextChar = i + 1 < text.length ? text[i + 1] : '';
-    const nextNextChar = i + 2 < text.length ? text[i + 2] : '';
+    const charAfterNext = i + 2 < text.length ? text[i + 2] : '';
     
     currentSegment += char;
     
@@ -156,12 +156,16 @@ export function splitEnglishByCommas(text: string): string[] {
       currentSegment = '';
       i++; // Skip the space
     }
-    // Check for period/question/exclamation followed by quote and space - keep quote, then split
-    else if ((char === '.' || char === '?' || char === '!') && nextChar === '"' && nextNextChar === ' ') {
+    // Check for period/question/exclamation followed by quote - keep quote, then split
+    else if ((char === '.' || char === '?' || char === '!') && nextChar === '"') {
       currentSegment += nextChar; // Add the closing quote
       segments.push(currentSegment.trim());
       currentSegment = '';
-      i += 2; // Skip the quote and space
+      i++; // Skip the quote
+      // If there's a space after the quote, skip it too
+      if (charAfterNext === ' ') {
+        i++;
+      }
     }
     // Check for period/question/exclamation followed directly by space (no quote) - split here
     else if ((char === '.' || char === '?' || char === '!') && nextChar === ' ') {
