@@ -107,7 +107,7 @@ export default function BibleChapterPage() {
       </header>
 
       {/* Main Content */}
-      <main className={`max-w-4xl mx-auto px-4 py-6 text-size-${preferences.textSize} hebrew-font-${preferences.hebrewFont}`}>
+      <main className={`max-w-4xl mx-auto px-4 py-6 text-size-${preferences.textSize} hebrew-font-${preferences.hebrewFont} layout-${preferences.layout}`}>
 
         {/* Error State */}
         {error && (
