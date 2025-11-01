@@ -50,49 +50,39 @@ export function BibleTextDisplay({ text }: BibleTextDisplayProps) {
                 </a>
               </div>
               
-              {/* Display segments side-by-side: pair each English with corresponding Hebrew */}
-              <div className="space-y-4">
-                {Array.from({ 
-                  length: Math.max(verse.hebrewSegments.length, verse.englishSegments.length) 
-                }).map((_, segmentIndex) => {
-                  const englishSegment = verse.englishSegments[segmentIndex] || '';
-                  const hebrewSegment = verse.hebrewSegments[segmentIndex] || '';
-                  
-                  // Skip if both segments are empty
-                  if (!englishSegment.trim() && !hebrewSegment.trim()) {
-                    return null;
-                  }
-                  
-                  return (
-                    <div key={segmentIndex} className="text-display flex flex-col lg:flex-row gap-6">
-                      {/* English Segment (First on Mobile, Left Side on Desktop) */}
-                      <div className="text-column space-y-3 lg:order-1">
-                        {englishSegment.trim() && (
-                          <div className="english-text text-foreground">
-                            <div 
-                              dangerouslySetInnerHTML={{ __html: formatEnglishText(processEnglishText(englishSegment)) }}
-                            />
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Hebrew Segment (Second on Mobile, Right Side on Desktop) */}
-                      <div className="text-column space-y-3 lg:order-2">
-                        {hebrewSegment.trim() && (
-                          <div className={`hebrew-text text-foreground ${getHebrewFontClass()}`}>
-                            {processHebrewText(hebrewSegment).split('\n').filter(line => line.trim()).map((line, lineIndex) => (
-                              <p 
-                                key={lineIndex}
-                                className="leading-relaxed mb-2 last:mb-0"
-                                dangerouslySetInnerHTML={{ __html: line.trim() }}
-                              />
-                            ))}
-                          </div>
-                        )}
-                      </div>
+              <div className="text-display flex flex-col lg:flex-row gap-6">
+                {/* English Segments Column (First on Mobile, Left Side on Desktop) */}
+                <div className="text-column space-y-3 lg:order-1">
+                  {verse.englishSegments.length > 0 && (
+                    <div className="english-text text-foreground space-y-3">
+                      {verse.englishSegments.map((segment, index) => (
+                        <div 
+                          key={index}
+                          dangerouslySetInnerHTML={{ __html: formatEnglishText(processEnglishText(segment)) }}
+                        />
+                      ))}
                     </div>
-                  );
-                })}
+                  )}
+                </div>
+
+                {/* Hebrew Segments Column (Second on Mobile, Right Side on Desktop) */}
+                <div className="text-column space-y-3 lg:order-2">
+                  {verse.hebrewSegments.length > 0 && (
+                    <div className={`hebrew-text text-foreground ${getHebrewFontClass()} space-y-3`}>
+                      {verse.hebrewSegments.map((segment, segIndex) => (
+                        <div key={segIndex}>
+                          {processHebrewText(segment).split('\n').filter(line => line.trim()).map((line, lineIndex) => (
+                            <p 
+                              key={lineIndex}
+                              className="leading-relaxed"
+                              dangerouslySetInnerHTML={{ __html: line.trim() }}
+                            />
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           );
