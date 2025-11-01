@@ -5,14 +5,17 @@ export interface BibleLocation {
   verse?: number;
 }
 
+export interface BibleVerse {
+  verseNumber: number;
+  hebrewSegments: string[];
+  englishSegments: string[];
+}
+
 export interface BibleText {
   work: "Bible";
   book: string;
   chapter: number;
-  hebrewText: string;
-  englishText: string;
-  hebrewVerses: string[];
-  englishVerses: string[];
+  verses: BibleVerse[];
   sefariaRef: string;
   verseCount: number;
 }
