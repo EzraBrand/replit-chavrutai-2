@@ -4,28 +4,58 @@
  */
 
 /**
- * Split Hebrew verse by specific cantillation marks
+ * Split Hebrew verse by specific cantillation marks at word boundaries
  * CRITICAL: Split by these two marks only (from אִ֔ישׁ and יִשְׂרָאֵ֑ל):
  * - U+0591 (֑) - Etnahta
  * - U+0594 (֔) - Zaqef Qatan
+ * 
+ * Strategy: Find the cantillation mark, then extend to the next space (word boundary)
  */
 function splitHebrewByCantillation(verse: string): string[] {
   if (!verse) return [];
   
-  // Split by Etnahta (֑) and Zaqef Qatan (֔) only
-  const cantillationSplitPattern = /[\u0591\u0594]/;
+  // Replace maqaf (־) with space first so it becomes a word boundary
+  let text = verse.replace(/\u05BE/g, ' ');
   
-  // Split the verse at these marks
-  const segments = verse.split(cantillationSplitPattern);
+  // Find positions of cantillation marks (Etnahta and Zaqef Qatan)
+  const segments: string[] = [];
+  let currentStart = 0;
   
-  // Clean and filter empty segments
-  return segments
-    .map(s => s.trim())
-    .filter(s => s.length > 0);
+  for (let i = 0; i < text.length; i++) {
+    const char = text[i];
+    // Check if this character is Etnahta (֑) or Zaqef Qatan (֔)
+    if (char === '\u0591' || char === '\u0594') {
+      // Find the next space after this cantillation mark
+      let splitPoint = i + 1;
+      while (splitPoint < text.length && text[splitPoint] !== ' ') {
+        splitPoint++;
+      }
+      
+      // Extract segment from currentStart to splitPoint
+      const segment = text.substring(currentStart, splitPoint).trim();
+      if (segment.length > 0) {
+        segments.push(segment);
+      }
+      
+      // Move past the space
+      currentStart = splitPoint + 1;
+    }
+  }
+  
+  // Add the remaining text as the last segment
+  if (currentStart < text.length) {
+    const lastSegment = text.substring(currentStart).trim();
+    if (lastSegment.length > 0) {
+      segments.push(lastSegment);
+    }
+  }
+  
+  // If no cantillation marks were found, return the whole text
+  return segments.length > 0 ? segments : [text.trim()];
 }
 
 /**
- * Strip HTML tags and footnotes from text
+ * Strip HTML tags, footnotes, and asterisks from text
  */
 function stripHTML(text: string): string {
   if (!text) return '';
@@ -35,6 +65,9 @@ function stripHTML(text: string): string {
   
   // Then remove all remaining HTML tags
   cleaned = cleaned.replace(/<[^>]*>/g, '');
+  
+  // Remove asterisks
+  cleaned = cleaned.replace(/\*/g, '');
   
   // Clean up any double spaces
   cleaned = cleaned.replace(/\s+/g, ' ').trim();
