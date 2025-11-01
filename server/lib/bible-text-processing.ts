@@ -163,7 +163,7 @@ export function processHebrewVerses(verses: string[]): string[][] {
 }
 
 /**
- * Process English text: Strip HTML and replace "the Lord" with "YHWH"
+ * Process English text: Strip HTML and replace "the Lord" and Hebrew יהוה with "YHWH"
  */
 export function processBibleEnglish(text: string): string {
   if (!text) return '';
@@ -171,8 +171,9 @@ export function processBibleEnglish(text: string): string {
   // First strip HTML tags (Sefaria includes footnotes as HTML)
   const noHTML = stripHTML(text);
   
-  // Then replace "the Lord" with "YHWH"
+  // Replace both English "the Lord" and Hebrew יהוה with "YHWH"
   return noHTML
+    .replace(/יהוה/g, "YHWH")  // Replace Hebrew Tetragrammaton
     .replace(/\bthe Lord\b/g, "YHWH")
     .replace(/\bthe LORD\b/g, "YHWH")
     .replace(/\bThe Lord\b/g, "YHWH")
@@ -230,6 +231,12 @@ export function splitEnglishByCommas(text: string): string[] {
     }
     // PRIORITY 3: Check for comma followed by space - split here ONLY if not inside quotes
     else if (char === ',' && nextChar === ' ' && !insideQuotes) {
+      segments.push(currentSegment.trim());
+      currentSegment = '';
+      i++; // Skip the space
+    }
+    // PRIORITY 4: Check for semicolon followed by space - split here ONLY if not inside quotes
+    else if (char === ';' && nextChar === ' ' && !insideQuotes) {
       segments.push(currentSegment.trim());
       currentSegment = '';
       i++; // Skip the space
