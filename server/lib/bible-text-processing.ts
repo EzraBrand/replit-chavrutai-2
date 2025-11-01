@@ -167,7 +167,7 @@ export function processHebrewVerses(verses: string[]): string[][] {
 }
 
 /**
- * Process English text: Strip HTML and replace "the Lord", "ETERNAL", and Hebrew יהוה with "YHWH"
+ * Process English text: Strip HTML and replace "the Lord", "ETERNAL", "GOD", and Hebrew יהוה with "YHWH"
  */
 export function processBibleEnglish(text: string): string {
   if (!text) return '';
@@ -179,6 +179,7 @@ export function processBibleEnglish(text: string): string {
   return noHTML
     .replace(/יהוה/g, "YHWH")  // Replace Hebrew Tetragrammaton
     .replace(/\bETERNAL\b/g, "YHWH")  // Replace ETERNAL (from JPS small caps rendering)
+    .replace(/\bGOD\b/g, "YHWH")  // Replace GOD (from JPS small caps rendering)
     .replace(/\bthe Lord\b/g, "YHWH")
     .replace(/\bthe LORD\b/g, "YHWH")
     .replace(/\bThe Lord\b/g, "YHWH")
