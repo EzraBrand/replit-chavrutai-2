@@ -60,8 +60,58 @@ function splitHebrewByCantillation(verse: string): string[] {
 function stripHTML(text: string): string {
   if (!text) return '';
   
-  // First remove Sefaria footnotes entirely (content between <i class="footnote"> and </i>)
-  let cleaned = text.replace(/<i class="footnote">.*?<\/i>/g, '');
+  // First, unescape HTML entities (&lt; -> <, &gt; -> >, etc.)
+  let cleaned = text
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&apos;/g, "'")
+    .replace(/&nbsp;/g, ' ');
+  
+  // Remove footnote markers (asterisks in sup tags)
+  cleaned = cleaned.replace(/<sup class="footnote-marker">.*?<\/sup>/g, '');
+  
+  // Remove Sefaria footnotes - need to handle nested <i> tags carefully
+  // Strategy: find <i class="footnote">, then count opening/closing <i> tags to find the matching </i>
+  while (cleaned.includes('<i class="footnote">')) {
+    const startIndex = cleaned.indexOf('<i class="footnote">');
+    let depth = 0;
+    let endIndex = -1;
+    
+    // Start searching after the opening tag
+    let searchIndex = startIndex + '<i class="footnote">'.length;
+    
+    while (searchIndex < cleaned.length) {
+      // Check for opening <i> tags
+      if (cleaned.substring(searchIndex).startsWith('<i>') || cleaned.substring(searchIndex).startsWith('<i ')) {
+        depth++;
+        searchIndex++;
+      }
+      // Check for closing </i> tags
+      else if (cleaned.substring(searchIndex).startsWith('</i>')) {
+        if (depth === 0) {
+          // This is the closing tag for our footnote
+          endIndex = searchIndex + '</i>'.length;
+          break;
+        } else {
+          depth--;
+          searchIndex++;
+        }
+      } else {
+        searchIndex++;
+      }
+    }
+    
+    if (endIndex > startIndex) {
+      // Remove the entire footnote
+      cleaned = cleaned.substring(0, startIndex) + cleaned.substring(endIndex);
+    } else {
+      // Safety: if we can't find the closing tag, just remove the opening tag
+      cleaned = cleaned.replace('<i class="footnote">', '');
+      break;
+    }
+  }
   
   // Then remove all remaining HTML tags
   cleaned = cleaned.replace(/<[^>]*>/g, '');
