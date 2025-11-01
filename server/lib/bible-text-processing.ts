@@ -5,9 +5,10 @@
 
 /**
  * Split Hebrew verse by specific cantillation marks at word boundaries
- * CRITICAL: Split by these two marks only (from אִ֔ישׁ and יִשְׂרָאֵ֑ל):
- * - U+0591 (֑) - Etnahta
- * - U+0594 (֔) - Zaqef Qatan
+ * CRITICAL: Split by these three marks only:
+ * - U+0591 (֑) - Etnahta (from יִשְׂרָאֵ֑ל)
+ * - U+0594 (֔) - Zaqef Qatan (from אִ֔ישׁ)
+ * - U+0597 (֗) - Revia (from יִשְׂרָאֵ֗ל, מֹשֶׁ֗ה)
  * 
  * Strategy: Find the cantillation mark, then extend to the next space (word boundary)
  */
@@ -17,14 +18,14 @@ function splitHebrewByCantillation(verse: string): string[] {
   // Replace maqaf (־) with space first so it becomes a word boundary
   let text = verse.replace(/\u05BE/g, ' ');
   
-  // Find positions of cantillation marks (Etnahta and Zaqef Qatan)
+  // Find positions of cantillation marks (Etnahta, Zaqef Qatan, and Revia)
   const segments: string[] = [];
   let currentStart = 0;
   
   for (let i = 0; i < text.length; i++) {
     const char = text[i];
-    // Check if this character is Etnahta (֑) or Zaqef Qatan (֔)
-    if (char === '\u0591' || char === '\u0594') {
+    // Check if this character is Etnahta (֑), Zaqef Qatan (֔), or Revia (֗)
+    if (char === '\u0591' || char === '\u0594' || char === '\u0597') {
       // Find the next space after this cantillation mark
       let splitPoint = i + 1;
       while (splitPoint < text.length && text[splitPoint] !== ' ') {
