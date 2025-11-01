@@ -383,6 +383,30 @@ export function processEnglishText(text: string): string {
 }
 
 /**
+ * Simpler processing for Bible English text - no auto-splitting
+ * (Backend already handles verse splitting)
+ */
+export function processBibleEnglishText(text: string): string {
+  if (!text) return '';
+  
+  let processed = text;
+  
+  // Only apply term replacements, no splitting
+  processed = replaceTerms(processed);
+  
+  // Preserve paragraph breaks and normalize spacing
+  processed = processed
+    .replace(/\r\n/g, '\n')  // Normalize line endings
+    .replace(/\n{3,}/g, '\n\n')  // Multiple line breaks to double
+    .replace(/[ \t]+/g, ' ')  // Multiple spaces/tabs to single space
+    .replace(/\n[ \t]+/g, '\n')  // Remove leading whitespace on new lines
+    .replace(/[ \t]+\n/g, '\n')  // Remove trailing whitespace before new lines
+    .trim();
+  
+  return processed;
+}
+
+/**
  * Basic formatting for English text - processes HTML and line breaks while preserving formatting
  */
 export function formatEnglishText(text: string): string {

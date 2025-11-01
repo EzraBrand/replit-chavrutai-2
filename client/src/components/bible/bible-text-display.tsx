@@ -1,5 +1,5 @@
 import { usePreferences } from "@/context/preferences-context";
-import { processHebrewText, processEnglishText, formatEnglishText } from "@/lib/text-processing";
+import { processHebrewText, processBibleEnglishText, formatEnglishText } from "@/lib/text-processing";
 import type { BibleText } from "@/types/bible";
 
 interface BibleTextDisplayProps {
@@ -58,7 +58,7 @@ export function BibleTextDisplay({ text }: BibleTextDisplayProps) {
                       {verse.englishSegments.map((segment, index) => (
                         <div 
                           key={index}
-                          dangerouslySetInnerHTML={{ __html: formatEnglishText(processEnglishText(segment)) }}
+                          dangerouslySetInnerHTML={{ __html: formatEnglishText(processBibleEnglishText(segment)) }}
                         />
                       ))}
                     </div>
