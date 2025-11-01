@@ -69,6 +69,9 @@ function stripHTML(text: string): string {
     .replace(/&apos;/g, "'")
     .replace(/&nbsp;/g, ' ');
   
+  // Replace <br> tags with newline markers before removing other HTML
+  cleaned = cleaned.replace(/<br\s*\/?>/gi, '\n');
+  
   // Remove footnote markers (asterisks in sup tags)
   cleaned = cleaned.replace(/<sup class="footnote-marker">.*?<\/sup>/g, '');
   
@@ -119,8 +122,8 @@ function stripHTML(text: string): string {
   // Remove asterisks
   cleaned = cleaned.replace(/\*/g, '');
   
-  // Clean up any double spaces
-  cleaned = cleaned.replace(/\s+/g, ' ').trim();
+  // Clean up any double spaces (but preserve newlines)
+  cleaned = cleaned.replace(/[^\S\n]+/g, ' ').trim();
   
   return cleaned;
 }
@@ -181,7 +184,7 @@ export function processBibleEnglish(text: string): string {
 }
 
 /**
- * Split English text by commas, semicolons, colons, em-dashes, and sentence endings with quotes
+ * Split English text by commas, semicolons, colons, em-dashes, newlines, and sentence endings with quotes
  */
 export function splitEnglishByCommas(text: string): string[] {
   if (!text) return [text];
@@ -189,7 +192,9 @@ export function splitEnglishByCommas(text: string): string[] {
   // Split on:
   // 1. Period/question/exclamation followed by quote - keep quote, then split
   // 2. Period/question/exclamation followed directly by space (no quote) - split here
-  // 3. Commas, semicolons, colons, em-dashes followed by space - split here (even inside quotes)
+  // 3. Commas, semicolons, colons followed by space - split here (even inside quotes)
+  // 4. Em-dash - split here (with or without space)
+  // 5. Newlines - split here
   
   // Helper to check if character is a quote (straight or curly)
   // Using Unicode escape sequences to be explicit:
@@ -205,6 +210,15 @@ export function splitEnglishByCommas(text: string): string[] {
     const char = text[i];
     const nextChar = i + 1 < text.length ? text[i + 1] : '';
     const charAfterNext = i + 2 < text.length ? text[i + 2] : '';
+    
+    // PRIORITY 0: Check for newline - split here
+    if (char === '\n') {
+      if (currentSegment.trim().length > 0) {
+        segments.push(currentSegment.trim());
+      }
+      currentSegment = '';
+      continue;
+    }
     
     currentSegment += char;
     
@@ -225,11 +239,20 @@ export function splitEnglishByCommas(text: string): string[] {
       currentSegment = '';
       i++; // Skip the space
     }
-    // PRIORITY 3: Check for comma, semicolon, colon, or em-dash followed by space - split here
-    else if ((char === ',' || char === ';' || char === ':' || char === '—') && nextChar === ' ') {
+    // PRIORITY 3: Check for comma, semicolon, colon followed by space - split here
+    else if ((char === ',' || char === ';' || char === ':') && nextChar === ' ') {
       segments.push(currentSegment.trim());
       currentSegment = '';
       i++; // Skip the space
+    }
+    // PRIORITY 4: Check for em-dash - split here (with or without space)
+    else if (char === '—') {
+      segments.push(currentSegment.trim());
+      currentSegment = '';
+      // If there's a space after the em-dash, skip it
+      if (nextChar === ' ') {
+        i++;
+      }
     }
   }
   
