@@ -25,6 +25,24 @@ function splitHebrewByCantillation(verse: string): string[] {
 }
 
 /**
+ * Strip HTML tags and footnotes from text
+ */
+function stripHTML(text: string): string {
+  if (!text) return '';
+  
+  // First remove Sefaria footnotes entirely (content between <i class="footnote"> and </i>)
+  let cleaned = text.replace(/<i class="footnote">.*?<\/i>/g, '');
+  
+  // Then remove all remaining HTML tags
+  cleaned = cleaned.replace(/<[^>]*>/g, '');
+  
+  // Clean up any double spaces
+  cleaned = cleaned.replace(/\s+/g, ' ').trim();
+  
+  return cleaned;
+}
+
+/**
  * Remove ALL nikud and cantillation marks from Hebrew
  * Unicode ranges:
  * - Nikud: \u05B0-\u05BC, \u05C1-\u05C2, \u05C4-\u05C7
@@ -33,8 +51,11 @@ function splitHebrewByCantillation(verse: string): string[] {
 function removeCantillationAndNikud(hebrewText: string): string {
   if (!hebrewText) return '';
   
-  // Remove all nikud and cantillation marks
-  return hebrewText.replace(/[\u0591-\u05C7]/g, '');
+  // First strip any HTML tags that Sefaria might include
+  const noHTML = stripHTML(hebrewText);
+  
+  // Then remove all nikud and cantillation marks
+  return noHTML.replace(/[\u0591-\u05C7]/g, '');
 }
 
 /**
@@ -59,12 +80,16 @@ export function processHebrewVerses(verses: string[]): string[][] {
 }
 
 /**
- * Process English text: Replace "the Lord" with "YHWH"
+ * Process English text: Strip HTML and replace "the Lord" with "YHWH"
  */
 export function processBibleEnglish(text: string): string {
   if (!text) return '';
   
-  return text
+  // First strip HTML tags (Sefaria includes footnotes as HTML)
+  const noHTML = stripHTML(text);
+  
+  // Then replace "the Lord" with "YHWH"
+  return noHTML
     .replace(/\bthe Lord\b/g, "YHWH")
     .replace(/\bthe LORD\b/g, "YHWH")
     .replace(/\bThe Lord\b/g, "YHWH")
