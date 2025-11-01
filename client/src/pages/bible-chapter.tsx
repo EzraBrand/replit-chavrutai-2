@@ -80,53 +80,34 @@ export default function BibleChapterPage() {
       {/* Header */}
       <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
         <div className="max-w-5xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setLocation('/bible')}
-              data-testid="button-back-to-bible"
-            >
-              ← Back to Bible
-            </Button>
-            <h1 className="text-xl font-semibold" data-testid="text-chapter-title">
-              {bookTitle} {parsedChapter}
-            </h1>
-            <div className="w-24" /> {/* Spacer for centering */}
+          <div className="flex items-center justify-between gap-4">
+            {/* Left Section: Back Button */}
+            <div className="flex items-center flex-shrink-0">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setLocation('/bible')}
+                data-testid="button-back-to-bible"
+              >
+                ← Bible
+              </Button>
+            </div>
+            
+            {/* Center Section: Title */}
+            <div className="flex-1 flex items-center justify-center min-w-0">
+              <h1 className="text-xl font-semibold truncate" data-testid="text-chapter-title">
+                {bookTitle} {parsedChapter}
+              </h1>
+            </div>
+            
+            {/* Right Section: Spacer for symmetry */}
+            <div className="flex-shrink-0" style={{ width: '80px' }} />
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className={`max-w-4xl mx-auto px-4 py-6`}>
-        {/* Navigation Buttons */}
-        <div className="flex justify-between items-center mb-6">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handlePrevChapter}
-            disabled={!canGoPrev}
-            data-testid="button-prev-chapter"
-          >
-            <ChevronLeft className="h-4 w-4 mr-1" />
-            Previous
-          </Button>
-          
-          <span className="text-sm text-muted-foreground">
-            Chapter {parsedChapter} of {maxChapter}
-          </span>
-          
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleNextChapter}
-            disabled={!canGoNext}
-            data-testid="button-next-chapter"
-          >
-            Next
-            <ChevronRight className="h-4 w-4 ml-1" />
-          </Button>
-        </div>
+      <main className={`max-w-4xl mx-auto px-4 py-6 text-size-${preferences.textSize} hebrew-font-${preferences.hebrewFont}`}>
 
         {/* Error State */}
         {error && (
@@ -157,36 +138,45 @@ export default function BibleChapterPage() {
 
         {/* Bible Text */}
         {text && !isLoading && (
-          <BibleTextDisplay text={text} />
-        )}
-
-        {/* Bottom Navigation */}
-        {text && !isLoading && (
-          <div className="flex justify-between items-center mt-8 pt-6 border-t border-border">
-            <Button
-              variant="outline"
-              onClick={handlePrevChapter}
-              disabled={!canGoPrev}
-              data-testid="button-prev-chapter-bottom"
-            >
-              <ChevronLeft className="h-4 w-4 mr-1" />
-              {bookTitle} {parsedChapter - 1}
-            </Button>
-            
-            <Button
-              variant="outline"
-              onClick={handleNextChapter}
-              disabled={!canGoNext}
-              data-testid="button-next-chapter-bottom"
-            >
-              {bookTitle} {parsedChapter + 1}
-              <ChevronRight className="h-4 w-4 ml-1" />
-            </Button>
+          <div className="space-y-6">
+            <BibleTextDisplay text={text} />
           </div>
         )}
-      </main>
 
-      <Footer />
+        {/* Chapter Navigation */}
+        {text && !isLoading && (
+          <div className="mt-8 pt-6 border-t border-border">
+            <div className="flex justify-between items-center">
+              <Button
+                variant="outline"
+                onClick={handlePrevChapter}
+                disabled={!canGoPrev}
+                data-testid="button-prev-chapter"
+              >
+                <ChevronLeft className="h-4 w-4 mr-1" />
+                {bookTitle} {parsedChapter - 1}
+              </Button>
+              
+              <span className="text-sm text-muted-foreground">
+                Chapter {parsedChapter} of {maxChapter}
+              </span>
+              
+              <Button
+                variant="outline"
+                onClick={handleNextChapter}
+                disabled={!canGoNext}
+                data-testid="button-next-chapter"
+              >
+                {bookTitle} {parsedChapter + 1}
+                <ChevronRight className="h-4 w-4 ml-1" />
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {/* Footer */}
+        <Footer />
+      </main>
     </div>
   );
 }
