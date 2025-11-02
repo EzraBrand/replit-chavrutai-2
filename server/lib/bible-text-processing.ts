@@ -80,6 +80,13 @@ function stripHTML(text: string): string {
   // Remove ALL sup tags (footnote markers, endFootnote markers, etc.)
   cleaned = cleaned.replace(/<sup[^>]*>.*?<\/sup>/g, '');
   
+  // Remove Ketiv-Qere notations (mam-kq spans with nested content)
+  // These show what's written vs. what's read, wrapped in complex span structures
+  cleaned = cleaned.replace(/<span class="mam-kq">.*?<\/span>/g, '');
+  
+  // Remove other special formatting spans (like mam-spi-pe, mam-spi-samekh, etc.)
+  cleaned = cleaned.replace(/<span class="mam-[^"]*">.*?<\/span>/g, '');
+  
   // Remove Sefaria footnotes - need to handle nested <i> tags carefully
   // Strategy: find <i class="footnote">, then count opening/closing <i> tags to find the matching </i>
   while (cleaned.includes('<i class="footnote">')) {
