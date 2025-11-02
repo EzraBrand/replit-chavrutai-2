@@ -104,6 +104,22 @@ export function processHebrewText(text: string): string {
 }
 
 /**
+ * Processes Bible Hebrew text (no biblical quote styling for Ketiv-Qere notation)
+ */
+export function processBibleHebrewText(text: string): string {
+  if (!text) return '';
+  
+  // Just normalize whitespace - nikud already removed by backend
+  const processed = text
+    .replace(/[ \t]+/g, ' ')  // Multiple spaces/tabs to single space
+    .replace(/\n[ \t]+/g, '\n')  // Remove leading whitespace on new lines
+    .replace(/[ \t]+\n/g, '\n')  // Remove trailing whitespace before new lines
+    .trim();
+    
+  return processed;
+}
+
+/**
  * Generate sexual relations term replacements programmatically
  */
 function generateSexualTerms(): Record<string, string> {

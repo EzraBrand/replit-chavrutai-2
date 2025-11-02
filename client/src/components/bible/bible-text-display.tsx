@@ -1,5 +1,5 @@
 import { usePreferences } from "@/context/preferences-context";
-import { processHebrewText, processBibleEnglishText, formatEnglishText } from "@/lib/text-processing";
+import { processBibleHebrewText, processBibleEnglishText, formatEnglishText } from "@/lib/text-processing";
 import type { BibleText } from "@/types/bible";
 
 interface BibleTextDisplayProps {
@@ -71,13 +71,9 @@ export function BibleTextDisplay({ text }: BibleTextDisplayProps) {
                     <div className={`hebrew-text text-foreground ${getHebrewFontClass()} space-y-3`}>
                       {verse.hebrewSegments.map((segment, segIndex) => (
                         <div key={segIndex}>
-                          {processHebrewText(segment).split('\n').filter(line => line.trim()).map((line, lineIndex) => (
-                            <p 
-                              key={lineIndex}
-                              className="leading-relaxed"
-                              dangerouslySetInnerHTML={{ __html: line.trim() }}
-                            />
-                          ))}
+                          <p className="leading-relaxed">
+                            {processBibleHebrewText(segment)}
+                          </p>
                         </div>
                       ))}
                     </div>
