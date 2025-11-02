@@ -77,8 +77,8 @@ function stripHTML(text: string): string {
   // Replace <br> tags with newline markers before removing other HTML
   cleaned = cleaned.replace(/<br\s*\/?>/gi, '\n');
   
-  // Remove footnote markers (asterisks in sup tags)
-  cleaned = cleaned.replace(/<sup class="footnote-marker">.*?<\/sup>/g, '');
+  // Remove ALL sup tags (footnote markers, endFootnote markers, etc.)
+  cleaned = cleaned.replace(/<sup[^>]*>.*?<\/sup>/g, '');
   
   // Remove Sefaria footnotes - need to handle nested <i> tags carefully
   // Strategy: find <i class="footnote">, then count opening/closing <i> tags to find the matching </i>
