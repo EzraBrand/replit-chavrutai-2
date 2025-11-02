@@ -10,13 +10,16 @@
  * - U+0594 (֔) - Zaqef Qatan (from אִ֔ישׁ)
  * - U+0597 (֗) - Revia (from יִשְׂרָאֵ֗ל, מֹשֶׁ֗ה)
  * 
- * Strategy: Find the cantillation mark, then extend to the next space (word boundary)
+ * Strategy: Strip HTML first, then find cantillation marks and extend to the next space (word boundary)
  */
 function splitHebrewByCantillation(verse: string): string[] {
   if (!verse) return [];
   
-  // Replace maqaf (־) with space first so it becomes a word boundary
-  let text = verse.replace(/\u05BE/g, ' ');
+  // CRITICAL: Strip HTML FIRST before splitting, to avoid breaking tags apart
+  let text = stripHTML(verse);
+  
+  // Replace maqaf (־) with space so it becomes a word boundary
+  text = text.replace(/\u05BE/g, ' ');
   
   // Find positions of cantillation marks (Etnahta, Zaqef Qatan, and Revia)
   const segments: string[] = [];
@@ -28,7 +31,7 @@ function splitHebrewByCantillation(verse: string): string[] {
     if (char === '\u0591' || char === '\u0594' || char === '\u0597') {
       // Find the next space after this cantillation mark
       let splitPoint = i + 1;
-      while (splitPoint < text.length && text[splitPoint] !== ' ') {
+      while (splitPoint < text.length && text[splitPoint] !== ' ' && text[splitPoint] !== '\n') {
         splitPoint++;
       }
       
@@ -38,7 +41,7 @@ function splitHebrewByCantillation(verse: string): string[] {
         segments.push(segment);
       }
       
-      // Move past the space
+      // Move past the space/newline
       currentStart = splitPoint + 1;
     }
   }
@@ -130,19 +133,26 @@ function stripHTML(text: string): string {
 }
 
 /**
- * Remove ALL nikud and cantillation marks from Hebrew
+ * Remove ALL nikud and cantillation marks from Hebrew, plus paragraph markers and newlines
  * Unicode ranges:
  * - Nikud: \u05B0-\u05BC, \u05C1-\u05C2, \u05C4-\u05C7
  * - Cantillation: \u0591-\u05AF, \u05BD, \u05BF, \u05C0, \u05C3
+ * 
+ * Note: HTML is already stripped in splitHebrewByCantillation, so we just remove marks here
  */
 function removeCantillationAndNikud(hebrewText: string): string {
   if (!hebrewText) return '';
   
-  // First strip any HTML tags that Sefaria might include
-  const noHTML = stripHTML(hebrewText);
+  // Remove all nikud and cantillation marks
+  let cleaned = hebrewText.replace(/[\u0591-\u05C7]/g, '');
   
-  // Then remove all nikud and cantillation marks
-  return noHTML.replace(/[\u0591-\u05C7]/g, '');
+  // Remove paragraph markers like {פ}, {ס}, etc.
+  cleaned = cleaned.replace(/\{[פסםןךץ]\}/g, '');
+  
+  // Remove newlines and extra spaces
+  cleaned = cleaned.replace(/\n/g, ' ').replace(/\s+/g, ' ').trim();
+  
+  return cleaned;
 }
 
 /**
