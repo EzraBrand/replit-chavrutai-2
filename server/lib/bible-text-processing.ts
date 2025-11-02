@@ -191,6 +191,7 @@ export function processBibleEnglish(text: string): string {
     .replace(/יהוה/g, "YHWH")  // Replace Hebrew Tetragrammaton
     .replace(/\bETERNAL\b/g, "YHWH")  // Replace ETERNAL (from JPS small caps rendering)
     .replace(/\bGOD\b/g, "YHWH")  // Replace GOD (from JPS small caps rendering)
+    .replace(/\bLORD\b/g, "YHWH")  // Replace standalone LORD
     .replace(/\bthe Lord\b/g, "YHWH")
     .replace(/\bthe LORD\b/g, "YHWH")
     .replace(/\bThe Lord\b/g, "YHWH")
