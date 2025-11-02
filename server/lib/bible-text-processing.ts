@@ -71,7 +71,8 @@ function stripHTML(text: string): string {
     .replace(/&amp;/g, '&')
     .replace(/&quot;/g, '"')
     .replace(/&apos;/g, "'")
-    .replace(/&nbsp;/g, ' ');
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&thinsp;/g, ' ');  // Add thin space entity
   
   // Replace <br> tags with newline markers before removing other HTML
   cleaned = cleaned.replace(/<br\s*\/?>/gi, '\n');
