@@ -127,6 +127,10 @@ function stripHTML(text: string): string {
   // Remove asterisks
   cleaned = cleaned.replace(/\*/g, '');
   
+  // Fix BiDi rendering issues with Ketiv-Qere by ensuring proper spacing
+  // Replace ) [ with ) plus nbsp plus [  to prevent space collapse
+  cleaned = cleaned.replace(/\)\s+\[/g, ')\u00A0[');
+  
   // Clean up any double spaces (but preserve newlines)
   cleaned = cleaned.replace(/[^\S\n]+/g, ' ').trim();
   
