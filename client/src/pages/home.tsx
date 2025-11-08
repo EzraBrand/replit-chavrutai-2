@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useLocation } from "wouter";
+import { useLocation, Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -83,7 +83,11 @@ export default function Home() {
             <HamburgerMenu onLocationChange={handleLocationChange} />
             
             {/* Logo */}
-            <div className="flex items-center space-x-2 flex-shrink-0">
+            <Link 
+              href="/"
+              className="flex items-center space-x-2 flex-shrink-0 hover:opacity-80 transition-opacity duration-200"
+              data-testid="header-logo-link"
+            >
               <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden">
                 <img 
                   src={hebrewBookIcon} 
@@ -92,7 +96,7 @@ export default function Home() {
                 />
               </div>
               <div className="text-xl font-semibold text-primary font-roboto">ChavrutAI</div>
-            </div>
+            </Link>
             
             {/* Navigation - Always Visible */}
             <div className="flex-1 flex justify-center">

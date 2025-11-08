@@ -75,7 +75,11 @@ export default function Contents() {
               <HamburgerMenu onLocationChange={handleLocationChange} />
               
               {/* Logo */}
-              <div className="flex items-center space-x-2 flex-shrink-0">
+              <Link 
+                href="/"
+                className="flex items-center space-x-2 flex-shrink-0 hover:opacity-80 transition-opacity duration-200"
+                data-testid="header-logo-link"
+              >
                 <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden">
                   <img 
                     src={hebrewBookIcon} 
@@ -84,7 +88,7 @@ export default function Contents() {
                   />
                 </div>
                 <div className="text-xl font-semibold text-primary font-roboto">ChavrutAI</div>
-              </div>
+              </Link>
               
               {/* Empty space for balance */}
               <div className="w-10 flex-shrink-0"></div>
@@ -111,7 +115,11 @@ export default function Contents() {
             <HamburgerMenu onLocationChange={handleLocationChange} />
             
             {/* Logo */}
-            <div className="flex items-center space-x-2 flex-shrink-0">
+            <Link 
+              href="/"
+              className="flex items-center space-x-2 flex-shrink-0 hover:opacity-80 transition-opacity duration-200"
+              data-testid="header-logo-link"
+            >
               <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden">
                 <img 
                   src={hebrewBookIcon} 
@@ -120,7 +128,7 @@ export default function Contents() {
                 />
               </div>
               <div className="text-xl font-semibold text-primary font-roboto">ChavrutAI</div>
-            </div>
+            </Link>
             
             {/* Empty space for balance */}
             <div className="w-10 flex-shrink-0"></div>
