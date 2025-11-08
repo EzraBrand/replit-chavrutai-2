@@ -317,12 +317,12 @@ export function splitEnglishText(text: string): string {
   });
   
   // Split on periods, but handle period + end quote pattern first
-  // Handle both straight quotes (") and curly quotes (")
-  processedText = processedText.replace(/\.["""]/g, (match) => match + '\n'); // Handle .", .", ." as units
+  // Handle both straight quotes (") and curly quotes (" and ")
+  processedText = processedText.replace(/\.[""\u201C\u201D]/g, (match) => match + '\n'); // Handle .", .", ." as units
   
   // Then split on ALL other periods - avoid splitting after "i.e." and other abbreviations
   // Also avoid splitting if followed by a quote (already handled above)
-  processedText = processedText.replace(/\.(?!["""]|\s*[a-z])/g, '.\n');
+  processedText = processedText.replace(/\.(?![""\u201C\u201D]|\s*[a-z])/g, '.\n');
   processedText = processedText.replace(/i\.e\.\n/g, 'i.e.');
   processedText = processedText.replace(/e\.g\.\n/g, 'e.g.');
   processedText = processedText.replace(/etc\.\n/g, 'etc.');
@@ -330,9 +330,9 @@ export function splitEnglishText(text: string): string {
   processedText = processedText.replace(/cf\.\n/g, 'cf.');
   
   // Split on question marks, but handle question mark + end quote pattern
-  // Handle both straight quotes (") and curly quotes (") 
-  processedText = processedText.replace(/\?["""]/g, (match) => match + '\n'); // Handle ?", ?", ?" as units
-  processedText = processedText.replace(/\?(?!["""])/g, '?\n'); // Handle other question marks
+  // Handle both straight quotes (") and curly quotes (" and ")
+  processedText = processedText.replace(/\?[""\u201C\u201D]/g, (match) => match + '\n'); // Handle ?", ?", ?" as units
+  processedText = processedText.replace(/\?(?![""\u201C\u201D])/g, '?\n'); // Handle other question marks
   
   // Split on semicolons
   processedText = processedText.replace(/;/g, ';\n');
@@ -351,10 +351,10 @@ export function splitEnglishText(text: string): string {
   // Final cleanup: Fix orphaned quotes that end up on their own lines
   // This handles cases where quotes get separated from preceding text
   processedText = processedText
-    .replace(/,\n\n["""]\s*\n/g, ',\n\n') // Remove orphaned quotes after commas
-    .replace(/\n\n["""]\s*$/g, '') // Remove orphaned quotes at end
-    .replace(/\n["""]\s*\n/g, '\n') // Remove orphaned quotes on their own lines
-    .replace(/\n["""]\s*$/g, ''); // Remove orphaned quotes at end of lines
+    .replace(/,\n\n[""\u201C\u201D]\s*\n/g, ',\n\n') // Remove orphaned quotes after commas
+    .replace(/\n\n[""\u201C\u201D]\s*$/g, '') // Remove orphaned quotes at end
+    .replace(/\n[""\u201C\u201D]\s*\n/g, '\n') // Remove orphaned quotes on their own lines
+    .replace(/\n[""\u201C\u201D]\s*$/g, ''); // Remove orphaned quotes at end of lines
   
   return processedText;
 }
