@@ -375,12 +375,12 @@ export function splitEnglishText(text: string): string {
   
   // Final cleanup: Fix orphaned quotes that end up on their own lines
   // This handles cases where quotes get separated from preceding text
+  // BUT only remove quotes that are NOT part of punctuation clusters (not preceded by punctuation or another quote)
   // Handle both single (') and double (") quotes, straight and curly
   processedText = processedText
-    .replace(/,\n\n[""\u201C\u201D'\u2018\u2019]\s*\n/g, ',\n\n') // Remove orphaned quotes after commas
-    .replace(/\n\n[""\u201C\u201D'\u2018\u2019]\s*$/g, '') // Remove orphaned quotes at end
-    .replace(/\n[""\u201C\u201D'\u2018\u2019]\s*\n/g, '\n') // Remove orphaned quotes on their own lines
-    .replace(/\n[""\u201C\u201D'\u2018\u2019]\s*$/g, ''); // Remove orphaned quotes at end of lines
+    .replace(/,\n\n[""\u201C\u201D'\u2018\u2019]\s*\n/g, ',\n\n') // Remove orphaned quotes after commas (only with double newline)
+    .replace(/(?<![,.\?!;''\u2018\u2019""\u201C\u201D])\n[""\u201C\u201D'\u2018\u2019]\s*\n/g, '\n') // Remove orphaned quotes NOT preceded by punctuation
+    .replace(/(?<![,.\?!;''\u2018\u2019""\u201C\u201D])\n[""\u201C\u201D'\u2018\u2019]\s*$/g, ''); // Remove orphaned quotes at end NOT preceded by punctuation
   
   return processedText;
 }
