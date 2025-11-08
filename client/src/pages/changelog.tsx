@@ -43,6 +43,38 @@ export default function Changelog() {
       {/* Changelog Content */}
       <div className="bg-white dark:bg-sepia-900 rounded-lg shadow-lg p-6 max-w-4xl">
         
+        {/* November 2025 */}
+        <div className="mb-8">
+          <h2 className="text-xl font-semibold text-sepia-800 dark:text-sepia-200 mb-4 border-b border-sepia-200 dark:border-sepia-700 pb-2">
+            November 2025
+          </h2>
+          
+          <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
+            <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Text Processing Improvements</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Fixed period + end quote splitting (e.g., Cush." now stays together)</li>
+                <li>Fixed comma + end quote splitting (e.g., exposition," keeps quotes attached)</li>
+                <li>Added support for single quotes in punctuation clusters</li>
+                <li>Implemented triple-punctuation cluster handling (e.g., ?'" stays intact)</li>
+                <li>Added intelligent comma splitting that preserves numbers (e.g., 600,000)</li>
+                <li>Converted HTML line breaks to proper text splits</li>
+                <li>Enhanced orphaned quote cleanup to preserve legitimate punctuation clusters</li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Technical Details</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Supports both straight and curly quotes (single and double)</li>
+                <li>Unicode quote character handling (U+201C, U+201D, U+2018, U+2019)</li>
+                <li>Preserves HTML formatting while processing text</li>
+                <li>Only splits on bolded commas, not all commas</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
         {/* September 2025 */}
         <div className="mb-8">
           <h2 className="text-xl font-semibold text-sepia-800 dark:text-sepia-200 mb-4 border-b border-sepia-200 dark:border-sepia-700 pb-2">
