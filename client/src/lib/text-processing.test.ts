@@ -414,6 +414,42 @@ describe('Hebrew Text Processing', () => {
     });
   });
 
+  describe('Hebrew Punctuation Clusters', () => {
+    it('should NOT split on end quote + space + em-dash (Niddah 47a.9)', () => {
+      const input = 'word״ — nextword';
+      const result = splitHebrewText(input);
+      // Should remain as one line, no split
+      expect(result).toBe('word״ — nextword');
+      expect(result).not.toContain('\n');
+    });
+
+    it('should NOT split on end quote + em-dash (no space)', () => {
+      const input = 'word״— nextword';
+      const result = splitHebrewText(input);
+      expect(result).toBe('word״— nextword');
+      expect(result).not.toContain('\n');
+    });
+
+    it('should NOT split on end quote + space + n-dash', () => {
+      const input = 'word״ – nextword';
+      const result = splitHebrewText(input);
+      expect(result).toBe('word״ – nextword');
+      expect(result).not.toContain('\n');
+    });
+
+    it('should split on standalone end quote (not followed by dash)', () => {
+      const input = 'word״ nextword';
+      const result = splitHebrewText(input);
+      expect(result).toContain('״ \n');
+    });
+
+    it('should split on standalone em-dash (not preceded by end quote)', () => {
+      const input = 'word — nextword';
+      const result = splitHebrewText(input);
+      expect(result).toContain('—\n');
+    });
+  });
+
   describe('Hebrew Text Cleanup', () => {
     it('should remove consecutive line breaks', () => {
       const input = 'אחד.\n\nשניים.';

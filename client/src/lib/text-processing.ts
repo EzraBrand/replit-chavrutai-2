@@ -27,14 +27,23 @@ export function splitHebrewText(text: string): string {
   
   let processedText = text;
   
-  // Handle irony punctuation (?!) as a unit - split after the whole thing
+  // STEP 1: Protect special punctuation clusters with placeholders
+  // Hebrew end quote + space + em-dash should NOT split at all (e.g., Niddah 47a.9)
+  const protectedClusters: string[] = [];
+  processedText = processedText.replace(/״\s*[–—]/g, (match) => {
+    protectedClusters.push(match);
+    return `___PROTECTED_${protectedClusters.length - 1}___`;
+  });
+  
+  // STEP 2: Handle irony punctuation (?!) as a unit - split after the whole thing
   processedText = processedText.replace(/\?\!/g, '?!\n');
   
-  // Handle other punctuation marks individually, but avoid splitting after partial ?! sequences
+  // STEP 3: Handle other punctuation marks individually, but avoid splitting after partial ?! sequences
   const singleMarks = [
     '.',     // Period
     ',',     // Comma
     '–',     // M-dash
+    '—',     // Em-dash
     ':',     // Colon
     ';',     // Semicolon
     '!',     // Exclamation mark (but not when preceded by ?)
@@ -59,11 +68,16 @@ export function splitHebrewText(text: string): string {
     }
   });
   
-  // Clean up multiple consecutive line breaks and trim
+  // STEP 4: Clean up multiple consecutive line breaks and trim
   processedText = processedText
     .replace(/\n\s*\n/g, '\n')  // Remove empty lines
     .replace(/^\s+|\s+$/g, '')  // Trim whitespace
     .replace(/\n\s+/g, '\n');   // Remove leading spaces on new lines
+  
+  // STEP 5: Restore protected punctuation clusters
+  processedText = processedText.replace(/___PROTECTED_(\d+)___/g, (match, index) => {
+    return protectedClusters[parseInt(index)];
+  });
   
   return processedText;
 }
