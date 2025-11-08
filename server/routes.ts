@@ -476,25 +476,39 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return;
       }
       
-      // Fetch from Sefaria
+      // Fetch from Sefaria - need to make two calls since v3 API doesn't support multi-version parameter
       const sefariaBookName = normalizeSefariaBookName(book);
       const sefariaRef = `${sefariaBookName}.${chapter}`;
-      const apiUrl = `https://www.sefaria.org/api/v3/texts/${encodeURIComponent(sefariaRef)}?version=english|JPS%201985%20Tanakh`;
       
-      console.log(`Fetching Bible text from Sefaria: ${apiUrl}`);
-      const response = await fetch(apiUrl);
+      // Fetch Hebrew version
+      const hebrewUrl = `https://www.sefaria.org/api/v3/texts/${encodeURIComponent(sefariaRef)}`;
+      console.log(`Fetching Hebrew Bible text from Sefaria: ${hebrewUrl}`);
+      const hebrewResponse = await fetch(hebrewUrl);
       
-      if (!response.ok) {
-        console.error(`Sefaria API error: ${response.status} ${response.statusText}`);
-        res.status(response.status).json({ error: `Failed to fetch Bible text from Sefaria` });
+      if (!hebrewResponse.ok) {
+        console.error(`Sefaria API error (Hebrew): ${hebrewResponse.status} ${hebrewResponse.statusText}`);
+        res.status(hebrewResponse.status).json({ error: `Failed to fetch Hebrew Bible text from Sefaria` });
         return;
       }
       
-      const data = await response.json();
+      const hebrewData = await hebrewResponse.json();
       
-      // Extract Hebrew and English verses
-      const hebrewVerses = Array.isArray(data.versions[0]?.text) ? data.versions[0].text : [];
-      const englishVerses = Array.isArray(data.versions[1]?.text) ? data.versions[1].text : [];
+      // Fetch English version (JPS 1985)
+      const englishUrl = `https://www.sefaria.org/api/v3/texts/${encodeURIComponent(sefariaRef)}?version=english&versionTitle=JPS%201985%20Tanakh`;
+      console.log(`Fetching English Bible text from Sefaria: ${englishUrl}`);
+      const englishResponse = await fetch(englishUrl);
+      
+      if (!englishResponse.ok) {
+        console.error(`Sefaria API error (English): ${englishResponse.status} ${englishResponse.statusText}`);
+        res.status(englishResponse.status).json({ error: `Failed to fetch English Bible text from Sefaria` });
+        return;
+      }
+      
+      const englishData = await englishResponse.json();
+      
+      // Extract Hebrew and English verses from their respective responses
+      const hebrewVerses = Array.isArray(hebrewData.versions[0]?.text) ? hebrewData.versions[0].text : [];
+      const englishVerses = Array.isArray(englishData.versions[0]?.text) ? englishData.versions[0].text : [];
       
       // Process each verse
       const verses = hebrewVerses.map((hebrewVerse: string, index: number) => {
