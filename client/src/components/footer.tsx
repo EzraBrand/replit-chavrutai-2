@@ -1,141 +1,146 @@
 import { Link } from "wouter";
 import { ExternalLink } from "lucide-react";
-import poweredBySefariaPath from "@assets/powered-by-sefaria-87c5652-image_1758709536972.png";
+import poweredBySefariaPath from "@/assets/powered-by-sefaria.png";
 
 export function Footer() {
   return (
     <footer className="border-t border-border bg-card mt-12">
-      <div className="container mx-auto px-4 py-6">
-        {/* Navigation Links */}
-        <div className="flex flex-wrap justify-center gap-4 mb-4 text-sm">
-          <Link 
-            href="/"
-            className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200"
-            data-testid="footer-link-home"
-          >
-            Home
-          </Link>
-          <Link 
-            href="/contents"
-            className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200"
-            data-testid="footer-link-contents"
-          >
-            All Tractates
-          </Link>
-          <Link 
-            href="/outline/sanhedrin/10"
-            className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200"
-            data-testid="footer-link-sanhedrin-outline"
-          >
-            Sanhedrin Outline
-          </Link>
-          <Link 
-            href="/blog-posts"
-            className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200"
-            data-testid="footer-link-blog-posts"
-          >
-            Blog Posts
-          </Link>
-          <Link 
-            href="/biblical-index"
-            className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200"
-            data-testid="footer-link-biblical-index"
-          >
-            Biblical Index
-          </Link>
-          <Link 
-            href="/about"
-            className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200"
-            data-testid="footer-link-about"
-          >
-            About
-          </Link>
-          <Link 
-            href="/sitemap"
-            className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200"
-            data-testid="footer-link-sitemap"
-          >
-            Sitemap
-          </Link>
-          <Link 
-            href="/changelog"
-            className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200"
-            data-testid="footer-link-changelog"
-          >
-            Changelog
-          </Link>
-          <Link 
-            href="/contact"
-            className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200"
-            data-testid="footer-link-contact"
-          >
-            Contact
-          </Link>
-          <Link 
-            href="/privacy"
-            className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200"
-            data-testid="footer-link-privacy"
-          >
-            Privacy
-          </Link>
-          <Link 
-            href="/suggested-pages"
-            className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200"
-            data-testid="footer-link-suggested-pages"
-          >
-            Suggested Pages
-          </Link>
-          <Link 
-            href="/dictionary"
-            className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200"
-            data-testid="footer-link-dictionary"
-          >
-            Jastrow Dictionary
-          </Link>
-          <a 
-            href="https://github.com/EzraBrand/replit-chavrutai-2"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200 flex items-center gap-1"
-            data-testid="footer-link-github"
-          >
-            GitHub
-            <ExternalLink size={12} />
-          </a>
+      <div className="container mx-auto px-4 py-10">
+        {/* Multi-Column Navigation */}
+        <div className="grid grid-cols-2 gap-4 sm:gap-8 max-w-2xl mx-auto mb-8">
+          {/* Column 1: Study Resources */}
+          <div>
+            <h3 className="text-sm font-semibold text-foreground mb-4">Study Resources</h3>
+            <nav className="flex flex-col gap-3">
+              <Link 
+                href="/contents"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+                data-testid="footer-link-contents"
+              >
+                All Tractates
+              </Link>
+              <Link 
+                href="/suggested-pages"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+                data-testid="footer-link-suggested-pages"
+              >
+                Suggested Pages
+              </Link>
+              <Link 
+                href="/biblical-index"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+                data-testid="footer-link-biblical-index"
+              >
+                Biblical Index
+              </Link>
+              <Link 
+                href="/blog-posts"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+                data-testid="footer-link-blog-posts"
+              >
+                Blog Posts
+              </Link>
+              <Link 
+                href="/dictionary"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+                data-testid="footer-link-dictionary"
+              >
+                Jastrow Dictionary
+              </Link>
+            </nav>
+          </div>
+
+          {/* Column 2: About & Legal */}
+          <div>
+            <h3 className="text-sm font-semibold text-foreground mb-4">About & Legal</h3>
+            <nav className="flex flex-col gap-3">
+              <Link 
+                href="/about"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+                data-testid="footer-link-about"
+              >
+                About
+              </Link>
+              <Link 
+                href="/sitemap"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+                data-testid="footer-link-sitemap"
+              >
+                Sitemap
+              </Link>
+              <Link 
+                href="/contact"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+                data-testid="footer-link-contact"
+              >
+                Contact
+              </Link>
+              <Link 
+                href="/privacy"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+                data-testid="footer-link-privacy"
+              >
+                Privacy
+              </Link>
+              <Link 
+                href="/changelog"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+                data-testid="footer-link-changelog"
+              >
+                Changelog
+              </Link>
+              <a 
+                href="https://github.com/EzraBrand/replit-chavrutai-2"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 inline-flex items-center gap-1"
+                data-testid="footer-link-github"
+              >
+                GitHub
+                <ExternalLink size={14} />
+              </a>
+            </nav>
+          </div>
         </div>
 
-        {/* Project Info */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-2 text-sm text-muted-foreground">
-          <span>ChavrutAI</span>
-          <span className="hidden sm:inline">|</span>
-          <span className="flex items-center gap-2">Uses data from <a 
-            href="https://www.sefaria.org/texts/Talmud"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200 inline-flex items-center gap-1"
-            data-testid="footer-link-sefaria"
-          >
-            Sefaria
-            <ExternalLink size={12} />
-          </a> (not affiliated)
-            <img 
-              src={poweredBySefariaPath} 
-              alt="Powered by Sefaria" 
-              className="h-4 w-auto opacity-70"
-              data-testid="sefaria-powered-by-image"
-            />
-          </span>
-          <span className="hidden sm:inline">|</span>
-          <span>A project of <a 
-            href="https://www.ezrabrand.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200 inline-flex items-center gap-1"
-            data-testid="footer-link-talmud-tech"
-          >
-            "Talmud & Tech"
-            <ExternalLink size={12} />
-          </a></span>
+        {/* Bottom Section */}
+        <div className="border-t border-border pt-6">
+          <div className="flex flex-col items-center gap-4">
+            {/* Branding */}
+            <div className="text-center">
+              <p className="text-sm text-muted-foreground">
+                ChavrutAI © 2025 by{" "}
+                <a 
+                  href="https://www.ezrabrand.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-foreground hover:text-primary transition-colors duration-200 inline-flex items-center gap-1"
+                  data-testid="footer-link-talmud-tech"
+                >
+                  Talmud & Tech
+                  <ExternalLink size={12} />
+                </a>
+              </p>
+            </div>
+
+            {/* Sefaria Attribution */}
+            <div className="flex items-center gap-3">
+              <a 
+                href="https://www.sefaria.org/texts/Talmud"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 hover:opacity-80 transition-opacity duration-200"
+                data-testid="footer-link-sefaria"
+              >
+                <img 
+                  src={poweredBySefariaPath} 
+                  alt="Powered by Sefaria" 
+                  className="h-8 w-auto"
+                  data-testid="sefaria-powered-by-image"
+                />
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </footer>

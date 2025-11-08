@@ -10,38 +10,8 @@ import { generateMainSitemap } from "./routes/sitemap-main";
 import { generateSederSitemap } from "./routes/sitemap-seder";
 import { z } from "zod";
 
-// Text processing utilities
-function removeNikud(hebrewText: string): string {
-  return hebrewText.replace(/[\u0591-\u05AF\u05B0-\u05BD\u05BF\u05C1-\u05C2\u05C4-\u05C5\u05C7]/g, '');
-}
-
-function processHebrewText(text: string): string {
-  if (!text) return '';
-  
-  let processed = removeNikud(text);
-  processed = processed
-    .replace(/[ \t]+/g, ' ')
-    .replace(/\n[ \t]+/g, '\n')
-    .replace(/[ \t]+\n/g, '\n')
-    .trim();
-    
-  return processed;
-}
-
-function processEnglishText(text: string): string {
-  if (!text) return '';
-  
-  let processed = text
-    .replace(/\r\n/g, '\n')
-    .replace(/\n{3,}/g, '\n\n')
-    .replace(/[ \t]+/g, ' ')
-    .replace(/\n[ \t]+/g, '\n')
-    .replace(/[ \t]+\n/g, '\n')
-    .trim();
-  
-  // No additional formatting - preserve original text
-  return processed;
-}
+// Import text processing utilities from shared library
+import { processHebrewTextCore as processHebrewText, processEnglishText } from "@shared/text-processing";
 
 const sefariaAPIBaseURL = "https://www.sefaria.org/api";
 
