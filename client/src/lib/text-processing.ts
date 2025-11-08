@@ -282,6 +282,10 @@ export function splitEnglishText(text: string): string {
   
   let processedText = text;
   
+  // Convert <br> and <br/> tags to newlines BEFORE any other processing
+  // This treats line breaks from source the same as punctuation-based splits
+  processedText = processedText.replace(/<br\s*\/?>/gi, '\n');
+  
   // Split on bolded commas and colons BEFORE protecting HTML tags
   // BUT avoid splitting comma + quote patterns (those will be handled later)
   processedText = processedText.replace(/<(b|strong)[^>]*>([\s\S]*?)<\/\1>/g, (match, tagName, content) => {
