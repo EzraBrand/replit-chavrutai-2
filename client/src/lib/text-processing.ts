@@ -316,8 +316,13 @@ export function splitEnglishText(text: string): string {
     return placeholder;
   });
   
-  // Split on ALL periods - avoid splitting after "i.e." and other abbreviations
-  processedText = processedText.replace(/\.(?!\s*[a-z])/g, '.\n');
+  // Split on periods, but handle period + end quote pattern first
+  // Handle both straight quotes (") and curly quotes (")
+  processedText = processedText.replace(/\.["""]/g, (match) => match + '\n'); // Handle .", .", ." as units
+  
+  // Then split on ALL other periods - avoid splitting after "i.e." and other abbreviations
+  // Also avoid splitting if followed by a quote (already handled above)
+  processedText = processedText.replace(/\.(?!["""]|\s*[a-z])/g, '.\n');
   processedText = processedText.replace(/i\.e\.\n/g, 'i.e.');
   processedText = processedText.replace(/e\.g\.\n/g, 'e.g.');
   processedText = processedText.replace(/etc\.\n/g, 'etc.');
