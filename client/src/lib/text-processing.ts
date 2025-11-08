@@ -5,12 +5,16 @@
  * client-specific features like HTML styling and formatting.
  */
 
-// Import for use in client functions
-import { processHebrewTextCore } from '@shared/text-processing';
-
-// Import and re-export shared text processing functions
+// Import shared functions for local use and re-export
 import {
-  replaceTerms as sharedReplaceTerms
+  removeNikud,
+  splitHebrewText,
+  replaceTerms,
+  splitEnglishText,
+  processEnglishText,
+  containsHebrew,
+  normalizeApiText,
+  processHebrewTextCore
 } from '@shared/text-processing';
 
 // Re-export all shared text processing functions
@@ -23,10 +27,7 @@ export {
   containsHebrew,
   normalizeApiText,
   processHebrewTextCore
-} from '@shared/text-processing';
-
-// Make replaceTerms available for local use
-const replaceTerms = sharedReplaceTerms;
+};
 
 /**
  * Processes Hebrew text (alias for core processing)
