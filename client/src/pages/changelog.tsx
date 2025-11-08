@@ -1,6 +1,7 @@
 import { ArrowLeft, FileText } from "lucide-react";
 import { Link } from "wouter";
 import { useSEO } from "@/hooks/use-seo";
+import { Footer } from "@/components/footer";
 
 export default function Changelog() {
   // SEO optimization
@@ -123,6 +124,8 @@ export default function Changelog() {
         </div>
 
       </div>
+
+      <Footer />
     </div>
   );
 }

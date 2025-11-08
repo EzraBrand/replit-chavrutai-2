@@ -179,13 +179,10 @@ export default function BiblicalBookPage() {
                             <TableCell className="w-24 sm:w-[140px] border-r">
                               <a
                                 href={citation.talmudLocationUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
                                 className="inline-flex items-center text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 hover:underline text-xs sm:text-sm"
                                 data-testid={`talmud-link-${index}`}
                               >
                                 {citation.talmudLocation}
-                                <ExternalLink className="h-3 w-3 ml-1" />
                               </a>
                             </TableCell>
                             <TableCell className="flex-1 sm:w-[400px]">

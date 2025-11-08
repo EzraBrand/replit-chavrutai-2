@@ -30,8 +30,6 @@ export function BlogPostsTable({ blogPosts }: BlogPostsTableProps) {
                 <td className="p-3">
                   <a 
                     href={entry.caiLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
                     className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 underline decoration-dotted underline-offset-2 transition-colors text-sm"
                     data-testid={`link-location-${entry.rowNumber}`}
                   >
