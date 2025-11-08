@@ -297,21 +297,21 @@ export function splitEnglishText(text: string): string {
     let splitContent = content;
     // Handle colons (always split)
     splitContent = splitContent.replace(/:/g, ':\n');
-    // Handle commas, but NOT if followed by a quote or digit, and NOT if preceded by a digit (number separator)
-    splitContent = splitContent.replace(/,(?![""\u201C\u201D]|\d)(?<!\d)/g, ',\n');
+    // Handle commas, but NOT if followed by a quote (single or double) or digit, and NOT if preceded by a digit (number separator)
+    splitContent = splitContent.replace(/,(?![""\u201C\u201D'\u2018\u2019]|\d)(?<!\d)/g, ',\n');
     
     return `<${tagName}>${splitContent}</${tagName}>`;
   });
   
   // Also handle cases where just the comma or colon itself is bolded
-  // For commas: don't split if followed by a quote or digit, or if preceded by digit (number separator)
-  processedText = processedText.replace(/(?<!\d)<(b|strong)[^>]*>,<\/\1>(?![""\u201C\u201D]|\d)/g, ',\n');
+  // For commas: don't split if followed by a quote (single or double) or digit, or if preceded by digit (number separator)
+  processedText = processedText.replace(/(?<!\d)<(b|strong)[^>]*>,<\/\1>(?![""\u201C\u201D'\u2018\u2019]|\d)/g, ',\n');
   // For colons: always split
   processedText = processedText.replace(/<(b|strong)[^>]*>:<\/\1>/g, ':\n');
   
   // Handle cross-tag scenarios where commas or colons might be at tag boundaries
-  // For commas: don't split if followed by a quote or digit
-  processedText = processedText.replace(/(?<!\d)<\/(b|strong)>,(?![""\u201C\u201D]|\d)(\s*)<\1[^>]*>/g, (match, tagName, whitespace) => {
+  // For commas: don't split if followed by a quote (single or double) or digit
+  processedText = processedText.replace(/(?<!\d)<\/(b|strong)>,(?![""\u201C\u201D'\u2018\u2019]|\d)(\s*)<\1[^>]*>/g, (match, tagName, whitespace) => {
     return `,\n${whitespace}`;
   });
   // For colons: always split
@@ -332,18 +332,18 @@ export function splitEnglishText(text: string): string {
   });
   
   // Handle comma + end quote pattern (for bolded commas that are followed by quotes)
-  // Handle both straight quotes (") and curly quotes (" and ")
-  processedText = processedText.replace(/,[""\u201C\u201D]/g, (match) => match + '\n'); // Handle ,", ,", ," as units
+  // Handle both single (') and double (") quotes, straight and curly
+  processedText = processedText.replace(/,[""\u201C\u201D'\u2018\u2019]/g, (match) => match + '\n'); // Handle ,", ,', etc. as units
   
   // NOTE: General comma splitting is NOT done - only BOLDED commas split (handled above before HTML protection)
   
   // Split on periods, but handle period + end quote pattern first
-  // Handle both straight quotes (") and curly quotes (" and ")
-  processedText = processedText.replace(/\.[""\u201C\u201D]/g, (match) => match + '\n'); // Handle .", .", ." as units
+  // Handle both single (') and double (") quotes, straight and curly
+  processedText = processedText.replace(/\.[""\u201C\u201D'\u2018\u2019]/g, (match) => match + '\n'); // Handle .", .', etc. as units
   
   // Then split on ALL other periods - avoid splitting after "i.e." and other abbreviations
   // Also avoid splitting if followed by a quote (already handled above)
-  processedText = processedText.replace(/\.(?![""\u201C\u201D]|\s*[a-z])/g, '.\n');
+  processedText = processedText.replace(/\.(?![""\u201C\u201D'\u2018\u2019]|\s*[a-z])/g, '.\n');
   processedText = processedText.replace(/i\.e\.\n/g, 'i.e.');
   processedText = processedText.replace(/e\.g\.\n/g, 'e.g.');
   processedText = processedText.replace(/etc\.\n/g, 'etc.');
@@ -351,9 +351,9 @@ export function splitEnglishText(text: string): string {
   processedText = processedText.replace(/cf\.\n/g, 'cf.');
   
   // Split on question marks, but handle question mark + end quote pattern
-  // Handle both straight quotes (") and curly quotes (" and ")
-  processedText = processedText.replace(/\?[""\u201C\u201D]/g, (match) => match + '\n'); // Handle ?", ?", ?" as units
-  processedText = processedText.replace(/\?(?![""\u201C\u201D])/g, '?\n'); // Handle other question marks
+  // Handle both single (') and double (") quotes, straight and curly
+  processedText = processedText.replace(/\?[""\u201C\u201D'\u2018\u2019]/g, (match) => match + '\n'); // Handle ?", ?', etc. as units
+  processedText = processedText.replace(/\?(?![""\u201C\u201D'\u2018\u2019])/g, '?\n'); // Handle other question marks
   
   // Split on semicolons
   processedText = processedText.replace(/;/g, ';\n');
@@ -371,11 +371,12 @@ export function splitEnglishText(text: string): string {
   
   // Final cleanup: Fix orphaned quotes that end up on their own lines
   // This handles cases where quotes get separated from preceding text
+  // Handle both single (') and double (") quotes, straight and curly
   processedText = processedText
-    .replace(/,\n\n[""\u201C\u201D]\s*\n/g, ',\n\n') // Remove orphaned quotes after commas
-    .replace(/\n\n[""\u201C\u201D]\s*$/g, '') // Remove orphaned quotes at end
-    .replace(/\n[""\u201C\u201D]\s*\n/g, '\n') // Remove orphaned quotes on their own lines
-    .replace(/\n[""\u201C\u201D]\s*$/g, ''); // Remove orphaned quotes at end of lines
+    .replace(/,\n\n[""\u201C\u201D'\u2018\u2019]\s*\n/g, ',\n\n') // Remove orphaned quotes after commas
+    .replace(/\n\n[""\u201C\u201D'\u2018\u2019]\s*$/g, '') // Remove orphaned quotes at end
+    .replace(/\n[""\u201C\u201D'\u2018\u2019]\s*\n/g, '\n') // Remove orphaned quotes on their own lines
+    .replace(/\n[""\u201C\u201D'\u2018\u2019]\s*$/g, ''); // Remove orphaned quotes at end of lines
   
   return processedText;
 }
