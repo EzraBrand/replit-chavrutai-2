@@ -304,10 +304,20 @@ export function splitEnglishText(text: string): string {
   });
   
   // Also handle cases where just the comma or colon itself is bolded
-  // Skip this for numbers (rare case), will be handled in main comma splitting
+  // For commas: don't split if followed by a quote or digit, or if preceded by digit (number separator)
+  processedText = processedText.replace(/(?<!\d)<(b|strong)[^>]*>,<\/\1>(?![""\u201C\u201D]|\d)/g, ',\n');
+  // For colons: always split
+  processedText = processedText.replace(/<(b|strong)[^>]*>:<\/\1>/g, ':\n');
   
   // Handle cross-tag scenarios where commas or colons might be at tag boundaries
-  // Skip this too - will be handled in main splitting after HTML protection
+  // For commas: don't split if followed by a quote or digit
+  processedText = processedText.replace(/(?<!\d)<\/(b|strong)>,(?![""\u201C\u201D]|\d)(\s*)<\1[^>]*>/g, (match, tagName, whitespace) => {
+    return `,\n${whitespace}`;
+  });
+  // For colons: always split
+  processedText = processedText.replace(/<\/(b|strong)>:(\s*)<\1[^>]*>/g, (match, tagName, whitespace) => {
+    return `:\n${whitespace}`;
+  });
   
   // Now protect HTML tags by temporarily replacing them with placeholders
   const htmlTagPattern = /<\/?\w+(?:\s+[^>]*)?>/g;
@@ -321,13 +331,11 @@ export function splitEnglishText(text: string): string {
     return placeholder;
   });
   
-  // Split on commas, but handle comma + end quote pattern first
+  // Handle comma + end quote pattern (for bolded commas that are followed by quotes)
   // Handle both straight quotes (") and curly quotes (" and ")
   processedText = processedText.replace(/,[""\u201C\u201D]/g, (match) => match + '\n'); // Handle ,", ,", ," as units
   
-  // Then split on ALL other commas - but NOT in numbers (between digits)
-  // Also avoid splitting if followed by a quote (already handled above)
-  processedText = processedText.replace(/,(?![""\u201C\u201D]|\d)(?<!\d)/g, ',\n');
+  // NOTE: General comma splitting is NOT done - only BOLDED commas split (handled above before HTML protection)
   
   // Split on periods, but handle period + end quote pattern first
   // Handle both straight quotes (") and curly quotes (" and ")
