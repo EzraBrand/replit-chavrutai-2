@@ -5,6 +5,9 @@
  * client-specific features like HTML styling and formatting.
  */
 
+// Import for use in client functions
+import { processHebrewTextCore } from '@shared/text-processing';
+
 // Re-export all shared text processing functions
 export {
   removeNikud,
@@ -17,34 +20,13 @@ export {
   processHebrewTextCore
 } from '@shared/text-processing';
 
-// Import for use in client-specific functions
-import { processHebrewTextCore } from '@shared/text-processing';
-
 /**
- * Applies special styling to Hebrew text in parentheses (biblical quotes)
- * CLIENT-SPECIFIC: Creates HTML span tags
- */
-export function styleHebrewParentheses(text: string): string {
-  if (!text) return '';
-  
-  // Replace text in parentheses with span tags for special styling
-  return text.replace(/\(([^)]+)\)/g, '<span class="biblical-quote">($1)</span>');
-}
-
-/**
- * Processes Hebrew text with client-specific HTML styling
- * This extends the core processing with DOM-specific features
+ * Processes Hebrew text (alias for core processing)
+ * Note: Previously included HTML styling for parentheses, but that was removed
+ * due to issues with Hebrew text in Niddah 47a.16 and other sections
  */
 export function processHebrewText(text: string): string {
-  if (!text) return '';
-  
-  // Use core processing from shared module
-  let processed = processHebrewTextCore(text);
-  
-  // Add client-specific HTML styling
-  processed = styleHebrewParentheses(processed);
-  
-  return processed;
+  return processHebrewTextCore(text);
 }
 
 /**
