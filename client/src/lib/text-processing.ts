@@ -283,6 +283,7 @@ export function splitEnglishText(text: string): string {
   let processedText = text;
   
   // Split on bolded commas and colons BEFORE protecting HTML tags
+  // BUT avoid splitting comma + quote patterns (those will be handled later)
   processedText = processedText.replace(/<(b|strong)[^>]*>([\s\S]*?)<\/\1>/g, (match, tagName, content) => {
     // Only process if the content contains commas or colons
     if (!/[,:]/.test(content)) {
@@ -290,17 +291,21 @@ export function splitEnglishText(text: string): string {
     }
     
     let splitContent = content;
-    // Handle commas and colons
-    splitContent = splitContent.replace(/([,:])/g, '$1\n');
+    // Handle colons (always split)
+    splitContent = splitContent.replace(/:/g, ':\n');
+    // Handle commas, but NOT if followed by a quote
+    splitContent = splitContent.replace(/,(?![""\u201C\u201D])/g, ',\n');
     
     return `<${tagName}>${splitContent}</${tagName}>`;
   });
   
   // Also handle cases where just the comma or colon itself is bolded
-  processedText = processedText.replace(/<(b|strong)[^>]*>([,:])<\/\1>/g, '$2\n');
+  // But don't split if followed by a quote
+  processedText = processedText.replace(/<(b|strong)[^>]*>([,:])<\/\1>(?![""\u201C\u201D])/g, '$2\n');
   
   // Handle cross-tag scenarios where commas or colons might be at tag boundaries
-  processedText = processedText.replace(/<\/(b|strong)>([,:])(\s*)<\1[^>]*>/g, (match, tagName, punct, whitespace) => {
+  // But don't split if followed by a quote
+  processedText = processedText.replace(/<\/(b|strong)>([,:])(?![""\u201C\u201D])(\s*)<\1[^>]*>/g, (match, tagName, punct, whitespace) => {
     return `</${tagName}>${punct}\n${whitespace}<${tagName}>`;
   });
   
@@ -315,6 +320,10 @@ export function splitEnglishText(text: string): string {
     htmlPlaceholders.push(placeholder);
     return placeholder;
   });
+  
+  // Split on commas, but handle comma + end quote pattern first
+  // Handle both straight quotes (") and curly quotes (" and ")
+  processedText = processedText.replace(/,[""\u201C\u201D]/g, (match) => match + '\n'); // Handle ,", ,", ," as units
   
   // Split on periods, but handle period + end quote pattern first
   // Handle both straight quotes (") and curly quotes (" and ")
