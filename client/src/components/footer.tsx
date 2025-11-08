@@ -7,7 +7,7 @@ export function Footer() {
     <footer className="border-t border-border bg-card mt-12">
       <div className="container mx-auto px-4 py-10">
         {/* Multi-Column Navigation */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-2xl mx-auto mb-8">
+        <div className="grid grid-cols-2 gap-4 sm:gap-8 max-w-2xl mx-auto mb-8">
           {/* Column 1: Study Resources */}
           <div>
             <h3 className="text-sm font-semibold text-foreground mb-4">Study Resources</h3>
