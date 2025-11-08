@@ -575,6 +575,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // SEO Routes - Nested sitemap structure
   app.get('/sitemap.xml', generateSitemapIndex);
   app.get('/sitemap-main.xml', generateMainSitemap);
+  app.get('/sitemap-bible.xml', async (req, res) => {
+    const { generateBibleSitemap } = await import('./routes/sitemap-bible');
+    generateBibleSitemap(req, res);
+  });
   app.get('/sitemap-seder-zeraim.xml', generateSederSitemap('zeraim'));
   app.get('/sitemap-seder-moed.xml', generateSederSitemap('moed'));
   app.get('/sitemap-seder-nashim.xml', generateSederSitemap('nashim'));

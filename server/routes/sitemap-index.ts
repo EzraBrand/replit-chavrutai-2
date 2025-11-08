@@ -16,6 +16,12 @@ export function generateSitemapIndex(req: Request, res: Response) {
     <lastmod>${currentDate}</lastmod>
   </sitemap>
   
+  <!-- Bible - 39 books, ~929 chapters -->
+  <sitemap>
+    <loc>${baseUrl}/sitemap-bible.xml</loc>
+    <lastmod>${currentDate}</lastmod>
+  </sitemap>
+  
   <!-- Seder Zeraim (Order of Seeds) - 1 tractate, ~128 pages -->
   <sitemap>
     <loc>${baseUrl}/sitemap-seder-zeraim.xml</loc>
