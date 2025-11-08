@@ -25,7 +25,7 @@ export default function BibleBookPage() {
   });
 
   // Find the book details
-  const bookInfo = booksData?.books.find(b => b.slug === book);
+  const bookInfo = booksData?.books.find((b: any) => b.slug === book);
 
   // Set up SEO
   const bookTitle = bookInfo?.name || (book ? book.charAt(0).toUpperCase() + book.slice(1).replace(/-/g, ' ') : 'Bible');
@@ -93,7 +93,7 @@ export default function BibleBookPage() {
 
               {/* Chapter buttons */}
               <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-2 justify-items-center">
-                {chapters?.map((chapterNum) => (
+                {chapters?.map((chapterNum: number) => (
                   <Link
                     key={chapterNum}
                     href={`/bible/${book}/${chapterNum}`}

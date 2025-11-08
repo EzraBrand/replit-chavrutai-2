@@ -8,6 +8,11 @@
 // Import for use in client functions
 import { processHebrewTextCore } from '@shared/text-processing';
 
+// Import and re-export shared text processing functions
+import {
+  replaceTerms as sharedReplaceTerms
+} from '@shared/text-processing';
+
 // Re-export all shared text processing functions
 export {
   removeNikud,
@@ -19,6 +24,9 @@ export {
   normalizeApiText,
   processHebrewTextCore
 } from '@shared/text-processing';
+
+// Make replaceTerms available for local use
+const replaceTerms = sharedReplaceTerms;
 
 /**
  * Processes Hebrew text (alias for core processing)

@@ -453,6 +453,111 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Bible API Routes
+  // Get Bible text for a specific book and chapter
+  app.get("/api/bible/text", async (req, res) => {
+    try {
+      const { BibleQuerySchema } = await import('@shared/schema');
+      const { book, chapter } = BibleQuerySchema.parse(req.query);
+      
+      const { getBookBySlug, normalizeSefariaBookName } = await import('@shared/bible-books');
+      const { processHebrewVerse, processEnglishVerse } = await import('./lib/bible-text-processing');
+      
+      // Validate book
+      const bookInfo = getBookBySlug(book);
+      if (!bookInfo) {
+        res.status(404).json({ error: `Invalid book: ${book}` });
+        return;
+      }
+      
+      // Validate chapter
+      if (chapter < 1 || chapter > bookInfo.chapters) {
+        res.status(400).json({ error: `Invalid chapter ${chapter} for ${bookInfo.name}. Valid range: 1-${bookInfo.chapters}` });
+        return;
+      }
+      
+      // Fetch from Sefaria
+      const sefariaBookName = normalizeSefariaBookName(book);
+      const sefariaRef = `${sefariaBookName}.${chapter}`;
+      const apiUrl = `https://www.sefaria.org/api/v3/texts/${encodeURIComponent(sefariaRef)}?version=english|JPS%201985%20Tanakh`;
+      
+      console.log(`Fetching Bible text from Sefaria: ${apiUrl}`);
+      const response = await fetch(apiUrl);
+      
+      if (!response.ok) {
+        console.error(`Sefaria API error: ${response.status} ${response.statusText}`);
+        res.status(response.status).json({ error: `Failed to fetch Bible text from Sefaria` });
+        return;
+      }
+      
+      const data = await response.json();
+      
+      // Extract Hebrew and English verses
+      const hebrewVerses = Array.isArray(data.versions[0]?.text) ? data.versions[0].text : [];
+      const englishVerses = Array.isArray(data.versions[1]?.text) ? data.versions[1].text : [];
+      
+      // Process each verse
+      const verses = hebrewVerses.map((hebrewVerse: string, index: number) => {
+        const englishVerse = englishVerses[index] || '';
+        
+        return {
+          verseNumber: index + 1,
+          hebrewSegments: processHebrewVerse(hebrewVerse),
+          englishSegments: processEnglishVerse(englishVerse)
+        };
+      });
+      
+      res.json({
+        work: "Bible",
+        book: bookInfo.slug,
+        chapter,
+        verses,
+        sefariaRef,
+        verseCount: verses.length
+      });
+    } catch (error) {
+      console.error('Error in /api/bible/text:', error);
+      res.status(500).json({ error: "Failed to fetch Bible text" });
+    }
+  });
+
+  // Get list of all Bible books
+  app.get("/api/bible/books", async (req, res) => {
+    try {
+      const { ALL_BIBLE_BOOKS, BIBLE_SECTIONS } = await import('@shared/bible-books');
+      
+      res.json({
+        books: ALL_BIBLE_BOOKS,
+        sections: BIBLE_SECTIONS
+      });
+    } catch (error) {
+      console.error('Error in /api/bible/books:', error);
+      res.status(500).json({ error: "Failed to fetch Bible books" });
+    }
+  });
+
+  // Get chapters for a specific Bible book
+  app.get("/api/bible/chapters", async (req, res) => {
+    try {
+      const { book } = z.object({ book: z.string() }).parse(req.query);
+      const { getBookBySlug } = await import('@shared/bible-books');
+      
+      const bookInfo = getBookBySlug(book);
+      if (!bookInfo) {
+        res.status(404).json({ error: `Invalid book: ${book}` });
+        return;
+      }
+      
+      // Generate array of chapter numbers [1, 2, 3, ..., n]
+      const chapters = Array.from({ length: bookInfo.chapters }, (_, i) => i + 1);
+      
+      res.json({ chapters });
+    } catch (error) {
+      console.error('Error in /api/bible/chapters:', error);
+      res.status(500).json({ error: "Failed to fetch chapters" });
+    }
+  });
+
   // SEO Routes - Nested sitemap structure
   app.get('/sitemap.xml', generateSitemapIndex);
   app.get('/sitemap-main.xml', generateMainSitemap);
