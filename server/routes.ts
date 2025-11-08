@@ -10,8 +10,8 @@ import { generateMainSitemap } from "./routes/sitemap-main";
 import { generateSederSitemap } from "./routes/sitemap-seder";
 import { z } from "zod";
 
-// Import text processing utilities from shared client library
-import { processHebrewText, processEnglishText } from "../client/src/lib/text-processing.js";
+// Import text processing utilities from shared library
+import { processHebrewTextCore as processHebrewText, processEnglishText } from "@shared/text-processing";
 
 const sefariaAPIBaseURL = "https://www.sefaria.org/api";
 
