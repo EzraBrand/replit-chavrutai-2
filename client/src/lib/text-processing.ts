@@ -297,21 +297,17 @@ export function splitEnglishText(text: string): string {
     let splitContent = content;
     // Handle colons (always split)
     splitContent = splitContent.replace(/:/g, ':\n');
-    // Handle commas, but NOT if followed by a quote
-    splitContent = splitContent.replace(/,(?![""\u201C\u201D])/g, ',\n');
+    // Handle commas, but NOT if followed by a quote or digit, and NOT if preceded by a digit (number separator)
+    splitContent = splitContent.replace(/,(?![""\u201C\u201D]|\d)(?<!\d)/g, ',\n');
     
     return `<${tagName}>${splitContent}</${tagName}>`;
   });
   
   // Also handle cases where just the comma or colon itself is bolded
-  // But don't split if followed by a quote
-  processedText = processedText.replace(/<(b|strong)[^>]*>([,:])<\/\1>(?![""\u201C\u201D])/g, '$2\n');
+  // Skip this for numbers (rare case), will be handled in main comma splitting
   
   // Handle cross-tag scenarios where commas or colons might be at tag boundaries
-  // But don't split if followed by a quote
-  processedText = processedText.replace(/<\/(b|strong)>([,:])(?![""\u201C\u201D])(\s*)<\1[^>]*>/g, (match, tagName, punct, whitespace) => {
-    return `</${tagName}>${punct}\n${whitespace}<${tagName}>`;
-  });
+  // Skip this too - will be handled in main splitting after HTML protection
   
   // Now protect HTML tags by temporarily replacing them with placeholders
   const htmlTagPattern = /<\/?\w+(?:\s+[^>]*)?>/g;
@@ -328,6 +324,10 @@ export function splitEnglishText(text: string): string {
   // Split on commas, but handle comma + end quote pattern first
   // Handle both straight quotes (") and curly quotes (" and ")
   processedText = processedText.replace(/,[""\u201C\u201D]/g, (match) => match + '\n'); // Handle ,", ,", ," as units
+  
+  // Then split on ALL other commas - but NOT in numbers (between digits)
+  // Also avoid splitting if followed by a quote (already handled above)
+  processedText = processedText.replace(/,(?![""\u201C\u201D]|\d)(?<!\d)/g, ',\n');
   
   // Split on periods, but handle period + end quote pattern first
   // Handle both straight quotes (") and curly quotes (" and ")
