@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { ExternalLink } from "lucide-react";
-import poweredBySefariaPath from "@assets/powered-by-sefaria-87c5652-image_1758709536972.png";
+import poweredBySefariaPath from "@assets/powered-by-sefaria_1762591079708.png";
 
 export function Footer() {
   return (
