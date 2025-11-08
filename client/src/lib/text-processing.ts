@@ -331,6 +331,10 @@ export function splitEnglishText(text: string): string {
     return placeholder;
   });
   
+  // Handle triple-punctuation clusters FIRST (e.g., ?'", .'", ,'")
+  // These must be handled before double-punctuation to avoid splitting in the middle
+  processedText = processedText.replace(/([,.\?!;])[''\u2018\u2019][""\u201C\u201D]/g, (match) => match + '\n');
+  
   // Handle comma + end quote pattern (for bolded commas that are followed by quotes)
   // Handle both single (') and double (") quotes, straight and curly
   processedText = processedText.replace(/,[""\u201C\u201D'\u2018\u2019]/g, (match) => match + '\n'); // Handle ,", ,', etc. as units
