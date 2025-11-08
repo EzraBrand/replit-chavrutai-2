@@ -50,3 +50,44 @@ export function formatEnglishText(text: string): string {
   
   return paragraphs.join('');
 }
+
+/**
+ * Processes Bible Hebrew text (no biblical quote styling for Ketiv-Qere notation)
+ * Bible text should not apply italic styling to parentheses since those are Ketiv-Qere notations
+ */
+export function processBibleHebrewText(text: string): string {
+  if (!text) return '';
+
+  // Just normalize whitespace - nikud already removed by backend
+  const processed = text
+    .replace(/[ \t]+/g, ' ')  // Multiple spaces/tabs to single space
+    .replace(/\n[ \t]+/g, '\n')  // Remove leading whitespace on new lines
+    .replace(/[ \t]+\n/g, '\n')  // Remove trailing whitespace before new lines
+    .trim();
+
+  return processed;
+}
+
+/**
+ * Simpler processing for Bible English text - no auto-splitting
+ * (Backend already handles verse splitting)
+ */
+export function processBibleEnglishText(text: string): string {
+  if (!text) return '';
+
+  let processed = text;
+
+  // Only apply term replacements from shared processing, no splitting
+  processed = replaceTerms(processed);
+
+  // Preserve paragraph breaks and normalize spacing
+  processed = processed
+    .replace(/\r\n/g, '\n')  // Normalize line endings
+    .replace(/\n{3,}/g, '\n\n')  // Multiple line breaks to double
+    .replace(/[ \t]+/g, ' ')  // Multiple spaces/tabs to single space
+    .replace(/\n[ \t]+/g, '\n')  // Remove leading whitespace on new lines
+    .replace(/[ \t]+\n/g, '\n')  // Remove trailing whitespace before new lines
+    .trim();
+
+  return processed;
+}

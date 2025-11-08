@@ -171,3 +171,39 @@ export type AutosuggestSuggestion = {
 };
 
 export type AutosuggestResponse = AutosuggestSuggestion[];
+
+// Bible Location Schema
+export const BibleLocationSchema = z.object({
+  work: z.literal("Bible"),
+  book: z.string(),
+  chapter: z.number(),
+  verse: z.number().optional(),
+});
+
+export type BibleLocation = z.infer<typeof BibleLocationSchema>;
+
+// Bible Text Schema
+// Bible Verse with segments (split by cantillation/punctuation)
+export const BibleVerseSchema = z.object({
+  verseNumber: z.number(),
+  hebrewSegments: z.array(z.string()),
+  englishSegments: z.array(z.string()),
+});
+
+export const BibleTextSchema = z.object({
+  work: z.literal("Bible"),
+  book: z.string(),
+  chapter: z.number(),
+  verses: z.array(BibleVerseSchema),
+  sefariaRef: z.string(),
+  verseCount: z.number(),
+});
+
+export type BibleVerse = z.infer<typeof BibleVerseSchema>;
+export type BibleText = z.infer<typeof BibleTextSchema>;
+
+// Bible Query Schema for API requests
+export const BibleQuerySchema = z.object({
+  book: z.string(),
+  chapter: z.coerce.number(),
+});

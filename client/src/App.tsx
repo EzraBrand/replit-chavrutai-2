@@ -13,6 +13,9 @@ import TractateOutlinePage from "@/pages/tractate-outline";
 import BlogPostsPage from "@/pages/blog-posts";
 import BiblicalIndexPage from "@/pages/biblical-index";
 import BiblicalBookPage from "@/pages/biblical-book";
+import BibleContents from "@/pages/bible-contents";
+import BibleBookPage from "@/pages/bible-book";
+import BibleChapterPage from "@/pages/bible-chapter";
 import SuggestedPages from "@/pages/suggested-pages";
 import Sitemap from "@/pages/sitemap";
 import Changelog from "@/pages/changelog";
@@ -36,6 +39,9 @@ function Router() {
       <Route path="/blog-posts" component={BlogPostsPage} />
       <Route path="/biblical-index" component={BiblicalIndexPage} />
       <Route path="/biblical-index/book/:bookName" component={BiblicalBookPage} />
+      <Route path="/bible" component={BibleContents} />
+      <Route path="/bible/:book" component={BibleBookPage} />
+      <Route path="/bible/:book/:chapter" component={BibleChapterPage} />
       <Route path="/suggested-pages" component={SuggestedPages} />
       <Route path="/sitemap" component={Sitemap} />
       <Route path="/changelog" component={Changelog} />

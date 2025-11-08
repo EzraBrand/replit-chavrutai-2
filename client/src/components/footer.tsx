@@ -34,6 +34,13 @@ export function Footer() {
                 Biblical Index
               </Link>
               <Link 
+                href="/bible"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+                data-testid="footer-link-bible"
+              >
+                Bible
+              </Link>
+              <Link 
                 href="/blog-posts"
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
                 data-testid="footer-link-blog-posts"
