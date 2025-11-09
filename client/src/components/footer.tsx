@@ -17,7 +17,7 @@ export function Footer() {
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
                 data-testid="footer-link-contents"
               >
-                Talmud
+                Talmud - Table of Contents
               </Link>
               <Link 
                 href="/suggested-pages"
@@ -52,7 +52,7 @@ export function Footer() {
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
                 data-testid="footer-link-bible"
               >
-                Bible
+                Bible - Table of Contents
               </Link>
             </nav>
           </div>
