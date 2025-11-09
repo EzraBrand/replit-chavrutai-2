@@ -24,14 +24,14 @@ export function Footer() {
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
                 data-testid="footer-link-suggested-pages"
               >
-                Suggested Pages
+                Suggested Talmud Pages
               </Link>
               <Link 
                 href="/biblical-index"
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
                 data-testid="footer-link-biblical-index"
               >
-                Biblical Index
+                Bible-Talmud Index
               </Link>
               <Link 
                 href="/blog-posts"
@@ -45,7 +45,7 @@ export function Footer() {
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
                 data-testid="footer-link-dictionary"
               >
-                Jastrow Dictionary
+                Jastrow Talmud Dictionary
               </Link>
               <Link 
                 href="/bible"

@@ -5,7 +5,7 @@ import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
 import { bibleAPI } from "@/lib/bible-api";
 import { Button } from "@/components/ui/button";
-import { Book } from "lucide-react";
+import { Book, ExternalLink } from "lucide-react";
 import type { BibleBook } from "@/types/bible";
 
 export default function BibleContents() {
@@ -107,10 +107,11 @@ export default function BibleContents() {
             href="https://www.ezrabrand.com/p/introducing-the-chavrutai-bible-reader"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-primary hover:underline"
+            className="text-blue-600 dark:text-blue-400 hover:underline inline-flex items-center gap-1"
             data-testid="link-bible-intro-article"
           >
             Introducing the ChavrutAI Bible Reader
+            <ExternalLink size={14} />
           </a>
           {" "}(Nov 09, 2025)
         </p>
