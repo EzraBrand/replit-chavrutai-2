@@ -99,6 +99,23 @@ export default function BibleContents() {
         </div>
       </header>
 
+      {/* Introduction */}
+      <div className="max-w-6xl mx-auto px-4 py-6 border-b border-border">
+        <p className="text-sm text-muted-foreground">
+          To find out more about this, see:{" "}
+          <a 
+            href="https://www.ezrabrand.com/p/introducing-the-chavrutai-bible-reader"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary hover:underline"
+            data-testid="link-bible-intro-article"
+          >
+            Introducing the ChavrutAI Bible Reader
+          </a>
+          {" "}(Nov 09, 2025)
+        </p>
+      </div>
+
       {/* Main Content */}
       <main className="max-w-6xl mx-auto px-4 py-8">
         <div className="space-y-12">

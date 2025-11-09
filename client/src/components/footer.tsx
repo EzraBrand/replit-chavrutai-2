@@ -17,7 +17,7 @@ export function Footer() {
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
                 data-testid="footer-link-contents"
               >
-                All Tractates
+                Talmud
               </Link>
               <Link 
                 href="/suggested-pages"
@@ -34,13 +34,6 @@ export function Footer() {
                 Biblical Index
               </Link>
               <Link 
-                href="/bible"
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
-                data-testid="footer-link-bible"
-              >
-                Bible
-              </Link>
-              <Link 
                 href="/blog-posts"
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
                 data-testid="footer-link-blog-posts"
@@ -53,6 +46,13 @@ export function Footer() {
                 data-testid="footer-link-dictionary"
               >
                 Jastrow Dictionary
+              </Link>
+              <Link 
+                href="/bible"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+                data-testid="footer-link-bible"
+              >
+                Bible
               </Link>
             </nav>
           </div>
