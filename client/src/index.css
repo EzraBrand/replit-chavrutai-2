@@ -143,6 +143,17 @@
     padding: 0 0.75rem;
   }
   
+  /* Bible-specific 50/50 layout */
+  .layout-side-by-side .bible-text-display .text-column:first-child {
+    width: 50%;
+    padding: 0 0.75rem;
+  }
+  
+  .layout-side-by-side .bible-text-display .text-column:last-child {
+    width: 50%;
+    padding: 0 0.75rem;
+  }
+
   /* Override mobile responsive behavior when stacked layout is selected */
   @media (max-width: 768px) {
     .layout-side-by-side .text-display {
@@ -156,6 +167,17 @@
     
     .layout-side-by-side .text-display .text-column:last-child {
       width: 35% !important;
+      padding: 0 0.5rem;
+    }
+
+    /* Bible-specific 50/50 on mobile */
+    .layout-side-by-side .bible-text-display .text-column:first-child {
+      width: 50% !important;
+      padding: 0 0.5rem;
+    }
+    
+    .layout-side-by-side .bible-text-display .text-column:last-child {
+      width: 50% !important;
       padding: 0 0.5rem;
     }
   }

@@ -50,7 +50,7 @@ export function BibleTextDisplay({ text }: BibleTextDisplayProps) {
                 </a>
               </div>
 
-              <div className="text-display flex flex-col lg:flex-row gap-6">
+              <div className="text-display bible-text-display flex flex-col lg:flex-row gap-6">
                 {/* English Segments Column (First on Mobile, Left Side on Desktop) */}
                 <div className="text-column space-y-3 lg:order-1">
                   {verse.englishSegments.length > 0 && (
