@@ -514,6 +514,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const verses = hebrewVerses.map((hebrewVerse: string, index: number) => {
         const englishVerse = englishVerses[index] || '';
         
+        // Debug Psalms 9:8
+        if (book === 'psalms' && chapter === 9 && index === 7) {
+          console.log('=== PSALMS 9:8 RAW TEXT ===');
+          console.log('Raw English verse:', englishVerse);
+          console.log('Processed segments:', processEnglishVerse(englishVerse));
+          console.log('=== END PSALMS 9:8 ===');
+        }
+        
         return {
           verseNumber: index + 1,
           hebrewSegments: processHebrewVerse(hebrewVerse),
