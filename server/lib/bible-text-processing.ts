@@ -195,23 +195,29 @@ export function processBibleEnglish(text: string): string {
     .replace(/<span[^>]*>\s*\n?\s*G<small>OD<\/small>\s*\n?\s*<\/span>/g, 'YHWH')
     // Pattern: <span...> the? L<small>ORD</small> </span> (with optional newlines/spaces)
     .replace(/<span[^>]*>\s*\n?\s*(?:the\s+)?L<small>ORD<\/small>\s*\n?\s*<\/span>/gi, 'YHWH')
+    // Pattern: "the L<small>ORD</small>" without wrapping span (MUST come before non-wrapped patterns)
+    .replace(/\bthe\s+L<small>ORD<\/small>/gi, 'YHWH')
+    .replace(/\bThe\s+L<small>ORD<\/small>/g, 'YHWH')
     // Also handle cases without surrounding span tags - preserve at least one space
     .replace(/\s*\n\s*G<small>OD<\/small>\s*\n\s*/g, ' YHWH ')
-    .replace(/\s*\n\s*(?:the\s+)?L<small>ORD<\/small>\s*\n\s*/gi, ' YHWH ');
+    .replace(/\s*\n\s*L<small>ORD<\/small>\s*\n\s*/gi, ' YHWH ');
 
   // THEN: Strip HTML tags (Sefaria includes footnotes as HTML)
   const noHTML = stripHTML(processed);
 
   // FINALLY: Replace any remaining renderings of the divine name with "YHWH"
+  // IMPORTANT: Process longer phrases FIRST to avoid partial matches
   return noHTML
     .replace(/יהוה/g, "YHWH")  // Replace Hebrew Tetragrammaton
-    .replace(/\bETERNAL\b/g, "YHWH")  // Replace ETERNAL (from JPS small caps rendering)
-    .replace(/\bGOD\b/g, "YHWH")  // Replace GOD (from JPS small caps rendering)
-    .replace(/\bLORD\b/g, "YHWH")  // Replace standalone LORD
-    .replace(/\bthe Lord\b/g, "YHWH")
+    // Process "the LORD/Lord" BEFORE standalone "LORD/GOD"
     .replace(/\bthe LORD\b/g, "YHWH")
+    .replace(/\bThe LORD\b/g, "YHWH")
+    .replace(/\bthe Lord\b/g, "YHWH")
     .replace(/\bThe Lord\b/g, "YHWH")
-    .replace(/\bThe LORD\b/g, "YHWH");
+    // Now process standalone forms
+    .replace(/\bETERNAL\b/g, "YHWH")  // Replace ETERNAL (from JPS small caps rendering)
+    .replace(/\bLORD\b/g, "YHWH")  // Replace standalone LORD
+    .replace(/\bGOD\b/g, "YHWH");  // Replace GOD (from JPS small caps rendering)
 }
 
 /**
