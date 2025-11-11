@@ -89,6 +89,18 @@ export function processBibleEnglishText(text: string): string {
   // Only apply term replacements from shared processing, no splitting
   processed = replaceTerms(processed);
 
+  // Fix possessive apostrophes and contractions - remove newlines before them
+  // This prevents splitting like "YHWH\n's" into separate lines (e.g., Isaiah 5:25)
+  // Handle both straight ('), curly ('), and modifier letter apostrophe (ʼ)
+  processed = processed
+    .replace(/\n\s*([''\u2019\u02BC]s)\b/g, '$1')  // Fix possessive 's
+    .replace(/\n\s*([''\u2019\u02BC]t)\b/g, '$1')  // Fix contractions like 't
+    .replace(/\n\s*([''\u2019\u02BC]re)\b/g, '$1')  // Fix contractions like 're
+    .replace(/\n\s*([''\u2019\u02BC]ve)\b/g, '$1')  // Fix contractions like 've
+    .replace(/\n\s*([''\u2019\u02BC]ll)\b/g, '$1')  // Fix contractions like 'll
+    .replace(/\n\s*([''\u2019\u02BC]d)\b/g, '$1')  // Fix contractions like 'd
+    .replace(/\n\s*([''\u2019\u02BC]m)\b/g, '$1');  // Fix contractions like 'm
+
   // Preserve paragraph breaks and normalize spacing
   processed = processed
     .replace(/\r\n/g, '\n')  // Normalize line endings
