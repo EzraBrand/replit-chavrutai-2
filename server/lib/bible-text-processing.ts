@@ -187,10 +187,16 @@ export function processHebrewVerses(verses: string[]): string[][] {
 export function processBibleEnglish(text: string): string {
   if (!text) return '';
 
-  // First strip HTML tags (Sefaria includes footnotes as HTML)
-  const noHTML = stripHTML(text);
+  // FIRST: Replace HTML-wrapped divine names BEFORE stripping HTML
+  // Sefaria uses G<small>OD</small> and L<small>ORD</small> for small-caps
+  let processed = text
+    .replace(/G<small>OD<\/small>/g, 'YHWH')
+    .replace(/\b(?:the\s+)?L<small>ORD<\/small>/gi, 'YHWH');
 
-  // Replace various renderings of the divine name with "YHWH"
+  // THEN: Strip HTML tags (Sefaria includes footnotes as HTML)
+  const noHTML = stripHTML(processed);
+
+  // FINALLY: Replace any remaining renderings of the divine name with "YHWH"
   return noHTML
     .replace(/יהוה/g, "YHWH")  // Replace Hebrew Tetragrammaton
     .replace(/\bETERNAL\b/g, "YHWH")  // Replace ETERNAL (from JPS small caps rendering)
