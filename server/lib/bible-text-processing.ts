@@ -195,9 +195,9 @@ export function processBibleEnglish(text: string): string {
     .replace(/<span[^>]*>\s*\n?\s*G<small>OD<\/small>\s*\n?\s*<\/span>/g, 'YHWH')
     // Pattern: <span...> the? L<small>ORD</small> </span> (with optional newlines/spaces)
     .replace(/<span[^>]*>\s*\n?\s*(?:the\s+)?L<small>ORD<\/small>\s*\n?\s*<\/span>/gi, 'YHWH')
-    // Also handle cases without surrounding span tags
-    .replace(/\s*\n\s*G<small>OD<\/small>\s*\n\s*/g, 'YHWH')
-    .replace(/\s*\n\s*(?:the\s+)?L<small>ORD<\/small>\s*\n\s*/gi, 'YHWH');
+    // Also handle cases without surrounding span tags - preserve at least one space
+    .replace(/\s*\n\s*G<small>OD<\/small>\s*\n\s*/g, ' YHWH ')
+    .replace(/\s*\n\s*(?:the\s+)?L<small>ORD<\/small>\s*\n\s*/gi, ' YHWH ');
 
   // THEN: Strip HTML tags (Sefaria includes footnotes as HTML)
   const noHTML = stripHTML(processed);
