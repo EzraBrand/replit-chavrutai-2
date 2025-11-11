@@ -188,10 +188,16 @@ export function processBibleEnglish(text: string): string {
   if (!text) return '';
 
   // FIRST: Replace HTML-wrapped divine names BEFORE stripping HTML
-  // Sefaria uses G<small>OD</small> and L<small>ORD</small> for small-caps
+  // Sefaria uses patterns like: <span...> \nG<small>OD</small>\n </span>'s
+  // We need to replace the entire pattern including span tags and newlines
   let processed = text
-    .replace(/G<small>OD<\/small>/g, 'YHWH')
-    .replace(/\b(?:the\s+)?L<small>ORD<\/small>/gi, 'YHWH');
+    // Pattern: <span...> G<small>OD</small> </span> (with optional newlines/spaces)
+    .replace(/<span[^>]*>\s*\n?\s*G<small>OD<\/small>\s*\n?\s*<\/span>/g, 'YHWH')
+    // Pattern: <span...> the? L<small>ORD</small> </span> (with optional newlines/spaces)
+    .replace(/<span[^>]*>\s*\n?\s*(?:the\s+)?L<small>ORD<\/small>\s*\n?\s*<\/span>/gi, 'YHWH')
+    // Also handle cases without surrounding span tags
+    .replace(/\s*\n\s*G<small>OD<\/small>\s*\n\s*/g, 'YHWH')
+    .replace(/\s*\n\s*(?:the\s+)?L<small>ORD<\/small>\s*\n\s*/gi, 'YHWH');
 
   // THEN: Strip HTML tags (Sefaria includes footnotes as HTML)
   const noHTML = stripHTML(processed);

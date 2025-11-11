@@ -79,40 +79,20 @@ export function processBibleHebrewText(text: string): string {
 
 /**
  * Simpler processing for Bible English text - no auto-splitting
- * (Backend already handles verse splitting)
+ * (Backend already handles verse splitting and HTML processing)
  */
 export function processBibleEnglishText(text: string): string {
   if (!text) return '';
 
-  let processed = text;
-
-  // Fix HTML-wrapped "GOD" and "LORD" (e.g., G<small>OD</small>, the L<small>ORD</small>)
-  // This is specific to Sefaria Bible API format
-  processed = processed.replace(/G<small>OD<\/small>/g, 'YHWH');
-  // Also remove "the " before LORD to avoid "the YHWH"
-  processed = processed.replace(/\b(?:the\s+)?L<small>ORD<\/small>/gi, 'YHWH');
+  // Backend has already:
+  // - Replaced HTML-wrapped divine names with "YHWH"
+  // - Stripped all HTML tags
+  // - Split verses into segments
   
-  // Only apply term replacements from shared processing, no splitting
-  processed = replaceTerms(processed);
+  // Apply shared term replacements
+  let processed = replaceTerms(text);
 
-  // Remove newlines around YHWH (which we just created) to fix possessive cases
-  // e.g., "\nYHWH\n </span>'s" -> "YHWH </span>'s"
-  processed = processed.replace(/\n\s*(YHWH)\s*\n\s*/g, ' $1 ');
-
-  // Fix possessive apostrophes and contractions - remove newlines before them
-  // This prevents splitting like "word\n's" into separate lines
-  // Handle both straight ('), curly ('), and modifier letter apostrophe (ʼ)
-  // Also handle cases where HTML tags appear between the word and apostrophe
-  processed = processed
-    .replace(/\n\s*(<[^>]+>)?\s*([''\u2019\u02BC]s)\b/g, '$1$2')  // Fix possessive 's
-    .replace(/\n\s*(<[^>]+>)?\s*([''\u2019\u02BC]t)\b/g, '$1$2')  // Fix contractions like 't
-    .replace(/\n\s*(<[^>]+>)?\s*([''\u2019\u02BC]re)\b/g, '$1$2')  // Fix contractions like 're
-    .replace(/\n\s*(<[^>]+>)?\s*([''\u2019\u02BC]ve)\b/g, '$1$2')  // Fix contractions like 've
-    .replace(/\n\s*(<[^>]+>)?\s*([''\u2019\u02BC]ll)\b/g, '$1$2')  // Fix contractions like 'll
-    .replace(/\n\s*(<[^>]+>)?\s*([''\u2019\u02BC]d)\b/g, '$1$2')  // Fix contractions like 'd
-    .replace(/\n\s*(<[^>]+>)?\s*([''\u2019\u02BC]m)\b/g, '$1$2');  // Fix contractions like 'm
-
-  // Preserve paragraph breaks and normalize spacing
+  // Normalize whitespace
   processed = processed
     .replace(/\r\n/g, '\n')  // Normalize line endings
     .replace(/\n{3,}/g, '\n\n')  // Multiple line breaks to double
