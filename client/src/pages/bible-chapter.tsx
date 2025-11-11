@@ -109,10 +109,21 @@ export default function BibleChapterPage() {
       {/* Header */}
       <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
         <div className="max-w-5xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between gap-4">
-            {/* Left Section: Hamburger Menu */}
-            <div className="flex items-center flex-shrink-0">
+          <div className="flex items-center justify-between gap-2">
+            {/* Left Section: Hamburger Menu + Next Button */}
+            <div className="flex items-center gap-2 flex-shrink-0">
               <HamburgerMenu onLocationChange={handleLocationChange} />
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleNextChapter}
+                disabled={!canGoNext}
+                className="flex items-center gap-1 px-2 py-2"
+                data-testid="button-next-chapter-header"
+              >
+                <ChevronLeft className="w-3 h-3" />
+                <span className="text-xs">Next ({parsedChapter + 1})</span>
+              </Button>
             </div>
 
             {/* Center Section: Title */}
@@ -122,8 +133,20 @@ export default function BibleChapterPage() {
               </h1>
             </div>
 
-            {/* Right Section: Spacer for symmetry */}
-            <div className="flex-shrink-0" style={{ width: '48px' }} />
+            {/* Right Section: Previous Button */}
+            <div className="flex items-center gap-2 flex-shrink-0">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handlePrevChapter}
+                disabled={!canGoPrev}
+                className="flex items-center gap-1 px-2 py-2"
+                data-testid="button-prev-chapter-header"
+              >
+                <span className="text-xs">Previous ({parsedChapter - 1})</span>
+                <ChevronRight className="w-3 h-3" />
+              </Button>
+            </div>
           </div>
         </div>
       </header>
@@ -177,7 +200,7 @@ export default function BibleChapterPage() {
                 data-testid="button-next-chapter"
               >
                 <ChevronLeft className="h-4 w-4 mr-1" />
-                Next ({bookTitle} {parsedChapter + 1})
+                Next ({parsedChapter + 1})
               </Button>
 
               <span className="text-sm text-muted-foreground">
@@ -191,7 +214,7 @@ export default function BibleChapterPage() {
                 disabled={!canGoPrev}
                 data-testid="button-prev-chapter"
               >
-                Previous ({bookTitle} {parsedChapter - 1})
+                Previous ({parsedChapter - 1})
                 <ChevronRight className="h-4 w-4 ml-1" />
               </Button>
             </div>
