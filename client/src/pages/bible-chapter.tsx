@@ -27,8 +27,27 @@ export default function BibleChapterPage() {
     chapter: parsedChapter,
   };
 
-  // Set up SEO
-  const bookTitle = book ? book.charAt(0).toUpperCase() + book.slice(1).replace(/-/g, ' ') : 'Genesis';
+  // Set up SEO - Format book title with proper title case
+  const formatBookTitle = (slug: string): string => {
+    if (!slug) return 'Genesis';
+    const words = slug.split('-');
+    return words
+      .map((word, index) => {
+        const lowerWord = word.toLowerCase();
+        // Handle Roman numerals
+        if (lowerWord === 'i' || lowerWord === 'ii' || lowerWord === 'iii') {
+          return word.toUpperCase();
+        }
+        // Keep prepositions lowercase (except at start)
+        if (index > 0 && (lowerWord === 'of' || lowerWord === 'the')) {
+          return lowerWord;
+        }
+        // Handle regular words
+        return word.charAt(0).toUpperCase() + word.slice(1);
+      })
+      .join(' ');
+  };
+  const bookTitle = formatBookTitle(book || 'genesis');
   useSEO({
     title: `${bookTitle} ${parsedChapter} - Hebrew & English Bible | ChavrutAI`,
     description: `Read ${bookTitle} Chapter ${parsedChapter} with Hebrew and English text from JPS 1985 translation. Free access to the Bible online.`,
@@ -150,27 +169,29 @@ export default function BibleChapterPage() {
         {text && !isLoading && (
           <div className="mt-8 pt-6 border-t border-border">
             <div className="flex justify-between items-center">
-              <Button
-                variant="outline"
-                onClick={handlePrevChapter}
-                disabled={!canGoPrev}
-                data-testid="button-prev-chapter"
-              >
-                <ChevronLeft className="h-4 w-4 mr-1" />
-                {bookTitle} {parsedChapter - 1}
-              </Button>
-
-              <span className="text-sm text-muted-foreground">
-                Chapter {parsedChapter} of {maxChapter}
-              </span>
-
+              {/* Next button on left (matching Talmud layout) */}
               <Button
                 variant="outline"
                 onClick={handleNextChapter}
                 disabled={!canGoNext}
                 data-testid="button-next-chapter"
               >
-                {bookTitle} {parsedChapter + 1}
+                <ChevronLeft className="h-4 w-4 mr-1" />
+                Next ({bookTitle} {parsedChapter + 1})
+              </Button>
+
+              <span className="text-sm text-muted-foreground">
+                Chapter {parsedChapter} of {maxChapter}
+              </span>
+
+              {/* Previous button on right (matching Talmud layout) */}
+              <Button
+                variant="outline"
+                onClick={handlePrevChapter}
+                disabled={!canGoPrev}
+                data-testid="button-prev-chapter"
+              >
+                Previous ({bookTitle} {parsedChapter - 1})
                 <ChevronRight className="h-4 w-4 ml-1" />
               </Button>
             </div>
