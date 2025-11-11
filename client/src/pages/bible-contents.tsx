@@ -32,7 +32,7 @@ export default function BibleContents() {
             <h1 className="text-3xl font-bold text-primary">Bible (Tanach)</h1>
           </div>
         </header>
-        <div className="max-w-6xl mx-auto px-4 py-8">
+        <div className="max-w-4xl mx-auto px-4 py-8">
           <div className="text-center">Loading Bible books...</div>
         </div>
       </div>
@@ -88,7 +88,7 @@ export default function BibleContents() {
       </header>
 
       {/* Introduction */}
-      <div className="max-w-6xl mx-auto px-4 py-6 border-b border-border">
+      <div className="max-w-4xl mx-auto px-4 py-6 border-b border-border">
         <p className="text-sm text-muted-foreground">
           To find out more about this, see:{" "}
           <a 

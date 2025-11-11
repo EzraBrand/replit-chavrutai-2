@@ -46,7 +46,7 @@ export default function BibleBookPage() {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 py-4">
+        <div className="max-w-5xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <Link href="/bible">
               <Button
@@ -67,7 +67,7 @@ export default function BibleBookPage() {
         </div>
       </header>
 
-      <div className="max-w-6xl mx-auto px-4 py-8">
+      <div className="max-w-4xl mx-auto px-4 py-8">
         {/* Book Header */}
         <div className="text-center mb-8">
           <h1 className="text-5xl font-bold text-primary mb-2" data-testid="text-book-title">
