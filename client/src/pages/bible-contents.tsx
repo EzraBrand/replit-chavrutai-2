@@ -1,11 +1,11 @@
 import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
 import { bibleAPI } from "@/lib/bible-api";
 import { Button } from "@/components/ui/button";
-import { Book, ExternalLink } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import type { BibleBook } from "@/types/bible";
 
 export default function BibleContents() {
@@ -45,35 +45,23 @@ export default function BibleContents() {
   const ketuvim = sections.Ketuvim || [];
 
   const renderBookCard = (book: BibleBook) => (
-    <Card key={book.slug} className="hover:shadow-md transition-shadow">
-      <CardHeader className="pb-3">
-        <CardTitle className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Book className="h-5 w-5 text-primary" />
-            <span className="text-lg">{book.name}</span>
-          </div>
-          <span className="text-sm font-normal text-muted-foreground">
-            {book.chapters} {book.chapters === 1 ? 'chapter' : 'chapters'}
-          </span>
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="flex flex-col gap-3">
-          <p className="text-xl text-right hebrew-font-noto-sans-hebrew" dir="rtl">
+    <Link 
+      key={book.slug} 
+      href={`/bible/${book.slug}`}
+      data-testid={`link-open-${book.slug}`}
+    >
+      <Card className="hover:shadow-sm transition-shadow cursor-pointer border-border hover:border-primary/20 bg-card/50">
+        <div className="p-3">
+          <div className="text-primary font-medium text-base mb-1">{book.name}</div>
+          <div className="text-sm text-primary/70 hebrew-font-noto-sans-hebrew mb-1" dir="rtl">
             {book.hebrew}
-          </p>
-          <Link href={`/bible/${book.slug}`}>
-            <Button
-              variant="outline"
-              className="w-full"
-              data-testid={`button-open-${book.slug}`}
-            >
-              Open {book.name}
-            </Button>
-          </Link>
+          </div>
+          <div className="text-xs text-muted-foreground">
+            {book.chapters} {book.chapters === 1 ? 'chapter' : 'chapters'}
+          </div>
         </div>
-      </CardContent>
-    </Card>
+      </Card>
+    </Link>
   );
 
   return (
@@ -118,43 +106,46 @@ export default function BibleContents() {
       </div>
 
       {/* Main Content */}
-      <main className="max-w-6xl mx-auto px-4 py-8">
-        <div className="space-y-12">
+      <main className="max-w-4xl mx-auto px-4 py-4">
+        <div className="space-y-4">
           {/* Torah Section */}
           <section>
-            <div className="mb-6">
-              <h2 className="text-2xl font-bold text-foreground mb-1" data-testid="text-section-torah">
-                Torah <span className="text-muted-foreground text-lg">(תורה)</span>
+            <div className="text-center border-b border-border pb-2 mb-2">
+              <h2 className="text-xl font-semibold text-primary" data-testid="text-section-torah">
+                Torah
               </h2>
-              <p className="text-sm text-muted-foreground">The Five Books of Moses</p>
+              <p className="text-base text-primary/70 hebrew-font-noto-sans-hebrew">תורה</p>
+              <p className="text-xs text-muted-foreground">The Five Books of Moses</p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
               {torah.map(renderBookCard)}
             </div>
           </section>
 
           {/* Nevi'im Section */}
           <section>
-            <div className="mb-6">
-              <h2 className="text-2xl font-bold text-foreground mb-1" data-testid="text-section-neviim">
-                Nevi'im <span className="text-muted-foreground text-lg">(נביאים)</span>
+            <div className="text-center border-b border-border pb-2 mb-2">
+              <h2 className="text-xl font-semibold text-primary" data-testid="text-section-neviim">
+                Nevi'im
               </h2>
-              <p className="text-sm text-muted-foreground">The Prophets</p>
+              <p className="text-base text-primary/70 hebrew-font-noto-sans-hebrew">נביאים</p>
+              <p className="text-xs text-muted-foreground">The Prophets</p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
               {neviim.map(renderBookCard)}
             </div>
           </section>
 
           {/* Ketuvim Section */}
           <section>
-            <div className="mb-6">
-              <h2 className="text-2xl font-bold text-foreground mb-1" data-testid="text-section-ketuvim">
-                Ketuvim <span className="text-muted-foreground text-lg">(כתובים)</span>
+            <div className="text-center border-b border-border pb-2 mb-2">
+              <h2 className="text-xl font-semibold text-primary" data-testid="text-section-ketuvim">
+                Ketuvim
               </h2>
-              <p className="text-sm text-muted-foreground">The Writings</p>
+              <p className="text-base text-primary/70 hebrew-font-noto-sans-hebrew">כתובים</p>
+              <p className="text-xs text-muted-foreground">The Writings</p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
               {ketuvim.map(renderBookCard)}
             </div>
           </section>
