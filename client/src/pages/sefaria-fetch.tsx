@@ -65,47 +65,57 @@ export default function SefariaFetchPage() {
     const container = document.getElementById('text-display-container');
     if (!container) return;
     
-    // Helper function to normalize semantic HTML tags to <b> and <i>
-    const normalizeFormattingTags = (htmlString: string): string => {
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = htmlString;
+    // Helper function to apply inline styles to all elements for Google Docs compatibility
+    const applyInlineStyles = (element: HTMLElement): void => {
+      // Skip text nodes
+      if (element.nodeType !== Node.ELEMENT_NODE) return;
       
-      const processNode = (node: Node): void => {
-        if (node.nodeType === Node.ELEMENT_NODE) {
-          const element = node as HTMLElement;
-          const tagName = element.tagName.toLowerCase();
-          
-          // Convert all bold-style tags to <b>
-          if (tagName === 'strong' || tagName === 'big') {
-            const b = document.createElement('b');
-            while (element.firstChild) {
-              b.appendChild(element.firstChild);
-            }
-            element.parentNode?.replaceChild(b, element);
-            // Process children of the new element
-            Array.from(b.childNodes).forEach(processNode);
-          } 
-          // Convert all italic-style tags to <i>
-          else if (tagName === 'em') {
-            const i = document.createElement('i');
-            while (element.firstChild) {
-              i.appendChild(element.firstChild);
-            }
-            element.parentNode?.replaceChild(i, element);
-            // Process children of the new element
-            Array.from(i.childNodes).forEach(processNode);
-          } else {
-            // Process children
-            Array.from(element.childNodes).forEach(processNode);
-          }
-        }
-      };
+      const tagName = element.tagName.toLowerCase();
+      const computedStyle = window.getComputedStyle(element);
       
-      processNode(tempDiv);
-      return tempDiv.innerHTML;
+      // Preserve existing inline styles and add necessary ones
+      if (!element.style.fontFamily) {
+        element.style.fontFamily = 'Calibri, sans-serif';
+      }
+      if (!element.style.fontSize) {
+        element.style.fontSize = '12pt';
+      }
+      
+      // Apply tag-specific styles
+      if (tagName === 'strong' || tagName === 'b' || tagName === 'big') {
+        element.style.fontWeight = 'bold';
+      }
+      if (tagName === 'em' || tagName === 'i') {
+        element.style.fontStyle = 'italic';
+      }
+      if (tagName === 'u') {
+        element.style.textDecoration = 'underline';
+      }
+      if (tagName === 'sup') {
+        element.style.verticalAlign = 'super';
+        element.style.fontSize = '0.83em';
+      }
+      if (tagName === 'sub') {
+        element.style.verticalAlign = 'sub';
+        element.style.fontSize = '0.83em';
+      }
+      if (tagName === 'small') {
+        element.style.fontSize = '0.83em';
+      }
+      
+      // Preserve RTL directionality
+      if (element.dir === 'rtl' || element.classList.contains('inline-rtl')) {
+        element.style.direction = 'rtl';
+        element.style.unicodeBidi = 'embed';
+      }
+      
+      // Recursively process children
+      Array.from(element.children).forEach(child => {
+        applyInlineStyles(child as HTMLElement);
+      });
     };
     
-    // Build HTML content for clipboard
+    // Clone the actual rendered content and apply inline styles for Google Docs
     const copyDiv = document.createElement('div');
     copyDiv.style.position = 'fixed';
     copyDiv.style.left = '-9999px';
@@ -114,45 +124,53 @@ export default function SefariaFetchPage() {
     copyDiv.style.fontSize = '12pt';
     copyDiv.style.lineHeight = '1.15';
     
-    if (data?.hebrewSections && data?.englishSections) {
-      data.hebrewSections.forEach((hebrewText: string, i: number) => {
-        const englishText = data.englishSections[i] || '';
-        
-        // Add Hebrew text (bold)
-        if (hebrewText) {
-          const hebrewLines = hebrewText.split('\n').filter(line => line.trim());
-          hebrewLines.forEach((line) => {
-            const p = document.createElement('p');
-            p.style.margin = '0';
-            p.style.padding = '0';
-            p.style.fontFamily = 'Calibri, sans-serif';
-            p.style.fontSize = '12pt';
-            p.style.fontWeight = 'bold';
-            p.style.direction = 'rtl';
-            p.textContent = line;
-            copyDiv.appendChild(p);
-          });
-        }
-        
-        // Add English text with formatting preserved
-        if (englishText) {
-          const formattedEnglish = formatEnglishText(englishText);
-          const englishParagraphs = formattedEnglish.split('\n\n').filter(p => p.trim());
-          
-          englishParagraphs.forEach((paragraph) => {
-            // Normalize all tags to <b> and <i>
-            const processedParagraph = normalizeFormattingTags(paragraph);
-            
-            const p = document.createElement('p');
-            p.style.margin = '0';
-            p.style.padding = '0';
-            p.style.fontFamily = 'Calibri, sans-serif';
-            p.style.fontSize = '12pt';
-            p.innerHTML = processedParagraph;
-            copyDiv.appendChild(p);
-          });
+    // Clone the container's content
+    const clonedContent = container.cloneNode(true) as HTMLElement;
+    
+    // Apply inline styles to all elements in the cloned content
+    applyInlineStyles(clonedContent);
+    
+    // Process the cloned content to optimize for Google Docs
+    // Convert p tags to spans with display:block to minimize spacing
+    const paragraphs = clonedContent.querySelectorAll('p');
+    paragraphs.forEach(p => {
+      const span = document.createElement('span');
+      span.style.display = 'block';
+      span.style.margin = '0';
+      span.style.padding = '0';
+      
+      // Copy all attributes and styles from p to span
+      Array.from(p.attributes).forEach(attr => {
+        if (attr.name === 'style') {
+          // Merge styles
+          const existingStyle = p.getAttribute('style') || '';
+          span.setAttribute('style', existingStyle + '; display: block; margin: 0; padding: 0;');
+        } else {
+          span.setAttribute(attr.name, attr.value);
         }
       });
+      
+      // Move all children from p to span
+      while (p.firstChild) {
+        span.appendChild(p.firstChild);
+      }
+      
+      // Replace p with span
+      p.parentNode?.replaceChild(span, p);
+    });
+    
+    // Ensure Hebrew text has proper RTL attributes
+    const hebrewElements = clonedContent.querySelectorAll('[dir="rtl"]');
+    hebrewElements.forEach(element => {
+      const el = element as HTMLElement;
+      el.style.direction = 'rtl';
+      el.style.unicodeBidi = 'embed';
+      el.style.fontWeight = 'bold'; // Hebrew text should be bold
+    });
+    
+    // Move the processed content to copyDiv
+    while (clonedContent.firstChild) {
+      copyDiv.appendChild(clonedContent.firstChild);
     }
     
     document.body.appendChild(copyDiv);
