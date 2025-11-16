@@ -69,6 +69,13 @@ export default function SefariaFetchPage() {
       range.selectNodeContents(container);
       selection?.removeAllRanges();
       selection?.addRange(range);
+      
+      // Copy with rich formatting preserved
+      try {
+        document.execCommand('copy');
+      } catch (err) {
+        console.warn('Copy command failed:', err);
+      }
     }
   };
 
@@ -103,6 +110,7 @@ export default function SefariaFetchPage() {
                 <div 
                   dir="rtl" 
                   className="font-semibold text-gray-900 leading-relaxed space-y-3"
+                  style={{ fontFamily: 'Calibri, sans-serif', fontSize: '12pt' }}
                 >
                   {hebrewText.split('\n').filter(line => line.trim()).map((line, idx) => (
                     <p key={idx} className="mb-3">{line}</p>
@@ -111,7 +119,10 @@ export default function SefariaFetchPage() {
               )}
               
               {englishText && (
-                <div className="english-text space-y-4 text-gray-800">
+                <div 
+                  className="english-text space-y-4 text-gray-800"
+                  style={{ fontFamily: 'Calibri, sans-serif', fontSize: '12pt' }}
+                >
                   {englishParagraphs.map((paragraph, idx) => (
                     <div 
                       key={idx} 
@@ -274,6 +285,7 @@ export default function SefariaFetchPage() {
                 id="text-display-container"
                 className="bg-white border rounded-lg p-6" 
                 data-testid="text-display-container"
+                style={{ fontFamily: 'Calibri, sans-serif', fontSize: '12pt' }}
               >
                 {renderSections()}
               </div>
