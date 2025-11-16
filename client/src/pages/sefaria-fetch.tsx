@@ -61,83 +61,91 @@ export default function SefariaFetchPage() {
     refetch();
   };
 
-  const handleSelectAll = async () => {
+  const handleSelectAll = () => {
     const container = document.getElementById('text-display-container');
     if (!container) return;
     
-    // Select the text visually first
+    // Create a hidden div with properly formatted content for copying
+    const copyDiv = document.createElement('div');
+    copyDiv.style.position = 'fixed';
+    copyDiv.style.left = '-9999px';
+    copyDiv.style.top = '-9999px';
+    
+    // Clone the container
+    const clonedContainer = container.cloneNode(true) as HTMLElement;
+    
+    // Replace semantic HTML tags with span elements that have inline styles
+    // This ensures Google Docs recognizes the formatting
+    const processNode = (node: Node) => {
+      if (node.nodeType === Node.ELEMENT_NODE) {
+        const el = node as HTMLElement;
+        const tagName = el.tagName.toLowerCase();
+        
+        // Process bold tags
+        if (tagName === 'strong' || tagName === 'b' || tagName === 'big') {
+          const span = document.createElement('span');
+          span.style.fontWeight = 'bold';
+          span.innerHTML = el.innerHTML;
+          // Recursively process children
+          Array.from(span.childNodes).forEach(child => processNode(child));
+          el.parentNode?.replaceChild(span, el);
+          return;
+        }
+        
+        // Process italic tags
+        if (tagName === 'em' || tagName === 'i') {
+          const span = document.createElement('span');
+          span.style.fontStyle = 'italic';
+          span.innerHTML = el.innerHTML;
+          // Recursively process children
+          Array.from(span.childNodes).forEach(child => processNode(child));
+          el.parentNode?.replaceChild(span, el);
+          return;
+        }
+        
+        // Process children for other elements
+        Array.from(el.childNodes).forEach(child => processNode(child));
+      }
+    };
+    
+    // Process all nodes in the cloned container
+    Array.from(clonedContainer.childNodes).forEach(child => processNode(child));
+    
+    // Apply base styles to all paragraphs for minimal spacing
+    clonedContainer.querySelectorAll('p').forEach((p) => {
+      const htmlP = p as HTMLElement;
+      htmlP.style.margin = '0';
+      htmlP.style.padding = '0';
+      htmlP.style.lineHeight = '1.15';
+    });
+    
+    copyDiv.appendChild(clonedContainer);
+    document.body.appendChild(copyDiv);
+    
+    // Select the content in the hidden div
     const selection = window.getSelection();
     const range = document.createRange();
-    range.selectNodeContents(container);
+    range.selectNodeContents(copyDiv);
     selection?.removeAllRanges();
     selection?.addRange(range);
     
-    // Copy with rich formatting preserved
+    // Copy using execCommand (more reliable for formatted content)
     try {
-      // Clone the container for processing
-      const clonedContainer = container.cloneNode(true) as HTMLElement;
-      
-      // Convert semantic HTML tags to inline styles for Google Docs compatibility
-      // Process <strong>, <b> tags
-      clonedContainer.querySelectorAll('strong, b').forEach((el) => {
-        const htmlEl = el as HTMLElement;
-        htmlEl.style.fontWeight = 'bold';
-      });
-      
-      // Process <em>, <i> tags
-      clonedContainer.querySelectorAll('em, i').forEach((el) => {
-        const htmlEl = el as HTMLElement;
-        htmlEl.style.fontStyle = 'italic';
-      });
-      
-      // Process <big> tags
-      clonedContainer.querySelectorAll('big').forEach((el) => {
-        const htmlEl = el as HTMLElement;
-        htmlEl.style.fontSize = 'larger';
-      });
-      
-      // Process all elements to add complete inline styles
-      const allElements = clonedContainer.querySelectorAll('*');
-      allElements.forEach((el) => {
-        const htmlEl = el as HTMLElement;
-        
-        // Find corresponding original element to get computed styles
-        const originalElements = Array.from(container.querySelectorAll(el.tagName));
-        const originalEl = originalElements.find(
-          (orig) => orig.textContent === el.textContent
-        ) as HTMLElement;
-        
-        if (originalEl) {
-          const computedStyle = window.getComputedStyle(originalEl);
-          
-          // Apply all necessary styles inline
-          if (!htmlEl.style.fontFamily) htmlEl.style.fontFamily = computedStyle.fontFamily;
-          if (!htmlEl.style.fontSize) htmlEl.style.fontSize = computedStyle.fontSize;
-          if (!htmlEl.style.fontWeight) htmlEl.style.fontWeight = computedStyle.fontWeight;
-          if (!htmlEl.style.fontStyle) htmlEl.style.fontStyle = computedStyle.fontStyle;
-          if (!htmlEl.style.lineHeight) htmlEl.style.lineHeight = computedStyle.lineHeight;
-          if (!htmlEl.style.marginBottom) htmlEl.style.marginBottom = computedStyle.marginBottom;
-        }
-      });
-      
-      const htmlContent = clonedContainer.innerHTML;
-      const plainText = container.innerText;
-      
-      // Create clipboard data with properly formatted HTML
-      const htmlBlob = new Blob([htmlContent], { type: 'text/html' });
-      const textBlob = new Blob([plainText], { type: 'text/plain' });
-      
-      await navigator.clipboard.write([
-        new ClipboardItem({
-          'text/html': htmlBlob,
-          'text/plain': textBlob
-        })
-      ]);
-    } catch (err) {
-      console.warn('Clipboard API failed, using fallback:', err);
-      // Fallback: use browser's default copy
       document.execCommand('copy');
+      
+      // Also select the visible content for user feedback
+      setTimeout(() => {
+        const visibleRange = document.createRange();
+        visibleRange.selectNodeContents(container);
+        selection?.removeAllRanges();
+        selection?.addRange(visibleRange);
+      }, 100);
+    } catch (err) {
+      console.error('Copy failed:', err);
     }
+    
+    // Clean up
+    document.body.removeChild(copyDiv);
   };
 
   const renderSections = () => {
@@ -179,7 +187,7 @@ export default function SefariaFetchPage() {
                   }}
                 >
                   {hebrewText.split('\n').filter(line => line.trim()).map((line, idx) => (
-                    <p key={idx} style={{ marginBottom: '0.5em' }}>{line}</p>
+                    <p key={idx} style={{ margin: 0, padding: 0, lineHeight: '1.15' }}>{line}</p>
                   ))}
                 </div>
               )}
@@ -196,7 +204,7 @@ export default function SefariaFetchPage() {
                   {englishParagraphs.map((paragraph, idx) => (
                     <p 
                       key={idx}
-                      style={{ marginBottom: '0.5em' }}
+                      style={{ margin: 0, padding: 0, lineHeight: '1.15' }}
                       dangerouslySetInnerHTML={{ __html: paragraph }}
                     />
                   ))}
