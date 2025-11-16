@@ -74,28 +74,56 @@ export default function SefariaFetchPage() {
     
     // Copy with rich formatting preserved
     try {
-      // Get the HTML with inline styles for better compatibility
+      // Clone the container for processing
       const clonedContainer = container.cloneNode(true) as HTMLElement;
       
-      // Add inline styles to preserve formatting
+      // Convert semantic HTML tags to inline styles for Google Docs compatibility
+      // Process <strong>, <b> tags
+      clonedContainer.querySelectorAll('strong, b').forEach((el) => {
+        const htmlEl = el as HTMLElement;
+        htmlEl.style.fontWeight = 'bold';
+      });
+      
+      // Process <em>, <i> tags
+      clonedContainer.querySelectorAll('em, i').forEach((el) => {
+        const htmlEl = el as HTMLElement;
+        htmlEl.style.fontStyle = 'italic';
+      });
+      
+      // Process <big> tags
+      clonedContainer.querySelectorAll('big').forEach((el) => {
+        const htmlEl = el as HTMLElement;
+        htmlEl.style.fontSize = 'larger';
+      });
+      
+      // Process all elements to add complete inline styles
       const allElements = clonedContainer.querySelectorAll('*');
       allElements.forEach((el) => {
         const htmlEl = el as HTMLElement;
-        const computedStyle = window.getComputedStyle(el);
         
-        // Preserve important styles inline
-        htmlEl.style.fontFamily = computedStyle.fontFamily;
-        htmlEl.style.fontSize = computedStyle.fontSize;
-        htmlEl.style.fontWeight = computedStyle.fontWeight;
-        htmlEl.style.fontStyle = computedStyle.fontStyle;
-        htmlEl.style.lineHeight = computedStyle.lineHeight;
-        htmlEl.style.marginBottom = computedStyle.marginBottom;
+        // Find corresponding original element to get computed styles
+        const originalElements = Array.from(container.querySelectorAll(el.tagName));
+        const originalEl = originalElements.find(
+          (orig) => orig.textContent === el.textContent
+        ) as HTMLElement;
+        
+        if (originalEl) {
+          const computedStyle = window.getComputedStyle(originalEl);
+          
+          // Apply all necessary styles inline
+          if (!htmlEl.style.fontFamily) htmlEl.style.fontFamily = computedStyle.fontFamily;
+          if (!htmlEl.style.fontSize) htmlEl.style.fontSize = computedStyle.fontSize;
+          if (!htmlEl.style.fontWeight) htmlEl.style.fontWeight = computedStyle.fontWeight;
+          if (!htmlEl.style.fontStyle) htmlEl.style.fontStyle = computedStyle.fontStyle;
+          if (!htmlEl.style.lineHeight) htmlEl.style.lineHeight = computedStyle.lineHeight;
+          if (!htmlEl.style.marginBottom) htmlEl.style.marginBottom = computedStyle.marginBottom;
+        }
       });
       
       const htmlContent = clonedContainer.innerHTML;
       const plainText = container.innerText;
       
-      // Try modern Clipboard API first
+      // Create clipboard data with properly formatted HTML
       const htmlBlob = new Blob([htmlContent], { type: 'text/html' });
       const textBlob = new Blob([plainText], { type: 'text/plain' });
       
@@ -107,7 +135,7 @@ export default function SefariaFetchPage() {
       ]);
     } catch (err) {
       console.warn('Clipboard API failed, using fallback:', err);
-      // Fallback: rely on browser's default copy which preserves formatting
+      // Fallback: use browser's default copy
       document.execCommand('copy');
     }
   };
@@ -151,7 +179,7 @@ export default function SefariaFetchPage() {
                   }}
                 >
                   {hebrewText.split('\n').filter(line => line.trim()).map((line, idx) => (
-                    <p key={idx} style={{ marginBottom: '1.15em' }}>{line}</p>
+                    <p key={idx} style={{ marginBottom: '0.5em' }}>{line}</p>
                   ))}
                 </div>
               )}
@@ -166,9 +194,9 @@ export default function SefariaFetchPage() {
                   }}
                 >
                   {englishParagraphs.map((paragraph, idx) => (
-                    <div 
+                    <p 
                       key={idx}
-                      style={{ marginBottom: '1.15em' }}
+                      style={{ marginBottom: '0.5em' }}
                       dangerouslySetInnerHTML={{ __html: paragraph }}
                     />
                   ))}
