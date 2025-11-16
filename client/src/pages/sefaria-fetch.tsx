@@ -65,75 +65,68 @@ export default function SefariaFetchPage() {
     const container = document.getElementById('text-display-container');
     if (!container) return;
     
-    // Create a hidden div with properly formatted content for copying
+    // Create a hidden div with content optimized for Google Docs
     const copyDiv = document.createElement('div');
     copyDiv.style.position = 'fixed';
     copyDiv.style.left = '-9999px';
     copyDiv.style.top = '-9999px';
+    copyDiv.style.fontFamily = 'Calibri, sans-serif';
+    copyDiv.style.fontSize = '12pt';
+    copyDiv.style.lineHeight = '1.15';
     
-    // Clone the container
-    const clonedContainer = container.cloneNode(true) as HTMLElement;
+    // Build HTML string manually to ensure proper formatting
+    let htmlContent = '';
     
-    // Replace semantic HTML tags with span elements that have inline styles
-    // This ensures Google Docs recognizes the formatting
-    const processNode = (node: Node) => {
-      if (node.nodeType === Node.ELEMENT_NODE) {
-        const el = node as HTMLElement;
-        const tagName = el.tagName.toLowerCase();
+    // Process each section
+    if (data?.hebrewSections && data?.englishSections) {
+      data.hebrewSections.forEach((hebrewText: string, i: number) => {
+        const englishText = data.englishSections[i] || '';
         
-        // Process bold tags
-        if (tagName === 'strong' || tagName === 'b' || tagName === 'big') {
-          const span = document.createElement('span');
-          span.style.fontWeight = 'bold';
-          span.innerHTML = el.innerHTML;
-          // Recursively process children
-          Array.from(span.childNodes).forEach(child => processNode(child));
-          el.parentNode?.replaceChild(span, el);
-          return;
+        // Add Hebrew text (bold)
+        if (hebrewText) {
+          const hebrewLines = hebrewText.split('\n').filter(line => line.trim());
+          hebrewLines.forEach((line) => {
+            htmlContent += `<span style="font-family: Calibri, sans-serif; font-size: 12pt; font-weight: bold; direction: rtl;">${line}</span><br>`;
+          });
         }
         
-        // Process italic tags
-        if (tagName === 'em' || tagName === 'i') {
-          const span = document.createElement('span');
-          span.style.fontStyle = 'italic';
-          span.innerHTML = el.innerHTML;
-          // Recursively process children
-          Array.from(span.childNodes).forEach(child => processNode(child));
-          el.parentNode?.replaceChild(span, el);
-          return;
+        // Add English text with formatting preserved
+        if (englishText) {
+          const formattedEnglish = formatEnglishText(englishText);
+          const englishParagraphs = formattedEnglish.split('\n\n').filter(p => p.trim());
+          
+          englishParagraphs.forEach((paragraph) => {
+            // Convert HTML tags to inline styles
+            let processedParagraph = paragraph
+              // Handle nested bold tags
+              .replace(/<strong[^>]*>(.*?)<\/strong>/gi, '<span style="font-weight: bold;">$1</span>')
+              .replace(/<b[^>]*>(.*?)<\/b>/gi, '<span style="font-weight: bold;">$1</span>')
+              .replace(/<big[^>]*>(.*?)<\/big>/gi, '<span style="font-weight: bold;">$1</span>')
+              // Handle italic tags
+              .replace(/<em[^>]*>(.*?)<\/em>/gi, '<span style="font-style: italic;">$1</span>')
+              .replace(/<i[^>]*>(.*?)<\/i>/gi, '<span style="font-style: italic;">$1</span>');
+            
+            htmlContent += `<span style="font-family: Calibri, sans-serif; font-size: 12pt;">${processedParagraph}</span><br>`;
+          });
         }
-        
-        // Process children for other elements
-        Array.from(el.childNodes).forEach(child => processNode(child));
-      }
-    };
+      });
+    }
     
-    // Process all nodes in the cloned container
-    Array.from(clonedContainer.childNodes).forEach(child => processNode(child));
-    
-    // Apply base styles to all paragraphs for minimal spacing
-    clonedContainer.querySelectorAll('p').forEach((p) => {
-      const htmlP = p as HTMLElement;
-      htmlP.style.margin = '0';
-      htmlP.style.padding = '0';
-      htmlP.style.lineHeight = '1.15';
-    });
-    
-    copyDiv.appendChild(clonedContainer);
+    copyDiv.innerHTML = htmlContent;
     document.body.appendChild(copyDiv);
     
-    // Select the content in the hidden div
+    // Select the content
     const selection = window.getSelection();
     const range = document.createRange();
     range.selectNodeContents(copyDiv);
     selection?.removeAllRanges();
     selection?.addRange(range);
     
-    // Copy using execCommand (more reliable for formatted content)
+    // Copy
     try {
       document.execCommand('copy');
       
-      // Also select the visible content for user feedback
+      // Show visual feedback on the actual content
       setTimeout(() => {
         const visibleRange = document.createRange();
         visibleRange.selectNodeContents(container);
