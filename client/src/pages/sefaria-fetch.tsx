@@ -8,8 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Search } from "lucide-react";
-import { processHebrewText, processEnglishText, removeNikud } from "@/lib/text-processing";
+import { Search, Copy } from "lucide-react";
 import { TRACTATE_LISTS } from "@shared/tractates";
 
 const tractates = TRACTATE_LISTS["Talmud Bavli"];
@@ -61,6 +60,17 @@ export default function SefariaFetchPage() {
     refetch();
   };
 
+  const handleSelectAll = () => {
+    const container = document.getElementById('text-display-container');
+    if (container) {
+      const selection = window.getSelection();
+      const range = document.createRange();
+      range.selectNodeContents(container);
+      selection?.removeAllRanges();
+      selection?.addRange(range);
+    }
+  };
+
   const renderSections = () => {
     if (!data || data.error) return null;
 
@@ -86,8 +96,8 @@ export default function SefariaFetchPage() {
             <div key={i} className="space-y-4">
               {hebrewText && (
                 <div 
-                  className="text-right font-semibold text-gray-900 leading-relaxed"
-                  dir="rtl"
+                  dir="rtl" 
+                  className="font-semibold text-gray-900 leading-relaxed space-y-3"
                 >
                   {hebrewText.split('\n').filter(line => line.trim()).map((line, idx) => (
                     <p key={idx} className="mb-3">{line}</p>
@@ -96,7 +106,7 @@ export default function SefariaFetchPage() {
               )}
               
               {englishText && (
-                <div className="text-gray-800 leading-relaxed">
+                <div className="text-gray-800 leading-relaxed space-y-3">
                   {englishText.split('\n').filter(line => line.trim()).map((line, idx) => (
                     <p key={idx} className="mb-3">{line}</p>
                   ))}
@@ -241,8 +251,21 @@ export default function SefariaFetchPage() {
 
         {data && !data.error && (
           <Card>
-            <CardContent className="pt-6">
-              <div className="bg-white border rounded-lg p-6" data-testid="text-display-container">
+            <CardContent className="pt-6 space-y-4">
+              <Button 
+                onClick={handleSelectAll} 
+                variant="outline"
+                data-testid="button-select-all"
+              >
+                <Copy className="mr-2 h-4 w-4" />
+                Select All Text (for copy/paste)
+              </Button>
+              
+              <div 
+                id="text-display-container"
+                className="bg-white border rounded-lg p-6" 
+                data-testid="text-display-container"
+              >
                 {renderSections()}
               </div>
             </CardContent>
