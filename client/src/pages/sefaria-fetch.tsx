@@ -61,20 +61,37 @@ export default function SefariaFetchPage() {
     refetch();
   };
 
-  const handleSelectAll = () => {
+  const handleSelectAll = async () => {
     const container = document.getElementById('text-display-container');
     if (container) {
+      // First select the text visually
       const selection = window.getSelection();
       const range = document.createRange();
       range.selectNodeContents(container);
       selection?.removeAllRanges();
       selection?.addRange(range);
       
-      // Copy with rich formatting preserved
+      // Copy with rich formatting preserved using Clipboard API
       try {
-        document.execCommand('copy');
+        // Create a blob with HTML content
+        const htmlContent = container.innerHTML;
+        const blob = new Blob([htmlContent], { type: 'text/html' });
+        const plainText = container.innerText;
+        
+        // Use the modern Clipboard API for better formatting preservation
+        await navigator.clipboard.write([
+          new ClipboardItem({
+            'text/html': blob,
+            'text/plain': new Blob([plainText], { type: 'text/plain' })
+          })
+        ]);
       } catch (err) {
-        console.warn('Copy command failed:', err);
+        // Fallback to older method
+        try {
+          document.execCommand('copy');
+        } catch (fallbackErr) {
+          console.warn('Copy command failed:', fallbackErr);
+        }
       }
     }
   };
@@ -109,24 +126,33 @@ export default function SefariaFetchPage() {
               {hebrewText && (
                 <div 
                   dir="rtl" 
-                  className="font-semibold text-gray-900 leading-relaxed space-y-3"
-                  style={{ fontFamily: 'Calibri, sans-serif', fontSize: '12pt' }}
+                  className="text-gray-900"
+                  style={{ 
+                    fontFamily: 'Calibri, sans-serif', 
+                    fontSize: '12pt',
+                    fontWeight: 'bold',
+                    lineHeight: '1.15'
+                  }}
                 >
                   {hebrewText.split('\n').filter(line => line.trim()).map((line, idx) => (
-                    <p key={idx} className="mb-3">{line}</p>
+                    <p key={idx} style={{ marginBottom: '1.15em' }}>{line}</p>
                   ))}
                 </div>
               )}
               
               {englishText && (
                 <div 
-                  className="english-text space-y-4 text-gray-800"
-                  style={{ fontFamily: 'Calibri, sans-serif', fontSize: '12pt' }}
+                  className="english-text text-gray-800"
+                  style={{ 
+                    fontFamily: 'Calibri, sans-serif', 
+                    fontSize: '12pt',
+                    lineHeight: '1.15'
+                  }}
                 >
                   {englishParagraphs.map((paragraph, idx) => (
                     <div 
-                      key={idx} 
-                      className="leading-relaxed"
+                      key={idx}
+                      style={{ marginBottom: '1.15em' }}
                       dangerouslySetInnerHTML={{ __html: paragraph }}
                     />
                   ))}
@@ -285,7 +311,11 @@ export default function SefariaFetchPage() {
                 id="text-display-container"
                 className="bg-white border rounded-lg p-6" 
                 data-testid="text-display-container"
-                style={{ fontFamily: 'Calibri, sans-serif', fontSize: '12pt' }}
+                style={{ 
+                  fontFamily: 'Calibri, sans-serif', 
+                  fontSize: '12pt',
+                  lineHeight: '1.15'
+                }}
               >
                 {renderSections()}
               </div>

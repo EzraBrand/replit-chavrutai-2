@@ -410,8 +410,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       let parsedSection: number | undefined;
 
       if (inputMethod === 'url' && typeof url === 'string') {
-        // Parse Sefaria URL
-        const urlParts = url.split('/');
+        // Parse Sefaria URL - remove query parameters first
+        const cleanUrl = url.split('?')[0];
+        const urlParts = cleanUrl.split('/');
         const reference = urlParts[urlParts.length - 1];
         
         if (!reference) {
@@ -419,8 +420,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
           return;
         }
 
-        // Parse reference (e.g., "Sanhedrin.43b.9" or "Berakhot.2a")
-        const match = reference.match(/^([^.]+)\.(\d+[ab])(?:\.(\d+))?$/);
+        // Parse reference (e.g., "Sanhedrin.43b.9", "Berakhot.2a", or "Sukkah.53a.5-6")
+        // Support both single section and section ranges
+        const match = reference.match(/^([^.]+)\.(\d+[ab])(?:\.(\d+(?:-\d+)?))?$/);
         if (!match) {
           res.status(400).json({ error: 'Invalid reference format' });
           return;
@@ -428,7 +430,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
         parsedTractate = match[1];
         parsedPage = match[2];
-        parsedSection = match[3] ? parseInt(match[3]) : undefined;
+        // For ranges like "5-6", just take the first section for now
+        if (match[3]) {
+          const sectionPart = match[3].split('-')[0];
+          parsedSection = parseInt(sectionPart);
+        }
       } else if (inputMethod === 'dropdown') {
         parsedTractate = tractate as string;
         parsedPage = page as string;
@@ -456,15 +462,37 @@ export async function registerRoutes(app: Express): Promise<Server> {
       let hebrewSections = Array.isArray(sefariaData.he) ? sefariaData.he : [sefariaData.he || ''];
       let englishSections = Array.isArray(sefariaData.text) ? sefariaData.text : [sefariaData.text || ''];
 
-      // Filter to specific section if requested
+      // Filter to specific section or range if requested
       if (parsedSection !== undefined) {
         const sectionIdx = parsedSection - 1;
-        if (sectionIdx >= 0 && sectionIdx < hebrewSections.length) {
-          hebrewSections = [hebrewSections[sectionIdx]];
-          englishSections = [englishSections[sectionIdx]];
+        // Check if the URL has a range (e.g., "5-6")
+        const urlParts = typeof url === 'string' ? url.split('?')[0].split('/') : [];
+        const reference = urlParts[urlParts.length - 1] || '';
+        const rangeMatch = reference.match(/\.(\d+)-(\d+)$/);
+        
+        if (rangeMatch) {
+          // Handle section range
+          const startSection = parseInt(rangeMatch[1]);
+          const endSection = parseInt(rangeMatch[2]);
+          const startIdx = startSection - 1;
+          const endIdx = endSection; // end is inclusive
+          
+          if (startIdx >= 0 && startIdx < hebrewSections.length) {
+            hebrewSections = hebrewSections.slice(startIdx, endIdx);
+            englishSections = englishSections.slice(startIdx, endIdx);
+          } else {
+            hebrewSections = [];
+            englishSections = [];
+          }
         } else {
-          hebrewSections = [];
-          englishSections = [];
+          // Handle single section
+          if (sectionIdx >= 0 && sectionIdx < hebrewSections.length) {
+            hebrewSections = [hebrewSections[sectionIdx]];
+            englishSections = [englishSections[sectionIdx]];
+          } else {
+            hebrewSections = [];
+            englishSections = [];
+          }
         }
       }
 
