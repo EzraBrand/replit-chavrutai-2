@@ -61,23 +61,54 @@ export default function SefariaFetchPage() {
     refetch();
   };
 
-  const handleSelectAll = () => {
+  const handleSelectAll = async () => {
     const container = document.getElementById('text-display-container');
     if (!container) return;
     
-    // Create a hidden div with content optimized for Google Docs
-    const copyDiv = document.createElement('div');
-    copyDiv.style.position = 'fixed';
-    copyDiv.style.left = '-9999px';
-    copyDiv.style.top = '-9999px';
-    copyDiv.style.fontFamily = 'Calibri, sans-serif';
-    copyDiv.style.fontSize = '12pt';
-    copyDiv.style.lineHeight = '1.15';
+    // Helper function to convert semantic HTML to inline-styled HTML
+    const convertToInlineStyles = (htmlString: string): string => {
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = htmlString;
+      
+      const processNode = (node: Node): void => {
+        if (node.nodeType === Node.ELEMENT_NODE) {
+          const element = node as HTMLElement;
+          const tagName = element.tagName.toLowerCase();
+          
+          // Convert semantic tags to inline styles
+          if (tagName === 'strong' || tagName === 'b' || tagName === 'big') {
+            const span = document.createElement('span');
+            span.style.fontWeight = 'bold';
+            while (element.firstChild) {
+              span.appendChild(element.firstChild);
+            }
+            element.parentNode?.replaceChild(span, element);
+            // Process children of the new span
+            Array.from(span.childNodes).forEach(processNode);
+          } else if (tagName === 'em' || tagName === 'i') {
+            const span = document.createElement('span');
+            span.style.fontStyle = 'italic';
+            while (element.firstChild) {
+              span.appendChild(element.firstChild);
+            }
+            element.parentNode?.replaceChild(span, element);
+            // Process children of the new span
+            Array.from(span.childNodes).forEach(processNode);
+          } else {
+            // Process children
+            Array.from(element.childNodes).forEach(processNode);
+          }
+        }
+      };
+      
+      processNode(tempDiv);
+      return tempDiv.innerHTML;
+    };
     
-    // Build HTML string manually to ensure proper formatting
-    let htmlContent = '';
+    // Build HTML content for clipboard
+    let htmlLines: string[] = [];
+    let plainTextLines: string[] = [];
     
-    // Process each section
     if (data?.hebrewSections && data?.englishSections) {
       data.hebrewSections.forEach((hebrewText: string, i: number) => {
         const englishText = data.englishSections[i] || '';
@@ -86,7 +117,8 @@ export default function SefariaFetchPage() {
         if (hebrewText) {
           const hebrewLines = hebrewText.split('\n').filter(line => line.trim());
           hebrewLines.forEach((line) => {
-            htmlContent += `<span style="font-family: Calibri, sans-serif; font-size: 12pt; font-weight: bold; direction: rtl;">${line}</span><br>`;
+            htmlLines.push(`<span style="font-family: Calibri, sans-serif; font-size: 12pt; font-weight: bold; direction: rtl;">${line}</span>`);
+            plainTextLines.push(line);
           });
         }
         
@@ -96,33 +128,58 @@ export default function SefariaFetchPage() {
           const englishParagraphs = formattedEnglish.split('\n\n').filter(p => p.trim());
           
           englishParagraphs.forEach((paragraph) => {
-            // Convert HTML tags to inline styles
-            let processedParagraph = paragraph
-              // Handle nested bold tags
-              .replace(/<strong[^>]*>(.*?)<\/strong>/gi, '<span style="font-weight: bold;">$1</span>')
-              .replace(/<b[^>]*>(.*?)<\/b>/gi, '<span style="font-weight: bold;">$1</span>')
-              .replace(/<big[^>]*>(.*?)<\/big>/gi, '<span style="font-weight: bold;">$1</span>')
-              // Handle italic tags
-              .replace(/<em[^>]*>(.*?)<\/em>/gi, '<span style="font-style: italic;">$1</span>')
-              .replace(/<i[^>]*>(.*?)<\/i>/gi, '<span style="font-style: italic;">$1</span>');
+            // Convert semantic HTML to inline styles properly handling nested tags
+            const processedParagraph = convertToInlineStyles(paragraph);
+            htmlLines.push(`<span style="font-family: Calibri, sans-serif; font-size: 12pt;">${processedParagraph}</span>`);
             
-            htmlContent += `<span style="font-family: Calibri, sans-serif; font-size: 12pt;">${processedParagraph}</span><br>`;
+            // For plain text, strip all HTML
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = paragraph;
+            plainTextLines.push(tempDiv.textContent || '');
           });
         }
       });
     }
     
+    // Join with line breaks
+    const htmlContent = htmlLines.join('<br>');
+    const plainText = plainTextLines.join('\n');
+    
+    // Try modern Clipboard API first
+    try {
+      const clipboardItem = new ClipboardItem({
+        'text/html': new Blob([htmlContent], { type: 'text/html' }),
+        'text/plain': new Blob([plainText], { type: 'text/plain' })
+      });
+      
+      await navigator.clipboard.write([clipboardItem]);
+      
+      // Show visual feedback
+      const selection = window.getSelection();
+      const range = document.createRange();
+      range.selectNodeContents(container);
+      selection?.removeAllRanges();
+      selection?.addRange(range);
+      
+      return;
+    } catch (err) {
+      console.log('Clipboard API failed, using fallback:', err);
+    }
+    
+    // Fallback to execCommand
+    const copyDiv = document.createElement('div');
+    copyDiv.style.position = 'fixed';
+    copyDiv.style.left = '-9999px';
+    copyDiv.style.top = '-9999px';
     copyDiv.innerHTML = htmlContent;
     document.body.appendChild(copyDiv);
     
-    // Select the content
     const selection = window.getSelection();
     const range = document.createRange();
     range.selectNodeContents(copyDiv);
     selection?.removeAllRanges();
     selection?.addRange(range);
     
-    // Copy
     try {
       document.execCommand('copy');
       
@@ -137,7 +194,6 @@ export default function SefariaFetchPage() {
       console.error('Copy failed:', err);
     }
     
-    // Clean up
     document.body.removeChild(copyDiv);
   };
 
