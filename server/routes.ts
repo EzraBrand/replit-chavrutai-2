@@ -399,6 +399,97 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Sefaria fetch endpoint for the fetch page
+  app.get("/api/sefaria-fetch", async (req, res) => {
+    try {
+      const { inputMethod, tractate, page, section, url } = req.query;
+
+      let sefariaRef = '';
+      let parsedTractate = '';
+      let parsedPage = '';
+      let parsedSection: number | undefined;
+
+      if (inputMethod === 'url' && typeof url === 'string') {
+        // Parse Sefaria URL
+        const urlParts = url.split('/');
+        const reference = urlParts[urlParts.length - 1];
+        
+        if (!reference) {
+          res.status(400).json({ error: 'Invalid URL format' });
+          return;
+        }
+
+        // Parse reference (e.g., "Sanhedrin.43b.9" or "Berakhot.2a")
+        const match = reference.match(/^([^.]+)\.(\d+[ab])(?:\.(\d+))?$/);
+        if (!match) {
+          res.status(400).json({ error: 'Invalid reference format' });
+          return;
+        }
+
+        parsedTractate = match[1];
+        parsedPage = match[2];
+        parsedSection = match[3] ? parseInt(match[3]) : undefined;
+      } else if (inputMethod === 'dropdown') {
+        parsedTractate = tractate as string;
+        parsedPage = page as string;
+        parsedSection = section ? parseInt(section as string) : undefined;
+      } else {
+        res.status(400).json({ error: 'Invalid input method' });
+        return;
+      }
+
+      // Normalize tractate name for Sefaria API
+      const normalizedTractate = normalizeSefariaTractateName(parsedTractate);
+      sefariaRef = `${normalizedTractate}.${parsedPage}`;
+
+      console.log(`Fetching from Sefaria: ${sefariaRef}`);
+      const response = await fetch(`${sefariaAPIBaseURL}/texts/${sefariaRef}?lang=bi&commentary=0`);
+      
+      if (!response.ok) {
+        res.status(response.status).json({ error: `Failed to fetch text from Sefaria` });
+        return;
+      }
+
+      const sefariaData = await response.json();
+      
+      // Parse Sefaria response and preserve section structure
+      let hebrewSections = Array.isArray(sefariaData.he) ? sefariaData.he : [sefariaData.he || ''];
+      let englishSections = Array.isArray(sefariaData.text) ? sefariaData.text : [sefariaData.text || ''];
+
+      // Filter to specific section if requested
+      if (parsedSection !== undefined) {
+        const sectionIdx = parsedSection - 1;
+        if (sectionIdx >= 0 && sectionIdx < hebrewSections.length) {
+          hebrewSections = [hebrewSections[sectionIdx]];
+          englishSections = [englishSections[sectionIdx]];
+        } else {
+          hebrewSections = [];
+          englishSections = [];
+        }
+      }
+
+      // Process each section individually with the same text processing as the rest of the app
+      const processedHebrewSections = hebrewSections.map((section: string) => processHebrewText(section || ''));
+      const processedEnglishSections = englishSections.map((section: string) => processEnglishText(section || ''));
+
+      const span = parsedSection 
+        ? `${parsedTractate} ${parsedPage}:${parsedSection}`
+        : `${parsedTractate} ${parsedPage}:1-${englishSections.length}`;
+
+      res.json({
+        tractate: parsedTractate,
+        page: parsedPage,
+        section: parsedSection,
+        hebrewSections: processedHebrewSections,
+        englishSections: processedEnglishSections,
+        span
+      });
+    } catch (error) {
+      console.error('Error in /api/sefaria-fetch:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
+
   // Get sitemap data for human-readable HTML sitemap page
   app.get("/api/sitemap", async (req, res) => {
     try {
