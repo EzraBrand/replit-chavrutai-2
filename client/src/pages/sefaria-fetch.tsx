@@ -36,6 +36,21 @@ export default function SefariaFetchPage() {
 
   const { data, isLoading, error, refetch } = useQuery<SefariaResponse>({
     queryKey: ['/api/sefaria-fetch', inputMethod, tractate, page, section, url],
+    queryFn: async () => {
+      const params = new URLSearchParams({
+        inputMethod,
+        tractate,
+        page,
+        section,
+        url
+      });
+      const response = await fetch(`/api/sefaria-fetch?${params}`);
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+        throw new Error(errorData.error || 'Failed to fetch text');
+      }
+      return response.json();
+    },
     enabled: shouldFetch,
     refetchOnWindowFocus: false,
     retry: false
