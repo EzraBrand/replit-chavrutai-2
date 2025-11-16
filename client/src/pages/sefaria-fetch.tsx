@@ -9,6 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Search, Copy } from "lucide-react";
+import { formatEnglishText, processHebrewText } from "@/lib/text-processing";
 import { TRACTATE_LISTS } from "@shared/tractates";
 
 const tractates = TRACTATE_LISTS["Talmud Bavli"];
@@ -92,6 +93,10 @@ export default function SefariaFetchPage() {
 
           if (!hebrewText && !englishText) return null;
 
+          // Process text using the same functions as the main Talmud app
+          const formattedEnglish = formatEnglishText(englishText);
+          const englishParagraphs = formattedEnglish.split('\n\n').filter(p => p.trim());
+
           return (
             <div key={i} className="space-y-4">
               {hebrewText && (
@@ -106,9 +111,13 @@ export default function SefariaFetchPage() {
               )}
               
               {englishText && (
-                <div className="text-gray-800 leading-relaxed space-y-3">
-                  {englishText.split('\n').filter(line => line.trim()).map((line, idx) => (
-                    <p key={idx} className="mb-3">{line}</p>
+                <div className="english-text space-y-4 text-gray-800">
+                  {englishParagraphs.map((paragraph, idx) => (
+                    <div 
+                      key={idx} 
+                      className="leading-relaxed"
+                      dangerouslySetInnerHTML={{ __html: paragraph }}
+                    />
                   ))}
                 </div>
               )}
