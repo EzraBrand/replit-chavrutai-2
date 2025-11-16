@@ -63,36 +63,52 @@ export default function SefariaFetchPage() {
 
   const handleSelectAll = async () => {
     const container = document.getElementById('text-display-container');
-    if (container) {
-      // First select the text visually
-      const selection = window.getSelection();
-      const range = document.createRange();
-      range.selectNodeContents(container);
-      selection?.removeAllRanges();
-      selection?.addRange(range);
+    if (!container) return;
+    
+    // Select the text visually first
+    const selection = window.getSelection();
+    const range = document.createRange();
+    range.selectNodeContents(container);
+    selection?.removeAllRanges();
+    selection?.addRange(range);
+    
+    // Copy with rich formatting preserved
+    try {
+      // Get the HTML with inline styles for better compatibility
+      const clonedContainer = container.cloneNode(true) as HTMLElement;
       
-      // Copy with rich formatting preserved using Clipboard API
-      try {
-        // Create a blob with HTML content
-        const htmlContent = container.innerHTML;
-        const blob = new Blob([htmlContent], { type: 'text/html' });
-        const plainText = container.innerText;
+      // Add inline styles to preserve formatting
+      const allElements = clonedContainer.querySelectorAll('*');
+      allElements.forEach((el) => {
+        const htmlEl = el as HTMLElement;
+        const computedStyle = window.getComputedStyle(el);
         
-        // Use the modern Clipboard API for better formatting preservation
-        await navigator.clipboard.write([
-          new ClipboardItem({
-            'text/html': blob,
-            'text/plain': new Blob([plainText], { type: 'text/plain' })
-          })
-        ]);
-      } catch (err) {
-        // Fallback to older method
-        try {
-          document.execCommand('copy');
-        } catch (fallbackErr) {
-          console.warn('Copy command failed:', fallbackErr);
-        }
-      }
+        // Preserve important styles inline
+        htmlEl.style.fontFamily = computedStyle.fontFamily;
+        htmlEl.style.fontSize = computedStyle.fontSize;
+        htmlEl.style.fontWeight = computedStyle.fontWeight;
+        htmlEl.style.fontStyle = computedStyle.fontStyle;
+        htmlEl.style.lineHeight = computedStyle.lineHeight;
+        htmlEl.style.marginBottom = computedStyle.marginBottom;
+      });
+      
+      const htmlContent = clonedContainer.innerHTML;
+      const plainText = container.innerText;
+      
+      // Try modern Clipboard API first
+      const htmlBlob = new Blob([htmlContent], { type: 'text/html' });
+      const textBlob = new Blob([plainText], { type: 'text/plain' });
+      
+      await navigator.clipboard.write([
+        new ClipboardItem({
+          'text/html': htmlBlob,
+          'text/plain': textBlob
+        })
+      ]);
+    } catch (err) {
+      console.warn('Clipboard API failed, using fallback:', err);
+      // Fallback: rely on browser's default copy which preserves formatting
+      document.execCommand('copy');
     }
   };
 

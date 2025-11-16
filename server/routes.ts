@@ -458,52 +458,128 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Normalize tractate name for Sefaria API
       const normalizedTractate = normalizeSefariaTractateName(parsedTractate);
-      sefariaRef = `${normalizedTractate}.${parsedPage}`;
-
-      console.log(`Fetching from Sefaria: ${sefariaRef}`);
-      const response = await fetch(`${sefariaAPIBaseURL}/texts/${sefariaRef}?lang=bi&commentary=0`);
       
-      if (!response.ok) {
-        res.status(response.status).json({ error: `Failed to fetch text from Sefaria` });
-        return;
-      }
-
-      const sefariaData = await response.json();
+      // Check if we have a cross-page range
+      const urlParts = typeof url === 'string' ? url.split('?')[0].split('/') : [];
+      const reference = urlParts[urlParts.length - 1] || '';
+      const crossPageRangeMatch = reference.match(/^([^.]+)\.(\d+[ab])\.(\d+)-(\d+[ab])\.(\d+)$/);
       
-      // Parse Sefaria response and preserve section structure
-      let hebrewSections = Array.isArray(sefariaData.he) ? sefariaData.he : [sefariaData.he || ''];
-      let englishSections = Array.isArray(sefariaData.text) ? sefariaData.text : [sefariaData.text || ''];
-
-      // Filter to specific section or range if requested
-      if (parsedSection !== undefined) {
-        const sectionIdx = parsedSection - 1;
-        // Check if the URL has a range (e.g., "5-6")
-        const urlParts = typeof url === 'string' ? url.split('?')[0].split('/') : [];
-        const reference = urlParts[urlParts.length - 1] || '';
-        const rangeMatch = reference.match(/\.(\d+)-(\d+)$/);
+      let hebrewSections: string[] = [];
+      let englishSections: string[] = [];
+      
+      if (crossPageRangeMatch) {
+        // Handle cross-page range: Sukkah.52a.4-53a.4
+        const startPage = crossPageRangeMatch[2];
+        const startSection = parseInt(crossPageRangeMatch[3]);
+        const endPage = crossPageRangeMatch[4];
+        const endSection = parseInt(crossPageRangeMatch[5]);
         
-        if (rangeMatch) {
-          // Handle section range
-          const startSection = parseInt(rangeMatch[1]);
-          const endSection = parseInt(rangeMatch[2]);
-          const startIdx = startSection - 1;
-          const endIdx = endSection; // end is inclusive
-          
-          if (startIdx >= 0 && startIdx < hebrewSections.length) {
-            hebrewSections = hebrewSections.slice(startIdx, endIdx);
-            englishSections = englishSections.slice(startIdx, endIdx);
+        // Generate list of pages to fetch
+        const pagesToFetch: string[] = [];
+        const startPageNum = parseInt(startPage.slice(0, -1));
+        const startPageSide = startPage.slice(-1);
+        const endPageNum = parseInt(endPage.slice(0, -1));
+        const endPageSide = endPage.slice(-1);
+        
+        if (startPageNum === endPageNum) {
+          // Same folio, different sides
+          if (startPageSide === 'a') {
+            pagesToFetch.push(`${startPageNum}a`);
+            if (endPageSide === 'b') {
+              pagesToFetch.push(`${startPageNum}b`);
+            }
           } else {
-            hebrewSections = [];
-            englishSections = [];
+            pagesToFetch.push(`${startPageNum}b`);
           }
         } else {
-          // Handle single section
-          if (sectionIdx >= 0 && sectionIdx < hebrewSections.length) {
-            hebrewSections = [hebrewSections[sectionIdx]];
-            englishSections = [englishSections[sectionIdx]];
+          // Different folios
+          for (let folio = startPageNum; folio <= endPageNum; folio++) {
+            if (folio === startPageNum) {
+              if (startPageSide === 'a') {
+                pagesToFetch.push(`${folio}a`, `${folio}b`);
+              } else {
+                pagesToFetch.push(`${folio}b`);
+              }
+            } else if (folio === endPageNum) {
+              pagesToFetch.push(`${folio}a`);
+              if (endPageSide === 'b') {
+                pagesToFetch.push(`${folio}b`);
+              }
+            } else {
+              pagesToFetch.push(`${folio}a`, `${folio}b`);
+            }
+          }
+        }
+        
+        // Fetch all pages and combine sections
+        for (const pageRef of pagesToFetch) {
+          const sefariaRef = `${normalizedTractate}.${pageRef}`;
+          console.log(`Fetching from Sefaria: ${sefariaRef}`);
+          const response = await fetch(`${sefariaAPIBaseURL}/texts/${sefariaRef}?lang=bi&commentary=0`);
+          
+          if (response.ok) {
+            const sefariaData = await response.json();
+            const pageHebrew = Array.isArray(sefariaData.he) ? sefariaData.he : [sefariaData.he || ''];
+            const pageEnglish = Array.isArray(sefariaData.text) ? sefariaData.text : [sefariaData.text || ''];
+            
+            // Filter sections based on start/end
+            if (pageRef === startPage) {
+              hebrewSections.push(...pageHebrew.slice(startSection - 1));
+              englishSections.push(...pageEnglish.slice(startSection - 1));
+            } else if (pageRef === endPage) {
+              hebrewSections.push(...pageHebrew.slice(0, endSection));
+              englishSections.push(...pageEnglish.slice(0, endSection));
+            } else {
+              hebrewSections.push(...pageHebrew);
+              englishSections.push(...pageEnglish);
+            }
+          }
+        }
+      } else {
+        // Single page fetch
+        sefariaRef = `${normalizedTractate}.${parsedPage}`;
+        console.log(`Fetching from Sefaria: ${sefariaRef}`);
+        const response = await fetch(`${sefariaAPIBaseURL}/texts/${sefariaRef}?lang=bi&commentary=0`);
+        
+        if (!response.ok) {
+          res.status(response.status).json({ error: `Failed to fetch text from Sefaria` });
+          return;
+        }
+
+        const sefariaData = await response.json();
+        
+        // Parse Sefaria response and preserve section structure
+        hebrewSections = Array.isArray(sefariaData.he) ? sefariaData.he : [sefariaData.he || ''];
+        englishSections = Array.isArray(sefariaData.text) ? sefariaData.text : [sefariaData.text || ''];
+
+        // Filter to specific section or range if requested
+        if (parsedSection !== undefined) {
+          const sectionIdx = parsedSection - 1;
+          const rangeMatch = reference.match(/\.(\d+)-(\d+)$/);
+          
+          if (rangeMatch) {
+            // Handle section range on same page
+            const startSection = parseInt(rangeMatch[1]);
+            const endSection = parseInt(rangeMatch[2]);
+            const startIdx = startSection - 1;
+            const endIdx = endSection; // end is inclusive
+            
+            if (startIdx >= 0 && startIdx < hebrewSections.length) {
+              hebrewSections = hebrewSections.slice(startIdx, endIdx);
+              englishSections = englishSections.slice(startIdx, endIdx);
+            } else {
+              hebrewSections = [];
+              englishSections = [];
+            }
           } else {
-            hebrewSections = [];
-            englishSections = [];
+            // Handle single section
+            if (sectionIdx >= 0 && sectionIdx < hebrewSections.length) {
+              hebrewSections = [hebrewSections[sectionIdx]];
+              englishSections = [englishSections[sectionIdx]];
+            } else {
+              hebrewSections = [];
+              englishSections = [];
+            }
           }
         }
       }
