@@ -4,7 +4,7 @@ import fs from "fs";
 import path from "path";
 import { storage } from "./storage";
 import { insertTextSchema, searchRequestSchema, browseRequestSchema, autosuggestRequestSchema } from "@shared/schema";
-import { normalizeSefariaTractateName, isValidTractate } from "@shared/tractates";
+import { normalizeSefariaTractateName, normalizeDisplayTractateName, isValidTractate } from "@shared/tractates";
 import { generateSitemapIndex } from "./routes/sitemap-index";
 import { generateMainSitemap } from "./routes/sitemap-main";
 import { generateSederSitemap } from "./routes/sitemap-seder";
@@ -67,7 +67,7 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
   } else if (url.match(/^\/contents\/[^/]+$/)) {
     // Tractate pages like /contents/berakhot
     const tractate = url.split('/')[2];
-    const tractateTitle = tractate.charAt(0).toUpperCase() + tractate.slice(1);
+    const tractateTitle = normalizeDisplayTractateName(tractate);
     seoData = {
       title: `${tractateTitle} Talmud - Complete Chapter Guide | ChavrutAI`,
       description: `Study ${tractateTitle} tractate chapter by chapter with Hebrew-English text, detailed folio navigation, and traditional commentary access. Free online Talmud learning.`,
@@ -81,7 +81,7 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
     const urlParts = url.split('/');
     const tractate = urlParts[2];
     const folio = urlParts[3];
-    const tractateTitle = tractate.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+    const tractateTitle = normalizeDisplayTractateName(tractate);
     const folioUpper = folio.toUpperCase();
     
     seoData = {
