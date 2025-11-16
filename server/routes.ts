@@ -202,6 +202,54 @@ function shouldNoIndex(url: string): boolean {
 
 export async function registerRoutes(app: Express): Promise<Server> {
   
+  // URL normalization middleware - redirect all URL variations to canonical format
+  app.use((req, res, next) => {
+    const url = req.path;
+    let canonicalUrl = url;
+    let needsRedirect = false;
+    
+    // Remove trailing slashes (except for root)
+    if (url.length > 1 && url.endsWith('/')) {
+      canonicalUrl = canonicalUrl.slice(0, -1);
+      needsRedirect = true;
+    }
+    
+    // Normalize tractate folio pages: /tractate/:tractate/:folio
+    const tractatePageMatch = canonicalUrl.match(/^\/tractate\/([^/]+)\/(\d+)([ab])$/i);
+    if (tractatePageMatch) {
+      const [, tractate, folio, side] = tractatePageMatch;
+      const normalizedTractate = tractate.toLowerCase().replace(/\s+/g, '-');
+      const normalizedFolio = folio + side.toLowerCase();
+      const normalizedUrl = `/tractate/${normalizedTractate}/${normalizedFolio}`;
+      
+      if (canonicalUrl !== normalizedUrl) {
+        canonicalUrl = normalizedUrl;
+        needsRedirect = true;
+      }
+    }
+    
+    // Normalize tractate contents pages: /contents/:tractate
+    const contentsPageMatch = canonicalUrl.match(/^\/contents\/([^/]+)$/i);
+    if (contentsPageMatch) {
+      const [, tractate] = contentsPageMatch;
+      const normalizedTractate = tractate.toLowerCase().replace(/\s+/g, '-');
+      const normalizedUrl = `/contents/${normalizedTractate}`;
+      
+      if (canonicalUrl !== normalizedUrl) {
+        canonicalUrl = normalizedUrl;
+        needsRedirect = true;
+      }
+    }
+    
+    // Perform 301 redirect if URL needs normalization
+    if (needsRedirect) {
+      const fullCanonicalUrl = canonicalUrl + (req.url.includes('?') ? req.url.substring(req.url.indexOf('?')) : '');
+      return res.redirect(301, fullCanonicalUrl);
+    }
+    
+    next();
+  });
+  
   // SEO middleware for strategic indexing (must run before specific routes)
   app.use('*', (req, res, next) => {
     if (shouldNoIndex(req.originalUrl)) {
