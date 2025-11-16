@@ -30,7 +30,7 @@ export default function SefariaFetchPage() {
   const [inputMethod, setInputMethod] = useState<"dropdown" | "url">("dropdown");
   const [tractate, setTractate] = useState<string>(tractates[0]);
   const [page, setPage] = useState<string>("2a");
-  const [section, setSection] = useState<string>("");
+  const [section, setSection] = useState<string>("all");
   const [url, setUrl] = useState<string>("");
   const [shouldFetch, setShouldFetch] = useState(false);
 
@@ -166,7 +166,7 @@ export default function SefariaFetchPage() {
                       <SelectValue placeholder="All sections" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="" data-testid="option-section-all">All sections</SelectItem>
+                      <SelectItem value="all" data-testid="option-section-all">All sections</SelectItem>
                       {sections.map((s) => (
                         <SelectItem key={s} value={s.toString()} data-testid={`option-section-${s}`}>
                           {s}

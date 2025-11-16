@@ -432,7 +432,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       } else if (inputMethod === 'dropdown') {
         parsedTractate = tractate as string;
         parsedPage = page as string;
-        parsedSection = section ? parseInt(section as string) : undefined;
+        parsedSection = (section && section !== 'all') ? parseInt(section as string) : undefined;
       } else {
         res.status(400).json({ error: 'Invalid input method' });
         return;
