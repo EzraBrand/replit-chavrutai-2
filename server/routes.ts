@@ -420,20 +420,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
           return;
         }
 
-        // Parse reference (e.g., "Sanhedrin.43b.9", "Berakhot.2a", or "Sukkah.53a.5-6")
-        // Support both single section and section ranges
-        const match = reference.match(/^([^.]+)\.(\d+[ab])(?:\.(\d+(?:-\d+)?))?$/);
-        if (!match) {
-          res.status(400).json({ error: 'Invalid reference format' });
-          return;
-        }
+        // Parse reference with support for multiple formats:
+        // - "Sanhedrin.43b.9" (single section)
+        // - "Sukkah.53a.5-6" (same page range)
+        // - "Sukkah.52a.4-53a.4" (cross-page range)
+        
+        // First try to match cross-page range: Tractate.PageA.SectionA-PageB.SectionB
+        const crossPageMatch = reference.match(/^([^.]+)\.(\d+[ab])\.(\d+)-(\d+[ab])\.(\d+)$/);
+        if (crossPageMatch) {
+          parsedTractate = crossPageMatch[1];
+          parsedPage = crossPageMatch[2]; // Start page
+          parsedSection = parseInt(crossPageMatch[3]); // Start section
+        } else {
+          // Try single page format: Tractate.Page or Tractate.Page.Section or Tractate.Page.Section-Section
+          const singlePageMatch = reference.match(/^([^.]+)\.(\d+[ab])(?:\.(\d+(?:-\d+)?))?$/);
+          if (!singlePageMatch) {
+            res.status(400).json({ error: 'Invalid reference format' });
+            return;
+          }
 
-        parsedTractate = match[1];
-        parsedPage = match[2];
-        // For ranges like "5-6", just take the first section for now
-        if (match[3]) {
-          const sectionPart = match[3].split('-')[0];
-          parsedSection = parseInt(sectionPart);
+          parsedTractate = singlePageMatch[1];
+          parsedPage = singlePageMatch[2];
+          // For ranges like "5-6", just take the first section
+          if (singlePageMatch[3]) {
+            const sectionPart = singlePageMatch[3].split('-')[0];
+            parsedSection = parseInt(sectionPart);
+          }
         }
       } else if (inputMethod === 'dropdown') {
         parsedTractate = tractate as string;
