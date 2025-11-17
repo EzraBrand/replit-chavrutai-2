@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { getBiblicalIndexMetadata, getBookDisplayName } from "@/lib/biblical-index-data";
 import { Badge } from "@/components/ui/badge";
 import { Footer } from "@/components/footer";
+import { useSEO } from "@/hooks/use-seo";
 
 const categoryDescriptions = {
   torah: "Torah (The Five Books of Moses)",
@@ -10,6 +11,15 @@ const categoryDescriptions = {
 };
 
 export default function BiblicalIndexPage() {
+  useSEO({
+    title: "Biblical Citations in the Talmud - Complete Index | ChavrutAI",
+    description: "Comprehensive digital index mapping biblical verses to their citations throughout the Babylonian Talmud. Search Torah, Prophets, and Writings references with direct links to Talmudic passages.",
+    ogTitle: "Biblical Citations in the Talmud - Complete Index",
+    ogDescription: "Comprehensive digital index mapping biblical verses to their citations throughout the Babylonian Talmud.",
+    canonical: `${window.location.origin}/biblical-index`,
+    robots: "index, follow"
+  });
+
   const metadata = getBiblicalIndexMetadata();
 
   return (

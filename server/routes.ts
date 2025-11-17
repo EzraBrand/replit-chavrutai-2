@@ -64,6 +64,78 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
       canonical: `${baseUrl}/suggested-pages`,
       robots: "index, follow"
     };
+  } else if (url === '/biblical-index') {
+    seoData = {
+      title: "Biblical Citations in the Talmud - Complete Index | ChavrutAI",
+      description: "Comprehensive digital index mapping biblical verses to their citations throughout the Babylonian Talmud. Search Torah, Prophets, and Writings references with direct links to Talmudic passages.",
+      ogTitle: "Biblical Citations in the Talmud - Complete Index",
+      ogDescription: "Comprehensive digital index mapping biblical verses to their citations throughout the Babylonian Talmud.",
+      canonical: `${baseUrl}/biblical-index`,
+      robots: "index, follow"
+    };
+  } else if (url === '/blog-posts') {
+    seoData = {
+      title: '"Talmud & Tech" Blog Posts by Talmud Location | ChavrutAI',
+      description: 'Blog posts analyzing Talmudic passages, organized by tractate and page location. Click on titles to go to the full articles at the "Talmud & Tech" Blog, or use location links to jump to the corresponding text in ChavrutAI.',
+      ogTitle: '"Talmud & Tech" Blog Posts by Talmud Location',
+      ogDescription: 'Blog posts analyzing Talmudic passages, organized by tractate and page location.',
+      canonical: `${baseUrl}/blog-posts`,
+      robots: "index, follow"
+    };
+  } else if (url === '/dictionary') {
+    seoData = {
+      title: "Jastrow Talmud Dictionary - Modernized Hebrew & Aramaic | ChavrutAI",
+      description: "Search the comprehensive Jastrow Dictionary of Talmudic Hebrew and Aramaic. Modernized presentation with expanded abbreviations, enhanced readability, and direct term lookup.",
+      ogTitle: "Jastrow Talmud Dictionary - Modernized Hebrew & Aramaic",
+      ogDescription: "Search the comprehensive Jastrow Dictionary of Talmudic Hebrew and Aramaic with modernized presentation and enhanced readability.",
+      canonical: `${baseUrl}/dictionary`,
+      robots: "index, follow"
+    };
+  } else if (url === '/bible') {
+    seoData = {
+      title: "Bible (Tanach) - Hebrew & English | ChavrutAI",
+      description: "Read the complete Hebrew Bible (Tanach) with JPS 1985 English translation. Access all 24 books of the Torah, Nevi'im, and Ketuvim with parallel Hebrew-English text.",
+      ogTitle: "Bible (Tanach) - Hebrew & English",
+      ogDescription: "Read the complete Hebrew Bible with JPS 1985 translation.",
+      canonical: `${baseUrl}/bible`,
+      robots: "index, follow"
+    };
+  } else if (url === '/sitemap') {
+    seoData = {
+      title: "Site Map - ChavrutAI Talmud Navigation Guide",
+      description: "Complete navigation guide to all 37 Talmud tractates organized by traditional Seder structure. Find any page across 5,400+ folios in the Babylonian Talmud.",
+      ogTitle: "Site Map - ChavrutAI Talmud Navigation Guide",
+      ogDescription: "Complete navigation guide to all 37 Talmud tractates organized by traditional Seder structure.",
+      canonical: `${baseUrl}/sitemap`,
+      robots: "index, follow"
+    };
+  } else if (url === '/contact') {
+    seoData = {
+      title: "Contact | ChavrutAI",
+      description: "Contact ChavrutAI with feedback, suggestions, and corrections. We appreciate all input to improve our digital Talmud study platform.",
+      ogTitle: "Contact | ChavrutAI",
+      ogDescription: "Contact ChavrutAI with feedback, suggestions, and corrections.",
+      canonical: `${baseUrl}/contact`,
+      robots: "index, follow"
+    };
+  } else if (url === '/privacy') {
+    seoData = {
+      title: "Privacy Policy - ChavrutAI Talmud Study Platform",
+      description: "Privacy policy for ChavrutAI - learn how we handle your data when using our free Talmud study platform.",
+      ogTitle: "Privacy Policy - ChavrutAI",
+      ogDescription: "Privacy policy for ChavrutAI - learn how we handle your data when using our free Talmud study platform.",
+      canonical: `${baseUrl}/privacy`,
+      robots: "index, follow"
+    };
+  } else if (url === '/changelog') {
+    seoData = {
+      title: "Changelog - ChavrutAI",
+      description: "Recent updates and improvements to ChavrutAI. Track new features, design enhancements, and user experience improvements for Talmud study.",
+      ogTitle: "Changelog - ChavrutAI",
+      ogDescription: "Recent updates and improvements to ChavrutAI.",
+      canonical: `${baseUrl}/changelog`,
+      robots: "index, follow"
+    };
   } else if (url.match(/^\/contents\/[^/]+$/)) {
     // Tractate pages like /contents/berakhot
     const tractate = url.split('/')[2];

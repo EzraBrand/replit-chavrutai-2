@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Search, Loader2, ExternalLink } from "lucide-react";
 import { Footer } from "@/components/footer";
+import { useSEO } from "@/hooks/use-seo";
 import jastrowMappings from "@/data/jastrow-mappings.json";
 
 const HEBREW_ALPHABET = [
@@ -76,6 +77,15 @@ export default function Dictionary() {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
+
+  useSEO({
+    title: "Jastrow Talmud Dictionary - Modernized Hebrew & Aramaic | ChavrutAI",
+    description: "Search the comprehensive Jastrow Dictionary of Talmudic Hebrew and Aramaic. Modernized presentation with expanded abbreviations, enhanced readability, and direct term lookup.",
+    ogTitle: "Jastrow Talmud Dictionary - Modernized Hebrew & Aramaic",
+    ogDescription: "Search the comprehensive Jastrow Dictionary of Talmudic Hebrew and Aramaic with modernized presentation and enhanced readability.",
+    canonical: `${window.location.origin}/dictionary`,
+    robots: "index, follow"
+  });
 
   // Function to split text into paragraphs by long dash while preserving HTML structure
   const splitIntoParagraphs = (text: string) => {
