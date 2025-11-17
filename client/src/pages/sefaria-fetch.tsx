@@ -76,7 +76,7 @@ export default function SefariaFetchPage() {
       tempDiv.appendChild(fragment);
 
       const stripFormattingExcept = (element: HTMLElement): string => {
-        const allowedTags = ['strong', 'b', 'i', 'em', 'p', 'div', 'br', 'span', 'hr', 'a', 'sup', 'sub', 'small'];
+        const allowedTags = ['strong', 'b', 'i', 'em', 'p', 'div', 'br', 'span', 'a', 'sup', 'sub', 'small'];
         
         const walker = document.createTreeWalker(
           element,
@@ -168,7 +168,7 @@ export default function SefariaFetchPage() {
             
             if (tag === 'br') {
               text += '\n';
-            } else if (tag === 'p' || tag === 'div' || tag === 'hr') {
+            } else if (tag === 'p' || tag === 'div') {
               text += getPlainText(el, false) + '\n';
             } else {
               text += getPlainText(el, false);
@@ -244,7 +244,7 @@ export default function SefariaFetchPage() {
                   }}
                 >
                   {hebrewText.split('\n').filter(line => line.trim()).map((line, idx) => (
-                    <p key={idx} style={{ margin: 0, padding: 0, lineHeight: '1.15' }}>{line}</p>
+                    <p key={idx} style={{ margin: '0 0 12px 0', padding: 0, lineHeight: '1.15' }}>{line}</p>
                   ))}
                 </div>
               )}
@@ -261,7 +261,7 @@ export default function SefariaFetchPage() {
                   {englishParagraphs.map((paragraph, idx) => (
                     <p 
                       key={idx}
-                      style={{ margin: 0, padding: 0, lineHeight: '1.15' }}
+                      style={{ margin: '0 0 12px 0', padding: 0, lineHeight: '1.15' }}
                       dangerouslySetInnerHTML={{ __html: paragraph }}
                     />
                   ))}
