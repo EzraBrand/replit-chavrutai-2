@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -61,144 +61,148 @@ export default function SefariaFetchPage() {
     refetch();
   };
 
-  const handleSelectAll = async () => {
+  useEffect(() => {
+    const container = document.getElementById('text-display-container');
+    if (!container) return;
+
+    const handleCopy = (e: ClipboardEvent) => {
+      const selection = window.getSelection();
+      if (!selection || !selection.rangeCount) return;
+
+      const range = selection.getRangeAt(0);
+      const fragment = range.cloneContents();
+
+      const tempDiv = document.createElement('div');
+      tempDiv.appendChild(fragment);
+
+      const stripFormattingExcept = (element: HTMLElement): string => {
+        const allowedTags = ['strong', 'b', 'i', 'em', 'p', 'div', 'br', 'span', 'hr', 'a', 'sup', 'sub', 'small'];
+        
+        const walker = document.createTreeWalker(
+          element,
+          NodeFilter.SHOW_ELEMENT,
+          null
+        );
+
+        const nodesToProcess: Element[] = [];
+        let node: Node | null;
+
+        while ((node = walker.nextNode())) {
+          nodesToProcess.push(node as Element);
+        }
+
+        nodesToProcess.forEach(node => {
+          const tagName = node.tagName.toLowerCase();
+          
+          if (!allowedTags.includes(tagName)) {
+            const parent = node.parentNode;
+            if (!parent) return;
+            while (node.firstChild) {
+              parent.insertBefore(node.firstChild, node);
+            }
+            parent.removeChild(node);
+          } else {
+            const el = node as HTMLElement;
+            const attrsToKeep = ['dir', 'style', 'href', 'target', 'rel', 'class'];
+            const attrsToRemove: string[] = [];
+            
+            for (let i = 0; i < el.attributes.length; i++) {
+              const attrName = el.attributes[i].name;
+              const isDataAttr = attrName.startsWith('data-');
+              if (!attrsToKeep.includes(attrName) && !isDataAttr) {
+                attrsToRemove.push(attrName);
+              }
+            }
+            
+            attrsToRemove.forEach(attr => el.removeAttribute(attr));
+            
+            const currentStyle = el.getAttribute('style') || '';
+            const styleUpdates: Record<string, string> = {};
+            
+            if (tagName === 'strong' || tagName === 'b') {
+              styleUpdates['font-weight'] = 'bold';
+            }
+            if (tagName === 'em' || tagName === 'i') {
+              styleUpdates['font-style'] = 'italic';
+            }
+            
+            if (el.hasAttribute('dir') && el.getAttribute('dir') === 'rtl') {
+              styleUpdates['direction'] = 'rtl';
+              styleUpdates['font-weight'] = 'bold';
+            }
+            
+            if (Object.keys(styleUpdates).length > 0) {
+              const existingStyles = currentStyle.split(';')
+                .filter(s => s.trim())
+                .reduce((acc, style) => {
+                  const [key, value] = style.split(':').map(s => s.trim());
+                  if (key && value && !styleUpdates.hasOwnProperty(key)) {
+                    acc[key] = value;
+                  }
+                  return acc;
+                }, {} as Record<string, string>);
+              
+              const mergedStyles = { ...existingStyles, ...styleUpdates };
+              const newStyle = Object.entries(mergedStyles)
+                .map(([key, value]) => `${key}: ${value}`)
+                .join('; ');
+              
+              el.setAttribute('style', newStyle);
+            }
+          }
+        });
+
+        return element.innerHTML;
+      };
+
+      const cleanHTML = stripFormattingExcept(tempDiv);
+      
+      const getPlainText = (element: HTMLElement, isRoot = true): string => {
+        let text = '';
+        element.childNodes.forEach(node => {
+          if (node.nodeType === Node.TEXT_NODE) {
+            text += node.textContent;
+          } else if (node.nodeType === Node.ELEMENT_NODE) {
+            const el = node as HTMLElement;
+            const tag = el.tagName.toLowerCase();
+            
+            if (tag === 'br') {
+              text += '\n';
+            } else if (tag === 'p' || tag === 'div' || tag === 'hr') {
+              text += getPlainText(el, false) + '\n';
+            } else {
+              text += getPlainText(el, false);
+            }
+          }
+        });
+        return isRoot ? text.trimEnd() : text;
+      };
+      
+      const plainText = getPlainText(tempDiv);
+
+      if (e.clipboardData) {
+        e.clipboardData.setData('text/html', cleanHTML);
+        e.clipboardData.setData('text/plain', plainText);
+        e.preventDefault();
+      }
+    };
+
+    container.addEventListener('copy', handleCopy as EventListener);
+
+    return () => {
+      container.removeEventListener('copy', handleCopy as EventListener);
+    };
+  }, [data]);
+
+  const handleSelectAll = () => {
     const container = document.getElementById('text-display-container');
     if (!container) return;
     
-    // Helper function to apply inline styles to all elements for Google Docs compatibility
-    const applyInlineStyles = (element: HTMLElement): void => {
-      // Skip text nodes
-      if (element.nodeType !== Node.ELEMENT_NODE) return;
-      
-      const tagName = element.tagName.toLowerCase();
-      const computedStyle = window.getComputedStyle(element);
-      
-      // Preserve existing inline styles and add necessary ones
-      if (!element.style.fontFamily) {
-        element.style.fontFamily = 'Calibri, sans-serif';
-      }
-      if (!element.style.fontSize) {
-        element.style.fontSize = '12pt';
-      }
-      
-      // Apply tag-specific styles
-      if (tagName === 'strong' || tagName === 'b' || tagName === 'big') {
-        element.style.fontWeight = 'bold';
-      }
-      if (tagName === 'em' || tagName === 'i') {
-        element.style.fontStyle = 'italic';
-      }
-      if (tagName === 'u') {
-        element.style.textDecoration = 'underline';
-      }
-      if (tagName === 'sup') {
-        element.style.verticalAlign = 'super';
-        element.style.fontSize = '0.83em';
-      }
-      if (tagName === 'sub') {
-        element.style.verticalAlign = 'sub';
-        element.style.fontSize = '0.83em';
-      }
-      if (tagName === 'small') {
-        element.style.fontSize = '0.83em';
-      }
-      
-      // Preserve RTL directionality
-      if (element.dir === 'rtl' || element.classList.contains('inline-rtl')) {
-        element.style.direction = 'rtl';
-        element.style.unicodeBidi = 'embed';
-      }
-      
-      // Recursively process children
-      Array.from(element.children).forEach(child => {
-        applyInlineStyles(child as HTMLElement);
-      });
-    };
-    
-    // Clone the actual rendered content and apply inline styles for Google Docs
-    const copyDiv = document.createElement('div');
-    copyDiv.style.position = 'fixed';
-    copyDiv.style.left = '-9999px';
-    copyDiv.style.top = '-9999px';
-    copyDiv.style.fontFamily = 'Calibri, sans-serif';
-    copyDiv.style.fontSize = '12pt';
-    copyDiv.style.lineHeight = '1.15';
-    
-    // Clone the container's content
-    const clonedContent = container.cloneNode(true) as HTMLElement;
-    
-    // Apply inline styles to all elements in the cloned content
-    applyInlineStyles(clonedContent);
-    
-    // Process the cloned content to optimize for Google Docs
-    // Convert p tags to spans with display:block to minimize spacing
-    const paragraphs = clonedContent.querySelectorAll('p');
-    paragraphs.forEach(p => {
-      const span = document.createElement('span');
-      span.style.display = 'block';
-      span.style.margin = '0';
-      span.style.padding = '0';
-      
-      // Copy all attributes and styles from p to span
-      Array.from(p.attributes).forEach(attr => {
-        if (attr.name === 'style') {
-          // Merge styles
-          const existingStyle = p.getAttribute('style') || '';
-          span.setAttribute('style', existingStyle + '; display: block; margin: 0; padding: 0;');
-        } else {
-          span.setAttribute(attr.name, attr.value);
-        }
-      });
-      
-      // Move all children from p to span
-      while (p.firstChild) {
-        span.appendChild(p.firstChild);
-      }
-      
-      // Replace p with span
-      p.parentNode?.replaceChild(span, p);
-    });
-    
-    // Ensure Hebrew text has proper RTL attributes
-    const hebrewElements = clonedContent.querySelectorAll('[dir="rtl"]');
-    hebrewElements.forEach(element => {
-      const el = element as HTMLElement;
-      el.style.direction = 'rtl';
-      el.style.unicodeBidi = 'embed';
-      el.style.fontWeight = 'bold'; // Hebrew text should be bold
-    });
-    
-    // Move the processed content to copyDiv
-    while (clonedContent.firstChild) {
-      copyDiv.appendChild(clonedContent.firstChild);
-    }
-    
-    document.body.appendChild(copyDiv);
-    
-    // Select the content
     const selection = window.getSelection();
     const range = document.createRange();
-    range.selectNodeContents(copyDiv);
+    range.selectNodeContents(container);
     selection?.removeAllRanges();
     selection?.addRange(range);
-    
-    // Copy using execCommand (more reliable for formatting)
-    try {
-      document.execCommand('copy');
-      
-      // Show visual feedback on the actual content
-      setTimeout(() => {
-        const visibleRange = document.createRange();
-        visibleRange.selectNodeContents(container);
-        selection?.removeAllRanges();
-        selection?.addRange(visibleRange);
-      }, 100);
-    } catch (err) {
-      console.error('Copy failed:', err);
-    }
-    
-    // Clean up
-    document.body.removeChild(copyDiv);
   };
 
   const renderSections = () => {
