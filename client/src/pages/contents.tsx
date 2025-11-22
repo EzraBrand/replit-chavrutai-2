@@ -6,7 +6,7 @@ import { BreadcrumbNavigation, breadcrumbHelpers } from "@/components/navigation
 import { Footer } from "@/components/footer";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
 import { sefariaAPI } from "@/lib/sefaria";
-import { TRACTATE_LISTS, TRACTATE_HEBREW_NAMES } from "@shared/tractates";
+import { TRACTATE_LISTS, TRACTATE_HEBREW_NAMES, getTractateSlug } from "@shared/tractates";
 import { trackEvent } from "@/lib/analytics";
 import hebrewBookIcon from "@/assets/hebrew-book-icon.png";
 import type { TalmudLocation } from "@/types/talmud";
@@ -59,7 +59,7 @@ export default function Contents() {
   // Navigation handler for hamburger menu
   const handleLocationChange = (newLocation: TalmudLocation) => {
     // Navigate to clean URL
-    const tractateSlug = newLocation.tractate.toLowerCase().replace(/\s+/g, '-');
+    const tractateSlug = getTractateSlug(newLocation.tractate);
     const folioSlug = `${newLocation.folio}${newLocation.side}`;
     window.location.href = `/tractate/${tractateSlug}/${folioSlug}`;
   };

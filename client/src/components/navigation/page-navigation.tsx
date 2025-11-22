@@ -1,7 +1,7 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { TalmudLocation } from "@/types/talmud";
-import { getMaxFolio } from "@/lib/tractate-ranges";
+import { getMaxFolio } from "@shared/tractates";
 import { trackEvent } from "@/lib/analytics";
 
 interface PageNavigationProps {

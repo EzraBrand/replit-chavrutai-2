@@ -152,3 +152,101 @@ export function normalizeDisplayTractateName(urlTractate: string): string {
 export function isValidTractate(urlTractate: string): boolean {
   return !!URL_TO_SEFARIA_TRACTATE_MAP[urlTractate.toLowerCase()];
 }
+
+// Tractate data organized by Seder with folio counts
+// Used for sitemap generation and organized navigation
+export const SEDER_TRACTATES = {
+  zeraim: [
+    { name: 'Berakhot', folios: 64 }
+  ],
+  moed: [
+    { name: 'Shabbat', folios: 157 },
+    { name: 'Eruvin', folios: 105 },
+    { name: 'Pesachim', folios: 121 },
+    { name: 'Rosh Hashanah', folios: 35 },
+    { name: 'Yoma', folios: 88 },
+    { name: 'Sukkah', folios: 56 },
+    { name: 'Beitza', folios: 40 },
+    { name: 'Taanit', folios: 31 },
+    { name: 'Megillah', folios: 32 },
+    { name: 'Moed Katan', folios: 29 },
+    { name: 'Chagigah', folios: 27 }
+  ],
+  nashim: [
+    { name: 'Yevamot', folios: 122 },
+    { name: 'Ketubot', folios: 112 },
+    { name: 'Nedarim', folios: 91 },
+    { name: 'Nazir', folios: 66 },
+    { name: 'Sotah', folios: 49 },
+    { name: 'Gittin', folios: 90 },
+    { name: 'Kiddushin', folios: 82 }
+  ],
+  nezikin: [
+    { name: 'Bava Kamma', folios: 119 },
+    { name: 'Bava Metzia', folios: 119 },
+    { name: 'Bava Batra', folios: 176 },
+    { name: 'Sanhedrin', folios: 113 },
+    { name: 'Makkot', folios: 24 },
+    { name: 'Shevuot', folios: 49 },
+    { name: 'Avodah Zarah', folios: 76 },
+    { name: 'Horayot', folios: 14 }
+  ],
+  kodashim: [
+    { name: 'Zevachim', folios: 120 },
+    { name: 'Menachot', folios: 110 },
+    { name: 'Chullin', folios: 142 },
+    { name: 'Bekhorot', folios: 61 },
+    { name: 'Arachin', folios: 34 },
+    { name: 'Temurah', folios: 34 },
+    { name: 'Keritot', folios: 28 },
+    { name: 'Meilah', folios: 22 },
+    { name: 'Tamid', folios: 8 }
+  ],
+  tohorot: [
+    { name: 'Niddah', folios: 73 }
+  ]
+} as const;
+
+export type SederName = keyof typeof SEDER_TRACTATES;
+
+/**
+ * Get the maximum folio number for a given tractate
+ * @param tractate - The name of the tractate
+ * @returns The maximum folio number, defaults to 150 if tractate not found
+ */
+export function getMaxFolio(tractate: string): number {
+  return TRACTATE_FOLIO_RANGES[tractate as keyof typeof TRACTATE_FOLIO_RANGES] || 150;
+}
+
+/**
+ * Check if a folio number is valid for a given tractate
+ * @param tractate - The name of the tractate
+ * @param folio - The folio number to check
+ * @returns true if the folio is within the valid range (2 to max folio)
+ */
+export function isValidFolio(tractate: string, folio: number): boolean {
+  const maxFolio = getMaxFolio(tractate);
+  return folio >= 2 && folio <= maxFolio;
+}
+
+/**
+ * Convert tractate name to URL-safe slug (lowercase with hyphens)
+ * This is the canonical URL format for all tractate URLs
+ * Handles various input formats: display names, URL-encoded strings, already-slugified inputs
+ * @param tractate - The tractate name (any case, spaces, hyphens, or URL-encoded)
+ * @returns URL-safe slug (e.g., "Moed Katan" -> "moed-katan", "bava%20metzia" -> "bava-metzia")
+ */
+export function getTractateSlug(tractate: string): string {
+  // First decode any URL encoding (e.g., %20 -> space)
+  const decoded = decodeURIComponent(tractate);
+  
+  // Convert to lowercase, replace spaces/underscores with hyphens, remove apostrophes and other punctuation
+  // Then collapse multiple hyphens into one and trim
+  return decoded
+    .toLowerCase()
+    .replace(/['\u2019]/g, '') // Remove apostrophes (both straight and curly)
+    .replace(/[^\w\s-]/g, '') // Remove special characters except word chars, spaces, and hyphens
+    .replace(/[\s_]+/g, '-') // Replace spaces and underscores with hyphens
+    .replace(/-+/g, '-') // Collapse multiple hyphens
+    .replace(/^-|-$/g, ''); // Trim hyphens from start/end
+}

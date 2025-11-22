@@ -7,7 +7,7 @@ import type { TalmudLocation, Work } from "@/types/talmud";
 import { WORKS } from "@/types/talmud";
 import { useQuery } from "@tanstack/react-query";
 import { sefariaAPI } from "@/lib/sefaria";
-import { getMaxFolio } from "@/lib/tractate-ranges";
+import { getMaxFolio } from "@shared/tractates";
 
 interface MobileNavProps {
   location: TalmudLocation;

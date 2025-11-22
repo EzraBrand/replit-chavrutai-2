@@ -1,59 +1,5 @@
 import { Request, Response } from 'express';
-
-// Tractate data organized by Seder with accurate folio counts
-const SEDER_TRACTATES = {
-  zeraim: [
-    { name: 'Berakhot', folios: 64 }
-  ],
-  moed: [
-    { name: 'Shabbat', folios: 157 },
-    { name: 'Eruvin', folios: 105 },
-    { name: 'Pesachim', folios: 121 },
-    { name: 'Rosh Hashanah', folios: 35 },
-    { name: 'Yoma', folios: 88 },
-    { name: 'Sukkah', folios: 56 },
-    { name: 'Beitza', folios: 40 },
-    { name: 'Taanit', folios: 31 },
-    { name: 'Megillah', folios: 32 },
-    { name: 'Moed Katan', folios: 29 },
-    { name: 'Chagigah', folios: 27 }
-  ],
-  nashim: [
-    { name: 'Yevamot', folios: 122 },
-    { name: 'Ketubot', folios: 112 },
-    { name: 'Nedarim', folios: 91 },
-    { name: 'Nazir', folios: 66 },
-    { name: 'Sotah', folios: 49 },
-    { name: 'Gittin', folios: 90 },
-    { name: 'Kiddushin', folios: 82 }
-  ],
-  nezikin: [
-    { name: 'Bava Kamma', folios: 119 },
-    { name: 'Bava Metzia', folios: 119 },
-    { name: 'Bava Batra', folios: 176 },
-    { name: 'Sanhedrin', folios: 113 },
-    { name: 'Makkot', folios: 24 },
-    { name: 'Shevuot', folios: 49 },
-    { name: 'Avodah Zarah', folios: 76 },
-    { name: 'Horayot', folios: 14 }
-  ],
-  kodashim: [
-    { name: 'Zevachim', folios: 120 },
-    { name: 'Menachot', folios: 110 },
-    { name: 'Chullin', folios: 142 },
-    { name: 'Bekhorot', folios: 61 },
-    { name: 'Arachin', folios: 34 },
-    { name: 'Temurah', folios: 34 },
-    { name: 'Keritot', folios: 28 },
-    { name: 'Meilah', folios: 22 },
-    { name: 'Tamid', folios: 8 },
-    { name: 'Middot', folios: 3 },
-    { name: 'Kinnim', folios: 4 }
-  ],
-  tohorot: [
-    { name: 'Niddah', folios: 73 }
-  ]
-};
+import { SEDER_TRACTATES, getTractateSlug, type SederName } from '@shared/tractates';
 
 // Helper function to identify significant folios
 function isSignificantFolio(tractate: string, folio: string): boolean {
@@ -67,7 +13,7 @@ function isSignificantFolio(tractate: string, folio: string): boolean {
   return significantFolios.includes(`${tractate}/${folio}`);
 }
 
-export function generateSederSitemap(sederName: keyof typeof SEDER_TRACTATES) {
+export function generateSederSitemap(sederName: SederName) {
   return (req: Request, res: Response) => {
     // Use production URL for deployed site
     const baseUrl = process.env.NODE_ENV === 'production' 
@@ -82,7 +28,7 @@ export function generateSederSitemap(sederName: keyof typeof SEDER_TRACTATES) {
   <!-- Seder ${sederDisplayName} - ${tractates.length} tractates -->`;
 
     tractates.forEach(tractate => {
-      const tractateSlug = tractate.name.toLowerCase().replace(/\s+/g, '-');
+      const tractateSlug = getTractateSlug(tractate.name);
       
       sitemap += `
   

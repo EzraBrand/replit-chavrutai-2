@@ -11,11 +11,12 @@ import { getChapterDataByTractate } from "@/lib/chapter-data";
 import { generateFolioButtons } from "@/lib/folio-utils";
 import { Footer } from "@/components/footer";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
-import { getMaxFolio } from "@/lib/tractate-ranges";
 import {
   TRACTATE_HEBREW_NAMES,
   normalizeDisplayTractateName,
   isValidTractate,
+  getMaxFolio,
+  getTractateSlug,
 } from "@shared/tractates";
 import hebrewBookIcon from "@/assets/hebrew-book-icon.png";
 import type { TalmudLocation } from "@/types/talmud";
@@ -32,7 +33,7 @@ export default function TractateContents() {
   // Navigation handler for hamburger menu
   const handleLocationChange = (newLocation: TalmudLocation) => {
     // Navigate to clean URL
-    const tractateSlug = encodeURIComponent(newLocation.tractate.toLowerCase());
+    const tractateSlug = getTractateSlug(newLocation.tractate);
     const folioSlug = `${newLocation.folio}${newLocation.side}`;
     window.location.href = `/tractate/${tractateSlug}/${folioSlug}`;
   };

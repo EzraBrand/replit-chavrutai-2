@@ -12,7 +12,7 @@ import { Footer } from "@/components/footer";
 import { usePreferences } from "@/context/preferences-context";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
 import { sefariaAPI } from "@/lib/sefaria";
-import { normalizeDisplayTractateName } from "@shared/tractates";
+import { normalizeDisplayTractateName, getTractateSlug } from "@shared/tractates";
 import hebrewBookIcon from "@/assets/hebrew-book-icon.png";
 import type { TalmudLocation } from "@/types/talmud";
 
@@ -68,7 +68,7 @@ export default function Home() {
     setLocation(newLocation);
     
     // Redirect to clean URL for SEO
-    const tractateSlug = newLocation.tractate.toLowerCase().replace(/\s+/g, '-');
+    const tractateSlug = getTractateSlug(newLocation.tractate);
     const folioSlug = `${newLocation.folio}${newLocation.side}`;
     setCurrentLocation(`/tractate/${tractateSlug}/${folioSlug}`);
   };

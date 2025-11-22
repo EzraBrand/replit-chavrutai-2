@@ -4,7 +4,7 @@ import fs from "fs";
 import path from "path";
 import { storage } from "./storage";
 import { insertTextSchema, searchRequestSchema, browseRequestSchema, autosuggestRequestSchema } from "@shared/schema";
-import { normalizeSefariaTractateName, normalizeDisplayTractateName, isValidTractate } from "@shared/tractates";
+import { normalizeSefariaTractateName, normalizeDisplayTractateName, isValidTractate, getTractateSlug } from "@shared/tractates";
 import { generateSitemapIndex } from "./routes/sitemap-index";
 import { generateMainSitemap } from "./routes/sitemap-main";
 import { generateSederSitemap } from "./routes/sitemap-seder";
@@ -290,7 +290,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     const tractatePageMatch = canonicalUrl.match(/^\/tractate\/([^/]+)\/(\d+)([ab])$/i);
     if (tractatePageMatch) {
       const [, tractate, folio, side] = tractatePageMatch;
-      const normalizedTractate = tractate.toLowerCase().replace(/\s+/g, '-');
+      const normalizedTractate = getTractateSlug(tractate);
       const normalizedFolio = folio + side.toLowerCase();
       const normalizedUrl = `/tractate/${normalizedTractate}/${normalizedFolio}`;
       
@@ -304,7 +304,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     const contentsPageMatch = canonicalUrl.match(/^\/contents\/([^/]+)$/i);
     if (contentsPageMatch) {
       const [, tractate] = contentsPageMatch;
-      const normalizedTractate = tractate.toLowerCase().replace(/\s+/g, '-');
+      const normalizedTractate = getTractateSlug(tractate);
       const normalizedUrl = `/contents/${normalizedTractate}`;
       
       if (canonicalUrl !== normalizedUrl) {

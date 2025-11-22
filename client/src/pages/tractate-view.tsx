@@ -4,7 +4,6 @@ import { useQuery } from "@tanstack/react-query";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { AlertCircle, Home, ChevronLeft, ChevronRight } from "lucide-react";
-import { getMaxFolio } from "@/lib/tractate-ranges";
 import { SectionedBilingualDisplay } from "@/components/text/sectioned-bilingual-display";
 import { PageNavigation } from "@/components/navigation/page-navigation";
 import { HamburgerMenu } from "@/components/navigation/hamburger-menu";
@@ -16,7 +15,7 @@ import { usePreferences } from "@/context/preferences-context";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
 import type { TalmudLocation } from "@/types/talmud";
 import { sefariaAPI } from "@/lib/sefaria";
-import { normalizeDisplayTractateName, isValidTractate } from "@shared/tractates";
+import { normalizeDisplayTractateName, isValidTractate, getTractateSlug } from "@shared/tractates";
 import hebrewBookIcon from "@/assets/hebrew-book-icon.png";
 import NotFound from "@/pages/not-found";
 
@@ -83,7 +82,7 @@ export default function TractateView() {
     window.history.pushState(null, '', window.location.pathname);
     setCurrentSection(1);
     // Update URL to match new location
-    const tractateSlug = encodeURIComponent(newLocation.tractate.toLowerCase());
+    const tractateSlug = getTractateSlug(newLocation.tractate);
     const folioSlug = `${newLocation.folio}${newLocation.side}`;
     setLocation(`/tractate/${tractateSlug}/${folioSlug}`);
   };

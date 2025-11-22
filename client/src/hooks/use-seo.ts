@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { getTractateSlug } from "@shared/tractates";
 
 // Performance monitoring for Core Web Vitals
 const reportWebVitals = (metric: any) => {
@@ -216,10 +217,10 @@ export const generateSEOData = {
     title: `${tractate} ${folio}${side} - Talmud Bavli | ChavrutAI`,
     description: `Study ${tractate} folio ${folio}${side} from the Babylonian Talmud with bilingual Hebrew-English text display. Read, analyze and learn from this classic text on ChavrutAI's digital study platform.`,
     keywords: `Talmud, ${tractate}, folio ${folio}${side}, Jewish texts, Hebrew, Aramaic, study, ChavrutAI, Babylonian Talmud`,
-    canonical: `${window.location.origin}/tractate/${tractate.toLowerCase().replace(/\s+/g, "-")}/${folio}${side}`,
+    canonical: `${window.location.origin}/tractate/${getTractateSlug(tractate)}/${folio}${side}`,
     ogTitle: `${tractate} ${folio}${side} - Study Talmud Bavli`,
     ogDescription: `Study ${tractate} folio ${folio}${side} from the Babylonian Talmud with Hebrew-English bilingual text on ChavrutAI.`,
-    ogUrl: `${window.location.origin}/tractate/${tractate.toLowerCase().replace(/\s+/g, "-")}/${folio}${side}`,
+    ogUrl: `${window.location.origin}/tractate/${getTractateSlug(tractate)}/${folio}${side}`,
     noindex: false, // Allow indexing of all folio pages
     robots: "index, follow", // Allow search engine indexing
     structuredData: {
@@ -227,7 +228,7 @@ export const generateSEOData = {
       "@type": "Article",
       headline: `${tractate} ${folio}${side} - Talmud Bavli`,
       description: `Study ${tractate} folio ${folio}${side} from the Babylonian Talmud with bilingual Hebrew-English text`,
-      url: `${window.location.origin}/tractate/${tractate.toLowerCase().replace(/\s+/g, "-")}/${folio}${side}`,
+      url: `${window.location.origin}/tractate/${getTractateSlug(tractate)}/${folio}${side}`,
       dateModified: new Date().toISOString(),
       author: {
         "@type": "Organization",
@@ -423,17 +424,17 @@ export const generateSEOData = {
     title: `${tractate} Talmud - Complete Chapter Guide | ChavrutAI`,
     description: `Study ${tractate} tractate chapter by chapter with Hebrew-English text, detailed folio navigation, and traditional commentary access. Free online Talmud learning.`,
     keywords: `${tractate} Talmud, ${tractate} chapters, Hebrew English ${tractate}, Talmud study online, Jewish learning`,
-    canonical: `${window.location.origin}/contents/${tractate.toLowerCase().replace(/\s+/g, "-")}`,
+    canonical: `${window.location.origin}/contents/${getTractateSlug(tractate)}`,
     ogTitle: `${tractate} Talmud - Complete Study Guide`,
     ogDescription: `Study ${tractate} tractate chapter by chapter with Hebrew-English text, detailed folio navigation, and traditional commentary access.`,
-    ogUrl: `${window.location.origin}/contents/${tractate.toLowerCase().replace(/\s+/g, "-")}`,
+    ogUrl: `${window.location.origin}/contents/${getTractateSlug(tractate)}`,
     robots: "index, follow",
     structuredData: {
       "@context": "https://schema.org",
       "@type": "CollectionPage",
       name: `${tractate} - Talmud Bavli`,
       description: `Contents and navigation for ${tractate} tractate`,
-      url: `${window.location.origin}/contents/${tractate.toLowerCase()}`,
+      url: `${window.location.origin}/contents/${getTractateSlug(tractate)}`,
       publisher: {
         "@type": "Organization",
         name: "ChavrutAI",
