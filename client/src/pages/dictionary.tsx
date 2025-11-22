@@ -286,6 +286,140 @@ export default function Dictionary() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Copy-paste handler to preserve formatting
+  useEffect(() => {
+    const container = document.querySelector('main.max-w-4xl');
+    if (!container) return;
+
+    const handleCopy = (e: ClipboardEvent) => {
+      const selection = window.getSelection();
+      if (!selection || !selection.rangeCount) return;
+
+      const range = selection.getRangeAt(0);
+      const fragment = range.cloneContents();
+
+      const tempDiv = document.createElement('div');
+      tempDiv.appendChild(fragment);
+
+      const stripFormattingExcept = (element: HTMLElement): string => {
+        const allowedTags = ['strong', 'b', 'i', 'em', 'p', 'div', 'br', 'span', 'a', 'sup', 'sub', 'small'];
+        
+        const walker = document.createTreeWalker(
+          element,
+          NodeFilter.SHOW_ELEMENT,
+          null
+        );
+
+        const nodesToProcess: Element[] = [];
+        let node: Node | null;
+
+        while ((node = walker.nextNode())) {
+          nodesToProcess.push(node as Element);
+        }
+
+        nodesToProcess.forEach(node => {
+          const tagName = node.tagName.toLowerCase();
+          
+          if (!allowedTags.includes(tagName)) {
+            const parent = node.parentNode;
+            if (!parent) return;
+            while (node.firstChild) {
+              parent.insertBefore(node.firstChild, node);
+            }
+            parent.removeChild(node);
+          } else {
+            const el = node as HTMLElement;
+            const attrsToKeep = ['dir', 'style', 'href', 'target', 'rel', 'class'];
+            const attrsToRemove: string[] = [];
+            
+            for (let i = 0; i < el.attributes.length; i++) {
+              const attrName = el.attributes[i].name;
+              const isDataAttr = attrName.startsWith('data-');
+              if (!attrsToKeep.includes(attrName) && !isDataAttr) {
+                attrsToRemove.push(attrName);
+              }
+            }
+            
+            attrsToRemove.forEach(attr => el.removeAttribute(attr));
+            
+            const currentStyle = el.getAttribute('style') || '';
+            const styleUpdates: Record<string, string> = {};
+            
+            if (tagName === 'strong' || tagName === 'b') {
+              styleUpdates['font-weight'] = 'bold';
+            }
+            if (tagName === 'em' || tagName === 'i') {
+              styleUpdates['font-style'] = 'italic';
+            }
+            
+            if (el.hasAttribute('dir') && el.getAttribute('dir') === 'rtl') {
+              styleUpdates['direction'] = 'rtl';
+              styleUpdates['font-weight'] = 'bold';
+            }
+            
+            if (Object.keys(styleUpdates).length > 0) {
+              const existingStyles = currentStyle.split(';')
+                .filter(s => s.trim())
+                .reduce((acc, style) => {
+                  const [key, value] = style.split(':').map(s => s.trim());
+                  if (key && value && !styleUpdates.hasOwnProperty(key)) {
+                    acc[key] = value;
+                  }
+                  return acc;
+                }, {} as Record<string, string>);
+              
+              const mergedStyles = { ...existingStyles, ...styleUpdates };
+              const newStyle = Object.entries(mergedStyles)
+                .map(([key, value]) => `${key}: ${value}`)
+                .join('; ');
+              
+              el.setAttribute('style', newStyle);
+            }
+          }
+        });
+
+        return element.innerHTML;
+      };
+
+      const cleanHTML = stripFormattingExcept(tempDiv);
+      
+      const getPlainText = (element: HTMLElement, isRoot = true): string => {
+        let text = '';
+        element.childNodes.forEach(node => {
+          if (node.nodeType === Node.TEXT_NODE) {
+            text += node.textContent;
+          } else if (node.nodeType === Node.ELEMENT_NODE) {
+            const el = node as HTMLElement;
+            const tag = el.tagName.toLowerCase();
+            
+            if (tag === 'br') {
+              text += '\n';
+            } else if (tag === 'p' || tag === 'div') {
+              text += getPlainText(el, false) + '\n';
+            } else {
+              text += getPlainText(el, false);
+            }
+          }
+        });
+        return isRoot ? text.trimEnd() : text;
+      };
+      
+      const plainText = getPlainText(tempDiv);
+
+      if (e.clipboardData) {
+        e.clipboardData.setData('text/html', cleanHTML);
+        e.clipboardData.setData('text/plain', plainText);
+        e.preventDefault();
+      }
+    };
+
+    container.addEventListener('copy', handleCopy as EventListener);
+
+    return () => {
+      container.removeEventListener('copy', handleCopy as EventListener);
+    };
+  }, [results]);
+
   return (
     <div className="min-h-screen bg-background">
       {/* Inject CSS for dictionary links */}
