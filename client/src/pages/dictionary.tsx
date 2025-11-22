@@ -301,6 +301,33 @@ export default function Dictionary() {
       const tempDiv = document.createElement('div');
       tempDiv.appendChild(fragment);
 
+      // Remove the external link arrow symbol (↗) from the copy
+      const removeExternalLinkArrow = (element: HTMLElement): void => {
+        const walker = document.createTreeWalker(
+          element,
+          NodeFilter.SHOW_TEXT,
+          null
+        );
+        
+        const textNodesToUpdate: { node: Text; newValue: string }[] = [];
+        let node: Node | null;
+        
+        while ((node = walker.nextNode())) {
+          if (node.nodeType === Node.TEXT_NODE && node.textContent) {
+            const cleaned = node.textContent.replace(/↗/g, '').trim();
+            if (cleaned !== node.textContent.trim()) {
+              textNodesToUpdate.push({ node: node as Text, newValue: cleaned });
+            }
+          }
+        }
+        
+        textNodesToUpdate.forEach(({ node, newValue }) => {
+          node.textContent = newValue;
+        });
+      };
+
+      removeExternalLinkArrow(tempDiv);
+
       const stripFormattingExcept = (element: HTMLElement): string => {
         const allowedTags = ['strong', 'b', 'i', 'em', 'p', 'div', 'br', 'span', 'a', 'sup', 'sub', 'small'];
         
