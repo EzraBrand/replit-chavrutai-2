@@ -21,11 +21,11 @@ export function splitHebrewText(text: string): string {
   
   let processedText = text;
   
-  // STEP 1: Split after Mishnah/Gemara markers BEFORE protecting HTML
-  // This ensures the newline is added after the complete HTML structure
-  processedText = processedText.replace(/(<strong[^>]*><big[^>]*>מתני['׳]<\/big><\/strong>)\s*/gi, '$1\n');
-  processedText = processedText.replace(/(<strong[^>]*><big[^>]*>גמ['׳]<\/big><\/strong>)\s*/gi, '$1\n');
-  processedText = processedText.replace(/(<strong[^>]*><big[^>]*>גמר['׳]<\/big><\/strong>)\s*/gi, '$1\n');
+  // STEP 1: Remove special formatting from Mishnah/Gemara markers
+  // Strip <strong> and <big> tags while preserving the marker text and adding newline
+  processedText = processedText.replace(/<strong[^>]*><big[^>]*>(מתני['׳])<\/big><\/strong>\s*/gi, '$1\n');
+  processedText = processedText.replace(/<strong[^>]*><big[^>]*>(גמ['׳])<\/big><\/strong>\s*/gi, '$1\n');
+  processedText = processedText.replace(/<strong[^>]*><big[^>]*>(גמר['׳])<\/big><\/strong>\s*/gi, '$1\n');
   
   // STEP 2: Protect HTML tags with placeholders (like English processing does)
   const htmlTagPattern = /<\/?\w+(?:\s+[^>]*)?>/g;
