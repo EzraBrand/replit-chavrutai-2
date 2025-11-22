@@ -51,8 +51,22 @@ export default function MishnahMapPage() {
       );
     }
 
-    return data;
-  }, [selectedTractate, searchQuery]);
+    // Sort by traditional tractate order, then by chapter, then by Mishnah
+    return data.sort((a, b) => {
+      const tractateIndexA = allTractates.indexOf(a.tractate);
+      const tractateIndexB = allTractates.indexOf(b.tractate);
+      
+      if (tractateIndexA !== tractateIndexB) {
+        return tractateIndexA - tractateIndexB;
+      }
+      
+      if (a.mishnahChapter !== b.mishnahChapter) {
+        return a.mishnahChapter - b.mishnahChapter;
+      }
+      
+      return a.startMishnah - b.startMishnah;
+    });
+  }, [selectedTractate, searchQuery, allTractates]);
 
   const generateChavrutAILink = (entry: MishnahMapping): string => {
     const tractateSlug = getTractateSlug(entry.tractate);
@@ -61,11 +75,11 @@ export default function MishnahMapPage() {
     return `/tractate/${tractateSlug}/${page}#section-${section}`;
   };
 
-  const formatMishnahRange = (entry: MishnahMapping): string => {
+  const formatChapterMishnah = (entry: MishnahMapping): string => {
     if (entry.startMishnah === entry.endMishnah) {
-      return `${entry.startMishnah}`;
+      return `${entry.mishnahChapter}:${entry.startMishnah}`;
     }
-    return `${entry.startMishnah}-${entry.endMishnah}`;
+    return `${entry.mishnahChapter}:${entry.startMishnah}-${entry.endMishnah}`;
   };
 
   const formatTalmudLocation = (entry: MishnahMapping): string => {
@@ -114,6 +128,29 @@ export default function MishnahMapPage() {
             Click any link to navigate directly to the relevant section.
           </p>
         </div>
+
+        {/* Info Box - Moved to top */}
+        <Card className="mb-6 bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800">
+          <CardContent className="p-6">
+            <h3 className="font-semibold text-lg mb-2 text-blue-900 dark:text-blue-100">
+              About This Mapping
+            </h3>
+            <p className="text-sm text-blue-800 dark:text-blue-200 mb-2">
+              This mapping is based on data from <a 
+                href="https://github.com/Sefaria/Sefaria-Project/blob/master/data/Mishnah%20Map.csv" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="underline hover:text-blue-600 dark:hover:text-blue-300"
+              >
+                Sefaria's Mishnah Map
+              </a>.
+            </p>
+            <p className="text-sm text-blue-800 dark:text-blue-200">
+              The table shows where each Mishnah passage appears in the Talmud, with direct links to the specific section in ChavrutAI.
+              Use the search and filter tools below to find specific passages.
+            </p>
+          </CardContent>
+        </Card>
 
         {/* Filters */}
         <Card className="mb-6">
@@ -167,16 +204,14 @@ export default function MishnahMapPage() {
                 <thead className="bg-muted/50 border-b border-border">
                   <tr>
                     <th className="text-left p-4 font-semibold text-sm">Tractate</th>
-                    <th className="text-left p-4 font-semibold text-sm">Chapter</th>
-                    <th className="text-left p-4 font-semibold text-sm">Mishnah</th>
+                    <th className="text-left p-4 font-semibold text-sm">Chapter:Mishnah</th>
                     <th className="text-left p-4 font-semibold text-sm">Talmud Location</th>
-                    <th className="text-left p-4 font-semibold text-sm">Link</th>
                   </tr>
                 </thead>
                 <tbody>
                   {filteredData.length === 0 ? (
                     <tr>
-                      <td colSpan={5} className="text-center py-8 text-muted-foreground">
+                      <td colSpan={3} className="text-center py-8 text-muted-foreground">
                         No mappings found. Try adjusting your search or filter.
                       </td>
                     </tr>
@@ -188,16 +223,14 @@ export default function MishnahMapPage() {
                         data-testid={`row-mapping-${index}`}
                       >
                         <td className="p-4 font-medium">{entry.tractate}</td>
-                        <td className="p-4">{entry.mishnahChapter}</td>
-                        <td className="p-4">{formatMishnahRange(entry)}</td>
-                        <td className="p-4 font-mono text-sm">{formatTalmudLocation(entry)}</td>
+                        <td className="p-4 font-mono text-sm">{formatChapterMishnah(entry)}</td>
                         <td className="p-4">
                           <Link
                             href={generateChavrutAILink(entry)}
-                            className="inline-flex items-center gap-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline transition-colors"
-                            data-testid={`link-chavrutai-${index}`}
+                            className="font-mono text-sm inline-flex items-center gap-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline transition-colors"
+                            data-testid={`link-location-${index}`}
                           >
-                            View <ExternalLink className="h-3 w-3" />
+                            {formatTalmudLocation(entry)} <ExternalLink className="h-3 w-3" />
                           </Link>
                         </td>
                       </tr>
@@ -206,29 +239,6 @@ export default function MishnahMapPage() {
                 </tbody>
               </table>
             </div>
-          </CardContent>
-        </Card>
-
-        {/* Info Box */}
-        <Card className="mt-6 bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800">
-          <CardContent className="p-6">
-            <h3 className="font-semibold text-lg mb-2 text-blue-900 dark:text-blue-100">
-              About This Mapping
-            </h3>
-            <p className="text-sm text-blue-800 dark:text-blue-200 mb-2">
-              This mapping is based on data from <a 
-                href="https://github.com/Sefaria/Sefaria-Project/blob/master/data/Mishnah%20Map.csv" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="underline hover:text-blue-600 dark:hover:text-blue-300"
-              >
-                Sefaria's Mishnah Map
-              </a>.
-            </p>
-            <p className="text-sm text-blue-800 dark:text-blue-200">
-              The table shows where each Mishnah passage appears in the Talmud, with direct links to the specific section in ChavrutAI.
-              Use the search and filter tools above to find specific passages.
-            </p>
           </CardContent>
         </Card>
       </div>
