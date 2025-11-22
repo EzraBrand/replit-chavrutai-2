@@ -4,11 +4,11 @@
  * Source: https://github.com/Sefaria/Sefaria-Project/blob/master/data/Mishnah%20Map.csv
  * 
  * This file provides utilities to access 2390 Mishnah-to-Talmud mappings across all tractates.
- * Data is stored in data/mishnah-map.json
+ * Data is stored in shared/data/mishnah-map.json
  * Generated on: 2025-11-22
  */
 
-import mishnahMapData from '../data/mishnah-map.json';
+import mishnahMapData from './data/mishnah-map.json';
 import { SEDER_TRACTATES } from './tractates';
 
 export interface MishnahMapping {

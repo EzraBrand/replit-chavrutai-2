@@ -145,9 +145,19 @@ export default function MishnahMapPage() {
                 Sefaria's Mishnah Map
               </a>.
             </p>
-            <p className="text-sm text-blue-800 dark:text-blue-200">
+            <p className="text-sm text-blue-800 dark:text-blue-200 mb-2">
               The table shows where each Mishnah passage appears in the Talmud, with direct links to the specific section in ChavrutAI.
               Use the search and filter tools below to find specific passages.
+            </p>
+            <p className="text-sm text-blue-800 dark:text-blue-200">
+              See also the discussion of this table in <a 
+                href="https://www.ezrabrand.com/p/a-quantitative-analysis-of-the-talmudic" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="underline hover:text-blue-600 dark:hover:text-blue-300"
+              >
+                A Quantitative Analysis of the Talmudic 'Sugya': Identifying the Upper Bound of Sugya Length, and Lower Bound of Number of Sugyot
+              </a>, sections "Methodology" and "Appendix 2 - Where on the page does each Chapter start?"
             </p>
           </CardContent>
         </Card>
