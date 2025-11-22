@@ -10,6 +10,7 @@ import Contents from "@/pages/contents";
 import TractateContents from "@/pages/tractate-contents";
 import TractateView from "./pages/tractate-view";
 import TractateOutlinePage from "@/pages/tractate-outline";
+import MishnahMapPage from "@/pages/mishnah-map";
 import BlogPostsPage from "@/pages/blog-posts";
 import BiblicalIndexPage from "@/pages/biblical-index";
 import BiblicalBookPage from "@/pages/biblical-book";
@@ -49,6 +50,7 @@ function Router() {
       <Route path="/contact" component={Contact} />
       <Route path="/privacy" component={Privacy} />
       <Route path="/dictionary" component={Dictionary} />
+      <Route path="/mishnah-map" component={MishnahMapPage} />
       <Route path="/sefaria-fetch" component={SefariaFetchPage} />
       <Route path="/contents" component={Contents} />
       <Route path="/contents/:tractate" component={TractateContents} />

@@ -154,9 +154,7 @@ export default function TractateContents() {
                       return (
                         <Link
                           key={`${folio.folio}${folio.side}`}
-                          href={`/tractate/${encodeURIComponent(
-                            tractate.toLowerCase(),
-                          )}/${folio.folio}${folio.side}${sectionAnchor}`}
+                          href={`/tractate/${getTractateSlug(tractateDisplayName)}/${folio.folio}${folio.side}${sectionAnchor}`}
                         >
                           <Button
                             variant="outline"

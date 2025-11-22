@@ -34,6 +34,13 @@ export function Footer() {
                 Bible-Talmud Index
               </Link>
               <Link 
+                href="/mishnah-map"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+                data-testid="footer-link-mishnah-map"
+              >
+                Mishnah-Talmud Mapping
+              </Link>
+              <Link 
                 href="/blog-posts"
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
                 data-testid="footer-link-blog-posts"
