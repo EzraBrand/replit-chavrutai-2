@@ -55,6 +55,19 @@ export function BibleTextDisplay({ text }: BibleTextDisplayProps) {
 
       removeExternalLinkArrow(tempDiv);
 
+      // Remove verse headers (e.g., "verse 1", "verse 2", etc.)
+      const removeVerseHeaders = (element: HTMLElement): void => {
+        const verseLinks = element.querySelectorAll('[data-testid^="link-sefaria-verse-"]');
+        verseLinks.forEach(link => {
+          const parent = link.parentElement;
+          if (parent) {
+            parent.remove();
+          }
+        });
+      };
+
+      removeVerseHeaders(tempDiv);
+
       // Reorder content so Hebrew comes before English (working only on the clone)
       const reorderHebrewFirst = (element: HTMLElement): void => {
         const textDisplays = element.querySelectorAll('.bible-text-display, .text-display');

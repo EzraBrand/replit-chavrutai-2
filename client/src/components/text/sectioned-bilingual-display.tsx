@@ -213,6 +213,19 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
 
       removeExternalLinkArrow(tempDiv);
 
+      // Remove section headers (e.g., "section 1", "section 2", etc.)
+      const removeSectionHeaders = (element: HTMLElement): void => {
+        const sectionLinks = element.querySelectorAll('[data-testid^="link-sefaria-section-"]');
+        sectionLinks.forEach(link => {
+          const parent = link.parentElement;
+          if (parent) {
+            parent.remove();
+          }
+        });
+      };
+
+      removeSectionHeaders(tempDiv);
+
       // Reorder content so Hebrew comes before English (working only on the clone)
       const reorderHebrewFirst = (element: HTMLElement): void => {
         const textDisplays = element.querySelectorAll('.text-display');
