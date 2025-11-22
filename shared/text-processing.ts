@@ -21,11 +21,16 @@ export function splitHebrewText(text: string): string {
   
   let processedText = text;
   
-  // STEP 1: Remove special formatting from Mishnah/Gemara markers
-  // Strip <strong> and <big> tags while preserving the marker text and adding newline
+  // STEP 1: Remove special formatting from Mishnah/Gemara markers AND chapter names
+  // Strip <strong> and <big> tags from markers and immediately following chapter names
+  // Pattern: מתני׳ <big><strong>Chapter Name</strong></big> -> מתני׳ Chapter Name
   processedText = processedText.replace(/<strong[^>]*><big[^>]*>(מתני['׳])<\/big><\/strong>\s*/gi, '$1\n');
   processedText = processedText.replace(/<strong[^>]*><big[^>]*>(גמ['׳])<\/big><\/strong>\s*/gi, '$1\n');
   processedText = processedText.replace(/<strong[^>]*><big[^>]*>(גמר['׳])<\/big><\/strong>\s*/gi, '$1\n');
+  
+  // Also strip formatting from chapter names that follow the markers
+  processedText = processedText.replace(/<big[^>]*><strong[^>]*>([^<]+)<\/strong><\/big>/gi, '$1');
+  processedText = processedText.replace(/<strong[^>]*><big[^>]*>([^<]+)<\/big><\/strong>/gi, '$1');
   
   // STEP 2: Protect HTML tags with placeholders (like English processing does)
   const htmlTagPattern = /<\/?\w+(?:\s+[^>]*)?>/g;
@@ -314,6 +319,10 @@ export function splitEnglishText(text: string): string {
   if (!text) return '';
   
   let processedText = text;
+  
+  // STEP 0: Remove special formatting from MISHNA/GEMARA markers in English
+  // Strip <strong> tags from these markers to make them plain text
+  processedText = processedText.replace(/<strong[^>]*>(MISHNA|GEMARA):<\/strong>/gi, '$1:');
   
   // Convert <br> and <br/> tags to newlines BEFORE any other processing
   // This treats line breaks from source the same as punctuation-based splits
