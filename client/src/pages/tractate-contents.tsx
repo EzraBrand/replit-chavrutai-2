@@ -18,6 +18,7 @@ import {
   getMaxFolio,
   getTractateSlug,
 } from "@shared/tractates";
+import { getMishnahSection } from "@shared/mishnah-map";
 import hebrewBookIcon from "@/assets/hebrew-book-icon.png";
 import type { TalmudLocation } from "@/types/talmud";
 import NotFound from "@/pages/not-found";
@@ -142,22 +143,31 @@ export default function TractateContents() {
 
                   {/* Folio buttons */}
                   <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-2 justify-items-center">
-                    {folios.map((folio) => (
-                      <Link
-                        key={`${folio.folio}${folio.side}`}
-                        href={`/tractate/${encodeURIComponent(
-                          tractate.toLowerCase(),
-                        )}/${folio.folio}${folio.side}`}
-                      >
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="h-10 px-2 text-base font-normal w-full min-w-[3rem] max-w-[4rem] hover:bg-primary hover:text-primary-foreground"
+                    {folios.map((folio, index) => {
+                      const isFirstPage = index === 0;
+                      const mishnahSection = isFirstPage 
+                        ? getMishnahSection(tractateDisplayName, chapter.number, folio.label)
+                        : null;
+                      
+                      const sectionAnchor = mishnahSection ? `#section-${mishnahSection}` : '';
+                      
+                      return (
+                        <Link
+                          key={`${folio.folio}${folio.side}`}
+                          href={`/tractate/${encodeURIComponent(
+                            tractate.toLowerCase(),
+                          )}/${folio.folio}${folio.side}${sectionAnchor}`}
                         >
-                          {folio.label}
-                        </Button>
-                      </Link>
-                    ))}
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="h-10 px-2 text-base font-normal w-full min-w-[3rem] max-w-[4rem] hover:bg-primary hover:text-primary-foreground"
+                          >
+                            {folio.label}
+                          </Button>
+                        </Link>
+                      );
+                    })}
                   </div>
                 </CardContent>
               </Card>
