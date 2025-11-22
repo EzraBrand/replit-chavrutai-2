@@ -13,7 +13,7 @@ import {
 import { HamburgerMenu } from "@/components/navigation/hamburger-menu";
 import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
-import { getTractateSlug, TRACTATE_HEBREW_NAMES, SEDER_TRACTATES } from "@shared/tractates";
+import { getTractateSlug, TRACTATE_HEBREW_NAMES, SEDER_TRACTATES, normalizeDisplayTractateName } from "@shared/tractates";
 import { MISHNAH_MAP_DATA, type MishnahMapping } from "@shared/mishnah-map";
 import hebrewBookIcon from "@/assets/hebrew-book-icon.png";
 import type { TalmudLocation } from "@/types/talmud";
@@ -58,6 +58,12 @@ interface MishnahCardData {
   href: string;
 }
 
+// Local mapping for spelling variants in Mishnah map data
+const TRACTATE_NAME_VARIANTS: Record<string, string> = {
+  "Beitzah": "Beitza",
+  "Arakhin": "Arachin"
+};
+
 export default function MishnahMapPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSeder, setSelectedSeder] = useState<string>("all");
@@ -78,25 +84,32 @@ export default function MishnahMapPage() {
     const result: Record<string, Record<string, MishnahCardData[]>> = {};
 
     MISHNAH_MAP_DATA.forEach((entry: MishnahMapping) => {
+      // Normalize tractate name to handle spelling variants (e.g., Beitzah -> Beitza, Arakhin -> Arachin)
+      const normalizedTractate = TRACTATE_NAME_VARIANTS[entry.tractate] || normalizeDisplayTractateName(entry.tractate);
+      
       // Find which Seder this tractate belongs to
       let sederName: string | null = null;
+      
       for (const [seder, data] of Object.entries(SEDER_ORGANIZATION)) {
-        if (data.tractates.includes(entry.tractate)) {
+        if (data.tractates.includes(normalizedTractate)) {
           sederName = seder;
           break;
         }
       }
 
-      if (!sederName) return;
+      if (!sederName) {
+        console.warn(`Tractate not found in any Seder: ${entry.tractate} (normalized: ${normalizedTractate})`);
+        return;
+      }
 
       // Initialize seder if needed
       if (!result[sederName]) {
         result[sederName] = {};
       }
 
-      // Initialize tractate if needed
-      if (!result[sederName][entry.tractate]) {
-        result[sederName][entry.tractate] = [];
+      // Initialize tractate if needed (use normalized name for consistency)
+      if (!result[sederName][normalizedTractate]) {
+        result[sederName][normalizedTractate] = [];
       }
 
       // Format chapter:mishnah
@@ -113,8 +126,8 @@ export default function MishnahMapPage() {
       const tractateSlug = getTractateSlug(entry.tractate);
       const href = `/tractate/${tractateSlug}/${entry.startDaf}#section-${entry.startLine}`;
 
-      result[sederName][entry.tractate].push({
-        tractate: entry.tractate,
+      result[sederName][normalizedTractate].push({
+        tractate: normalizedTractate,
         chapterMishnah,
         talmudRange,
         href
