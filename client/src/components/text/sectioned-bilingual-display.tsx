@@ -259,7 +259,12 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
               styleUpdates['font-style'] = 'italic';
             }
             
-            if (el.hasAttribute('dir') && el.getAttribute('dir') === 'rtl') {
+            // Check for explicit dir attribute OR hebrew-text class
+            const isHebrew = (el.hasAttribute('dir') && el.getAttribute('dir') === 'rtl') || 
+                            el.classList.contains('hebrew-text') ||
+                            el.closest('.hebrew-text');
+            
+            if (isHebrew) {
               styleUpdates['direction'] = 'rtl';
               styleUpdates['font-weight'] = 'bold';
             }

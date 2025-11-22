@@ -352,7 +352,12 @@ export default function Dictionary() {
               styleUpdates['font-style'] = 'italic';
             }
             
-            if (el.hasAttribute('dir') && el.getAttribute('dir') === 'rtl') {
+            // Check for explicit dir attribute OR elements with Hebrew content
+            const isHebrew = (el.hasAttribute('dir') && el.getAttribute('dir') === 'rtl') || 
+                            el.classList.contains('font-hebrew') ||
+                            el.closest('.font-hebrew');
+            
+            if (isHebrew) {
               styleUpdates['direction'] = 'rtl';
               styleUpdates['font-weight'] = 'bold';
             }
