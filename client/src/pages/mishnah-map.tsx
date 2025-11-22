@@ -1,8 +1,8 @@
 import { useState, useMemo } from "react";
 import { Link } from "wouter";
-import { Search, ExternalLink } from "lucide-react";
+import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Select,
   SelectContent,
@@ -13,14 +13,54 @@ import {
 import { HamburgerMenu } from "@/components/navigation/hamburger-menu";
 import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
-import { getTractateSlug } from "@shared/tractates";
-import { MISHNAH_MAP_DATA, getAllTractates, type MishnahMapping } from "@shared/mishnah-map";
+import { getTractateSlug, TRACTATE_HEBREW_NAMES, SEDER_TRACTATES } from "@shared/tractates";
+import { MISHNAH_MAP_DATA, type MishnahMapping } from "@shared/mishnah-map";
 import hebrewBookIcon from "@/assets/hebrew-book-icon.png";
 import type { TalmudLocation } from "@/types/talmud";
 
+const SEDER_ORGANIZATION = {
+  "Seder Zeraim": {
+    hebrew: "סדר זרעים",
+    description: "Agriculture and blessings",
+    tractates: SEDER_TRACTATES.zeraim.map(t => t.name)
+  },
+  "Seder Moed": {
+    hebrew: "סדר מועד", 
+    description: "Holidays and appointed times",
+    tractates: SEDER_TRACTATES.moed.map(t => t.name)
+  },
+  "Seder Nashim": {
+    hebrew: "סדר נשים",
+    description: "Women and family law", 
+    tractates: SEDER_TRACTATES.nashim.map(t => t.name)
+  },
+  "Seder Nezikin": {
+    hebrew: "סדר נזיקין",
+    description: "Damages and civil law",
+    tractates: SEDER_TRACTATES.nezikin.map(t => t.name)
+  },
+  "Seder Kodashim": {
+    hebrew: "סדר קדשים", 
+    description: "Holy things and sacrifices",
+    tractates: SEDER_TRACTATES.kodashim.map(t => t.name)
+  },
+  "Seder Tohorot": {
+    hebrew: "סדר טהרות",
+    description: "Ritual purity",
+    tractates: SEDER_TRACTATES.tohorot.map(t => t.name)
+  }
+};
+
+interface MishnahCardData {
+  tractate: string;
+  chapterMishnah: string;
+  talmudRange: string;
+  href: string;
+}
+
 export default function MishnahMapPage() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedTractate, setSelectedTractate] = useState<string>("all");
+  const [selectedSeder, setSelectedSeder] = useState<string>("all");
 
   useSEO({
     title: "Mishnah-Talmud Mapping | ChavrutAI",
@@ -33,61 +73,96 @@ export default function MishnahMapPage() {
     window.location.href = `/tractate/${tractateSlug}/${folioSlug}`;
   };
 
-  const allTractates = useMemo(() => getAllTractates(), []);
+  // Transform data into organized structure by Seder and tractate
+  const organizedData = useMemo(() => {
+    const result: Record<string, Record<string, MishnahCardData[]>> = {};
 
+    MISHNAH_MAP_DATA.forEach((entry: MishnahMapping) => {
+      // Find which Seder this tractate belongs to
+      let sederName: string | null = null;
+      for (const [seder, data] of Object.entries(SEDER_ORGANIZATION)) {
+        if (data.tractates.includes(entry.tractate)) {
+          sederName = seder;
+          break;
+        }
+      }
+
+      if (!sederName) return;
+
+      // Initialize seder if needed
+      if (!result[sederName]) {
+        result[sederName] = {};
+      }
+
+      // Initialize tractate if needed
+      if (!result[sederName][entry.tractate]) {
+        result[sederName][entry.tractate] = [];
+      }
+
+      // Format chapter:mishnah
+      const chapterMishnah = entry.startMishnah === entry.endMishnah
+        ? `${entry.mishnahChapter}:${entry.startMishnah}`
+        : `${entry.mishnahChapter}:${entry.startMishnah}-${entry.endMishnah}`;
+
+      // Format Talmud range
+      const talmudRange = entry.startDaf === entry.endDaf && entry.startLine === entry.endLine
+        ? `${entry.startDaf}:${entry.startLine}`
+        : `${entry.startDaf}:${entry.startLine}-${entry.endDaf}:${entry.endLine}`;
+
+      // Generate link
+      const tractateSlug = getTractateSlug(entry.tractate);
+      const href = `/tractate/${tractateSlug}/${entry.startDaf}#section-${entry.startLine}`;
+
+      result[sederName][entry.tractate].push({
+        tractate: entry.tractate,
+        chapterMishnah,
+        talmudRange,
+        href
+      });
+    });
+
+    return result;
+  }, []);
+
+  // Filter data based on search and selected Seder
   const filteredData = useMemo(() => {
-    let data = MISHNAH_MAP_DATA;
+    let data = { ...organizedData };
 
-    if (selectedTractate !== "all") {
-      data = data.filter(entry => entry.tractate === selectedTractate);
+    // Filter by Seder
+    if (selectedSeder !== "all") {
+      data = { [selectedSeder]: data[selectedSeder] || {} };
     }
 
+    // Filter by search query
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
-      data = data.filter(entry =>
-        entry.tractate.toLowerCase().includes(query) ||
-        entry.mishnahChapter.toString().includes(query) ||
-        entry.startDaf.toLowerCase().includes(query)
-      );
+      const filtered: typeof data = {};
+
+      Object.entries(data).forEach(([seder, tractates]) => {
+        const filteredTractates: Record<string, MishnahCardData[]> = {};
+
+        Object.entries(tractates).forEach(([tractate, cards]) => {
+          const filteredCards = cards.filter(card =>
+            card.tractate.toLowerCase().includes(query) ||
+            card.chapterMishnah.includes(query) ||
+            card.talmudRange.toLowerCase().includes(query)
+          );
+
+          if (filteredCards.length > 0) {
+            filteredTractates[tractate] = filteredCards;
+          }
+        });
+
+        if (Object.keys(filteredTractates).length > 0) {
+          filtered[seder] = filteredTractates;
+        }
+      });
+
+      data = filtered;
     }
 
-    // Sort by traditional tractate order, then by chapter, then by Mishnah
-    return data.sort((a, b) => {
-      const tractateIndexA = allTractates.indexOf(a.tractate);
-      const tractateIndexB = allTractates.indexOf(b.tractate);
-      
-      if (tractateIndexA !== tractateIndexB) {
-        return tractateIndexA - tractateIndexB;
-      }
-      
-      if (a.mishnahChapter !== b.mishnahChapter) {
-        return a.mishnahChapter - b.mishnahChapter;
-      }
-      
-      return a.startMishnah - b.startMishnah;
-    });
-  }, [selectedTractate, searchQuery, allTractates]);
-
-  const generateChavrutAILink = (entry: MishnahMapping): string => {
-    const tractateSlug = getTractateSlug(entry.tractate);
-    const page = entry.startDaf;
-    const section = entry.startLine;
-    return `/tractate/${tractateSlug}/${page}#section-${section}`;
-  };
-
-  const formatChapterMishnah = (entry: MishnahMapping): string => {
-    if (entry.startMishnah === entry.endMishnah) {
-      return `${entry.mishnahChapter}:${entry.startMishnah}`;
-    }
-    return `${entry.mishnahChapter}:${entry.startMishnah}-${entry.endMishnah}`;
-  };
-
-  const formatTalmudLocation = (entry: MishnahMapping): string => {
-    if (entry.startDaf === entry.endDaf && entry.startLine === entry.endLine) {
-      return `${entry.startDaf}:${entry.startLine}`;
-    }
-    return `${entry.startDaf}:${entry.startLine} - ${entry.endDaf}:${entry.endLine}`;
-  };
+    return data;
+  }, [organizedData, selectedSeder, searchQuery]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -125,11 +200,11 @@ export default function MishnahMapPage() {
           </h1>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
             Explore the connections between Mishnah passages and their corresponding discussions in the Talmud. 
-            Click any link to navigate directly to the relevant section.
+            Click any Mishnah to navigate directly to the relevant section.
           </p>
         </div>
 
-        {/* Info Box - Moved to top */}
+        {/* Info Box */}
         <Card className="mb-6 bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800">
           <CardContent className="p-6">
             <h3 className="font-semibold text-lg mb-2 text-blue-900 dark:text-blue-100">
@@ -146,8 +221,7 @@ export default function MishnahMapPage() {
               </a>.
             </p>
             <p className="text-sm text-blue-800 dark:text-blue-200 mb-2">
-              The table shows where each Mishnah passage appears in the Talmud, with direct links to the specific section in ChavrutAI.
-              Use the search and filter tools below to find specific passages.
+              Browse Mishnah passages organized by Seder and tractate. Each card shows the Mishnah reference and its location in the Talmud.
             </p>
             <p className="text-sm text-blue-800 dark:text-blue-200">
               See also the discussion of this table in <a 
@@ -171,7 +245,7 @@ export default function MishnahMapPage() {
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
                   type="text"
-                  placeholder="Search by tractate, chapter, or page..."
+                  placeholder="Search by tractate, Mishnah, or page..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="pl-10"
@@ -179,78 +253,95 @@ export default function MishnahMapPage() {
                 />
               </div>
 
-              {/* Tractate Filter */}
+              {/* Seder Filter */}
               <div className="md:w-64">
-                <Select value={selectedTractate} onValueChange={setSelectedTractate}>
-                  <SelectTrigger data-testid="select-tractate">
-                    <SelectValue placeholder="All Tractates" />
+                <Select value={selectedSeder} onValueChange={setSelectedSeder}>
+                  <SelectTrigger data-testid="select-seder">
+                    <SelectValue placeholder="All Sedarim" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Tractates</SelectItem>
-                    {allTractates.map((tractate) => (
-                      <SelectItem key={tractate} value={tractate}>
-                        {tractate}
+                    <SelectItem value="all">All Sedarim</SelectItem>
+                    {Object.keys(SEDER_ORGANIZATION).map((seder) => (
+                      <SelectItem key={seder} value={seder}>
+                        {seder}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
             </div>
-
-            <div className="mt-4 text-sm text-muted-foreground">
-              Showing {filteredData.length} of {MISHNAH_MAP_DATA.length} mappings
-            </div>
           </CardContent>
         </Card>
 
-        {/* Results Table */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Mishnah Mappings</CardTitle>
-          </CardHeader>
-          <CardContent className="p-0">
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead className="bg-muted/50 border-b border-border">
-                  <tr>
-                    <th className="text-left p-4 font-semibold text-sm">Tractate</th>
-                    <th className="text-left p-4 font-semibold text-sm">Chapter:Mishnah</th>
-                    <th className="text-left p-4 font-semibold text-sm">Talmud Location</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredData.length === 0 ? (
-                    <tr>
-                      <td colSpan={3} className="text-center py-8 text-muted-foreground">
-                        No mappings found. Try adjusting your search or filter.
-                      </td>
-                    </tr>
-                  ) : (
-                    filteredData.map((entry, index) => (
-                      <tr
-                        key={`${entry.tractate}-${entry.mishnahChapter}-${entry.startMishnah}-${index}`}
-                        className="border-b border-border hover:bg-muted/30 transition-colors"
-                        data-testid={`row-mapping-${index}`}
-                      >
-                        <td className="p-4 font-medium">{entry.tractate}</td>
-                        <td className="p-4 font-mono text-sm">{formatChapterMishnah(entry)}</td>
-                        <td className="p-4">
-                          <Link
-                            href={generateChavrutAILink(entry)}
-                            className="font-mono text-sm inline-flex items-center gap-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline transition-colors"
-                            data-testid={`link-location-${index}`}
-                          >
-                            {formatTalmudLocation(entry)} <ExternalLink className="h-3 w-3" />
-                          </Link>
-                        </td>
-                      </tr>
-                    ))
-                  )}
-                </tbody>
-              </table>
+        {/* Seder Sections */}
+        <div className="space-y-4">
+          {Object.entries(filteredData).map(([sederName, tractates]) => {
+            const sederInfo = SEDER_ORGANIZATION[sederName as keyof typeof SEDER_ORGANIZATION];
+            
+            return (
+              <div key={sederName} className="space-y-2">
+                {/* Seder Header */}
+                <div className="text-center border-b border-border pb-2">
+                  <h3 className="text-xl font-semibold text-primary">
+                    {sederName}
+                  </h3>
+                  <p className="text-base text-primary/70 font-hebrew">
+                    {sederInfo.hebrew}
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    {sederInfo.description}
+                  </p>
+                </div>
+
+                {/* Tractates */}
+                {Object.entries(tractates).map(([tractate, cards]) => (
+                  <div key={tractate} className="space-y-2">
+                    {/* Tractate Header */}
+                    <div className="flex items-baseline gap-2 px-2 mt-4">
+                      <h4 className="text-lg font-semibold text-primary">{tractate}</h4>
+                      <span className="text-sm text-primary/70 font-hebrew">
+                        {TRACTATE_HEBREW_NAMES[tractate as keyof typeof TRACTATE_HEBREW_NAMES] || ''}
+                      </span>
+                      <span className="text-xs text-muted-foreground ml-auto">
+                        {cards.length} {cards.length === 1 ? 'Mishnah' : 'Mishnahs'}
+                      </span>
+                    </div>
+
+                    {/* Mishnah Cards Grid */}
+                    <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-2">
+                      {cards.map((card, index) => (
+                        <Link 
+                          key={`${card.tractate}-${card.chapterMishnah}-${index}`}
+                          href={card.href}
+                          data-testid={`card-mishnah-${tractate}-${index}`}
+                        >
+                          <Card className="hover:shadow-sm transition-shadow cursor-pointer border-border hover:border-primary/30 bg-card/50 hover:bg-card h-full">
+                            <div className="p-3 text-center">
+                              <div className="text-base font-semibold text-primary mb-1">
+                                {card.chapterMishnah}
+                              </div>
+                              <div className="text-xs text-muted-foreground font-mono">
+                                {card.talmudRange}
+                              </div>
+                            </div>
+                          </Card>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            );
+          })}
+
+          {Object.keys(filteredData).length === 0 && (
+            <div className="text-center py-12">
+              <p className="text-lg text-muted-foreground">
+                No Mishnah mappings found. Try adjusting your search or filter.
+              </p>
             </div>
-          </CardContent>
-        </Card>
+          )}
+        </div>
       </div>
 
       <Footer />
