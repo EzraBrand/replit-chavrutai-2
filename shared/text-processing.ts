@@ -283,8 +283,11 @@ export function replaceTerms(text: string): string {
   
   let processedText = text;
   
-  // Apply term replacements
-  Object.entries(termReplacements).forEach(([original, replacement]) => {
+  // Apply term replacements - sort by length (longest first) to avoid partial replacements
+  // This prevents "relations" from replacing before "sexual relations"
+  const sortedTerms = Object.entries(termReplacements).sort((a, b) => b[0].length - a[0].length);
+  
+  sortedTerms.forEach(([original, replacement]) => {
     // Use word boundaries to avoid partial matches, case-insensitive for some terms
     const regex = new RegExp(`\\b${original.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'gi');
     processedText = processedText.replace(regex, replacement);
