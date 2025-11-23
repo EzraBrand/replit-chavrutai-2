@@ -131,9 +131,17 @@ export default function MishnahMapPage() {
                   : `${mapping.startMishnah}-${mapping.endMishnah}`;
 
                 // Format Talmud range
-                const talmudRange = mapping.startDaf === mapping.endDaf && mapping.startLine === mapping.endLine
-                  ? `${mapping.startDaf}:${mapping.startLine}`
-                  : `${mapping.startDaf}:${mapping.startLine}-${mapping.endDaf}:${mapping.endLine}`;
+                let talmudRange: string;
+                if (mapping.startDaf === mapping.endDaf && mapping.startLine === mapping.endLine) {
+                  // Single line
+                  talmudRange = `${mapping.startDaf}:${mapping.startLine}`;
+                } else if (mapping.startDaf === mapping.endDaf) {
+                  // Same page, different lines
+                  talmudRange = `${mapping.startDaf}:${mapping.startLine}-${mapping.endLine}`;
+                } else {
+                  // Different pages
+                  talmudRange = `${mapping.startDaf}:${mapping.startLine}-${mapping.endDaf}:${mapping.endLine}`;
+                }
 
                 // Generate link using normalized tractate name for correct slug
                 const normalizedTractate = TRACTATE_NAME_VARIANTS[mapping.tractate] || normalizeDisplayTractateName(mapping.tractate);
@@ -166,9 +174,17 @@ export default function MishnahMapPage() {
                     ? `${mapping.startMishnah}`
                     : `${mapping.startMishnah}-${mapping.endMishnah}`;
 
-                  const talmudRange = mapping.startDaf === mapping.endDaf && mapping.startLine === mapping.endLine
-                    ? `${mapping.startDaf}:${mapping.startLine}`
-                    : `${mapping.startDaf}:${mapping.startLine}-${mapping.endDaf}:${mapping.endLine}`;
+                  let talmudRange: string;
+                  if (mapping.startDaf === mapping.endDaf && mapping.startLine === mapping.endLine) {
+                    // Single line
+                    talmudRange = `${mapping.startDaf}:${mapping.startLine}`;
+                  } else if (mapping.startDaf === mapping.endDaf) {
+                    // Same page, different lines
+                    talmudRange = `${mapping.startDaf}:${mapping.startLine}-${mapping.endLine}`;
+                  } else {
+                    // Different pages
+                    talmudRange = `${mapping.startDaf}:${mapping.startLine}-${mapping.endDaf}:${mapping.endLine}`;
+                  }
 
                   const normalizedTractate = TRACTATE_NAME_VARIANTS[mapping.tractate] || normalizeDisplayTractateName(mapping.tractate);
                   const tractateSlug = getTractateSlug(normalizedTractate);
