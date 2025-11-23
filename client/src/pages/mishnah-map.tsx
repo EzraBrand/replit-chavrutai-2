@@ -139,8 +139,19 @@ export default function MishnahMapPage() {
                   // Same page, different lines
                   talmudRange = `${mapping.startDaf}:${mapping.startLine}-${mapping.endLine}`;
                 } else {
-                  // Different pages
-                  talmudRange = `${mapping.startDaf}:${mapping.startLine}-${mapping.endDaf}:${mapping.endLine}`;
+                  // Different pages - check if same folio number
+                  const startFolio = mapping.startDaf.slice(0, -1);
+                  const startSide = mapping.startDaf.slice(-1);
+                  const endFolio = mapping.endDaf.slice(0, -1);
+                  const endSide = mapping.endDaf.slice(-1);
+                  
+                  if (startFolio === endFolio) {
+                    // Same folio number, different sides (e.g., 108a to 108b)
+                    talmudRange = `${mapping.startDaf}:${mapping.startLine}-${endSide}:${mapping.endLine}`;
+                  } else {
+                    // Completely different folios
+                    talmudRange = `${mapping.startDaf}:${mapping.startLine}-${mapping.endDaf}:${mapping.endLine}`;
+                  }
                 }
 
                 // Generate link using normalized tractate name for correct slug
@@ -182,8 +193,19 @@ export default function MishnahMapPage() {
                     // Same page, different lines
                     talmudRange = `${mapping.startDaf}:${mapping.startLine}-${mapping.endLine}`;
                   } else {
-                    // Different pages
-                    talmudRange = `${mapping.startDaf}:${mapping.startLine}-${mapping.endDaf}:${mapping.endLine}`;
+                    // Different pages - check if same folio number
+                    const startFolio = mapping.startDaf.slice(0, -1);
+                    const startSide = mapping.startDaf.slice(-1);
+                    const endFolio = mapping.endDaf.slice(0, -1);
+                    const endSide = mapping.endDaf.slice(-1);
+                    
+                    if (startFolio === endFolio) {
+                      // Same folio number, different sides (e.g., 108a to 108b)
+                      talmudRange = `${mapping.startDaf}:${mapping.startLine}-${endSide}:${mapping.endLine}`;
+                    } else {
+                      // Completely different folios
+                      talmudRange = `${mapping.startDaf}:${mapping.startLine}-${mapping.endDaf}:${mapping.endLine}`;
+                    }
                   }
 
                   const normalizedTractate = TRACTATE_NAME_VARIANTS[mapping.tractate] || normalizeDisplayTractateName(mapping.tractate);
