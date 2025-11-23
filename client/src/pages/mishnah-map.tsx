@@ -321,14 +321,14 @@ export default function MishnahMapPage() {
               Browse Mishnah passages organized by Seder, tractate, and chapter. Each tile shows the Mishnah number and its location in the Talmud.
             </p>
             <p className="text-sm text-blue-800 dark:text-blue-200">
-              See also the discussion of this table in <a 
-                href="https://www.ezrabrand.com/p/a-quantitative-analysis-of-the-talmudic" 
+              For more information about this mapping table, see <a 
+                href="https://www.ezrabrand.com/p/introducing-chavrutais-mishnah-talmud" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="underline hover:text-blue-600 dark:hover:text-blue-300"
               >
-                A Quantitative Analysis of the Talmudic 'Sugya': Identifying the Upper Bound of Sugya Length, and Lower Bound of Number of Sugyot
-              </a>, sections "Methodology" and "Appendix 2 - Where on the page does each Chapter start?"
+                "Introducing ChavrutAI's Mishnah-Talmud Mapping Table"
+              </a> (Nov 23, 2025)
             </p>
           </CardContent>
         </Card>
