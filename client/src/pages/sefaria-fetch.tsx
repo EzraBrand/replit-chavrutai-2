@@ -13,6 +13,7 @@ import { formatEnglishText, processHebrewText } from "@/lib/text-processing";
 import { TRACTATE_LISTS } from "@shared/tractates";
 import { BlogPostSelector } from "@/components/sefaria/blog-post-selector";
 import { locationToSefariaUrl } from "@/lib/blog-post-utils";
+import { Footer } from "@/components/footer";
 
 const tractates = TRACTATE_LISTS["Talmud Bavli"];
 const pages = Array.from({ length: 180 }, (_, i) => i + 2).flatMap(num => [`${num}a`, `${num}b`]);
@@ -94,6 +95,16 @@ export default function SefariaFetchPage() {
         }
 
         nodesToProcess.forEach(node => {
+          const el = node as HTMLElement;
+          
+          if (el.hasAttribute('data-no-copy')) {
+            const parent = el.parentNode;
+            if (parent) {
+              parent.removeChild(el);
+            }
+            return;
+          }
+          
           const tagName = node.tagName.toLowerCase();
           
           if (!allowedTags.includes(tagName)) {
@@ -166,6 +177,9 @@ export default function SefariaFetchPage() {
             text += node.textContent;
           } else if (node.nodeType === Node.ELEMENT_NODE) {
             const el = node as HTMLElement;
+            if (el.hasAttribute('data-no-copy')) {
+              return;
+            }
             const tag = el.tagName.toLowerCase();
             
             if (tag === 'br') {
@@ -232,8 +246,18 @@ export default function SefariaFetchPage() {
           const formattedEnglish = formatEnglishText(englishText);
           const englishParagraphs = formattedEnglish.split('\n\n').filter(p => p.trim());
 
+          const sectionNumber = i + 1;
+          const sectionLabel = data.section ? `${data.page}:${data.section}` : `${data.page}:${sectionNumber}`;
+
           return (
             <div key={i} className="space-y-4">
+              <div 
+                className="text-sm font-semibold text-gray-500 border-b pb-1 mb-3"
+                data-no-copy="true"
+              >
+                {sectionLabel}
+              </div>
+              
               {hebrewText && (
                 <div 
                   dir="rtl" 
@@ -283,9 +307,9 @@ export default function SefariaFetchPage() {
       <div className="container mx-auto px-4 py-8 max-w-5xl">
         <Card className="mb-8">
           <CardHeader>
-            <CardTitle>Sefaria Text Fetcher</CardTitle>
+            <CardTitle>Display Talmud Text by Range</CardTitle>
             <CardDescription>
-              Fetch Talmud texts from Sefaria using dropdowns or URL
+              Fetch Talmud texts from Sefaria using dropdowns, URL, or blog posts
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
@@ -452,6 +476,8 @@ export default function SefariaFetchPage() {
           </Card>
         )}
       </div>
+      
+      <Footer />
     </div>
   );
 }
