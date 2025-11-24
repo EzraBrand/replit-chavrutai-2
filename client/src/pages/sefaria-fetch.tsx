@@ -14,6 +14,8 @@ import { TRACTATE_LISTS } from "@shared/tractates";
 import { BlogPostSelector } from "@/components/sefaria/blog-post-selector";
 import { locationToSefariaUrl } from "@/lib/blog-post-utils";
 import { Footer } from "@/components/footer";
+import { ChatPanel } from "@/components/sefaria/chat-panel";
+import type { ChatContext } from "@/hooks/use-chat";
 
 const tractates = TRACTATE_LISTS["Talmud Bavli"];
 const pages = Array.from({ length: 180 }, (_, i) => i + 2).flatMap(num => [`${num}a`, `${num}b`]);
@@ -302,9 +304,18 @@ export default function SefariaFetchPage() {
     );
   };
 
+  // Create chat context from fetched data
+  const chatContext: ChatContext | undefined = data && !data.error ? {
+    tractate: data.tractate,
+    page: data.page,
+    section: data.section,
+    hebrewText: data.hebrewSections.join('\n\n'),
+    englishText: data.englishSections.join('\n\n')
+  } : undefined;
+
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto px-4 py-8 max-w-5xl">
+      <div className="container mx-auto px-4 py-8 max-w-7xl">
         <Card className="mb-8">
           <CardHeader>
             <CardTitle>Display Talmud Text by Range</CardTitle>
@@ -449,31 +460,37 @@ export default function SefariaFetchPage() {
         )}
 
         {data && !data.error && (
-          <Card>
-            <CardContent className="pt-6 space-y-4">
-              <Button 
-                onClick={handleSelectAll} 
-                variant="outline"
-                data-testid="button-select-all"
-              >
-                <Copy className="mr-2 h-4 w-4" />
-                Select All Text (for copy/paste)
-              </Button>
-              
-              <div 
-                id="text-display-container"
-                className="bg-white border rounded-lg p-6" 
-                data-testid="text-display-container"
-                style={{ 
-                  fontFamily: 'Calibri, sans-serif', 
-                  fontSize: '12pt',
-                  lineHeight: '1.15'
-                }}
-              >
-                {renderSections()}
-              </div>
-            </CardContent>
-          </Card>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <Card>
+              <CardContent className="pt-6 space-y-4">
+                <Button 
+                  onClick={handleSelectAll} 
+                  variant="outline"
+                  data-testid="button-select-all"
+                >
+                  <Copy className="mr-2 h-4 w-4" />
+                  Select All Text (for copy/paste)
+                </Button>
+                
+                <div 
+                  id="text-display-container"
+                  className="bg-white border rounded-lg p-6" 
+                  data-testid="text-display-container"
+                  style={{ 
+                    fontFamily: 'Calibri, sans-serif', 
+                    fontSize: '12pt',
+                    lineHeight: '1.15'
+                  }}
+                >
+                  {renderSections()}
+                </div>
+              </CardContent>
+            </Card>
+
+            <div className="lg:sticky lg:top-4 lg:h-[calc(100vh-8rem)]">
+              <ChatPanel context={chatContext} />
+            </div>
+          </div>
         )}
       </div>
       
