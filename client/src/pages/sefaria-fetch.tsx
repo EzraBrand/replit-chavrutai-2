@@ -11,6 +11,8 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Search, Copy } from "lucide-react";
 import { formatEnglishText, processHebrewText } from "@/lib/text-processing";
 import { TRACTATE_LISTS } from "@shared/tractates";
+import { BlogPostSelector } from "@/components/sefaria/blog-post-selector";
+import { locationToSefariaUrl } from "@/lib/blog-post-utils";
 
 const tractates = TRACTATE_LISTS["Talmud Bavli"];
 const pages = Array.from({ length: 180 }, (_, i) => i + 2).flatMap(num => [`${num}a`, `${num}b`]);
@@ -27,7 +29,7 @@ interface SefariaResponse {
 }
 
 export default function SefariaFetchPage() {
-  const [inputMethod, setInputMethod] = useState<"dropdown" | "url">("dropdown");
+  const [inputMethod, setInputMethod] = useState<"dropdown" | "url" | "blogpost">("dropdown");
   const [tractate, setTractate] = useState<string>(tractates[0]);
   const [page, setPage] = useState<string>("2a");
   const [section, setSection] = useState<string>("all");
@@ -291,7 +293,7 @@ export default function SefariaFetchPage() {
               <Label>Input Method</Label>
               <RadioGroup 
                 value={inputMethod} 
-                onValueChange={(value: "dropdown" | "url") => setInputMethod(value)}
+                onValueChange={(value: "dropdown" | "url" | "blogpost") => setInputMethod(value)}
                 data-testid="radio-input-method"
               >
                 <div className="flex items-center space-x-2">
@@ -302,10 +304,14 @@ export default function SefariaFetchPage() {
                   <RadioGroupItem value="url" id="url" data-testid="radio-url" />
                   <Label htmlFor="url" className="cursor-pointer">Sefaria URL</Label>
                 </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="blogpost" id="blogpost" data-testid="radio-blogpost" />
+                  <Label htmlFor="blogpost" className="cursor-pointer">Blog Post Selection</Label>
+                </div>
               </RadioGroup>
             </div>
 
-            {inputMethod === "dropdown" ? (
+            {inputMethod === "dropdown" && (
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="tractate">Tractate</Label>
@@ -356,7 +362,9 @@ export default function SefariaFetchPage() {
                   </Select>
                 </div>
               </div>
-            ) : (
+            )}
+
+            {inputMethod === "url" && (
               <div className="space-y-2">
                 <Label htmlFor="sefaria-url">Sefaria URL</Label>
                 <Input
@@ -367,6 +375,18 @@ export default function SefariaFetchPage() {
                   data-testid="input-sefaria-url"
                 />
               </div>
+            )}
+
+            {inputMethod === "blogpost" && (
+              <BlogPostSelector
+                onSelectPost={(location, blogUrl) => {
+                  setUrl(locationToSefariaUrl(location));
+                  setInputMethod("url");
+                  setTimeout(() => {
+                    handleFetch();
+                  }, 100);
+                }}
+              />
             )}
 
             <Button 
