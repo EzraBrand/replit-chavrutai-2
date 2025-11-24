@@ -209,7 +209,6 @@ export function replaceTerms(text: string): string {
     "nations of the world": "non-Jewish nations",
     "sexual relations": "sex",
     "sexual sex": "sex",
-    "Sages": "rabbis",
     "mishna": "Mishnah",
     "rainy season": "winter",
     ", son of R' ": " ben "
