@@ -1037,18 +1037,23 @@ Tractate: ${context.tractate}
 Page: ${context.page}
 Section: ${context.section || 'all'}
 
-Hebrew Text:
-${context.hebrewText?.slice(0, 500) || 'N/A'}
+The text below is from Sefaria's Steinsaltz Edition. In the English text:
+- **Bolded text** represents Rabbi Adin Even-Israel Steinsaltz's direct translation of the Aramaic/Hebrew
+- Regular (non-bolded) text is Steinsaltz's interpretation and explanation
 
-English Text:
-${context.englishText?.slice(0, 500) || 'N/A'}` : ''}
+Hebrew Text:
+${context.hebrewText || 'N/A'}
+
+English Text (Steinsaltz Edition):
+${context.englishText || 'N/A'}` : ''}
 
 When answering questions:
 1. Use the current Talmud text context when relevant
 2. Search the blog archive for related commentary using the searchBlogPosts tool
-3. Provide clear, educational responses
+3. Provide clear, educational responses using markdown formatting where helpful
 4. Cite blog posts when referencing them
-5. Be concise but thorough`
+5. Be concise but thorough
+6. When discussing the text, distinguish between translation and interpretation as needed`
       };
 
       const allMessages: OpenAI.Chat.ChatCompletionMessageParam[] = [

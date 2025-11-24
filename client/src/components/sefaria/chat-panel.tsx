@@ -7,6 +7,8 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Send, Trash2, ExternalLink, Loader2 } from 'lucide-react';
 import { useChat, type ChatContext, type ToolCall } from '@/hooks/use-chat';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 interface ChatPanelProps {
   context?: ChatContext;
@@ -113,7 +115,17 @@ export function ChatPanel({ context }: ChatPanelProps) {
                       : 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100'
                   }`}
                 >
-                  <div className="whitespace-pre-wrap break-words">{msg.content}</div>
+                  {msg.role === 'user' ? (
+                    <div className="whitespace-pre-wrap break-words">{msg.content}</div>
+                  ) : (
+                    <div className="prose prose-sm dark:prose-invert max-w-none
+                      prose-p:my-2 prose-ul:my-2 prose-ol:my-2 prose-li:my-0
+                      prose-strong:font-bold prose-strong:text-gray-900 dark:prose-strong:text-gray-100">
+                      <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                        {msg.content}
+                      </ReactMarkdown>
+                    </div>
+                  )}
                   
                   {msg.role === 'assistant' && i === messages.length - 1 && lastToolCalls.length > 0 && (
                     renderToolCalls(lastToolCalls)
