@@ -266,7 +266,7 @@ export default function SefariaFetchPage() {
                   className="text-gray-800"
                   style={{ 
                     fontFamily: 'Roboto, sans-serif', 
-                    fontSize: '12pt',
+                    fontSize: '11pt',
                     lineHeight: '1.15'
                   }}
                 >
