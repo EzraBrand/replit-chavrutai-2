@@ -662,9 +662,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const processedHebrewSections = hebrewSections.map((section: string) => processHebrewText(section || ''));
       const processedEnglishSections = englishSections.map((section: string) => processEnglishText(section || ''));
 
-      const span = parsedSection 
-        ? `${parsedTractate} ${parsedPage}:${parsedSection}`
-        : `${parsedTractate} ${parsedPage}:1-${englishSections.length}`;
+      // Calculate span based on the actual range fetched
+      let span: string;
+      if (crossPageRangeMatch) {
+        // Cross-page range
+        const startPage = crossPageRangeMatch[2];
+        const startSection = crossPageRangeMatch[3];
+        const endPage = crossPageRangeMatch[4];
+        const endSection = crossPageRangeMatch[5];
+        span = `${parsedTractate} ${startPage}:${startSection}-${endPage}:${endSection}`;
+      } else {
+        // Check for same-page range
+        const rangeMatch = reference.match(/\.(\d+)-(\d+)$/);
+        if (rangeMatch) {
+          const startSection = rangeMatch[1];
+          const endSection = rangeMatch[2];
+          span = `${parsedTractate} ${parsedPage}:${startSection}-${endSection}`;
+        } else if (parsedSection) {
+          // Single section
+          span = `${parsedTractate} ${parsedPage}:${parsedSection}`;
+        } else {
+          // All sections on the page
+          span = `${parsedTractate} ${parsedPage}:1-${englishSections.length}`;
+        }
+      }
 
       res.json({
         tractate: parsedTractate,

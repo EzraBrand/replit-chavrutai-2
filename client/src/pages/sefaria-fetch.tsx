@@ -224,7 +224,7 @@ export default function SefariaFetchPage() {
     return (
       <div className="space-y-8">
         {data.span && (
-          <div className="font-semibold text-lg border-b pb-2">
+          <div className="sticky top-0 bg-sepia-50 z-10 font-semibold text-lg border-b border-sepia-300 pb-2 mb-4 -mx-6 px-6 pt-2">
             {data.span}
           </div>
         )}
