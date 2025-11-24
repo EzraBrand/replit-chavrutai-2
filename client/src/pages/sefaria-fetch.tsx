@@ -131,38 +131,29 @@ export default function SefariaFetchPage() {
             
             attrsToRemove.forEach(attr => el.removeAttribute(attr));
             
-            const currentStyle = el.getAttribute('style') || '';
-            const styleUpdates: Record<string, string> = {};
+            // Only preserve specific styles we want to keep
+            const allowedStyles: Record<string, string> = {};
             
             if (tagName === 'strong' || tagName === 'b') {
-              styleUpdates['font-weight'] = 'bold';
+              allowedStyles['font-weight'] = 'bold';
             }
             if (tagName === 'em' || tagName === 'i') {
-              styleUpdates['font-style'] = 'italic';
+              allowedStyles['font-style'] = 'italic';
             }
             
             if (el.hasAttribute('dir') && el.getAttribute('dir') === 'rtl') {
-              styleUpdates['direction'] = 'rtl';
-              styleUpdates['font-weight'] = 'bold';
+              allowedStyles['direction'] = 'rtl';
+              allowedStyles['font-weight'] = 'bold';
             }
             
-            if (Object.keys(styleUpdates).length > 0) {
-              const existingStyles = currentStyle.split(';')
-                .filter(s => s.trim())
-                .reduce((acc, style) => {
-                  const [key, value] = style.split(':').map(s => s.trim());
-                  if (key && value && !styleUpdates.hasOwnProperty(key)) {
-                    acc[key] = value;
-                  }
-                  return acc;
-                }, {} as Record<string, string>);
-              
-              const mergedStyles = { ...existingStyles, ...styleUpdates };
-              const newStyle = Object.entries(mergedStyles)
+            // Remove all inline styles and only set the allowed ones
+            if (Object.keys(allowedStyles).length > 0) {
+              const newStyle = Object.entries(allowedStyles)
                 .map(([key, value]) => `${key}: ${value}`)
                 .join('; ');
-              
               el.setAttribute('style', newStyle);
+            } else {
+              el.removeAttribute('style');
             }
           }
         });
