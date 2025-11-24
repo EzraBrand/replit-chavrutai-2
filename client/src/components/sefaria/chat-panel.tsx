@@ -154,7 +154,7 @@ export function ChatPanel({ context }: ChatPanelProps) {
         {context && (
           <div className="mb-3 flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400">
             <Badge variant="outline" className="text-xs">
-              Context: {context.tractate} {context.page}{context.section !== 'all' ? `:${context.section}` : ''}
+              Context: {context.range || `${context.tractate} ${context.page}${context.section !== 'all' ? `:${context.section}` : ''}`}
             </Badge>
           </div>
         )}

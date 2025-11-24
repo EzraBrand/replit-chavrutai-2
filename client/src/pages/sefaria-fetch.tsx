@@ -253,19 +253,12 @@ export default function SefariaFetchPage() {
 
           return (
             <div key={i} className="space-y-4">
-              <div 
-                className="text-sm font-semibold text-gray-500 border-b pb-1 mb-3"
-                data-no-copy="true"
-              >
-                {sectionLabel}
-              </div>
-              
               {hebrewText && (
                 <div 
                   dir="rtl" 
                   className="text-gray-900"
                   style={{ 
-                    fontFamily: 'Calibri, sans-serif', 
+                    fontFamily: 'Assistant, sans-serif', 
                     fontSize: '12pt',
                     fontWeight: 'bold',
                     lineHeight: '1.15'
@@ -279,9 +272,9 @@ export default function SefariaFetchPage() {
               
               {englishText && (
                 <div 
-                  className="english-text text-gray-800"
+                  className="text-gray-800"
                   style={{ 
-                    fontFamily: 'Calibri, sans-serif', 
+                    fontFamily: 'Roboto, sans-serif', 
                     fontSize: '12pt',
                     lineHeight: '1.15'
                   }}
@@ -309,12 +302,13 @@ export default function SefariaFetchPage() {
     tractate: data.tractate,
     page: data.page,
     section: data.section,
+    range: data.span,
     hebrewText: data.hebrewSections.join('\n\n'),
     englishText: data.englishSections.join('\n\n')
   } : undefined;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-sepia-100">
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         <Card className="mb-8">
           <CardHeader>
@@ -474,10 +468,9 @@ export default function SefariaFetchPage() {
                 
                 <div 
                   id="text-display-container"
-                  className="bg-white border rounded-lg p-6" 
+                  className="bg-sepia-50 border border-sepia-200 rounded-lg p-6" 
                   data-testid="text-display-container"
                   style={{ 
-                    fontFamily: 'Calibri, sans-serif', 
                     fontSize: '12pt',
                     lineHeight: '1.15'
                   }}

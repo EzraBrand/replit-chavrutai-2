@@ -10,6 +10,7 @@ export interface ChatContext {
   tractate?: string;
   page?: string;
   section?: number | string;
+  range?: string;
   hebrewText?: string;
   englishText?: string;
 }
