@@ -307,16 +307,16 @@ export default function SefariaFetchPage() {
           </CardHeader>
           <CardContent className="pt-0 text-sm text-sepia-700 space-y-3">
             <p>
-              This page displays Talmud text by a user-specified range, as opposed to the main Talmud reader, which always displays an entire single page. 
+              This page displays Talmud text by a user-specified range, as opposed to the main Talmud reader, which always displays a single Talmud page. 
               You can specify a range using one of three options:
             </p>
             <ul className="list-disc list-inside space-y-1 ml-2">
               <li><strong>Dropdown Selection:</strong> Choose tractate and page, with an optional section</li>
               <li><strong>Sefaria URL:</strong> Paste a Sefaria URL (can span multiple pages, e.g., <code className="text-xs bg-sepia-200 px-1 rounded">https://www.sefaria.org/Berakhot.16b.18-17a.12</code>)</li>
-              <li><strong>Blog Post Selection:</strong> Choose from a dropdown list of blog posts that discuss specific sugyot to auto-fill the Sefaria URL</li>
+              <li><strong>Blog Post Selection:</strong> Choose from a dropdown list of blog post titles and ranges of specific sugyot to auto-fill the Sefaria URL</li>
             </ul>
             <p>
-              Use the AI assistant (at the bottom on mobile, on the right side on desktop) to explore the text with full access to both the displayed passage and 125 published Talmud & Tech blog posts.
+              Use the AI assistant (at the bottom on mobile, on the right side on desktop) to explore the text.  The AI assistant will see the displayed Talmud text (Hebrew and English), and has access to 125 published Talmud & Tech blog posts.
             </p>
           </CardContent>
         </Card>
