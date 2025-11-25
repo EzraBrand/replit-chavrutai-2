@@ -64,12 +64,12 @@ export async function sendChatbotAlert(params: ChatbotAlertParams): Promise<void
   try {
     const gmail = await getUncachableGmailClient();
     
-    // Get the user's email address from their Gmail profile
-    const profile = await gmail.users.getProfile({ userId: 'me' });
-    const userEmail = profile.data.emailAddress;
+    // Get recipient email from environment variable
+    const recipientEmail = process.env.CHATBOT_ALERT_EMAIL;
     
-    if (!userEmail) {
-      throw new Error('Could not get user email address');
+    if (!recipientEmail) {
+      console.log('CHATBOT_ALERT_EMAIL not set, skipping email notification');
+      return;
     }
     
     const subject = `ChavrutAI Chatbot Query: ${params.talmudRange}`;
@@ -93,8 +93,7 @@ This is an automated notification from ChavrutAI's Sugya Viewer.
     const email = [
       'Content-Type: text/plain; charset="UTF-8"',
       'MIME-Version: 1.0',
-      `To: ${userEmail}`,
-      `From: ${userEmail}`,
+      `To: ${recipientEmail}`,
       `Subject: ${subject}`,
       '',
       body
