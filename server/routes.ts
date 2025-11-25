@@ -11,6 +11,7 @@ import { generateSederSitemap } from "./routes/sitemap-seder";
 import { z } from "zod";
 import OpenAI from "openai";
 import { getBlogPostSearch } from "./blog-search";
+import { sendChatbotAlert } from "./lib/gmail-client";
 
 // Import text processing utilities from shared library
 import { processHebrewTextCore as processHebrewText, processEnglishText } from "@shared/text-processing";
@@ -1047,6 +1048,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/chat", async (req, res) => {
     try {
       const { messages, context } = req.body;
+
+      // Send email alert for chatbot usage (non-blocking)
+      const userMessage = messages.find((m: any) => m.role === 'user');
+      if (userMessage && context) {
+        sendChatbotAlert({
+          userQuestion: userMessage.content,
+          talmudRange: context.range || `${context.tractate} ${context.page}`,
+          tractate: context.tractate,
+          page: context.page,
+          timestamp: new Date()
+        }).catch(err => console.error('Email alert failed:', err));
+      }
 
       // Build system message with context
       const systemMessage: OpenAI.Chat.ChatCompletionSystemMessageParam = {
