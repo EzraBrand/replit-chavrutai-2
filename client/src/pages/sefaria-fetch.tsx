@@ -301,6 +301,22 @@ export default function SefariaFetchPage() {
   return (
     <div className="min-h-screen bg-sepia-100">
       <div className="container mx-auto px-4 py-8 max-w-7xl">
+        <Card className="mb-4 bg-sepia-50 border-sepia-200">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-lg">About This Tool</CardTitle>
+          </CardHeader>
+          <CardContent className="pt-0 text-sm text-sepia-700 space-y-2">
+            <p>
+              This tool fetches Talmud text from Sefaria's Steinsaltz edition, displaying Hebrew and English side-by-side. 
+              <strong> Bold text</strong> is the Aramaic/Hebrew translation, while regular text is Rabbi Steinsaltz's interpretive commentary.
+            </p>
+            <p>
+              Select text by tractate and page, paste a Sefaria URL, or choose from blog posts that reference specific passages. 
+              Use the AI assistant to explore the text with full access to both the displayed passage and 125 published blog posts for deeper context.
+            </p>
+          </CardContent>
+        </Card>
+
         <Card className="mb-8">
           <CardHeader>
             <CardTitle>Display Talmud Text by Range</CardTitle>
