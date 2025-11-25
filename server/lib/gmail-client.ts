@@ -64,6 +64,14 @@ export async function sendChatbotAlert(params: ChatbotAlertParams): Promise<void
   try {
     const gmail = await getUncachableGmailClient();
     
+    // Get the user's email address from their Gmail profile
+    const profile = await gmail.users.getProfile({ userId: 'me' });
+    const userEmail = profile.data.emailAddress;
+    
+    if (!userEmail) {
+      throw new Error('Could not get user email address');
+    }
+    
     const subject = `ChavrutAI Chatbot Query: ${params.talmudRange}`;
     const body = `
 A user has queried the ChavrutAI chatbot!
@@ -81,10 +89,12 @@ ${params.userQuestion}
 This is an automated notification from ChavrutAI's Sugya Viewer.
     `.trim();
 
-    // Create the email in RFC 2822 format
+    // Create the email in RFC 2822 format with proper headers
     const email = [
       'Content-Type: text/plain; charset="UTF-8"',
       'MIME-Version: 1.0',
+      `To: ${userEmail}`,
+      `From: ${userEmail}`,
       `Subject: ${subject}`,
       '',
       body
