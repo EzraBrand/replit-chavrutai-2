@@ -81,3 +81,8 @@ waitForPort = 5000
 
 [agent]
 integrations = ["javascript_sendgrid:1.0.0", "google-mail:1.0.0"]
+
+[userenv]
+
+[userenv.shared]
+CHATBOT_ALERT_EMAIL = "ezrabrand@gmail.com"
