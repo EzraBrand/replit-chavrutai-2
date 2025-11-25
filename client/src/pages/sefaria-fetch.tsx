@@ -307,7 +307,7 @@ export default function SefariaFetchPage() {
           </CardHeader>
           <CardContent className="pt-0 text-sm text-sepia-700 space-y-3">
             <p>
-              This page displays Talmud text by a user-specified range, as opposed to the main Talmud reader which displays an entire page. 
+              This page displays Talmud text by a user-specified range, as opposed to the main Talmud reader, which always displays an entire single page. 
               You can specify a range using one of three options:
             </p>
             <ul className="list-disc list-inside space-y-1 ml-2">
@@ -323,7 +323,7 @@ export default function SefariaFetchPage() {
 
         <Card className="mb-8">
           <CardHeader>
-            <CardTitle>Display Talmud Text by Range</CardTitle>
+            <CardTitle>Display Talmud Text by Custom Range</CardTitle>
             <CardDescription>
               Fetch Talmud texts from Sefaria using dropdowns, URL, or blog posts
             </CardDescription>
