@@ -28,6 +28,10 @@ localPort = 35881
 externalPort = 5173
 
 [[ports]]
+localPort = 38183
+externalPort = 8000
+
+[[ports]]
 localPort = 39717
 externalPort = 6000
 
@@ -76,4 +80,4 @@ args = "npm run dev"
 waitForPort = 5000
 
 [agent]
-integrations = ["javascript_sendgrid==1.0.0"]
+integrations = ["javascript_sendgrid:1.0.0", "google-mail:1.0.0"]
