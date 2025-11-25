@@ -324,9 +324,6 @@ export default function SefariaFetchPage() {
         <Card className="mb-8">
           <CardHeader>
             <CardTitle>Display Talmud Text by Custom Range</CardTitle>
-            <CardDescription>
-              Fetch Talmud texts from Sefaria using dropdowns, URL, or blog posts
-            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="space-y-4">
