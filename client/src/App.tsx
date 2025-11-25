@@ -23,7 +23,7 @@ import Changelog from "@/pages/changelog";
 import Contact from "@/pages/contact";
 import Privacy from "@/pages/privacy";
 import Dictionary from "@/pages/dictionary";
-import SefariaFetchPage from "@/pages/sefaria-fetch";
+import SugyaViewerPage from "@/pages/sugya-viewer";
 import NotFound from "@/pages/not-found";
 import { useEffect } from "react";
 import { initGA } from "@/lib/analytics";
@@ -51,7 +51,7 @@ function Router() {
       <Route path="/privacy" component={Privacy} />
       <Route path="/dictionary" component={Dictionary} />
       <Route path="/mishnah-map" component={MishnahMapPage} />
-      <Route path="/sefaria-fetch" component={SefariaFetchPage} />
+      <Route path="/sugya-viewer" component={SugyaViewerPage} />
       <Route path="/contents" component={Contents} />
       <Route path="/contents/:tractate" component={TractateContents} />
       <Route path="/tractate/:tractate/:folio" component={TractateView} />
