@@ -305,14 +305,18 @@ export default function SefariaFetchPage() {
           <CardHeader className="pb-3">
             <CardTitle className="text-lg">About This Tool</CardTitle>
           </CardHeader>
-          <CardContent className="pt-0 text-sm text-sepia-700 space-y-2">
+          <CardContent className="pt-0 text-sm text-sepia-700 space-y-3">
             <p>
-              This tool fetches Talmud text from Sefaria's Steinsaltz edition, displaying Hebrew and English side-by-side. 
-              <strong> Bold text</strong> is the Aramaic/Hebrew translation, while regular text is Rabbi Steinsaltz's interpretive commentary.
+              This page displays Talmud text by a user-specified range, as opposed to the main Talmud reader which displays an entire page. 
+              You can specify a range using one of three options:
             </p>
+            <ul className="list-disc list-inside space-y-1 ml-2">
+              <li><strong>Dropdown Selection:</strong> Choose tractate and page, with an optional section</li>
+              <li><strong>Sefaria URL:</strong> Paste a Sefaria URL (can span multiple pages, e.g., <code className="text-xs bg-sepia-200 px-1 rounded">https://www.sefaria.org/Berakhot.16b.18-17a.12</code>)</li>
+              <li><strong>Blog Post Selection:</strong> Choose from a dropdown list of blog posts that discuss specific sugyot to auto-fill the Sefaria URL</li>
+            </ul>
             <p>
-              Select text by tractate and page, paste a Sefaria URL, or choose from blog posts that reference specific passages. 
-              Use the AI assistant to explore the text with full access to both the displayed passage and 125 published blog posts for deeper context.
+              Use the AI assistant (at the bottom on mobile, on the right side on desktop) to explore the text with full access to both the displayed passage and 125 published Talmud & Tech blog posts.
             </p>
           </CardContent>
         </Card>
