@@ -218,9 +218,12 @@
     font-family: 'David Libre', serif;
   }
   
-  /* Hebrew paragraph spacing - natural alignment without stretching */
+  /* Flexible Hebrew paragraph spacing for better column alignment */
   .layout-side-by-side .hebrew-text {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    min-height: 100%;
   }
 
   /* Outline table responsive behavior */
@@ -246,22 +249,40 @@
     }
   }
   
-  /* Consistent paragraph spacing without flexbox stretching */
   .layout-side-by-side .hebrew-text p {
-    margin-bottom: 0.75rem;
-  }
-  
-  .layout-side-by-side .hebrew-text p:last-child {
-    margin-bottom: 0;
-  }
-  
-  /* Text columns align at top, don't force equal height stretching */
-  .layout-side-by-side .text-display {
+    margin-bottom: 1rem !important;
+    flex-grow: 1;
+    display: flex;
     align-items: flex-start;
   }
   
+  .layout-side-by-side .hebrew-text p:not(:last-child) {
+    margin-bottom: 1.4rem !important;
+  }
+  
+  .layout-side-by-side .hebrew-text p:last-child {
+    margin-bottom: 0 !important;
+  }
+  
+  /* Make text columns equal height for better visual balance */
+  .layout-side-by-side .text-display {
+    align-items: stretch;
+  }
+  
   .layout-side-by-side .text-display .text-column {
-    display: block;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Enhanced Hebrew text spacing specifically for side-by-side layout */
+  @media (min-width: 1024px) {
+    .layout-side-by-side .hebrew-text p {
+      margin-bottom: 1.2rem !important;
+    }
+    
+    .layout-side-by-side .hebrew-text p:not(:last-child) {
+      margin-bottom: 1.8rem !important;
+    }
   }
   
   .hebrew-text strong {

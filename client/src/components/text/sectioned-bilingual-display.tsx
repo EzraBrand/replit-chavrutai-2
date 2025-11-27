@@ -418,13 +418,13 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
                 </div>
 
                 {/* Hebrew Section (Second on Mobile, Right Side on Desktop) */}
-                <div className="text-column lg:order-2">
+                <div className="text-column space-y-3 lg:order-2">
                   {hebrewSection.trim() && (
                     <div className={`hebrew-text text-foreground ${getHebrewFontClass()}`}>
-                      {processHebrewText(hebrewSection).split('\n').filter(line => line.trim()).map((line, lineIndex) => (
+                      {processHebrewText(hebrewSection).split('\n').filter(line => line.trim()).map((line, lineIndex, array) => (
                         <p 
                           key={lineIndex} 
-                          className="leading-relaxed"
+                          className={`leading-relaxed ${lineIndex < array.length - 1 ? 'mb-6 lg:mb-8' : 'mb-2'}`}
                           dangerouslySetInnerHTML={{ __html: applyHighlighting(line.trim()) }}
                         />
                       ))}
@@ -458,13 +458,13 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
               </div>
 
               {/* Hebrew Continuation (Second on Mobile, Right Side on Desktop) */}
-              <div className="text-column lg:order-2">
+              <div className="text-column space-y-3 lg:order-2">
                 {text.nextPageFirstSection.hebrew.trim() && (
                   <div className={`hebrew-text text-muted-foreground ${getHebrewFontClass()}`}>
-                    {processHebrewText(text.nextPageFirstSection.hebrew).split('\n').filter(line => line.trim()).map((line, lineIndex) => (
+                    {processHebrewText(text.nextPageFirstSection.hebrew).split('\n').filter(line => line.trim()).map((line, lineIndex, array) => (
                       <p 
                         key={lineIndex} 
-                        className="leading-relaxed"
+                        className={`leading-relaxed ${lineIndex < array.length - 1 ? 'mb-6 lg:mb-8' : 'mb-2'}`}
                         dangerouslySetInnerHTML={{ __html: line.trim() }}
                       />
                     ))}
