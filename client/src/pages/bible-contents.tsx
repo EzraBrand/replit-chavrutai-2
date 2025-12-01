@@ -4,18 +4,21 @@ import { Card } from "@/components/ui/card";
 import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
 import { bibleAPI } from "@/lib/bible-api";
+import { getBaseUrl } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ExternalLink } from "lucide-react";
 import type { BibleBook } from "@/types/bible";
 
 export default function BibleContents() {
+  const baseUrl = getBaseUrl();
   // Set up SEO
   useSEO({
     title: "Bible (Tanach) - Hebrew & English | ChavrutAI",
     description: "Read the complete Hebrew Bible (Tanach) with JPS 1985 English translation. Access all 24 books of the Torah, Nevi'im, and Ketuvim with parallel Hebrew-English text.",
     ogTitle: "Bible (Tanach) - Hebrew & English",
     ogDescription: "Read the complete Hebrew Bible with JPS 1985 translation.",
-    canonical: "/bible",
+    ogUrl: `${baseUrl}/bible`,
+    canonical: `${baseUrl}/bible`,
     robots: "index, follow"
   });
 

@@ -12,6 +12,7 @@ import { useSEO } from "@/hooks/use-seo";
 import type { BibleLocation } from "@/types/bible";
 import type { TalmudLocation } from "@/types/talmud";
 import { bibleAPI } from "@/lib/bible-api";
+import { getBaseUrl } from "@/lib/utils";
 import NotFound from "@/pages/not-found";
 
 export default function BibleChapterPage() {
@@ -48,12 +49,14 @@ export default function BibleChapterPage() {
       .join(' ');
   };
   const bookTitle = formatBookTitle(book || 'genesis');
+  const baseUrl = getBaseUrl();
   useSEO({
     title: `${bookTitle} ${parsedChapter} - Hebrew & English Bible | ChavrutAI`,
     description: `Read ${bookTitle} Chapter ${parsedChapter} with Hebrew and English text from JPS 1985 translation. Free access to the Bible online.`,
     ogTitle: `${bookTitle} ${parsedChapter} - Bible Study`,
     ogDescription: `Read ${bookTitle} Chapter ${parsedChapter} with parallel Hebrew-English text.`,
-    canonical: `/bible/${book}/${chapter}`,
+    ogUrl: `${baseUrl}/bible/${book}/${chapter}`,
+    canonical: `${baseUrl}/bible/${book}/${chapter}`,
     robots: "index, follow"
   });
 

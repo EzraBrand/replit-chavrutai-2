@@ -157,6 +157,10 @@ export function Footer() {
                   src={poweredBySefariaPath} 
                   alt="Powered by Sefaria" 
                   className="h-8 w-auto"
+                  width={62}
+                  height={32}
+                  loading="lazy"
+                  decoding="async"
                   data-testid="sefaria-powered-by-image"
                 />
               </a>

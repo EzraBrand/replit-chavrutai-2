@@ -4,6 +4,7 @@ import { ExternalLink, FileText, BookOpen } from "lucide-react";
 import { Footer } from "@/components/footer";
 import { BreadcrumbNavigation, breadcrumbHelpers } from "@/components/navigation/breadcrumb-navigation";
 import { useSEO } from "@/hooks/use-seo";
+import { getBaseUrl } from "@/lib/utils";
 
 interface TractateData {
   name: string;
@@ -33,10 +34,12 @@ interface SitemapResponse {
 }
 
 export default function Sitemap() {
+  const baseUrl = getBaseUrl();
   useSEO({
     title: "Site Map - ChavrutAI Talmud Navigation Guide",
     description: "Complete navigation guide to all 37 Talmud tractates organized by traditional Seder structure. Find any page across 5,400+ folios in the Babylonian Talmud.",
-    canonical: "/sitemap",
+    ogUrl: `${baseUrl}/sitemap`,
+    canonical: `${baseUrl}/sitemap`,
     robots: "index, follow"
   });
 

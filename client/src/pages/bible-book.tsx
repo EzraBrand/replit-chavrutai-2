@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
 import { bibleAPI } from "@/lib/bible-api";
+import { getBaseUrl } from "@/lib/utils";
 import NotFound from "@/pages/not-found";
 
 export default function BibleBookPage() {
@@ -29,12 +30,14 @@ export default function BibleBookPage() {
 
   // Set up SEO
   const bookTitle = bookInfo?.name || (book ? book.charAt(0).toUpperCase() + book.slice(1).replace(/-/g, ' ') : 'Bible');
+  const baseUrl = getBaseUrl();
   useSEO({
     title: `${bookTitle} - Hebrew & English Bible | ChavrutAI`,
     description: `Read all ${chapters?.length || ''} chapters of ${bookTitle} with Hebrew and English text from JPS 1985 translation. Free access to the Bible online.`,
     ogTitle: `${bookTitle} - Bible Study`,
     ogDescription: `Read all chapters of ${bookTitle} with parallel Hebrew-English text.`,
-    canonical: `/bible/${book}`,
+    ogUrl: `${baseUrl}/bible/${book}`,
+    canonical: `${baseUrl}/bible/${book}`,
     robots: "index, follow"
   });
 
