@@ -1,37 +1,38 @@
 import { Switch, Route } from "wouter";
+import { lazy, Suspense, useEffect } from "react";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { PreferencesProvider } from "@/context/preferences-context";
-import Home from "@/pages/home";
-import About from "@/pages/about";
-import Contents from "@/pages/contents";
-import TractateContents from "@/pages/tractate-contents";
-import TractateView from "./pages/tractate-view";
-import TractateOutlinePage from "@/pages/tractate-outline";
-import MishnahMapPage from "@/pages/mishnah-map";
-import BlogPostsPage from "@/pages/blog-posts";
-import BiblicalIndexPage from "@/pages/biblical-index";
-import BiblicalBookPage from "@/pages/biblical-book";
-import BibleContents from "@/pages/bible-contents";
-import BibleBookPage from "@/pages/bible-book";
-import BibleChapterPage from "@/pages/bible-chapter";
-import SuggestedPages from "@/pages/suggested-pages";
-import Sitemap from "@/pages/sitemap";
-import Changelog from "@/pages/changelog";
-import Contact from "@/pages/contact";
-import Privacy from "@/pages/privacy";
-import Dictionary from "@/pages/dictionary";
-import SugyaViewerPage from "@/pages/sugya-viewer";
-import NotFound from "@/pages/not-found";
-import { useEffect } from "react";
+import { PageLoading } from "@/components/page-loading";
 import { initGA } from "@/lib/analytics";
 import { useAnalytics } from "@/hooks/use-analytics";
 import { preloadChapterData } from "@/lib/chapter-data";
 
+import Contents from "@/pages/contents";
+
+const About = lazy(() => import("@/pages/about"));
+const TractateContents = lazy(() => import("@/pages/tractate-contents"));
+const TractateView = lazy(() => import("./pages/tractate-view"));
+const TractateOutlinePage = lazy(() => import("@/pages/tractate-outline"));
+const MishnahMapPage = lazy(() => import("@/pages/mishnah-map"));
+const BlogPostsPage = lazy(() => import("@/pages/blog-posts"));
+const BiblicalIndexPage = lazy(() => import("@/pages/biblical-index"));
+const BiblicalBookPage = lazy(() => import("@/pages/biblical-book"));
+const BibleContents = lazy(() => import("@/pages/bible-contents"));
+const BibleBookPage = lazy(() => import("@/pages/bible-book"));
+const BibleChapterPage = lazy(() => import("@/pages/bible-chapter"));
+const SuggestedPages = lazy(() => import("@/pages/suggested-pages"));
+const Sitemap = lazy(() => import("@/pages/sitemap"));
+const Changelog = lazy(() => import("@/pages/changelog"));
+const Contact = lazy(() => import("@/pages/contact"));
+const Privacy = lazy(() => import("@/pages/privacy"));
+const Dictionary = lazy(() => import("@/pages/dictionary"));
+const SugyaViewerPage = lazy(() => import("@/pages/sugya-viewer"));
+const NotFound = lazy(() => import("@/pages/not-found"));
+
 function Router() {
-  // Track page views when routes change
   useAnalytics();
   
   return (
@@ -62,16 +63,13 @@ function Router() {
 }
 
 function App() {
-  // Initialize Google Analytics and preload chapter data when app loads
   useEffect(() => {
-    // Verify required environment variable is present
     if (!import.meta.env.VITE_GA_MEASUREMENT_ID) {
       console.warn('Missing required Google Analytics key: VITE_GA_MEASUREMENT_ID');
     } else {
       initGA();
     }
     
-    // Preload chapter data for faster navigation
     preloadChapterData().catch(error => {
       console.warn('Failed to preload chapter data:', error);
     });
@@ -82,7 +80,9 @@ function App() {
       <PreferencesProvider>
         <TooltipProvider>
           <Toaster />
-          <Router />
+          <Suspense fallback={<PageLoading />}>
+            <Router />
+          </Suspense>
         </TooltipProvider>
       </PreferencesProvider>
     </QueryClientProvider>
