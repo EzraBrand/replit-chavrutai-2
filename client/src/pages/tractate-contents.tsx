@@ -19,7 +19,6 @@ import {
   getTractateSlug,
 } from "@shared/tractates";
 import { getMishnahSection } from "@shared/mishnah-map";
-import hebrewBookIcon from "@/assets/hebrew-book-icon.png";
 import type { TalmudLocation } from "@/types/talmud";
 import NotFound from "@/pages/not-found";
 
@@ -70,7 +69,7 @@ export default function TractateContents() {
             <div className="flex items-center space-x-2 flex-shrink-0">
               <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden">
                 <img
-                  src={hebrewBookIcon}
+                  src="/images/hebrew-book-icon.png"
                   alt="ChavrutAI Logo"
                   className="w-10 h-10 object-cover"
                 />

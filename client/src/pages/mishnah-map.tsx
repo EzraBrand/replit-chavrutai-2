@@ -17,7 +17,6 @@ import { useSEO } from "@/hooks/use-seo";
 import { getTractateSlug, TRACTATE_HEBREW_NAMES, SEDER_TRACTATES, normalizeDisplayTractateName } from "@shared/tractates";
 import { MISHNAH_MAP_DATA, type MishnahMapping } from "@shared/mishnah-map";
 import { getChapterDataByTractate, type ChapterInfo } from "@/lib/chapter-data";
-import hebrewBookIcon from "@/assets/hebrew-book-icon.png";
 import type { TalmudLocation } from "@/types/talmud";
 
 const SEDER_ORGANIZATION = {
@@ -314,7 +313,7 @@ export default function MishnahMapPage() {
             >
               <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden">
                 <img 
-                  src={hebrewBookIcon} 
+                  src="/images/hebrew-book-icon.png" 
                   alt="ChavrutAI Logo" 
                   className="w-10 h-10 object-cover"
                 />

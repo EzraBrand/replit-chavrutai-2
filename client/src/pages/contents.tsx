@@ -8,7 +8,6 @@ import { useSEO, generateSEOData } from "@/hooks/use-seo";
 import { sefariaAPI } from "@/lib/sefaria";
 import { TRACTATE_LISTS, TRACTATE_HEBREW_NAMES, getTractateSlug } from "@shared/tractates";
 import { trackEvent } from "@/lib/analytics";
-import hebrewBookIcon from "@/assets/hebrew-book-icon.png";
 import type { TalmudLocation } from "@/types/talmud";
 
 // Seder organization with Hebrew names
@@ -82,7 +81,7 @@ export default function Contents() {
               >
                 <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden">
                   <img 
-                    src={hebrewBookIcon} 
+                    src="/images/hebrew-book-icon.png" 
                     alt="ChavrutAI Logo" 
                     className="w-10 h-10 object-cover"
                   />
@@ -122,7 +121,7 @@ export default function Contents() {
             >
               <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden">
                 <img 
-                  src={hebrewBookIcon} 
+                  src="/images/hebrew-book-icon.png" 
                   alt="ChavrutAI Logo" 
                   className="w-10 h-10 object-cover"
                 />

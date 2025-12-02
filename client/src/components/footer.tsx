@@ -1,6 +1,5 @@
 import { Link } from "wouter";
 import { ExternalLink } from "lucide-react";
-import poweredBySefariaPath from "@/assets/powered-by-sefaria.png";
 
 export function Footer() {
   return (
@@ -154,7 +153,7 @@ export function Footer() {
                 data-testid="footer-link-sefaria"
               >
                 <img 
-                  src={poweredBySefariaPath} 
+                  src="/images/powered-by-sefaria.png" 
                   alt="Powered by Sefaria" 
                   className="h-8 w-auto"
                   width={62}

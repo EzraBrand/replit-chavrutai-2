@@ -13,7 +13,6 @@ import { usePreferences } from "@/context/preferences-context";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
 import { sefariaAPI } from "@/lib/sefaria";
 import { normalizeDisplayTractateName, getTractateSlug } from "@shared/tractates";
-import hebrewBookIcon from "@/assets/hebrew-book-icon.png";
 import type { TalmudLocation } from "@/types/talmud";
 
 export default function Home() {
@@ -90,7 +89,7 @@ export default function Home() {
             >
               <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden">
                 <img 
-                  src={hebrewBookIcon} 
+                  src="/images/hebrew-book-icon.png" 
                   alt="ChavrutAI Logo" 
                   className="w-10 h-10 object-cover"
                 />

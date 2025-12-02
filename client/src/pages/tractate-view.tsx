@@ -16,7 +16,6 @@ import { useSEO, generateSEOData } from "@/hooks/use-seo";
 import type { TalmudLocation } from "@/types/talmud";
 import { sefariaAPI } from "@/lib/sefaria";
 import { normalizeDisplayTractateName, isValidTractate, getTractateSlug } from "@shared/tractates";
-import hebrewBookIcon from "@/assets/hebrew-book-icon.png";
 import NotFound from "@/pages/not-found";
 
 export default function TractateView() {
