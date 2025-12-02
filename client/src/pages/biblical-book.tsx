@@ -1,13 +1,13 @@
 import { useRoute, Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { getBiblicalBook, getBookDisplayName } from "@/lib/biblical-index-data";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { getBiblicalBook } from "@/lib/biblical-index-data";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { ArrowLeft, Search, ExternalLink, BookOpen } from "lucide-react";
+import { ArrowLeft, Search, BookOpen } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { sanitizeHtml } from "@/lib/html-sanitizer";
 import { Footer } from "@/components/footer";
@@ -69,7 +69,7 @@ export default function BiblicalBookPage() {
       .map(citation => ({ ...citation, chapterNumber: chapter.chapterNumber }))
   ) || [];
 
-  const displayName = book ? book.bookName : getBookDisplayName(bookName);
+  const displayName = book ? book.bookName : bookName.replace(/_/g, ' ');
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-7xl">

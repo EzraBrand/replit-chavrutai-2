@@ -1,8 +1,9 @@
 import { Link } from "wouter";
-import { getBiblicalIndexMetadata, getBookDisplayName } from "@/lib/biblical-index-data";
-import { Badge } from "@/components/ui/badge";
+import { useQuery } from "@tanstack/react-query";
+import { getBiblicalIndexMetadata } from "@/lib/biblical-index-data";
 import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const categoryDescriptions = {
   torah: "Torah (The Five Books of Moses)",
@@ -20,7 +21,45 @@ export default function BiblicalIndexPage() {
     robots: "index, follow"
   });
 
-  const metadata = getBiblicalIndexMetadata();
+  const { data: metadata, isLoading } = useQuery({
+    queryKey: ['biblical-index-metadata'],
+    queryFn: getBiblicalIndexMetadata,
+  });
+
+  if (isLoading) {
+    return (
+      <div className="container mx-auto px-4 py-8 max-w-6xl">
+        <Skeleton className="h-10 w-64 mb-4" />
+        <Skeleton className="h-6 w-96 mb-8" />
+        <div className="space-y-8">
+          <Skeleton className="h-64 w-full" />
+          <Skeleton className="h-64 w-full" />
+          <Skeleton className="h-64 w-full" />
+        </div>
+      </div>
+    );
+  }
+
+  if (!metadata) {
+    return (
+      <div className="container mx-auto px-4 py-8 max-w-6xl">
+        <h1 className="text-2xl font-bold mb-4">Error Loading Index</h1>
+        <p>Unable to load the biblical index metadata.</p>
+      </div>
+    );
+  }
+
+  const getDisplayName = (bookName: string): string => {
+    const cleanName = bookName.toLowerCase().replace(/ /g, '_');
+    const bookInfo = metadata.books.find(
+      b => b.filename === `${cleanName}.json` || b.displayName.toLowerCase() === bookName.toLowerCase()
+    );
+    return bookInfo?.displayName || bookName.replace(/_/g, ' ');
+  };
+
+  const getBookUrl = (bookName: string): string => {
+    return bookName.toLowerCase().replace(/ /g, '_');
+  };
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
@@ -44,16 +83,16 @@ export default function BiblicalIndexPage() {
               </div>
               
               <div className="grid grid-cols-1 gap-2">
-                {books
-                  .filter(book => book !== 'Song_of_Songs')
-                  .map((book) => (
+                {(books as string[])
+                  .filter(book => book !== 'Song of Songs')
+                  .map((book: string) => (
                   <Link
                     key={book}
-                    href={`/biblical-index/book/${book.toLowerCase()}`}
+                    href={`/biblical-index/book/${getBookUrl(book)}`}
                     className="text-sm font-medium text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 hover:underline underline-offset-2 transition-colors py-2 px-3 rounded-md hover:bg-blue-50 dark:hover:bg-blue-950/20 border border-transparent"
-                    data-testid={`link-book-${book.toLowerCase()}`}
+                    data-testid={`link-book-${getBookUrl(book)}`}
                   >
-                    {getBookDisplayName(book)}
+                    {getDisplayName(book)}
                   </Link>
                 ))}
               </div>
