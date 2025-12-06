@@ -63,6 +63,15 @@ export default function Changelog() {
           
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">UI Simplification</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Added link to the article "Biblical Citations in the Talmud: A New Digital Index and Concordance" on the Biblical Index page</li>
+                <li>Removed "Study Options" navigation cards from Contents page for cleaner layout</li>
+                <li>Removed breadcrumb navigation from Contents and Tractate Contents pages</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Consistent Header Navigation</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added centered logo header to all secondary pages for consistent navigation</li>
