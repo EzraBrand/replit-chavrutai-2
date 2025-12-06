@@ -2,132 +2,282 @@ import { Link } from "wouter";
 import { BreadcrumbNavigation, breadcrumbHelpers } from "@/components/navigation/breadcrumb-navigation";
 import { Footer } from "@/components/footer";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
+import { BookOpen, Languages, Palette, Type, Layout, Highlighter, Menu, ExternalLink } from "lucide-react";
 
 export default function About() {
-  // Set up SEO
   useSEO(generateSEOData.aboutPage());
+  
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
-          {/* Breadcrumbs */}
           <BreadcrumbNavigation items={breadcrumbHelpers.about()} />
           
-          {/* Quick Navigation */}
-          <nav className="mb-8 bg-card border border-border rounded-lg p-4" role="navigation" aria-label="Quick navigation">
-            <div className="flex flex-wrap gap-4 justify-center">
-              <Link 
-                href="/"
-                className="text-primary hover:text-primary/80 font-medium inline-flex items-center gap-2 transition-colors"
-                data-testid="nav-home"
-              >
-                🏠 Home & Contents
-              </Link>
-              <Link 
-                href="/suggested-pages"
-                className="text-primary hover:text-primary/80 font-medium inline-flex items-center gap-2 transition-colors"
-                data-testid="nav-suggested"
-              >
-                📚 Famous Pages
-              </Link>
-              <Link 
-                href="/contents/berakhot"
-                className="text-primary hover:text-primary/80 font-medium inline-flex items-center gap-2 transition-colors"
-                data-testid="nav-berakhot"
-              >
-                🙏 Start with Berakhot
-              </Link>
-              <Link 
-                href="/contents/shabbat"
-                className="text-primary hover:text-primary/80 font-medium inline-flex items-center gap-2 transition-colors"
-                data-testid="nav-shabbat"
-              >
-                🕯️ Shabbat
-              </Link>
-            </div>
-          </nav>
-          
           <div className="bg-card rounded-lg shadow-sm border border-border p-8">
-            <h1 className="text-3xl font-bold text-foreground mb-6">About ChavrutAI - Free Digital Talmud Study Platform</h1>
+            <h1 className="text-3xl font-bold text-foreground mb-2">About ChavrutAI</h1>
+            <p className="text-lg text-muted-foreground mb-8">
+              A free platform for studying Jewish texts in Hebrew and English
+            </p>
             
-            <div className="prose prose-sepia max-w-none">
-              <section className="mb-8">
-                <h2 className="text-xl font-semibold text-foreground mb-4">Making Talmud Study Accessible to Everyone</h2>
-                <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                  ChavrutAI is a free digital platform designed to make the Babylonian Talmud accessible through modern technology and intuitive design. Whether you're a beginner or advanced learner, our platform provides the tools you need to study effectively.
+            <div className="space-y-10">
+              <section>
+                <h2 className="text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
+                  <BookOpen className="h-5 w-5" />
+                  What is ChavrutAI?
+                </h2>
+                <p className="text-muted-foreground leading-relaxed mb-4">
+                  ChavrutAI is a free web application for studying the Babylonian Talmud and Tanakh (Hebrew Bible). 
+                  It displays Hebrew text alongside English translation, making these ancient texts accessible 
+                  to learners at all levels.
                 </p>
-                
-                <p className="text-muted-foreground leading-relaxed mb-6">
-                  The platform features bilingual Hebrew-English text display, hierarchical 
-                  navigation, and comprehensive text processing - all completely free for learners worldwide.
-                </p>
-              </section>
-
-              <section className="mb-8">
-                <h2 className="text-xl font-semibold text-foreground mb-4">Why Choose ChavrutAI for Digital Talmud Study?</h2>
-                <p className="text-muted-foreground leading-relaxed mb-8">
-                  Find out more about this project at{" "}
-                  <a 
-                    href="https://www.ezrabrand.com/p/chavrutai-talmud-web-app-launch-review"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-primary hover:text-primary/80 underline transition-colors duration-200"
-                  >
-                    "ChavrutAI Talmud Web App Launch: Review and Comparison with Similar Platforms"
-                  </a>
+                <p className="text-muted-foreground leading-relaxed">
+                  The design is inspired by traditional Jewish manuscripts, with warm colors and clear typography 
+                  that make extended study comfortable. Whether you're new to Talmud study or an experienced 
+                  learner, ChavrutAI provides a clean, distraction-free reading experience.
                 </p>
               </section>
 
-              <h2 className="text-2xl font-bold text-foreground mb-4">ChavrutAI Features Overview</h2>
-              
-              <p className="text-sm text-muted-foreground mb-6 italic">
-                (Focusing on aspects that are significantly different from Sefaria's.)
-              </p>
+              <section>
+                <h2 className="text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
+                  <Languages className="h-5 w-5" />
+                  Available Texts
+                </h2>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="bg-secondary/30 rounded-lg p-4">
+                    <h3 className="font-medium text-foreground mb-2">Babylonian Talmud</h3>
+                    <p className="text-sm text-muted-foreground mb-3">
+                      All 37 tractates with accurate folio numbering based on the Vilna edition. 
+                      Navigate by Seder (order), tractate, chapter, or individual page.
+                    </p>
+                    <Link 
+                      href="/contents"
+                      className="text-primary hover:text-primary/80 text-sm font-medium inline-flex items-center gap-1"
+                      data-testid="link-talmud-contents"
+                    >
+                      Browse Talmud Contents
+                    </Link>
+                  </div>
+                  <div className="bg-secondary/30 rounded-lg p-4">
+                    <h3 className="font-medium text-foreground mb-2">Tanakh (Hebrew Bible)</h3>
+                    <p className="text-sm text-muted-foreground mb-3">
+                      Torah, Prophets, and Writings with chapter-by-chapter navigation. 
+                      Each book includes Hebrew text with English translation.
+                    </p>
+                    <Link 
+                      href="/tanakh"
+                      className="text-primary hover:text-primary/80 text-sm font-medium inline-flex items-center gap-1"
+                      data-testid="link-tanakh-contents"
+                    >
+                      Browse Tanakh Contents
+                    </Link>
+                  </div>
+                </div>
+              </section>
 
-              <h3 className="text-xl font-semibold text-foreground mb-3">Display & Navigation Features</h3>
-              
-              <ol className="list-decimal list-inside space-y-2 mb-6 text-muted-foreground">
-                <li>Breadcrumb Navigation: Breadcrumb hierarchy displaying tractate, chapter number and title, and page.</li>
-                <li>Previous/Next page controls</li>
-                <li>Section Navigation: Individual sections within each page are clickable with direct links to Sefaria, plus a floating navigation widget in the bottom-right corner showing current section position and allowing quick navigation between sections.</li>
-                <li>Page Continuation Preview: A preview of the following page's opening section is displayed, helping maintain continuity (and prevent interrupted sentences) across page boundaries.</li>
-                <li>Warm color scheme throughout the interface</li>
-                <li>User Preferences System: Customizable text size controls (Small, Medium, Large, Extra Large) for both Hebrew and English. Alternative Hebrew font selection and dark mode toggle.</li>
-              </ol>
+              <section>
+                <h2 className="text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
+                  <Menu className="h-5 w-5" />
+                  How to Use
+                </h2>
+                <div className="space-y-4 text-muted-foreground">
+                  <div>
+                    <h3 className="font-medium text-foreground mb-1">Navigation</h3>
+                    <p className="text-sm leading-relaxed">
+                      Use the menu (hamburger icon) in the top-left corner to access the table of contents 
+                      and customize your reading preferences. On any text page, use the Previous/Next buttons 
+                      to move between pages, or click the floating widget in the bottom-right to jump between sections.
+                    </p>
+                  </div>
+                  <div>
+                    <h3 className="font-medium text-foreground mb-1">Breadcrumbs</h3>
+                    <p className="text-sm leading-relaxed">
+                      At the top of each page, breadcrumbs show your current location (e.g., Berakhot &gt; Chapter 1 &gt; 2a). 
+                      Click any part to navigate back to that level.
+                    </p>
+                  </div>
+                  <div>
+                    <h3 className="font-medium text-foreground mb-1">Section Links</h3>
+                    <p className="text-sm leading-relaxed">
+                      Click any section number to open that passage directly on Sefaria for additional 
+                      commentaries and resources.
+                    </p>
+                  </div>
+                </div>
+              </section>
 
-              <h3 className="text-xl font-semibold text-foreground mb-3">Text Processing Features</h3>
-              
-              <ol className="list-decimal list-inside space-y-2 text-muted-foreground">
-                <li>Intelligent Hebrew and English Text Splitting: Sophisticated punctuation-based paragraph breaks, to enhance readability</li>
-                <li>Term Replacement System: Text processing via a dictionary for more precise terminology</li>
-                <li>Ordinal Number Conversion: Automatic conversion of written ordinals to numeric format for enhanced readability. (E.g. "fourth" → "4th", "twenty-ninth" → "29th")</li>
-              </ol>
+              <section>
+                <h2 className="text-xl font-semibold text-foreground mb-4">Customization Options</h2>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Access these settings from the menu (hamburger icon) in the top-left corner.
+                </p>
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div className="flex items-start gap-3">
+                    <Palette className="h-5 w-5 text-muted-foreground mt-0.5 flex-shrink-0" />
+                    <div>
+                      <h3 className="font-medium text-foreground text-sm">Themes</h3>
+                      <p className="text-xs text-muted-foreground">
+                        Choose Sepia (warm parchment), White (clean), or Dark mode
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <Type className="h-5 w-5 text-muted-foreground mt-0.5 flex-shrink-0" />
+                    <div>
+                      <h3 className="font-medium text-foreground text-sm">Text Size</h3>
+                      <p className="text-xs text-muted-foreground">
+                        Five sizes from Extra Small to Extra Large
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <Type className="h-5 w-5 text-muted-foreground mt-0.5 flex-shrink-0" />
+                    <div>
+                      <h3 className="font-medium text-foreground text-sm">Fonts</h3>
+                      <p className="text-xs text-muted-foreground">
+                        Multiple Hebrew fonts (Assistant, Noto Sans, etc.) and English fonts (Inter, Roboto, etc.)
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <Layout className="h-5 w-5 text-muted-foreground mt-0.5 flex-shrink-0" />
+                    <div>
+                      <h3 className="font-medium text-foreground text-sm">Layout</h3>
+                      <p className="text-xs text-muted-foreground">
+                        Side-by-side (Hebrew and English in columns) or Stacked view
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3 sm:col-span-2">
+                    <Highlighter className="h-5 w-5 text-muted-foreground mt-0.5 flex-shrink-0" />
+                    <div>
+                      <h3 className="font-medium text-foreground text-sm">Term Highlighting</h3>
+                      <p className="text-xs text-muted-foreground">
+                        Highlight key concepts, names of rabbis, and place names in the Hebrew text (over 5,000 terms)
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </section>
 
-              {/* Contact and Attribution Section */}
-              <div className="mt-12 pt-8 border-t border-border">
+              <section>
+                <h2 className="text-xl font-semibold text-foreground mb-4">Special Features</h2>
+                <ul className="space-y-3 text-muted-foreground">
+                  <li className="flex items-start gap-2">
+                    <span className="text-primary font-bold">•</span>
+                    <span className="text-sm">
+                      <strong className="text-foreground">Page Continuation:</strong> Each Talmud page shows a preview of the next page's opening, 
+                      so sentences that continue across pages aren't interrupted.
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-primary font-bold">•</span>
+                    <span className="text-sm">
+                      <strong className="text-foreground">Chapter Outlines:</strong> View detailed topic breakdowns for each chapter 
+                      to understand the structure before diving in.
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-primary font-bold">•</span>
+                    <span className="text-sm">
+                      <strong className="text-foreground">Sugya Viewer:</strong> Study specific text ranges by entering Talmud references 
+                      (e.g., "Berakhot 2a-5b") or Sefaria URLs.
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-primary font-bold">•</span>
+                    <span className="text-sm">
+                      <strong className="text-foreground">Famous Pages:</strong> Explore a curated list of well-known Talmudic passages 
+                      as starting points for study.
+                    </span>
+                  </li>
+                </ul>
+              </section>
+
+              <section className="pt-6 border-t border-border">
+                <h2 className="text-xl font-semibold text-foreground mb-4">About This Project</h2>
                 <p className="text-muted-foreground leading-relaxed mb-4">
                   ChavrutAI is a project of{" "}
                   <a 
                     href="https://www.ezrabrand.com/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-primary hover:text-primary/80 underline transition-colors duration-200"
+                    className="text-primary hover:text-primary/80 underline inline-flex items-center gap-1"
                   >
-                    "Talmud & Tech"
+                    Talmud & Tech
+                    <ExternalLink className="h-3 w-3" />
                   </a>
-                  . It uses data from Sefaria (not affiliated).
+                  . Text content is sourced from the Sefaria library (ChavrutAI is not affiliated with Sefaria).
                 </p>
-                
+                <p className="text-muted-foreground leading-relaxed mb-4">
+                  Learn more about ChavrutAI in this article:{" "}
+                  <a 
+                    href="https://www.ezrabrand.com/p/chavrutai-talmud-web-app-launch-review"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary hover:text-primary/80 underline inline-flex items-center gap-1"
+                  >
+                    ChavrutAI Launch Review
+                    <ExternalLink className="h-3 w-3" />
+                  </a>
+                </p>
                 <p className="text-muted-foreground leading-relaxed">
-                  For questions, comments, or to report an error, please email:{" "}
+                  For questions, feedback, or to report an issue:{" "}
                   <a 
                     href="mailto:ezra@chavrutai.com"
-                    className="text-primary hover:text-primary/80 underline transition-colors duration-200"
+                    className="text-primary hover:text-primary/80 underline"
                   >
                     ezra@chavrutai.com
                   </a>
                 </p>
-              </div>
+              </section>
+
+              <section className="bg-secondary/30 rounded-lg p-6">
+                <h2 className="text-lg font-semibold text-foreground mb-4">Quick Links</h2>
+                <div className="flex flex-wrap gap-4">
+                  <Link 
+                    href="/"
+                    className="text-primary hover:text-primary/80 font-medium text-sm"
+                    data-testid="link-home"
+                  >
+                    Home
+                  </Link>
+                  <Link 
+                    href="/contents"
+                    className="text-primary hover:text-primary/80 font-medium text-sm"
+                    data-testid="link-contents"
+                  >
+                    Talmud Contents
+                  </Link>
+                  <Link 
+                    href="/tanakh"
+                    className="text-primary hover:text-primary/80 font-medium text-sm"
+                    data-testid="link-tanakh"
+                  >
+                    Tanakh
+                  </Link>
+                  <Link 
+                    href="/suggested-pages"
+                    className="text-primary hover:text-primary/80 font-medium text-sm"
+                    data-testid="link-famous"
+                  >
+                    Famous Pages
+                  </Link>
+                  <Link 
+                    href="/sugya-viewer"
+                    className="text-primary hover:text-primary/80 font-medium text-sm"
+                    data-testid="link-sugya"
+                  >
+                    Sugya Viewer
+                  </Link>
+                  <Link 
+                    href="/changelog"
+                    className="text-primary hover:text-primary/80 font-medium text-sm"
+                    data-testid="link-changelog"
+                  >
+                    Changelog
+                  </Link>
+                </div>
+              </section>
             </div>
           </div>
         </div>
