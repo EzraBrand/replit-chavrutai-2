@@ -61,6 +61,14 @@ export default function Changelog() {
             </div>
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">About Page</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Comprehensive rewrite with clear overview for new visitors</li>
+                <li>Added sections for available texts, navigation, customization, and special features</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Performance Optimizations</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Implemented code splitting with lazy loading for 18 routes</li>
