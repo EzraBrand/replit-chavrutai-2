@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ExternalLink, BookOpen, FileText, Info } from "lucide-react";
+import { ExternalLink, FileText, Info } from "lucide-react";
 import { TRACTATE_LISTS, TRACTATE_HEBREW_NAMES, normalizeDisplayTractateName, getMaxFolio, isValidTractate } from "@shared/tractates";
 import { 
   getAllExternalLinks, 
@@ -72,7 +72,6 @@ function ExternalLinksPage() {
 
   const maxFolio = getMaxFolio(tractate);
   const currentRef = `${tractate} ${folio}${side}${section ? `, section ${section}` : ''}`;
-  const hebrewName = TRACTATE_HEBREW_NAMES[tractate as keyof typeof TRACTATE_HEBREW_NAMES] || '';
 
   const sectionLinks = getSectionLinks({ tractate, folio, side, section });
   const pageLinks = getPageLinks({ tractate, folio, side, section });
@@ -83,11 +82,8 @@ function ExternalLinksPage() {
         <div className="mb-8">
           <h1 className="text-3xl font-bold mb-2 flex items-center gap-2">
             <ExternalLink className="w-8 h-8" />
-            External Talmud Links
+            Links to Talmud Pages, by Platform
           </h1>
-          <p className="text-muted-foreground">
-            Internal testing page for external Talmud resource links
-          </p>
         </div>
 
         <Card className="mb-6">
@@ -236,31 +232,6 @@ function ExternalLinksPage() {
           </CardContent>
         </Card>
 
-        <Card className="mb-6">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <BookOpen className="w-5 h-5" />
-              Current Reference
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-xl font-medium">
-              {currentRef}
-              {hebrewName && <span className="text-muted-foreground mr-2"> ({hebrewName})</span>}
-            </div>
-            <p className="text-sm text-muted-foreground mt-1">
-              ChavrutAI: <a 
-                href={`/tractate/${tractate.toLowerCase().replace(/ /g, '-')}/${folio}${side}`}
-                className="text-primary hover:underline"
-                data-testid="link-chavrutai"
-              >
-                /tractate/{tractate.toLowerCase().replace(/ /g, '-')}/{folio}{side}
-              </a>
-              {section && `, section ${section}`}
-            </p>
-          </CardContent>
-        </Card>
-
         {section !== undefined && sectionLinks.length > 0 && (
           <Card className="mb-6">
             <CardHeader>
@@ -311,6 +282,23 @@ function ExternalLinksPage() {
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
+              <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
+                <div>
+                  <div className="font-medium">ChavrutAI</div>
+                  <div className="text-sm text-muted-foreground">ChavrutAI Talmud Reader</div>
+                  <div className="text-xs text-muted-foreground mt-1 font-mono break-all max-w-md">
+                    /tractate/{tractate.toLowerCase().replace(/ /g, '-')}/{folio}{side}
+                  </div>
+                </div>
+                <a
+                  href={`/tractate/${tractate.toLowerCase().replace(/ /g, '-')}/${folio}${side}`}
+                  className="flex items-center gap-1 text-primary hover:underline flex-shrink-0 ml-4"
+                  data-testid="link-page-chavrutai"
+                >
+                  <ExternalLink className="w-4 h-4" />
+                  Open
+                </a>
+              </div>
               {pageLinks.map((link, index) => (
                 <div key={index} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
                   <div>
