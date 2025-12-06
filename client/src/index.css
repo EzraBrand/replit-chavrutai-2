@@ -235,6 +235,23 @@
   .hebrew-font-david-libre .hebrew-text {
     font-family: 'David Libre', serif;
   }
+
+  /* English font family classes - only apply to English text */
+  .english-font-roboto .english-text {
+    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  .english-font-inter .english-text {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  .english-font-source-sans-3 .english-text {
+    font-family: 'Source Sans 3', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  .english-font-open-sans .english-text {
+    font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
   
   /* Flexible Hebrew paragraph spacing for better column alignment */
   .layout-side-by-side .hebrew-text {

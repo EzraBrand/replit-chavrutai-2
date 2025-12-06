@@ -21,8 +21,9 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
   // Ensure we have the same number of sections for both languages
   const maxSections = Math.max(hebrewSections.length, englishSections.length);
   
-  // Get Hebrew font class based on selected font
+  // Get font classes based on selected fonts
   const getHebrewFontClass = () => `hebrew-font-${preferences.hebrewFont}`;
+  const getEnglishFontClass = () => `english-font-${preferences.englishFont}`;
 
   // Function to apply highlighting to text if enabled
   const applyHighlighting = (text: string): string => {

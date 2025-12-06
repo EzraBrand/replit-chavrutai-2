@@ -109,7 +109,7 @@ export default function Home() {
       </header>
 
       {/* Main Content */}
-      <main className={`max-w-7xl mx-auto px-4 py-6 text-size-${preferences.textSize} hebrew-font-${preferences.hebrewFont}`}>
+      <main className={`max-w-7xl mx-auto px-4 py-6 text-size-${preferences.textSize} hebrew-font-${preferences.hebrewFont} english-font-${preferences.englishFont}`}>
         {/* Page Title */}
         <div className="mb-6">
           <h1 className="text-2xl font-semibold text-primary mb-2">

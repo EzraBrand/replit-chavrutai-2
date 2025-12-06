@@ -133,7 +133,7 @@ export default function TractateView() {
       </header>
 
       {/* Main Content */}
-      <main className={`max-w-4xl mx-auto px-4 py-6 text-size-${preferences.textSize} hebrew-font-${preferences.hebrewFont} layout-${preferences.layout}`}>
+      <main className={`max-w-4xl mx-auto px-4 py-6 text-size-${preferences.textSize} hebrew-font-${preferences.hebrewFont} english-font-${preferences.englishFont} layout-${preferences.layout}`}>
 
         
 

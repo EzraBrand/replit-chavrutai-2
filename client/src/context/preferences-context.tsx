@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState, ReactNode } from "react
 
 export type TextSize = "extra-small" | "small" | "medium" | "large" | "extra-large";
 export type HebrewFont = "calibri" | "times" | "frank-ruehl" | "noto-sans-hebrew" | "noto-serif-hebrew" | "assistant" | "david-libre";
+export type EnglishFont = "roboto" | "inter" | "source-sans-3" | "open-sans";
 export type Theme = "sepia" | "white" | "dark";
 export type Layout = "side-by-side" | "stacked";
 
@@ -15,6 +16,7 @@ interface HighlightingSettings {
 interface Preferences {
   textSize: TextSize;
   hebrewFont: HebrewFont;
+  englishFont: EnglishFont;
   theme: Theme;
   layout: Layout;
   highlighting: HighlightingSettings;
@@ -24,6 +26,7 @@ interface PreferencesContextType {
   preferences: Preferences;
   setTextSize: (size: TextSize) => void;
   setHebrewFont: (font: HebrewFont) => void;
+  setEnglishFont: (font: EnglishFont) => void;
   setTheme: (theme: Theme) => void;
   setLayout: (layout: Layout) => void;
   setHighlighting: (highlighting: HighlightingSettings) => void;
@@ -34,6 +37,7 @@ const PreferencesContext = createContext<PreferencesContextType | undefined>(und
 const DEFAULT_PREFERENCES: Preferences = {
   textSize: "medium",
   hebrewFont: "assistant",
+  englishFont: "roboto",
   theme: "white",
   layout: "side-by-side",
   highlighting: {
@@ -98,6 +102,10 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
     setPreferences(prev => ({ ...prev, hebrewFont }));
   };
 
+  const setEnglishFont = (englishFont: EnglishFont) => {
+    setPreferences(prev => ({ ...prev, englishFont }));
+  };
+
   const setTheme = (theme: Theme) => {
     setPreferences(prev => ({ ...prev, theme }));
   };
@@ -116,6 +124,7 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
         preferences,
         setTextSize,
         setHebrewFont,
+        setEnglishFont,
         setTheme,
         setLayout,
         setHighlighting,

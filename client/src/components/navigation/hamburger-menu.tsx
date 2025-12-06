@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import { usePreferences, type TextSize, type HebrewFont, type Theme, type Layout } from "@/context/preferences-context";
+import { usePreferences, type TextSize, type HebrewFont, type EnglishFont, type Theme, type Layout } from "@/context/preferences-context";
 import { Switch } from "@/components/ui/switch";
 import type { TalmudLocation } from "@/types/talmud";
 import { trackEvent } from "@/lib/analytics";
@@ -16,7 +16,7 @@ interface HamburgerMenuProps {
 
 export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
   const [open, setOpen] = useState(false);
-  const { preferences, setTextSize, setHebrewFont, setTheme, setLayout, setHighlighting } = usePreferences();
+  const { preferences, setTextSize, setHebrewFont, setEnglishFont, setTheme, setLayout, setHighlighting } = usePreferences();
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -143,6 +143,48 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
                       <div className="flex items-center gap-2">
                         <span className="hebrew-font-david-libre text-lg">א</span>
                         <span>David Libre</span>
+                      </div>
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* English Font */}
+              <div className="px-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <Type className="w-4 h-4 text-foreground/60" />
+                  <span className="text-sm text-foreground/80">English Font</span>
+                </div>
+                <Select value={preferences.englishFont} onValueChange={(value: EnglishFont) => {
+                  trackEvent('change_preference', 'settings', `english_font_${value}`);
+                  setEnglishFont(value);
+                }}>
+                  <SelectTrigger className="w-full h-8">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="roboto">
+                      <div className="flex items-center gap-2">
+                        <span style={{ fontFamily: 'Roboto, sans-serif' }}>Aa</span>
+                        <span>Roboto</span>
+                      </div>
+                    </SelectItem>
+                    <SelectItem value="inter">
+                      <div className="flex items-center gap-2">
+                        <span style={{ fontFamily: 'Inter, sans-serif' }}>Aa</span>
+                        <span>Inter</span>
+                      </div>
+                    </SelectItem>
+                    <SelectItem value="source-sans-3">
+                      <div className="flex items-center gap-2">
+                        <span style={{ fontFamily: "'Source Sans 3', sans-serif" }}>Aa</span>
+                        <span>Source Sans 3</span>
+                      </div>
+                    </SelectItem>
+                    <SelectItem value="open-sans">
+                      <div className="flex items-center gap-2">
+                        <span style={{ fontFamily: "'Open Sans', sans-serif" }}>Aa</span>
+                        <span>Open Sans</span>
                       </div>
                     </SelectItem>
                   </SelectContent>

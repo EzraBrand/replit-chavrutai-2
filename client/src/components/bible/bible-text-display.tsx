@@ -10,8 +10,9 @@ interface BibleTextDisplayProps {
 export function BibleTextDisplay({ text }: BibleTextDisplayProps) {
   const { preferences } = usePreferences();
 
-  // Get Hebrew font class based on selected font
+  // Get font classes based on selected fonts
   const getHebrewFontClass = () => `hebrew-font-${preferences.hebrewFont}`;
+  const getEnglishFontClass = () => `english-font-${preferences.englishFont}`;
 
   // Copy-paste handler to preserve formatting and ensure Hebrew comes before English
   useEffect(() => {
