@@ -97,7 +97,7 @@ function ExternalLinksPage() {
             <p>
               This page generates links to the same Talmud page across different online platforms. 
               Select a tractate, folio, and side below, then use the generated links to view that page 
-              on Sefaria, Al HaTorah, Wikisource, Daf Yomi, or ChavrutAI.
+              on any of the following websites: ChavrutAI, Sefaria, Al HaTorah, Wikisource, or 'Daf Yomi' (tzurat hadaf).
             </p>
             <p>
               Optionally add a section number to get links that point directly to a specific paragraph. 
