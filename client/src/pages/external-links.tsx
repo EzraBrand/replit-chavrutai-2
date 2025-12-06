@@ -95,7 +95,7 @@ function ExternalLinksPage() {
           <CardContent className="text-sm text-muted-foreground space-y-2">
             <p>
               This page provides links to the same Talmud pages and sections across different websites. 
-              Select a tractate, folio, and side below, then use the generated links to view that page 
+              Select a tractate, folio, and side below, then use the provided links to view that page 
               on any of the following websites: ChavrutAI, Sefaria, Al HaTorah, Wikisource, or 'Daf Yomi' (tzurat hadaf).
             </p>
             <p>
@@ -135,8 +135,9 @@ function ExternalLinksPage() {
                   className="text-blue-600 dark:text-blue-400 hover:underline"
                   data-testid="link-pixel-article"
                 >
-                  From Print to Pixel: Digital Editions of the Talmud Bavli (Seforim Blog)
+                  From Print to Pixel: Digital Editions of the Talmud Bavli
                 </a>
+                {" "}(Seforim Blog)
               </li>
               <li>
                 <a 
@@ -148,6 +149,7 @@ function ExternalLinksPage() {
                 >
                   Guide to Online Resources for Scholarly Jewish Study and Research - 2023
                 </a>
+                {" "}(Academia.edu)
               </li>
               <li>
                 <a 
@@ -168,7 +170,7 @@ function ExternalLinksPage() {
                   className="text-blue-600 dark:text-blue-400 hover:underline"
                   data-testid="link-comparison-blogpost"
                 >
-                  More on the Formatting of the Talmud (comparison blogpost)
+                  More on the Formatting of the Talmud
                 </a>
               </li>
               <li>
