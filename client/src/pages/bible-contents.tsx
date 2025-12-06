@@ -5,7 +5,6 @@ import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
 import { bibleAPI } from "@/lib/bible-api";
 import { getBaseUrl } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import { ExternalLink } from "lucide-react";
 import type { BibleBook } from "@/types/bible";
 
