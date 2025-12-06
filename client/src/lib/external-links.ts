@@ -83,6 +83,7 @@ const DAF_YOMI_MASSECHET_IDS: Record<string, number> = {
   "Temurah": 316,
   "Keritot": 317,
   "Meilah": 318,
+  "Tamid": 320,
   "Niddah": 322
 };
 
