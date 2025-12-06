@@ -207,32 +207,32 @@
     line-height: 1.8;
   }
 
-  /* Hebrew font family classes */
-  .hebrew-font-calibri {
+  /* Hebrew font family classes - only apply to Hebrew text */
+  .hebrew-font-calibri .hebrew-text {
     font-family: 'Calibri', 'Segoe UI', sans-serif;
   }
 
-  .hebrew-font-times {
+  .hebrew-font-times .hebrew-text {
     font-family: 'Times New Roman', serif;
   }
 
-  .hebrew-font-frank-ruehl {
+  .hebrew-font-frank-ruehl .hebrew-text {
     font-family: 'Frank Ruhl Libre', serif;
   }
 
-  .hebrew-font-noto-sans-hebrew {
+  .hebrew-font-noto-sans-hebrew .hebrew-text {
     font-family: 'Noto Sans Hebrew', sans-serif;
   }
 
-  .hebrew-font-noto-serif-hebrew {
+  .hebrew-font-noto-serif-hebrew .hebrew-text {
     font-family: 'Noto Serif Hebrew', serif;
   }
 
-  .hebrew-font-assistant {
+  .hebrew-font-assistant .hebrew-text {
     font-family: 'Assistant', sans-serif;
   }
 
-  .hebrew-font-david-libre {
+  .hebrew-font-david-libre .hebrew-text {
     font-family: 'David Libre', serif;
   }
   
