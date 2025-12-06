@@ -2,7 +2,6 @@ import { Link } from "wouter";
 import { BreadcrumbNavigation, breadcrumbHelpers } from "@/components/navigation/breadcrumb-navigation";
 import { Footer } from "@/components/footer";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
-import { BookOpen, Languages, Palette, Type, Layout, Highlighter, Menu, ExternalLink } from "lucide-react";
 
 export default function About() {
   useSEO(generateSEOData.aboutPage());
@@ -21,37 +20,34 @@ export default function About() {
             
             <div className="space-y-10">
               <section>
-                <h2 className="text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
-                  <BookOpen className="h-5 w-5" />
+                <h2 className="text-xl font-semibold text-foreground mb-4">
                   What is ChavrutAI?
                 </h2>
                 <p className="text-muted-foreground leading-relaxed mb-4">
-                  ChavrutAI is a free web application for studying the Babylonian Talmud and Tanakh (Hebrew Bible). 
-                  It displays Hebrew text alongside English translation, making these ancient texts accessible 
+                  ChavrutAI is a free website for studying the Babylonian Talmud and Tanakh (Hebrew Bible). 
+                  It displays Hebrew text alongside English translation, making these classical texts accessible 
                   to learners at all levels.
                 </p>
                 <p className="text-muted-foreground leading-relaxed">
-                  The design is inspired by traditional Jewish manuscripts, with warm colors and clear typography 
-                  that make extended study comfortable. Whether you're new to Talmud study or an experienced 
+                  Whether you're new to Talmud study or an experienced 
                   learner, ChavrutAI provides a clean, distraction-free reading experience.
                 </p>
               </section>
 
               <section>
-                <h2 className="text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
-                  <Languages className="h-5 w-5" />
+                <h2 className="text-xl font-semibold text-foreground mb-4">
                   Available Texts
                 </h2>
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="bg-secondary/30 rounded-lg p-4">
                     <h3 className="font-medium text-foreground mb-2">Babylonian Talmud</h3>
                     <p className="text-sm text-muted-foreground mb-3">
-                      All 37 tractates with accurate folio numbering based on the Vilna edition. 
+                      All 37 tractates with standard page numbering based on the standard printed edition. 
                       Navigate by Seder (order), tractate, chapter, or individual page.
                     </p>
                     <Link 
                       href="/contents"
-                      className="text-primary hover:text-primary/80 text-sm font-medium inline-flex items-center gap-1"
+                      className="text-blue-600 hover:text-blue-800 underline text-sm font-medium"
                       data-testid="link-talmud-contents"
                     >
                       Browse Talmud Contents
@@ -65,7 +61,7 @@ export default function About() {
                     </p>
                     <Link 
                       href="/tanakh"
-                      className="text-primary hover:text-primary/80 text-sm font-medium inline-flex items-center gap-1"
+                      className="text-blue-600 hover:text-blue-800 underline text-sm font-medium"
                       data-testid="link-tanakh-contents"
                     >
                       Browse Tanakh Contents
@@ -75,8 +71,7 @@ export default function About() {
               </section>
 
               <section>
-                <h2 className="text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
-                  <Menu className="h-5 w-5" />
+                <h2 className="text-xl font-semibold text-foreground mb-4">
                   How to Use
                 </h2>
                 <div className="space-y-4 text-muted-foreground">
@@ -91,8 +86,7 @@ export default function About() {
                   <div>
                     <h3 className="font-medium text-foreground mb-1">Breadcrumbs</h3>
                     <p className="text-sm leading-relaxed">
-                      At the top of each page, breadcrumbs show your current location (e.g., Berakhot &gt; Chapter 1 &gt; 2a). 
-                      Click any part to navigate back to that level.
+                      At the top of each page, breadcrumbs show your current location (e.g., Berakhot &gt; Chapter 1 &gt; 2a).
                     </p>
                   </div>
                   <div>
@@ -111,50 +105,35 @@ export default function About() {
                   Access these settings from the menu (hamburger icon) in the top-left corner.
                 </p>
                 <div className="grid sm:grid-cols-2 gap-4">
-                  <div className="flex items-start gap-3">
-                    <Palette className="h-5 w-5 text-muted-foreground mt-0.5 flex-shrink-0" />
-                    <div>
-                      <h3 className="font-medium text-foreground text-sm">Themes</h3>
-                      <p className="text-xs text-muted-foreground">
-                        Choose Sepia (warm parchment), White (clean), or Dark mode
-                      </p>
-                    </div>
+                  <div>
+                    <h3 className="font-medium text-foreground text-sm">Themes</h3>
+                    <p className="text-xs text-muted-foreground">
+                      Choose Sepia (warm parchment), White (clean), or Dark mode
+                    </p>
                   </div>
-                  <div className="flex items-start gap-3">
-                    <Type className="h-5 w-5 text-muted-foreground mt-0.5 flex-shrink-0" />
-                    <div>
-                      <h3 className="font-medium text-foreground text-sm">Text Size</h3>
-                      <p className="text-xs text-muted-foreground">
-                        Five sizes from Extra Small to Extra Large
-                      </p>
-                    </div>
+                  <div>
+                    <h3 className="font-medium text-foreground text-sm">Text Size</h3>
+                    <p className="text-xs text-muted-foreground">
+                      Five sizes from Extra Small to Extra Large
+                    </p>
                   </div>
-                  <div className="flex items-start gap-3">
-                    <Type className="h-5 w-5 text-muted-foreground mt-0.5 flex-shrink-0" />
-                    <div>
-                      <h3 className="font-medium text-foreground text-sm">Fonts</h3>
-                      <p className="text-xs text-muted-foreground">
-                        Multiple Hebrew fonts (Assistant, Noto Sans, etc.) and English fonts (Inter, Roboto, etc.)
-                      </p>
-                    </div>
+                  <div>
+                    <h3 className="font-medium text-foreground text-sm">Fonts</h3>
+                    <p className="text-xs text-muted-foreground">
+                      Multiple Hebrew fonts (Assistant, Noto Sans, etc.) and English fonts (Inter, Roboto, etc.)
+                    </p>
                   </div>
-                  <div className="flex items-start gap-3">
-                    <Layout className="h-5 w-5 text-muted-foreground mt-0.5 flex-shrink-0" />
-                    <div>
-                      <h3 className="font-medium text-foreground text-sm">Layout</h3>
-                      <p className="text-xs text-muted-foreground">
-                        Side-by-side (Hebrew and English in columns) or Stacked view
-                      </p>
-                    </div>
+                  <div>
+                    <h3 className="font-medium text-foreground text-sm">Layout</h3>
+                    <p className="text-xs text-muted-foreground">
+                      Side-by-side (Hebrew and English in columns) or Stacked view
+                    </p>
                   </div>
-                  <div className="flex items-start gap-3 sm:col-span-2">
-                    <Highlighter className="h-5 w-5 text-muted-foreground mt-0.5 flex-shrink-0" />
-                    <div>
-                      <h3 className="font-medium text-foreground text-sm">Term Highlighting</h3>
-                      <p className="text-xs text-muted-foreground">
-                        Highlight key concepts, names of rabbis, and place names in the Hebrew text (over 5,000 terms)
-                      </p>
-                    </div>
+                  <div className="sm:col-span-2">
+                    <h3 className="font-medium text-foreground text-sm">Term Highlighting</h3>
+                    <p className="text-xs text-muted-foreground">
+                      Highlight key concepts, names of rabbis, and place names in the Hebrew text (over 5,000 terms)
+                    </p>
                   </div>
                 </div>
               </section>
@@ -163,28 +142,21 @@ export default function About() {
                 <h2 className="text-xl font-semibold text-foreground mb-4">Special Features</h2>
                 <ul className="space-y-3 text-muted-foreground">
                   <li className="flex items-start gap-2">
-                    <span className="text-primary font-bold">•</span>
+                    <span className="text-foreground font-bold">•</span>
                     <span className="text-sm">
                       <strong className="text-foreground">Page Continuation:</strong> Each Talmud page shows a preview of the next page's opening, 
                       so sentences that continue across pages aren't interrupted.
                     </span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <span className="text-primary font-bold">•</span>
-                    <span className="text-sm">
-                      <strong className="text-foreground">Chapter Outlines:</strong> View detailed topic breakdowns for each chapter 
-                      to understand the structure before diving in.
-                    </span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-primary font-bold">•</span>
+                    <span className="text-foreground font-bold">•</span>
                     <span className="text-sm">
                       <strong className="text-foreground">Sugya Viewer:</strong> Study specific text ranges by entering Talmud references 
                       (e.g., "Berakhot 2a-5b") or Sefaria URLs.
                     </span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <span className="text-primary font-bold">•</span>
+                    <span className="text-foreground font-bold">•</span>
                     <span className="text-sm">
                       <strong className="text-foreground">Famous Pages:</strong> Explore a curated list of well-known Talmudic passages 
                       as starting points for study.
@@ -201,10 +173,9 @@ export default function About() {
                     href="https://www.ezrabrand.com/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-primary hover:text-primary/80 underline inline-flex items-center gap-1"
+                    className="text-blue-600 hover:text-blue-800 underline"
                   >
                     Talmud & Tech
-                    <ExternalLink className="h-3 w-3" />
                   </a>
                   . Text content is sourced from the Sefaria library (ChavrutAI is not affiliated with Sefaria).
                 </p>
@@ -214,69 +185,20 @@ export default function About() {
                     href="https://www.ezrabrand.com/p/chavrutai-talmud-web-app-launch-review"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-primary hover:text-primary/80 underline inline-flex items-center gap-1"
+                    className="text-blue-600 hover:text-blue-800 underline"
                   >
                     ChavrutAI Launch Review
-                    <ExternalLink className="h-3 w-3" />
                   </a>
                 </p>
                 <p className="text-muted-foreground leading-relaxed">
                   For questions, feedback, or to report an issue:{" "}
                   <a 
                     href="mailto:ezra@chavrutai.com"
-                    className="text-primary hover:text-primary/80 underline"
+                    className="text-blue-600 hover:text-blue-800 underline"
                   >
                     ezra@chavrutai.com
                   </a>
                 </p>
-              </section>
-
-              <section className="bg-secondary/30 rounded-lg p-6">
-                <h2 className="text-lg font-semibold text-foreground mb-4">Quick Links</h2>
-                <div className="flex flex-wrap gap-4">
-                  <Link 
-                    href="/"
-                    className="text-primary hover:text-primary/80 font-medium text-sm"
-                    data-testid="link-home"
-                  >
-                    Home
-                  </Link>
-                  <Link 
-                    href="/contents"
-                    className="text-primary hover:text-primary/80 font-medium text-sm"
-                    data-testid="link-contents"
-                  >
-                    Talmud Contents
-                  </Link>
-                  <Link 
-                    href="/tanakh"
-                    className="text-primary hover:text-primary/80 font-medium text-sm"
-                    data-testid="link-tanakh"
-                  >
-                    Tanakh
-                  </Link>
-                  <Link 
-                    href="/suggested-pages"
-                    className="text-primary hover:text-primary/80 font-medium text-sm"
-                    data-testid="link-famous"
-                  >
-                    Famous Pages
-                  </Link>
-                  <Link 
-                    href="/sugya-viewer"
-                    className="text-primary hover:text-primary/80 font-medium text-sm"
-                    data-testid="link-sugya"
-                  >
-                    Sugya Viewer
-                  </Link>
-                  <Link 
-                    href="/changelog"
-                    className="text-primary hover:text-primary/80 font-medium text-sm"
-                    data-testid="link-changelog"
-                  >
-                    Changelog
-                  </Link>
-                </div>
               </section>
             </div>
           </div>
