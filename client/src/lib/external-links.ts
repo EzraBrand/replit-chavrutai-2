@@ -108,12 +108,11 @@ function getDafYomiAmudId(folio: number, side: 'a' | 'b'): number {
 
 export function getSefariaLink(ref: TalmudReference): string {
   const { tractate, folio, side, section } = ref;
-  const externalName = getExternalTractateName(tractate);
   const folioStr = `${folio}${side}`;
   if (section !== undefined) {
-    return `https://www.sefaria.org.il/${externalName}.${folioStr}.${section}`;
+    return `https://www.sefaria.org.il/${tractate}.${folioStr}.${section}`;
   }
-  return `https://www.sefaria.org.il/${externalName}.${folioStr}`;
+  return `https://www.sefaria.org.il/${tractate}.${folioStr}`;
 }
 
 export function getAlHaTorahLink(ref: TalmudReference): string {
