@@ -164,38 +164,39 @@ export default function BlogPostsPage() {
             {selectedTractate !== 'all' && ` in ${selectedTractate.replace(/_/g, ' ')}`}
           </div>
         )}
-      </div>
-
-      {/* Blog Posts Table */}
-      <div className="bg-white dark:bg-sepia-900 rounded-lg shadow-lg p-6">
-        <div className="mb-4">
-          <h2 className="text-xl text-sepia-800 dark:text-sepia-200 mb-2">
-            Blog Posts Collection
-          </h2>
-          <div className="text-sm text-sepia-600 dark:text-sepia-400">
-            {filteredPosts.entries.length} posts displayed • Organized by traditional tractate order
-          </div>
         </div>
-        
-        {filteredPosts.entries.length > 0 ? (
-          <BlogPostsTable blogPosts={filteredPosts} />
-        ) : (
-          <div className="text-center py-8">
-            <p className="text-sepia-600 dark:text-sepia-400 mb-4">
-              No blog posts found matching your search criteria.
-            </p>
-            <button
-              onClick={() => {
-                setSearchTerm('');
-                setSelectedTractate('all');
-              }}
-              className="text-blue-600 dark:text-blue-400 hover:underline"
-              data-testid="button-clear-filters"
-            >
-              Clear filters
-            </button>
+
+        {/* Blog Posts Table */}
+        <div className="bg-white dark:bg-sepia-900 rounded-lg shadow-lg p-6">
+          <div className="mb-4">
+            <h2 className="text-xl text-sepia-800 dark:text-sepia-200 mb-2">
+              Blog Posts Collection
+            </h2>
+            <div className="text-sm text-sepia-600 dark:text-sepia-400">
+              {filteredPosts.entries.length} posts displayed • Organized by traditional tractate order
+            </div>
           </div>
-        )}
+          
+          {filteredPosts.entries.length > 0 ? (
+            <BlogPostsTable blogPosts={filteredPosts} />
+          ) : (
+            <div className="text-center py-8">
+              <p className="text-sepia-600 dark:text-sepia-400 mb-4">
+                No blog posts found matching your search criteria.
+              </p>
+              <button
+                onClick={() => {
+                  setSearchTerm('');
+                  setSelectedTractate('all');
+                }}
+                className="text-blue-600 dark:text-blue-400 hover:underline"
+                data-testid="button-clear-filters"
+              >
+                Clear filters
+              </button>
+            </div>
+          )}
+        </div>
       </div>
       
       <Footer />
