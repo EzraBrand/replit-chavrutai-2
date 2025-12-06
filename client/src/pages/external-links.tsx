@@ -95,7 +95,7 @@ function ExternalLinksPage() {
           </CardHeader>
           <CardContent className="text-sm text-muted-foreground space-y-2">
             <p>
-              This page generates links to the same Talmud page across different online platforms. 
+              This page provides links to the same Talmud pages and sections across different websites. 
               Select a tractate, folio, and side below, then use the generated links to view that page 
               on any of the following websites: ChavrutAI, Sefaria, Al HaTorah, Wikisource, or 'Daf Yomi' (tzurat hadaf).
             </p>
