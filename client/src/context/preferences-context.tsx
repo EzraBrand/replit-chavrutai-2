@@ -34,7 +34,7 @@ const PreferencesContext = createContext<PreferencesContextType | undefined>(und
 const DEFAULT_PREFERENCES: Preferences = {
   textSize: "medium",
   hebrewFont: "noto-sans-hebrew",
-  theme: "sepia",
+  theme: "white",
   layout: "side-by-side",
   highlighting: {
     enabled: false,
