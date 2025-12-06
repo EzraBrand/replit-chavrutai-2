@@ -13,8 +13,8 @@ export function ExternalLinksFooter({ tractate, folio, side }: ExternalLinksFoot
   
   return (
     <div className="mt-8 pt-6 border-t border-border" data-testid="external-links-footer">
-      <h3 className="text-lg font-semibold text-foreground mb-4">External Links</h3>
-      <div className="flex flex-wrap gap-4">
+      <div className="flex flex-wrap items-center gap-4">
+        <span className="text-lg font-semibold text-foreground">External Links:</span>
         {pageLinks.map((link) => (
           <a
             key={link.name}

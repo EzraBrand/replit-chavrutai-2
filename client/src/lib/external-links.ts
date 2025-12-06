@@ -168,14 +168,14 @@ export function getAllExternalLinks(ref: TalmudReference): ExternalLink[] {
   const pageRef = { ...ref, section: undefined };
   
   links.push({
-    name: 'Sefaria (Page)',
+    name: 'Sefaria',
     url: getSefariaLink(pageRef),
     type: 'page',
     description: 'Sefaria.org.il - page-level link'
   });
   
   links.push({
-    name: 'Al HaTorah (Page)',
+    name: 'Al HaTorah',
     url: getAlHaTorahLink(pageRef),
     type: 'page',
     description: 'Al HaTorah Shas - page-level link'
@@ -184,7 +184,7 @@ export function getAllExternalLinks(ref: TalmudReference): ExternalLink[] {
   const wikisourceUrl = getWikisourceHebrewLink(ref);
   if (wikisourceUrl) {
     links.push({
-      name: 'Wikisource Hebrew',
+      name: 'Wikisource',
       url: wikisourceUrl,
       type: 'page',
       description: 'Hebrew Wikisource - full page text'
