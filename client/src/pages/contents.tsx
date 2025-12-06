@@ -1,11 +1,10 @@
 import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { BreadcrumbNavigation, breadcrumbHelpers } from "@/components/navigation/breadcrumb-navigation";
+import { Card } from "@/components/ui/card";
 import { Footer } from "@/components/footer";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
 import { sefariaAPI } from "@/lib/sefaria";
-import { TRACTATE_LISTS, TRACTATE_HEBREW_NAMES, getTractateSlug } from "@shared/tractates";
+import { TRACTATE_HEBREW_NAMES } from "@shared/tractates";
 import { trackEvent } from "@/lib/analytics";
 
 // Seder organization with Hebrew names
@@ -114,66 +113,12 @@ export default function Contents() {
       </header>
 
       <div className="max-w-4xl mx-auto px-4 py-4">
-        {/* Breadcrumbs */}
-        <BreadcrumbNavigation items={breadcrumbHelpers.contents()} />
-        
         {/* Header */}
         <div className="text-center mb-4">
           <h1 className="text-3xl font-bold text-primary mb-1">Study Talmud Online</h1>
           <h2 className="text-xl text-primary/80 mb-2">תלמוד בבלי - Babylonian Talmud</h2>
           <p className="text-base text-muted-foreground">Complete digital collection of all 37 tractates with Hebrew-English text display</p>
         </div>
-
-        {/* Main Navigation Section */}
-        <nav className="mb-8" role="navigation" aria-label="Main study sections">
-          <h2 className="text-lg font-semibold text-primary mb-4 text-center">Study Options</h2>
-          <div className="grid grid-cols-3 gap-3 max-w-2xl mx-auto mb-6">
-            <Link 
-              href="/suggested-pages"
-              className="group block"
-              onClick={() => trackEvent('select_main_nav', 'navigation', 'suggested_pages')}
-              data-testid="nav-suggested-pages"
-            >
-              <Card className="hover:shadow-md transition-all duration-200 cursor-pointer border-border hover:border-primary/30 bg-card/50 group-hover:bg-card h-full">
-                <div className="p-3 text-center">
-                  <div className="text-2xl mb-2">📚</div>
-                  <h3 className="text-base font-semibold text-primary mb-1">Famous Pages</h3>
-                  <p className="text-xs text-muted-foreground">Start with the most significant passages</p>
-                </div>
-              </Card>
-            </Link>
-            
-            <Link 
-              href="/contents/berakhot"
-              className="group block"
-              onClick={() => trackEvent('select_main_nav', 'navigation', 'berakhot')}
-              data-testid="nav-berakhot"
-            >
-              <Card className="hover:shadow-md transition-all duration-200 cursor-pointer border-border hover:border-primary/30 bg-card/50 group-hover:bg-card h-full">
-                <div className="p-3 text-center">
-                  <div className="text-2xl mb-2">🙏</div>
-                  <h3 className="text-base font-semibold text-primary mb-1">Start with Berakhot</h3>
-                  <p className="text-xs text-muted-foreground">Begin your study with blessings</p>
-                </div>
-              </Card>
-            </Link>
-            
-            <Link 
-              href="/about"
-              className="group block"
-              onClick={() => trackEvent('select_main_nav', 'navigation', 'about')}
-              data-testid="nav-about"
-            >
-              <Card className="hover:shadow-md transition-all duration-200 cursor-pointer border-border hover:border-primary/30 bg-card/50 group-hover:bg-card h-full">
-                <div className="p-3 text-center">
-                  <div className="text-2xl mb-2">ℹ️</div>
-                  <h3 className="text-base font-semibold text-primary mb-1">About ChavrutAI</h3>
-                  <p className="text-xs text-muted-foreground">Learn about our platform</p>
-                </div>
-              </Card>
-            </Link>
-          </div>
-        </nav>
 
         {/* Seder Sections */}
         <div className="space-y-4">

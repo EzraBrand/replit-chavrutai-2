@@ -2,10 +2,6 @@ import { useRoute, Link } from "wouter";
 import { ChevronLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  BreadcrumbNavigation,
-  breadcrumbHelpers,
-} from "@/components/navigation/breadcrumb-navigation";
 import { getChapterDataByTractate } from "@/lib/chapter-data";
 import { generateFolioButtons } from "@/lib/folio-utils";
 import { Footer } from "@/components/footer";
@@ -70,11 +66,6 @@ export default function TractateContents() {
       </header>
 
       <div className="max-w-6xl mx-auto px-4 py-8">
-        {/* Breadcrumbs */}
-        <BreadcrumbNavigation
-          items={breadcrumbHelpers.tractateContents(tractateDisplayName)}
-        />
-
         {/* Header */}
         <div className="flex items-center gap-4 mb-6">
           <Link href="/contents">

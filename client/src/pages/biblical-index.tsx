@@ -101,6 +101,19 @@ export default function BiblicalIndexPage() {
           <p className="text-lg text-muted-foreground mb-2">
             A comprehensive digital index mapping biblical verses to their citations throughout the Babylonian Talmud
           </p>
+          <p className="text-base text-muted-foreground">
+            For more about this, see{" "}
+            <a 
+              href="https://www.ezrabrand.com/p/biblical-citations-in-the-talmud" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline"
+              data-testid="link-article"
+            >
+              Biblical Citations in the Talmud: A New Digital Index and Concordance
+            </a>{" "}
+            (Sep 21, 2025)
+          </p>
         </div>
 
         <div className="mb-8 prose prose-sm dark:prose-invert max-w-none">
