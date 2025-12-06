@@ -19,6 +19,28 @@ export default function Privacy() {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Centered Logo Header */}
+      <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 py-4">
+          <div className="flex items-center justify-center">
+            <Link 
+              href="/"
+              className="flex items-center space-x-2 flex-shrink-0 hover:opacity-80 transition-opacity duration-200"
+              data-testid="header-logo-link"
+            >
+              <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden">
+                <img 
+                  src="/images/hebrew-book-icon.png" 
+                  alt="ChavrutAI Logo" 
+                  className="w-10 h-10 object-cover"
+                />
+              </div>
+              <div className="text-xl font-semibold text-primary font-roboto">ChavrutAI</div>
+            </Link>
+          </div>
+        </div>
+      </header>
+
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
           {/* Breadcrumbs */}
@@ -26,33 +48,6 @@ export default function Privacy() {
             { label: "Home", href: "/" },
             { label: "Privacy Policy", href: "/privacy" }
           ]} />
-          
-          {/* Quick Navigation */}
-          <nav className="mb-8 bg-card border border-border rounded-lg p-4" role="navigation" aria-label="Quick navigation">
-            <div className="flex flex-wrap gap-4 justify-center">
-              <Link 
-                href="/"
-                className="text-primary hover:text-primary/80 font-medium inline-flex items-center gap-2 transition-colors"
-                data-testid="nav-home"
-              >
-                🏠 Home & Contents
-              </Link>
-              <Link 
-                href="/about"
-                className="text-primary hover:text-primary/80 font-medium inline-flex items-center gap-2 transition-colors"
-                data-testid="nav-about"
-              >
-                ℹ️ About
-              </Link>
-              <Link 
-                href="/contact"
-                className="text-primary hover:text-primary/80 font-medium inline-flex items-center gap-2 transition-colors"
-                data-testid="nav-contact"
-              >
-                📧 Contact
-              </Link>
-            </div>
-          </nav>
           
           <div className="bg-card rounded-lg shadow-sm border border-border p-8">
             <h1 className="text-3xl font-bold text-foreground mb-6">Privacy Policy</h1>

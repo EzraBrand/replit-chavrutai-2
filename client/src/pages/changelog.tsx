@@ -226,6 +226,7 @@ export default function Changelog() {
         </div>
 
       </div>
+      </div>
 
       <Footer />
     </div>
