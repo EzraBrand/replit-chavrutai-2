@@ -19,8 +19,8 @@ function ExternalLinksPage() {
   const [tractate, setTractate] = useState<string>("Shabbat");
   const [folio, setFolio] = useState<number>(2);
   const [side, setSide] = useState<'a' | 'b'>('a');
-  const [section, setSection] = useState<number | undefined>(undefined);
-  const [sectionInput, setSectionInput] = useState<string>("");
+  const [section, setSection] = useState<number | undefined>(2);
+  const [sectionInput, setSectionInput] = useState<string>("2");
   const [links, setLinks] = useState<ExternalLinkType[]>([]);
 
   useEffect(() => {
