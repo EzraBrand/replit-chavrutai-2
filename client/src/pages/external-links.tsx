@@ -116,60 +116,74 @@ function ExternalLinksPage() {
           </p>
         </div>
 
-        <Card className="mb-6 border-yellow-500/50 bg-yellow-50/10">
-          <CardContent className="pt-4">
-            <div className="flex items-start gap-2">
-              <Info className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
-              <div className="text-sm">
-                <p className="font-medium text-yellow-800 dark:text-yellow-200">Related Articles</p>
-                <ul className="mt-1 space-y-1 text-yellow-700 dark:text-yellow-300">
-                  <li>
-                    <a 
-                      href="https://seforimblog.com/2023/06/from-print-to-pixel-digital-editions-of-the-talmud-bavli/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="underline hover:no-underline"
-                      data-testid="link-pixel-article"
-                    >
-                      From Print to Pixel: Digital Editions of the Talmud Bavli (Seforim Blog)
-                    </a>
-                  </li>
-                  <li>
-                    <a 
-                      href="https://www.ezrabrand.com/p/evaluating-al-hatorahs-digital-repository"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="underline hover:no-underline"
-                      data-testid="link-alhatorah-review"
-                    >
-                      Evaluating Al HaTorah's Digital Repository
-                    </a>
-                  </li>
-                  <li>
-                    <a 
-                      href="https://www.ezrabrand.com/p/more-on-the-formatting-of-the-talmud"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="underline hover:no-underline"
-                      data-testid="link-comparison-blogpost"
-                    >
-                      More on the Formatting of the Talmud (comparison blogpost)
-                    </a>
-                  </li>
-                  <li>
-                    <a 
-                      href="https://www.ezrabrand.com/p/helpful-formatting-of-the-talmud"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="underline hover:no-underline"
-                      data-testid="link-helpful-formatting"
-                    >
-                      Helpful Formatting of the Talmud: Ohr Somayach's 'Talmud Navigator'
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
+        <Card className="mb-6">
+          <CardHeader className="pb-2">
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <Info className="w-5 h-5" />
+              Related Articles
+            </CardTitle>
+            <CardDescription>
+              Blog posts and articles about digital Talmud resources
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <a 
+                  href="https://www.ezrabrand.com/p/chavrutai-talmud-web-app-launch-review"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 dark:text-blue-400 hover:underline"
+                  data-testid="link-chavrutai-review"
+                >
+                  ChavrutAI Talmud Web App Launch: Review and Comparison with Similar Platforms
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="https://seforimblog.com/2023/06/from-print-to-pixel-digital-editions-of-the-talmud-bavli/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 dark:text-blue-400 hover:underline"
+                  data-testid="link-pixel-article"
+                >
+                  From Print to Pixel: Digital Editions of the Talmud Bavli (Seforim Blog)
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="https://www.ezrabrand.com/p/evaluating-al-hatorahs-digital-repository"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 dark:text-blue-400 hover:underline"
+                  data-testid="link-alhatorah-review"
+                >
+                  Evaluating Al HaTorah's Digital Repository
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="https://www.ezrabrand.com/p/more-on-the-formatting-of-the-talmud"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 dark:text-blue-400 hover:underline"
+                  data-testid="link-comparison-blogpost"
+                >
+                  More on the Formatting of the Talmud (comparison blogpost)
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="https://www.ezrabrand.com/p/helpful-formatting-of-the-talmud"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 dark:text-blue-400 hover:underline"
+                  data-testid="link-helpful-formatting"
+                >
+                  Helpful Formatting of the Talmud: Ohr Somayach's 'Talmud Navigator'
+                </a>
+              </li>
+            </ul>
           </CardContent>
         </Card>
 
@@ -368,7 +382,7 @@ function ExternalLinksPage() {
         </Card>
 
         <div className="mt-8 text-center text-sm text-muted-foreground">
-          <p>This is an internal testing page. Not linked from public navigation.</p>
+          <p>This is an internal testing page.</p>
         </div>
       </div>
     </div>
