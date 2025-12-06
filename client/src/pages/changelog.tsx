@@ -86,7 +86,7 @@ export default function Changelog() {
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">New Features</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Launched Sugya Viewer for studying custom text ranges</li>
-                <li>Added AI chatbot with email notifications for queries</li>
+                <li>Added AI chatbot for text study assistance</li>
                 <li>Implemented SEO canonical URL enforcement with server-side redirects</li>
               </ul>
             </div>
