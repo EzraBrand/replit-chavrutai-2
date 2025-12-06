@@ -4,7 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ExternalLink, FileText, Info, ArrowRight } from "lucide-react";
+import { ExternalLink, ArrowRight } from "lucide-react";
+import { Footer } from "@/components/footer";
 import { TRACTATE_LISTS, TRACTATE_HEBREW_NAMES, normalizeDisplayTractateName, getMaxFolio, isValidTractate } from "@shared/tractates";
 import { 
   getAllExternalLinks, 
@@ -80,16 +81,14 @@ function ExternalLinksPage() {
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2 flex items-center gap-2">
-            <ExternalLink className="w-8 h-8" />
+          <h1 className="text-3xl font-bold mb-2">
             Links to Talmud Pages, by Platform
           </h1>
         </div>
 
         <Card className="mb-6">
           <CardHeader className="pb-2">
-            <CardTitle className="flex items-center gap-2 text-lg">
-              <Info className="w-5 h-5" />
+            <CardTitle className="text-lg">
               About
             </CardTitle>
           </CardHeader>
@@ -108,8 +107,7 @@ function ExternalLinksPage() {
 
         <Card className="mb-6">
           <CardHeader className="pb-2">
-            <CardTitle className="flex items-center gap-2 text-lg">
-              <Info className="w-5 h-5" />
+            <CardTitle className="text-lg">
               Related Articles
             </CardTitle>
             <CardDescription>
@@ -255,8 +253,7 @@ function ExternalLinksPage() {
         {section !== undefined && (
           <Card className="mb-6">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <FileText className="w-5 h-5" />
+              <CardTitle>
                 Section-Level Links
               </CardTitle>
               <CardDescription>
@@ -318,8 +315,7 @@ function ExternalLinksPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <FileText className="w-5 h-5" />
+            <CardTitle>
               Page-Level Links
             </CardTitle>
             <CardDescription>
@@ -378,9 +374,7 @@ function ExternalLinksPage() {
           </CardContent>
         </Card>
 
-        <div className="mt-8 text-center text-sm text-muted-foreground">
-          <p>This is an internal testing page.</p>
-        </div>
+        <Footer />
       </div>
     </div>
   );
