@@ -123,13 +123,13 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
                     <SelectItem value="noto-sans-hebrew">
                       <div className="flex items-center gap-2">
                         <span className="hebrew-font-noto-sans-hebrew text-lg">א</span>
-                        <span>Noto Sans Hebrew</span>
+                        <span>Noto Sans</span>
                       </div>
                     </SelectItem>
                     <SelectItem value="noto-serif-hebrew">
                       <div className="flex items-center gap-2">
                         <span className="hebrew-font-noto-serif-hebrew text-lg">א</span>
-                        <span>Noto Serif Hebrew</span>
+                        <span>Noto Serif</span>
                       </div>
                     </SelectItem>
 
