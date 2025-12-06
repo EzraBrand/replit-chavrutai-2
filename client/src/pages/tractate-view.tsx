@@ -11,6 +11,7 @@ import { CenteredBreadcrumbNav } from "@/components/navigation/centered-breadcru
 import { BreadcrumbNavigation, breadcrumbHelpers } from "@/components/navigation/breadcrumb-navigation";
 import { SectionNavigation } from "@/components/navigation/section-navigation";
 import { Footer } from "@/components/footer";
+import { ExternalLinksFooter } from "@/components/external-links-footer";
 import { usePreferences } from "@/context/preferences-context";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
 import type { TalmudLocation } from "@/types/talmud";
@@ -182,6 +183,13 @@ export default function TractateView() {
             onLocationChange={handleLocationChange}
           />
         </div>
+
+        {/* External Links Footer */}
+        <ExternalLinksFooter 
+          tractate={talmudLocation.tractate}
+          folio={talmudLocation.folio}
+          side={talmudLocation.side}
+        />
 
         {/* Footer */}
         <Footer />
