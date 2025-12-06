@@ -63,6 +63,16 @@ export default function Changelog() {
           
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Consistent Header Navigation</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Added centered logo header to all secondary pages for consistent navigation</li>
+                <li>Logo links directly to homepage from Dictionary, About, Sitemap, Contact, Privacy, and more</li>
+                <li>Removed redundant "Home" buttons and "Quick Navigation" sections</li>
+                <li>Unified sticky header design across the entire site</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">External Links Page</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added internal testing page for generating links to external Talmud resources</li>
