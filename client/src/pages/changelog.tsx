@@ -43,6 +43,38 @@ export default function Changelog() {
       {/* Changelog Content */}
       <div className="bg-white dark:bg-sepia-900 rounded-lg shadow-lg p-6 max-w-4xl">
         
+        {/* December 2025 */}
+        <div className="mb-8">
+          <h2 className="text-xl font-semibold text-sepia-800 dark:text-sepia-200 mb-4 border-b border-sepia-200 dark:border-sepia-700 pb-2">
+            December 2025
+          </h2>
+          
+          <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
+            <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Performance Optimizations</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Implemented code splitting with lazy loading for 18 routes</li>
+                <li>Migrated static assets to public folder for faster direct serving</li>
+                <li>Optimized Biblical index data loading with fetch-based approach</li>
+                <li>Reduced bundle sizes dramatically (Biblical index from ~1-2MB to 0.6KB)</li>
+                <li>Cleaned up 29 unused UI components and 293 npm packages</li>
+                <li>Optimized Google Fonts with async loading and reduced weights</li>
+                <li>Reduced CSS size to 67KB through dependency cleanup</li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Loading Experience</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Added skeleton loading component for smoother page transitions</li>
+                <li>Implemented React Query caching for Biblical index pages</li>
+                <li>Added font preconnect for faster typography loading</li>
+                <li>Fixed Cumulative Layout Shift (CLS) issues</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
         {/* November 2025 */}
         <div className="mb-8">
           <h2 className="text-xl font-semibold text-sepia-800 dark:text-sepia-200 mb-4 border-b border-sepia-200 dark:border-sepia-700 pb-2">
@@ -50,6 +82,15 @@ export default function Changelog() {
           </h2>
           
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
+            <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">New Features</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Launched Sugya Viewer for studying custom text ranges</li>
+                <li>Added AI chatbot with email notifications for queries</li>
+                <li>Implemented SEO canonical URL enforcement with server-side redirects</li>
+              </ul>
+            </div>
+
             <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Text Processing Improvements</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
@@ -59,17 +100,6 @@ export default function Changelog() {
                 <li>Implemented triple-punctuation cluster handling (e.g., ?'" stays intact)</li>
                 <li>Added intelligent comma splitting that preserves numbers (e.g., 600,000)</li>
                 <li>Converted HTML line breaks to proper text splits</li>
-                <li>Enhanced orphaned quote cleanup to preserve legitimate punctuation clusters</li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Technical Details</h3>
-              <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>Supports both straight and curly quotes (single and double)</li>
-                <li>Unicode quote character handling (U+201C, U+201D, U+2018, U+2019)</li>
-                <li>Preserves HTML formatting while processing text</li>
-                <li>Only splits on bolded commas, not all commas</li>
               </ul>
             </div>
           </div>
