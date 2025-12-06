@@ -232,7 +232,7 @@ function ExternalLinksPage() {
           </CardContent>
         </Card>
 
-        {section !== undefined && sectionLinks.length > 0 && (
+        {section !== undefined && (
           <Card className="mb-6">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -245,6 +245,23 @@ function ExternalLinksPage() {
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
+                <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
+                  <div>
+                    <div className="font-medium">ChavrutAI</div>
+                    <div className="text-sm text-muted-foreground">ChavrutAI Talmud Reader - section anchor</div>
+                    <div className="text-xs text-muted-foreground mt-1 font-mono break-all max-w-md">
+                      /tractate/{tractate.toLowerCase().replace(/ /g, '-')}/{folio}{side}#section-{section}
+                    </div>
+                  </div>
+                  <a
+                    href={`/tractate/${tractate.toLowerCase().replace(/ /g, '-')}/${folio}${side}#section-${section}`}
+                    className="flex items-center gap-1 text-primary hover:underline flex-shrink-0 ml-4"
+                    data-testid="link-section-chavrutai"
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                    Open
+                  </a>
+                </div>
                 {sectionLinks.map((link, index) => (
                   <div key={index} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
                     <div>
@@ -252,12 +269,15 @@ function ExternalLinksPage() {
                       {link.description && (
                         <div className="text-sm text-muted-foreground">{link.description}</div>
                       )}
+                      <div className="text-xs text-muted-foreground mt-1 font-mono break-all max-w-md">
+                        {link.url}
+                      </div>
                     </div>
                     <a
                       href={link.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-1 text-primary hover:underline"
+                      className="flex items-center gap-1 text-primary hover:underline flex-shrink-0 ml-4"
                       data-testid={`link-section-${link.name.toLowerCase().replace(/\s/g, '-')}`}
                     >
                       <ExternalLink className="w-4 h-4" />
