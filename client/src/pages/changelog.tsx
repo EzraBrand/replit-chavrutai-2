@@ -67,7 +67,7 @@ export default function Changelog() {
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added external links footer to each Talmud page with links to Sefaria, Al HaTorah, Wikisource, and Daf Yomi</li>
                 <li>Added section-level external links next to each section header for direct cross-referencing</li>
-                <li>Links open in new tabs for seamless parallel study across platforms</li>
+                <li>Links open in new tabs for parallel study across platforms</li>
               </ul>
             </div>
 
