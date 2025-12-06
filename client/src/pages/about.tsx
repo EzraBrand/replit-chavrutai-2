@@ -15,7 +15,7 @@ export default function About() {
           <div className="bg-card rounded-lg shadow-sm border border-border p-8">
             <h1 className="text-3xl font-bold text-foreground mb-2">About ChavrutAI</h1>
             <p className="text-lg text-muted-foreground mb-8">
-              A free platform for studying Jewish texts in Hebrew and English
+              A free platform for studying classical Jewish texts in Hebrew and English
             </p>
             
             <div className="space-y-10">
