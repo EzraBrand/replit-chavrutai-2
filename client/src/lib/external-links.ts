@@ -83,8 +83,20 @@ const DAF_YOMI_MASSECHET_IDS: Record<string, number> = {
   "Temurah": 316,
   "Keritot": 317,
   "Meilah": 318,
-  "Niddah": 320
+  "Niddah": 322
 };
+
+const EXTERNAL_TRACTATE_NAMES: Record<string, string> = {
+  "Eruvin": "Eiruvin",
+  "Rosh Hashanah": "Rosh_HaShanah",
+  "Beitza": "Beitzah",
+  "Chullin": "Chulin",
+  "Arachin": "Arakhin"
+};
+
+function getExternalTractateName(tractate: string): string {
+  return EXTERNAL_TRACTATE_NAMES[tractate] || tractate;
+}
 
 function getHebrewSide(side: 'a' | 'b'): string {
   return side === 'a' ? 'א' : 'ב';
@@ -96,20 +108,22 @@ function getDafYomiAmudId(folio: number, side: 'a' | 'b'): number {
 
 export function getSefariaLink(ref: TalmudReference): string {
   const { tractate, folio, side, section } = ref;
+  const externalName = getExternalTractateName(tractate);
   const folioStr = `${folio}${side}`;
   if (section !== undefined) {
-    return `https://www.sefaria.org.il/${tractate}.${folioStr}.${section}`;
+    return `https://www.sefaria.org.il/${externalName}.${folioStr}.${section}`;
   }
-  return `https://www.sefaria.org.il/${tractate}.${folioStr}`;
+  return `https://www.sefaria.org.il/${externalName}.${folioStr}`;
 }
 
 export function getAlHaTorahLink(ref: TalmudReference): string {
   const { tractate, folio, side, section } = ref;
+  const externalName = getExternalTractateName(tractate);
   const folioStr = `${folio}${side}`;
   if (section !== undefined) {
-    return `https://shas.alhatorah.org/Full/${tractate}/${folioStr}.${section}`;
+    return `https://shas.alhatorah.org/Full/${externalName}/${folioStr}.${section}`;
   }
-  return `https://shas.alhatorah.org/Full/${tractate}/${folioStr}`;
+  return `https://shas.alhatorah.org/Full/${externalName}/${folioStr}`;
 }
 
 export function getWikisourceHebrewLink(ref: TalmudReference): string {
