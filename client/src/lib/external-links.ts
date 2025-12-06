@@ -1,5 +1,4 @@
 import { TRACTATE_HEBREW_NAMES } from "@shared/tractates";
-import { findChapterForFolio } from "./chapter-data";
 
 export interface TalmudReference {
   tractate: string;
@@ -48,84 +47,43 @@ export function numberToHebrewGematria(num: number): string {
 }
 
 const DAF_YOMI_MASSECHET_IDS: Record<string, number> = {
-  "Berakhot": 2,
+  "Berakhot": 283,
   "Shabbat": 284,
-  "Eruvin": 595,
-  "Pesachim": 806,
-  "Shekalim": 1048,
-  "Yoma": 1092,
-  "Sukkah": 1268,
-  "Beitza": 1380,
-  "Rosh Hashanah": 1460,
-  "Taanit": 1530,
-  "Megillah": 1592,
-  "Moed Katan": 1656,
-  "Chagigah": 1714,
-  "Yevamot": 1768,
-  "Ketubot": 2012,
-  "Nedarim": 2236,
-  "Nazir": 2418,
-  "Sotah": 2550,
-  "Gittin": 2648,
-  "Kiddushin": 2828,
-  "Bava Kamma": 2992,
-  "Bava Metzia": 3230,
-  "Bava Batra": 3468,
-  "Sanhedrin": 3820,
-  "Makkot": 4046,
-  "Shevuot": 4094,
-  "Avodah Zarah": 4192,
-  "Horayot": 4344,
-  "Zevachim": 4372,
-  "Menachot": 4612,
-  "Chullin": 4832,
-  "Bekhorot": 5116,
-  "Arachin": 5238,
-  "Temurah": 5306,
-  "Keritot": 5374,
-  "Meilah": 5430,
-  "Niddah": 5500
-};
-
-const CHABAD_TRACTATE_IDS: Record<string, number> = {
-  "Berakhot": 5441689,
-  "Shabbat": 5443530,
-  "Eruvin": 5443840,
-  "Pesachim": 5444050,
-  "Shekalim": 5444292,
-  "Yoma": 5444336,
-  "Sukkah": 5444512,
-  "Beitza": 5444624,
-  "Rosh Hashanah": 5444704,
-  "Taanit": 5444774,
-  "Megillah": 5444836,
-  "Moed Katan": 5444900,
-  "Chagigah": 5444958,
-  "Yevamot": 5445012,
-  "Ketubot": 5445256,
-  "Nedarim": 5445480,
-  "Nazir": 5445662,
-  "Sotah": 5445794,
-  "Gittin": 5445892,
-  "Kiddushin": 5446072,
-  "Bava Kamma": 5446236,
-  "Bava Metzia": 5446474,
-  "Bava Batra": 5446712,
-  "Sanhedrin": 5447064,
-  "Makkot": 5447290,
-  "Shevuot": 5447338,
-  "Avodah Zarah": 5447436,
-  "Horayot": 5447588,
-  "Zevachim": 5447616,
-  "Menachot": 5447856,
-  "Chullin": 5448076,
-  "Bekhorot": 5448360,
-  "Arachin": 5448482,
-  "Temurah": 5448550,
-  "Keritot": 5448618,
-  "Meilah": 5448674,
-  "Tamid": 5448718,
-  "Niddah": 5448734
+  "Eruvin": 285,
+  "Pesachim": 286,
+  "Shekalim": 287,
+  "Yoma": 288,
+  "Sukkah": 289,
+  "Beitza": 290,
+  "Rosh Hashanah": 291,
+  "Taanit": 292,
+  "Megillah": 293,
+  "Moed Katan": 294,
+  "Chagigah": 295,
+  "Yevamot": 296,
+  "Ketubot": 297,
+  "Nedarim": 298,
+  "Nazir": 299,
+  "Sotah": 300,
+  "Gittin": 301,
+  "Kiddushin": 302,
+  "Bava Kamma": 303,
+  "Bava Metzia": 304,
+  "Bava Batra": 305,
+  "Sanhedrin": 306,
+  "Makkot": 307,
+  "Shevuot": 308,
+  "Avodah Zarah": 309,
+  "Horayot": 310,
+  "Zevachim": 311,
+  "Menachot": 312,
+  "Chullin": 313,
+  "Bekhorot": 314,
+  "Arachin": 315,
+  "Temurah": 316,
+  "Keritot": 317,
+  "Meilah": 318,
+  "Niddah": 320
 };
 
 function getHebrewSide(side: 'a' | 'b'): string {
@@ -166,26 +124,13 @@ export function getWikisourceHebrewLink(ref: TalmudReference): string {
   return `https://he.wikisource.org/wiki/${encodeURIComponent(pageName)}`;
 }
 
-export function getChabadLink(ref: TalmudReference): string {
-  const { tractate, folio, side } = ref;
-  const tractateId = CHABAD_TRACTATE_IDS[tractate];
-  if (!tractateId) return '';
-  
-  const chapterInfo = findChapterForFolio(tractate, folio, side);
-  const chapterNum = chapterInfo?.number || 1;
-  
-  const folioStr = `${folio}${side}`;
-  const tractateSlug = tractate.replace(/ /g, '-');
-  return `https://www.chabad.org/torah-texts/${tractateId}/The-Talmud/${tractateSlug}/Chapter-${chapterNum}/${folioStr}`;
-}
-
 export function getDafYomiLink(ref: TalmudReference): string {
   const { tractate, folio, side } = ref;
   const massechetId = DAF_YOMI_MASSECHET_IDS[tractate];
   if (!massechetId) return '';
   
   const amudId = getDafYomiAmudId(folio, side);
-  return `https://daf-yomi.com/Dafyomi_Page.aspx?vt=1&massechet=${massechetId}&amud=${amudId}&fs=1`;
+  return `https://daf-yomi.com/Dafyomi_Page.aspx?massechet=${massechetId}&amud=${amudId}&fs=1`;
 }
 
 export function getAllExternalLinks(ref: TalmudReference): ExternalLink[] {
@@ -230,16 +175,6 @@ export function getAllExternalLinks(ref: TalmudReference): ExternalLink[] {
       url: wikisourceUrl,
       type: 'page',
       description: 'Hebrew Wikisource - full page text'
-    });
-  }
-  
-  const chabadUrl = getChabadLink(ref);
-  if (chabadUrl) {
-    links.push({
-      name: 'Chabad',
-      url: chabadUrl,
-      type: 'page',
-      description: 'Chabad.org Talmud'
     });
   }
   
