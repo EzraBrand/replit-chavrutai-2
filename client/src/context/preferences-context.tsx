@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState, ReactNode } from "react
 
 export type TextSize = "extra-small" | "small" | "medium" | "large" | "extra-large";
 export type HebrewFont = "calibri" | "times" | "frank-ruehl" | "noto-sans-hebrew" | "noto-serif-hebrew" | "assistant" | "david-libre";
-export type Theme = "light" | "dark";
+export type Theme = "sepia" | "white" | "dark";
 export type Layout = "side-by-side" | "stacked";
 
 interface HighlightingSettings {
@@ -34,7 +34,7 @@ const PreferencesContext = createContext<PreferencesContextType | undefined>(und
 const DEFAULT_PREFERENCES: Preferences = {
   textSize: "medium",
   hebrewFont: "noto-sans-hebrew",
-  theme: "light",
+  theme: "sepia",
   layout: "side-by-side",
   highlighting: {
     enabled: false,
@@ -46,18 +46,37 @@ const DEFAULT_PREFERENCES: Preferences = {
 
 const PREFERENCES_STORAGE_KEY = "talmud-study-preferences";
 
+function migrateTheme(storedTheme: string): Theme {
+  if (storedTheme === "light") return "sepia";
+  if (storedTheme === "sepia" || storedTheme === "white" || storedTheme === "dark") {
+    return storedTheme;
+  }
+  return "sepia";
+}
+
 export function PreferencesProvider({ children }: { children: ReactNode }) {
   const [preferences, setPreferences] = useState<Preferences>(() => {
     // Load from localStorage on initialization
     const stored = localStorage.getItem(PREFERENCES_STORAGE_KEY);
+    let prefs = DEFAULT_PREFERENCES;
     if (stored) {
       try {
-        return { ...DEFAULT_PREFERENCES, ...JSON.parse(stored) };
+        const parsed = JSON.parse(stored);
+        // Migrate legacy "light" theme to "sepia"
+        if (parsed.theme) {
+          parsed.theme = migrateTheme(parsed.theme);
+        }
+        prefs = { ...DEFAULT_PREFERENCES, ...parsed };
       } catch {
-        return DEFAULT_PREFERENCES;
+        prefs = DEFAULT_PREFERENCES;
       }
     }
-    return DEFAULT_PREFERENCES;
+    // Apply theme class synchronously to prevent flash of un-themed content
+    if (typeof document !== 'undefined') {
+      document.documentElement.classList.remove("sepia", "white", "dark");
+      document.documentElement.classList.add(prefs.theme);
+    }
+    return prefs;
   });
 
   // Save to localStorage whenever preferences change
@@ -67,11 +86,8 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
 
   // Apply theme to document
   useEffect(() => {
-    if (preferences.theme === "dark") {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
+    document.documentElement.classList.remove("sepia", "white", "dark");
+    document.documentElement.classList.add(preferences.theme);
   }, [preferences.theme]);
 
   const setTextSize = (textSize: TextSize) => {

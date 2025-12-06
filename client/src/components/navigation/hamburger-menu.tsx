@@ -241,30 +241,29 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
                 )}
               </div>
 
-              {/* Dark Mode */}
+              {/* Theme */}
               <div className="px-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    {preferences.theme === "dark" ? (
-                      <Moon className="w-4 h-4 text-foreground/60" />
-                    ) : (
-                      <Sun className="w-4 h-4 text-foreground/60" />
-                    )}
-                    <span className="text-sm text-foreground/80">Theme</span>
-                  </div>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => {
-                      const newTheme = preferences.theme === "light" ? "dark" : "light";
-                      trackEvent('change_preference', 'settings', `theme_${newTheme}`);
-                      setTheme(newTheme);
-                    }}
-                    className="h-8 px-3"
-                  >
-                    {preferences.theme === "light" ? "Dark" : "Light"}
-                  </Button>
+                <div className="flex items-center gap-2 mb-2">
+                  {preferences.theme === "dark" ? (
+                    <Moon className="w-4 h-4 text-foreground/60" />
+                  ) : (
+                    <Sun className="w-4 h-4 text-foreground/60" />
+                  )}
+                  <span className="text-sm text-foreground/80">Theme</span>
                 </div>
+                <Select value={preferences.theme} onValueChange={(value: Theme) => {
+                  trackEvent('change_preference', 'settings', `theme_${value}`);
+                  setTheme(value);
+                }}>
+                  <SelectTrigger className="w-full h-8">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="sepia">Sepia</SelectItem>
+                    <SelectItem value="white">White</SelectItem>
+                    <SelectItem value="dark">Dark</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
             </div>
             
