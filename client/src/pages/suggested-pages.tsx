@@ -322,47 +322,6 @@ export default function SuggestedPages() {
         {/* Breadcrumb Navigation */}
         <BreadcrumbNavigation items={breadcrumbHelpers.suggestedPages()} />
 
-        {/* Quick Navigation */}
-        <nav className="mb-6 bg-card border border-border rounded-lg p-4" role="navigation" aria-label="Quick navigation">
-          <div className="flex flex-wrap gap-4 justify-center">
-            <Link 
-              href="/"
-              className="text-primary hover:text-primary/80 font-medium inline-flex items-center gap-2 transition-colors"
-              data-testid="nav-home"
-            >
-              🏠 Home & Contents
-            </Link>
-            <Link 
-              href="/about"
-              className="text-primary hover:text-primary/80 font-medium inline-flex items-center gap-2 transition-colors"
-              data-testid="nav-about"
-            >
-              ℹ️ About ChavrutAI
-            </Link>
-            <Link 
-              href="/contents/berakhot"
-              className="text-primary hover:text-primary/80 font-medium inline-flex items-center gap-2 transition-colors"
-              data-testid="nav-berakhot"
-            >
-              🙏 Berakhot
-            </Link>
-            <Link 
-              href="/contents/shabbat"
-              className="text-primary hover:text-primary/80 font-medium inline-flex items-center gap-2 transition-colors"
-              data-testid="nav-shabbat"
-            >
-              🕯️ Shabbat
-            </Link>
-            <Link 
-              href="/contents/sanhedrin"
-              className="text-primary hover:text-primary/80 font-medium inline-flex items-center gap-2 transition-colors"
-              data-testid="nav-sanhedrin"
-            >
-              ⚖️ Sanhedrin
-            </Link>
-          </div>
-        </nav>
-
         {/* Page Header */}
         <div className="mb-6">
           <h1 className="text-3xl font-bold text-primary mb-2 text-center">
@@ -371,9 +330,6 @@ export default function SuggestedPages() {
           <p className="text-lg text-muted-foreground text-center max-w-3xl mx-auto mb-3">
             Start your Talmud journey with these essential teachings, famous stories, and foundational concepts. 
             Perfect introduction for new learners.
-          </p>
-          <p className="text-sm text-muted-foreground text-center">
-            Each page contains centuries of rabbinic wisdom. Click any title to begin reading immediately.
           </p>
         </div>
 
@@ -401,12 +357,6 @@ export default function SuggestedPages() {
           ))}
         </div>
 
-        {/* Footer note */}
-        <div className="mt-6 text-center">
-          <p className="text-xs text-muted-foreground">
-            A curated selection of the most significant pages in the Talmud.
-          </p>
-        </div>
       </main>
       
       <Footer />

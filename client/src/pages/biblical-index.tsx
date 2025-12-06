@@ -72,6 +72,23 @@ export default function BiblicalIndexPage() {
         </p>
       </div>
 
+      <div className="mb-8 prose prose-sm dark:prose-invert max-w-none">
+        <h2>About This Index</h2>
+        <p>
+          This digital index provides a comprehensive mapping of biblical citations found throughout 
+          the Babylonian Talmud. Each entry includes the biblical verse, its location in the Talmud, 
+          and the complete context surrounding the citation.
+        </p>
+        
+        <h3>Features</h3>
+        <ul>
+          <li>Direct hyperlinks to the original Talmudic passages on ChavrutAI</li>
+          <li>Full contextual quotations for each citation</li>
+          <li>Organized by biblical book and chapter</li>
+          <li>Searchable and browseable interface</li>
+        </ul>
+      </div>
+
       <div className="space-y-8">
         {Object.entries(metadata.categories).map(([category, books]) => {
           return (
@@ -99,24 +116,6 @@ export default function BiblicalIndexPage() {
             </div>
           );
         })}
-      </div>
-
-      <div className="mt-12 prose prose-sm dark:prose-invert max-w-none">
-        <h2>About This Index</h2>
-        <p>
-          This digital index provides a comprehensive mapping of biblical citations found throughout 
-          the Babylonian Talmud. Each entry includes the biblical verse, its location in the Talmud, 
-          and the complete context surrounding the citation.
-        </p>
-        
-        <h3>Features</h3>
-        <ul>
-          <li>Direct hyperlinks to the original Talmudic passages on ChavrutAI</li>
-          <li>Full contextual quotations for each citation</li>
-          <li>Organized by biblical book and chapter</li>
-          <li>Searchable and browseable interface</li>
-        </ul>
-
       </div>
       
       <Footer />
