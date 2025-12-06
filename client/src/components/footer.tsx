@@ -3,7 +3,7 @@ import { ExternalLink } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer className="border-t border-border bg-card mt-12">
+    <footer className="border-t border-border bg-card mt-12 min-h-[280px]">
       <div className="container mx-auto px-4 py-10">
         {/* Multi-Column Navigation */}
         <div className="grid grid-cols-[1.4fr_1fr] gap-4 sm:gap-8 max-w-2xl mx-auto mb-8">
@@ -155,7 +155,7 @@ export function Footer() {
                 <img 
                   src="/images/powered-by-sefaria.png" 
                   alt="Powered by Sefaria" 
-                  className="h-8 w-auto"
+                  className="h-8"
                   width={62}
                   height={32}
                   loading="lazy"
