@@ -63,6 +63,15 @@ export default function Changelog() {
           
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">External Links on Talmud Pages</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Added external links footer to each Talmud page with links to Sefaria, Al HaTorah, Wikisource, and Daf Yomi</li>
+                <li>Added section-level external links next to each section header for direct cross-referencing</li>
+                <li>Links open in new tabs for seamless parallel study across platforms</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">UI Simplification</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added link to the article "Biblical Citations in the Talmud: A New Digital Index and Concordance" on the Biblical Index page</li>
