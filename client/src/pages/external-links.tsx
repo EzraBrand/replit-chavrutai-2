@@ -2,10 +2,9 @@ import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ExternalLink, Search, BookOpen, FileText, Info } from "lucide-react";
+import { ExternalLink, BookOpen, FileText, Info } from "lucide-react";
 import { TRACTATE_LISTS, TRACTATE_HEBREW_NAMES, normalizeDisplayTractateName, getMaxFolio, isValidTractate } from "@shared/tractates";
 import { 
   getAllExternalLinks, 
@@ -23,7 +22,6 @@ function ExternalLinksPage() {
   const [section, setSection] = useState<number | undefined>(undefined);
   const [sectionInput, setSectionInput] = useState<string>("");
   const [links, setLinks] = useState<ExternalLinkType[]>([]);
-  const [searchQuery, setSearchQuery] = useState<string>("");
 
   useEffect(() => {
     const params = new URLSearchParams(location.split('?')[1] || '');
@@ -59,30 +57,6 @@ function ExternalLinksPage() {
     };
     setLinks(getAllExternalLinks(ref));
   }, [tractate, folio, side, section]);
-
-  const handleSearch = () => {
-    const match = searchQuery.match(/^([a-zA-Z\s]+)\s+(\d+)([ab])(?:\s*,?\s*(?:section\s*)?(\d+))?$/i);
-    if (match) {
-      const searchTractate = match[1].trim();
-      const searchFolio = parseInt(match[2]);
-      const searchSide = match[3].toLowerCase() as 'a' | 'b';
-      const searchSection = match[4] ? parseInt(match[4]) : undefined;
-
-      if (isValidTractate(searchTractate)) {
-        setTractate(normalizeDisplayTractateName(searchTractate));
-        setFolio(searchFolio);
-        setSide(searchSide);
-        setSection(searchSection);
-        setSectionInput(searchSection?.toString() || "");
-      }
-    }
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      handleSearch();
-    }
-  };
 
   const handleSectionChange = (value: string) => {
     setSectionInput(value);
@@ -123,11 +97,11 @@ function ExternalLinksPage() {
               Related Articles
             </CardTitle>
             <CardDescription>
-              Blog posts and articles about digital Talmud resources
+              Blog posts and articles about digital Talmud resources:
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <ul className="space-y-2 text-sm">
+            <ul className="list-disc list-inside space-y-2 text-sm">
               <li>
                 <a 
                   href="https://www.ezrabrand.com/p/chavrutai-talmud-web-app-launch-review"
@@ -148,6 +122,17 @@ function ExternalLinksPage() {
                   data-testid="link-pixel-article"
                 >
                   From Print to Pixel: Digital Editions of the Talmud Bavli (Seforim Blog)
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="https://www.academia.edu/83334340/Guide_to_Online_Resources_for_Scholarly_Jewish_Study_and_Research_2023"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 dark:text-blue-400 hover:underline"
+                  data-testid="link-academia-guide"
+                >
+                  Guide to Online Resources for Scholarly Jewish Study and Research - 2023
                 </a>
               </li>
               <li>
@@ -189,35 +174,7 @@ function ExternalLinksPage() {
 
         <Card className="mb-6">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Search className="w-5 h-5" />
-              Quick Search
-            </CardTitle>
-            <CardDescription>
-              Enter a reference like "Shabbat 156a, section 14" or "Berakhot 2a"
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="flex gap-2">
-              <Input
-                placeholder="e.g., Shabbat 156a, section 14"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyDown={handleKeyDown}
-                className="flex-1"
-                data-testid="input-search-query"
-              />
-              <Button onClick={handleSearch} data-testid="button-search">
-                <Search className="w-4 h-4 mr-2" />
-                Search
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="mb-6">
-          <CardHeader>
-            <CardTitle>Manual Selection</CardTitle>
+            <CardTitle>Selection</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
