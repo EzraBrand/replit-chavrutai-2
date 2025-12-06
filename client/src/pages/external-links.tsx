@@ -90,6 +90,26 @@ function ExternalLinksPage() {
           <CardHeader className="pb-2">
             <CardTitle className="flex items-center gap-2 text-lg">
               <Info className="w-5 h-5" />
+              About
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="text-sm text-muted-foreground space-y-2">
+            <p>
+              This page generates links to the same Talmud page across different online platforms. 
+              Select a tractate, folio, and side below, then use the generated links to view that page 
+              on Sefaria, Al HaTorah, Wikisource, Daf Yomi, or ChavrutAI.
+            </p>
+            <p>
+              Optionally add a section number to get links that point directly to a specific paragraph. 
+              ChavrutAI links open in the same tab; all other links open in a new tab.
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card className="mb-6">
+          <CardHeader className="pb-2">
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <Info className="w-5 h-5" />
               Related Articles
             </CardTitle>
             <CardDescription>
