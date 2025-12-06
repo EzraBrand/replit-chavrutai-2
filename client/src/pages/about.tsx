@@ -60,7 +60,7 @@ export default function About() {
                       Each book includes Hebrew text with English translation.
                     </p>
                     <Link 
-                      href="/tanakh"
+                      href="/bible"
                       className="text-blue-600 hover:text-blue-800 underline text-sm font-medium"
                       data-testid="link-tanakh-contents"
                     >
@@ -171,8 +171,6 @@ export default function About() {
                   ChavrutAI is a project of{" "}
                   <a 
                     href="https://www.ezrabrand.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
                     className="text-blue-600 hover:text-blue-800 underline"
                   >
                     Talmud & Tech
@@ -183,8 +181,6 @@ export default function About() {
                   Learn more about ChavrutAI in this article:{" "}
                   <a 
                     href="https://www.ezrabrand.com/p/chavrutai-talmud-web-app-launch-review"
-                    target="_blank"
-                    rel="noopener noreferrer"
                     className="text-blue-600 hover:text-blue-800 underline"
                   >
                     ChavrutAI Launch Review
