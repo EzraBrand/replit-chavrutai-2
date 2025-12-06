@@ -25,26 +25,26 @@
   --talmud-blue: hsl(207, 70%, 45%);
 }
 
-/* Sepia Theme (warm, parchment-like) */
-.sepia {
-  --background: hsl(35, 15%, 96%);
+/* Paper Theme (warm, cream-toned) - #F5EEE8 */
+.paper {
+  --background: hsl(28, 37%, 94%);
   --foreground: hsl(25, 12%, 18%);
-  --muted: hsl(35, 12%, 90%);
+  --muted: hsl(28, 25%, 90%);
   --muted-foreground: hsl(25, 8%, 45%);
-  --popover: hsl(35, 14%, 94%);
+  --popover: hsl(28, 30%, 93%);
   --popover-foreground: hsl(25, 12%, 18%);
-  --card: hsl(35, 14%, 94%);
+  --card: hsl(28, 30%, 93%);
   --card-foreground: hsl(25, 12%, 18%);
-  --border: hsl(30, 12%, 78%);
-  --input: hsl(35, 12%, 88%);
+  --border: hsl(25, 18%, 80%);
+  --input: hsl(28, 20%, 88%);
   --primary: hsl(25, 20%, 28%);
-  --primary-foreground: hsl(35, 15%, 96%);
-  --secondary: hsl(35, 12%, 90%);
+  --primary-foreground: hsl(28, 37%, 94%);
+  --secondary: hsl(28, 20%, 90%);
   --secondary-foreground: hsl(25, 12%, 18%);
-  --accent: hsl(35, 12%, 88%);
+  --accent: hsl(28, 20%, 88%);
   --accent-foreground: hsl(25, 12%, 18%);
   --destructive: hsl(0, 70%, 50%);
-  --destructive-foreground: hsl(35, 15%, 96%);
+  --destructive-foreground: hsl(28, 37%, 94%);
   --ring: hsl(25, 20%, 28%);
 }
 

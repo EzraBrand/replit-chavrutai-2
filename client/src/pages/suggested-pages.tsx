@@ -1,10 +1,8 @@
 import { Link } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BreadcrumbNavigation, breadcrumbHelpers } from "@/components/navigation/breadcrumb-navigation";
-import { HamburgerMenu } from "@/components/navigation/hamburger-menu";
 import { Footer } from "@/components/footer";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
-import type { TalmudLocation } from "@/types/talmud";
 
 // Suggested pages for exploration - famous and significant folios
 const SUGGESTED_PAGES = [
@@ -285,22 +283,12 @@ export default function SuggestedPages() {
   // Set up SEO
   useSEO(generateSEOData.suggestedPages());
 
-  // Navigation handler for hamburger menu
-  const handleLocationChange = (newLocation: TalmudLocation) => {
-    const tractateSlug = encodeURIComponent(newLocation.tractate.toLowerCase());
-    const folioSlug = `${newLocation.folio}${newLocation.side}`;
-    window.location.href = `/tractate/${tractateSlug}/${folioSlug}`;
-  };
-
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
         <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            {/* Hamburger Menu */}
-            <HamburgerMenu onLocationChange={handleLocationChange} />
-            
+          <div className="flex items-center justify-center">
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-3">
               <img 
@@ -310,9 +298,6 @@ export default function SuggestedPages() {
               />
               <div className="text-xl font-bold text-foreground">ChavrutAI</div>
             </Link>
-            
-            {/* Spacer for centering */}
-            <div className="w-[40px]" />
           </div>
         </div>
       </header>

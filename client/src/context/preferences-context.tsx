@@ -3,7 +3,7 @@ import { createContext, useContext, useEffect, useState, ReactNode } from "react
 export type TextSize = "extra-small" | "small" | "medium" | "large" | "extra-large";
 export type HebrewFont = "calibri" | "times" | "frank-ruehl" | "noto-sans-hebrew" | "noto-serif-hebrew" | "assistant" | "david-libre";
 export type EnglishFont = "roboto" | "inter" | "source-sans-3" | "open-sans";
-export type Theme = "sepia" | "white" | "dark";
+export type Theme = "paper" | "white" | "dark";
 export type Layout = "side-by-side" | "stacked";
 
 interface HighlightingSettings {
@@ -51,11 +51,11 @@ const DEFAULT_PREFERENCES: Preferences = {
 const PREFERENCES_STORAGE_KEY = "talmud-study-preferences";
 
 function migrateTheme(storedTheme: string): Theme {
-  if (storedTheme === "light") return "sepia";
-  if (storedTheme === "sepia" || storedTheme === "white" || storedTheme === "dark") {
+  if (storedTheme === "light" || storedTheme === "sepia") return "paper";
+  if (storedTheme === "paper" || storedTheme === "white" || storedTheme === "dark") {
     return storedTheme;
   }
-  return "sepia";
+  return "paper";
 }
 
 export function PreferencesProvider({ children }: { children: ReactNode }) {
@@ -77,7 +77,7 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
     }
     // Apply theme class synchronously to prevent flash of un-themed content
     if (typeof document !== 'undefined') {
-      document.documentElement.classList.remove("sepia", "white", "dark");
+      document.documentElement.classList.remove("paper", "white", "dark");
       document.documentElement.classList.add(prefs.theme);
     }
     return prefs;
@@ -90,7 +90,7 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
 
   // Apply theme to document
   useEffect(() => {
-    document.documentElement.classList.remove("sepia", "white", "dark");
+    document.documentElement.classList.remove("paper", "white", "dark");
     document.documentElement.classList.add(preferences.theme);
   }, [preferences.theme]);
 

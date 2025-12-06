@@ -1,11 +1,11 @@
-import { Menu, Type, Palette, Moon, Sun, Columns, Highlighter } from "lucide-react";
+import { Menu, Type, Palette, Columns, Highlighter } from "lucide-react";
 import { useState } from "react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import { usePreferences, type TextSize, type HebrewFont, type EnglishFont, type Theme, type Layout } from "@/context/preferences-context";
+import { usePreferences, type TextSize, type HebrewFont, type EnglishFont, type Layout } from "@/context/preferences-context";
 import { Switch } from "@/components/ui/switch";
 import type { TalmudLocation } from "@/types/talmud";
 import { trackEvent } from "@/lib/analytics";
@@ -16,7 +16,7 @@ interface HamburgerMenuProps {
 
 export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
   const [open, setOpen] = useState(false);
-  const { preferences, setTextSize, setHebrewFont, setEnglishFont, setTheme, setLayout, setHighlighting } = usePreferences();
+  const { preferences, setTextSize, setHebrewFont, setEnglishFont, setLayout, setHighlighting } = usePreferences();
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -283,30 +283,6 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
                 )}
               </div>
 
-              {/* Theme */}
-              <div className="px-4">
-                <div className="flex items-center gap-2 mb-2">
-                  {preferences.theme === "dark" ? (
-                    <Moon className="w-4 h-4 text-foreground/60" />
-                  ) : (
-                    <Sun className="w-4 h-4 text-foreground/60" />
-                  )}
-                  <span className="text-sm text-foreground/80">Theme</span>
-                </div>
-                <Select value={preferences.theme} onValueChange={(value: Theme) => {
-                  trackEvent('change_preference', 'settings', `theme_${value}`);
-                  setTheme(value);
-                }}>
-                  <SelectTrigger className="w-full h-8">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="sepia">Sepia</SelectItem>
-                    <SelectItem value="white">White</SelectItem>
-                    <SelectItem value="dark">Dark</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
             </div>
             
             <Separator />

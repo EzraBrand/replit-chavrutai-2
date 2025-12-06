@@ -1,14 +1,12 @@
 import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { HamburgerMenu } from "@/components/navigation/hamburger-menu";
 import { BreadcrumbNavigation, breadcrumbHelpers } from "@/components/navigation/breadcrumb-navigation";
 import { Footer } from "@/components/footer";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
 import { sefariaAPI } from "@/lib/sefaria";
 import { TRACTATE_LISTS, TRACTATE_HEBREW_NAMES, getTractateSlug } from "@shared/tractates";
 import { trackEvent } from "@/lib/analytics";
-import type { TalmudLocation } from "@/types/talmud";
 
 // Seder organization with Hebrew names
 const SEDER_ORGANIZATION = {
@@ -55,24 +53,13 @@ export default function Contents() {
     queryFn: () => sefariaAPI.getTractates("Talmud Bavli")
   });
 
-  // Navigation handler for hamburger menu
-  const handleLocationChange = (newLocation: TalmudLocation) => {
-    // Navigate to clean URL
-    const tractateSlug = getTractateSlug(newLocation.tractate);
-    const folioSlug = `${newLocation.folio}${newLocation.side}`;
-    window.location.href = `/tractate/${tractateSlug}/${folioSlug}`;
-  };
-
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background">
         {/* Header */}
         <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
           <div className="max-w-7xl mx-auto px-4 py-4">
-            <div className="flex items-center justify-between">
-              {/* Hamburger Menu */}
-              <HamburgerMenu onLocationChange={handleLocationChange} />
-              
+            <div className="flex items-center justify-center">
               {/* Logo */}
               <Link 
                 href="/"
@@ -88,9 +75,6 @@ export default function Contents() {
                 </div>
                 <div className="text-xl font-semibold text-primary font-roboto">ChavrutAI</div>
               </Link>
-              
-              {/* Empty space for balance */}
-              <div className="w-10 flex-shrink-0"></div>
             </div>
           </div>
         </header>
@@ -109,10 +93,7 @@ export default function Contents() {
       {/* Header */}
       <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
         <div className="max-w-5xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            {/* Hamburger Menu */}
-            <HamburgerMenu onLocationChange={handleLocationChange} />
-            
+          <div className="flex items-center justify-center">
             {/* Logo */}
             <Link 
               href="/"
@@ -128,9 +109,6 @@ export default function Contents() {
               </div>
               <div className="text-xl font-semibold text-primary font-roboto">ChavrutAI</div>
             </Link>
-            
-            {/* Empty space for balance */}
-            <div className="w-10 flex-shrink-0"></div>
           </div>
         </div>
       </header>

@@ -2,7 +2,6 @@ import { useRoute, Link } from "wouter";
 import { ChevronLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { HamburgerMenu } from "@/components/navigation/hamburger-menu";
 import {
   BreadcrumbNavigation,
   breadcrumbHelpers,
@@ -19,7 +18,6 @@ import {
   getTractateSlug,
 } from "@shared/tractates";
 import { getMishnahSection } from "@shared/mishnah-map";
-import type { TalmudLocation } from "@/types/talmud";
 import NotFound from "@/pages/not-found";
 
 export default function TractateContents() {
@@ -29,14 +27,6 @@ export default function TractateContents() {
 
   // Set up SEO
   useSEO(generateSEOData.tractatePage(tractateDisplayName));
-
-  // Navigation handler for hamburger menu
-  const handleLocationChange = (newLocation: TalmudLocation) => {
-    // Navigate to clean URL
-    const tractateSlug = getTractateSlug(newLocation.tractate);
-    const folioSlug = `${newLocation.folio}${newLocation.side}`;
-    window.location.href = `/tractate/${tractateSlug}/${folioSlug}`;
-  };
 
   if (!match) {
     return <div>Tractate not found</div>;
@@ -61,12 +51,9 @@ export default function TractateContents() {
       {/* Header */}
       <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
         <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            {/* Hamburger Menu */}
-            <HamburgerMenu onLocationChange={handleLocationChange} />
-
+          <div className="flex items-center justify-center">
             {/* Logo */}
-            <div className="flex items-center space-x-2 flex-shrink-0">
+            <Link href="/" className="flex items-center space-x-2 flex-shrink-0 hover:opacity-80 transition-opacity duration-200">
               <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden">
                 <img
                   src="/images/hebrew-book-icon.png"
@@ -77,10 +64,7 @@ export default function TractateContents() {
               <div className="text-xl font-semibold text-primary font-roboto">
                 ChavrutAI
               </div>
-            </div>
-
-            {/* Empty space for balance */}
-            <div className="w-10 flex-shrink-0"></div>
+            </Link>
           </div>
         </div>
       </header>

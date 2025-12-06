@@ -11,13 +11,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { HamburgerMenu } from "@/components/navigation/hamburger-menu";
 import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
 import { getTractateSlug, TRACTATE_HEBREW_NAMES, SEDER_TRACTATES, normalizeDisplayTractateName } from "@shared/tractates";
 import { MISHNAH_MAP_DATA, type MishnahMapping } from "@shared/mishnah-map";
 import { getChapterDataByTractate, type ChapterInfo } from "@/lib/chapter-data";
-import type { TalmudLocation } from "@/types/talmud";
 
 const SEDER_ORGANIZATION = {
   "Seder Zeraim": {
@@ -85,12 +83,6 @@ export default function MishnahMapPage() {
     title: "Mishnah-Talmud Mapping | ChavrutAI",
     description: "Comprehensive mapping of Mishnah passages to their corresponding discussions in the Talmud. Find where each Mishnah is discussed and navigate directly to the relevant section."
   });
-
-  const handleLocationChange = (newLocation: TalmudLocation) => {
-    const tractateSlug = getTractateSlug(newLocation.tractate);
-    const folioSlug = `${newLocation.folio}${newLocation.side}`;
-    window.location.href = `/tractate/${tractateSlug}/${folioSlug}`;
-  };
 
   // Transform data into organized structure by Seder → Tractate → Chapter → Mishnah
   const organizedData = useMemo(() => {
@@ -303,9 +295,7 @@ export default function MishnahMapPage() {
       {/* Header */}
       <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
         <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <HamburgerMenu onLocationChange={handleLocationChange} />
-            
+          <div className="flex items-center justify-center">
             <Link 
               href="/"
               className="flex items-center space-x-2 flex-shrink-0 hover:opacity-80 transition-opacity duration-200"
@@ -320,8 +310,6 @@ export default function MishnahMapPage() {
               </div>
               <div className="text-xl font-semibold text-primary font-roboto">ChavrutAI</div>
             </Link>
-            
-            <div className="w-10 flex-shrink-0"></div>
           </div>
         </div>
       </header>

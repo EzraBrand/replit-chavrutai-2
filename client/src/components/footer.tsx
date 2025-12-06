@@ -1,10 +1,61 @@
 import { Link } from "wouter";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, Moon, Sun, FileText } from "lucide-react";
+import { usePreferences, type Theme } from "@/context/preferences-context";
+import { trackEvent } from "@/lib/analytics";
 
 export function Footer() {
+  const { preferences, setTheme } = usePreferences();
+
+  const handleThemeChange = (theme: Theme) => {
+    trackEvent('change_preference', 'settings', `theme_${theme}`);
+    setTheme(theme);
+  };
+
   return (
     <footer className="border-t border-border bg-card mt-12 min-h-[280px]">
       <div className="container mx-auto px-4 py-10">
+        {/* Theme Picker */}
+        <div className="flex justify-center mb-8">
+          <div className="inline-flex items-center gap-1 p-1 bg-secondary rounded-lg" data-testid="footer-theme-picker">
+            <button
+              onClick={() => handleThemeChange('paper')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm transition-colors ${
+                preferences.theme === 'paper'
+                  ? 'bg-background text-foreground shadow-sm'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+              data-testid="button-theme-paper"
+            >
+              <FileText className="w-4 h-4" />
+              Paper
+            </button>
+            <button
+              onClick={() => handleThemeChange('white')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm transition-colors ${
+                preferences.theme === 'white'
+                  ? 'bg-background text-foreground shadow-sm'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+              data-testid="button-theme-white"
+            >
+              <Sun className="w-4 h-4" />
+              White
+            </button>
+            <button
+              onClick={() => handleThemeChange('dark')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm transition-colors ${
+                preferences.theme === 'dark'
+                  ? 'bg-background text-foreground shadow-sm'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+              data-testid="button-theme-dark"
+            >
+              <Moon className="w-4 h-4" />
+              Dark
+            </button>
+          </div>
+        </div>
+
         {/* Multi-Column Navigation */}
         <div className="grid grid-cols-[1.4fr_1fr] gap-4 sm:gap-8 max-w-2xl mx-auto mb-8">
           {/* Column 1: Study Resources */}
