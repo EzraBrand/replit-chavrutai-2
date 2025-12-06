@@ -51,6 +51,16 @@ export default function Changelog() {
           
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">External Links Page</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Added internal testing page for generating links to external Talmud resources</li>
+                <li>URL generators for Sefaria, Al HaTorah, Wikisource Hebrew, and Daf Yomi</li>
+                <li>Section-level and page-level link generation with URL previews</li>
+                <li>Curated list of related articles about digital Talmud resources</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Theme and Font Options</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added three theme options: Sepia (warm parchment), White (clean standard), Dark (moderate)</li>
