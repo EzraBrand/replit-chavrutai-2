@@ -72,9 +72,17 @@ function App() {
       initGA();
     }
     
-    preloadChapterData().catch(error => {
-      console.warn('Failed to preload chapter data:', error);
-    });
+    const schedulePreload = () => {
+      preloadChapterData().catch(error => {
+        console.warn('Failed to preload chapter data:', error);
+      });
+    };
+    
+    if ('requestIdleCallback' in window) {
+      (window as any).requestIdleCallback(schedulePreload, { timeout: 3000 });
+    } else {
+      setTimeout(schedulePreload, 1000);
+    }
   }, []);
 
   return (
