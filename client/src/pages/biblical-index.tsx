@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { getBiblicalIndexMetadata } from "@/lib/biblical-index-data";
 import { Footer } from "@/components/footer";
+import { FooterPlaceholder } from "@/components/page-loading";
 import { useSEO } from "@/hooks/use-seo";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -62,6 +63,7 @@ export default function BiblicalIndexPage() {
             <Skeleton className="h-64 w-full" />
           </div>
         </div>
+        <FooterPlaceholder />
       </div>
     );
   }

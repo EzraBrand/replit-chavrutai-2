@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { Card } from "@/components/ui/card";
 import { Footer } from "@/components/footer";
+import { FooterPlaceholder } from "@/components/page-loading";
 import { useSEO } from "@/hooks/use-seo";
 import { bibleAPI } from "@/lib/bible-api";
 import { getBaseUrl } from "@/lib/utils";
@@ -52,6 +53,7 @@ export default function BibleContents() {
         <div className="max-w-4xl mx-auto px-4 py-8">
           <div className="text-center">Loading Bible books...</div>
         </div>
+        <FooterPlaceholder />
       </div>
     );
   }

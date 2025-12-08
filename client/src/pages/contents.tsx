@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { Card } from "@/components/ui/card";
 import { Footer } from "@/components/footer";
+import { FooterPlaceholder } from "@/components/page-loading";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
 import { sefariaAPI } from "@/lib/sefaria";
 import { TRACTATE_HEBREW_NAMES } from "@shared/tractates";
@@ -81,6 +82,7 @@ export default function Contents() {
         <div className="max-w-6xl mx-auto px-4 py-8">
           <div className="text-center">Loading...</div>
         </div>
+        <FooterPlaceholder />
       </div>
     );
   }

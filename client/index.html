@@ -65,6 +65,17 @@
     
     <!-- WhatsApp specific -->
     <meta property="og:image:type" content="image/svg+xml" />
+    
+    <!-- Critical CSS for initial render - structural rules only to prevent FOUC -->
+    <style>
+      *, *::before, *::after { box-sizing: border-box; }
+      html { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-font-smoothing: antialiased; }
+      body { margin: 0; min-height: 100vh; line-height: 1.5; }
+      #root { min-height: 100vh; display: flex; flex-direction: column; }
+      img, picture, video, canvas, svg { display: block; max-width: 100%; }
+      input, button, textarea, select { font: inherit; }
+      p, h1, h2, h3, h4, h5, h6 { overflow-wrap: break-word; }
+    </style>
   </head>
   <body>
     <div id="root"></div>
