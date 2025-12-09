@@ -2,7 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
 import { ExternalLink, FileText, BookOpen } from "lucide-react";
 import { Footer } from "@/components/footer";
-import { BreadcrumbNavigation, breadcrumbHelpers } from "@/components/navigation/breadcrumb-navigation";
 import { useSEO } from "@/hooks/use-seo";
 import { getBaseUrl } from "@/lib/utils";
 
@@ -71,7 +70,6 @@ export default function Sitemap() {
           </div>
         </header>
         <div className="container mx-auto px-4 py-8">
-          <BreadcrumbNavigation items={breadcrumbHelpers.sitemap()} />
           <div className="text-center">Loading sitemap...</div>
         </div>
         <Footer />
@@ -103,7 +101,6 @@ export default function Sitemap() {
           </div>
         </header>
         <div className="container mx-auto px-4 py-8">
-          <BreadcrumbNavigation items={breadcrumbHelpers.sitemap()} />
           <div className="text-center text-red-600">Error loading sitemap data</div>
         </div>
         <Footer />
@@ -138,8 +135,6 @@ export default function Sitemap() {
       </header>
 
       <div className="container mx-auto px-4 py-8 max-w-4xl">
-        {/* Breadcrumbs */}
-        <BreadcrumbNavigation items={breadcrumbHelpers.sitemap()} />
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-foreground mb-4">

@@ -1,5 +1,4 @@
 import { Link } from "wouter";
-import { BreadcrumbNavigation, breadcrumbHelpers } from "@/components/navigation/breadcrumb-navigation";
 import { Footer } from "@/components/footer";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
 import { getBaseUrl } from "@/lib/utils";
@@ -43,12 +42,6 @@ export default function Privacy() {
 
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
-          {/* Breadcrumbs */}
-          <BreadcrumbNavigation items={[
-            { label: "Home", href: "/" },
-            { label: "Privacy Policy", href: "/privacy" }
-          ]} />
-          
           <div className="bg-card rounded-lg shadow-sm border border-border p-8">
             <h1 className="text-3xl font-bold text-foreground mb-6">Privacy Policy</h1>
             

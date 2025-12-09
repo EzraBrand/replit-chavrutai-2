@@ -1,6 +1,5 @@
 import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
-import { BreadcrumbNavigation, breadcrumbHelpers } from "@/components/navigation/breadcrumb-navigation";
 import { Footer } from "@/components/footer";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
 import { ExternalLink, Rss } from "lucide-react";
@@ -54,8 +53,6 @@ export default function About() {
 
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
-          <BreadcrumbNavigation items={breadcrumbHelpers.about()} />
-          
           <div className="bg-card rounded-lg shadow-sm border border-border p-8">
             <h1 className="text-3xl font-bold text-foreground mb-2">About ChavrutAI</h1>
             <p className="text-lg text-muted-foreground mb-8">

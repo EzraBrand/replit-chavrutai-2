@@ -1,5 +1,4 @@
 import { Link } from "wouter";
-import { BreadcrumbNavigation } from "@/components/navigation/breadcrumb-navigation";
 import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
 import { Mail } from "lucide-react";
@@ -40,9 +39,6 @@ export default function Contact() {
 
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
-          {/* Breadcrumbs */}
-          <BreadcrumbNavigation items={[{ label: "Contact" }]} />
-          
           <div className="bg-card rounded-lg shadow-sm border border-border p-8">
             <h1 className="text-3xl font-bold text-foreground mb-6">Contact ChavrutAI</h1>
             
