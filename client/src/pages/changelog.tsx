@@ -1,4 +1,3 @@
-import { FileText } from "lucide-react";
 import { Link } from "wouter";
 import { useSEO } from "@/hooks/use-seo";
 import { Footer } from "@/components/footer";
@@ -40,12 +39,9 @@ export default function Changelog() {
       <div className="container mx-auto px-4 py-6">
         {/* Page Title */}
         <div className="mb-6">
-          <div className="flex items-center gap-3 mb-2">
-            <FileText className="h-6 w-6 text-sepia-600 dark:text-sepia-400" />
-            <h1 className="text-3xl font-bold text-sepia-800 dark:text-sepia-200">
-              Changelog
-            </h1>
-          </div>
+          <h1 className="text-3xl font-bold text-sepia-800 dark:text-sepia-200 mb-2">
+            Changelog
+          </h1>
         
         <p className="text-sepia-600 dark:text-sepia-400 max-w-3xl">
           Recent updates and improvements to enhance your Talmud study experience.

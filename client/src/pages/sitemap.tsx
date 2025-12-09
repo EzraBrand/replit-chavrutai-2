@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
-import { ExternalLink, FileText, BookOpen } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
 import { getBaseUrl } from "@/lib/utils";
@@ -168,8 +168,7 @@ export default function Sitemap() {
 
         {/* Navigation Shortcuts */}
         <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-            <FileText size={20} />
+          <h2 className="text-xl font-semibold mb-4">
             Main Pages
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-6">
@@ -205,8 +204,7 @@ export default function Sitemap() {
 
         {/* Sedarim (Orders) */}
         <div className="space-y-8">
-          <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-            <BookOpen size={24} />
+          <h2 className="text-2xl font-bold mb-6">
             Talmud Tractates by Seder (Traditional Orders)
           </h2>
           
