@@ -222,7 +222,14 @@ export default function About() {
               <section className="pt-6 border-t border-border">
                 <h2 className="text-xl font-semibold text-foreground mb-4">Stay Updated</h2>
                 <p className="text-muted-foreground leading-relaxed mb-6">
-                  Subscribe to the Talmud & Tech blog for updates on ChavrutAI, Jewish learning technology, and insights on studying classical texts.
+                  Subscribe to the{" "}
+                  <a 
+                    href="https://www.ezrabrand.com/"
+                    className="text-blue-600 hover:text-blue-800 underline"
+                  >
+                    Talmud & Tech
+                  </a>{" "}
+                  blog for updates on ChavrutAI and analyses of Talmud and other Jewish classical texts.
                 </p>
                 <div className="flex justify-center">
                   <iframe 
