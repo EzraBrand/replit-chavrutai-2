@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { ExternalLink, Moon, Sun, FileText } from "lucide-react";
+import { ExternalLink, Moon, Sun, FileText, Contrast } from "lucide-react";
 import { usePreferences, type Theme } from "@/context/preferences-context";
 import { trackEvent } from "@/lib/analytics";
 
@@ -52,6 +52,18 @@ export function Footer() {
             >
               <Moon className="w-4 h-4" />
               Dark
+            </button>
+            <button
+              onClick={() => handleThemeChange('high-contrast')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm transition-colors ${
+                preferences.theme === 'high-contrast'
+                  ? 'bg-background text-foreground shadow-sm'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+              data-testid="button-theme-high-contrast"
+            >
+              <Contrast className="w-4 h-4" />
+              High Contrast
             </button>
           </div>
         </div>

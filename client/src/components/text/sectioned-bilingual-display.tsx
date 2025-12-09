@@ -54,41 +54,48 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
   
 
 
+  // Parse and validate section number from hash
+  const parseSectionFromHash = (hash: string): number | null => {
+    if (!hash || !hash.startsWith('#section-')) return null;
+    const sectionNumber = parseInt(hash.replace('#section-', ''), 10);
+    if (Number.isNaN(sectionNumber) || sectionNumber < 1 || sectionNumber > maxSections) {
+      return null;
+    }
+    return sectionNumber;
+  };
+
   // Handle hash navigation for sections
   useEffect(() => {
-    const hash = window.location.hash;
-    if (hash && hash.startsWith('#section-')) {
-      const sectionNumber = parseInt(hash.replace('#section-', ''));
-      if (sectionNumber >= 1 && sectionNumber <= maxSections) {
-        // Small delay to ensure DOM is ready
-        setTimeout(() => {
-          const sectionElement = document.getElementById(`section-${sectionNumber}`);
-          if (sectionElement) {
-            // Smooth scroll to the section with offset for sticky header
-            const headerOffset = 100; // Adjust based on your header height
-            const elementPosition = sectionElement.offsetTop;
-            const offsetPosition = elementPosition - headerOffset;
-            
-            window.scrollTo({
-              top: offsetPosition,
-              behavior: 'smooth'
-            });
-            
-            // Notify parent component about visible section
-            onSectionVisible?.(sectionNumber);
-          }
-        }, 100);
-      }
+    const sectionNumber = parseSectionFromHash(window.location.hash);
+    if (sectionNumber !== null) {
+      // Small delay to ensure DOM is ready
+      setTimeout(() => {
+        const sectionElement = document.getElementById(`section-${sectionNumber}`);
+        if (sectionElement) {
+          // Use scrollIntoView with block: 'start' - works with scroll-mt-24 CSS class
+          sectionElement.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'start' 
+          });
+          
+          // Notify parent component about visible section
+          onSectionVisible?.(sectionNumber);
+        }
+      }, 100);
     }
   }, [maxSections, text.tractate, text.folio, text.side, onSectionVisible]);
 
   // Track hash changes for direct navigation
   useEffect(() => {
     const handleHashChange = () => {
-      const hash = window.location.hash;
-      if (hash && hash.startsWith('#section-')) {
-        const sectionNumber = parseInt(hash.replace('#section-', ''));
-        if (sectionNumber >= 1 && sectionNumber <= maxSections) {
+      const sectionNumber = parseSectionFromHash(window.location.hash);
+      if (sectionNumber !== null) {
+        const sectionElement = document.getElementById(`section-${sectionNumber}`);
+        if (sectionElement) {
+          sectionElement.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'start' 
+          });
           onSectionVisible?.(sectionNumber);
         }
       }

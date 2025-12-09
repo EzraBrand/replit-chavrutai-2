@@ -14,6 +14,7 @@ import { Footer } from "@/components/footer";
 import { ExternalLinksFooter } from "@/components/external-links-footer";
 import { usePreferences } from "@/context/preferences-context";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
+import { usePrefetchAdjacentPages } from "@/hooks/use-prefetch";
 import type { TalmudLocation } from "@/types/talmud";
 import { sefariaAPI } from "@/lib/sefaria";
 import { normalizeDisplayTractateName, isValidTractate, getTractateSlug } from "@shared/tractates";
@@ -42,6 +43,9 @@ export default function TractateView() {
   });
 
   const [currentSection, setCurrentSection] = useState<number>(1);
+  
+  // Prefetch adjacent pages for faster navigation
+  usePrefetchAdjacentPages(talmudLocation);
 
   // Update location when URL params change
   useEffect(() => {
