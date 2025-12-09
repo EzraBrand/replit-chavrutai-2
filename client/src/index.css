@@ -94,6 +94,29 @@
   --ring: hsl(210, 20%, 70%);
 }
 
+/* High Contrast Theme (WCAG AAA compliant - maximum accessibility) */
+.high-contrast {
+  --background: hsl(0, 0%, 0%);
+  --foreground: hsl(0, 0%, 100%);
+  --muted: hsl(0, 0%, 15%);
+  --muted-foreground: hsl(0, 0%, 80%);
+  --popover: hsl(0, 0%, 5%);
+  --popover-foreground: hsl(0, 0%, 100%);
+  --card: hsl(0, 0%, 5%);
+  --card-foreground: hsl(0, 0%, 100%);
+  --border: hsl(0, 0%, 40%);
+  --input: hsl(0, 0%, 15%);
+  --primary: hsl(60, 100%, 50%);
+  --primary-foreground: hsl(0, 0%, 0%);
+  --secondary: hsl(0, 0%, 20%);
+  --secondary-foreground: hsl(0, 0%, 100%);
+  --accent: hsl(180, 100%, 40%);
+  --accent-foreground: hsl(0, 0%, 0%);
+  --destructive: hsl(0, 100%, 60%);
+  --destructive-foreground: hsl(0, 0%, 0%);
+  --ring: hsl(60, 100%, 50%);
+}
+
 @layer base {
   * {
     @apply border-border;

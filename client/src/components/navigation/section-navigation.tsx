@@ -12,12 +12,10 @@ export function SectionNavigation({ totalSections, currentSection, onSectionChan
   const [activeSection, setActiveSection] = useState<number>(currentSection || 1);
   const [isVisible, setIsVisible] = useState(false);
 
-  // Show navigation only if there are multiple sections
   useEffect(() => {
     setIsVisible(totalSections > 1);
   }, [totalSections]);
 
-  // Handle hash changes in URL
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash;
@@ -27,15 +25,11 @@ export function SectionNavigation({ totalSections, currentSection, onSectionChan
           setActiveSection(sectionNumber);
         }
       } else {
-        // If no hash, show section 1 as default
         setActiveSection(1);
       }
     };
 
-    // Listen for hash changes
     window.addEventListener('hashchange', handleHashChange);
-    
-    // Check initial hash
     handleHashChange();
 
     return () => {
@@ -43,7 +37,6 @@ export function SectionNavigation({ totalSections, currentSection, onSectionChan
     };
   }, [totalSections]);
 
-  // Update active section when prop changes (from intersection observer)
   useEffect(() => {
     if (currentSection) {
       setActiveSection(currentSection);
@@ -53,9 +46,8 @@ export function SectionNavigation({ totalSections, currentSection, onSectionChan
   const navigateToSection = (sectionNumber: number) => {
     if (sectionNumber >= 1 && sectionNumber <= totalSections) {
       const newHash = `#section-${sectionNumber}`;
-      window.history.pushState(null, '', newHash);
+      window.history.pushState(null, '', window.location.pathname + window.location.search + newHash);
       
-      // Scroll to section
       const sectionElement = document.getElementById(`section-${sectionNumber}`);
       if (sectionElement) {
         const headerOffset = 100;
@@ -87,9 +79,12 @@ export function SectionNavigation({ totalSections, currentSection, onSectionChan
   if (!isVisible) return null;
 
   return (
-    <div className="fixed bottom-6 right-6 z-40">
+    <nav 
+      className="fixed bottom-6 right-6 z-40"
+      role="navigation"
+      aria-label="Section navigation"
+    >
       <div className="bg-card border border-border rounded-lg shadow-lg p-2 flex items-center gap-2">
-        {/* Previous Section Button */}
         <Button
           variant="outline"
           size="sm"
@@ -97,20 +92,28 @@ export function SectionNavigation({ totalSections, currentSection, onSectionChan
           disabled={activeSection <= 1}
           className="h-8 w-8 p-0"
           data-testid="button-previous-section"
-          title={`Go to section ${activeSection - 1}`}
+          aria-label={`Go to previous section (${activeSection - 1} of ${totalSections})`}
+          aria-disabled={activeSection <= 1}
         >
-          <ChevronUp className="h-3 w-3" />
+          <ChevronUp className="h-3 w-3" aria-hidden="true" />
         </Button>
 
-        {/* Current Section Display */}
-        <div className="flex items-center gap-1 px-2 py-1 bg-muted rounded text-sm font-medium min-w-0">
-          <Hash className="h-3 w-3 text-muted-foreground" />
-          <span className="text-xs" data-testid="text-current-section">
+        <div 
+          className="flex items-center gap-1 px-2 py-1 bg-muted rounded text-sm font-medium min-w-0"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          <Hash className="h-3 w-3 text-muted-foreground" aria-hidden="true" />
+          <span 
+            className="text-xs" 
+            data-testid="text-current-section"
+            aria-label={`Currently viewing section ${activeSection} of ${totalSections}`}
+          >
             {activeSection} / {totalSections}
           </span>
         </div>
 
-        {/* Next Section Button */}
         <Button
           variant="outline"
           size="sm"
@@ -118,11 +121,12 @@ export function SectionNavigation({ totalSections, currentSection, onSectionChan
           disabled={activeSection >= totalSections}
           className="h-8 w-8 p-0"
           data-testid="button-next-section"
-          title={`Go to section ${activeSection + 1}`}
+          aria-label={`Go to next section (${activeSection + 1} of ${totalSections})`}
+          aria-disabled={activeSection >= totalSections}
         >
-          <ChevronDown className="h-3 w-3" />
+          <ChevronDown className="h-3 w-3" aria-hidden="true" />
         </Button>
       </div>
-    </div>
+    </nav>
   );
 }

@@ -3,7 +3,7 @@ import { createContext, useContext, useEffect, useState, ReactNode } from "react
 export type TextSize = "extra-small" | "small" | "medium" | "large" | "extra-large";
 export type HebrewFont = "calibri" | "times" | "frank-ruehl" | "noto-sans-hebrew" | "noto-serif-hebrew" | "assistant" | "david-libre";
 export type EnglishFont = "roboto" | "inter" | "source-sans-3" | "open-sans";
-export type Theme = "paper" | "white" | "dark";
+export type Theme = "paper" | "white" | "dark" | "high-contrast";
 export type Layout = "side-by-side" | "stacked";
 
 interface HighlightingSettings {
@@ -50,23 +50,23 @@ const DEFAULT_PREFERENCES: Preferences = {
 
 const PREFERENCES_STORAGE_KEY = "talmud-study-preferences";
 
+const ALL_THEMES: Theme[] = ["paper", "white", "dark", "high-contrast"];
+
 function migrateTheme(storedTheme: string): Theme {
   if (storedTheme === "light" || storedTheme === "sepia") return "paper";
-  if (storedTheme === "paper" || storedTheme === "white" || storedTheme === "dark") {
-    return storedTheme;
+  if (ALL_THEMES.includes(storedTheme as Theme)) {
+    return storedTheme as Theme;
   }
   return "paper";
 }
 
 export function PreferencesProvider({ children }: { children: ReactNode }) {
   const [preferences, setPreferences] = useState<Preferences>(() => {
-    // Load from localStorage on initialization
     const stored = localStorage.getItem(PREFERENCES_STORAGE_KEY);
     let prefs = DEFAULT_PREFERENCES;
     if (stored) {
       try {
         const parsed = JSON.parse(stored);
-        // Migrate legacy "light" theme to "sepia"
         if (parsed.theme) {
           parsed.theme = migrateTheme(parsed.theme);
         }
@@ -75,22 +75,19 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
         prefs = DEFAULT_PREFERENCES;
       }
     }
-    // Apply theme class synchronously to prevent flash of un-themed content
     if (typeof document !== 'undefined') {
-      document.documentElement.classList.remove("paper", "white", "dark");
+      document.documentElement.classList.remove(...ALL_THEMES);
       document.documentElement.classList.add(prefs.theme);
     }
     return prefs;
   });
 
-  // Save to localStorage whenever preferences change
   useEffect(() => {
     localStorage.setItem(PREFERENCES_STORAGE_KEY, JSON.stringify(preferences));
   }, [preferences]);
 
-  // Apply theme to document
   useEffect(() => {
-    document.documentElement.classList.remove("paper", "white", "dark");
+    document.documentElement.classList.remove(...ALL_THEMES);
     document.documentElement.classList.add(preferences.theme);
   }, [preferences.theme]);
 
