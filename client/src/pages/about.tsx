@@ -1,10 +1,32 @@
 import { Link } from "wouter";
+import { useQuery } from "@tanstack/react-query";
 import { BreadcrumbNavigation, breadcrumbHelpers } from "@/components/navigation/breadcrumb-navigation";
 import { Footer } from "@/components/footer";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
+import { ExternalLink, Rss } from "lucide-react";
+
+interface RssFeedItem {
+  title: string;
+  link: string;
+  pubDate: string;
+  description: string;
+}
 
 export default function About() {
   useSEO(generateSEOData.aboutPage());
+  
+  const { data: rssFeed, isLoading: rssLoading } = useQuery<{ items: RssFeedItem[] }>({
+    queryKey: ['/api/rss-feed'],
+  });
+
+  const formatDate = (dateStr: string) => {
+    try {
+      const date = new Date(dateStr);
+      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    } catch {
+      return dateStr;
+    }
+  };
   
   return (
     <div className="min-h-screen bg-background">
@@ -229,7 +251,7 @@ export default function About() {
                   >
                     Talmud & Tech
                   </a>{" "}
-                  blog for updates on ChavrutAI and analyses of Talmud and other Jewish classical texts.
+                  blog for updates on ChavrutAI and analyses of Talmud and other Jewish classical texts:
                 </p>
                 <div className="flex justify-center">
                   <iframe 
@@ -241,6 +263,48 @@ export default function About() {
                     scrolling="no"
                     data-testid="subscribe-iframe"
                   ></iframe>
+                </div>
+
+                <div className="mt-8">
+                  <h3 className="text-lg font-medium text-foreground mb-4 flex items-center gap-2">
+                    <Rss className="w-5 h-5 text-orange-500" />
+                    Latest Posts
+                  </h3>
+                  {rssLoading ? (
+                    <div className="space-y-3">
+                      {[1, 2, 3].map((i) => (
+                        <div key={i} className="animate-pulse bg-secondary/50 rounded-lg p-4">
+                          <div className="h-4 bg-secondary rounded w-3/4 mb-2"></div>
+                          <div className="h-3 bg-secondary rounded w-1/4"></div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : rssFeed?.items && rssFeed.items.length > 0 ? (
+                    <div className="space-y-3" data-testid="rss-feed-list">
+                      {rssFeed.items.map((item, index) => (
+                        <a
+                          key={index}
+                          href={item.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block bg-secondary/30 hover:bg-secondary/50 rounded-lg p-4 transition-colors"
+                          data-testid={`rss-item-${index}`}
+                        >
+                          <div className="flex items-start justify-between gap-2">
+                            <h4 className="font-medium text-foreground text-sm leading-snug">
+                              {item.title}
+                            </h4>
+                            <ExternalLink className="w-4 h-4 text-muted-foreground flex-shrink-0 mt-0.5" />
+                          </div>
+                          <p className="text-xs text-muted-foreground mt-1">
+                            {formatDate(item.pubDate)}
+                          </p>
+                        </a>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-sm text-muted-foreground">No posts available.</p>
+                  )}
                 </div>
               </section>
             </div>

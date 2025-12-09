@@ -1175,6 +1175,37 @@ When answering questions:
     }
   });
 
+  // RSS Feed proxy endpoint
+  app.get("/api/rss-feed", async (req, res) => {
+    try {
+      const response = await fetch("https://www.ezrabrand.com/feed");
+      const xmlText = await response.text();
+      
+      // Parse XML to extract items
+      const items: Array<{title: string; link: string; pubDate: string; description: string}> = [];
+      const itemRegex = /<item>([\s\S]*?)<\/item>/g;
+      let match;
+      
+      while ((match = itemRegex.exec(xmlText)) !== null) {
+        const itemXml = match[1];
+        const title = itemXml.match(/<title><!\[CDATA\[(.*?)\]\]><\/title>/)?.[1] || 
+                      itemXml.match(/<title>(.*?)<\/title>/)?.[1] || "";
+        const link = itemXml.match(/<link>(.*?)<\/link>/)?.[1] || "";
+        const pubDate = itemXml.match(/<pubDate>(.*?)<\/pubDate>/)?.[1] || "";
+        const description = itemXml.match(/<description><!\[CDATA\[(.*?)\]\]><\/description>/)?.[1] || 
+                           itemXml.match(/<description>(.*?)<\/description>/)?.[1] || "";
+        
+        items.push({ title, link, pubDate, description });
+      }
+      
+      // Return latest 5 posts
+      res.json({ items: items.slice(0, 5) });
+    } catch (error) {
+      console.error("RSS feed fetch error:", error);
+      res.status(500).json({ error: "Failed to fetch RSS feed" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
