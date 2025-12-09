@@ -218,6 +218,24 @@ export default function About() {
                   </a>
                 </p>
               </section>
+
+              <section className="pt-6 border-t border-border">
+                <h2 className="text-xl font-semibold text-foreground mb-4">Stay Updated</h2>
+                <p className="text-muted-foreground leading-relaxed mb-6">
+                  Subscribe to the Talmud & Tech blog for updates on ChavrutAI, Jewish learning technology, and insights on studying classical texts.
+                </p>
+                <div className="flex justify-center">
+                  <iframe 
+                    src="https://www.ezrabrand.com/embed" 
+                    width="480" 
+                    height="320" 
+                    style={{border: "1px solid #EEE", background: "white"}} 
+                    frameBorder="0" 
+                    scrolling="no"
+                    data-testid="subscribe-iframe"
+                  ></iframe>
+                </div>
+              </section>
             </div>
           </div>
         </div>
