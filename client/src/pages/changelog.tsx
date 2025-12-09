@@ -44,7 +44,7 @@ export default function Changelog() {
           </h1>
         
         <p className="text-sepia-600 dark:text-sepia-400 max-w-3xl">
-          Recent updates and improvements to enhance your Talmud study experience.
+          Recent updates and improvements.
         </p>
       </div>
 
