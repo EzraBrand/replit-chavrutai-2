@@ -13,42 +13,52 @@ interface RssFeedItem {
 
 export default function About() {
   useSEO(generateSEOData.aboutPage());
-  
-  const { data: rssFeed, isLoading: rssLoading } = useQuery<{ items: RssFeedItem[] }>({
-    queryKey: ['/api/rss-feed'],
+
+  const { data: rssFeed, isLoading: rssLoading } = useQuery<{
+    items: RssFeedItem[];
+  }>({
+    queryKey: ["/api/rss-feed"],
   });
 
   const formatDate = (dateStr: string) => {
     try {
       const date = new Date(dateStr);
-      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+      return date.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      });
     } catch {
       return dateStr;
     }
   };
-  
+
   return (
     <SharedLayout variant="simple" mainMaxWidth="container">
       <div className="max-w-4xl mx-auto">
         <div className="bg-card rounded-lg shadow-sm border border-border p-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">About ChavrutAI</h1>
+          <h1 className="text-3xl font-bold text-foreground mb-2">
+            About ChavrutAI
+          </h1>
           <p className="text-lg text-muted-foreground mb-8">
-            A free platform for studying classical Jewish texts in Hebrew and English
+            A free platform for studying classical Jewish texts in Hebrew and
+            English
           </p>
-          
+
           <div className="space-y-10">
             <section>
               <h2 className="text-xl font-semibold text-foreground mb-4">
                 What is ChavrutAI?
               </h2>
               <p className="text-muted-foreground leading-relaxed mb-4">
-                ChavrutAI is a free website for studying the Babylonian Talmud and Tanakh (Hebrew Bible). 
-                It displays Hebrew text alongside English translation, making these classical texts accessible 
-                to learners at all levels.
+                ChavrutAI is a free website for studying the Babylonian Talmud
+                and Tanakh (Hebrew Bible). It displays Hebrew text alongside
+                English translation, making these classical texts accessible to
+                learners at all levels.
               </p>
               <p className="text-muted-foreground leading-relaxed">
-                Whether you're new to Talmud study or an experienced 
-                learner, ChavrutAI provides a clean, distraction-free reading experience.
+                Whether you're new to Talmud study or an experienced learner,
+                ChavrutAI provides a clean, distraction-free reading experience.
               </p>
             </section>
 
@@ -58,12 +68,15 @@ export default function About() {
               </h2>
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="bg-secondary/30 rounded-lg p-4">
-                  <h3 className="font-medium text-foreground mb-2">Babylonian Talmud</h3>
+                  <h3 className="font-medium text-foreground mb-2">
+                    Babylonian Talmud
+                  </h3>
                   <p className="text-sm text-muted-foreground mb-3">
-                    All 37 tractates with standard page numbering based on the standard printed edition. 
-                    Navigate by Seder (order), tractate, chapter, or individual page.
+                    All 37 tractates with standard page numbering based on the
+                    standard printed edition. Navigate by Seder (order),
+                    tractate, chapter, or individual page.
                   </p>
-                  <Link 
+                  <Link
                     href="/contents"
                     className="text-blue-600 hover:text-blue-800 underline text-sm font-medium"
                     data-testid="link-talmud-contents"
@@ -72,12 +85,15 @@ export default function About() {
                   </Link>
                 </div>
                 <div className="bg-secondary/30 rounded-lg p-4">
-                  <h3 className="font-medium text-foreground mb-2">Tanakh (Hebrew Bible)</h3>
+                  <h3 className="font-medium text-foreground mb-2">
+                    Tanakh (Hebrew Bible)
+                  </h3>
                   <p className="text-sm text-muted-foreground mb-3">
-                    Torah, Prophets, and Writings with chapter-by-chapter navigation. 
-                    Each book includes Hebrew text with English translation.
+                    Torah, Prophets, and Writings with chapter-by-chapter
+                    navigation. Each book includes Hebrew text with English
+                    translation.
                   </p>
-                  <Link 
+                  <Link
                     href="/bible"
                     className="text-blue-600 hover:text-blue-800 underline text-sm font-medium"
                     data-testid="link-tanakh-contents"
@@ -94,43 +110,60 @@ export default function About() {
               </h2>
               <div className="space-y-4 text-muted-foreground">
                 <div>
-                  <h3 className="font-medium text-foreground mb-1">Navigation</h3>
+                  <h3 className="font-medium text-foreground mb-1">
+                    Navigation
+                  </h3>
                   <p className="text-sm leading-relaxed">
-                    Use the menu (hamburger icon) in the top-left corner to access the table of contents 
-                    and customize your reading preferences. On any text page, use the Previous/Next buttons 
-                    to move between pages, or click the floating widget in the bottom-right to jump between sections.
+                    Use the menu (hamburger icon) in the top-left corner to
+                    access the table of contents and customize your reading
+                    preferences. On any text page, use the Previous/Next buttons
+                    to move between pages, or click the floating widget in the
+                    bottom-right to jump between sections.
                   </p>
                 </div>
                 <div>
-                  <h3 className="font-medium text-foreground mb-1">Breadcrumbs</h3>
+                  <h3 className="font-medium text-foreground mb-1">
+                    Breadcrumbs
+                  </h3>
                   <p className="text-sm leading-relaxed">
-                    At the top of each page, breadcrumbs show your current location (e.g., Berakhot &gt; Chapter 1 &gt; 2a).
+                    At the top of each page, breadcrumbs show your current
+                    location (e.g., Berakhot &gt; Chapter 1 &gt; 2a).
                   </p>
                 </div>
                 <div>
-                  <h3 className="font-medium text-foreground mb-1">Section Links</h3>
+                  <h3 className="font-medium text-foreground mb-1">
+                    Section Links
+                  </h3>
                   <p className="text-sm leading-relaxed">
-                    Click any section number to open that passage directly on Sefaria for additional 
-                    commentaries and resources.
+                    Click any section number to open that passage directly on
+                    Sefaria for additional commentaries and resources.
                   </p>
                 </div>
               </div>
             </section>
 
             <section>
-              <h2 className="text-xl font-semibold text-foreground mb-4">Customization Options</h2>
+              <h2 className="text-xl font-semibold text-foreground mb-4">
+                Customization Options
+              </h2>
               <p className="text-sm text-muted-foreground mb-4">
-                Access these settings from the menu (hamburger icon) in the top-left corner.
+                Access these settings from the menu (hamburger icon) in the
+                top-left corner.
               </p>
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
-                  <h3 className="font-medium text-foreground text-sm">Themes</h3>
+                  <h3 className="font-medium text-foreground text-sm">
+                    Themes
+                  </h3>
                   <p className="text-xs text-muted-foreground">
-                    Choose Paper (warm parchment), White (clean), Dark, or High Contrast mode
+                    Choose Paper (warm parchment), White (clean), Dark, or High
+                    Contrast mode
                   </p>
                 </div>
                 <div>
-                  <h3 className="font-medium text-foreground text-sm">Text Size</h3>
+                  <h3 className="font-medium text-foreground text-sm">
+                    Text Size
+                  </h3>
                   <p className="text-xs text-muted-foreground">
                     Five sizes from Extra Small to Extra Large
                   </p>
@@ -138,66 +171,82 @@ export default function About() {
                 <div>
                   <h3 className="font-medium text-foreground text-sm">Fonts</h3>
                   <p className="text-xs text-muted-foreground">
-                    Multiple Hebrew fonts (Assistant, Noto Sans, etc.) and English fonts (Inter, Roboto, etc.)
+                    Multiple Hebrew fonts (Assistant, Noto Sans, etc.) and
+                    English fonts (Inter, Roboto, etc.)
                   </p>
                 </div>
                 <div>
-                  <h3 className="font-medium text-foreground text-sm">Layout</h3>
+                  <h3 className="font-medium text-foreground text-sm">
+                    Layout
+                  </h3>
                   <p className="text-xs text-muted-foreground">
                     Side-by-side (Hebrew and English in columns) or Stacked view
                   </p>
                 </div>
                 <div className="sm:col-span-2">
-                  <h3 className="font-medium text-foreground text-sm">Term Highlighting</h3>
+                  <h3 className="font-medium text-foreground text-sm">
+                    Term Highlighting
+                  </h3>
                   <p className="text-xs text-muted-foreground">
-                    Highlight key concepts, names of rabbis, and place names in the Hebrew text (over 5,000 terms)
+                    Highlight key concepts, names of rabbis, and place names in
+                    the Hebrew text (over 5,000 terms)
                   </p>
                 </div>
               </div>
             </section>
 
             <section>
-              <h2 className="text-xl font-semibold text-foreground mb-4">Special Features</h2>
+              <h2 className="text-xl font-semibold text-foreground mb-4">
+                Special Features
+              </h2>
               <ul className="space-y-3 text-muted-foreground">
                 <li className="flex items-start gap-2">
                   <span className="text-foreground font-bold">•</span>
                   <span className="text-sm">
-                    <strong className="text-foreground">Page Continuation:</strong> Each Talmud page shows a preview of the next page's opening, 
+                    <strong className="text-foreground">
+                      Page Continuation:
+                    </strong>{" "}
+                    Each Talmud page shows a preview of the next page's opening,
                     so sentences that continue across pages aren't interrupted.
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-foreground font-bold">•</span>
                   <span className="text-sm">
-                    <strong className="text-foreground">Sugya Viewer:</strong> Study specific text ranges by entering Talmud references 
+                    <strong className="text-foreground">Sugya Viewer:</strong>{" "}
+                    Study specific text ranges by entering Talmud references
                     (e.g., "Berakhot 2a-5b") or Sefaria URLs.
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-foreground font-bold">•</span>
                   <span className="text-sm">
-                    <strong className="text-foreground">Famous Pages:</strong> Explore a curated list of well-known Talmudic passages 
-                    as starting points for study.
+                    <strong className="text-foreground">Famous Pages:</strong>{" "}
+                    Explore a curated list of well-known Talmudic passages as
+                    starting points for study.
                   </span>
                 </li>
               </ul>
             </section>
 
             <section className="pt-6 border-t border-border">
-              <h2 className="text-xl font-semibold text-foreground mb-4">About This Project</h2>
+              <h2 className="text-xl font-semibold text-foreground mb-4">
+                About This Project
+              </h2>
               <p className="text-muted-foreground leading-relaxed mb-4">
                 ChavrutAI is a project of{" "}
-                <a 
+                <a
                   href="https://www.ezrabrand.com/"
                   className="text-blue-600 hover:text-blue-800 underline"
                 >
                   Talmud & Tech
                 </a>
-                . Text content is sourced from the Sefaria library (ChavrutAI is not affiliated with Sefaria).
+                . Text content is sourced from the Sefaria library (ChavrutAI is
+                not affiliated with Sefaria).
               </p>
               <p className="text-muted-foreground leading-relaxed mb-4">
                 Learn more about ChavrutAI in this article:{" "}
-                <a 
+                <a
                   href="https://www.ezrabrand.com/p/chavrutai-talmud-web-app-launch-review"
                   className="text-blue-600 hover:text-blue-800 underline"
                 >
@@ -206,7 +255,7 @@ export default function About() {
               </p>
               <p className="text-muted-foreground leading-relaxed">
                 For questions, feedback, or to report an issue:{" "}
-                <a 
+                <a
                   href="mailto:ezra@chavrutai.com"
                   className="text-blue-600 hover:text-blue-800 underline"
                 >
@@ -216,24 +265,27 @@ export default function About() {
             </section>
 
             <section className="pt-6 border-t border-border">
-              <h2 className="text-xl font-semibold text-foreground mb-4">Stay Updated</h2>
+              <h2 className="text-xl font-semibold text-foreground mb-4">
+                Stay Updated
+              </h2>
               <p className="text-muted-foreground leading-relaxed mb-6">
                 Subscribe to the{" "}
-                <a 
+                <a
                   href="https://www.ezrabrand.com/"
                   className="text-blue-600 hover:text-blue-800 underline"
                 >
                   Talmud & Tech
                 </a>{" "}
-                blog for updates on ChavrutAI and analyses of Talmud and other Jewish classical texts:
+                blog for updates on ChavrutAI and analyses of Talmud and other
+                Jewish classical texts:
               </p>
               <div className="flex justify-center">
-                <iframe 
-                  src="https://www.ezrabrand.com/embed" 
-                  width="480" 
-                  height="320" 
-                  style={{border: "1px solid #EEE", background: "white"}} 
-                  frameBorder="0" 
+                <iframe
+                  src="https://www.ezrabrand.com/embed"
+                  width="480"
+                  height="320"
+                  style={{ border: "1px solid #EEE", background: "white" }}
+                  frameBorder="0"
                   scrolling="no"
                   data-testid="subscribe-iframe"
                 ></iframe>
@@ -247,7 +299,10 @@ export default function About() {
                 {rssLoading ? (
                   <div className="space-y-3">
                     {[1, 2, 3].map((i) => (
-                      <div key={i} className="animate-pulse bg-secondary/50 rounded-lg p-4">
+                      <div
+                        key={i}
+                        className="animate-pulse bg-secondary/50 rounded-lg p-4"
+                      >
                         <div className="h-4 bg-secondary rounded w-3/4 mb-2"></div>
                         <div className="h-3 bg-secondary rounded w-1/4"></div>
                       </div>
@@ -277,7 +332,9 @@ export default function About() {
                     ))}
                   </div>
                 ) : (
-                  <p className="text-sm text-muted-foreground">No posts available.</p>
+                  <p className="text-sm text-muted-foreground">
+                    No posts available.
+                  </p>
                 )}
               </div>
             </section>
