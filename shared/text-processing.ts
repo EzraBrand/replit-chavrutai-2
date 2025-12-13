@@ -319,6 +319,15 @@ export function splitEnglishText(text: string): string {
   
   let processedText = text;
   
+  // STEP -1: Protect "X, [the] son of Y, said" patterns from being split
+  // This keeps genealogical attributions together on one line
+  // Pattern matches: ", son of ..." or ", the son of ..." followed by ", said" or ", said to"
+  const sonOfProtections: string[] = [];
+  processedText = processedText.replace(/,\s*(the\s+)?son of\s+[^,]+,\s+said/gi, (match) => {
+    sonOfProtections.push(match);
+    return `__SON_OF_PROTECTION_${sonOfProtections.length - 1}__`;
+  });
+  
   // STEP 0: Remove special formatting from MISHNA/GEMARA markers in English
   // Strip <strong> tags from these markers to make them plain text
   processedText = processedText.replace(/<strong[^>]*>(MISHNA|GEMARA):<\/strong>/gi, '$1:');
@@ -412,6 +421,11 @@ export function splitEnglishText(text: string): string {
   // Restore HTML tags
   htmlPlaceholders.forEach((placeholder, index) => {
     processedText = processedText.replace(placeholder, htmlTags[index]);
+  });
+  
+  // Restore "son of" protected patterns
+  sonOfProtections.forEach((original, index) => {
+    processedText = processedText.replace(`__SON_OF_PROTECTION_${index}__`, original);
   });
   
   // Final cleanup: Fix orphaned quotes that end up on their own lines
