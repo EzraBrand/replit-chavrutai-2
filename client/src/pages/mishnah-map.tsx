@@ -15,7 +15,7 @@ import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
 import { getTractateSlug, TRACTATE_HEBREW_NAMES, SEDER_TRACTATES, normalizeDisplayTractateName } from "@shared/tractates";
 import { MISHNAH_MAP_DATA, type MishnahMapping } from "@shared/mishnah-map";
-import { getChapterDataByTractate, type ChapterInfo } from "@/lib/chapter-data";
+import { getMishnahChapterDataByTractate, type ChapterInfo } from "@/lib/chapter-data";
 
 const SEDER_ORGANIZATION = {
   "Seder Zeraim": {
@@ -106,7 +106,7 @@ export default function MishnahMapPage() {
         if (tractateMappings.length === 0) return;
 
         const tractateSlug = tractate.toLowerCase().replace(/\s+/g, ' ');
-        const chapters = getChapterDataByTractate(tractateSlug);
+        const chapters = getMishnahChapterDataByTractate(tractateSlug);
 
         // Group Mishnah mappings by chapter
         const chaptersWithMishnayot: ChapterWithMishnayot[] = chapters.length > 0

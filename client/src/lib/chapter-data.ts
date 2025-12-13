@@ -106,6 +106,40 @@ export function getChapterDataByTractate(tractate: string): ChapterInfo[] {
   return getChapterData(tractate) || [];
 }
 
+/**
+ * Get chapter data for Mishnah display (handles special cases like Sanhedrin where chapter order differs)
+ * In Mishnah Sanhedrin, the chapter order is different from the Talmud:
+ * - Mishnah Chapter 10: Chelek (חלק)
+ * - Mishnah Chapter 11: Eilu Hen HaNechnakin (אלו הן הנחנקין)
+ * This is the opposite of the Talmud order.
+ */
+export function getMishnahChapterDataByTractate(tractate: string): ChapterInfo[] {
+  const chapters = getChapterData(tractate) || [];
+  const tractateKey = tractate.toLowerCase().replace(/\s+/g, ' ');
+  
+  // Special case for Sanhedrin: swap names for chapters 10 and 11
+  if (tractateKey === 'sanhedrin') {
+    return chapters.map(chapter => {
+      if (chapter.number === 10) {
+        return {
+          ...chapter,
+          englishName: 'Chelek',
+          hebrewName: 'חלק'
+        };
+      } else if (chapter.number === 11) {
+        return {
+          ...chapter,
+          englishName: 'Eilu Hen HaNechnakin',
+          hebrewName: 'אלו הן הנחנקין'
+        };
+      }
+      return chapter;
+    });
+  }
+  
+  return chapters;
+}
+
 export interface ChapterInfo {
   number: number;
   englishName: string;
