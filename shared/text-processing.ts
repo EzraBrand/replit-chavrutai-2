@@ -210,8 +210,7 @@ export function replaceTerms(text: string): string {
     "sexual relations": "sex",
     "sexual sex": "sex",
     "mishna": "Mishnah",
-    "rainy season": "winter",
-    ", son of R' ": " ben "
+    "rainy season": "winter"
   };
   
   // Combine basic terms with generated sexual terms
