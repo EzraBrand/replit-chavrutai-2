@@ -39,6 +39,15 @@ task = "shell.exec"
 args = "npm run dev"
 waitForPort = 5000
 
+[[workflows.workflow]]
+name = "run"
+mode = "sequential"
+author = 1583694
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Start application"
+
 [agent]
 integrations = ["javascript_sendgrid:1.0.0", "google-mail:1.0.0"]
 
