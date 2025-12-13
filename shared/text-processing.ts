@@ -201,6 +201,8 @@ export function replaceTerms(text: string): string {
     "the Omnipresent": "God",
     "Master of the Universe,": "God!",
     "Master of the Universe": "God!",
+    "the Master of the World": "God",
+    "Master of the World": "God!",
     "sky-blue": "tekhelet",
     "ritual fringes": "tzitzit",
     "ritual bath": "mikveh",
@@ -210,6 +212,7 @@ export function replaceTerms(text: string): string {
     "sexual relations": "sex",
     "sexual sex": "sex",
     "mishna": "Mishnah",
+    "harlot": "prostitute",
     "rainy season": "winter"
   };
   
