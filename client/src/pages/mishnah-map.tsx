@@ -456,10 +456,10 @@ export default function MishnahMapPage() {
                                     <Button
                                       variant="outline"
                                       size="sm"
-                                      className="h-auto px-2 py-2 text-base font-normal w-full min-w-[3rem] max-w-[4rem] hover:bg-primary hover:text-primary-foreground flex flex-col items-center gap-0.5"
+                                      className="h-auto px-1 py-2 text-base font-normal w-full min-w-[3.5rem] hover:bg-primary hover:text-primary-foreground flex flex-col items-center gap-0.5 overflow-hidden"
                                     >
                                       <span className="font-semibold">{tile.mishnahNumber}</span>
-                                      <span className="text-xs text-muted-foreground whitespace-nowrap">{tile.talmudRange}</span>
+                                      <span className="text-xs text-muted-foreground text-center break-all leading-tight">{tile.talmudRange}</span>
                                     </Button>
                                   </Link>
                                 ))}
