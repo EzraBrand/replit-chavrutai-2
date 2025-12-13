@@ -446,7 +446,7 @@ export default function MishnahMapPage() {
                               </div>
 
                               {/* Mishnah tiles */}
-                              <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-2 justify-items-center">
+                              <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-2 justify-items-center">
                                 {chapter.mishnahTiles.map((tile, index) => (
                                   <Link
                                     key={`${tile.mishnahNumber}-${index}`}
@@ -456,10 +456,10 @@ export default function MishnahMapPage() {
                                     <Button
                                       variant="outline"
                                       size="sm"
-                                      className="h-auto px-1 py-2 text-base font-normal w-full min-w-[3.5rem] hover:bg-primary hover:text-primary-foreground flex flex-col items-center gap-0.5 overflow-hidden"
+                                      className="h-auto px-1.5 py-2 text-base font-normal w-full min-w-[4.5rem] hover:bg-primary hover:text-primary-foreground flex flex-col items-center gap-0.5 overflow-hidden"
                                     >
                                       <span className="font-semibold">{tile.mishnahNumber}</span>
-                                      <span className="text-xs text-muted-foreground text-center break-all leading-tight">{tile.talmudRange}</span>
+                                      <span className="text-[10px] text-muted-foreground text-center break-all leading-tight">{tile.talmudRange}</span>
                                     </Button>
                                   </Link>
                                 ))}
