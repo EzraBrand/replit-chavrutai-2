@@ -56,18 +56,22 @@ export default function SearchPage() {
   };
 
   const filteredSuggestions = useMemo(() => {
-    if (!gazetteerData || searchQuery.length < 2) return [];
+    if (!gazetteerData || searchQuery.length < 1) return [];
     
     const query = searchQuery.toLowerCase();
     const concepts = gazetteerData.concepts || [];
     
-    return concepts
-      .filter(concept => concept.toLowerCase().includes(query))
-      .slice(0, 8);
+    const matching = concepts.filter(concept => concept.toLowerCase().includes(query));
+    
+    // Prioritize suggestions that start with the query
+    const startsWithQuery = matching.filter(c => c.toLowerCase().startsWith(query));
+    const containsQuery = matching.filter(c => !c.toLowerCase().startsWith(query));
+    
+    return [...startsWithQuery, ...containsQuery].slice(0, 8);
   }, [gazetteerData, searchQuery]);
 
   useEffect(() => {
-    if (searchQuery.length >= 2 && filteredSuggestions.length > 0) {
+    if (searchQuery.length >= 1 && filteredSuggestions.length > 0) {
       setSuggestions(filteredSuggestions);
       setShowSuggestions(true);
     } else {
