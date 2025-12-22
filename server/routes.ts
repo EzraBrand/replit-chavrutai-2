@@ -1213,15 +1213,30 @@ When answering questions:
       
       const from = (page - 1) * pageSize;
       
-      // Build ElasticSearch query for Sefaria
+      // Build ElasticSearch query for Sefaria - filter to only Talmud and Tanakh
       const esQuery = {
         size: pageSize,
         from: from,
         query: {
-          match_phrase: {
-            exact: {
-              query: query,
-              slop: 3
+          bool: {
+            must: {
+              match_phrase: {
+                exact: {
+                  query: query,
+                  slop: 3
+                }
+              }
+            },
+            filter: {
+              bool: {
+                should: [
+                  { prefix: { "path": "Talmud/Bavli/" } },
+                  { prefix: { "path": "Tanakh/Torah" } },
+                  { prefix: { "path": "Tanakh/Prophets" } },
+                  { prefix: { "path": "Tanakh/Writings" } }
+                ],
+                minimum_should_match: 1
+              }
             }
           }
         },
