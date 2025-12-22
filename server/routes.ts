@@ -1211,7 +1211,9 @@ When answering questions:
     try {
       const { query, page, pageSize, type } = textSearchRequestSchema.parse(req.query);
       
-      const from = (page - 1) * pageSize;
+      // Request extra results to account for deduplication (Hebrew/English duplicates)
+      const fetchSize = pageSize * 2;
+      const from = (page - 1) * fetchSize;
       
       // Build path filters based on type selection
       const pathFilters: any[] = [];
@@ -1227,7 +1229,7 @@ When answering questions:
       // Build ElasticSearch query for Sefaria - filter to only Talmud and Tanakh
       // Also filter to only English and Hebrew (exclude German, Spanish, etc.)
       const esQuery = {
-        size: pageSize,
+        size: fetchSize,
         from: from,
         query: {
           bool: {
@@ -1336,19 +1338,24 @@ When answering questions:
 
       // Deduplicate results by ref (Hebrew and English versions can appear separately)
       const seenRefs = new Set<string>();
-      const results: SearchResult[] = allResults.filter(result => {
+      const deduped = allResults.filter(result => {
         if (seenRefs.has(result.ref)) {
           return false;
         }
         seenRefs.add(result.ref);
         return true;
       });
-
-      const totalPages = Math.ceil(total / pageSize);
+      
+      // Trim to requested pageSize after deduplication
+      const results: SearchResult[] = deduped.slice(0, pageSize);
+      
+      // Estimate unique total (roughly half due to Hebrew/English duplicates)
+      const estimatedUniqueTotal = Math.ceil(total / 2);
+      const totalPages = Math.ceil(estimatedUniqueTotal / pageSize);
 
       const searchResponse: TextSearchResponse = {
         results,
-        total,
+        total: estimatedUniqueTotal,
         page,
         pageSize,
         totalPages,

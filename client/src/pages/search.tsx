@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from "react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,7 @@ import { Search, Loader2, BookOpen, ScrollText, ChevronLeft, ChevronRight } from
 import { SharedLayout } from "@/components/layout";
 import { useSEO } from "@/hooks/use-seo";
 import { SEARCH_SUGGESTIONS } from "@/data/search-suggestions";
+import { removeNikud, containsHebrew } from "@/lib/text-processing";
 import type { TextSearchResponse, SearchResult } from "@shared/schema";
 
 export default function SearchPage() {
@@ -18,6 +19,7 @@ export default function SearchPage() {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const [, navigate] = useLocation();
   const pageSize = 15;
 
   useSEO({
@@ -125,7 +127,18 @@ export default function SearchPage() {
   };
 
   const renderHighlightedText = (result: SearchResult) => {
-    const text = result.highlight || result.text;
+    let text = result.highlight || result.text;
+    
+    // Strip nikud from Hebrew text while preserving HTML tags like <mark>
+    if (containsHebrew(text)) {
+      // Split by HTML tags, process non-tag parts, rejoin
+      const parts = text.split(/(<[^>]+>)/);
+      text = parts.map(part => {
+        if (part.startsWith('<')) return part; // Preserve HTML tags
+        return removeNikud(part);
+      }).join('');
+    }
+    
     return (
       <div 
         className="text-sm text-muted-foreground leading-relaxed"
@@ -281,7 +294,7 @@ export default function SearchPage() {
                   <h3 className="font-medium text-foreground mb-1">Results</h3>
                   <ul className="list-disc list-inside space-y-1 ml-2">
                     <li>Each result shows the source reference and matching text with your search term highlighted</li>
-                    <li>Click "View" to go directly to the specific section or verse in ChavrutAI</li>
+                    <li>Click on any result to go directly to that section or verse in ChavrutAI</li>
                   </ul>
                 </div>
               </div>
@@ -328,14 +341,19 @@ export default function SearchPage() {
                   const chavrutaiLink = getChavrutaiLink(result);
                   
                   return (
-                    <Card key={index} className="hover:bg-accent/50 transition-colors" data-testid={`result-${index}`}>
+                    <Card 
+                      key={index} 
+                      className={`transition-colors ${chavrutaiLink ? 'hover:bg-accent/50 cursor-pointer' : ''}`}
+                      onClick={() => chavrutaiLink && navigate(chavrutaiLink)}
+                      data-testid={`result-${index}`}
+                    >
                       <CardContent className="py-4">
                         <div className="flex items-start gap-3">
                           <div className="flex-shrink-0 mt-1">
                             {getTypeIcon(result.type)}
                           </div>
                           <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2 mb-1">
+                            <div className="flex items-center gap-2 mb-1 flex-wrap">
                               <span className="text-xs px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground">
                                 {getTypeLabel(result.type)}
                               </span>
@@ -350,17 +368,12 @@ export default function SearchPage() {
                             </div>
                             
                             {renderHighlightedText(result)}
-                            
-                            {chavrutaiLink && (
-                              <div className="mt-2">
-                                <Link href={chavrutaiLink}>
-                                  <Button variant="outline" size="sm" data-testid={`link-view-${index}`}>
-                                    View
-                                  </Button>
-                                </Link>
-                              </div>
-                            )}
                           </div>
+                          {chavrutaiLink && (
+                            <div className="flex-shrink-0 self-center">
+                              <ChevronRight className="w-5 h-5 text-muted-foreground" />
+                            </div>
+                          )}
                         </div>
                       </CardContent>
                     </Card>
