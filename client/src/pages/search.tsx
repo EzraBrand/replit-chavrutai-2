@@ -128,9 +128,10 @@ export default function SearchPage() {
 
   const renderHighlightedText = (result: SearchResult) => {
     let text = result.highlight || result.text;
+    const isHebrew = containsHebrew(text);
     
     // Strip nikud from Hebrew text while preserving HTML tags like <mark>
-    if (containsHebrew(text)) {
+    if (isHebrew) {
       // Split by HTML tags, process non-tag parts, rejoin
       const parts = text.split(/(<[^>]+>)/);
       text = parts.map(part => {
@@ -142,6 +143,7 @@ export default function SearchPage() {
     return (
       <div 
         className="text-sm text-muted-foreground leading-relaxed"
+        dir={isHebrew ? "rtl" : "ltr"}
         dangerouslySetInnerHTML={{ __html: text }}
       />
     );
