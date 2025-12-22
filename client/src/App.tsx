@@ -6,7 +6,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { PreferencesProvider } from "@/context/preferences-context";
 import { PageLoading } from "@/components/page-loading";
-import { initGA } from "@/lib/analytics";
+import { initAnalytics, isOptedOut } from "@/lib/analytics";
 import { useAnalytics } from "@/hooks/use-analytics";
 import { preloadChapterData } from "@/lib/chapter-data";
 
@@ -68,10 +68,10 @@ function Router() {
 
 function App() {
   useEffect(() => {
-    if (!import.meta.env.VITE_GA_MEASUREMENT_ID) {
-      console.warn('Missing required Google Analytics key: VITE_GA_MEASUREMENT_ID');
-    } else {
-      initGA();
+    if (!import.meta.env.VITE_POSTHOG_API_KEY) {
+      console.warn('Missing required PostHog key: VITE_POSTHOG_API_KEY');
+    } else if (!isOptedOut()) {
+      initAnalytics();
     }
     
     const schedulePreload = () => {

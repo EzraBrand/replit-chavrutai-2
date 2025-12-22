@@ -1,61 +1,75 @@
-// Define the gtag function globally
-declare global {
-  interface Window {
-    dataLayer: any[];
-    gtag: (...args: any[]) => void;
-  }
-}
+import posthog from 'posthog-js';
 
-// Initialize Google Analytics
-export const initGA = () => {
-  const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID;
+let isInitialized = false;
 
-  if (!measurementId) {
-    console.warn('Missing required Google Analytics key: VITE_GA_MEASUREMENT_ID');
+export const initAnalytics = () => {
+  const apiKey = import.meta.env.VITE_POSTHOG_API_KEY;
+  const apiHost = import.meta.env.VITE_POSTHOG_HOST || 'https://us.i.posthog.com';
+
+  if (!apiKey) {
+    console.warn('Missing required PostHog key: VITE_POSTHOG_API_KEY');
     return;
   }
 
-  // Add Google Analytics script to the head
-  const script1 = document.createElement('script');
-  script1.async = true;
-  script1.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
-  document.head.appendChild(script1);
+  if (isInitialized) return;
 
-  // Initialize gtag
-  const script2 = document.createElement('script');
-  script2.textContent = `
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', '${measurementId}');
-  `;
-  document.head.appendChild(script2);
+  posthog.init(apiKey, {
+    api_host: apiHost,
+    autocapture: true,
+    capture_pageview: false,
+    capture_pageleave: true,
+    persistence: 'localStorage',
+    disable_session_recording: false,
+  });
+
+  isInitialized = true;
 };
 
-// Track page views - useful for single-page applications
 export const trackPageView = (url: string) => {
-  if (typeof window === 'undefined' || !window.gtag) return;
+  if (!isInitialized) return;
   
-  const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID;
-  if (!measurementId) return;
-  
-  window.gtag('config', measurementId, {
-    page_path: url
+  posthog.capture('$pageview', {
+    $current_url: window.location.origin + url,
   });
 };
 
-// Track events
 export const trackEvent = (
   action: string, 
   category?: string, 
   label?: string, 
   value?: number
 ) => {
-  if (typeof window === 'undefined' || !window.gtag) return;
+  if (!isInitialized) return;
   
-  window.gtag('event', action, {
-    event_category: category,
-    event_label: label,
-    value: value,
+  posthog.capture(action, {
+    category,
+    label,
+    value,
   });
 };
+
+export const identifyUser = (userId: string, properties?: Record<string, any>) => {
+  if (!isInitialized) return;
+  
+  posthog.identify(userId, properties);
+};
+
+export const optOutTracking = () => {
+  if (!isInitialized) return;
+  
+  posthog.opt_out_capturing();
+  localStorage.setItem('analytics_opt_out', 'true');
+};
+
+export const optInTracking = () => {
+  if (!isInitialized) return;
+  
+  posthog.opt_in_capturing();
+  localStorage.removeItem('analytics_opt_out');
+};
+
+export const isOptedOut = (): boolean => {
+  return localStorage.getItem('analytics_opt_out') === 'true';
+};
+
+export const getPostHog = () => posthog;
