@@ -1300,7 +1300,9 @@ When answering questions:
       const data = await response.json();
       
       // Parse results
-      const total = data.hits?.total?.value || data.hits?.total || 0;
+      // Handle both ES7+ format ({value: N, relation: "eq"}) and older format (just N)
+      const hitsTotal = data.hits?.total;
+      const total = typeof hitsTotal === 'object' ? (hitsTotal?.value ?? 0) : (hitsTotal ?? 0);
       const hits = data.hits?.hits || [];
       
       const results: SearchResult[] = hits.map((hit: any) => {
