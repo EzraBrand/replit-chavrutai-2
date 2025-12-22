@@ -3,7 +3,7 @@ import { createServer, type Server } from "http";
 import fs from "fs";
 import path from "path";
 import { storage } from "./storage";
-import { insertTextSchema, searchRequestSchema, browseRequestSchema, autosuggestRequestSchema } from "@shared/schema";
+import { insertTextSchema, searchRequestSchema, browseRequestSchema, autosuggestRequestSchema, textSearchRequestSchema, type SearchResult, type TextSearchResponse } from "@shared/schema";
 import { normalizeSefariaTractateName, normalizeDisplayTractateName, isValidTractate, getTractateSlug } from "@shared/tractates";
 import { generateSitemapIndex } from "./routes/sitemap-index";
 import { generateMainSitemap } from "./routes/sitemap-main";
@@ -1203,6 +1203,113 @@ When answering questions:
     } catch (error) {
       console.error("RSS feed fetch error:", error);
       res.status(500).json({ error: "Failed to fetch RSS feed" });
+    }
+  });
+
+  // Text Search endpoint - uses Sefaria ElasticSearch API
+  app.get("/api/search/text", async (req, res) => {
+    try {
+      const { query, page, pageSize } = textSearchRequestSchema.parse(req.query);
+      
+      const from = (page - 1) * pageSize;
+      
+      // Build ElasticSearch query for Sefaria
+      const esQuery = {
+        size: pageSize,
+        from: from,
+        query: {
+          match_phrase: {
+            exact: {
+              query: query,
+              slop: 3
+            }
+          }
+        },
+        highlight: {
+          pre_tags: ["<mark>"],
+          post_tags: ["</mark>"],
+          fields: {
+            exact: {
+              fragment_size: 200
+            }
+          }
+        },
+        sort: [
+          { comp_date: {} },
+          { order: {} }
+        ]
+      };
+
+      console.log(`Searching Sefaria for: "${query}" (page ${page}, size ${pageSize})`);
+      
+      const response = await fetch("https://www.sefaria.org/api/search/text/_search", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(esQuery)
+      });
+
+      if (!response.ok) {
+        console.error(`Sefaria search error: ${response.status} ${response.statusText}`);
+        res.status(response.status).json({ error: "Search request failed" });
+        return;
+      }
+
+      const data = await response.json();
+      
+      // Parse results
+      const total = data.hits?.total?.value || data.hits?.total || 0;
+      const hits = data.hits?.hits || [];
+      
+      const results: SearchResult[] = hits.map((hit: any) => {
+        const source = hit._source || {};
+        const ref = source.ref || "";
+        const path = source.path || "";
+        
+        // Determine type based on path
+        let type: "talmud" | "bible" | "other" = "other";
+        if (path.includes("Talmud") || path.includes("Bavli")) {
+          type = "talmud";
+        } else if (path.includes("Torah") || path.includes("Prophets") || path.includes("Writings") || 
+                   path.includes("Genesis") || path.includes("Exodus") || path.includes("Leviticus") ||
+                   path.includes("Numbers") || path.includes("Deuteronomy") || path.includes("Tanakh")) {
+          type = "bible";
+        }
+        
+        // Get highlighted text or fall back to exact text
+        const highlight = hit.highlight?.exact?.[0] || "";
+        const text = source.exact || "";
+        
+        return {
+          ref,
+          hebrewRef: source.heRef || undefined,
+          text: text.substring(0, 300),
+          highlight: highlight || undefined,
+          path: path || undefined,
+          type
+        };
+      });
+
+      const totalPages = Math.ceil(total / pageSize);
+
+      const searchResponse: TextSearchResponse = {
+        results,
+        total,
+        page,
+        pageSize,
+        totalPages,
+        query
+      };
+
+      res.json(searchResponse);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ error: "Invalid search parameters", details: error.errors });
+      } else {
+        console.error("Search error:", error);
+        res.status(500).json({ error: "Search failed" });
+      }
     }
   });
 

@@ -207,3 +207,35 @@ export const BibleQuerySchema = z.object({
   book: z.string(),
   chapter: z.coerce.number(),
 });
+
+// Text Search Schemas
+export const textSearchRequestSchema = z.object({
+  query: z.string().min(1, "Search query is required"),
+  page: z.coerce.number().min(1).default(1),
+  pageSize: z.coerce.number().min(1).max(50).default(15),
+});
+
+export type TextSearchRequest = z.infer<typeof textSearchRequestSchema>;
+
+// Search result from Sefaria API
+export const searchResultSchema = z.object({
+  ref: z.string(),
+  hebrewRef: z.string().optional(),
+  text: z.string(),
+  highlight: z.string().optional(),
+  path: z.string().optional(),
+  type: z.enum(["talmud", "bible", "other"]),
+});
+
+export type SearchResult = z.infer<typeof searchResultSchema>;
+
+export const textSearchResponseSchema = z.object({
+  results: z.array(searchResultSchema),
+  total: z.number(),
+  page: z.number(),
+  pageSize: z.number(),
+  totalPages: z.number(),
+  query: z.string(),
+});
+
+export type TextSearchResponse = z.infer<typeof textSearchResponseSchema>;

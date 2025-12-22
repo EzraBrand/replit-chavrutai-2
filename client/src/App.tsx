@@ -31,6 +31,7 @@ const Privacy = lazy(() => import("@/pages/privacy"));
 const Dictionary = lazy(() => import("@/pages/dictionary"));
 const SugyaViewerPage = lazy(() => import("@/pages/sugya-viewer"));
 const ExternalLinksPage = lazy(() => import("@/pages/external-links"));
+const SearchPage = lazy(() => import("@/pages/search"));
 const NotFound = lazy(() => import("@/pages/not-found"));
 
 function Router() {
@@ -55,6 +56,7 @@ function Router() {
       <Route path="/mishnah-map" component={MishnahMapPage} />
       <Route path="/sugya-viewer" component={SugyaViewerPage} />
       <Route path="/external-links" component={ExternalLinksPage} />
+      <Route path="/search" component={SearchPage} />
       <Route path="/contents" component={Contents} />
       <Route path="/contents/:tractate" component={TractateContents} />
       <Route path="/tractate/:tractate/:folio" component={TractateView} />
