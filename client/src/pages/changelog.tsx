@@ -59,6 +59,18 @@ export default function Changelog() {
           
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Full-Text Search</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>New search page for searching across Talmud and Bible texts in Hebrew and English</li>
+                <li>Filter buttons to show All, Talmud only, or Bible only results</li>
+                <li>Autosuggest for common Talmudic concepts as you type</li>
+                <li>Search term highlighting in results</li>
+                <li>Direct links to specific sections in Talmud pages and specific verses in Bible chapters</li>
+                <li>Results filtered to only show texts available in ChavrutAI</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">External Links on Talmud Pages</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added external links footer to each Talmud page with links to Sefaria, Al HaTorah, Wikisource, and Daf Yomi</li>

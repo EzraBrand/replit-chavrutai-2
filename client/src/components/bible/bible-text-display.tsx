@@ -14,6 +14,35 @@ export function BibleTextDisplay({ text }: BibleTextDisplayProps) {
   const getHebrewFontClass = () => `hebrew-font-${preferences.hebrewFont}`;
   const getEnglishFontClass = () => `english-font-${preferences.englishFont}`;
 
+  // Handle verse hash navigation (e.g., #verse-5 scrolls to verse 5)
+  useEffect(() => {
+    const scrollToVerse = () => {
+      const hash = window.location.hash;
+      if (!hash || !hash.startsWith('#verse-')) return;
+      
+      const verseNumber = parseInt(hash.replace('#verse-', ''), 10);
+      if (isNaN(verseNumber) || verseNumber < 1) return;
+
+      // Small delay to ensure DOM is ready
+      setTimeout(() => {
+        const verseElement = document.getElementById(`verse-${verseNumber}`);
+        if (verseElement) {
+          verseElement.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'start' 
+          });
+        }
+      }, 100);
+    };
+
+    // Scroll on initial load
+    scrollToVerse();
+
+    // Listen for hash changes
+    window.addEventListener('hashchange', scrollToVerse);
+    return () => window.removeEventListener('hashchange', scrollToVerse);
+  }, [text.book, text.chapter]);
+
   // Copy-paste handler to preserve formatting and ensure Hebrew comes before English
   useEffect(() => {
     const container = document.querySelector('[data-testid="bible-text-display"]');

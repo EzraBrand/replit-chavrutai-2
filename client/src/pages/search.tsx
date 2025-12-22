@@ -97,19 +97,27 @@ export default function SearchPage() {
     const ref = result.ref;
     
     if (result.type === "talmud") {
-      const match = ref.match(/^([A-Za-z\s]+)\s+(\d+)([ab])(?::(\d+))?$/);
+      // Match format like "Berakhot 5a:9" or "Berakhot 5a:9-10" (range refs)
+      // Capture the first section number for deep linking
+      const match = ref.match(/^([A-Za-z\s]+)\s+(\d+)([ab])(?::(\d+)(?:-\d+)?)?$/);
       if (match) {
         const tractate = match[1].trim().toLowerCase().replace(/\s+/g, '-');
         const folio = match[2];
         const side = match[3];
-        return `/tractate/${tractate}/${folio}${side}`;
+        const section = match[4]; // First section number (before any dash)
+        const sectionAnchor = section ? `#section-${section}` : '';
+        return `/tractate/${tractate}/${folio}${side}${sectionAnchor}`;
       }
     } else if (result.type === "bible") {
-      const match = ref.match(/^([A-Za-z\s]+)\s+(\d+)(?::(\d+))?$/);
+      // Match format like "Genesis 1:1" or "Genesis 1:1-3" (range refs)
+      // Capture the first verse number for deep linking
+      const match = ref.match(/^([A-Za-z\s]+)\s+(\d+)(?::(\d+)(?:-\d+)?)?$/);
       if (match) {
         const book = match[1].trim().toLowerCase().replace(/\s+/g, '-');
         const chapter = match[2];
-        return `/bible/${book}/${chapter}`;
+        const verse = match[3]; // First verse number (before any dash)
+        const verseAnchor = verse ? `#verse-${verse}` : '';
+        return `/bible/${book}/${chapter}${verseAnchor}`;
       }
     }
     
