@@ -360,11 +360,6 @@ export default function SearchPage() {
                               <span className="font-medium text-foreground">
                                 {result.ref}
                               </span>
-                              {result.hebrewRef && (
-                                <span className="text-muted-foreground font-hebrew" dir="rtl">
-                                  {result.hebrewRef}
-                                </span>
-                              )}
                             </div>
                             
                             {renderHighlightedText(result)}
