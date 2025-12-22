@@ -1305,7 +1305,7 @@ When answering questions:
       const total = typeof hitsTotal === 'object' ? (hitsTotal?.value ?? 0) : (hitsTotal ?? 0);
       const hits = data.hits?.hits || [];
       
-      const results: SearchResult[] = hits.map((hit: any) => {
+      const allResults: SearchResult[] = hits.map((hit: any) => {
         const source = hit._source || {};
         const ref = source.ref || "";
         const path = source.path || "";
@@ -1332,6 +1332,16 @@ When answering questions:
           path: path || undefined,
           type
         };
+      });
+
+      // Deduplicate results by ref (Hebrew and English versions can appear separately)
+      const seenRefs = new Set<string>();
+      const results: SearchResult[] = allResults.filter(result => {
+        if (seenRefs.has(result.ref)) {
+          return false;
+        }
+        seenRefs.add(result.ref);
+        return true;
       });
 
       const totalPages = Math.ceil(total / pageSize);
