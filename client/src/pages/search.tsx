@@ -7,7 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Search, Loader2, BookOpen, ScrollText, ChevronLeft, ChevronRight } from "lucide-react";
 import { SharedLayout } from "@/components/layout";
 import { useSEO } from "@/hooks/use-seo";
-import { useGazetteerData } from "@/lib/gazetteer";
+import { SEARCH_SUGGESTIONS } from "@/data/search-suggestions";
 import type { TextSearchResponse, SearchResult } from "@shared/schema";
 
 export default function SearchPage() {
@@ -28,8 +28,6 @@ export default function SearchPage() {
     canonical: `${window.location.origin}/search`,
     robots: "index, follow"
   });
-
-  const { data: gazetteerData } = useGazetteerData();
 
   const { data: searchResults, isLoading, error } = useQuery<TextSearchResponse>({
     queryKey: ['/api/search/text', submittedQuery, currentPage, pageSize, typeFilter],
@@ -56,19 +54,17 @@ export default function SearchPage() {
   };
 
   const filteredSuggestions = useMemo(() => {
-    if (!gazetteerData || searchQuery.length < 1) return [];
+    if (searchQuery.length < 1) return [];
     
     const query = searchQuery.toLowerCase();
-    const concepts = gazetteerData.concepts || [];
-    
-    const matching = concepts.filter(concept => concept.toLowerCase().includes(query));
+    const matching = SEARCH_SUGGESTIONS.filter(term => term.toLowerCase().includes(query));
     
     // Prioritize suggestions that start with the query
     const startsWithQuery = matching.filter(c => c.toLowerCase().startsWith(query));
     const containsQuery = matching.filter(c => !c.toLowerCase().startsWith(query));
     
     return [...startsWithQuery, ...containsQuery].slice(0, 8);
-  }, [gazetteerData, searchQuery]);
+  }, [searchQuery]);
 
   useEffect(() => {
     if (searchQuery.length >= 1 && filteredSuggestions.length > 0) {
