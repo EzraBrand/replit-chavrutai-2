@@ -1209,9 +1209,20 @@ When answering questions:
   // Text Search endpoint - uses Sefaria ElasticSearch API
   app.get("/api/search/text", async (req, res) => {
     try {
-      const { query, page, pageSize } = textSearchRequestSchema.parse(req.query);
+      const { query, page, pageSize, type } = textSearchRequestSchema.parse(req.query);
       
       const from = (page - 1) * pageSize;
+      
+      // Build path filters based on type selection
+      const pathFilters: any[] = [];
+      if (type === "all" || type === "talmud") {
+        pathFilters.push({ prefix: { "path": "Talmud/Bavli/Seder " } });
+      }
+      if (type === "all" || type === "bible") {
+        pathFilters.push({ prefix: { "path": "Tanakh/Torah" } });
+        pathFilters.push({ prefix: { "path": "Tanakh/Prophets" } });
+        pathFilters.push({ prefix: { "path": "Tanakh/Writings" } });
+      }
       
       // Build ElasticSearch query for Sefaria - filter to only Talmud and Tanakh
       const esQuery = {
@@ -1229,12 +1240,7 @@ When answering questions:
             },
             filter: {
               bool: {
-                should: [
-                  { prefix: { "path": "Talmud/Bavli/" } },
-                  { prefix: { "path": "Tanakh/Torah" } },
-                  { prefix: { "path": "Tanakh/Prophets" } },
-                  { prefix: { "path": "Tanakh/Writings" } }
-                ],
+                should: pathFilters,
                 minimum_should_match: 1
               }
             }
@@ -1255,7 +1261,7 @@ When answering questions:
         ]
       };
 
-      console.log(`Searching Sefaria for: "${query}" (page ${page}, size ${pageSize})`);
+      console.log(`Searching Sefaria for: "${query}" (type: ${type}, page ${page}, size ${pageSize})`);
       
       const response = await fetch("https://www.sefaria.org/api/search/text/_search", {
         method: "POST",

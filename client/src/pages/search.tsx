@@ -14,6 +14,7 @@ export default function SearchPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [submittedQuery, setSubmittedQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [typeFilter, setTypeFilter] = useState<"all" | "talmud" | "bible">("all");
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -31,13 +32,14 @@ export default function SearchPage() {
   const { data: gazetteerData } = useGazetteerData();
 
   const { data: searchResults, isLoading, error } = useQuery<TextSearchResponse>({
-    queryKey: ['/api/search/text', submittedQuery, currentPage, pageSize],
+    queryKey: ['/api/search/text', submittedQuery, currentPage, pageSize, typeFilter],
     queryFn: async ({ queryKey }) => {
-      const [, query, page, size] = queryKey as [string, string, number, number];
+      const [, query, page, size, type] = queryKey as [string, string, number, number, string];
       const params = new URLSearchParams({
         query: query,
         page: page.toString(),
         pageSize: size.toString(),
+        type: type,
       });
       const response = await fetch(`/api/search/text?${params}`);
       if (!response.ok) {
@@ -47,6 +49,11 @@ export default function SearchPage() {
     },
     enabled: submittedQuery.length > 0,
   });
+
+  const handleTypeChange = (newType: "all" | "talmud" | "bible") => {
+    setTypeFilter(newType);
+    setCurrentPage(1);
+  };
 
   const filteredSuggestions = useMemo(() => {
     if (!gazetteerData || searchQuery.length < 2) return [];
@@ -204,13 +211,45 @@ export default function SearchPage() {
               data-testid="button-search"
             >
               {isLoading ? (
-                <Loader2 className="w-5 h-5 animate-spin" />
+                <Loader2 className="w-5 h-5 animate-spin mr-2" />
               ) : (
                 "Search"
               )}
             </Button>
           </div>
         </form>
+
+        {submittedQuery && (
+          <div className="flex items-center justify-center gap-2">
+            <span className="text-sm text-muted-foreground mr-2">Filter:</span>
+            <Button
+              variant={typeFilter === "all" ? "default" : "outline"}
+              size="sm"
+              onClick={() => handleTypeChange("all")}
+              data-testid="filter-all"
+            >
+              All
+            </Button>
+            <Button
+              variant={typeFilter === "talmud" ? "default" : "outline"}
+              size="sm"
+              onClick={() => handleTypeChange("talmud")}
+              data-testid="filter-talmud"
+            >
+              <ScrollText className="w-4 h-4 mr-1" />
+              Talmud
+            </Button>
+            <Button
+              variant={typeFilter === "bible" ? "default" : "outline"}
+              size="sm"
+              onClick={() => handleTypeChange("bible")}
+              data-testid="filter-bible"
+            >
+              <BookOpen className="w-4 h-4 mr-1" />
+              Bible
+            </Button>
+          </div>
+        )}
 
         {error && (
           <Card className="border-destructive">
