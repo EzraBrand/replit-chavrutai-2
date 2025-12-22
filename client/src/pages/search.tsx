@@ -32,6 +32,19 @@ export default function SearchPage() {
 
   const { data: searchResults, isLoading, error } = useQuery<TextSearchResponse>({
     queryKey: ['/api/search/text', submittedQuery, currentPage, pageSize],
+    queryFn: async ({ queryKey }) => {
+      const [, query, page, size] = queryKey as [string, string, number, number];
+      const params = new URLSearchParams({
+        query: query,
+        page: page.toString(),
+        pageSize: size.toString(),
+      });
+      const response = await fetch(`/api/search/text?${params}`);
+      if (!response.ok) {
+        throw new Error('Search failed');
+      }
+      return response.json();
+    },
     enabled: submittedQuery.length > 0,
   });
 
