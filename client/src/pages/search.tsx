@@ -259,6 +259,37 @@ export default function SearchPage() {
           </div>
         )}
 
+        {/* How to use section - shown when no search is active */}
+        {!submittedQuery && !isLoading && (
+          <Card className="bg-muted/50" data-testid="section-how-to-search">
+            <CardContent className="py-6">
+              <h2 className="text-lg font-semibold text-foreground mb-4">How to Search</h2>
+              <div className="space-y-4 text-sm text-muted-foreground">
+                <div>
+                  <h3 className="font-medium text-foreground mb-1">What you can search</h3>
+                  <p>Search across the 37 tractates of the Babylonian Talmud and the complete Hebrew Bible (Tanakh) in both Hebrew and English.</p>
+                </div>
+                <div>
+                  <h3 className="font-medium text-foreground mb-1">Search tips</h3>
+                  <ul className="list-disc list-inside space-y-1 ml-2">
+                    <li>Enter a word or phrase in Hebrew or English</li>
+                    <li>As you type, suggestions for common Talmudic concepts will appear</li>
+                    <li>Use the filter buttons to show only Talmud or Bible results</li>
+                  </ul>
+                </div>
+                <div>
+                  <h3 className="font-medium text-foreground mb-1">Results</h3>
+                  <ul className="list-disc list-inside space-y-1 ml-2">
+                    <li>Each result shows the source reference and matching text with your search term highlighted</li>
+                    <li>"View in ChavrutAI" takes you directly to the specific section or verse</li>
+                    <li>"View on Sefaria" opens the text on Sefaria.org for additional study resources</li>
+                  </ul>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
         {error && (
           <Card className="border-destructive">
             <CardContent className="py-4 text-destructive">
