@@ -285,8 +285,7 @@ export default function SearchPage() {
                   <h3 className="font-medium text-foreground mb-1">Results</h3>
                   <ul className="list-disc list-inside space-y-1 ml-2">
                     <li>Each result shows the source reference and matching text with your search term highlighted</li>
-                    <li>"View in ChavrutAI" takes you directly to the specific section or verse</li>
-                    <li>"View on Sefaria" opens the text on Sefaria.org for additional study resources</li>
+                    <li>Click "View" to go directly to the specific section or verse in ChavrutAI</li>
                   </ul>
                 </div>
               </div>
@@ -356,24 +355,15 @@ export default function SearchPage() {
                             
                             {renderHighlightedText(result)}
                             
-                            <div className="mt-2 flex gap-2">
-                              {chavrutaiLink && (
+                            {chavrutaiLink && (
+                              <div className="mt-2">
                                 <Link href={chavrutaiLink}>
-                                  <Button variant="outline" size="sm" data-testid={`link-chavrutai-${index}`}>
-                                    View in ChavrutAI
+                                  <Button variant="outline" size="sm" data-testid={`link-view-${index}`}>
+                                    View
                                   </Button>
                                 </Link>
-                              )}
-                              <a
-                                href={`https://www.sefaria.org/${result.ref.replace(/\s+/g, '_')}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                <Button variant="ghost" size="sm" data-testid={`link-sefaria-${index}`}>
-                                  View on Sefaria
-                                </Button>
-                              </a>
-                            </div>
+                              </div>
+                            )}
                           </div>
                         </div>
                       </CardContent>

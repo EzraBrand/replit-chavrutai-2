@@ -1256,22 +1256,14 @@ When answering questions:
                 }
               }
             ],
-            must_not: [
-              { match: { version: "German" } },
-              { match: { version: "[de]" } },
-              { match: { version: "Spanish" } },
-              { match: { version: "[es]" } },
-              { match: { version: "Portuguese" } },
-              { match: { version: "[pt]" } },
-              { match: { version: "French" } },
-              { match: { version: "[fr]" } },
-              { match: { version: "Russian" } },
-              { match: { version: "[ru]" } },
-              { match: { version: "Judeo-Arabic" } },
-              { match: { version: "Yiddish" } },
-              { match: { version: "Ladino" } },
-              { match: { version: "Arabic" } }
-            ]
+            should: [
+              // Whitelist: Only show these specific English versions
+              { match_phrase: { version: "William Davidson Edition - English" } },
+              { match_phrase: { version: "Tanakh: The Holy Scriptures, published by JPS" } },
+              // Also include Hebrew text
+              { term: { lang: "he" } }
+            ],
+            minimum_should_match: 1
           }
         },
         highlight: {
