@@ -55,17 +55,20 @@ export const identifyUser = (userId: string, properties?: Record<string, any>) =
 };
 
 export const optOutTracking = () => {
-  if (!isInitialized) return;
-  
-  posthog.opt_out_capturing();
   localStorage.setItem('analytics_opt_out', 'true');
+  if (isInitialized) {
+    posthog.opt_out_capturing();
+  }
 };
 
 export const optInTracking = () => {
-  if (!isInitialized) return;
-  
-  posthog.opt_in_capturing();
   localStorage.removeItem('analytics_opt_out');
+  if (!isInitialized) {
+    initAnalytics();
+  }
+  if (isInitialized) {
+    posthog.opt_in_capturing();
+  }
 };
 
 export const isOptedOut = (): boolean => {

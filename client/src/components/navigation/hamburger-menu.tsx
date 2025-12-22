@@ -1,5 +1,5 @@
-import { Menu, Type, Palette, Columns, Highlighter } from "lucide-react";
-import { useState } from "react";
+import { Menu, Type, Palette, Columns, Highlighter, EyeOff } from "lucide-react";
+import { useState, useEffect } from "react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
@@ -8,7 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { usePreferences, type TextSize, type HebrewFont, type EnglishFont, type Layout } from "@/context/preferences-context";
 import { Switch } from "@/components/ui/switch";
 import type { TalmudLocation } from "@/types/talmud";
-import { trackEvent } from "@/lib/analytics";
+import { trackEvent, optOutTracking, optInTracking, isOptedOut } from "@/lib/analytics";
 
 interface HamburgerMenuProps {
   onLocationChange: (location: TalmudLocation) => void;
@@ -16,7 +16,12 @@ interface HamburgerMenuProps {
 
 export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
   const [open, setOpen] = useState(false);
+  const [analyticsOptedOut, setAnalyticsOptedOut] = useState(false);
   const { preferences, setTextSize, setHebrewFont, setEnglishFont, setLayout, setHighlighting } = usePreferences();
+
+  useEffect(() => {
+    setAnalyticsOptedOut(isOptedOut());
+  }, []);
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -281,6 +286,31 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
                     </div>
                   </div>
                 )}
+              </div>
+
+              {/* Analytics Opt-Out */}
+              <div className="px-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <EyeOff className="w-4 h-4 text-foreground/60" />
+                    <span className="text-sm text-foreground/80">Exclude My Usage</span>
+                  </div>
+                  <Switch
+                    checked={analyticsOptedOut}
+                    onCheckedChange={(optedOut) => {
+                      if (optedOut) {
+                        optOutTracking();
+                      } else {
+                        optInTracking();
+                      }
+                      setAnalyticsOptedOut(optedOut);
+                    }}
+                    data-testid="switch-analytics-opt-out"
+                  />
+                </div>
+                <p className="text-xs text-foreground/50 mt-1 pl-6">
+                  Turn on to exclude your visits from analytics
+                </p>
               </div>
 
             </div>
