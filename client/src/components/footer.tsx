@@ -130,6 +130,13 @@ export function Footer() {
               >
                 Bible - Table of Contents
               </Link>
+              <Link 
+                href="/search"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+                data-testid="footer-link-search"
+              >
+                Search - Bible & Talmud
+              </Link>
             </nav>
           </div>
 
