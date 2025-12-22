@@ -1225,6 +1225,7 @@ When answering questions:
       }
       
       // Build ElasticSearch query for Sefaria - filter to only Talmud and Tanakh
+      // Also filter to only English and Hebrew (exclude German, Spanish, etc.)
       const esQuery = {
         size: pageSize,
         from: from,
@@ -1238,12 +1239,39 @@ When answering questions:
                 }
               }
             },
-            filter: {
-              bool: {
-                should: pathFilters,
-                minimum_should_match: 1
+            filter: [
+              {
+                bool: {
+                  should: pathFilters,
+                  minimum_should_match: 1
+                }
+              },
+              {
+                bool: {
+                  should: [
+                    { term: { lang: "en" } },
+                    { term: { lang: "he" } }
+                  ],
+                  minimum_should_match: 1
+                }
               }
-            }
+            ],
+            must_not: [
+              { match: { version: "German" } },
+              { match: { version: "[de]" } },
+              { match: { version: "Spanish" } },
+              { match: { version: "[es]" } },
+              { match: { version: "Portuguese" } },
+              { match: { version: "[pt]" } },
+              { match: { version: "French" } },
+              { match: { version: "[fr]" } },
+              { match: { version: "Russian" } },
+              { match: { version: "[ru]" } },
+              { match: { version: "Judeo-Arabic" } },
+              { match: { version: "Yiddish" } },
+              { match: { version: "Ladino" } },
+              { match: { version: "Arabic" } }
+            ]
           }
         },
         highlight: {
