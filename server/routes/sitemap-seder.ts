@@ -30,21 +30,38 @@ export function generateSederSitemap(sederName: SederName) {
     tractates.forEach(tractate => {
       const tractateSlug = getTractateSlug(tractate.name);
       const lastSide = tractate.lastSide;
-      const pageCount = (tractate.folios - 1) * 2 + (lastSide === 'b' ? 2 : 1);
+      const startFolio = (tractate as any).startFolio ?? 2;
+      const startSide = (tractate as any).startSide ?? 'a';
+      const startOffset = startSide === 'b' ? 1 : 0;
+      const endOffset = lastSide === 'a' ? 1 : 0;
+      const pageCount = (tractate.folios - startFolio) * 2 + 2 - startOffset - endOffset;
       
       sitemap += `
   
-  <!-- ${tractate.name} (${tractate.folios} folios ending at ${tractate.folios}${lastSide}, ${pageCount} pages) -->`;
+  <!-- ${tractate.name} (folios ${startFolio}${startSide} to ${tractate.folios}${lastSide}, ${pageCount} pages) -->`;
       
-      // Add all folio pages for this tractate (2a through final folio)
-      for (let folio = 2; folio <= tractate.folios; folio++) {
-        const sides = folio === tractate.folios && lastSide === 'a' ? ['a'] : ['a', 'b'];
+      // Add all folio pages for this tractate (startFolio through final folio)
+      for (let folio = startFolio; folio <= tractate.folios; folio++) {
+        // Determine which sides to include
+        const isFirstFolio = folio === startFolio;
+        const isLastFolio = folio === tractate.folios;
+        const sides: ('a' | 'b')[] = [];
+        
+        // Add 'a' side if not the first folio or if startSide is 'a'
+        if (!isFirstFolio || startSide === 'a') {
+          sides.push('a');
+        }
+        // Add 'b' side if not the last folio or if lastSide is 'b'
+        if (!isLastFolio || lastSide === 'b') {
+          sides.push('b');
+        }
+        
         sides.forEach(side => {
           // Determine priority: higher for significant folios, lower for regular folios
           let priority = '0.4'; // Default for regular folios
           
-          // First folios (2a) get higher priority as entry points
-          if (folio === 2 && side === 'a') {
+          // First folios get higher priority as entry points
+          if (folio === startFolio && side === startSide) {
             priority = '0.7';
           }
           // Significant folios get medium-high priority
@@ -52,7 +69,7 @@ export function generateSederSitemap(sederName: SederName) {
             priority = '0.6';
           }
           // Early folios in each tractate get slightly higher priority
-          else if (folio <= 10) {
+          else if (folio <= startFolio + 8) {
             priority = '0.5';
           }
           
@@ -67,7 +84,11 @@ export function generateSederSitemap(sederName: SederName) {
     });
 
     const totalPages = tractates.reduce((sum, t) => {
-      return sum + (t.folios - 1) * 2 + (t.lastSide === 'b' ? 2 : 1);
+      const startFolio = (t as any).startFolio ?? 2;
+      const startSide = (t as any).startSide ?? 'a';
+      const startOffset = startSide === 'b' ? 1 : 0;
+      const endOffset = t.lastSide === 'a' ? 1 : 0;
+      return sum + (t.folios - startFolio) * 2 + 2 - startOffset - endOffset;
     }, 0);
     sitemap += `
 

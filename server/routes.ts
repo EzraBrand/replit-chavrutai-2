@@ -724,9 +724,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
         tohorot: { name: 'Tohorot', description: 'Order of Purities - Ritual purity laws' }
       };
 
-      // Calculate actual page count considering lastSide
-      const getPageCount = (t: { folios: number; lastSide: 'a' | 'b' }) => {
-        return (t.folios - 1) * 2 + (t.lastSide === 'b' ? 2 : 1);
+      // Calculate actual page count considering startFolio/startSide and lastSide
+      const getPageCount = (t: { folios: number; lastSide: 'a' | 'b'; startFolio?: number; startSide?: 'a' | 'b' }) => {
+        const startFolio = (t as any).startFolio ?? 2;
+        const startSide = (t as any).startSide ?? 'a';
+        const startOffset = startSide === 'b' ? 1 : 0;
+        const endOffset = t.lastSide === 'a' ? 1 : 0;
+        return (t.folios - startFolio) * 2 + 2 - startOffset - endOffset;
       };
 
       // Calculate total pages for each Seder
@@ -742,6 +746,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
             name: t.name,
             folios: t.folios,
             lastSide: t.lastSide,
+            startFolio: (t as any).startFolio ?? 2,
+            startSide: (t as any).startSide ?? 'a',
             slug: t.name.toLowerCase().replace(/\s+/g, '-'),
             pages: getPageCount(t)
           })),
