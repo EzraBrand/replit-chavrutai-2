@@ -151,10 +151,10 @@ export class TextHighlighter {
       const terms = this.getTermsForCategory(category);
       
       for (const term of terms) {
-        // Create word boundary regex to match whole words only
+        // Create word boundary regex to match whole words only (case-sensitive)
         // For R' terms, we need to handle the apostrophe correctly
         const escapedTerm = this.escapeRegex(term);
-        const regex = new RegExp(`\\b${escapedTerm}\\b`, 'gi');
+        const regex = new RegExp(`\\b${escapedTerm}\\b`, 'g');
         let match;
         
         while ((match = regex.exec(text)) !== null) {
