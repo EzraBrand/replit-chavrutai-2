@@ -219,7 +219,8 @@ export function replaceTerms(text: string): string {
     "the flood": "the Flood",
     "generation of the flood": "Generation of the Flood",
     "generation of the dispersion": "Generation of the Dispersion",
-    "Shabbat eve": "Friday"
+    "Shabbat eve": "Friday",
+    "the eve of Shabbat": "Friday"
   };
   
   // Combine basic terms with generated sexual terms
