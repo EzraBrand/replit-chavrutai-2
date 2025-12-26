@@ -232,6 +232,46 @@ export function isValidFolio(tractate: string, folio: number): boolean {
 }
 
 /**
+ * Get tractate info from SEDER_TRACTATES by name
+ * @param tractate - The tractate name (any format: display name, slug, or Sefaria name)
+ * @returns The tractate info object with folios and lastSide, or null if not found
+ */
+export function getTractateInfo(tractate: string): { name: string; folios: number; lastSide: 'a' | 'b' } | null {
+  const slug = getTractateSlug(tractate);
+  
+  for (const seder of Object.values(SEDER_TRACTATES)) {
+    for (const t of seder) {
+      if (getTractateSlug(t.name) === slug) {
+        return { name: t.name, folios: t.folios, lastSide: t.lastSide };
+      }
+    }
+  }
+  return null;
+}
+
+/**
+ * Check if a specific page (tractate + folio + side) is valid and has content
+ * @param tractate - The tractate name
+ * @param folio - The folio number
+ * @param side - The side ('a' or 'b')
+ * @returns true if the page exists and has content
+ */
+export function isValidPage(tractate: string, folio: number, side: 'a' | 'b'): boolean {
+  const info = getTractateInfo(tractate);
+  if (!info) return false;
+  
+  // Check folio is in valid range (starts at 2)
+  if (folio < 2 || folio > info.folios) return false;
+  
+  // Check if this is the last folio and the side is valid
+  if (folio === info.folios && side === 'b' && info.lastSide === 'a') {
+    return false;
+  }
+  
+  return true;
+}
+
+/**
  * Convert tractate name to URL-safe slug (lowercase with hyphens)
  * This is the canonical URL format for all tractate URLs
  * Handles various input formats: display names, URL-encoded strings, already-slugified inputs

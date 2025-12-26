@@ -356,6 +356,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return;
       }
       
+      // Validate page exists (some tractates don't have 'b' side on their final folio)
+      const { isValidPage } = await import('@shared/tractates');
+      if (!isValidPage(tractate, folio, side as 'a' | 'b')) {
+        res.status(404).json({ error: `Page does not exist: ${tractate} ${folio}${side}` });
+        return;
+      }
+      
       // Try to get from local storage first
       let text = await storage.getText(work, tractate, chapter, folio, side);
       

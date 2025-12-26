@@ -17,7 +17,7 @@ import { useSEO, generateSEOData } from "@/hooks/use-seo";
 import { usePrefetchAdjacentPages } from "@/hooks/use-prefetch";
 import type { TalmudLocation } from "@/types/talmud";
 import { sefariaAPI } from "@/lib/sefaria";
-import { normalizeDisplayTractateName, isValidTractate, getTractateSlug } from "@shared/tractates";
+import { normalizeDisplayTractateName, isValidTractate, getTractateSlug, isValidPage } from "@shared/tractates";
 import NotFound from "@/pages/not-found";
 
 export default function TractateView() {
@@ -33,6 +33,11 @@ export default function TractateView() {
   // Parse folio parameter (e.g., "2a" -> folio: 2, side: "a")
   const parsedFolio = folio ? parseInt(folio.slice(0, -1)) : 2;
   const parsedSide = folio ? folio.slice(-1) as 'a' | 'b' : 'a';
+  
+  // Validate the page exists (some tractates don't have 'b' side on their final folio)
+  if (tractate && folio && !isValidPage(tractate, parsedFolio, parsedSide)) {
+    return <NotFound />;
+  }
   
   const [talmudLocation, setTalmudLocation] = useState<TalmudLocation>({
     work: "Talmud Bavli",
