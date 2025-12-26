@@ -100,6 +100,7 @@ export const URL_TO_SEFARIA_TRACTATE_MAP: Record<string, string> = {
   "yoma": "Yoma",
   "sukkah": "Sukkah", 
   "beitza": "Beitza",
+  "beitzah": "Beitza",
   "taanit": "Taanit",
   "megillah": "Megillah",
   "moed katan": "Moed Katan",
