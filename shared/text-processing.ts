@@ -379,6 +379,13 @@ export function splitEnglishText(text: string): string {
     return `:\n${whitespace}`;
   });
   
+  // Protect ellipses (...) from being split - treat them as a unit
+  const ellipsisProtections: string[] = [];
+  processedText = processedText.replace(/\.{2,}/g, (match) => {
+    ellipsisProtections.push(match);
+    return `__ELLIPSIS_${ellipsisProtections.length - 1}__`;
+  });
+  
   // Now protect HTML tags by temporarily replacing them with placeholders
   const htmlTagPattern = /<\/?\w+(?:\s+[^>]*)?>/g;
   const htmlTags: string[] = [];
@@ -436,6 +443,11 @@ export function splitEnglishText(text: string): string {
   // Restore "son of" protected patterns
   sonOfProtections.forEach((original, index) => {
     processedText = processedText.replace(`__SON_OF_PROTECTION_${index}__`, original);
+  });
+  
+  // Restore ellipses
+  ellipsisProtections.forEach((original, index) => {
+    processedText = processedText.replace(`__ELLIPSIS_${index}__`, original);
   });
   
   // Final cleanup: Fix orphaned quotes that end up on their own lines
