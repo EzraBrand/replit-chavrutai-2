@@ -59,6 +59,14 @@ export default function Changelog() {
           
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Jastrow Dictionary Fix</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Fixed entries being cut off for words with multiple verb forms (e.g., Hiphil/Hif.)</li>
+                <li>Nested grammatical forms now display with proper labels showing verb stem and conjugation</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Navigation Fixes</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Fixed empty page issue: tractates ending on 'a' side no longer show invalid 'b' pages</li>
