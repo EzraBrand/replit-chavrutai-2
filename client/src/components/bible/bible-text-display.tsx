@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { usePreferences } from "@/context/preferences-context";
 import { processBibleHebrewText, processBibleEnglishText, formatEnglishText } from "@/lib/text-processing";
+import { getBibleVerseLinks, type BibleReference } from "@/lib/bible-external-links";
 import type { BibleText } from "@/types/bible";
 
 interface BibleTextDisplayProps {
@@ -85,12 +86,14 @@ export function BibleTextDisplay({ text }: BibleTextDisplayProps) {
 
       removeExternalLinkArrow(tempDiv);
 
-      // Remove verse headers (e.g., "verse 1", "verse 2", etc.)
+      // Remove verse headers (e.g., "verse 1", "verse 2", etc.) - targets the verse header container
       const removeVerseHeaders = (element: HTMLElement): void => {
-        const verseLinks = element.querySelectorAll('[data-testid^="link-sefaria-verse-"]');
-        verseLinks.forEach(link => {
+        const verseHeaderContainers = element.querySelectorAll('[data-testid*="-verse-"]');
+        const removedParents = new Set<Node>();
+        verseHeaderContainers.forEach(link => {
           const parent = link.parentElement;
-          if (parent) {
+          if (parent && !removedParents.has(parent)) {
+            removedParents.add(parent);
             parent.remove();
           }
         });
@@ -268,19 +271,31 @@ export function BibleTextDisplay({ text }: BibleTextDisplayProps) {
               id={`verse-${verse.verseNumber}`}
               className="border-b border-border/50 pb-6 last:border-b-0 last:pb-0 scroll-mt-24"
             >
-              {/* Verse Header - Link to Sefaria */}
-              <div className="flex items-center justify-center gap-2 mb-4">
-                <a
-                  href={`https://www.sefaria.org/${text.sefariaRef}.${verse.verseNumber}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-secondary hover:bg-secondary/80 text-secondary-foreground px-3 py-1 rounded-full text-sm font-semibold transition-colors duration-200 flex items-center gap-1"
-                  data-testid={`link-sefaria-verse-${verse.verseNumber}`}
-                  title={`View verse ${verse.verseNumber} on Sefaria`}
-                >
-                  verse {verse.verseNumber} <span className="text-xs">↗</span>
-                </a>
-              </div>
+              {/* Verse Header - External Links */}
+              {(() => {
+                const verseRef: BibleReference = { book: text.book, chapter: text.chapter, verse: verse.verseNumber };
+                const verseLinks = getBibleVerseLinks(verseRef);
+                return (
+                  <div className="flex items-center justify-center gap-2 mb-4 flex-wrap">
+                    <span className="bg-secondary text-secondary-foreground px-3 py-1 rounded-full text-sm font-semibold">
+                      verse {verse.verseNumber}
+                    </span>
+                    {verseLinks.map((link) => (
+                      <a
+                        key={link.name}
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 dark:text-blue-400 hover:underline text-sm flex items-center gap-0.5"
+                        data-testid={`link-${link.name.toLowerCase().replace(/\s+/g, '-')}-verse-${verse.verseNumber}`}
+                        title={link.description}
+                      >
+                        {link.name} <span className="text-xs">↗</span>
+                      </a>
+                    ))}
+                  </div>
+                );
+              })()}
 
               <div className="text-display bible-text-display flex flex-col lg:flex-row gap-6">
                 {/* English Segments Column (First on Mobile, Left Side on Desktop) */}

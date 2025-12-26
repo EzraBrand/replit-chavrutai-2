@@ -5,6 +5,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { AlertCircle, ChevronLeft, ChevronRight } from "lucide-react";
 import { BibleTextDisplay } from "@/components/bible/bible-text-display";
+import { BibleExternalLinksFooter } from "@/components/bible/bible-external-links-footer";
 import { HamburgerMenu } from "@/components/navigation/hamburger-menu";
 import { Footer } from "@/components/footer";
 import { usePreferences } from "@/context/preferences-context";
@@ -189,6 +190,11 @@ export default function BibleChapterPage() {
           <div className="space-y-6">
             <BibleTextDisplay text={text} />
           </div>
+        )}
+
+        {/* External Links Footer */}
+        {text && !isLoading && book && (
+          <BibleExternalLinksFooter book={book} chapter={parsedChapter} />
         )}
 
         {/* Chapter Navigation */}
