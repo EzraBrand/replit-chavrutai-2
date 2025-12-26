@@ -88,13 +88,26 @@ export function getBibleAlHaTorahLink(ref: BibleReference): string {
   return `https://mg.alhatorah.org/Full/${alHaTorahName}/${chapter}`;
 }
 
-export function getBibleWikisourceLink(ref: BibleReference): string {
+export function getBibleWikisourceChapterLink(ref: BibleReference): string {
   const { book, chapter } = ref;
   const hebrewName = getHebrewBookName(book);
   if (!hebrewName) return '';
   
   const hebrewChapter = numberToHebrewGematria(chapter);
   const pageName = `${hebrewName}_${hebrewChapter}`;
+  return `https://he.wikisource.org/wiki/${encodeURIComponent(pageName)}`;
+}
+
+export function getBibleWikisourceVerseLink(ref: BibleReference): string {
+  const { book, chapter, verse } = ref;
+  if (verse === undefined) return '';
+  
+  const hebrewName = getHebrewBookName(book);
+  if (!hebrewName) return '';
+  
+  const hebrewChapter = numberToHebrewGematria(chapter);
+  const hebrewVerse = numberToHebrewGematria(verse);
+  const pageName = `קטגוריה:${hebrewName}_${hebrewChapter}_${hebrewVerse}`;
   return `https://he.wikisource.org/wiki/${encodeURIComponent(pageName)}`;
 }
 
@@ -115,6 +128,16 @@ export function getAllBibleExternalLinks(ref: BibleReference): BibleExternalLink
       type: 'verse',
       description: 'Al HaTorah Mikraot Gedolot - verse-level link'
     });
+    
+    const wikisourceVerseUrl = getBibleWikisourceVerseLink(ref);
+    if (wikisourceVerseUrl) {
+      links.push({
+        name: 'Wikisource',
+        url: wikisourceVerseUrl,
+        type: 'verse',
+        description: 'Hebrew Wikisource - verse-level link'
+      });
+    }
   }
   
   const chapterRef = { ...ref, verse: undefined };
@@ -133,11 +156,11 @@ export function getAllBibleExternalLinks(ref: BibleReference): BibleExternalLink
     description: 'Al HaTorah Mikraot Gedolot - chapter-level link'
   });
   
-  const wikisourceUrl = getBibleWikisourceLink(ref);
-  if (wikisourceUrl) {
+  const wikisourceChapterUrl = getBibleWikisourceChapterLink(ref);
+  if (wikisourceChapterUrl) {
     links.push({
       name: 'Wikisource',
-      url: wikisourceUrl,
+      url: wikisourceChapterUrl,
       type: 'chapter',
       description: 'Hebrew Wikisource - full chapter text'
     });

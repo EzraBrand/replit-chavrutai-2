@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { ExternalLink as ExternalLinkIcon } from "lucide-react";
 import { usePreferences } from "@/context/preferences-context";
 import { processBibleHebrewText, processBibleEnglishText, formatEnglishText } from "@/lib/text-processing";
 import { getBibleVerseLinks, type BibleReference } from "@/lib/bible-external-links";
@@ -286,11 +287,12 @@ export function BibleTextDisplay({ text }: BibleTextDisplayProps) {
                         href={link.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-blue-600 dark:text-blue-400 hover:underline text-sm flex items-center gap-0.5"
+                        className="text-blue-600 dark:text-blue-400 hover:underline text-sm flex items-center gap-1"
                         data-testid={`link-${link.name.toLowerCase().replace(/\s+/g, '-')}-verse-${verse.verseNumber}`}
                         title={link.description}
                       >
-                        {link.name} <span className="text-xs">↗</span>
+                        {link.name}
+                        <ExternalLinkIcon className="w-3 h-3" />
                       </a>
                     ))}
                   </div>
