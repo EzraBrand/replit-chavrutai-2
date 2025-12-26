@@ -1,4 +1,4 @@
-import { SEDER_TRACTATES, getTractateSlug } from './tractates';
+import { SEDER_TRACTATES, getTractateSlug, normalizeSefariaTractateName } from './tractates';
 
 export interface TalmudPage {
   tractate: string;
@@ -23,7 +23,9 @@ const tractateInfoCache = new Map<string, TractateInfo | null>();
  * Results are cached for performance
  */
 export function getTractateInfo(tractate: string): TractateInfo | null {
-  const slug = getTractateSlug(tractate);
+  // First normalize using URL map to handle alternate spellings (e.g., "arakhin" -> "Arachin")
+  const normalizedName = normalizeSefariaTractateName(tractate);
+  const slug = getTractateSlug(normalizedName);
   
   if (tractateInfoCache.has(slug)) {
     return tractateInfoCache.get(slug)!;

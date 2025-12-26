@@ -129,6 +129,7 @@ export const URL_TO_SEFARIA_TRACTATE_MAP: Record<string, string> = {
   "chullin": "Chullin",
   "bekhorot": "Bekhorot", 
   "arachin": "Arachin",
+  "arakhin": "Arachin",
   "temurah": "Temurah",
   "keritot": "Keritot", 
   "meilah": "Meilah",
@@ -237,7 +238,9 @@ export function isValidFolio(tractate: string, folio: number): boolean {
  * @returns The tractate info object with folios and lastSide, or null if not found
  */
 export function getTractateInfo(tractate: string): { name: string; folios: number; lastSide: 'a' | 'b' } | null {
-  const slug = getTractateSlug(tractate);
+  // First normalize using URL map to handle alternate spellings (e.g., "arakhin" -> "Arachin")
+  const normalizedName = normalizeSefariaTractateName(tractate);
+  const slug = getTractateSlug(normalizedName);
   
   for (const seder of Object.values(SEDER_TRACTATES)) {
     for (const t of seder) {
