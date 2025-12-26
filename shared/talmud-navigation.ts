@@ -11,6 +11,8 @@ export interface TractateInfo {
   folios: number;
   lastSide: 'a' | 'b';
   seder: string;
+  startFolio: number;
+  startSide: 'a' | 'b';
 }
 
 const tractateInfoCache = new Map<string, TractateInfo | null>();
@@ -34,7 +36,9 @@ export function getTractateInfo(tractate: string): TractateInfo | null {
           name: t.name, 
           folios: t.folios, 
           lastSide: t.lastSide,
-          seder: sederName
+          seder: sederName,
+          startFolio: (t as any).startFolio ?? 2,
+          startSide: (t as any).startSide ?? 'a'
         };
         tractateInfoCache.set(slug, info);
         return info;
@@ -53,8 +57,17 @@ export function isValidPage(tractate: string, folio: number, side: 'a' | 'b'): b
   const info = getTractateInfo(tractate);
   if (!info) return false;
   
-  if (folio < 2 || folio > info.folios) return false;
+  // Check if folio is within the tractate's range
+  if (folio < info.startFolio || folio > info.folios) return false;
   
+  // Check if this is the start folio and the side is before the start side
+  if (folio === info.startFolio) {
+    if (info.startSide === 'b' && side === 'a') {
+      return false;
+    }
+  }
+  
+  // Check if this is the last folio and the side is after the last side
   if (folio === info.folios && side === 'b' && info.lastSide === 'a') {
     return false;
   }
@@ -63,10 +76,12 @@ export function isValidPage(tractate: string, folio: number, side: 'a' | 'b'): b
 }
 
 /**
- * Check if a page is the first page of its tractate (2a)
+ * Check if a page is the first page of its tractate
  */
 export function isFirstPage(page: TalmudPage): boolean {
-  return page.folio === 2 && page.side === 'a';
+  const info = getTractateInfo(page.tractate);
+  if (!info) return false;
+  return page.folio === info.startFolio && page.side === info.startSide;
 }
 
 /**
@@ -104,14 +119,21 @@ export function getNextPage(page: TalmudPage): TalmudPage | null {
 
 /**
  * Get the previous valid page in the tractate
- * Returns null if at the first page (2a)
+ * Returns null if at the first page
  */
 export function getPreviousPage(page: TalmudPage): TalmudPage | null {
   if (isFirstPage(page)) {
     return null;
   }
   
+  const info = getTractateInfo(page.tractate);
+  if (!info) return null;
+  
   if (page.side === 'b') {
+    // Check if 'a' side exists for this folio (for tractates starting on 'b')
+    if (page.folio === info.startFolio && info.startSide === 'b') {
+      return null; // Already at first page
+    }
     return { tractate: page.tractate, folio: page.folio, side: 'a' };
   } else {
     return { tractate: page.tractate, folio: page.folio - 1, side: 'b' };
@@ -135,12 +157,28 @@ export function getLastSide(tractate: string): 'a' | 'b' {
 }
 
 /**
+ * Get the first folio number for a tractate (usually 2, but some like Tamid start later)
+ */
+export function getStartFolio(tractate: string): number {
+  const info = getTractateInfo(tractate);
+  return info?.startFolio ?? 2;
+}
+
+/**
+ * Get the starting side for a tractate (usually 'a', but Tamid starts on 'b')
+ */
+export function getStartSide(tractate: string): 'a' | 'b' {
+  const info = getTractateInfo(tractate);
+  return info?.startSide ?? 'a';
+}
+
+/**
  * Get the first page of a tractate
  */
 export function getFirstPage(tractate: string): TalmudPage | null {
   const info = getTractateInfo(tractate);
   if (!info) return null;
-  return { tractate: info.name, folio: 2, side: 'a' };
+  return { tractate: info.name, folio: info.startFolio, side: info.startSide };
 }
 
 /**
@@ -159,7 +197,11 @@ export function getTotalPages(tractate: string): number {
   const info = getTractateInfo(tractate);
   if (!info) return 0;
   
-  return (info.folios - 1) * 2 + (info.lastSide === 'b' ? 2 : 1);
+  // Calculate pages from startFolio to folios (max folio)
+  const startOffset = info.startSide === 'b' ? 1 : 0; // Subtract 1 if starting on 'b' side
+  const endOffset = info.lastSide === 'a' ? 1 : 0; // Subtract 1 if ending on 'a' side
+  
+  return (info.folios - info.startFolio) * 2 + 2 - startOffset - endOffset;
 }
 
 /**
@@ -189,9 +231,13 @@ export function* iterateTractatePages(tractate: string): Generator<TalmudPage> {
   const info = getTractateInfo(tractate);
   if (!info) return;
   
-  for (let folio = 2; folio <= info.folios; folio++) {
-    yield { tractate: info.name, folio, side: 'a' };
+  for (let folio = info.startFolio; folio <= info.folios; folio++) {
+    // Skip 'a' side on start folio if tractate starts on 'b'
+    if (folio > info.startFolio || info.startSide === 'a') {
+      yield { tractate: info.name, folio, side: 'a' };
+    }
     
+    // Skip 'b' side on last folio if tractate ends on 'a'
     if (folio < info.folios || info.lastSide === 'b') {
       yield { tractate: info.name, folio, side: 'b' };
     }

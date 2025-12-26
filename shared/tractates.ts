@@ -83,7 +83,7 @@ export const TRACTATE_FOLIO_RANGES = {
   "Bava Metzia": 119, "Bava Batra": 176, "Sanhedrin": 113, "Makkot": 24, "Shevuot": 49, 
   "Avodah Zarah": 76, "Horayot": 14, "Zevachim": 120, "Menachot": 110, "Chullin": 142, 
   "Bekhorot": 61, "Arachin": 34, "Temurah": 34, "Keritot": 28, "Meilah": 22, 
-  "Tamid": 7, "Niddah": 73
+  "Tamid": 33, "Niddah": 73
 } as const;
 
 export type WorkName = keyof typeof TRACTATE_LISTS;
@@ -202,7 +202,7 @@ export const SEDER_TRACTATES = {
     { name: 'Temurah', folios: 34, lastSide: 'a' as const },
     { name: 'Keritot', folios: 28, lastSide: 'b' as const },
     { name: 'Meilah', folios: 22, lastSide: 'a' as const },
-    { name: 'Tamid', folios: 7, lastSide: 'a' as const }
+    { name: 'Tamid', folios: 33, lastSide: 'b' as const, startFolio: 25, startSide: 'b' as const }
   ],
   tohorot: [
     { name: 'Niddah', folios: 73, lastSide: 'a' as const }

@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { ExternalLink, ArrowRight } from "lucide-react";
 import { Footer } from "@/components/footer";
 import { TRACTATE_LISTS, TRACTATE_HEBREW_NAMES, normalizeDisplayTractateName, isValidTractate } from "@shared/tractates";
-import { getMaxFolio } from "@shared/talmud-navigation";
+import { getMaxFolio, getStartFolio, getStartSide } from "@shared/talmud-navigation";
 import { 
   getAllExternalLinks, 
   getSectionLinks, 
@@ -60,6 +60,22 @@ function ExternalLinksPage() {
     setLinks(getAllExternalLinks(ref));
   }, [tractate, folio, side, section]);
 
+  // Reset folio and side to valid values when tractate changes
+  useEffect(() => {
+    const newStartFolio = getStartFolio(tractate);
+    const newStartSide = getStartSide(tractate);
+    const newMaxFolio = getMaxFolio(tractate);
+    
+    // If current folio is out of range, reset to start
+    if (folio < newStartFolio || folio > newMaxFolio) {
+      setFolio(newStartFolio);
+      setSide(newStartSide);
+    } else if (folio === newStartFolio && newStartSide === 'b' && side === 'a') {
+      // If on start folio but side 'a' doesn't exist (like Tamid 25a)
+      setSide('b');
+    }
+  }, [tractate]);
+
   const handleSectionChange = (value: string) => {
     setSectionInput(value);
     if (value === '') {
@@ -73,6 +89,8 @@ function ExternalLinksPage() {
   };
 
   const maxFolio = getMaxFolio(tractate);
+  const startFolio = getStartFolio(tractate);
+  const startSide = getStartSide(tractate);
   const currentRef = `${tractate} ${folio}${side}${section ? `, section ${section}` : ''}`;
 
   const sectionLinks = getSectionLinks({ tractate, folio, side, section });
@@ -216,10 +234,10 @@ function ExternalLinksPage() {
                 <Input
                   id="folio"
                   type="number"
-                  min={2}
+                  min={startFolio}
                   max={maxFolio}
                   value={folio}
-                  onChange={(e) => setFolio(Math.max(2, Math.min(maxFolio, parseInt(e.target.value) || 2)))}
+                  onChange={(e) => setFolio(Math.max(startFolio, Math.min(maxFolio, parseInt(e.target.value) || startFolio)))}
                   data-testid="input-folio"
                 />
               </div>

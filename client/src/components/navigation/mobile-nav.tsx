@@ -7,7 +7,7 @@ import type { TalmudLocation, Work } from "@/types/talmud";
 import { WORKS } from "@/types/talmud";
 import { useQuery } from "@tanstack/react-query";
 import { sefariaAPI } from "@/lib/sefaria";
-import { getMaxFolio, getLastSide } from "@shared/talmud-navigation";
+import { getMaxFolio, getLastSide, getStartFolio, getStartSide } from "@shared/talmud-navigation";
 
 interface MobileNavProps {
   location: TalmudLocation;
@@ -72,12 +72,17 @@ export function MobileNav({ location, onLocationChange }: MobileNavProps) {
   const generatePageOptions = () => {
     const pages: string[] = [];
     
+    const startFolio = getStartFolio(location.tractate);
+    const startSide = getStartSide(location.tractate);
     const maxFolio = getMaxFolio(location.tractate);
     const lastSide = getLastSide(location.tractate);
     
-    // Generate pages from 2 to the tractate's maximum folio
-    for (let folio = 2; folio <= maxFolio; folio++) {
-      pages.push(`${folio}a`);
+    // Generate pages from start folio to maximum folio
+    for (let folio = startFolio; folio <= maxFolio; folio++) {
+      // Only add 'a' side if not the start folio or if startSide is 'a'
+      if (folio > startFolio || startSide === 'a') {
+        pages.push(`${folio}a`);
+      }
       // Only add 'b' side if not the last folio or if lastSide is 'b'
       if (folio < maxFolio || lastSide === 'b') {
         pages.push(`${folio}b`);
