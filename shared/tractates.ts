@@ -210,6 +210,44 @@ export const SEDER_TRACTATES = {
 export type SederName = keyof typeof SEDER_TRACTATES;
 
 /**
+ * Empty pages that exist in the folio range but have no content in Sefaria
+ * These should be excluded from sitemaps and navigation
+ * Format: "tractate-slug/folio" (e.g., "berakhot/64b")
+ */
+export const EMPTY_TALMUD_PAGES = new Set([
+  "berakhot/64b",
+  "eruvin/105b",
+  "yoma/88b",
+  "rosh-hashanah/35b",
+  "taanit/31b",
+  "megillah/32b",
+  "moed-katan/29b",
+  "chagigah/27b",
+  "bava-metzia/119b",
+  "horayot/14b",
+  "menachot/110b",
+  "chullin/142b",
+  "bekhorot/61b",
+  "arachin/34b",
+  "temurah/34b",
+  "meilah/22b",
+  "tamid/7b",
+  "tamid/8a",
+  "tamid/8b",
+  "niddah/73b"
+]);
+
+/**
+ * Check if a folio page is empty (has no content in Sefaria)
+ * @param tractateSlug - The URL-safe tractate slug (e.g., "berakhot", "rosh-hashanah")
+ * @param folio - The folio string (e.g., "64b", "35b")
+ * @returns true if the page is empty and should be excluded
+ */
+export function isEmptyPage(tractateSlug: string, folio: string): boolean {
+  return EMPTY_TALMUD_PAGES.has(`${tractateSlug.toLowerCase()}/${folio.toLowerCase()}`);
+}
+
+/**
  * Get the maximum folio number for a given tractate
  * @param tractate - The name of the tractate
  * @returns The maximum folio number, defaults to 150 if tractate not found
