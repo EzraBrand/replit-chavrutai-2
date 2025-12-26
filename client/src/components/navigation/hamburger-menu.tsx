@@ -1,4 +1,4 @@
-import { Menu, Type, Palette, Columns, Highlighter } from "lucide-react";
+import { Menu, Type, Columns, Highlighter } from "lucide-react";
 import { useState } from "react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
@@ -90,7 +90,7 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
               {/* Hebrew Font */}
               <div className="px-4">
                 <div className="flex items-center gap-2 mb-2">
-                  <Palette className="w-4 h-4 text-foreground/60" />
+                  <Type className="w-4 h-4 text-foreground/60" />
                   <span className="text-sm text-foreground/80">Hebrew Font</span>
                 </div>
                 <Select value={preferences.hebrewFont} onValueChange={(value: HebrewFont) => {
