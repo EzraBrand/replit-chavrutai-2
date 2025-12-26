@@ -1,0 +1,33 @@
+{
+  "timestamp": "2025-12-26T12:59:55.213Z",
+  "totalChecked": 30,
+  "emptyCount": 6,
+  "lowTextCount": 0,
+  "emptyPages": [
+    {
+      "ref": "Berakhot.64b",
+      "url": "/tractate/berakhot/64b"
+    },
+    {
+      "ref": "Eruvin.105b",
+      "url": "/tractate/eruvin/105b"
+    },
+    {
+      "ref": "Yoma.88b",
+      "url": "/tractate/yoma/88b"
+    },
+    {
+      "ref": "Rosh Hashanah.35b",
+      "url": "/tractate/rosh-hashanah/35b"
+    },
+    {
+      "ref": "Taanit.31b",
+      "url": "/tractate/taanit/31b"
+    },
+    {
+      "ref": "Megillah.32b",
+      "url": "/tractate/megillah/32b"
+    }
+  ],
+  "lowTextPages": []
+}
