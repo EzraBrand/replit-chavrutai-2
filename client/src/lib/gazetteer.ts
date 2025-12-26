@@ -152,9 +152,10 @@ export class TextHighlighter {
       
       for (const term of terms) {
         // Create word boundary regex to match whole words only (case-sensitive)
+        // Also match plurals by adding optional 's' at the end
         // For R' terms, we need to handle the apostrophe correctly
         const escapedTerm = this.escapeRegex(term);
-        const regex = new RegExp(`\\b${escapedTerm}\\b`, 'g');
+        const regex = new RegExp(`\\b${escapedTerm}s?\\b`, 'g');
         let match;
         
         while ((match = regex.exec(text)) !== null) {
