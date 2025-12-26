@@ -305,9 +305,9 @@ export default function SearchPage() {
                       href="https://www.ezrabrand.com/p/introducing-chavrutais-search-full" 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="text-blue-600 hover:underline"
+                      className="text-blue-600 hover:underline inline-flex items-center gap-1"
                       data-testid="link-search-blog-post"
-                    >Introducing ChavrutAI's Search: Full-Text Search of Bible and Talmud</a>" (Dec 23, 2025)
+                    >Introducing ChavrutAI's Search: Full-Text Search of Bible and Talmud <ExternalLink className="w-3 h-3" /></a>" (Dec 23, 2025)
                   </p>
                 </div>
               </div>
