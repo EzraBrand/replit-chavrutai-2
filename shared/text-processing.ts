@@ -268,6 +268,44 @@ export function replaceTerms(text: string): string {
     "thirty ninth": "39th",
   };
   
+  // Fractional ordinal replacements (must be applied BEFORE basic ordinals)
+  const fractionalOrdinalReplacements: Record<string, string> = {
+    "one-third": "1/3rd",
+    "one third": "1/3rd",
+    "two-thirds": "2/3rds",
+    "two thirds": "2/3rds",
+    "one-fourth": "1/4th",
+    "one fourth": "1/4th",
+    "one-quarter": "1/4th",
+    "one quarter": "1/4th",
+    "two-fourths": "2/4ths",
+    "two fourths": "2/4ths",
+    "three-fourths": "3/4ths",
+    "three fourths": "3/4ths",
+    "three-quarters": "3/4ths",
+    "three quarters": "3/4ths",
+    "one-fifth": "1/5th",
+    "one fifth": "1/5th",
+    "two-fifths": "2/5ths",
+    "two fifths": "2/5ths",
+    "three-fifths": "3/5ths",
+    "three fifths": "3/5ths",
+    "four-fifths": "4/5ths",
+    "four fifths": "4/5ths",
+    "one-sixth": "1/6th",
+    "one sixth": "1/6th",
+    "five-sixths": "5/6ths",
+    "five sixths": "5/6ths",
+    "one-seventh": "1/7th",
+    "one seventh": "1/7th",
+    "one-eighth": "1/8th",
+    "one eighth": "1/8th",
+    "one-ninth": "1/9th",
+    "one ninth": "1/9th",
+    "one-tenth": "1/10th",
+    "one tenth": "1/10th",
+  };
+  
   const basicOrdinalReplacements: Record<string, string> = {
     "third": "3rd",
     "fourth": "4th",
@@ -306,7 +344,13 @@ export function replaceTerms(text: string): string {
     processedText = processedText.replace(regex, replacement);
   });
   
-  // Apply compound ordinal replacements first (case-insensitive)
+  // Apply fractional ordinal replacements first (e.g., "one-third" -> "1/3rd")
+  Object.entries(fractionalOrdinalReplacements).forEach(([original, replacement]) => {
+    const regex = new RegExp(`\\b${original.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'gi');
+    processedText = processedText.replace(regex, replacement);
+  });
+  
+  // Apply compound ordinal replacements (case-insensitive)
   Object.entries(compoundOrdinalReplacements).forEach(([original, replacement]) => {
     const regex = new RegExp(`\\b${original.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'gi');
     processedText = processedText.replace(regex, replacement);
