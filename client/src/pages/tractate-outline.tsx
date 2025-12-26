@@ -30,7 +30,7 @@ export default function TractateOutlinePage() {
             Please specify both tractate and chapter for the outline.
           </p>
           <Link 
-            href="/contents"
+            href="/talmud"
             className="text-blue-600 dark:text-blue-400 hover:underline"
           >
             ← Return to Contents
@@ -60,7 +60,7 @@ export default function TractateOutlinePage() {
               ← View {tractate.charAt(0).toUpperCase() + tractate.slice(1)} Contents
             </Link>
             <Link 
-              href="/contents"
+              href="/talmud"
               className="text-blue-600 dark:text-blue-400 hover:underline"
             >
               All Tractates

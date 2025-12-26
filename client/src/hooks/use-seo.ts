@@ -285,7 +285,7 @@ export const generateSEOData = {
           url: window.location.origin,
           potentialAction: {
             "@type": "SearchAction",
-            target: `${window.location.origin}/contents/{search_term}`,
+            target: `${window.location.origin}/talmud/{search_term}`,
             "query-input": "required name=search_term",
           },
           publisher: {
@@ -319,19 +319,19 @@ export const generateSEOData = {
               "@type": "SiteNavigationElement",
               name: "Berakhot",
               description: "Begin your study with blessings and prayers",
-              url: `${window.location.origin}/contents/berakhot`,
+              url: `${window.location.origin}/talmud/berakhot`,
             },
             {
               "@type": "SiteNavigationElement",
               name: "Shabbat",
               description: "Sabbath laws and stories",
-              url: `${window.location.origin}/contents/shabbat`,
+              url: `${window.location.origin}/talmud/shabbat`,
             },
             {
               "@type": "SiteNavigationElement",
               name: "Sanhedrin",
               description: "Ethics and justice",
-              url: `${window.location.origin}/contents/sanhedrin`,
+              url: `${window.location.origin}/talmud/sanhedrin`,
             },
             {
               "@type": "SiteNavigationElement",
@@ -394,17 +394,17 @@ export const generateSEOData = {
       "Navigate through all tractates of the Babylonian Talmud organized by traditional Seder. Easy chapter breakdown with Hebrew-English text display.",
     keywords:
       "Talmud study guide, Babylonian Talmud tractates, Seder organization, Hebrew English Talmud, Jewish text navigation",
-    canonical: `${window.location.origin}/contents`,
+    canonical: `${window.location.origin}/talmud`,
     ogTitle: "Complete Talmud Study Guide - All Tractates",
     ogDescription:
       "Navigate through all tractates of the Babylonian Talmud organized by traditional Seder. Easy chapter breakdown with Hebrew-English text display.",
-    ogUrl: `${window.location.origin}/contents`,
+    ogUrl: `${window.location.origin}/talmud`,
     structuredData: {
       "@context": "https://schema.org",
       "@type": "CollectionPage",
       name: "Talmud Bavli Contents",
       description: "Complete table of contents for the Babylonian Talmud",
-      url: `${window.location.origin}/contents`,
+      url: `${window.location.origin}/talmud`,
       publisher: {
         "@type": "Organization",
         name: "ChavrutAI",
@@ -424,17 +424,17 @@ export const generateSEOData = {
     title: `${tractate} Talmud - Complete Chapter Guide | ChavrutAI`,
     description: `Study ${tractate} tractate chapter by chapter with Hebrew-English text, detailed folio navigation, and traditional commentary access. Free online Talmud learning.`,
     keywords: `${tractate} Talmud, ${tractate} chapters, Hebrew English ${tractate}, Talmud study online, Jewish learning`,
-    canonical: `${window.location.origin}/contents/${getTractateSlug(tractate)}`,
+    canonical: `${window.location.origin}/talmud/${getTractateSlug(tractate)}`,
     ogTitle: `${tractate} Talmud - Complete Study Guide`,
     ogDescription: `Study ${tractate} tractate chapter by chapter with Hebrew-English text, detailed folio navigation, and traditional commentary access.`,
-    ogUrl: `${window.location.origin}/contents/${getTractateSlug(tractate)}`,
+    ogUrl: `${window.location.origin}/talmud/${getTractateSlug(tractate)}`,
     robots: "index, follow",
     structuredData: {
       "@context": "https://schema.org",
       "@type": "CollectionPage",
       name: `${tractate} - Talmud Bavli`,
       description: `Contents and navigation for ${tractate} tractate`,
-      url: `${window.location.origin}/contents/${getTractateSlug(tractate)}`,
+      url: `${window.location.origin}/talmud/${getTractateSlug(tractate)}`,
       publisher: {
         "@type": "Organization",
         name: "ChavrutAI",

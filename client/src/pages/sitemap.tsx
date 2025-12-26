@@ -178,7 +178,7 @@ export default function Sitemap() {
             <Link href="/" className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 p-2 bg-card rounded border transition-colors">
               Home
             </Link>
-            <Link href="/contents" className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 p-2 bg-card rounded border transition-colors">
+            <Link href="/talmud" className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 p-2 bg-card rounded border transition-colors">
               All Tractates
             </Link>
             <Link href="/suggested-pages" className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 p-2 bg-card rounded border transition-colors">
@@ -230,7 +230,7 @@ export default function Sitemap() {
                   <div key={tractate.slug} className="bg-background rounded border p-4">
                     <div className="mb-2">
                       <Link 
-                        href={`/contents/${tractate.slug}`}
+                        href={`/talmud/${tractate.slug}`}
                         className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium transition-colors"
                       >
                         {tractate.name}

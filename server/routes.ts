@@ -46,9 +46,9 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
   };
 
   // Route-specific SEO data (mirroring client-side generateSEOData)
-  if (url === '/' || url === '/contents') {
-    // Homepage/Contents - keep current data
-    seoData.canonical = `${baseUrl}${url === '/' ? '/' : '/contents'}`;
+  if (url === '/' || url === '/talmud') {
+    // Homepage/Talmud Contents - keep current data
+    seoData.canonical = `${baseUrl}${url === '/' ? '/' : '/talmud'}`;
   } else if (url === '/about') {
     seoData = {
       title: "About ChavrutAI - Free Digital Talmud Learning Platform",
@@ -139,8 +139,8 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
       canonical: `${baseUrl}/changelog`,
       robots: "index, follow"
     };
-  } else if (url.match(/^\/contents\/[^/]+$/)) {
-    // Tractate pages like /contents/berakhot
+  } else if (url.match(/^\/talmud\/[^/]+$/)) {
+    // Tractate pages like /talmud/berakhot
     const tractate = url.split('/')[2];
     const tractateTitle = normalizeDisplayTractateName(tractate);
     seoData = {
@@ -148,7 +148,7 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
       description: `Study ${tractateTitle} tractate chapter by chapter with Hebrew-English text, detailed folio navigation, and traditional commentary access. Free online Talmud learning.`,
       ogTitle: `${tractateTitle} Talmud - Complete Study Guide`,
       ogDescription: `Study ${tractateTitle} tractate chapter by chapter with Hebrew-English text, detailed folio navigation, and traditional commentary access.`,
-      canonical: `${baseUrl}/contents/${tractate}`,
+      canonical: `${baseUrl}/talmud/${tractate}`,
       robots: "index, follow"
     };
   } else if (url.match(/^\/tractate\/[^/]+\/\d+[ab]$/)) {
@@ -303,17 +303,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
     }
     
-    // Normalize tractate contents pages: /contents/:tractate
-    const contentsPageMatch = canonicalUrl.match(/^\/contents\/([^/]+)$/i);
-    if (contentsPageMatch) {
-      const [, tractate] = contentsPageMatch;
+    // Normalize tractate contents pages: /talmud/:tractate
+    const talmudPageMatch = canonicalUrl.match(/^\/talmud\/([^/]+)$/i);
+    if (talmudPageMatch) {
+      const [, tractate] = talmudPageMatch;
       const normalizedTractate = getTractateSlug(tractate);
-      const normalizedUrl = `/contents/${normalizedTractate}`;
+      const normalizedUrl = `/talmud/${normalizedTractate}`;
       
       if (canonicalUrl !== normalizedUrl) {
         canonicalUrl = normalizedUrl;
         needsRedirect = true;
       }
+    }
+    
+    // 301 redirect from old /contents URLs to new /talmud URLs (SEO preservation)
+    if (canonicalUrl === '/contents') {
+      canonicalUrl = '/talmud';
+      needsRedirect = true;
+    }
+    const oldContentsPageMatch = canonicalUrl.match(/^\/contents\/([^/]+)$/i);
+    if (oldContentsPageMatch) {
+      const [, tractate] = oldContentsPageMatch;
+      const normalizedTractate = getTractateSlug(tractate);
+      canonicalUrl = `/talmud/${normalizedTractate}`;
+      needsRedirect = true;
     }
     
     // Perform 301 redirect if URL needs normalization
@@ -339,10 +352,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Server-side meta tag injection for critical pages
   app.get('/', servePageWithMeta);
   app.get('/about', servePageWithMeta);
-  app.get('/contents', servePageWithMeta);
+  app.get('/talmud', servePageWithMeta);
   app.get('/suggested-pages', servePageWithMeta);
   app.get('/privacy', servePageWithMeta);
-  app.get('/contents/:tractate', servePageWithMeta);
+  app.get('/talmud/:tractate', servePageWithMeta);
   app.get('/tractate/:tractate/:folio', servePageWithMeta);
   
   // Get specific text

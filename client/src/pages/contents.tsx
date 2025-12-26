@@ -152,7 +152,7 @@ export default function Contents() {
                   {availableSederTractates.map((tractate) => (
                     <Link 
                       key={tractate} 
-                      href={`/contents/${encodeURIComponent(tractate.toLowerCase())}`}
+                      href={`/talmud/${encodeURIComponent(tractate.toLowerCase())}`}
                       onClick={() => trackEvent('select_tractate', 'navigation', tractate)}
                     >
                       <Card className="hover:shadow-sm transition-shadow cursor-pointer border-border hover:border-primary/20 bg-card/50">

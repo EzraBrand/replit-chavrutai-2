@@ -17,7 +17,7 @@ import { getMishnahSection } from "@shared/mishnah-map";
 import NotFound from "@/pages/not-found";
 
 export default function TractateContents() {
-  const [match, params] = useRoute("/contents/:tractate");
+  const [match, params] = useRoute("/talmud/:tractate");
   const tractate = params?.tractate || "";
   const tractateDisplayName = normalizeDisplayTractateName(tractate);
 
@@ -68,7 +68,7 @@ export default function TractateContents() {
       <div className="max-w-6xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex items-center gap-4 mb-6">
-          <Link href="/contents">
+          <Link href="/talmud">
             <Button
               variant="ghost"
               size="sm"

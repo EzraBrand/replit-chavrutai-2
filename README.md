@@ -81,8 +81,8 @@ ChavrutAI is a full-featured digital platform providing access to all 37 tractat
 ### Main Study Pages
 | Page | Route | Description |
 |------|-------|-------------|
-| **Home/Contents** | `/` or `/contents` | Landing page showing all 37 tractates organized by traditional Seder |
-| **Tractate Contents** | `/contents/:tractate` | Grid view of all chapters and folios for a specific tractate |
+| **Home/Contents** | `/` or `/talmud` | Landing page showing all 37 tractates organized by traditional Seder |
+| **Tractate Contents** | `/talmud/:tractate` | Grid view of all chapters and folios for a specific tractate |
 | **Tractate View** | `/tractate/:tractate/:folio` | Core reading page with bilingual text and full navigation |
 | **Chapter Outline** | `/outline/:tractate/:chapter` | Topic-based outline of key discussions within a chapter |
 

@@ -49,7 +49,7 @@ export default function Home() {
               <p className="text-muted-foreground mb-4 flex-1">
                 All 37 tractates with over 5,400 pages. Navigate by Seder, tractate, chapter, or individual page.
               </p>
-              <Link href="/contents">
+              <Link href="/talmud">
                 <Button variant="default" className="w-full" data-testid="button-browse-talmud">
                   Browse Talmud
                 </Button>
