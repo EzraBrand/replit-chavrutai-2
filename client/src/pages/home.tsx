@@ -1,87 +1,20 @@
-import { useState, useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { useLocation, Link } from "wouter";
-import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { BreadcrumbNav } from "@/components/navigation/breadcrumb-nav";
-import { HamburgerMenu } from "@/components/navigation/hamburger-menu";
-import { SectionedBilingualDisplay } from "@/components/text/sectioned-bilingual-display";
-import { PageNavigation } from "@/components/navigation/page-navigation";
+import { Link } from "wouter";
+import { ScrollText, BookOpen, Search, Star, BookMarked, Languages, MapPin } from "lucide-react";
 import { Footer } from "@/components/footer";
-import { usePreferences } from "@/context/preferences-context";
+import { DafYomiWidget } from "@/components/DafYomiWidget";
+import { QuickSearch } from "@/components/QuickSearch";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
-import { sefariaAPI } from "@/lib/sefaria";
-import { normalizeDisplayTractateName, getTractateSlug } from "@shared/tractates";
-import type { TalmudLocation } from "@/types/talmud";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
-  const { preferences } = usePreferences();
-  const [currentLocation, setCurrentLocation] = useLocation();
-  const [location, setLocation] = useState<TalmudLocation>({
-    work: "Talmud Bavli",
-    tractate: "Berakhot",
-    chapter: 1,
-    folio: 2,
-    side: 'a'
-  });
-
-  // Set up SEO - this is actually the main page, use homepage SEO
   useSEO(generateSEOData.homePage());
-
-  // Read URL parameters on component mount
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const tractateParam = urlParams.get('tractate');
-    const folioParam = urlParams.get('folio');
-    const sideParam = urlParams.get('side');
-
-    if (tractateParam && folioParam && sideParam) {
-      const folio = parseInt(folioParam, 10);
-      const side = sideParam as 'a' | 'b';
-      
-      if (!isNaN(folio) && (side === 'a' || side === 'b')) {
-        setLocation({
-          work: "Talmud Bavli",
-          tractate: normalizeDisplayTractateName(tractateParam),
-          chapter: 1,
-          folio,
-          side
-        });
-      }
-    }
-  }, []);
-
-  // Fetch current text
-  const { 
-    data: text, 
-    isLoading, 
-    error, 
-    refetch 
-  } = useQuery({
-    queryKey: ['/api/text', location.work, location.tractate, location.chapter, location.folio, location.side],
-    queryFn: () => sefariaAPI.getText(location),
-  });
-
-  const handleLocationChange = (newLocation: TalmudLocation) => {
-    setLocation(newLocation);
-    
-    // Redirect to clean URL for SEO
-    const tractateSlug = getTractateSlug(newLocation.tractate);
-    const folioSlug = `${newLocation.folio}${newLocation.side}`;
-    setCurrentLocation(`/tractate/${tractateSlug}/${folioSlug}`);
-  };
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
       <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            {/* Hamburger Menu */}
-            <HamburgerMenu onLocationChange={handleLocationChange} />
-            
-            {/* Logo */}
+        <div className="max-w-5xl mx-auto px-4 py-4">
+          <div className="flex items-center justify-center">
             <Link 
               href="/"
               className="flex items-center space-x-2 flex-shrink-0 hover:opacity-80 transition-opacity duration-200"
@@ -96,77 +29,149 @@ export default function Home() {
               </div>
               <div className="text-xl font-semibold text-primary font-roboto">ChavrutAI</div>
             </Link>
-            
-            {/* Navigation - Always Visible */}
-            <div className="flex-1 flex justify-center">
-              <BreadcrumbNav location={location} onLocationChange={handleLocationChange} />
-            </div>
-            
-            {/* Empty space for balance */}
-            <div className="w-10 flex-shrink-0"></div>
           </div>
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className={`max-w-7xl mx-auto px-4 py-6 text-size-${preferences.textSize} hebrew-font-${preferences.hebrewFont} english-font-${preferences.englishFont}`}>
-        {/* Page Title */}
-        <div className="mb-6">
-          <h1 className="text-2xl font-semibold text-primary mb-2">
-            {location.tractate} {location.folio}{location.side}
+      <main className="max-w-4xl mx-auto px-4 py-8">
+        <section className="text-center mb-10" data-testid="hero-section">
+          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-3">
+            Study Classical Jewish Texts
           </h1>
-          <p className="text-muted-foreground">
-            Tractate {location.tractate}, Folio {location.folio}, Page {location.side}
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Explore the Babylonian Talmud and Hebrew Bible with bilingual Hebrew-English text
           </p>
-        </div>
+        </section>
 
-        {/* Text Content */}
-        {isLoading && (
-          <div className="bg-card rounded-lg shadow-sm border border-border p-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <div className="space-y-4">
-                <Skeleton className="h-8 w-48" />
-                <Skeleton className="h-32 w-full" />
-                <Skeleton className="h-24 w-full" />
+        <section className="grid md:grid-cols-2 gap-6 mb-10" data-testid="primary-texts-section">
+          <Card className="hover:shadow-lg transition-shadow duration-200">
+            <CardContent className="p-6">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="p-2 bg-amber-100 dark:bg-amber-900/30 rounded-lg">
+                  <ScrollText className="w-6 h-6 text-amber-700 dark:text-amber-400" />
+                </div>
+                <h2 className="text-xl font-semibold text-foreground">Babylonian Talmud</h2>
               </div>
-              <div className="space-y-4">
-                <Skeleton className="h-8 w-32" />
-                <Skeleton className="h-32 w-full" />
-                <Skeleton className="h-24 w-full" />
+              <p className="text-muted-foreground mb-4">
+                All 37 tractates with over 5,400 folio pages. Navigate by Seder, tractate, chapter, or individual page.
+              </p>
+              <Link href="/contents">
+                <Button variant="default" className="w-full" data-testid="button-browse-talmud">
+                  Browse Talmud
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          <Card className="hover:shadow-lg transition-shadow duration-200">
+            <CardContent className="p-6">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                  <BookOpen className="w-6 h-6 text-blue-700 dark:text-blue-400" />
+                </div>
+                <h2 className="text-xl font-semibold text-foreground">Tanakh (Hebrew Bible)</h2>
               </div>
+              <p className="text-muted-foreground mb-4">
+                Torah, Prophets, and Writings. Each book includes Hebrew text with English translation.
+              </p>
+              <Link href="/bible">
+                <Button variant="default" className="w-full" data-testid="button-browse-tanakh">
+                  Browse Tanakh
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+        </section>
+
+        <section className="mb-10" data-testid="search-section">
+          <div className="bg-card rounded-lg border border-border p-6">
+            <div className="flex items-center gap-2 mb-4">
+              <Search className="w-5 h-5 text-muted-foreground" />
+              <h2 className="text-lg font-semibold text-foreground">Search Texts</h2>
             </div>
+            <QuickSearch />
           </div>
-        )}
+        </section>
 
-        {error && (
-          <Alert className="bg-destructive/10 border-destructive/20">
-            <AlertDescription className="text-destructive">
-              Failed to load text. This may be because the text is not available or there was a connection error.
-              <Button 
-                variant="link" 
-                className="ml-2 p-0 h-auto text-destructive"
-                onClick={() => refetch()}
-              >
-                Try again
-              </Button>
-            </AlertDescription>
-          </Alert>
-        )}
+        <section className="mb-10" data-testid="suggested-pages-section">
+          <Card className="hover:shadow-lg transition-shadow duration-200">
+            <CardContent className="p-6">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg">
+                    <Star className="w-6 h-6 text-yellow-700 dark:text-yellow-400" />
+                  </div>
+                  <div>
+                    <h2 className="text-xl font-semibold text-foreground">Famous Talmud Pages</h2>
+                    <p className="text-muted-foreground text-sm">Discover well-known passages and essential readings</p>
+                  </div>
+                </div>
+                <Link href="/suggested-pages">
+                  <Button variant="outline" data-testid="button-suggested-pages">
+                    Explore
+                  </Button>
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
 
-        {text && (
-          <>
-            <SectionedBilingualDisplay text={text} />
-            <PageNavigation location={location} onLocationChange={handleLocationChange} />
-          </>
-        )}
+        <section className="mb-10" data-testid="daf-yomi-section">
+          <DafYomiWidget />
+        </section>
 
-        {!isLoading && !error && !text && (
-          <Alert className="bg-accent border-accent">
-            <AlertDescription className="text-accent-foreground">
-              No text found for this location. This may be because the text hasn't been digitized yet or the reference is invalid.
-            </AlertDescription>
-          </Alert>
-        )}
+        <section className="mb-10" data-testid="tools-section">
+          <h2 className="text-xl font-semibold text-foreground mb-4">Study Tools</h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <Link href="/sugya-viewer" className="block">
+              <Card className="h-full hover:shadow-lg transition-shadow duration-200 cursor-pointer">
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <BookMarked className="w-5 h-5 text-purple-600" />
+                    <h3 className="font-medium text-foreground">Sugya Viewer</h3>
+                  </div>
+                  <p className="text-sm text-muted-foreground">Study custom text ranges</p>
+                </CardContent>
+              </Card>
+            </Link>
+
+            <Link href="/dictionary" className="block">
+              <Card className="h-full hover:shadow-lg transition-shadow duration-200 cursor-pointer">
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Languages className="w-5 h-5 text-green-600" />
+                    <h3 className="font-medium text-foreground">Dictionary</h3>
+                  </div>
+                  <p className="text-sm text-muted-foreground">Jastrow Talmud Dictionary</p>
+                </CardContent>
+              </Card>
+            </Link>
+
+            <Link href="/biblical-index" className="block">
+              <Card className="h-full hover:shadow-lg transition-shadow duration-200 cursor-pointer">
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <BookOpen className="w-5 h-5 text-indigo-600" />
+                    <h3 className="font-medium text-foreground">Biblical Index</h3>
+                  </div>
+                  <p className="text-sm text-muted-foreground">Bible-to-Talmud citations</p>
+                </CardContent>
+              </Card>
+            </Link>
+
+            <Link href="/mishnah-map" className="block">
+              <Card className="h-full hover:shadow-lg transition-shadow duration-200 cursor-pointer">
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <MapPin className="w-5 h-5 text-red-600" />
+                    <h3 className="font-medium text-foreground">Mishnah Map</h3>
+                  </div>
+                  <p className="text-sm text-muted-foreground">Mishnah-Talmud mapping</p>
+                </CardContent>
+              </Card>
+            </Link>
+          </div>
+        </section>
       </main>
 
       <Footer />

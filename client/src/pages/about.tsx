@@ -2,15 +2,8 @@ import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { SharedLayout } from "@/components/layout";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
-import { ExternalLink, Rss, BookOpen } from "lucide-react";
-
-interface DafYomiData {
-  titleEn: string;
-  titleHe: string;
-  ref: string;
-  url: string;
-  date: string;
-}
+import { ExternalLink, Rss } from "lucide-react";
+import { DafYomiWidget } from "@/components/DafYomiWidget";
 
 interface RssFeedItem {
   title: string;
@@ -26,10 +19,6 @@ export default function About() {
     items: RssFeedItem[];
   }>({
     queryKey: ["/api/rss-feed"],
-  });
-
-  const { data: dafYomi, isLoading: dafLoading } = useQuery<DafYomiData>({
-    queryKey: ["/api/daf-yomi"],
   });
 
   const formatDate = (dateStr: string) => {
@@ -352,40 +341,7 @@ export default function About() {
             </section>
 
             <section className="pt-6 border-t border-border">
-              <h2 className="text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
-                <BookOpen className="w-5 h-5 text-blue-600" />
-                Today's Daf Yomi
-              </h2>
-              {dafLoading ? (
-                <div className="animate-pulse bg-secondary/50 rounded-lg p-6">
-                  <div className="h-6 bg-secondary rounded w-1/2 mb-3"></div>
-                  <div className="h-4 bg-secondary rounded w-1/3"></div>
-                </div>
-              ) : dafYomi ? (
-                <div className="bg-secondary/30 rounded-lg p-6" data-testid="daf-yomi-widget">
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                    <div>
-                      <p className="text-2xl font-semibold text-foreground mb-1" data-testid="daf-yomi-title-en">
-                        {dafYomi.titleEn}
-                      </p>
-                      <p className="text-xl text-muted-foreground font-hebrew" dir="rtl" data-testid="daf-yomi-title-he">
-                        {dafYomi.titleHe}
-                      </p>
-                    </div>
-                    <Link
-                      href={`/tractate/${dafYomi.url.split(".")[0].toLowerCase()}/${dafYomi.url.split(".")[1]}a`}
-                      className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
-                      data-testid="daf-yomi-study-link"
-                    >
-                      Study
-                    </Link>
-                  </div>
-                </div>
-              ) : (
-                <p className="text-muted-foreground">
-                  Unable to load today's daf.
-                </p>
-              )}
+              <DafYomiWidget />
             </section>
           </div>
         </div>

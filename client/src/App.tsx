@@ -32,6 +32,7 @@ const Dictionary = lazy(() => import("@/pages/dictionary"));
 const SugyaViewerPage = lazy(() => import("@/pages/sugya-viewer"));
 const ExternalLinksPage = lazy(() => import("@/pages/external-links"));
 const SearchPage = lazy(() => import("@/pages/search"));
+const HomePreview = lazy(() => import("@/pages/home"));
 const NotFound = lazy(() => import("@/pages/not-found"));
 
 function Router() {
@@ -57,6 +58,7 @@ function Router() {
       <Route path="/sugya-viewer" component={SugyaViewerPage} />
       <Route path="/external-links" component={ExternalLinksPage} />
       <Route path="/search" component={SearchPage} />
+      <Route path="/home-preview" component={HomePreview} />
       <Route path="/contents" component={Contents} />
       <Route path="/contents/:tractate" component={TractateContents} />
       <Route path="/tractate/:tractate/:folio" component={TractateView} />

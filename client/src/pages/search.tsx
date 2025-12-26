@@ -22,6 +22,15 @@ export default function SearchPage() {
   const [, navigate] = useLocation();
   const pageSize = 15;
 
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const queryParam = urlParams.get('q');
+    if (queryParam) {
+      setSearchQuery(queryParam);
+      setSubmittedQuery(queryParam);
+    }
+  }, []);
+
   useSEO({
     title: "Search Talmud & Bible - Hebrew & English | ChavrutAI",
     description: "Search through the Babylonian Talmud and Hebrew Bible (Tanakh) in Hebrew and English. Find passages, concepts, and references across classical Jewish texts.",
