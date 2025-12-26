@@ -304,6 +304,8 @@ export function replaceTerms(text: string): string {
     "one ninth": "1/9th",
     "one-tenth": "1/10th",
     "one tenth": "1/10th",
+    "one-60th": "1/60th",
+    "one 60th": "1/60th",
   };
   
   const basicOrdinalReplacements: Record<string, string> = {
