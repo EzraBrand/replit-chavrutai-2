@@ -95,7 +95,7 @@ export function getBibleWikisourceChapterLink(ref: BibleReference): string {
   
   const hebrewChapter = numberToHebrewGematria(chapter);
   const pageName = `${hebrewName}_${hebrewChapter}`;
-  return `https://he.wikisource.org/wiki/${encodeURIComponent(pageName)}`;
+  return `https://he.wikisource.org/wiki/${pageName}`;
 }
 
 export function getBibleWikisourceVerseLink(ref: BibleReference): string {
@@ -108,7 +108,7 @@ export function getBibleWikisourceVerseLink(ref: BibleReference): string {
   const hebrewChapter = numberToHebrewGematria(chapter);
   const hebrewVerse = numberToHebrewGematria(verse);
   const pageName = `קטגוריה:${hebrewName}_${hebrewChapter}_${hebrewVerse}`;
-  return `https://he.wikisource.org/wiki/${encodeURIComponent(pageName)}`;
+  return `https://he.wikisource.org/wiki/${pageName}`;
 }
 
 export function getAllBibleExternalLinks(ref: BibleReference): BibleExternalLink[] {
@@ -119,14 +119,14 @@ export function getAllBibleExternalLinks(ref: BibleReference): BibleExternalLink
       name: 'Sefaria',
       url: getBibleSefariaLink(ref),
       type: 'verse',
-      description: 'Sefaria.org.il - verse-level link'
+      description: `View verse ${ref.verse} on Sefaria`
     });
     
     links.push({
       name: 'Al HaTorah',
       url: getBibleAlHaTorahLink(ref),
       type: 'verse',
-      description: 'Al HaTorah Mikraot Gedolot - verse-level link'
+      description: `View verse ${ref.verse} on Al HaTorah`
     });
     
     const wikisourceVerseUrl = getBibleWikisourceVerseLink(ref);
@@ -135,7 +135,7 @@ export function getAllBibleExternalLinks(ref: BibleReference): BibleExternalLink
         name: 'Wikisource',
         url: wikisourceVerseUrl,
         type: 'verse',
-        description: 'Hebrew Wikisource - verse-level link'
+        description: `View verse ${ref.verse} on Wikisource`
       });
     }
   }
@@ -146,14 +146,14 @@ export function getAllBibleExternalLinks(ref: BibleReference): BibleExternalLink
     name: 'Sefaria',
     url: getBibleSefariaLink(chapterRef),
     type: 'chapter',
-    description: 'Sefaria.org.il - chapter-level link'
+    description: `View chapter ${ref.chapter} on Sefaria`
   });
   
   links.push({
     name: 'Al HaTorah',
     url: getBibleAlHaTorahLink(chapterRef),
     type: 'chapter',
-    description: 'Al HaTorah Mikraot Gedolot - chapter-level link'
+    description: `View chapter ${ref.chapter} on Al HaTorah`
   });
   
   const wikisourceChapterUrl = getBibleWikisourceChapterLink(ref);
@@ -162,7 +162,7 @@ export function getAllBibleExternalLinks(ref: BibleReference): BibleExternalLink
       name: 'Wikisource',
       url: wikisourceChapterUrl,
       type: 'chapter',
-      description: 'Hebrew Wikisource - full chapter text'
+      description: `View chapter ${ref.chapter} on Wikisource`
     });
   }
   
