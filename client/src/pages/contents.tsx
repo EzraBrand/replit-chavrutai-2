@@ -33,7 +33,7 @@ const SEDER_ORGANIZATION = {
   "Seder Kodashim": {
     hebrew: "סדר קדשים", 
     description: "Holy things and sacrifices",
-    tractates: ["Zevachim", "Menachot", "Chullin", "Bekhorot", "Arachin", "Temurah", "Keritot", "Meilah", "Tamid", "Middot", "Kinnim"]
+    tractates: ["Zevachim", "Menachot", "Chullin", "Bekhorot", "Arachin", "Temurah", "Keritot", "Meilah", "Tamid"]
   },
   "Seder Tohorot": {
     hebrew: "סדר טהרות",

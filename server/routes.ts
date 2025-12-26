@@ -751,9 +751,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           { name: 'Temurah', folios: 34 },
           { name: 'Keritot', folios: 28 },
           { name: 'Meilah', folios: 22 },
-          { name: 'Tamid', folios: 8 },
-          { name: 'Middot', folios: 3 },
-          { name: 'Kinnim', folios: 4 }
+          { name: 'Tamid', folios: 8 }
         ],
         tohorot: [
           { name: 'Niddah', folios: 73 }
