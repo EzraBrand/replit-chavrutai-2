@@ -59,6 +59,19 @@ export default function Changelog() {
           
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">New Homepage</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Redesigned homepage as a minimalist directory showcasing all platform features</li>
+                <li>Primary sections for Talmud and Tanakh with equal prominence</li>
+                <li>Quick search bar for searching across all texts</li>
+                <li>Today's Daf Yomi widget with direct study link</li>
+                <li>Famous Talmud Pages section linking to curated suggested readings</li>
+                <li>Study Tools grid: Sugya Viewer, Dictionary, Biblical Index, Mishnah Map</li>
+                <li>Original Talmud table of contents now accessible at /contents</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Jastrow Dictionary Fix</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Fixed entries being cut off for words with multiple verb forms (e.g., Hiphil/Hif.)</li>
