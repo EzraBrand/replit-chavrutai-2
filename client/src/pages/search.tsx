@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Search, Loader2, BookOpen, ScrollText, ChevronLeft, ChevronRight } from "lucide-react";
+import { Search, Loader2, BookOpen, ScrollText, ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
 import { SharedLayout } from "@/components/layout";
 import { useSEO } from "@/hooks/use-seo";
 import { SEARCH_SUGGESTIONS } from "@/data/search-suggestions";
@@ -299,6 +299,17 @@ export default function SearchPage() {
                     <li>Click on any result to go directly to that section or verse in ChavrutAI</li>
                   </ul>
                 </div>
+                <div className="pt-2 border-t border-border mt-4">
+                  <p className="text-sm">
+                    To find out more about this feature, see: "<a 
+                      href="https://www.ezrabrand.com/p/introducing-chavrutais-search-full" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline"
+                      data-testid="link-search-blog-post"
+                    >Introducing ChavrutAI's Search: Full-Text Search of Bible and Talmud</a>" (Dec 23, 2025)
+                  </p>
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -342,11 +353,28 @@ export default function SearchPage() {
                 {searchResults.results.map((result, index) => {
                   const chavrutaiLink = getChavrutaiLink(result);
                   
+                  const handleResultClick = (e: React.MouseEvent) => {
+                    if (!chavrutaiLink) return;
+                    // Ctrl+click or Cmd+click opens in new tab
+                    if (e.ctrlKey || e.metaKey) {
+                      window.open(chavrutaiLink, '_blank');
+                    } else {
+                      navigate(chavrutaiLink);
+                    }
+                  };
+                  
+                  const handleOpenNewTab = (e: React.MouseEvent) => {
+                    e.stopPropagation();
+                    if (chavrutaiLink) {
+                      window.open(chavrutaiLink, '_blank');
+                    }
+                  };
+                  
                   return (
                     <Card 
                       key={index} 
                       className={`transition-colors ${chavrutaiLink ? 'hover:bg-accent/50 cursor-pointer' : ''}`}
-                      onClick={() => chavrutaiLink && navigate(chavrutaiLink)}
+                      onClick={handleResultClick}
                       data-testid={`result-${index}`}
                     >
                       <CardContent className="py-4">
@@ -367,7 +395,15 @@ export default function SearchPage() {
                             {renderHighlightedText(result)}
                           </div>
                           {chavrutaiLink && (
-                            <div className="flex-shrink-0 self-center">
+                            <div className="flex-shrink-0 self-center flex items-center gap-1">
+                              <button
+                                onClick={handleOpenNewTab}
+                                className="p-1 rounded hover:bg-accent transition-colors"
+                                title="Open in new tab"
+                                data-testid={`button-open-new-tab-${index}`}
+                              >
+                                <ExternalLink className="w-4 h-4 text-muted-foreground hover:text-foreground" />
+                              </button>
                               <ChevronRight className="w-5 h-5 text-muted-foreground" />
                             </div>
                           )}
