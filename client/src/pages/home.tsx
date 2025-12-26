@@ -43,10 +43,10 @@ export default function Home() {
         </section>
 
         <section className="grid md:grid-cols-2 gap-6 mb-10" data-testid="primary-texts-section">
-          <Card className="hover:shadow-lg transition-shadow duration-200">
-            <CardContent className="p-6">
+          <Card className="hover:shadow-lg transition-shadow duration-200 h-full">
+            <CardContent className="p-6 flex flex-col h-full">
               <h2 className="text-xl font-semibold text-foreground mb-3">Babylonian Talmud</h2>
-              <p className="text-muted-foreground mb-4">
+              <p className="text-muted-foreground mb-4 flex-1">
                 All 37 tractates with over 5,400 folio pages. Navigate by Seder, tractate, chapter, or individual page.
               </p>
               <Link href="/contents">
@@ -57,10 +57,10 @@ export default function Home() {
             </CardContent>
           </Card>
 
-          <Card className="hover:shadow-lg transition-shadow duration-200">
-            <CardContent className="p-6">
+          <Card className="hover:shadow-lg transition-shadow duration-200 h-full">
+            <CardContent className="p-6 flex flex-col h-full">
               <h2 className="text-xl font-semibold text-foreground mb-3">Tanakh (Hebrew Bible)</h2>
-              <p className="text-muted-foreground mb-4">
+              <p className="text-muted-foreground mb-4 flex-1">
                 Torah, Prophets, and Writings. Each book includes Hebrew text with English translation.
               </p>
               <Link href="/bible">
@@ -136,6 +136,13 @@ export default function Home() {
               </Card>
             </Link>
           </div>
+        </section>
+
+        <section className="text-center mb-10" data-testid="about-section">
+          <Link href="/about" className="text-primary hover:underline font-medium" data-testid="link-about">
+            About ChavrutAI
+          </Link>
+          <p className="text-muted-foreground text-sm mt-1">Learn more about this project</p>
         </section>
       </main>
 

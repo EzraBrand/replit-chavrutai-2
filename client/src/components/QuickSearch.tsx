@@ -20,8 +20,8 @@ export function QuickSearch({ className = "" }: QuickSearchProps) {
   };
 
   return (
-    <form onSubmit={handleSearch} className={`flex gap-2 ${className}`} data-testid="quick-search-form">
-      <div className="relative flex-1">
+    <form onSubmit={handleSearch} className={`flex flex-col gap-2 ${className}`} data-testid="quick-search-form">
+      <div className="relative">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
         <Input
           type="text"
@@ -32,7 +32,7 @@ export function QuickSearch({ className = "" }: QuickSearchProps) {
           data-testid="quick-search-input"
         />
       </div>
-      <Button type="submit" data-testid="quick-search-button">
+      <Button type="submit" variant="outline" className="w-full" data-testid="quick-search-button">
         Search
       </Button>
     </form>
