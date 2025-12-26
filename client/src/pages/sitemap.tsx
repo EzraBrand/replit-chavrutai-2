@@ -8,6 +8,7 @@ import { getBaseUrl } from "@/lib/utils";
 interface TractateData {
   name: string;
   folios: number;
+  lastSide: 'a' | 'b';
   slug: string;
   pages: number;
 }
@@ -239,22 +240,28 @@ export default function Sitemap() {
                     
                     {/* All Folio Page Links */}
                     <div className="flex flex-wrap gap-1 text-xs max-h-32 overflow-y-auto">
-                      {Array.from({ length: tractate.folios - 1 }, (_, i) => i + 2).map(folio => (
-                        <div key={folio} className="flex gap-1">
-                          <Link 
-                            href={`/tractate/${tractate.slug}/${folio}a`}
-                            className="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 bg-blue-50 dark:bg-blue-900/20 px-2 py-1 rounded transition-colors"
-                          >
-                            {folio}a
-                          </Link>
-                          <Link 
-                            href={`/tractate/${tractate.slug}/${folio}b`}
-                            className="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 bg-blue-50 dark:bg-blue-900/20 px-2 py-1 rounded transition-colors"
-                          >
-                            {folio}b
-                          </Link>
-                        </div>
-                      ))}
+                      {Array.from({ length: tractate.folios - 1 }, (_, i) => i + 2).map(folio => {
+                        const isLastFolio = folio === tractate.folios;
+                        const showBSide = !isLastFolio || tractate.lastSide === 'b';
+                        return (
+                          <div key={folio} className="flex gap-1">
+                            <Link 
+                              href={`/tractate/${tractate.slug}/${folio}a`}
+                              className="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 bg-blue-50 dark:bg-blue-900/20 px-2 py-1 rounded transition-colors"
+                            >
+                              {folio}a
+                            </Link>
+                            {showBSide && (
+                              <Link 
+                                href={`/tractate/${tractate.slug}/${folio}b`}
+                                className="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 bg-blue-50 dark:bg-blue-900/20 px-2 py-1 rounded transition-colors"
+                              >
+                                {folio}b
+                              </Link>
+                            )}
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 ))}

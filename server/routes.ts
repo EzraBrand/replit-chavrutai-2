@@ -705,58 +705,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Get sitemap data for human-readable HTML sitemap page
   app.get("/api/sitemap", async (req, res) => {
     try {
-      // Import the same SEDER_TRACTATES data structure used for XML sitemaps
-      const SEDER_TRACTATES = {
-        zeraim: [
-          { name: 'Berakhot', folios: 64 }
-        ],
-        moed: [
-          { name: 'Shabbat', folios: 157 },
-          { name: 'Eruvin', folios: 105 },
-          { name: 'Pesachim', folios: 121 },
-          { name: 'Rosh Hashanah', folios: 35 },
-          { name: 'Yoma', folios: 88 },
-          { name: 'Sukkah', folios: 56 },
-          { name: 'Beitza', folios: 40 },
-          { name: 'Taanit', folios: 31 },
-          { name: 'Megillah', folios: 32 },
-          { name: 'Moed Katan', folios: 29 },
-          { name: 'Chagigah', folios: 27 }
-        ],
-        nashim: [
-          { name: 'Yevamot', folios: 122 },
-          { name: 'Ketubot', folios: 112 },
-          { name: 'Nedarim', folios: 91 },
-          { name: 'Nazir', folios: 66 },
-          { name: 'Sotah', folios: 49 },
-          { name: 'Gittin', folios: 90 },
-          { name: 'Kiddushin', folios: 82 }
-        ],
-        nezikin: [
-          { name: 'Bava Kamma', folios: 119 },
-          { name: 'Bava Metzia', folios: 119 },
-          { name: 'Bava Batra', folios: 176 },
-          { name: 'Sanhedrin', folios: 113 },
-          { name: 'Makkot', folios: 24 },
-          { name: 'Shevuot', folios: 49 },
-          { name: 'Avodah Zarah', folios: 76 },
-          { name: 'Horayot', folios: 14 }
-        ],
-        kodashim: [
-          { name: 'Zevachim', folios: 120 },
-          { name: 'Menachot', folios: 110 },
-          { name: 'Chullin', folios: 142 },
-          { name: 'Bekhorot', folios: 61 },
-          { name: 'Arachin', folios: 34 },
-          { name: 'Temurah', folios: 34 },
-          { name: 'Keritot', folios: 28 },
-          { name: 'Meilah', folios: 22 },
-          { name: 'Tamid', folios: 8 }
-        ],
-        tohorot: [
-          { name: 'Niddah', folios: 73 }
-        ]
-      };
+      // Import the SEDER_TRACTATES from shared module
+      const { SEDER_TRACTATES } = await import('@shared/tractates');
 
       const sederInfo = {
         zeraim: { name: 'Zeraim', description: 'Order of Seeds - Agricultural laws and blessings' },
@@ -767,19 +717,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
         tohorot: { name: 'Tohorot', description: 'Order of Purities - Ritual purity laws' }
       };
 
+      // Calculate actual page count considering lastSide
+      const getPageCount = (t: { folios: number; lastSide: 'a' | 'b' }) => {
+        return (t.folios - 1) * 2 + (t.lastSide === 'b' ? 2 : 1);
+      };
+
       // Calculate total pages for each Seder
       const sitemapData = Object.entries(SEDER_TRACTATES).map(([sederKey, tractates]) => {
         const totalFolios = tractates.reduce((sum, t) => sum + t.folios, 0);
-        const totalPages = totalFolios * 2; // Each folio has 'a' and 'b' sides
+        const totalPages = tractates.reduce((sum, t) => sum + getPageCount(t), 0);
         
         return {
           seder: sederKey,
           name: sederInfo[sederKey as keyof typeof sederInfo].name,
           description: sederInfo[sederKey as keyof typeof sederInfo].description,
           tractates: tractates.map(t => ({
-            ...t,
+            name: t.name,
+            folios: t.folios,
+            lastSide: t.lastSide,
             slug: t.name.toLowerCase().replace(/\s+/g, '-'),
-            pages: t.folios * 2
+            pages: getPageCount(t)
           })),
           totalTractates: tractates.length,
           totalFolios,
@@ -787,13 +744,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         };
       });
 
+      const allTractates = Object.values(SEDER_TRACTATES).flat();
       res.json({ 
         sedarim: sitemapData,
         summary: {
           totalSedarim: 6,
-          totalTractates: Object.values(SEDER_TRACTATES).flat().length,
-          totalFolios: Object.values(SEDER_TRACTATES).flat().reduce((sum, t) => sum + t.folios, 0),
-          totalPages: Object.values(SEDER_TRACTATES).flat().reduce((sum, t) => sum + t.folios, 0) * 2
+          totalTractates: allTractates.length,
+          totalFolios: allTractates.reduce((sum, t) => sum + t.folios, 0),
+          totalPages: allTractates.reduce((sum, t) => sum + getPageCount(t), 0)
         }
       });
     } catch (error) {

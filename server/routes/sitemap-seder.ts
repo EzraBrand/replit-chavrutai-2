@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { SEDER_TRACTATES, getTractateSlug, isEmptyPage, type SederName } from '@shared/tractates';
+import { SEDER_TRACTATES, getTractateSlug, type SederName } from '@shared/tractates';
 
 // Helper function to identify significant folios
 function isSignificantFolio(tractate: string, folio: string): boolean {
@@ -29,14 +29,17 @@ export function generateSederSitemap(sederName: SederName) {
 
     tractates.forEach(tractate => {
       const tractateSlug = getTractateSlug(tractate.name);
+      const lastSide = tractate.lastSide;
+      const pageCount = (tractate.folios - 1) * 2 + (lastSide === 'b' ? 2 : 1);
       
       sitemap += `
   
-  <!-- ${tractate.name} (${tractate.folios} folios, ${tractate.folios * 2} pages) -->`;
+  <!-- ${tractate.name} (${tractate.folios} folios ending at ${tractate.folios}${lastSide}, ${pageCount} pages) -->`;
       
       // Add all folio pages for this tractate (2a through final folio)
       for (let folio = 2; folio <= tractate.folios; folio++) {
-        ['a', 'b'].forEach(side => {
+        const sides = folio === tractate.folios && lastSide === 'a' ? ['a'] : ['a', 'b'];
+        sides.forEach(side => {
           // Determine priority: higher for significant folios, lower for regular folios
           let priority = '0.4'; // Default for regular folios
           
@@ -63,7 +66,9 @@ export function generateSederSitemap(sederName: SederName) {
       }
     });
 
-    const totalPages = tractates.reduce((sum, t) => sum + (t.folios * 2), 0);
+    const totalPages = tractates.reduce((sum, t) => {
+      return sum + (t.folios - 1) * 2 + (t.lastSide === 'b' ? 2 : 1);
+    }, 0);
     sitemap += `
 
   <!-- Seder ${sederDisplayName}: ${totalPages} folio pages across ${tractates.length} tractates -->

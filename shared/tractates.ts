@@ -83,7 +83,7 @@ export const TRACTATE_FOLIO_RANGES = {
   "Bava Metzia": 119, "Bava Batra": 176, "Sanhedrin": 113, "Makkot": 24, "Shevuot": 49, 
   "Avodah Zarah": 76, "Horayot": 14, "Zevachim": 120, "Menachot": 110, "Chullin": 142, 
   "Bekhorot": 61, "Arachin": 34, "Temurah": 34, "Keritot": 28, "Meilah": 22, 
-  "Tamid": 8, "Niddah": 73
+  "Tamid": 7, "Niddah": 73
 } as const;
 
 export type WorkName = keyof typeof TRACTATE_LISTS;
@@ -155,97 +155,61 @@ export function isValidTractate(urlTractate: string): boolean {
 
 // Tractate data organized by Seder with folio counts
 // Used for sitemap generation and organized navigation
+// lastSide: 'a' means the tractate ends on the 'a' side (no 'b' side on final folio)
+// lastSide: 'b' (default) means the tractate has both 'a' and 'b' on the final folio
 export const SEDER_TRACTATES = {
   zeraim: [
-    { name: 'Berakhot', folios: 64 }
+    { name: 'Berakhot', folios: 64, lastSide: 'a' as const }
   ],
   moed: [
-    { name: 'Shabbat', folios: 157 },
-    { name: 'Eruvin', folios: 105 },
-    { name: 'Pesachim', folios: 121 },
-    { name: 'Rosh Hashanah', folios: 35 },
-    { name: 'Yoma', folios: 88 },
-    { name: 'Sukkah', folios: 56 },
-    { name: 'Beitza', folios: 40 },
-    { name: 'Taanit', folios: 31 },
-    { name: 'Megillah', folios: 32 },
-    { name: 'Moed Katan', folios: 29 },
-    { name: 'Chagigah', folios: 27 }
+    { name: 'Shabbat', folios: 157, lastSide: 'b' as const },
+    { name: 'Eruvin', folios: 105, lastSide: 'a' as const },
+    { name: 'Pesachim', folios: 121, lastSide: 'b' as const },
+    { name: 'Rosh Hashanah', folios: 35, lastSide: 'a' as const },
+    { name: 'Yoma', folios: 88, lastSide: 'a' as const },
+    { name: 'Sukkah', folios: 56, lastSide: 'b' as const },
+    { name: 'Beitza', folios: 40, lastSide: 'b' as const },
+    { name: 'Taanit', folios: 31, lastSide: 'a' as const },
+    { name: 'Megillah', folios: 32, lastSide: 'a' as const },
+    { name: 'Moed Katan', folios: 29, lastSide: 'a' as const },
+    { name: 'Chagigah', folios: 27, lastSide: 'a' as const }
   ],
   nashim: [
-    { name: 'Yevamot', folios: 122 },
-    { name: 'Ketubot', folios: 112 },
-    { name: 'Nedarim', folios: 91 },
-    { name: 'Nazir', folios: 66 },
-    { name: 'Sotah', folios: 49 },
-    { name: 'Gittin', folios: 90 },
-    { name: 'Kiddushin', folios: 82 }
+    { name: 'Yevamot', folios: 122, lastSide: 'b' as const },
+    { name: 'Ketubot', folios: 112, lastSide: 'b' as const },
+    { name: 'Nedarim', folios: 91, lastSide: 'b' as const },
+    { name: 'Nazir', folios: 66, lastSide: 'b' as const },
+    { name: 'Sotah', folios: 49, lastSide: 'b' as const },
+    { name: 'Gittin', folios: 90, lastSide: 'b' as const },
+    { name: 'Kiddushin', folios: 82, lastSide: 'b' as const }
   ],
   nezikin: [
-    { name: 'Bava Kamma', folios: 119 },
-    { name: 'Bava Metzia', folios: 119 },
-    { name: 'Bava Batra', folios: 176 },
-    { name: 'Sanhedrin', folios: 113 },
-    { name: 'Makkot', folios: 24 },
-    { name: 'Shevuot', folios: 49 },
-    { name: 'Avodah Zarah', folios: 76 },
-    { name: 'Horayot', folios: 14 }
+    { name: 'Bava Kamma', folios: 119, lastSide: 'b' as const },
+    { name: 'Bava Metzia', folios: 119, lastSide: 'a' as const },
+    { name: 'Bava Batra', folios: 176, lastSide: 'b' as const },
+    { name: 'Sanhedrin', folios: 113, lastSide: 'b' as const },
+    { name: 'Makkot', folios: 24, lastSide: 'b' as const },
+    { name: 'Shevuot', folios: 49, lastSide: 'b' as const },
+    { name: 'Avodah Zarah', folios: 76, lastSide: 'b' as const },
+    { name: 'Horayot', folios: 14, lastSide: 'a' as const }
   ],
   kodashim: [
-    { name: 'Zevachim', folios: 120 },
-    { name: 'Menachot', folios: 110 },
-    { name: 'Chullin', folios: 142 },
-    { name: 'Bekhorot', folios: 61 },
-    { name: 'Arachin', folios: 34 },
-    { name: 'Temurah', folios: 34 },
-    { name: 'Keritot', folios: 28 },
-    { name: 'Meilah', folios: 22 },
-    { name: 'Tamid', folios: 8 }
+    { name: 'Zevachim', folios: 120, lastSide: 'b' as const },
+    { name: 'Menachot', folios: 110, lastSide: 'a' as const },
+    { name: 'Chullin', folios: 142, lastSide: 'a' as const },
+    { name: 'Bekhorot', folios: 61, lastSide: 'a' as const },
+    { name: 'Arachin', folios: 34, lastSide: 'a' as const },
+    { name: 'Temurah', folios: 34, lastSide: 'a' as const },
+    { name: 'Keritot', folios: 28, lastSide: 'b' as const },
+    { name: 'Meilah', folios: 22, lastSide: 'a' as const },
+    { name: 'Tamid', folios: 7, lastSide: 'a' as const }
   ],
   tohorot: [
-    { name: 'Niddah', folios: 73 }
+    { name: 'Niddah', folios: 73, lastSide: 'a' as const }
   ]
 } as const;
 
 export type SederName = keyof typeof SEDER_TRACTATES;
-
-/**
- * Empty pages that exist in the folio range but have no content in Sefaria
- * These should be excluded from sitemaps and navigation
- * Format: "tractate-slug/folio" (e.g., "berakhot/64b")
- */
-export const EMPTY_TALMUD_PAGES = new Set([
-  "berakhot/64b",
-  "eruvin/105b",
-  "yoma/88b",
-  "rosh-hashanah/35b",
-  "taanit/31b",
-  "megillah/32b",
-  "moed-katan/29b",
-  "chagigah/27b",
-  "bava-metzia/119b",
-  "horayot/14b",
-  "menachot/110b",
-  "chullin/142b",
-  "bekhorot/61b",
-  "arachin/34b",
-  "temurah/34b",
-  "meilah/22b",
-  "tamid/7b",
-  "tamid/8a",
-  "tamid/8b",
-  "niddah/73b"
-]);
-
-/**
- * Check if a folio page is empty (has no content in Sefaria)
- * @param tractateSlug - The URL-safe tractate slug (e.g., "berakhot", "rosh-hashanah")
- * @param folio - The folio string (e.g., "64b", "35b")
- * @returns true if the page is empty and should be excluded
- */
-export function isEmptyPage(tractateSlug: string, folio: string): boolean {
-  return EMPTY_TALMUD_PAGES.has(`${tractateSlug.toLowerCase()}/${folio.toLowerCase()}`);
-}
 
 /**
  * Get the maximum folio number for a given tractate
