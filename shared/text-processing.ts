@@ -172,6 +172,12 @@ function generateSexualTerms(): Record<string, string> {
 export function replaceTerms(text: string): string {
   if (!text) return '';
   
+  let processedText = text;
+  
+  // Handle "Rabbi," (vocative/exclamatory usage) before general Rabbi replacement
+  // This converts "Rabbi," to "Rabbi!" to indicate direct address/exclamation
+  processedText = processedText.replace(/\bRabbi,/g, 'Rabbi!');
+  
   const basicTerms: Record<string, string> = {
     "GEMARA": "Talmud",
     "Gemara": "Talmud",
@@ -336,8 +342,6 @@ export function replaceTerms(text: string): string {
     "ninetieth": "90th",
     "hundredth": "100th"
   };
-  
-  let processedText = text;
   
   // Apply term replacements
   Object.entries(termReplacements).forEach(([original, replacement]) => {
