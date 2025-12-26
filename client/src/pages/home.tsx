@@ -47,7 +47,7 @@ export default function Home() {
             <CardContent className="p-6 flex flex-col h-full">
               <h2 className="text-xl font-semibold text-foreground mb-3">Babylonian Talmud</h2>
               <p className="text-muted-foreground mb-4 flex-1">
-                All 37 tractates with over 5,400 folio pages. Navigate by Seder, tractate, chapter, or individual page.
+                All 37 tractates with over 5,400 pages. Navigate by Seder, tractate, chapter, or individual page.
               </p>
               <Link href="/contents">
                 <Button variant="default" className="w-full" data-testid="button-browse-talmud">
@@ -139,8 +139,8 @@ export default function Home() {
         </section>
 
         <section className="text-center mb-10" data-testid="about-section">
-          <Link href="/about" className="text-primary hover:underline font-medium" data-testid="link-about">
-            About ChavrutAI
+          <Link href="/about" className="inline-flex items-center gap-1 text-primary hover:underline font-medium underline underline-offset-2" data-testid="link-about">
+            About ChavrutAI →
           </Link>
           <p className="text-muted-foreground text-sm mt-1">Learn more about this project</p>
         </section>

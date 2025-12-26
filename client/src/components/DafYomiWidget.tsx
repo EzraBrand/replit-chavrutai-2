@@ -70,7 +70,7 @@ export function DafYomiWidget({ className = "", compact = false }: DafYomiWidget
           </p>
           <Link href={studyLink} className="block">
             <Button variant="outline" className="w-full" data-testid="daf-yomi-study-link">
-              Study Now
+              Study It Now
             </Button>
           </Link>
         </CardContent>
@@ -121,7 +121,7 @@ export function DafYomiWidget({ className = "", compact = false }: DafYomiWidget
           className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
           data-testid="daf-yomi-study-link"
         >
-          Study Now
+          Study It Now
         </Link>
       </div>
     </div>
