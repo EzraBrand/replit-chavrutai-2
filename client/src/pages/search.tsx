@@ -368,7 +368,15 @@ export default function SearchPage() {
                     if (e.ctrlKey || e.metaKey) {
                       window.open(chavrutaiLink, '_blank');
                     } else {
-                      navigate(chavrutaiLink);
+                      // Separate path from hash - wouter doesn't handle hash fragments in navigate()
+                      const [path, hash] = chavrutaiLink.split('#');
+                      navigate(path);
+                      if (hash) {
+                        // Set the hash after navigation so the browser scrolls to the anchor
+                        setTimeout(() => {
+                          window.location.hash = hash;
+                        }, 0);
+                      }
                     }
                   };
                   
