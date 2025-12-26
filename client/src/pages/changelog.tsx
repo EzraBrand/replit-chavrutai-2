@@ -59,6 +59,17 @@ export default function Changelog() {
           
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Navigation Fixes</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Fixed empty page issue: tractates ending on 'a' side no longer show invalid 'b' pages</li>
+                <li>Added support for Tamid's unique page range (25b-33b instead of standard 2a start)</li>
+                <li>Navigation buttons now correctly disable at tractate boundaries</li>
+                <li>Page dropdowns exclude invalid pages (e.g., Berakhot 64b, Tamid 25a)</li>
+                <li>Centralized navigation logic in unified module for consistency across all components</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Full-Text Search</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>New search page for searching across Talmud and Bible texts in Hebrew and English</li>
