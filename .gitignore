@@ -86,3 +86,6 @@ screenshot-*
 image_*.png
 *.png
 temp-*
+
+# Development scripts folder
+scripts/
