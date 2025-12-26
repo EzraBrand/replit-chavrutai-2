@@ -174,14 +174,15 @@ export function replaceTerms(text: string): string {
   
   let processedText = text;
   
-  // Handle "Rabbi," (vocative/exclamatory usage) before general Rabbi replacement
-  // This converts "Rabbi," to "Rabbi!" to indicate direct address/exclamation
+  // Handle "Rabbi," (vocative/exclamatory usage) - convert to "Rabbi!"
   processedText = processedText.replace(/\bRabbi,/g, 'Rabbi!');
+  
+  // Handle general "Rabbi" -> "R'" but NOT when followed by "!" (already converted above)
+  processedText = processedText.replace(/\bRabbi(?!!)/g, "R'");
   
   const basicTerms: Record<string, string> = {
     "GEMARA": "Talmud",
     "Gemara": "Talmud",
-    "Rabbi": "R'",
     "The Sages taught": "A baraita states",
     "Divine Voice": "bat kol",
     "Divine Presence": "Shekhina",
