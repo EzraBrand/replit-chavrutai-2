@@ -101,9 +101,51 @@ export class TextHighlighter {
     this.gazetteerData = gazetteerData;
   }
 
-  // Find all matching terms in the text
+  // Find all bolded regions in the text (content inside <b> or <strong> tags)
+  private findBoldRegions(text: string): Array<{ start: number; end: number }> {
+    const regions: Array<{ start: number; end: number }> = [];
+    
+    // Match <b> or <strong> tags and capture content positions
+    const boldPattern = /<(b|strong)[^>]*>([\s\S]*?)<\/\1>/gi;
+    let match;
+    
+    while ((match = boldPattern.exec(text)) !== null) {
+      // The full match starts at match.index
+      // The content (group 2) starts after the opening tag
+      const openingTagEnd = match.index + match[0].indexOf('>') + 1;
+      const closingTagStart = match.index + match[0].lastIndexOf('<');
+      
+      regions.push({
+        start: openingTagEnd,
+        end: closingTagStart,
+      });
+    }
+    
+    return regions;
+  }
+
+  // Check if a position range is within any bold region
+  private isWithinBoldRegion(
+    startIndex: number,
+    endIndex: number,
+    boldRegions: Array<{ start: number; end: number }>
+  ): boolean {
+    return boldRegions.some(
+      (region) => startIndex >= region.start && endIndex <= region.end
+    );
+  }
+
+  // Find all matching terms in the text (only within bolded sections)
   findMatches(text: string, enabledCategories: HighlightCategory[]): TextMatch[] {
     const matches: TextMatch[] = [];
+    
+    // First, find all bold regions in the text
+    const boldRegions = this.findBoldRegions(text);
+    
+    // If there are no bold regions, return no matches
+    if (boldRegions.length === 0) {
+      return matches;
+    }
     
     for (const category of enabledCategories) {
       const terms = this.getTermsForCategory(category);
@@ -116,15 +158,21 @@ export class TextHighlighter {
         let match;
         
         while ((match = regex.exec(text)) !== null) {
-          // Determine the original gazetteer term for R' variants
-          const originalTerm = this.getOriginalTerm(term);
+          const startIndex = match.index;
+          const endIndex = match.index + match[0].length;
           
-          matches.push({
-            term: originalTerm, // Store the original Rabbi form for data-term attribute
-            startIndex: match.index,
-            endIndex: match.index + match[0].length,
-            category,
-          });
+          // Only add match if it's within a bold region
+          if (this.isWithinBoldRegion(startIndex, endIndex, boldRegions)) {
+            // Determine the original gazetteer term for R' variants
+            const originalTerm = this.getOriginalTerm(term);
+            
+            matches.push({
+              term: originalTerm, // Store the original Rabbi form for data-term attribute
+              startIndex,
+              endIndex,
+              category,
+            });
+          }
         }
       }
     }
