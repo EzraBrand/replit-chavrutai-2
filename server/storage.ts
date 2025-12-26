@@ -129,6 +129,37 @@ export class MemStorage implements IStorage {
 export class SefariaAPI {
   private baseURL = "https://www.sefaria.org/api";
 
+  private flattenSenses(senses: any[]): any[] {
+    const flattenedSenses: any[] = [];
+    
+    for (const sense of senses) {
+      if (sense.definition) {
+        flattenedSenses.push({
+          definition: this.transformHyperlinks(sense.definition),
+          grammar: sense.grammar
+        });
+      }
+      
+      if (Array.isArray(sense.senses)) {
+        const nestedFlattened = this.flattenSenses(sense.senses);
+        for (const nestedSense of nestedFlattened) {
+          const grammarInfo = sense.grammar || nestedSense.grammar;
+          let prefix = '';
+          if (grammarInfo?.verbal_stem) {
+            const binyanForm = grammarInfo.binyan_form?.join(', ') || '';
+            prefix = `<strong>${grammarInfo.verbal_stem}</strong>${binyanForm ? ` - <span dir="rtl">${binyanForm}</span>` : ''} `;
+          }
+          flattenedSenses.push({
+            definition: prefix + nestedSense.definition,
+            grammar: grammarInfo
+          });
+        }
+      }
+    }
+    
+    return flattenedSenses;
+  }
+
   private transformHyperlinks(htmlContent: string): string {
     // Handle undefined or null content
     if (!htmlContent || typeof htmlContent !== 'string') {
@@ -211,10 +242,7 @@ export class SefariaAPI {
               language_code: entry.language_code,
               content: {
                 ...entry.content,
-                senses: entry.content.senses.map((sense: any) => ({
-                  ...sense,
-                  definition: this.transformHyperlinks(sense.definition)
-                }))
+                senses: this.flattenSenses(entry.content.senses)
               },
               refs: entry.refs,
               prev_hw: entry.prev_hw,
@@ -274,10 +302,7 @@ export class SefariaAPI {
               language_code: entry.language_code,
               content: {
                 ...entry.content,
-                senses: entry.content.senses.map((sense: any) => ({
-                  ...sense,
-                  definition: this.transformHyperlinks(sense.definition)
-                }))
+                senses: this.flattenSenses(entry.content.senses)
               },
               refs: entry.refs,
               prev_hw: entry.prev_hw,
