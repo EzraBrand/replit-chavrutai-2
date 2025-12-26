@@ -99,6 +99,15 @@ export default function Changelog() {
             </div>
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">External Links on Bible Pages</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Added verse-level external links (Sefaria, Al HaTorah, Wikisource) next to each verse header</li>
+                <li>Added chapter-level external links footer to each Bible chapter page</li>
+                <li>Verified Al HaTorah transliterations for all 39 Tanakh books</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">UI Simplification</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added link to the article "Biblical Citations in the Talmud: A New Digital Index and Concordance" on the Biblical Index page</li>
