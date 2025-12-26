@@ -215,6 +215,7 @@ export function replaceTerms(text: string): string {
     "harlot": "prostitute",
     "rainy season": "winter",
     "blue eye shadow": "kohl",
+    "blue shadow": "kohl",
     "eye shadow": "kohl",
     "the flood": "the Flood",
     "generation of the flood": "Generation of the Flood",
