@@ -2,31 +2,32 @@ import { useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { sefariaAPI } from "@/lib/sefaria";
 import type { TalmudLocation } from "@/types/talmud";
-import { TRACTATE_FOLIO_RANGES } from "@shared/tractates";
+import { getNextPage, getPreviousPage, type TalmudPage } from "@shared/talmud-navigation";
 
 function getNextLocation(location: TalmudLocation): TalmudLocation | null {
-  const maxFolio = TRACTATE_FOLIO_RANGES[location.tractate as keyof typeof TRACTATE_FOLIO_RANGES];
-  if (!maxFolio) return null;
-
-  if (location.side === 'a') {
-    return { ...location, side: 'b' };
-  } else {
-    if (location.folio >= maxFolio) {
-      return null;
-    }
-    return { ...location, folio: location.folio + 1, side: 'a' };
-  }
+  const currentPage: TalmudPage = {
+    tractate: location.tractate,
+    folio: location.folio,
+    side: location.side
+  };
+  
+  const next = getNextPage(currentPage);
+  if (!next) return null;
+  
+  return { ...location, folio: next.folio, side: next.side };
 }
 
 function getPrevLocation(location: TalmudLocation): TalmudLocation | null {
-  if (location.side === 'b') {
-    return { ...location, side: 'a' };
-  } else {
-    if (location.folio <= 2) {
-      return null;
-    }
-    return { ...location, folio: location.folio - 1, side: 'b' };
-  }
+  const currentPage: TalmudPage = {
+    tractate: location.tractate,
+    folio: location.folio,
+    side: location.side
+  };
+  
+  const prev = getPreviousPage(currentPage);
+  if (!prev) return null;
+  
+  return { ...location, folio: prev.folio, side: prev.side };
 }
 
 export function usePrefetchAdjacentPages(location: TalmudLocation) {

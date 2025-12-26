@@ -6,7 +6,7 @@ import type { TalmudLocation, Chapter, Work } from "@/types/talmud";
 import { WORKS } from "@/types/talmud";
 import { useQuery } from "@tanstack/react-query";
 import { sefariaAPI } from "@/lib/sefaria";
-import { getMaxFolio } from "@shared/tractates";
+import { getMaxFolio, getLastSide } from "@shared/talmud-navigation";
 
 interface BreadcrumbNavProps {
   location: TalmudLocation;
@@ -94,11 +94,15 @@ export function BreadcrumbNav({ location, onLocationChange }: BreadcrumbNavProps
     const pages: Array<{ folio: number; side: 'a' | 'b'; label: string }> = [];
     
     const maxFolio = getMaxFolio(location.tractate);
+    const lastSide = getLastSide(location.tractate);
     
     // Generate pages from 2 to the tractate's maximum folio
     for (let folio = 2; folio <= maxFolio; folio++) {
       pages.push({ folio, side: 'a', label: `${folio}a` });
-      pages.push({ folio, side: 'b', label: `${folio}b` });
+      // Only add 'b' side if not the last folio or if lastSide is 'b'
+      if (folio < maxFolio || lastSide === 'b') {
+        pages.push({ folio, side: 'b', label: `${folio}b` });
+      }
     }
     
     return pages;

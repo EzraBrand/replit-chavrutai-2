@@ -10,9 +10,9 @@ import {
   TRACTATE_HEBREW_NAMES,
   normalizeDisplayTractateName,
   isValidTractate,
-  getMaxFolio,
   getTractateSlug,
 } from "@shared/tractates";
+import { getMaxFolio } from "@shared/talmud-navigation";
 import { getMishnahSection } from "@shared/mishnah-map";
 import NotFound from "@/pages/not-found";
 

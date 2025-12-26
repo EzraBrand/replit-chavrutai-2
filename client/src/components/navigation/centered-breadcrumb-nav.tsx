@@ -2,7 +2,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { TalmudLocation } from "@/types/talmud";
 import { findChapterForFolio } from "@/lib/chapter-data";
-import { getMaxFolio } from "@shared/tractates";
+import { getNextPage, getPreviousPage, formatPage, type TalmudPage } from "@shared/talmud-navigation";
 
 interface CenteredBreadcrumbNavProps {
   location: TalmudLocation;
@@ -13,56 +13,37 @@ export function CenteredBreadcrumbNav({ location, onLocationChange }: CenteredBr
   // Find current chapter info
   const currentChapter = findChapterForFolio(location.tractate, location.folio, location.side);
   
-  // Calculate prev/next page navigation
-  const maxFolio = getMaxFolio(location.tractate);
-  const currentPageNumber = (location.folio - 2) * 2 + (location.side === 'a' ? 0 : 1) + 1;
-  const totalPages = (maxFolio - 1) * 2;
+  // Use unified navigation helpers
+  const currentPage: TalmudPage = {
+    tractate: location.tractate,
+    folio: location.folio,
+    side: location.side
+  };
   
-  const canGoPrev = currentPageNumber > 1;
-  const canGoNext = currentPageNumber < totalPages;
+  const nextPage = getNextPage(currentPage);
+  const prevPage = getPreviousPage(currentPage);
+  
+  const canGoPrev = prevPage !== null;
+  const canGoNext = nextPage !== null;
   
   const handlePrevPage = () => {
-    if (!canGoPrev) return;
+    if (!prevPage) return;
     
-    if (location.side === 'b') {
-      // Go from 3b to 3a
-      onLocationChange({
-        ...location,
-        side: 'a'
-      });
-    } else {
-      // Go from 3a to 2b (previous folio)
-      const newFolio = location.folio - 1;
-      if (newFolio >= 2) {
-        onLocationChange({
-          ...location,
-          folio: newFolio,
-          side: 'b'
-        });
-      }
-    }
+    onLocationChange({
+      ...location,
+      folio: prevPage.folio,
+      side: prevPage.side
+    });
   };
   
   const handleNextPage = () => {
-    if (!canGoNext) return;
+    if (!nextPage) return;
     
-    if (location.side === 'a') {
-      // Go from 3a to 3b
-      onLocationChange({
-        ...location,
-        side: 'b'
-      });
-    } else {
-      // Go from 3b to 4a (next folio)
-      const newFolio = location.folio + 1;
-      if (newFolio <= maxFolio) {
-        onLocationChange({
-          ...location,
-          folio: newFolio,
-          side: 'a'
-        });
-      }
-    }
+    onLocationChange({
+      ...location,
+      folio: nextPage.folio,
+      side: nextPage.side
+    });
   };
 
   return (
@@ -74,37 +55,16 @@ export function CenteredBreadcrumbNav({ location, onLocationChange }: CenteredBr
         onClick={handleNextPage}
         disabled={!canGoNext}
         className="flex items-center gap-1 px-2 py-2 flex-shrink-0"
-        title={(() => {
-          if (location.side === 'a') {
-            return `Next: ${location.folio}b`;
-          } else if (location.folio < maxFolio) {
-            return `Next: ${location.folio + 1}a`;
-          }
-          return 'Next page';
-        })()}
+        title={nextPage ? `Next: ${formatPage(nextPage)}` : 'Next page'}
       >
         <ChevronLeft className="w-3 h-3" />
         {/* Desktop: Full text */}
         <span className="text-xs hidden lg:inline">
-          Next {(() => {
-            if (location.side === 'a') {
-              return `(${location.folio}b)`;
-            } else if (location.folio < maxFolio) {
-              return `(${location.folio + 1}a)`;
-            }
-            return '';
-          })()}
+          Next {nextPage ? `(${formatPage(nextPage)})` : ''}
         </span>
         {/* Tablet & Mobile: Just page numbers */}
         <span className="text-xs inline lg:hidden">
-          {(() => {
-            if (location.side === 'a') {
-              return `${location.folio}b`;
-            } else if (location.folio < maxFolio) {
-              return `${location.folio + 1}a`;
-            }
-            return '';
-          })()}
+          {nextPage ? formatPage(nextPage) : ''}
         </span>
       </Button>
 
@@ -137,36 +97,15 @@ export function CenteredBreadcrumbNav({ location, onLocationChange }: CenteredBr
         onClick={handlePrevPage}
         disabled={!canGoPrev}
         className="flex items-center gap-1 px-2 py-2 flex-shrink-0"
-        title={(() => {
-          if (location.side === 'b') {
-            return `Previous: ${location.folio}a`;
-          } else if (location.folio > 2) {
-            return `Previous: ${location.folio - 1}b`;
-          }
-          return 'Previous page';
-        })()}
+        title={prevPage ? `Previous: ${formatPage(prevPage)}` : 'Previous page'}
       >
         {/* Desktop: Full text */}
         <span className="text-xs hidden lg:inline">
-          Previous {(() => {
-            if (location.side === 'b') {
-              return `(${location.folio}a)`;
-            } else if (location.folio > 2) {
-              return `(${location.folio - 1}b)`;
-            }
-            return '';
-          })()}
+          Previous {prevPage ? `(${formatPage(prevPage)})` : ''}
         </span>
         {/* Tablet & Mobile: Just page numbers */}
         <span className="text-xs inline lg:hidden">
-          {(() => {
-            if (location.side === 'b') {
-              return `${location.folio}a`;
-            } else if (location.folio > 2) {
-              return `${location.folio - 1}b`;
-            }
-            return '';
-          })()}
+          {prevPage ? formatPage(prevPage) : ''}
         </span>
         <ChevronRight className="w-3 h-3" />
       </Button>

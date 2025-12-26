@@ -17,7 +17,8 @@ import { useSEO, generateSEOData } from "@/hooks/use-seo";
 import { usePrefetchAdjacentPages } from "@/hooks/use-prefetch";
 import type { TalmudLocation } from "@/types/talmud";
 import { sefariaAPI } from "@/lib/sefaria";
-import { normalizeDisplayTractateName, isValidTractate, getTractateSlug, isValidPage } from "@shared/tractates";
+import { normalizeDisplayTractateName, isValidTractate, getTractateSlug } from "@shared/tractates";
+import { isValidPage } from "@shared/talmud-navigation";
 import NotFound from "@/pages/not-found";
 
 export default function TractateView() {
@@ -25,19 +26,13 @@ export default function TractateView() {
   const [location, setLocation] = useLocation();
   const { preferences } = usePreferences();
 
-  // Validate tractate name and show 404 if invalid
-  if (tractate && !isValidTractate(tractate)) {
-    return <NotFound />;
-  }
-  
   // Parse folio parameter (e.g., "2a" -> folio: 2, side: "a")
   const parsedFolio = folio ? parseInt(folio.slice(0, -1)) : 2;
   const parsedSide = folio ? folio.slice(-1) as 'a' | 'b' : 'a';
   
-  // Validate the page exists (some tractates don't have 'b' side on their final folio)
-  if (tractate && folio && !isValidPage(tractate, parsedFolio, parsedSide)) {
-    return <NotFound />;
-  }
+  // Validation checks (done before hooks would violate rules, so we use derived state)
+  const isInvalidTractate = tractate && !isValidTractate(tractate);
+  const isInvalidPage = tractate && folio && !isValidPage(tractate, parsedFolio, parsedSide);
   
   const [talmudLocation, setTalmudLocation] = useState<TalmudLocation>({
     work: "Talmud Bavli",
@@ -74,7 +69,7 @@ export default function TractateView() {
   // Set up SEO - use noindex for dynamic content pages
   useSEO(generateSEOData.folioPage(talmudLocation.tractate, talmudLocation.folio, talmudLocation.side));
 
-  // Fetch current text
+  // Fetch current text (skip if invalid)
   const { 
     data: text, 
     isLoading, 
@@ -83,7 +78,13 @@ export default function TractateView() {
   } = useQuery({
     queryKey: ['/api/text', talmudLocation.work, talmudLocation.tractate, talmudLocation.chapter, talmudLocation.folio, talmudLocation.side],
     queryFn: () => sefariaAPI.getText(talmudLocation),
+    enabled: !isInvalidTractate && !isInvalidPage,
   });
+  
+  // Show 404 for invalid tractate or page (after all hooks are called)
+  if (isInvalidTractate || isInvalidPage) {
+    return <NotFound />;
+  }
 
   const handleLocationChange = (newLocation: TalmudLocation) => {
     setTalmudLocation(newLocation);

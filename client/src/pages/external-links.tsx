@@ -6,7 +6,8 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ExternalLink, ArrowRight } from "lucide-react";
 import { Footer } from "@/components/footer";
-import { TRACTATE_LISTS, TRACTATE_HEBREW_NAMES, normalizeDisplayTractateName, getMaxFolio, isValidTractate } from "@shared/tractates";
+import { TRACTATE_LISTS, TRACTATE_HEBREW_NAMES, normalizeDisplayTractateName, isValidTractate } from "@shared/tractates";
+import { getMaxFolio } from "@shared/talmud-navigation";
 import { 
   getAllExternalLinks, 
   getSectionLinks, 

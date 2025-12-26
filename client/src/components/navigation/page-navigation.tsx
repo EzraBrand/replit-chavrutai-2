@@ -1,7 +1,7 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { TalmudLocation } from "@/types/talmud";
-import { getMaxFolio } from "@shared/tractates";
+import { getNextPage, getPreviousPage, formatPage, type TalmudPage } from "@shared/talmud-navigation";
 import { trackEvent } from "@/lib/analytics";
 
 interface PageNavigationProps {
@@ -10,83 +10,41 @@ interface PageNavigationProps {
 }
 
 export function PageNavigation({ location, onLocationChange }: PageNavigationProps) {
+  const currentPage: TalmudPage = {
+    tractate: location.tractate,
+    folio: location.folio,
+    side: location.side
+  };
+  
+  const nextPage = getNextPage(currentPage);
+  const previousPage = getPreviousPage(currentPage);
+  
   const handlePrevious = () => {
-    let newFolio = location.folio;
-    let newSide = location.side;
+    if (!previousPage) return;
     
-    if (location.side === 'b') {
-      newSide = 'a';
-    } else if (location.folio > 2) {
-      newFolio = location.folio - 1;
-      newSide = 'b';
-    } else {
-      // At the beginning, don't go back further
-      return;
-    }
-    
-    // Track page navigation event
-    trackEvent('navigate_page', 'navigation', `${location.tractate} ${newFolio}${newSide}`, newFolio);
+    trackEvent('navigate_page', 'navigation', `${location.tractate} ${formatPage(previousPage)}`, previousPage.folio);
     
     onLocationChange({
       ...location,
-      folio: newFolio,
-      side: newSide
+      folio: previousPage.folio,
+      side: previousPage.side
     });
   };
 
   const handleNext = () => {
-    let newFolio = location.folio;
-    let newSide = location.side;
+    if (!nextPage) return;
     
-    const maxFolio = getMaxFolio(location.tractate);
-    
-    if (location.side === 'a') {
-      newSide = 'b';
-    } else {
-      newFolio = location.folio + 1;
-      newSide = 'a';
-    }
-    
-    // Don't go beyond the tractate's maximum folio
-    if (newFolio > maxFolio) {
-      return;
-    }
-    
-    // Track page navigation event
-    trackEvent('navigate_page', 'navigation', `${location.tractate} ${newFolio}${newSide}`, newFolio);
+    trackEvent('navigate_page', 'navigation', `${location.tractate} ${formatPage(nextPage)}`, nextPage.folio);
     
     onLocationChange({
       ...location,
-      folio: newFolio,
-      side: newSide
+      folio: nextPage.folio,
+      side: nextPage.side
     });
   };
 
-  // Helper function to get previous page number
-  const getPreviousPage = () => {
-    if (location.side === 'b') {
-      return `${location.folio}a`;
-    } else if (location.folio > 2) {
-      return `${location.folio - 1}b`;
-    }
-    return null;
-  };
-
-  // Helper function to get next page number
-  const getNextPage = () => {
-    const maxFolio = getMaxFolio(location.tractate);
-    if (location.side === 'a') {
-      return `${location.folio}b`;
-    } else if (location.folio < maxFolio) {
-      return `${location.folio + 1}a`;
-    }
-    return null;
-  };
-
-  const canGoPrevious = !(location.folio === 2 && location.side === 'a');
-  const canGoNext = getNextPage() !== null;
-  const previousPage = getPreviousPage();
-  const nextPage = getNextPage();
+  const canGoPrevious = previousPage !== null;
+  const canGoNext = nextPage !== null;
 
   return (
     <div className="flex justify-between items-center mt-8">
@@ -99,7 +57,7 @@ export function PageNavigation({ location, onLocationChange }: PageNavigationPro
       >
         <ChevronLeft className="w-4 h-4 text-primary" />
         <span className="text-primary font-medium">
-          Next{nextPage ? ` (${nextPage})` : ''}
+          Next{nextPage ? ` (${formatPage(nextPage)})` : ''}
         </span>
       </Button>
       
@@ -113,7 +71,7 @@ export function PageNavigation({ location, onLocationChange }: PageNavigationPro
         disabled={!canGoPrevious}
       >
         <span className="text-primary font-medium">
-          Previous{previousPage ? ` (${previousPage})` : ''}
+          Previous{previousPage ? ` (${formatPage(previousPage)})` : ''}
         </span>
         <ChevronRight className="w-4 h-4 text-primary" />
       </Button>

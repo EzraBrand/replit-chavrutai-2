@@ -357,7 +357,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       // Validate page exists (some tractates don't have 'b' side on their final folio)
-      const { isValidPage } = await import('@shared/tractates');
+      const { isValidPage } = await import('@shared/talmud-navigation');
       if (!isValidPage(tractate, folio, side as 'a' | 'b')) {
         res.status(404).json({ error: `Page does not exist: ${tractate} ${folio}${side}` });
         return;
