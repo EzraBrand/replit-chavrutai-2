@@ -1,6 +1,6 @@
 User-agent: *
 Allow: /
-Allow: /contents/
+Allow: /talmud/
 Allow: /tractate/
 Allow: /about
 Disallow: /api/

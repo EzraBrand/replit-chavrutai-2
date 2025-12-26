@@ -59,7 +59,7 @@ export function DafYomiWidget({ className = "", compact = false }: DafYomiWidget
     const parsed = parseDafYomiRef(dafYomi.ref);
     const studyLink = parsed 
       ? `/tractate/${parsed.tractate}/${parsed.folio}`
-      : `/contents`;
+      : `/talmud`;
 
     return (
       <Card className={`hover:shadow-lg transition-shadow duration-200 ${className}`}>
@@ -102,7 +102,7 @@ export function DafYomiWidget({ className = "", compact = false }: DafYomiWidget
   const parsed = parseDafYomiRef(dafYomi.ref);
   const studyLink = parsed 
     ? `/tractate/${parsed.tractate}/${parsed.folio}`
-    : `/contents`;
+    : `/talmud`;
 
   return (
     <div className={`bg-secondary/30 rounded-lg p-6 ${className}`} data-testid="daf-yomi-widget">

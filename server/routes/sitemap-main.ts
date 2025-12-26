@@ -19,7 +19,7 @@ export function generateMainSitemap(req: Request, res: Response) {
     <lastmod>${currentDate}</lastmod>
   </url>
   <url>
-    <loc>${baseUrl}/contents</loc>
+    <loc>${baseUrl}/talmud</loc>
     <priority>0.9</priority>
     <changefreq>weekly</changefreq>
     <lastmod>${currentDate}</lastmod>
@@ -68,7 +68,7 @@ export function generateMainSitemap(req: Request, res: Response) {
     const tractateSlug = tractate.toLowerCase().replace(/\s+/g, '-');
     sitemap += `
   <url>
-    <loc>${baseUrl}/contents/${tractateSlug}</loc>
+    <loc>${baseUrl}/talmud/${tractateSlug}</loc>
     <priority>0.7</priority>
     <changefreq>monthly</changefreq>
   </url>`;

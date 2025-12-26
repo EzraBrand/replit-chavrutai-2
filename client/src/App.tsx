@@ -58,8 +58,8 @@ function Router() {
       <Route path="/sugya-viewer" component={SugyaViewerPage} />
       <Route path="/external-links" component={ExternalLinksPage} />
       <Route path="/search" component={SearchPage} />
-      <Route path="/contents" component={Contents} />
-      <Route path="/contents/:tractate" component={TractateContents} />
+      <Route path="/talmud" component={Contents} />
+      <Route path="/talmud/:tractate" component={TractateContents} />
       <Route path="/tractate/:tractate/:folio" component={TractateView} />
       <Route path="/outline/:tractate/:chapter" component={TractateOutlinePage} />
       <Route component={NotFound} />

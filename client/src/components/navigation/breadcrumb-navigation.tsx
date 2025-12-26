@@ -67,7 +67,7 @@ export const breadcrumbHelpers = {
   // Tractate view breadcrumbs (main text page)
   tractateView: (tractate: string, folio: number, side: 'a' | 'b'): BreadcrumbNavigationItem[] => {
     const items: BreadcrumbNavigationItem[] = [
-      { label: tractate, href: `/contents/${encodeURIComponent(tractate.toLowerCase())}` }
+      { label: tractate, href: `/talmud/${encodeURIComponent(tractate.toLowerCase())}` }
     ];
     
     // Find the chapter for this folio
