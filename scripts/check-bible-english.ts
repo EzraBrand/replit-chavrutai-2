@@ -125,33 +125,40 @@ function getAllChapters(): { book: string; slug: string; chapter: number }[] {
 
 async function main() {
   const limit = parseInt(process.argv[2] || '10', 10);
+  const concurrency = parseInt(process.argv[3] || '10', 10);
   const allChapters = getAllChapters();
   const totalChapters = allChapters.length;
   
   console.log(`\n=== Bible English Translation Check ===`);
   console.log(`Total chapters in Bible: ${totalChapters}`);
-  console.log(`Checking first ${limit} chapters...\n`);
+  console.log(`Checking first ${limit} chapters (${concurrency} parallel requests)...\n`);
   
   const startTime = Date.now();
   const chaptersToCheck = allChapters.slice(0, limit);
   const results: CheckResult[] = [];
   const issues: CheckResult[] = [];
   
-  for (let i = 0; i < chaptersToCheck.length; i++) {
-    const { book, slug, chapter } = chaptersToCheck[i];
-    process.stdout.write(`[${i + 1}/${limit}] Checking ${book} ${chapter}...`);
+  // Process in batches for parallel requests
+  for (let i = 0; i < chaptersToCheck.length; i += concurrency) {
+    const batch = chaptersToCheck.slice(i, i + concurrency);
+    const batchNum = Math.floor(i / concurrency) + 1;
+    const totalBatches = Math.ceil(chaptersToCheck.length / concurrency);
     
-    const result = await checkChapter(slug, chapter);
-    results.push(result);
+    process.stdout.write(`Batch ${batchNum}/${totalBatches}: Checking ${batch.length} chapters...`);
     
-    if (result.error) {
-      console.log(` ERROR: ${result.error}`);
-      issues.push(result);
-    } else if (result.versesMissingEnglish.length > 0) {
-      console.log(` MISSING: ${result.versesMissingEnglish.length} verses without English`);
-      issues.push(result);
+    const batchResults = await Promise.all(
+      batch.map(({ slug, chapter }) => checkChapter(slug, chapter))
+    );
+    
+    results.push(...batchResults);
+    
+    const batchIssues = batchResults.filter(r => r.error || r.versesMissingEnglish.length > 0);
+    issues.push(...batchIssues);
+    
+    if (batchIssues.length > 0) {
+      console.log(` ${batchIssues.length} issues`);
     } else {
-      console.log(` OK (${result.totalVerses} verses)`);
+      console.log(` OK`);
     }
   }
   
