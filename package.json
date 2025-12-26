@@ -45,6 +45,7 @@
     "@tanstack/react-query": "^5.60.5",
     "@types/dompurify": "^3.0.5",
     "@vitest/ui": "^4.0.8",
+    "baseline-browser-mapping": "^2.9.11",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "connect-pg-simple": "^10.0.0",
