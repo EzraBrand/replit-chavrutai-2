@@ -213,7 +213,13 @@ export function replaceTerms(text: string): string {
     "sexual sex": "sex",
     "mishna": "Mishnah",
     "harlot": "prostitute",
-    "rainy season": "winter"
+    "rainy season": "winter",
+    "blue eye shadow": "kohl",
+    "eye shadow": "kohl",
+    "the flood": "the Flood",
+    "generation of the flood": "Generation of the Flood",
+    "generation of the dispersion": "Generation of the Dispersion",
+    "Shabbat eve": "Friday"
   };
   
   // Combine basic terms with generated sexual terms
