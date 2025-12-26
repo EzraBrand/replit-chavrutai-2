@@ -184,95 +184,90 @@ async function checkBibleChapter(book: string, chapter: number): Promise<EmptyPa
   }
 }
 
+function generateAllPages(): { ref: string; type: 'talmud' | 'bible' }[] {
+  const pages: { ref: string; type: 'talmud' | 'bible' }[] = [];
+  
+  for (const [tractate, lastFolio] of Object.entries(TRACTATE_FOLIO_RANGES)) {
+    for (let folio = 2; folio <= lastFolio; folio++) {
+      for (const side of ['a', 'b'] as const) {
+        pages.push({ ref: `${tractate}.${folio}${side}`, type: 'talmud' });
+      }
+    }
+  }
+  
+  for (const book of BIBLE_BOOKS) {
+    for (let chapter = 1; chapter <= book.chapters; chapter++) {
+      pages.push({ ref: `${book.name}.${chapter}`, type: 'bible' });
+    }
+  }
+  
+  return pages;
+}
+
 async function main() {
+  const args = process.argv.slice(2);
+  const limitArg = args.find(a => a.startsWith('--limit='));
+  const limit = limitArg ? parseInt(limitArg.split('=')[1]) : (args.includes('--all') ? Infinity : 100);
+  
   console.log('=== Checking for Empty Talmud and Bible Pages ===\n');
 
-  // Calculate total pages
-  let totalTalmudPages = 0;
-  for (const [tractate, lastFolio] of Object.entries(TRACTATE_FOLIO_RANGES)) {
-    // Talmud starts at folio 2a (not 1a)
-    totalTalmudPages += (lastFolio - 1) * 2; // (lastFolio - 2 + 1) * 2 sides
-  }
+  const allPages = generateAllPages();
+  const totalTalmudPages = allPages.filter(p => p.type === 'talmud').length;
+  const totalBibleChapters = allPages.filter(p => p.type === 'bible').length;
 
-  let totalBibleChapters = 0;
-  for (const book of BIBLE_BOOKS) {
-    totalBibleChapters += book.chapters;
-  }
+  console.log(`Total Talmud pages available: ${totalTalmudPages}`);
+  console.log(`Total Bible chapters available: ${totalBibleChapters}`);
+  console.log(`Total: ${allPages.length}`);
+  console.log(`Checking: ${limit === Infinity ? 'ALL' : limit} pages\n`);
 
-  console.log(`Total Talmud pages to check: ${totalTalmudPages}`);
-  console.log(`Total Bible chapters to check: ${totalBibleChapters}`);
-  console.log(`Total: ${totalTalmudPages + totalBibleChapters}\n`);
-
+  const pagesToCheck = limit === Infinity ? allPages : allPages.slice(0, limit);
   const emptyPages: EmptyPageResult[] = [];
   const lowTextPages: EmptyPageResult[] = [];
   let checked = 0;
 
-  // Check Talmud pages (sampling every 10th to be faster)
-  console.log('--- Checking Talmud Pages (sampling every 10th page) ---');
+  console.log('--- Checking Pages ---');
   
-  for (const [tractate, lastFolio] of Object.entries(TRACTATE_FOLIO_RANGES)) {
-    // Talmud Bavli starts at folio 2
-    for (let folio = 2; folio <= lastFolio; folio++) {
-      for (const side of ['a', 'b'] as const) {
-        // Sample every 10th page for speed
-        if (checked % 10 === 0) {
-          const result = await checkTalmudPage(tractate, folio, side);
-          
-          if (result.error) {
-            console.log(`  ERROR: ${result.ref} - ${result.error}`);
-            emptyPages.push(result);
-          } else if (result.hebrewTextLength === 0 && result.englishTextLength === 0) {
-            console.log(`  EMPTY: ${result.ref}`);
-            emptyPages.push(result);
-          } else if (result.hebrewTextLength < 50 || result.englishTextLength < 50) {
-            console.log(`  LOW TEXT: ${result.ref} (Hebrew: ${result.hebrewTextLength}, English: ${result.englishTextLength})`);
-            lowTextPages.push(result);
-          }
-          
-          // Rate limiting - 100ms between requests
-          await sleep(100);
-        }
-        checked++;
-        
-        if (checked % 500 === 0) {
-          console.log(`  Progress: ${checked}/${totalTalmudPages} Talmud pages...`);
-        }
+  for (const page of pagesToCheck) {
+    let result: EmptyPageResult;
+    
+    if (page.type === 'talmud') {
+      const match = page.ref.match(/^(.+)\.(\d+)([ab])$/);
+      if (match) {
+        result = await checkTalmudPage(match[1], parseInt(match[2]), match[3] as 'a' | 'b');
+      } else {
+        continue;
+      }
+    } else {
+      const match = page.ref.match(/^(.+)\.(\d+)$/);
+      if (match) {
+        result = await checkBibleChapter(match[1], parseInt(match[2]));
+      } else {
+        continue;
       }
     }
-  }
-
-  // Check Bible chapters (check all since there are fewer)
-  console.log('\n--- Checking Bible Chapters (all) ---');
-  checked = 0;
-
-  for (const book of BIBLE_BOOKS) {
-    for (let chapter = 1; chapter <= book.chapters; chapter++) {
-      const result = await checkBibleChapter(book.name, chapter);
-      
-      if (result.error) {
-        console.log(`  ERROR: ${result.ref} - ${result.error}`);
-        emptyPages.push(result);
-      } else if (result.hebrewTextLength === 0 && result.englishTextLength === 0) {
-        console.log(`  EMPTY: ${result.ref}`);
-        emptyPages.push(result);
-      } else if (result.hebrewTextLength < 50) {
-        console.log(`  LOW HEBREW: ${result.ref} (Hebrew: ${result.hebrewTextLength})`);
-        lowTextPages.push(result);
-      }
-      
-      checked++;
-      
-      if (checked % 100 === 0) {
-        console.log(`  Progress: ${checked}/${totalBibleChapters} Bible chapters...`);
-      }
-      
-      // Rate limiting - 100ms between requests
-      await sleep(100);
+    
+    if (result.error) {
+      console.log(`  ERROR: ${result.ref} - ${result.error}`);
+      emptyPages.push(result);
+    } else if (result.hebrewTextLength === 0 && result.englishTextLength === 0) {
+      console.log(`  EMPTY: ${result.ref}`);
+      emptyPages.push(result);
+    } else if (result.hebrewTextLength < 50 || result.englishTextLength < 50) {
+      console.log(`  LOW TEXT: ${result.ref} (Hebrew: ${result.hebrewTextLength}, English: ${result.englishTextLength})`);
+      lowTextPages.push(result);
     }
+    
+    checked++;
+    
+    if (checked % 50 === 0) {
+      console.log(`  Progress: ${checked}/${pagesToCheck.length} pages...`);
+    }
+    
+    await sleep(100);
   }
 
-  // Summary
   console.log('\n=== SUMMARY ===');
+  console.log(`Total checked: ${checked}`);
   console.log(`Empty/Error pages: ${emptyPages.length}`);
   console.log(`Low text pages: ${lowTextPages.length}`);
 
@@ -289,6 +284,19 @@ async function main() {
       console.log(`  ${page.type.toUpperCase()}: ${page.ref} (H: ${page.hebrewTextLength}, E: ${page.englishTextLength})`);
     }
   }
+
+  const fs = await import('fs');
+  const report = {
+    timestamp: new Date().toISOString(),
+    totalChecked: checked,
+    emptyCount: emptyPages.length,
+    lowTextCount: lowTextPages.length,
+    emptyPages,
+    lowTextPages
+  };
+  const reportPath = `scripts/empty-pages-report-${Date.now()}.json`;
+  fs.writeFileSync(reportPath, JSON.stringify(report, null, 2));
+  console.log(`\nReport saved to: ${reportPath}`);
 
   console.log('\nDone!');
 }
