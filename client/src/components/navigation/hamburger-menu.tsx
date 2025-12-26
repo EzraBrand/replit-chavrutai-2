@@ -36,12 +36,12 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
         </SheetHeader>
         
         <div className="flex flex-col h-full pt-6">
-          {/* Contents Link with Logo */}
+          {/* Home Link with Logo */}
           <div className="mb-6">
             <Link 
-              href="/contents"
+              href="/"
               onClick={() => {
-                trackEvent('navigate_menu', 'navigation', 'contents');
+                trackEvent('navigate_menu', 'navigation', 'home');
                 setOpen(false);
               }}
               className="flex items-center gap-3 w-full text-left px-4 py-3 rounded-lg hover:bg-secondary transition-colors duration-100 text-foreground font-medium text-lg"
@@ -53,7 +53,7 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
                   className="w-8 h-8 object-cover"
                 />
               </div>
-              Contents
+              Home
             </Link>
           </div>
           
