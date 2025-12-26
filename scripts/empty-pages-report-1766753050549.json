@@ -1,0 +1,609 @@
+{
+  "timestamp": "2025-12-26T12:44:10.548Z",
+  "totalChecked": 100,
+  "emptyCount": 100,
+  "lowTextCount": 0,
+  "emptyPages": [
+    {
+      "ref": "Berakhot.2a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.2b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.3a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.3b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.4a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.4b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.5a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.5b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.6a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.6b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.7a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.7b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.8a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.8b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.9a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.9b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.10a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.10b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.11a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.11b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.12a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.12b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.13a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.13b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.14a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.14b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.15a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.15b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.16a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.16b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.17a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.17b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.18a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.18b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.19a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.19b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.20a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.20b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.21a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.21b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.22a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.22b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.23a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.23b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.24a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.24b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.25a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.25b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.26a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.26b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.27a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.27b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.28a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.28b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.29a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.29b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.30a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.30b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.31a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.31b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.32a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.32b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.33a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.33b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.34a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.34b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.35a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.35b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.36a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.36b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.37a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.37b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.38a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.38b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.39a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.39b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.40a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.40b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.41a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.41b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.42a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.42b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.43a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.43b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.44a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.44b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.45a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.45b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.46a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.46b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.47a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.47b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.48a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.48b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.49a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.49b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.50a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.50b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.51a",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    },
+    {
+      "ref": "Berakhot.51b",
+      "type": "talmud",
+      "hebrewTextLength": 0,
+      "englishTextLength": 0
+    }
+  ],
+  "lowTextPages": []
+}

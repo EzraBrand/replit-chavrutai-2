@@ -1,6 +1,11 @@
 /**
  * Script to check all Talmud and Bible pages for missing primary text
- * Run with: npx tsx scripts/check-empty-pages.ts
+ * Run with: npx tsx scripts/check-empty-pages.ts [--limit=N] [--all]
+ * 
+ * Examples:
+ *   npx tsx scripts/check-empty-pages.ts           # Check first 100 pages
+ *   npx tsx scripts/check-empty-pages.ts --limit=500  # Check first 500 pages
+ *   npx tsx scripts/check-empty-pages.ts --all     # Check ALL pages (~5k+)
  */
 
 const TRACTATE_FOLIO_RANGES: Record<string, number> = {
@@ -56,7 +61,7 @@ const BIBLE_BOOKS = [
   { name: 'II Chronicles', chapters: 36 },
 ];
 
-interface EmptyPageResult {
+interface PageResult {
   ref: string;
   type: 'talmud' | 'bible';
   hebrewTextLength: number;
@@ -64,7 +69,7 @@ interface EmptyPageResult {
   error?: string;
 }
 
-const SEFARIA_BASE_URL = 'https://www.sefaria.org/api';
+const SEFARIA_BASE_URL = 'https://www.sefaria.org.il/api';
 
 async function sleep(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -74,7 +79,6 @@ function getTextLength(data: any): { hebrew: number; english: number } {
   let hebrewLength = 0;
   let englishLength = 0;
 
-  // Handle Talmud API response
   if (data.he !== undefined) {
     if (Array.isArray(data.he)) {
       hebrewLength = data.he.reduce((acc: number, item: any) => {
@@ -99,7 +103,6 @@ function getTextLength(data: any): { hebrew: number; english: number } {
     }
   }
 
-  // Handle v3 API response (Bible)
   if (data.versions) {
     for (const version of data.versions) {
       const textContent = Array.isArray(version.text) ? version.text.join('') : (version.text || '');
@@ -114,73 +117,60 @@ function getTextLength(data: any): { hebrew: number; english: number } {
   return { hebrew: hebrewLength, english: englishLength };
 }
 
-async function checkTalmudPage(tractate: string, folio: number, side: 'a' | 'b'): Promise<EmptyPageResult> {
+async function checkTalmudPage(tractate: string, folio: number, side: 'a' | 'b'): Promise<PageResult> {
   const ref = `${tractate}.${folio}${side}`;
   try {
     const response = await fetch(`${SEFARIA_BASE_URL}/texts/${encodeURIComponent(ref)}?lang=bi&commentary=0`);
     
     if (!response.ok) {
-      return { 
-        ref, 
-        type: 'talmud', 
-        hebrewTextLength: 0, 
-        englishTextLength: 0, 
-        error: `HTTP ${response.status}` 
-      };
+      return { ref, type: 'talmud', hebrewTextLength: 0, englishTextLength: 0, error: `HTTP ${response.status}` };
     }
 
-    const data = await response.json();
-    const lengths = getTextLength(data);
-
-    return {
-      ref,
-      type: 'talmud',
-      hebrewTextLength: lengths.hebrew,
-      englishTextLength: lengths.english
-    };
+    const data = await response.json() as any;
+    
+    let hebrewLength = 0;
+    let englishLength = 0;
+    
+    if (Array.isArray(data.he)) {
+      hebrewLength = data.he.reduce((acc: number, item: any) => {
+        if (typeof item === 'string') return acc + item.length;
+        if (Array.isArray(item)) return acc + item.join('').length;
+        return acc;
+      }, 0);
+    } else if (typeof data.he === 'string') {
+      hebrewLength = data.he.length;
+    }
+    
+    if (Array.isArray(data.text)) {
+      englishLength = data.text.reduce((acc: number, item: any) => {
+        if (typeof item === 'string') return acc + item.length;
+        if (Array.isArray(item)) return acc + item.join('').length;
+        return acc;
+      }, 0);
+    } else if (typeof data.text === 'string') {
+      englishLength = data.text.length;
+    }
+    
+    return { ref, type: 'talmud', hebrewTextLength: hebrewLength, englishTextLength: englishLength };
   } catch (error: any) {
-    return { 
-      ref, 
-      type: 'talmud', 
-      hebrewTextLength: 0, 
-      englishTextLength: 0, 
-      error: error.message 
-    };
+    return { ref, type: 'talmud', hebrewTextLength: 0, englishTextLength: 0, error: error.message };
   }
 }
 
-async function checkBibleChapter(book: string, chapter: number): Promise<EmptyPageResult> {
+async function checkBibleChapter(book: string, chapter: number): Promise<PageResult> {
   const ref = `${book}.${chapter}`;
   try {
     const response = await fetch(`${SEFARIA_BASE_URL}/v3/texts/${encodeURIComponent(ref)}`);
     
     if (!response.ok) {
-      return { 
-        ref, 
-        type: 'bible', 
-        hebrewTextLength: 0, 
-        englishTextLength: 0, 
-        error: `HTTP ${response.status}` 
-      };
+      return { ref, type: 'bible', hebrewTextLength: 0, englishTextLength: 0, error: `HTTP ${response.status}` };
     }
 
     const data = await response.json();
     const lengths = getTextLength(data);
-
-    return {
-      ref,
-      type: 'bible',
-      hebrewTextLength: lengths.hebrew,
-      englishTextLength: lengths.english
-    };
+    return { ref, type: 'bible', hebrewTextLength: lengths.hebrew, englishTextLength: lengths.english };
   } catch (error: any) {
-    return { 
-      ref, 
-      type: 'bible', 
-      hebrewTextLength: 0, 
-      englishTextLength: 0, 
-      error: error.message 
-    };
+    return { ref, type: 'bible', hebrewTextLength: 0, englishTextLength: 0, error: error.message };
   }
 }
 
@@ -221,14 +211,14 @@ async function main() {
   console.log(`Checking: ${limit === Infinity ? 'ALL' : limit} pages\n`);
 
   const pagesToCheck = limit === Infinity ? allPages : allPages.slice(0, limit);
-  const emptyPages: EmptyPageResult[] = [];
-  const lowTextPages: EmptyPageResult[] = [];
+  const emptyPages: PageResult[] = [];
+  const lowTextPages: PageResult[] = [];
   let checked = 0;
 
   console.log('--- Checking Pages ---');
   
   for (const page of pagesToCheck) {
-    let result: EmptyPageResult;
+    let result: PageResult;
     
     if (page.type === 'talmud') {
       const match = page.ref.match(/^(.+)\.(\d+)([ab])$/);
