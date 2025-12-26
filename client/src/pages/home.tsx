@@ -104,7 +104,7 @@ export default function Home() {
               <Card className="h-full hover:shadow-lg transition-shadow duration-200 cursor-pointer">
                 <CardContent className="p-4">
                   <h3 className="font-medium text-foreground mb-2">Sugya Viewer</h3>
-                  <p className="text-sm text-muted-foreground">Study custom text ranges</p>
+                  <p className="text-sm text-muted-foreground">Study custom Talmud text ranges</p>
                 </CardContent>
               </Card>
             </Link>
@@ -122,7 +122,7 @@ export default function Home() {
               <Card className="h-full hover:shadow-lg transition-shadow duration-200 cursor-pointer">
                 <CardContent className="p-4">
                   <h3 className="font-medium text-foreground mb-2">Biblical Index</h3>
-                  <p className="text-sm text-muted-foreground">Bible-to-Talmud citations</p>
+                  <p className="text-sm text-muted-foreground">Find where biblical verses are cited in the Talmud</p>
                 </CardContent>
               </Card>
             </Link>
@@ -131,7 +131,7 @@ export default function Home() {
               <Card className="h-full hover:shadow-lg transition-shadow duration-200 cursor-pointer">
                 <CardContent className="p-4">
                   <h3 className="font-medium text-foreground mb-2">Mishnah Map</h3>
-                  <p className="text-sm text-muted-foreground">Mishnah-Talmud mapping</p>
+                  <p className="text-sm text-muted-foreground">Locate Mishnah passages in the Talmud</p>
                 </CardContent>
               </Card>
             </Link>
