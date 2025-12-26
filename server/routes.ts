@@ -1175,6 +1175,34 @@ When answering questions:
     }
   });
 
+  // Daf Yomi endpoint - fetches today's daf from Sefaria calendars API
+  app.get("/api/daf-yomi", async (req, res) => {
+    try {
+      const response = await fetch("https://www.sefaria.org/api/calendars");
+      const data = await response.json();
+      
+      // Find Daf Yomi in the calendar items
+      const dafYomi = data.calendar_items?.find(
+        (item: any) => item.title?.en === "Daf Yomi"
+      );
+      
+      if (dafYomi) {
+        res.json({
+          titleEn: dafYomi.displayValue?.en || "",
+          titleHe: dafYomi.displayValue?.he || "",
+          ref: dafYomi.ref || "",
+          url: dafYomi.url || "",
+          date: data.date || new Date().toISOString().split("T")[0]
+        });
+      } else {
+        res.status(404).json({ error: "Daf Yomi not found in calendar" });
+      }
+    } catch (error) {
+      console.error("Daf Yomi fetch error:", error);
+      res.status(500).json({ error: "Failed to fetch Daf Yomi" });
+    }
+  });
+
   // Text Search endpoint - uses Sefaria ElasticSearch API
   app.get("/api/search/text", async (req, res) => {
     try {

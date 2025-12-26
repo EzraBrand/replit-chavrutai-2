@@ -2,7 +2,15 @@ import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { SharedLayout } from "@/components/layout";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
-import { ExternalLink, Rss } from "lucide-react";
+import { ExternalLink, Rss, BookOpen } from "lucide-react";
+
+interface DafYomiData {
+  titleEn: string;
+  titleHe: string;
+  ref: string;
+  url: string;
+  date: string;
+}
 
 interface RssFeedItem {
   title: string;
@@ -18,6 +26,10 @@ export default function About() {
     items: RssFeedItem[];
   }>({
     queryKey: ["/api/rss-feed"],
+  });
+
+  const { data: dafYomi, isLoading: dafLoading } = useQuery<DafYomiData>({
+    queryKey: ["/api/daf-yomi"],
   });
 
   const formatDate = (dateStr: string) => {
@@ -146,48 +158,48 @@ export default function About() {
               <h2 className="text-xl font-semibold text-foreground mb-4">
                 Customization Options
               </h2>
-              <p className="text-sm text-muted-foreground mb-4">
+              <p className="text-muted-foreground mb-4">
                 Access these settings from the menu (hamburger icon) in the
                 top-left corner.
               </p>
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
-                  <h3 className="font-medium text-foreground text-sm">
+                  <h3 className="font-medium text-foreground">
                     Themes
                   </h3>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-sm text-muted-foreground">
                     Choose Paper (warm parchment), White (clean), Dark, or High
                     Contrast mode
                   </p>
                 </div>
                 <div>
-                  <h3 className="font-medium text-foreground text-sm">
+                  <h3 className="font-medium text-foreground">
                     Text Size
                   </h3>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-sm text-muted-foreground">
                     Five sizes from Extra Small to Extra Large
                   </p>
                 </div>
                 <div>
-                  <h3 className="font-medium text-foreground text-sm">Fonts</h3>
-                  <p className="text-xs text-muted-foreground">
+                  <h3 className="font-medium text-foreground">Fonts</h3>
+                  <p className="text-sm text-muted-foreground">
                     Multiple Hebrew fonts (Assistant, Noto Sans, etc.) and
                     English fonts (Inter, Roboto, etc.)
                   </p>
                 </div>
                 <div>
-                  <h3 className="font-medium text-foreground text-sm">
+                  <h3 className="font-medium text-foreground">
                     Layout
                   </h3>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-sm text-muted-foreground">
                     Side-by-side (Hebrew and English in columns) or Stacked view
                   </p>
                 </div>
                 <div className="sm:col-span-2">
-                  <h3 className="font-medium text-foreground text-sm">
+                  <h3 className="font-medium text-foreground">
                     Term Highlighting
                   </h3>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-sm text-muted-foreground">
                     Highlight key concepts, names of rabbis, and place names in
                     the Hebrew text (over 5,000 terms)
                   </p>
@@ -337,6 +349,55 @@ export default function About() {
                   </p>
                 )}
               </div>
+            </section>
+
+            <section className="pt-6 border-t border-border">
+              <h2 className="text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
+                <BookOpen className="w-5 h-5 text-blue-600" />
+                Today's Daf Yomi
+              </h2>
+              {dafLoading ? (
+                <div className="animate-pulse bg-secondary/50 rounded-lg p-6">
+                  <div className="h-6 bg-secondary rounded w-1/2 mb-3"></div>
+                  <div className="h-4 bg-secondary rounded w-1/3"></div>
+                </div>
+              ) : dafYomi ? (
+                <div className="bg-secondary/30 rounded-lg p-6" data-testid="daf-yomi-widget">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <div>
+                      <p className="text-2xl font-semibold text-foreground mb-1" data-testid="daf-yomi-title-en">
+                        {dafYomi.titleEn}
+                      </p>
+                      <p className="text-xl text-muted-foreground font-hebrew" dir="rtl" data-testid="daf-yomi-title-he">
+                        {dafYomi.titleHe}
+                      </p>
+                    </div>
+                    <div className="flex gap-3">
+                      <Link
+                        href={`/talmud/${dafYomi.url.replace(".", "/").replace(/(\d+)([ab])$/, "$1/$2")}`}
+                        className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
+                        data-testid="daf-yomi-study-link"
+                      >
+                        Study Here
+                      </Link>
+                      <a
+                        href={`https://www.sefaria.org/${dafYomi.url}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-4 py-2 border border-border hover:bg-secondary rounded-lg font-medium transition-colors"
+                        data-testid="daf-yomi-sefaria-link"
+                      >
+                        View on Sefaria
+                        <ExternalLink className="w-4 h-4" />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <p className="text-muted-foreground">
+                  Unable to load today's daf.
+                </p>
+              )}
             </section>
           </div>
         </div>
