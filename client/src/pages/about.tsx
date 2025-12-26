@@ -372,25 +372,13 @@ export default function About() {
                         {dafYomi.titleHe}
                       </p>
                     </div>
-                    <div className="flex gap-3">
-                      <Link
-                        href={`/talmud/${dafYomi.url.replace(".", "/").replace(/(\d+)([ab])$/, "$1/$2")}`}
-                        className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
-                        data-testid="daf-yomi-study-link"
-                      >
-                        Study Here
-                      </Link>
-                      <a
-                        href={`https://www.sefaria.org/${dafYomi.url}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-4 py-2 border border-border hover:bg-secondary rounded-lg font-medium transition-colors"
-                        data-testid="daf-yomi-sefaria-link"
-                      >
-                        View on Sefaria
-                        <ExternalLink className="w-4 h-4" />
-                      </a>
-                    </div>
+                    <Link
+                      href={`/tractate/${dafYomi.url.split(".")[0].toLowerCase()}/${dafYomi.url.split(".")[1]}a`}
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
+                      data-testid="daf-yomi-study-link"
+                    >
+                      Study
+                    </Link>
                   </div>
                 </div>
               ) : (
