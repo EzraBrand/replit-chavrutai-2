@@ -59,6 +59,14 @@ export default function Changelog() {
           
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Improved Name Recognition</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Fixed text splitting to keep genealogical phrases like "R' Elazar, son of R' Shimon" on one line</li>
+                <li>Compound names with "son of" now highlight as single entries instead of separate name fragments</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">SEO-Friendly URL Update</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Changed Talmud contents URL from /contents to /talmud for better SEO</li>
