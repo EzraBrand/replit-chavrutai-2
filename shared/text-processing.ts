@@ -390,9 +390,14 @@ export function splitEnglishText(text: string): string {
     return `__SON_OF_PROTECTION_${sonOfProtections.length - 1}__`;
   });
   
-  // Pattern 2: ", son of X" followed by colon or comma (for cases like "R' Elazar, son of R' Shimon:")
-  // Uses lookahead so trailing punctuation stays in stream for later splitting
-  processedText = processedText.replace(/,\s*(the\s+)?son of\s+[^,:]+(?=[,:])/gi, (match) => {
+  // Pattern 2: ", son of X" followed by colon (for cases like "R' Elazar, son of R' Shimon:")
+  // Uses lookahead so colon stays in stream for later splitting
+  // For comma-terminated cases (e.g., ", son of R' Yosei HaGelili,"), we include the comma to prevent splitting
+  processedText = processedText.replace(/,\s*(the\s+)?son of\s+[^,:]+,(?!.*said)/gi, (match) => {
+    sonOfProtections.push(match);
+    return `__SON_OF_PROTECTION_${sonOfProtections.length - 1}__`;
+  });
+  processedText = processedText.replace(/,\s*(the\s+)?son of\s+[^,:]+(?=:)/gi, (match) => {
     sonOfProtections.push(match);
     return `__SON_OF_PROTECTION_${sonOfProtections.length - 1}__`;
   });
