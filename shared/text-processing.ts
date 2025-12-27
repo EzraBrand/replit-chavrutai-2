@@ -382,22 +382,10 @@ export function splitEnglishText(text: string): string {
   
   // STEP -1: Protect "X, [the] son of Y" patterns from being split
   // This keeps genealogical attributions together on one line
+  // Unified pattern: captures ", [the] son of [Name]," or ", [the] son of [Name]" before colon
+  // The trailing comma is included to prevent splitting after the name
   const sonOfProtections: string[] = [];
-  
-  // Pattern 1: ", son of ..." or ", the son of ..." followed by ", said" or ", said to"
-  processedText = processedText.replace(/,\s*(the\s+)?son of\s+[^,]+,\s+said/gi, (match) => {
-    sonOfProtections.push(match);
-    return `__SON_OF_PROTECTION_${sonOfProtections.length - 1}__`;
-  });
-  
-  // Pattern 2: ", son of X" followed by colon (for cases like "R' Elazar, son of R' Shimon:")
-  // Uses lookahead so colon stays in stream for later splitting
-  // For comma-terminated cases (e.g., ", son of R' Yosei HaGelili,"), we include the comma to prevent splitting
-  processedText = processedText.replace(/,\s*(the\s+)?son of\s+[^,:]+,(?!.*said)/gi, (match) => {
-    sonOfProtections.push(match);
-    return `__SON_OF_PROTECTION_${sonOfProtections.length - 1}__`;
-  });
-  processedText = processedText.replace(/,\s*(the\s+)?son of\s+[^,:]+(?=:)/gi, (match) => {
+  processedText = processedText.replace(/,\s*(?:the\s+)?son of\s+[^,;:.]+,?/gi, (match) => {
     sonOfProtections.push(match);
     return `__SON_OF_PROTECTION_${sonOfProtections.length - 1}__`;
   });
