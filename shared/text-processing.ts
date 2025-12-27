@@ -178,7 +178,8 @@ export function replaceTerms(text: string): string {
   processedText = processedText.replace(/\bRabbi,/g, 'Rabbi!');
   
   // Handle general "Rabbi" -> "R'" but NOT when followed by "!" (already converted above)
-  processedText = processedText.replace(/\bRabbi(?!!)/g, "R'");
+  // Also exclude "Rabbis" (plural) which should remain as-is
+  processedText = processedText.replace(/\bRabbi(?![!s])/g, "R'");
   
   const basicTerms: Record<string, string> = {
     "GEMARA": "Talmud",
