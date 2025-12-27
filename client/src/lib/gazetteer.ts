@@ -254,16 +254,25 @@ export class TextHighlighter {
     if (category === 'name') {
       const rabbiVariants: string[] = [];
       terms.forEach(term => {
+        const hasStartRabbi = term.startsWith('Rabbi ');
+        const hasMiddleRabbi = term.includes(' Rabbi ');
+        
         // Handle Rabbi at the beginning of terms
-        if (term.startsWith('Rabbi ')) {
+        if (hasStartRabbi) {
           const abbreviated = term.replace(/^Rabbi /, "R' ");
           rabbiVariants.push(abbreviated);
         }
         
         // Handle Rabbi in the middle of phrases (e.g., "the school of Rabbi Yishmael")
-        if (term.includes(' Rabbi ')) {
+        if (hasMiddleRabbi) {
           const abbreviated = term.replace(/ Rabbi /g, " R' ");
           rabbiVariants.push(abbreviated);
+        }
+        
+        // Handle BOTH start and middle (e.g., "Rabbi Elazar, son of Rabbi Shimon")
+        if (hasStartRabbi && hasMiddleRabbi) {
+          const fullyAbbreviated = term.replace(/^Rabbi /, "R' ").replace(/ Rabbi /g, " R' ");
+          rabbiVariants.push(fullyAbbreviated);
         }
       });
       
