@@ -380,11 +380,19 @@ export function splitEnglishText(text: string): string {
   
   let processedText = text;
   
-  // STEP -1: Protect "X, [the] son of Y, said" patterns from being split
+  // STEP -1: Protect "X, [the] son of Y" patterns from being split
   // This keeps genealogical attributions together on one line
-  // Pattern matches: ", son of ..." or ", the son of ..." followed by ", said" or ", said to"
   const sonOfProtections: string[] = [];
+  
+  // Pattern 1: ", son of ..." or ", the son of ..." followed by ", said" or ", said to"
   processedText = processedText.replace(/,\s*(the\s+)?son of\s+[^,]+,\s+said/gi, (match) => {
+    sonOfProtections.push(match);
+    return `__SON_OF_PROTECTION_${sonOfProtections.length - 1}__`;
+  });
+  
+  // Pattern 2: ", son of X" followed by colon or comma (for cases like "R' Elazar, son of R' Shimon:")
+  // Uses lookahead so trailing punctuation stays in stream for later splitting
+  processedText = processedText.replace(/,\s*(the\s+)?son of\s+[^,:]+(?=[,:])/gi, (match) => {
     sonOfProtections.push(match);
     return `__SON_OF_PROTECTION_${sonOfProtections.length - 1}__`;
   });
