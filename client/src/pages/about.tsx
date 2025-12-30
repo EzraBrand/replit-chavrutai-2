@@ -4,6 +4,12 @@ import { SharedLayout } from "@/components/layout";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
 import { ExternalLink, Rss } from "lucide-react";
 import { DafYomiWidget } from "@/components/DafYomiWidget";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 interface RssFeedItem {
   title: string;
@@ -107,127 +113,135 @@ export default function About() {
 
             <section>
               <h2 className="text-xl font-semibold text-foreground mb-4">
-                How to Use
+                Frequently Asked Questions
               </h2>
-              <div className="space-y-4 text-muted-foreground">
-                <div>
-                  <h3 className="font-medium text-foreground mb-1">
-                    Navigation
-                  </h3>
-                  <p className="text-sm leading-relaxed">
-                    Use the menu (hamburger icon) in the top-left corner to
-                    access the table of contents and customize your reading
-                    preferences. On any text page, use the Previous/Next buttons
-                    to move between pages, or click the floating widget in the
-                    bottom-right to jump between sections.
-                  </p>
-                </div>
-                <div>
-                  <h3 className="font-medium text-foreground mb-1">
-                    Breadcrumbs
-                  </h3>
-                  <p className="text-sm leading-relaxed">
-                    At the top of each page, breadcrumbs show your current
-                    location (e.g., Berakhot &gt; Chapter 1 &gt; 2a).
-                  </p>
-                </div>
-                <div>
-                  <h3 className="font-medium text-foreground mb-1">
-                    Section Links
-                  </h3>
-                  <p className="text-sm leading-relaxed">
-                    Click any section number to open that passage directly on
-                    Sefaria for additional commentaries and resources.
-                  </p>
-                </div>
-              </div>
+              <Accordion type="single" collapsible className="w-full" data-testid="faq-accordion">
+                <AccordionItem value="free">
+                  <AccordionTrigger className="text-left">
+                    Is ChavrutAI free?
+                  </AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground">
+                    Yes, ChavrutAI is completely free to use. There are no subscriptions, 
+                    paywalls, or hidden costs. All texts and features are accessible to everyone.
+                  </AccordionContent>
+                </AccordionItem>
+
+                <AccordionItem value="translation">
+                  <AccordionTrigger className="text-left">
+                    Where does the translation come from?
+                  </AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground">
+                    The English translations are sourced from the Sefaria library, which uses 
+                    Rabbi Adin Steinsaltz's acclaimed translation of the Babylonian Talmud 
+                    and various translations for the Tanakh. ChavrutAI is not affiliated with Sefaria.
+                  </AccordionContent>
+                </AccordionItem>
+
+                <AccordionItem value="different">
+                  <AccordionTrigger className="text-left">
+                    How is ChavrutAI different from other Talmud sites?
+                  </AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground">
+                    ChavrutAI focuses on providing a clean, distraction-free reading experience 
+                    with thoughtful text processing. It applies targeted improvements to make 
+                    translations more accessible while preserving accuracy. Features include 
+                    term highlighting, customizable fonts and themes, and study tools like 
+                    the Sugya Viewer and Biblical Citations Index.
+                  </AccordionContent>
+                </AccordionItem>
+
+                <AccordionItem value="processing">
+                  <AccordionTrigger className="text-left">
+                    What text processing improvements are made?
+                  </AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground">
+                    ChavrutAI applies carefully targeted terminology updates to make the text 
+                    more accessible. For example, archaic terms like "phylacteries" become 
+                    "tefillin," lengthy phrases like "The Holy One, Blessed be He" become 
+                    simply "God," and euphemistic language is simplified to match the 
+                    directness of the original. These changes reduce visual clutter while 
+                    bringing readers closer to the original Hebrew terminology.
+                  </AccordionContent>
+                </AccordionItem>
+
+                <AccordionItem value="customize">
+                  <AccordionTrigger className="text-left">
+                    How do I customize my reading experience?
+                  </AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground">
+                    Use the menu (hamburger icon) in the top-left corner to access settings. 
+                    You can choose from multiple themes (Paper, White, Dark, High Contrast), 
+                    adjust text size, select Hebrew and English fonts, switch between 
+                    side-by-side or stacked layouts, and enable term highlighting for 
+                    concepts, rabbi names, and place names.
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
             </section>
 
             <section>
               <h2 className="text-xl font-semibold text-foreground mb-4">
-                Customization Options
+                Articles About ChavrutAI
               </h2>
-              <p className="text-muted-foreground mb-4">
-                Access these settings from the menu (hamburger icon) in the
-                top-left corner.
-              </p>
-              <div className="grid sm:grid-cols-2 gap-4">
-                <div>
-                  <h3 className="font-medium text-foreground">
-                    Themes
-                  </h3>
-                  <p className="text-sm text-muted-foreground">
-                    Choose Paper (warm parchment), White (clean), Dark, or High
-                    Contrast mode
-                  </p>
-                </div>
-                <div>
-                  <h3 className="font-medium text-foreground">
-                    Text Size
-                  </h3>
-                  <p className="text-sm text-muted-foreground">
-                    Five sizes from Extra Small to Extra Large
-                  </p>
-                </div>
-                <div>
-                  <h3 className="font-medium text-foreground">Fonts</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Multiple Hebrew fonts (Assistant, Noto Sans, etc.) and
-                    English fonts (Inter, Roboto, etc.)
-                  </p>
-                </div>
-                <div>
-                  <h3 className="font-medium text-foreground">
-                    Layout
-                  </h3>
-                  <p className="text-sm text-muted-foreground">
-                    Side-by-side (Hebrew and English in columns) or Stacked view
-                  </p>
-                </div>
-                <div className="sm:col-span-2">
-                  <h3 className="font-medium text-foreground">
-                    Term Highlighting
-                  </h3>
-                  <p className="text-sm text-muted-foreground">
-                    Highlight key concepts, names of rabbis, and place names in
-                    the Hebrew text (over 5,000 terms)
-                  </p>
-                </div>
+              <div className="space-y-3">
+                <a
+                  href="https://www.ezrabrand.com/p/chavrutais-talmud-translation-processing"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block bg-secondary/30 hover:bg-secondary/50 rounded-lg p-4 transition-colors"
+                  data-testid="article-translation-processing"
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <h3 className="font-medium text-foreground text-sm leading-snug">
+                        ChavrutAI's Talmud Translation Processing Approach
+                      </h3>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Dec 29, 2025
+                      </p>
+                    </div>
+                    <ExternalLink className="w-4 h-4 text-muted-foreground flex-shrink-0 mt-0.5" />
+                  </div>
+                </a>
+                <a
+                  href="https://www.ezrabrand.com/p/chavrutais-new-homepage-a-fresh-entry"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block bg-secondary/30 hover:bg-secondary/50 rounded-lg p-4 transition-colors"
+                  data-testid="article-new-homepage"
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <h3 className="font-medium text-foreground text-sm leading-snug">
+                        ChavrutAI's New Homepage: A Fresh Entry Point for the Study of Classical Jewish Texts
+                      </h3>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Dec 28, 2025
+                      </p>
+                    </div>
+                    <ExternalLink className="w-4 h-4 text-muted-foreground flex-shrink-0 mt-0.5" />
+                  </div>
+                </a>
+                <a
+                  href="https://www.ezrabrand.com/p/chavrutai-talmud-web-app-launch-review"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block bg-secondary/30 hover:bg-secondary/50 rounded-lg p-4 transition-colors"
+                  data-testid="article-launch-review"
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <h3 className="font-medium text-foreground text-sm leading-snug">
+                        ChavrutAI Launch Review
+                      </h3>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Aug 2025
+                      </p>
+                    </div>
+                    <ExternalLink className="w-4 h-4 text-muted-foreground flex-shrink-0 mt-0.5" />
+                  </div>
+                </a>
               </div>
-            </section>
-
-            <section>
-              <h2 className="text-xl font-semibold text-foreground mb-4">
-                Special Features
-              </h2>
-              <ul className="space-y-3 text-muted-foreground">
-                <li className="flex items-start gap-2">
-                  <span className="text-foreground font-bold">•</span>
-                  <span className="text-sm">
-                    <strong className="text-foreground">
-                      Page Continuation:
-                    </strong>{" "}
-                    Each Talmud page shows a preview of the next page's opening,
-                    so sentences that continue across pages aren't interrupted.
-                  </span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-foreground font-bold">•</span>
-                  <span className="text-sm">
-                    <strong className="text-foreground">Sugya Viewer:</strong>{" "}
-                    Study specific text ranges by entering Talmud references
-                    (e.g., "Berakhot 2a-5b") or Sefaria URLs.
-                  </span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-foreground font-bold">•</span>
-                  <span className="text-sm">
-                    <strong className="text-foreground">Famous Pages:</strong>{" "}
-                    Explore a curated list of well-known Talmudic passages as
-                    starting points for study.
-                  </span>
-                </li>
-              </ul>
             </section>
 
             <section className="pt-6 border-t border-border">
@@ -244,15 +258,6 @@ export default function About() {
                 </a>
                 . Text content is sourced from the Sefaria library (ChavrutAI is
                 not affiliated with Sefaria).
-              </p>
-              <p className="text-muted-foreground leading-relaxed mb-4">
-                Learn more about ChavrutAI in this article:{" "}
-                <a
-                  href="https://www.ezrabrand.com/p/chavrutai-talmud-web-app-launch-review"
-                  className="text-blue-600 hover:text-blue-800 underline"
-                >
-                  ChavrutAI Launch Review
-                </a>
               </p>
               <p className="text-muted-foreground leading-relaxed">
                 For questions, feedback, or to report an issue:{" "}
