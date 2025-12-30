@@ -144,7 +144,7 @@ export default function About() {
                   <AccordionContent className="text-muted-foreground">
                     ChavrutAI focuses on providing a clean, distraction-free reading experience 
                     with thoughtful text processing. It applies targeted improvements to make 
-                    translations more accessible while preserving accuracy. Features include 
+                    the original text and its translations more accessible while preserving accuracy. Features include 
                     term highlighting, customizable fonts and themes, and study tools like 
                     the Sugya Viewer and Biblical Citations Index.
                   </AccordionContent>
