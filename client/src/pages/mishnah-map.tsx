@@ -354,7 +354,12 @@ export default function MishnahMapPage() {
               </a>.
             </p>
             <p className="text-sm text-blue-800 dark:text-blue-200 mb-2">
-              Browse Mishnah passages organized by Seder, tractate, and chapter. Each tile shows the Mishnah number and its location in the Talmud. Click any tile to view the Mishnah in the ChavrutAI Talmud page, or use the "Sefaria" link below each tile to see the Mishnah in Sefaria.
+              Browse Mishnah passages organized by Seder, tractate, and chapter. Each tile shows the Mishnah number and its location in the Talmud. Click any tile to view the Mishnah in the ChavrutAI Talmud page, or use the "Sefaria" link below each tile to see the Mishnah in <a 
+                href="https://www.sefaria.org.il/texts/Mishnah" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="underline hover:text-blue-600 dark:hover:text-blue-300"
+              >Sefaria's Mishnah viewer</a>.
             </p>
             <p className="text-sm text-blue-800 dark:text-blue-200">
               For more information about this mapping table, see <a 
