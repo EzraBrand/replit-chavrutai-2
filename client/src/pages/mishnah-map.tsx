@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { Link } from "wouter";
-import { Search } from "lucide-react";
+import { Search, ExternalLink } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -354,7 +354,7 @@ export default function MishnahMapPage() {
               </a>.
             </p>
             <p className="text-sm text-blue-800 dark:text-blue-200 mb-2">
-              Browse Mishnah passages organized by Seder, tractate, and chapter. Each tile shows the Mishnah number and its location in the Talmud. Click any tile to view the Talmud discussion in ChavrutAI, or use the "Sefaria" link below each tile to read the Mishnah text on Sefaria.
+              Browse Mishnah passages organized by Seder, tractate, and chapter. Each tile shows the Mishnah number and its location in the Talmud. Click any tile to view the Mishnah in the ChavrutAI Talmud page, or use the "Sefaria" link below each tile to see the Mishnah in Sefaria.
             </p>
             <p className="text-sm text-blue-800 dark:text-blue-200">
               For more information about this mapping table, see <a 
@@ -480,10 +480,11 @@ export default function MishnahMapPage() {
                                       href={tile.sefariaUrl}
                                       target="_blank"
                                       rel="noopener noreferrer"
-                                      className="text-[9px] text-blue-600 hover:underline mt-0.5"
+                                      className="text-[10px] text-blue-600 hover:underline mt-0.5 flex items-center gap-0.5"
                                       data-testid={`link-sefaria-${tractate.name}-${chapter.number}-${tile.mishnahNumber}`}
                                     >
                                       Sefaria
+                                      <ExternalLink className="h-2.5 w-2.5" />
                                     </a>
                                   </div>
                                 ))}
