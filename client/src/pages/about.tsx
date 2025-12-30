@@ -156,7 +156,7 @@ export default function About() {
                   </AccordionTrigger>
                   <AccordionContent className="text-muted-foreground">
                     ChavrutAI applies carefully targeted terminology updates to make the text 
-                    more accessible. For example, archaic terms like "phylacteries" become 
+                    more accessible and accurate. For example, archaic terms like "phylacteries" become 
                     "tefillin," lengthy phrases like "The Holy One, Blessed be He" become 
                     simply "God," and euphemistic language is simplified to match the 
                     directness of the original. These changes reduce visual clutter while 
