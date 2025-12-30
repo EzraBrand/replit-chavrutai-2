@@ -348,9 +348,10 @@ export default function MishnahMapPage() {
                 href="https://github.com/Sefaria/Sefaria-Project/blob/master/data/Mishnah%20Map.csv" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="underline hover:text-blue-600 dark:hover:text-blue-300"
+                className="underline hover:text-blue-600 dark:hover:text-blue-300 inline-flex items-center gap-0.5"
               >
                 Sefaria's Mishnah Map
+                <ExternalLink className="h-3 w-3" />
               </a>.
             </p>
             <p className="text-sm text-blue-800 dark:text-blue-200 mb-2">
@@ -358,17 +359,18 @@ export default function MishnahMapPage() {
                 href="https://www.sefaria.org.il/texts/Mishnah" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="underline hover:text-blue-600 dark:hover:text-blue-300"
-              >Sefaria's Mishnah viewer</a>.
+                className="underline hover:text-blue-600 dark:hover:text-blue-300 inline-flex items-center gap-0.5"
+              >Sefaria's Mishnah viewer<ExternalLink className="h-3 w-3" /></a>.
             </p>
             <p className="text-sm text-blue-800 dark:text-blue-200">
               For more information about this mapping table, see <a 
                 href="https://www.ezrabrand.com/p/introducing-chavrutais-mishnah-talmud" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="underline hover:text-blue-600 dark:hover:text-blue-300"
+                className="underline hover:text-blue-600 dark:hover:text-blue-300 inline-flex items-center gap-0.5"
               >
                 "Introducing ChavrutAI's Mishnah-Talmud Mapping Table"
+                <ExternalLink className="h-3 w-3" />
               </a> (Nov 23, 2025)
             </p>
           </CardContent>
