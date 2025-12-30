@@ -60,6 +60,7 @@ interface MishnahTile {
   mishnahNumber: string;
   talmudRange: string;
   href: string;
+  sefariaUrl: string;
 }
 
 interface ChapterWithMishnayot extends ChapterInfo {
@@ -150,10 +151,15 @@ export default function MishnahMapPage() {
                 const tractateSlug = getTractateSlug(normalizedTractate);
                 const href = `/tractate/${tractateSlug}/${mapping.startDaf}#section-${mapping.startLine}`;
 
+                // Generate Sefaria Mishnah URL
+                const sefariaTractateName = tractate.replace(/ /g, '_');
+                const sefariaUrl = `https://www.sefaria.org.il/Mishnah_${sefariaTractateName}.${chapter.number}.${mapping.startMishnah}`;
+
                 return {
                   mishnahNumber,
                   talmudRange,
-                  href
+                  href,
+                  sefariaUrl
                 };
               });
 
@@ -203,10 +209,15 @@ export default function MishnahMapPage() {
                   const tractateSlug = getTractateSlug(normalizedTractate);
                   const href = `/tractate/${tractateSlug}/${mapping.startDaf}#section-${mapping.startLine}`;
 
+                  // Generate Sefaria Mishnah URL
+                  const sefariaTractateName = tractate.replace(/ /g, '_');
+                  const sefariaUrl = `https://www.sefaria.org.il/Mishnah_${sefariaTractateName}.${chapterNum}.${mapping.startMishnah}`;
+
                   return {
                     mishnahNumber,
                     talmudRange,
-                    href
+                    href,
+                    sefariaUrl
                   };
                 });
 
@@ -343,7 +354,7 @@ export default function MishnahMapPage() {
               </a>.
             </p>
             <p className="text-sm text-blue-800 dark:text-blue-200 mb-2">
-              Browse Mishnah passages organized by Seder, tractate, and chapter. Each tile shows the Mishnah number and its location in the Talmud.
+              Browse Mishnah passages organized by Seder, tractate, and chapter. Each tile shows the Mishnah number and its location in the Talmud. Click any tile to view the Talmud discussion in ChavrutAI, or use the "Sefaria" link below each tile to read the Mishnah text on Sefaria.
             </p>
             <p className="text-sm text-blue-800 dark:text-blue-200">
               For more information about this mapping table, see <a 
@@ -448,20 +459,33 @@ export default function MishnahMapPage() {
                               {/* Mishnah tiles */}
                               <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-2 justify-items-center">
                                 {chapter.mishnahTiles.map((tile, index) => (
-                                  <Link
+                                  <div 
                                     key={`${tile.mishnahNumber}-${index}`}
-                                    href={tile.href}
-                                    data-testid={`link-mishnah-${tractate.name}-${chapter.number}-${tile.mishnahNumber}`}
+                                    className="flex flex-col items-center"
                                   >
-                                    <Button
-                                      variant="outline"
-                                      size="sm"
-                                      className="h-auto px-1.5 py-2 text-base font-normal w-full min-w-[4.5rem] hover:bg-primary hover:text-primary-foreground flex flex-col items-center gap-0.5 overflow-hidden"
+                                    <Link
+                                      href={tile.href}
+                                      data-testid={`link-mishnah-${tractate.name}-${chapter.number}-${tile.mishnahNumber}`}
                                     >
-                                      <span className="font-semibold">{tile.mishnahNumber}</span>
-                                      <span className="text-[10px] text-muted-foreground text-center break-all leading-tight">{tile.talmudRange}</span>
-                                    </Button>
-                                  </Link>
+                                      <Button
+                                        variant="outline"
+                                        size="sm"
+                                        className="h-auto px-1.5 py-2 text-base font-normal w-full min-w-[4.5rem] hover:bg-primary hover:text-primary-foreground flex flex-col items-center gap-0.5 overflow-hidden"
+                                      >
+                                        <span className="font-semibold">{tile.mishnahNumber}</span>
+                                        <span className="text-[10px] text-muted-foreground text-center break-all leading-tight">{tile.talmudRange}</span>
+                                      </Button>
+                                    </Link>
+                                    <a
+                                      href={tile.sefariaUrl}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="text-[9px] text-blue-600 hover:underline mt-0.5"
+                                      data-testid={`link-sefaria-${tractate.name}-${chapter.number}-${tile.mishnahNumber}`}
+                                    >
+                                      Sefaria
+                                    </a>
+                                  </div>
                                 ))}
                               </div>
                             </CardContent>
