@@ -181,7 +181,7 @@ export default function About() {
 
             <section>
               <h2 className="text-xl font-semibold text-foreground mb-4">
-                Articles About ChavrutAI
+                Featured Articles at 'Talmud & Tech' Blog About ChavrutAI
               </h2>
               <div className="space-y-3">
                 <a
@@ -232,10 +232,10 @@ export default function About() {
                   <div className="flex items-start justify-between gap-2">
                     <div>
                       <h3 className="font-medium text-foreground text-sm leading-snug">
-                        ChavrutAI Launch Review
+                        ChavrutAI Talmud Web App Launch: Review and Comparison with Similar Platforms
                       </h3>
                       <p className="text-xs text-muted-foreground mt-1">
-                        Aug 2025
+                        Aug 05, 2025
                       </p>
                     </div>
                     <ExternalLink className="w-4 h-4 text-muted-foreground flex-shrink-0 mt-0.5" />
