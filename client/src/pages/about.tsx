@@ -145,7 +145,7 @@ export default function About() {
                     ChavrutAI focuses on providing a clean, distraction-free reading experience 
                     with thoughtful text processing. It applies targeted improvements to make 
                     the original text and its translations more accessible while preserving accuracy. Features include 
-                    term highlighting, customizable fonts and themes, and study tools like 
+                    splitting into new lines by clause, term highlighting, customizable fonts and themes, and study tools like 
                     the Sugya Viewer and Biblical Citations Index.
                   </AccordionContent>
                 </AccordionItem>
