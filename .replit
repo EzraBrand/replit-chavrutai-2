@@ -55,3 +55,4 @@ integrations = ["javascript_sendgrid:1.0.0", "google-mail:1.0.0", "javascript_op
 
 [userenv.shared]
 CHATBOT_ALERT_EMAIL = "ezrabrand@gmail.com"
+TEXT_PIPELINE = "v2"
