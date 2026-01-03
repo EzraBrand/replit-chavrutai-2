@@ -51,6 +51,23 @@ export default function Changelog() {
       {/* Changelog Content */}
       <div className="bg-white dark:bg-sepia-900 rounded-lg shadow-lg p-6 max-w-4xl">
         
+        {/* January 2026 */}
+        <div className="mb-8">
+          <h2 className="text-xl font-semibold text-sepia-800 dark:text-sepia-200 mb-4 border-b border-sepia-200 dark:border-sepia-700 pb-2">
+            January 2026
+          </h2>
+          
+          <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
+            <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Text Processing Improvements</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Added 72 number text to numeral conversions (e.g., "forty million" → "40,000,000")</li>
+                <li>Supports large numbers with comma-separated thousands for readability</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
         {/* December 2025 */}
         <div className="mb-8">
           <h2 className="text-xl font-semibold text-sepia-800 dark:text-sepia-200 mb-4 border-b border-sepia-200 dark:border-sepia-700 pb-2">
