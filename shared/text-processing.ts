@@ -6,6 +6,53 @@
  * should remain in the client library.
  */
 
+// Performance timing configuration
+const PERF_TIMING_ENABLED = true; // Set to false to disable timing logs
+const timingStats = {
+  replaceTerms: { calls: 0, totalMs: 0 },
+  splitEnglishText: { calls: 0, totalMs: 0 },
+  processEnglishText: { calls: 0, totalMs: 0 },
+  splitHebrewText: { calls: 0, totalMs: 0 },
+  processHebrewTextCore: { calls: 0, totalMs: 0 },
+};
+
+function logTiming(fn: string, elapsed: number, charCount: number) {
+  if (!PERF_TIMING_ENABLED) return;
+  const stats = timingStats[fn as keyof typeof timingStats];
+  if (stats) {
+    stats.calls++;
+    stats.totalMs += elapsed;
+  }
+  console.log(`[TextProc] ${fn}: ${elapsed.toFixed(2)}ms (${charCount} chars)`);
+}
+
+// Export for summary logging
+export function getTimingStats() {
+  return Object.entries(timingStats).map(([fn, stats]) => ({
+    fn,
+    calls: stats.calls,
+    totalMs: stats.totalMs.toFixed(2),
+    avgMs: stats.calls > 0 ? (stats.totalMs / stats.calls).toFixed(2) : '0',
+  }));
+}
+
+export function printTimingSummary() {
+  console.log('\n=== Text Processing Timing Summary ===');
+  getTimingStats().forEach(({ fn, calls, totalMs, avgMs }) => {
+    if (calls > 0) {
+      console.log(`${fn}: ${calls} calls, ${totalMs}ms total, ${avgMs}ms avg`);
+    }
+  });
+  console.log('=====================================\n');
+}
+
+export function resetTimingStats() {
+  Object.values(timingStats).forEach(stats => {
+    stats.calls = 0;
+    stats.totalMs = 0;
+  });
+}
+
 /**
  * Removes nikud (vowel points and cantillation marks) from Hebrew text
  */
@@ -18,6 +65,7 @@ export function removeNikud(hebrewText: string): string {
  */
 export function splitHebrewText(text: string): string {
   if (!text) return '';
+  const start = performance.now();
   
   let processedText = text;
   
@@ -106,6 +154,7 @@ export function splitHebrewText(text: string): string {
     return protectedClusters[parseInt(index)];
   });
   
+  logTiming('splitHebrewText', performance.now() - start, text.length);
   return processedText;
 }
 
@@ -115,6 +164,7 @@ export function splitHebrewText(text: string): string {
  */
 export function processHebrewTextCore(text: string): string {
   if (!text) return '';
+  const start = performance.now();
   
   // Remove nikud
   let processed = removeNikud(text);
@@ -128,7 +178,8 @@ export function processHebrewTextCore(text: string): string {
     .replace(/\n[ \t]+/g, '\n')  // Remove leading whitespace on new lines
     .replace(/[ \t]+\n/g, '\n')  // Remove trailing whitespace before new lines
     .trim();
-    
+  
+  logTiming('processHebrewTextCore', performance.now() - start, text.length);
   return processed;
 }
 
@@ -171,6 +222,7 @@ function generateSexualTerms(): Record<string, string> {
  */
 export function replaceTerms(text: string): string {
   if (!text) return '';
+  const start = performance.now();
   
   let processedText = text;
   
@@ -381,6 +433,7 @@ export function replaceTerms(text: string): string {
     processedText = processedText.replace(regex, replacement);
   });
   
+  logTiming('replaceTerms', performance.now() - start, text.length);
   return processedText;
 }
 
@@ -389,6 +442,7 @@ export function replaceTerms(text: string): string {
  */
 export function splitEnglishText(text: string): string {
   if (!text) return '';
+  const start = performance.now();
   
   let processedText = text;
   
@@ -526,6 +580,7 @@ export function splitEnglishText(text: string): string {
     .replace(/(?<![,.\?!;''\u2018\u2019""\u201C\u201D])\n[""\u201C\u201D'\u2018\u2019]\s*\n/g, '\n') // Remove orphaned quotes NOT preceded by punctuation
     .replace(/(?<![,.\?!;''\u2018\u2019""\u201C\u201D])\n[""\u201C\u201D'\u2018\u2019]\s*$/g, ''); // Remove orphaned quotes at end NOT preceded by punctuation
   
+  logTiming('splitEnglishText', performance.now() - start, text.length);
   return processedText;
 }
 
@@ -534,6 +589,7 @@ export function splitEnglishText(text: string): string {
  */
 export function processEnglishText(text: string): string {
   if (!text) return '';
+  const start = performance.now();
   
   let processed = text;
   
@@ -554,6 +610,7 @@ export function processEnglishText(text: string): string {
   
   // No auto-formatting applied - preserve original source formatting
   
+  logTiming('processEnglishText', performance.now() - start, text.length);
   return processed;
 }
 
