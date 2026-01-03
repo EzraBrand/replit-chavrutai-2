@@ -1,34 +1,61 @@
 /**
- * Shared text processing utilities for Hebrew and English text formatting
+ * =============================================================================
+ * TALMUD TEXT PROCESSING MODULE
+ * =============================================================================
  * 
- * This module contains environment-agnostic text processing logic that can be
- * used by both server and client. DOM-specific operations (e.g., HTML styling)
- * should remain in the client library.
+ * Shared text processing utilities for Hebrew and English Talmud text formatting.
+ * This module is environment-agnostic and can be used by both server and client.
+ * DOM-specific operations (e.g., HTML styling) should remain in client library.
  * 
- * V2 Optimizations (see docs/text-processing-analysis.md):
- * - Single-pass term replacement using combined regex (10-50x faster)
- * - Pre-compiled regex patterns at module load
- * - Feature flag for A/B testing between V1 and V2
+ * ## ARCHITECTURE OVERVIEW
+ * 
+ * The module processes bilingual Hebrew-English Talmud text from Sefaria API:
+ * 
+ * 1. HEBREW PROCESSING (splitHebrewText, processHebrewTextCore):
+ *    - Removes nikud (vowel points) for cleaner display
+ *    - Splits text into paragraphs on punctuation (periods, colons, etc.)
+ *    - Handles Mishnah/Gemara section markers
+ *    - Preserves HTML formatting tags
+ * 
+ * 2. ENGLISH PROCESSING (replaceTerms, splitEnglishText, processEnglishText):
+ *    - Term replacement: Normalizes Talmudic terminology (Rabbi→R', Gemara→Talmud)
+ *    - Paragraph splitting: Creates readable paragraphs based on punctuation
+ *    - HTML preservation: Protects and restores HTML tags during processing
+ * 
+ * ## PERFORMANCE OPTIMIZATIONS
+ * 
+ * - Pre-compiled regex patterns at module load (not created per-call)
+ * - Single-pass term replacement using combined regex (~8x faster than sequential)
+ * - Longest-match-first ordering prevents partial replacements
+ * - Term mappings loaded from JSON config for easy maintenance
+ * 
+ * ## KEY DESIGN PATTERNS
+ * 
+ * 1. PROTECTION PATTERN: Temporarily replace sensitive content with placeholders
+ *    before processing, then restore after. Used for: HTML tags, ellipses,
+ *    "son of X" patterns, etc.
+ * 
+ * 2. STEP-BY-STEP PROCESSING: Each function follows numbered steps for clarity
+ *    and easier debugging. Comments explain WHY each step exists.
+ * 
+ * ## COMMON EDGE CASES
+ * 
+ * - Ellipses (...): Must not split on each period (issue #74)
+ * - Abbreviations (Dr., i.e., e.g.): Must not split after period
+ * - HTML tags: Must preserve formatting like <b>, <i>, <strong>
+ * - Mishnah/Gemara markers: Special Hebrew section headers
+ * - "Rabbi X, son of Rabbi Y": Must not split on internal comma
+ * - Punctuation-terminated terms: "Master of the Universe," includes comma
+ * 
+ * ## MAINTENANCE NOTES
+ * 
+ * - Term replacements are in shared/data/term-replacements.json
+ * - Schema validation in shared/term-replacements-schema.ts
+ * - Tests in tests/text-processing.test.ts
+ * - Analysis docs in docs/text-processing-analysis.md
+ * 
+ * @see docs/text-processing-analysis.md for detailed analysis
  */
-
-// Feature flag for A/B testing - set TEXT_PIPELINE=v2 in environment to enable optimized version
-// Uses safe check for both Node.js (process.env) and browser (Vite's import.meta.env) environments
-const USE_V2_PIPELINE = (() => {
-  // Try Node.js environment first
-  if (typeof process !== 'undefined' && process.env?.TEXT_PIPELINE === 'v2') {
-    return true;
-  }
-  // Try Vite/browser environment (import.meta.env.VITE_TEXT_PIPELINE)
-  try {
-    // @ts-ignore - import.meta.env may not exist in all environments
-    if (typeof import.meta !== 'undefined' && import.meta.env?.VITE_TEXT_PIPELINE === 'v2') {
-      return true;
-    }
-  } catch {
-    // import.meta not available, continue
-  }
-  return false;
-})();
 
 // =============================================================================
 // PRE-COMPILED REGEX PATTERNS (initialized at module load for performance)
@@ -111,8 +138,6 @@ const TERM_LOOKUP_MAP: Map<string, string> = loadTermReplacements(validatedConfi
 // Build combined regex pattern from loaded terms
 const COMBINED_TERM_PATTERN: RegExp = buildCombinedPattern(TERM_LOOKUP_MAP);
 
-// For V1 compatibility: convert Map back to Record
-const ALL_TERM_REPLACEMENTS: Record<string, string> = Object.fromEntries(TERM_LOOKUP_MAP);
 
 // =============================================================================
 // CORE FUNCTIONS
@@ -126,21 +151,44 @@ export function removeNikud(hebrewText: string): string {
 }
 
 /**
- * Split Hebrew text into paragraphs based on specific punctuation marks
+ * Split Hebrew Talmud text into paragraphs based on punctuation marks.
+ * 
+ * Hebrew Talmud text from Sefaria typically contains:
+ * - Mishnah (מתני׳) and Gemara (גמ׳) section markers with special formatting
+ * - Various punctuation: periods, colons, Hebrew quotation marks (״)
+ * - HTML formatting tags for emphasis
+ * 
+ * This function creates readable paragraphs by inserting newlines after
+ * punctuation marks, while preserving formatting and protecting special
+ * patterns from incorrect splitting.
+ * 
+ * ## PROTECTION PATTERN
+ * Content that should NOT be split (HTML tags, ellipses, special clusters)
+ * is temporarily replaced with placeholders like __HTML_TAG_0__, processed,
+ * then restored at the end.
+ * 
+ * @param text - Hebrew text to split into paragraphs
+ * @returns Text with newlines inserted after punctuation marks
  */
 export function splitHebrewText(text: string): string {
   if (!text) return '';
   
   let processedText = text;
   
-  // STEP 1: Remove special formatting from Mishnah/Gemara markers AND chapter names
+  // STEP 1: Handle Mishnah/Gemara section markers
+  // These are special headers in Talmud text wrapped in <strong><big> tags
+  // We extract them and add a newline to separate from following content
+  // Examples: <strong><big>מתני׳</big></strong>, <strong><big>גמ׳</big></strong>
   processedText = processedText.replace(MISHNA_STRONG_BIG_PATTERN, '$1\n');
   processedText = processedText.replace(GEMARA_STRONG_BIG_PATTERN, '$1\n');
   processedText = processedText.replace(GEMARA_ALT_STRONG_BIG_PATTERN, '$1\n');
+  // Also handle reversed nesting: <big><strong>...</strong></big>
   processedText = processedText.replace(BIG_STRONG_CONTENT_PATTERN, '$1');
   processedText = processedText.replace(STRONG_BIG_CONTENT_PATTERN, '$1');
   
   // STEP 2: Protect HTML tags with placeholders
+  // HTML tags like <b>, </i>, <strong> should not be affected by splitting
+  // We replace them with unique placeholders and restore later
   const htmlTags: string[] = [];
   const htmlPlaceholders: string[] = [];
   
@@ -151,34 +199,42 @@ export function splitHebrewText(text: string): string {
     return placeholder;
   });
   
-  // STEP 3: Protect special punctuation clusters
+  // STEP 3: Protect special punctuation clusters that should stay together
+  // Hebrew quotation mark followed by dash: ״—
   const protectedClusters: string[] = [];
   processedText = processedText.replace(HEBREW_QUOTE_DASH_PATTERN, (match) => {
     protectedClusters.push(match);
     return `___PROTECTED_${protectedClusters.length - 1}___`;
   });
   
-  // STEP 3b: Protect ellipses (... or more dots) from being split
+  // STEP 3b: Protect ellipses (... or more dots) from being split (issue #74)
+  // Without this, "..." becomes ".\n.\n.\n" which breaks quotations
   processedText = processedText.replace(/\.{2,}/g, (match) => {
     protectedClusters.push(match);
     return `___PROTECTED_${protectedClusters.length - 1}___`;
   });
   
   // STEP 4: Split after unwrapped Mishnah/Gemara markers
+  // These are the markers without HTML wrapping
   processedText = processedText.replace(MISHNA_MARKER_PATTERN, (match) => match + '\n');
   processedText = processedText.replace(GEMARA_MARKER_PATTERN, (match) => match + '\n');
   processedText = processedText.replace(GEMARA_ALT_MARKER_PATTERN, (match) => match + '\n');
   
   // STEP 5: Handle irony punctuation (?!) as a unit
+  // This combined punctuation should not split between ? and !
   processedText = processedText.replace(IRONY_PUNCT_PATTERN, '?!\n');
   
-  // STEP 6: Handle other punctuation marks
+  // STEP 6: Split on individual punctuation marks
+  // Each mark gets a newline after it to create paragraph breaks
+  // Hebrew-specific: ״ (gershayim), ׃ (sof pasuq)
   const singleMarks = ['.', ',', '–', '—', ':', ';', '!', '?', '״ ', ' - ', '׃'];
   
   singleMarks.forEach(mark => {
     if (mark === '?') {
+      // Don't split on ? if followed by ! (handled in STEP 5)
       processedText = processedText.replace(QUESTION_NOT_EXCLAIM_PATTERN, '?\n');
     } else if (mark === '!') {
+      // Don't split on ! if preceded by ? (handled in STEP 5)
       processedText = processedText.replace(EXCLAIM_NOT_QUESTION_PATTERN, '!\n');
     } else {
       const regex = new RegExp(`(${mark.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'g');
@@ -186,13 +242,13 @@ export function splitHebrewText(text: string): string {
     }
   });
   
-  // STEP 7: Clean up
+  // STEP 7: Clean up excessive newlines and whitespace
   processedText = processedText
     .replace(MULTI_NEWLINE_PATTERN, '\n')
     .replace(LEADING_TRAILING_WS_PATTERN, '')
     .replace(NEWLINE_LEADING_WS_PATTERN, '\n');
   
-  // STEP 8: Restore HTML tags
+  // STEP 8: Restore HTML tags from placeholders
   htmlPlaceholders.forEach((placeholder, index) => {
     processedText = processedText.replace(placeholder, htmlTags[index]);
   });
@@ -224,77 +280,88 @@ export function processHebrewTextCore(text: string): string {
 }
 
 /**
- * V2 OPTIMIZED: Replace terms using single-pass combined regex
- * Expected improvement: 10-50x faster than V1
+ * Replace specific terms in English Talmud text with preferred alternatives.
+ * 
+ * This function normalizes Talmudic terminology for modern readers:
+ * - "Rabbi X" → "R' X" (standard abbreviation)
+ * - "Gemara" → "Talmud" (more accessible term)
+ * - "phylacteries" → "tefillin" (Hebrew term preferred)
+ * - Ordinal numbers: "third" → "3rd", "one-third" → "1/3rd"
+ * - And 200+ other term replacements from shared/data/term-replacements.json
+ * 
+ * ## PERFORMANCE
+ * Uses single-pass regex replacement (~8x faster than sequential passes).
+ * All terms are combined into one regex pattern, sorted longest-first to
+ * prevent partial matches (e.g., "engages in sexual relations" before "sexual relations").
+ * 
+ * ## SPECIAL CASES
+ * - "Rabbi," (vocative with comma) → "Rabbi!" (exclamation for direct address)
+ * - "Rabbis" (plural) is preserved, not replaced
+ * - Punctuation-terminated terms: "Master of the Universe," includes the comma
+ * 
+ * @param text - English text to process
+ * @returns Text with terms replaced
  */
-function replaceTermsV2(text: string): string {
+export function replaceTerms(text: string): string {
   if (!text) return '';
   
   let processedText = text;
   
-  // Handle Rabbi special cases first (not in combined pattern due to complex logic)
+  // STEP 1: Handle Rabbi special cases first (complex logic, not in combined pattern)
+  // "Rabbi," (vocative) → "Rabbi!" to mark direct address
   processedText = processedText.replace(RABBI_VOCATIVE_PATTERN, 'Rabbi!');
+  // "Rabbi X" → "R' X" but NOT "Rabbis" (negative lookahead for 's')
   processedText = processedText.replace(RABBI_GENERAL_PATTERN, "R'");
   
-  // Single-pass replacement for all terms
+  // STEP 2: Single-pass replacement for all terms from JSON config
+  // Combined regex matches all terms; callback looks up replacement in Map
   processedText = processedText.replace(COMBINED_TERM_PATTERN, (match) => {
     return TERM_LOOKUP_MAP.get(match.toLowerCase()) || match;
   });
   
-  // Post-processing: Remove redundant "in a baraita"
+  // STEP 3: Post-processing cleanup
+  // Remove redundant "in a baraita" when preceded by "A baraita states"
+  // e.g., "A baraita states in a baraita" → "A baraita states"
   processedText = processedText.replace(BARAITA_REDUNDANT_PATTERN, '$1$2');
   
   return processedText;
 }
 
 /**
- * V1 ORIGINAL: Replace terms using multiple sequential regex passes
- * Kept for A/B testing comparison - now uses same JSON config as V2
- */
-function replaceTermsV1(text: string): string {
-  if (!text) return '';
-  
-  let processedText = text;
-  
-  processedText = processedText.replace(RABBI_VOCATIVE_PATTERN, 'Rabbi!');
-  processedText = processedText.replace(RABBI_GENERAL_PATTERN, "R'");
-  
-  // Apply term replacements (multiple passes - inefficient, but keeps V1 behavior)
-  Object.entries(ALL_TERM_REPLACEMENTS).forEach(([original, replacement]) => {
-    const regex = new RegExp(`\\b${original.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'gi');
-    processedText = processedText.replace(regex, replacement);
-  });
-  
-  processedText = processedText.replace(BARAITA_REDUNDANT_PATTERN, '$1$2');
-  
-  return processedText;
-}
-
-/**
- * Replace specific terms in English text with preferred alternatives
- * Uses V2 optimized version when TEXT_PIPELINE=v2
- */
-export function replaceTerms(text: string): string {
-  if (USE_V2_PIPELINE) {
-    try {
-      return replaceTermsV2(text);
-    } catch (error) {
-      console.error('V2 replaceTerms failed, falling back to V1:', error);
-      return replaceTermsV1(text);
-    }
-  }
-  return replaceTermsV1(text);
-}
-
-/**
- * Split English text into paragraphs based on specific punctuation marks while preserving HTML formatting
+ * Split English Talmud text into paragraphs based on punctuation marks.
+ * 
+ * English Talmud text from Sefaria contains:
+ * - Translated Talmudic discussions with complex sentence structures
+ * - Genealogical patterns: "Rabbi X, son of Rabbi Y, said..."
+ * - HTML formatting for emphasis and structure
+ * - Abbreviations (i.e., e.g., etc.) that should not trigger splits
+ * 
+ * This function creates readable paragraphs by inserting newlines after
+ * periods, question marks, semicolons, etc., while handling numerous
+ * edge cases that would otherwise break the text incorrectly.
+ * 
+ * ## PROCESSING ORDER MATTERS
+ * Steps are carefully ordered: protection → splitting → restoration.
+ * Changing the order can introduce bugs. See step comments for details.
+ * 
+ * ## COMMON EDGE CASES HANDLED
+ * - "Rabbi X, son of Rabbi Y" - internal comma should not split
+ * - "i.e.", "e.g.", "etc." - abbreviations should not split after period
+ * - Ellipses "..." - should not split into three pieces
+ * - Bold punctuation <b>,</b> - should trigger split, not be protected
+ * - Cross-tag punctuation </b>,<b> - should split at the punctuation
+ * 
+ * @param text - English text to split into paragraphs
+ * @returns Text with newlines inserted after punctuation marks
  */
 export function splitEnglishText(text: string): string {
   if (!text) return '';
   
   let processedText = text;
   
-  // STEP -1: Protect "X, [the] son of Y" patterns
+  // STEP -1: Protect "X, [the] son of Y" patronymic patterns
+  // These contain commas that should NOT trigger paragraph splits
+  // Example: "Rabbi Yosef, son of Rabbi Hiyya, said" → don't split at commas
   const sonOfProtections: string[] = [];
   processedText = processedText.replace(SON_OF_PATTERN, (match) => {
     sonOfProtections.push(match);
@@ -442,4 +509,4 @@ export function normalizeApiText(text: string | string[]): string {
 }
 
 // Export version info for debugging
-export const TEXT_PROCESSING_VERSION = USE_V2_PIPELINE ? 'v2' : 'v1';
+export const TEXT_PROCESSING_VERSION = 'v2';
