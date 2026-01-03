@@ -480,8 +480,8 @@ export function splitEnglishText(text: string): string {
   processedText = processedText.replace(/\.[""\u201C\u201D'\u2018\u2019]/g, (match) => match + '\n'); // Handle .", .', etc. as units
   
   // Then split on ALL other periods - avoid splitting after "i.e." and other abbreviations
-  // Also avoid splitting if followed by a quote (already handled above)
-  processedText = processedText.replace(/\.(?![""\u201C\u201D'\u2018\u2019]|\s*[a-z])/g, '.\n');
+  // Also avoid splitting if followed by a quote (already handled above) or a comma (abbreviation with trailing comma like "etc.,")
+  processedText = processedText.replace(/\.(?![""\u201C\u201D'\u2018\u2019]|\s*[a-z]|,)/g, '.\n');
   processedText = processedText.replace(/i\.e\.\n/g, 'i.e.');
   processedText = processedText.replace(/e\.g\.\n/g, 'e.g.');
   processedText = processedText.replace(/etc\.\n/g, 'etc.');
