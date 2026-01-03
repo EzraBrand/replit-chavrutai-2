@@ -352,6 +352,15 @@ export function replaceTerms(text: string): string {
     processedText = processedText.replace(regex, replacement);
   });
   
+  // Post-processing: Remove redundant "in a baraita" after "A baraita states"
+  // This handles cases where Steinsaltz adds a non-bolded gloss "in a baraita" after "The Sages taught"
+  // which becomes "A baraita states in a baraita" after the term replacement above.
+  // The pattern handles optional closing bold tags (</b> or </strong>) between the phrases.
+  processedText = processedText.replace(
+    /(A baraita states)(<\/(?:b|strong)>)?\s+in a baraita\b/gi,
+    '$1$2'
+  );
+  
   // Apply fractional ordinal replacements first (e.g., "one-third" -> "1/3rd")
   Object.entries(fractionalOrdinalReplacements).forEach(([original, replacement]) => {
     const regex = new RegExp(`\\b${original.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'gi');
