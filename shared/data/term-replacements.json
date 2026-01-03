@@ -136,7 +136,9 @@
         "eightieth": "80th",
         "ninetieth": "90th",
         "hundredth": "100th",
-        "one hundredth": "100th"
+        "one hundredth": "100th",
+        "two-hundredth": "200th",
+        "two hundredth": "200th"
       }
     },
     "ordinals_compound": {
