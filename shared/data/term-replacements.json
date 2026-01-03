@@ -217,7 +217,25 @@
         "one-tenth": "1/10th",
         "one tenth": "1/10th",
         "one-60th": "1/60th",
-        "one 60th": "1/60th"
+        "one 60th": "1/60th",
+        "one-twelfth": "1/12th",
+        "one twelfth": "1/12th",
+        "one-sixteenth": "1/16th",
+        "one sixteenth": "1/16th",
+        "one-twentieth": "1/20th",
+        "one twentieth": "1/20th",
+        "one-fortieth": "1/40th",
+        "one fortieth": "1/40th",
+        "one-fiftieth": "1/50th",
+        "one fiftieth": "1/50th",
+        "one-sixtieth": "1/60th",
+        "one sixtieth": "1/60th",
+        "one-hundredth": "1/100th",
+        "one hundredth": "1/100th",
+        "five-hundredth": "5/100th",
+        "five hundredth": "5/100th",
+        "one-thousandth": "1/1000th",
+        "one thousandth": "1/1000th"
       }
     },
     "numerals": {
