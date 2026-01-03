@@ -43,6 +43,13 @@ describe('Text Processing Module', () => {
       expect(result).toContain('\n');
     });
 
+    it('preserves ellipses without splitting (issue #74)', () => {
+      const text = 'הרי הוא אומר ״כי ימצא חלל באדמה ... ויצאו זקניך ושופטיך״.';
+      const result = splitHebrewText(text);
+      expect(result).toContain('...');
+      expect(result).not.toMatch(/\.\n\.\n\./);
+    });
+
     it('splits on colons', () => {
       const text = 'אמר רבי יהודה: הלכה כמותו';
       const result = splitHebrewText(text);

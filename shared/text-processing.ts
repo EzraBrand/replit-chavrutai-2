@@ -158,6 +158,12 @@ export function splitHebrewText(text: string): string {
     return `___PROTECTED_${protectedClusters.length - 1}___`;
   });
   
+  // STEP 3b: Protect ellipses (... or more dots) from being split
+  processedText = processedText.replace(/\.{2,}/g, (match) => {
+    protectedClusters.push(match);
+    return `___PROTECTED_${protectedClusters.length - 1}___`;
+  });
+  
   // STEP 4: Split after unwrapped Mishnah/Gemara markers
   processedText = processedText.replace(MISHNA_MARKER_PATTERN, (match) => match + '\n');
   processedText = processedText.replace(GEMARA_MARKER_PATTERN, (match) => match + '\n');
