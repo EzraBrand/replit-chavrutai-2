@@ -421,8 +421,11 @@ export function splitEnglishText(text: string): string {
     let splitContent = content;
     // Handle colons (always split)
     splitContent = splitContent.replace(/:/g, ':\n');
-    // Handle commas, but NOT if followed by a quote (single or double) or digit, and NOT if preceded by a digit (number separator)
-    splitContent = splitContent.replace(/,(?![""\u201C\u201D'\u2018\u2019]|\d)(?<!\d)/g, ',\n');
+    // Handle commas, but NOT if:
+    // - followed by a quote (single or double) or digit
+    // - preceded by a digit (number separator)
+    // - preceded by a period (abbreviation ending like "etc.,")
+    splitContent = splitContent.replace(/,(?![""\u201C\u201D'\u2018\u2019]|\d)(?<!\d)(?<!\.)/g, ',\n');
     
     return `<${tagName}>${splitContent}</${tagName}>`;
   });
