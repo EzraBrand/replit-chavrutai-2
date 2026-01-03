@@ -177,6 +177,11 @@ describe('Text Processing Module', () => {
       const result = replaceTerms(text);
       expect(result.match(/Talmud/g)?.length).toBe(2);
     });
+
+    it('handles punctuation-terminated terms correctly', () => {
+      expect(replaceTerms('Master of the Universe, help us')).toBe('God! help us');
+      expect(replaceTerms('the Holy One, Blessed be He, said')).toBe('God said');
+    });
   });
 
   describe('splitEnglishText', () => {
