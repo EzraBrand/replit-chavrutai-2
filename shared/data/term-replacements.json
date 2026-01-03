@@ -231,6 +231,10 @@
         "one sixtieth": "1/60th",
         "one-hundredth": "1/100th",
         "one five-hundredth": "1/500th",
+        "one four-hundredth": "1/400th",
+        "one four hundredth": "1/400th",
+        "one two-hundredth": "1/200th",
+        "one two hundredth": "1/200th",
         "one-thousandth": "1/1000th",
         "one ten-thousandth": "1/10,000th"
       }
