@@ -63,6 +63,7 @@ export default function Changelog() {
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added 72 number text to numeral conversions (e.g., "forty million" → "40,000,000")</li>
                 <li>Supports large numbers with comma-separated thousands for readability</li>
+                <li>Added fractional ordinal conversions (e.g., "one five-hundredth" → "1/500th")</li>
               </ul>
             </div>
           </div>
