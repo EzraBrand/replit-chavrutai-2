@@ -1,0 +1,224 @@
+{
+  "version": "1.0.0",
+  "categories": {
+    "divine": {
+      "description": "God names and divine references",
+      "terms": {
+        "the Holy One, Blessed be He, ": "God ",
+        "The Holy One, Blessed be He, ": "God ",
+        "the Holy One, Blessed be He": "God",
+        "The Holy One, Blessed be He": "God",
+        "the Merciful One": "God",
+        "the Almighty": "God",
+        "the Omnipresent": "God",
+        "Master of the Universe,": "God!",
+        "Master of the Universe": "God!",
+        "the Master of the World": "God",
+        "Master of the World": "God!",
+        "the Lord": "YHWH",
+        "Divine Voice": "bat kol",
+        "Divine Presence": "Shekhina",
+        "divine inspiration": "Holy Spirit",
+        "Divine Spirit": "Holy Spirit"
+      }
+    },
+    "talmudic": {
+      "description": "Talmudic terms and phrases",
+      "terms": {
+        "GEMARA": "Talmud",
+        "Gemara": "Talmud",
+        "The Sages taught": "A baraita states",
+        "mishna": "Mishnah"
+      }
+    },
+    "hebrew_terms": {
+      "description": "Hebrew religious terms",
+      "terms": {
+        "phylacteries": "tefillin",
+        "ritual fringes": "tzitzit",
+        "ritual bath": "mikveh",
+        "sky-blue": "tekhelet",
+        "malicious speech": "lashon hara",
+        "leper": "metzora",
+        "leprosy": "tzara'at",
+        "ignoramus": "am ha'aretz"
+      }
+    },
+    "people": {
+      "description": "References to groups of people",
+      "terms": {
+        "gentile": "non-Jew",
+        "gentiles": "non-Jews",
+        "nations of the world": "non-Jewish nations",
+        "maidservant": "female slave",
+        "maidservants": "female slaves",
+        "harlot": "prostitute"
+      }
+    },
+    "objects": {
+      "description": "Physical objects",
+      "terms": {
+        "barrel": "jug",
+        "barrels": "jugs",
+        "blue eye shadow": "kohl",
+        "blue shadow": "kohl",
+        "eye shadow": "kohl"
+      }
+    },
+    "time": {
+      "description": "Time-related terms",
+      "terms": {
+        "rainy season": "winter",
+        "Shabbat eve": "Friday",
+        "the eve of Shabbat": "Friday"
+      }
+    },
+    "events": {
+      "description": "Historical events",
+      "terms": {
+        "the flood": "the Flood",
+        "generation of the flood": "Generation of the Flood",
+        "generation of the dispersion": "Generation of the Dispersion",
+        "bloodshed": "murder"
+      }
+    },
+    "sexual_base": {
+      "description": "Base sexual relation terms",
+      "terms": {
+        "sexual intercourse": "sex",
+        "intercourse": "sex",
+        "conjugal relations": "sex",
+        "relations": "sex",
+        "sexual relations": "sex",
+        "sexual sex": "sex"
+      }
+    },
+    "sexual_conjugations": {
+      "description": "Conjugated sexual relation phrases (generated from base terms)",
+      "baseTerms": ["intercourse", "sexual intercourse", "sexual relations", "intimacy"],
+      "conjugations": [
+        { "prefix": "engage in", "replacement": "have sex" },
+        { "prefix": "engages in", "replacement": "has sex" },
+        { "prefix": "engaged in", "replacement": "had sex" },
+        { "prefix": "engaging in", "replacement": "having sex" },
+        { "prefix": "have", "replacement": "have sex" },
+        { "prefix": "has", "replacement": "has sex" },
+        { "prefix": "had", "replacement": "had sex" },
+        { "prefix": "having", "replacement": "having sex" }
+      ]
+    },
+    "ordinals_basic": {
+      "description": "Simple ordinal numbers",
+      "terms": {
+        "third": "3rd",
+        "fourth": "4th",
+        "fifth": "5th",
+        "sixth": "6th",
+        "seventh": "7th",
+        "eighth": "8th",
+        "ninth": "9th",
+        "tenth": "10th",
+        "eleventh": "11th",
+        "twelfth": "12th",
+        "thirteenth": "13th",
+        "fourteenth": "14th",
+        "fifteenth": "15th",
+        "sixteenth": "16th",
+        "seventeenth": "17th",
+        "eighteenth": "18th",
+        "nineteenth": "19th",
+        "twentieth": "20th",
+        "thirtieth": "30th",
+        "fortieth": "40th",
+        "fiftieth": "50th",
+        "sixtieth": "60th",
+        "seventieth": "70th",
+        "eightieth": "80th",
+        "ninetieth": "90th",
+        "hundredth": "100th"
+      }
+    },
+    "ordinals_compound": {
+      "description": "Compound ordinal numbers (twenty-first, etc.)",
+      "terms": {
+        "twenty-first": "21st",
+        "twenty first": "21st",
+        "twenty-second": "22nd",
+        "twenty second": "22nd",
+        "twenty-third": "23rd",
+        "twenty third": "23rd",
+        "twenty-fourth": "24th",
+        "twenty fourth": "24th",
+        "twenty-fifth": "25th",
+        "twenty fifth": "25th",
+        "twenty-sixth": "26th",
+        "twenty sixth": "26th",
+        "twenty-seventh": "27th",
+        "twenty seventh": "27th",
+        "twenty-eighth": "28th",
+        "twenty eighth": "28th",
+        "twenty-ninth": "29th",
+        "twenty ninth": "29th",
+        "thirty-first": "31st",
+        "thirty first": "31st",
+        "thirty-second": "32nd",
+        "thirty second": "32nd",
+        "thirty-third": "33rd",
+        "thirty third": "33rd",
+        "thirty-fourth": "34th",
+        "thirty fourth": "34th",
+        "thirty-fifth": "35th",
+        "thirty fifth": "35th",
+        "thirty-sixth": "36th",
+        "thirty sixth": "36th",
+        "thirty-seventh": "37th",
+        "thirty seventh": "37th",
+        "thirty-eighth": "38th",
+        "thirty eighth": "38th",
+        "thirty-ninth": "39th",
+        "thirty ninth": "39th"
+      }
+    },
+    "ordinals_fractional": {
+      "description": "Fractional ordinals (one-third, etc.)",
+      "terms": {
+        "one-third": "1/3rd",
+        "one third": "1/3rd",
+        "two-thirds": "2/3rds",
+        "two thirds": "2/3rds",
+        "one-fourth": "1/4th",
+        "one fourth": "1/4th",
+        "one-quarter": "1/4th",
+        "one quarter": "1/4th",
+        "two-fourths": "2/4ths",
+        "two fourths": "2/4ths",
+        "three-fourths": "3/4ths",
+        "three fourths": "3/4ths",
+        "three-quarters": "3/4ths",
+        "three quarters": "3/4ths",
+        "one-fifth": "1/5th",
+        "one fifth": "1/5th",
+        "two-fifths": "2/5ths",
+        "two fifths": "2/5ths",
+        "three-fifths": "3/5ths",
+        "three fifths": "3/5ths",
+        "four-fifths": "4/5ths",
+        "four fifths": "4/5ths",
+        "one-sixth": "1/6th",
+        "one sixth": "1/6th",
+        "five-sixths": "5/6ths",
+        "five sixths": "5/6ths",
+        "one-seventh": "1/7th",
+        "one seventh": "1/7th",
+        "one-eighth": "1/8th",
+        "one eighth": "1/8th",
+        "one-ninth": "1/9th",
+        "one ninth": "1/9th",
+        "one-tenth": "1/10th",
+        "one tenth": "1/10th",
+        "one-60th": "1/60th",
+        "one 60th": "1/60th"
+      }
+    }
+  }
+}
