@@ -96,174 +96,23 @@ const ORPHAN_QUOTE_NO_PUNCT_PATTERN = /(?<![,.\?!;''\u2018\u2019""\u201C\u201D])
 const ORPHAN_QUOTE_END_PATTERN = /(?<![,.\?!;''\u2018\u2019""\u201C\u201D])\n[""\u201C\u201D'\u2018\u2019]\s*$/g;
 
 // =============================================================================
-// TERM REPLACEMENT DATA STRUCTURES
+// TERM REPLACEMENT DATA STRUCTURES (loaded from JSON config)
 // =============================================================================
 
-/**
- * Generate sexual relations term replacements programmatically
- */
-function generateSexualTerms(): Record<string, string> {
-  const baseTerms = ["intercourse", "sexual intercourse", "sexual relations", "intimacy"];
-  const conjugations = [
-    { prefix: "engage in", replacement: "have sex" },
-    { prefix: "engages in", replacement: "has sex" },
-    { prefix: "engaged in", replacement: "had sex" },
-    { prefix: "engaging in", replacement: "having sex" },
-    { prefix: "have", replacement: "have sex" },
-    { prefix: "has", replacement: "has sex" },
-    { prefix: "had", replacement: "had sex" },
-    { prefix: "having", replacement: "having sex" }
-  ];
-  
-  const result: Record<string, string> = {};
-  
-  conjugations.forEach(({ prefix, replacement }) => {
-    baseTerms.forEach(term => {
-      result[`${prefix} ${term}`] = replacement;
-    });
-  });
-  
-  result["sexual intercourse"] = "sex";
-  result["intercourse"] = "sex";
-  result["conjugal relations"] = "sex";
-  result["relations"] = "sex";
-  
-  return result;
-}
+import termReplacementsConfig from './data/term-replacements.json';
+import { loadTermReplacements, buildCombinedPattern, TermReplacementsConfigSchema } from './term-replacements-schema';
 
-// Basic term replacements
-const BASIC_TERMS: Record<string, string> = {
-  "GEMARA": "Talmud",
-  "Gemara": "Talmud",
-  "The Sages taught": "A baraita states",
-  "Divine Voice": "bat kol",
-  "Divine Presence": "Shekhina",
-  "divine inspiration": "Holy Spirit",
-  "Divine Spirit": "Holy Spirit",
-  "the Lord": "YHWH",
-  "leper": "metzora",
-  "leprosy": "tzara'at",
-  "phylacteries": "tefillin",
-  "gentile": "non-Jew",
-  "gentiles": "non-Jews",
-  "ignoramus": "am ha'aretz",
-  "maidservant": "female slave",
-  "maidservants": "female slaves",
-  "barrel": "jug",
-  "barrels": "jugs",
-  "the Holy One, Blessed be He, ": "God ",
-  "The Holy One, Blessed be He, ": "God ",
-  "the Holy One, Blessed be He": "God",
-  "The Holy One, Blessed be He": "God",
-  "the Merciful One": "God",
-  "the Almighty": "God",
-  "the Omnipresent": "God",
-  "Master of the Universe,": "God!",
-  "Master of the Universe": "God!",
-  "the Master of the World": "God",
-  "Master of the World": "God!",
-  "sky-blue": "tekhelet",
-  "ritual fringes": "tzitzit",
-  "ritual bath": "mikveh",
-  "malicious speech": "lashon hara",
-  "bloodshed": "murder",
-  "nations of the world": "non-Jewish nations",
-  "sexual relations": "sex",
-  "sexual sex": "sex",
-  "mishna": "Mishnah",
-  "harlot": "prostitute",
-  "rainy season": "winter",
-  "blue eye shadow": "kohl",
-  "blue shadow": "kohl",
-  "eye shadow": "kohl",
-  "the flood": "the Flood",
-  "generation of the flood": "Generation of the Flood",
-  "generation of the dispersion": "Generation of the Dispersion",
-  "Shabbat eve": "Friday",
-  "the eve of Shabbat": "Friday"
-};
+// Validate config at module load
+const validatedConfig = TermReplacementsConfigSchema.parse(termReplacementsConfig);
 
-// Ordinal replacements
-const COMPOUND_ORDINALS: Record<string, string> = {
-  "twenty-first": "21st", "twenty first": "21st",
-  "twenty-second": "22nd", "twenty second": "22nd",
-  "twenty-third": "23rd", "twenty third": "23rd",
-  "twenty-fourth": "24th", "twenty fourth": "24th",
-  "twenty-fifth": "25th", "twenty fifth": "25th",
-  "twenty-sixth": "26th", "twenty sixth": "26th",
-  "twenty-seventh": "27th", "twenty seventh": "27th",
-  "twenty-eighth": "28th", "twenty eighth": "28th",
-  "twenty-ninth": "29th", "twenty ninth": "29th",
-  "thirty-first": "31st", "thirty first": "31st",
-  "thirty-second": "32nd", "thirty second": "32nd",
-  "thirty-third": "33rd", "thirty third": "33rd",
-  "thirty-fourth": "34th", "thirty fourth": "34th",
-  "thirty-fifth": "35th", "thirty fifth": "35th",
-  "thirty-sixth": "36th", "thirty sixth": "36th",
-  "thirty-seventh": "37th", "thirty seventh": "37th",
-  "thirty-eighth": "38th", "thirty eighth": "38th",
-  "thirty-ninth": "39th", "thirty ninth": "39th",
-};
+// Load terms from JSON config
+const TERM_LOOKUP_MAP: Map<string, string> = loadTermReplacements(validatedConfig);
 
-const FRACTIONAL_ORDINALS: Record<string, string> = {
-  "one-third": "1/3rd", "one third": "1/3rd",
-  "two-thirds": "2/3rds", "two thirds": "2/3rds",
-  "one-fourth": "1/4th", "one fourth": "1/4th",
-  "one-quarter": "1/4th", "one quarter": "1/4th",
-  "two-fourths": "2/4ths", "two fourths": "2/4ths",
-  "three-fourths": "3/4ths", "three fourths": "3/4ths",
-  "three-quarters": "3/4ths", "three quarters": "3/4ths",
-  "one-fifth": "1/5th", "one fifth": "1/5th",
-  "two-fifths": "2/5ths", "two fifths": "2/5ths",
-  "three-fifths": "3/5ths", "three fifths": "3/5ths",
-  "four-fifths": "4/5ths", "four fifths": "4/5ths",
-  "one-sixth": "1/6th", "one sixth": "1/6th",
-  "five-sixths": "5/6ths", "five sixths": "5/6ths",
-  "one-seventh": "1/7th", "one seventh": "1/7th",
-  "one-eighth": "1/8th", "one eighth": "1/8th",
-  "one-ninth": "1/9th", "one ninth": "1/9th",
-  "one-tenth": "1/10th", "one tenth": "1/10th",
-  "one-60th": "1/60th", "one 60th": "1/60th",
-};
+// Build combined regex pattern from loaded terms
+const COMBINED_TERM_PATTERN: RegExp = buildCombinedPattern(TERM_LOOKUP_MAP);
 
-const BASIC_ORDINALS: Record<string, string> = {
-  "third": "3rd", "fourth": "4th", "fifth": "5th",
-  "sixth": "6th", "seventh": "7th", "eighth": "8th",
-  "ninth": "9th", "tenth": "10th", "eleventh": "11th",
-  "twelfth": "12th", "thirteenth": "13th", "fourteenth": "14th",
-  "fifteenth": "15th", "sixteenth": "16th", "seventeenth": "17th",
-  "eighteenth": "18th", "nineteenth": "19th", "twentieth": "20th",
-  "thirtieth": "30th", "fortieth": "40th", "fiftieth": "50th",
-  "sixtieth": "60th", "seventieth": "70th", "eightieth": "80th",
-  "ninetieth": "90th", "hundredth": "100th"
-};
-
-// =============================================================================
-// V2 OPTIMIZED: Combined single-pass regex for term replacement
-// =============================================================================
-
-// Build combined term replacement map and regex at module load
-const ALL_TERM_REPLACEMENTS: Record<string, string> = {
-  ...BASIC_TERMS,
-  ...generateSexualTerms(),
-  ...FRACTIONAL_ORDINALS,
-  ...COMPOUND_ORDINALS,
-  ...BASIC_ORDINALS
-};
-
-// Create case-insensitive lookup map (lowercase keys)
-const TERM_LOOKUP_MAP: Map<string, string> = new Map(
-  Object.entries(ALL_TERM_REPLACEMENTS).map(([k, v]) => [k.toLowerCase(), v])
-);
-
-// Build combined regex pattern - sort by length descending to match longest first
-const COMBINED_TERM_PATTERN: RegExp = (() => {
-  const patterns = Object.keys(ALL_TERM_REPLACEMENTS)
-    .sort((a, b) => b.length - a.length)
-    .map(term => term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
-    .join('|');
-  return new RegExp(`\\b(${patterns})\\b`, 'gi');
-})();
+// For V1 compatibility: convert Map back to Record
+const ALL_TERM_REPLACEMENTS: Record<string, string> = Object.fromEntries(TERM_LOOKUP_MAP);
 
 // =============================================================================
 // CORE FUNCTIONS
@@ -394,7 +243,7 @@ function replaceTermsV2(text: string): string {
 
 /**
  * V1 ORIGINAL: Replace terms using multiple sequential regex passes
- * Kept for A/B testing comparison
+ * Kept for A/B testing comparison - now uses same JSON config as V2
  */
 function replaceTermsV1(text: string): string {
   if (!text) return '';
@@ -404,33 +253,13 @@ function replaceTermsV1(text: string): string {
   processedText = processedText.replace(RABBI_VOCATIVE_PATTERN, 'Rabbi!');
   processedText = processedText.replace(RABBI_GENERAL_PATTERN, "R'");
   
-  const termReplacements = { ...BASIC_TERMS, ...generateSexualTerms() };
-  
-  // Apply term replacements (multiple passes - inefficient)
-  Object.entries(termReplacements).forEach(([original, replacement]) => {
+  // Apply term replacements (multiple passes - inefficient, but keeps V1 behavior)
+  Object.entries(ALL_TERM_REPLACEMENTS).forEach(([original, replacement]) => {
     const regex = new RegExp(`\\b${original.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'gi');
     processedText = processedText.replace(regex, replacement);
   });
   
   processedText = processedText.replace(BARAITA_REDUNDANT_PATTERN, '$1$2');
-  
-  // Apply fractional ordinal replacements
-  Object.entries(FRACTIONAL_ORDINALS).forEach(([original, replacement]) => {
-    const regex = new RegExp(`\\b${original.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'gi');
-    processedText = processedText.replace(regex, replacement);
-  });
-  
-  // Apply compound ordinal replacements
-  Object.entries(COMPOUND_ORDINALS).forEach(([original, replacement]) => {
-    const regex = new RegExp(`\\b${original.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'gi');
-    processedText = processedText.replace(regex, replacement);
-  });
-  
-  // Apply basic ordinal replacements
-  Object.entries(BASIC_ORDINALS).forEach(([original, replacement]) => {
-    const regex = new RegExp(`\\b${original.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'gi');
-    processedText = processedText.replace(regex, replacement);
-  });
   
   return processedText;
 }
