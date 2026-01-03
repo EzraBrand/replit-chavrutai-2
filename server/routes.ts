@@ -9,9 +9,10 @@ import { generateSitemapIndex } from "./routes/sitemap-index";
 import { generateMainSitemap } from "./routes/sitemap-main";
 import { generateSederSitemap } from "./routes/sitemap-seder";
 import { z } from "zod";
-import OpenAI from "openai";
-import { getBlogPostSearch } from "./blog-search";
-import { sendChatbotAlert } from "./lib/gmail-client";
+// AI Chat feature disabled - see docs/text-processing-analysis.md for current focus
+// import OpenAI from "openai";
+// import { getBlogPostSearch } from "./blog-search";
+// import { sendChatbotAlert } from "./lib/gmail-client";
 
 // Import text processing utilities from shared library
 import { processHebrewTextCore as processHebrewText, processEnglishText } from "@shared/text-processing";
@@ -968,193 +969,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // AI Chat Routes
-  const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY
-  });
-
-  const blogSearch = getBlogPostSearch();
-
-  // Tool definitions for OpenAI function calling
-  const tools: OpenAI.Chat.ChatCompletionTool[] = [
-    {
-      type: "function",
-      function: {
-        name: "searchBlogPosts",
-        description: "Search the Talmud & Tech blog archive for posts related to specific Talmud locations or topics. Returns blog post titles, URLs, and relevant excerpts.",
-        parameters: {
-          type: "object",
-          properties: {
-            tractate: {
-              type: "string",
-              description: "Talmud tractate name (e.g., 'Berakhot', 'Sanhedrin')"
-            },
-            location: {
-              type: "string",
-              description: "Talmud location or range (e.g., '7a', '7a.5-22', '7a-7b')"
-            },
-            keywords: {
-              type: "array",
-              items: { type: "string" },
-              description: "Keywords to search in post titles and content"
-            },
-            limit: {
-              type: "number",
-              description: "Maximum number of results to return (default: 5)",
-              default: 5
-            }
-          }
-        }
-      }
-    },
-    {
-      type: "function",
-      function: {
-        name: "getBlogPostContent",
-        description: "Retrieve the full content of a specific blog post by its ID. Use this after searchBlogPosts to get detailed content of relevant posts.",
-        parameters: {
-          type: "object",
-          properties: {
-            postId: {
-              type: "string",
-              description: "The blog post ID returned from searchBlogPosts"
-            }
-          },
-          required: ["postId"]
-        }
-      }
-    }
-  ];
-
-  // Chat endpoint
+  // AI Chat Routes - DISABLED (requires OpenAI API key)
+  // See docs/text-processing-analysis.md for current development focus
   app.post("/api/chat", async (req, res) => {
-    try {
-      const { messages, context } = req.body;
-
-      // Send email alert for chatbot usage (non-blocking)
-      const userMessage = messages.find((m: any) => m.role === 'user');
-      if (userMessage && context) {
-        sendChatbotAlert({
-          userQuestion: userMessage.content,
-          talmudRange: context.range || `${context.tractate} ${context.page}`,
-          tractate: context.tractate,
-          page: context.page,
-          timestamp: new Date()
-        }).catch(err => console.error('Email alert failed:', err));
-      }
-
-      // Build system message with context
-      const systemMessage: OpenAI.Chat.ChatCompletionSystemMessageParam = {
-        role: "system",
-        content: `You are a knowledgeable Talmud study assistant. You have access to the Talmud & Tech blog archive which contains detailed analysis of Talmud passages.
-
-${context ? `Current Talmud Text Context:
-Tractate: ${context.tractate}
-Page: ${context.page}
-Section: ${context.section || 'all'}
-
-The text below is from Sefaria's Steinsaltz Edition. In the English text:
-- **Bolded text** represents Rabbi Adin Even-Israel Steinsaltz's direct translation of the Aramaic/Hebrew
-- Regular (non-bolded) text is Steinsaltz's interpretation and explanation
-
-Hebrew Text:
-${context.hebrewText || 'N/A'}
-
-English Text (Steinsaltz Edition):
-${context.englishText || 'N/A'}` : ''}
-
-When answering questions:
-1. Use the current Talmud text context when relevant
-2. Search the blog archive for related commentary using the searchBlogPosts tool
-3. Provide clear, educational responses using markdown formatting where helpful
-4. Cite blog posts when referencing them
-5. Be concise but thorough
-6. When discussing the text, distinguish between translation and interpretation as needed`
-      };
-
-      const allMessages: OpenAI.Chat.ChatCompletionMessageParam[] = [
-        systemMessage,
-        ...messages
-      ];
-
-      const completion = await openai.chat.completions.create({
-        model: "gpt-4o",
-        messages: allMessages,
-        tools: tools,
-        tool_choice: "auto"
-      });
-
-      const responseMessage = completion.choices[0].message;
-
-      // Handle tool calls
-      if (responseMessage.tool_calls) {
-        const toolResults: any[] = [];
-
-        for (const toolCall of responseMessage.tool_calls) {
-          if (toolCall.type !== 'function') continue;
-          
-          const functionName = toolCall.function.name;
-          const args = JSON.parse(toolCall.function.arguments);
-
-          let result: any;
-
-          if (functionName === "searchBlogPosts") {
-            const searchResults = blogSearch.search({
-              tractate: args.tractate,
-              location: args.location,
-              keywords: args.keywords,
-              limit: args.limit || 5
-            });
-            result = searchResults;
-          } else if (functionName === "getBlogPostContent") {
-            const post = blogSearch.getPostById(args.postId);
-            result = post ? {
-              id: post.id,
-              title: post.title,
-              contentText: post.contentText.slice(0, 3000), // Limit for token budget
-              blogUrl: post.blogUrl
-            } : null;
-          }
-
-          toolResults.push({
-            tool_call_id: toolCall.id,
-            role: "tool" as const,
-            content: JSON.stringify(result)
-          });
-        }
-
-        // Second API call with tool results
-        const secondMessages: OpenAI.Chat.ChatCompletionMessageParam[] = [
-          ...allMessages,
-          responseMessage,
-          ...toolResults
-        ];
-
-        const finalCompletion = await openai.chat.completions.create({
-          model: "gpt-4o",
-          messages: secondMessages
-        });
-
-        res.json({
-          message: finalCompletion.choices[0].message,
-          toolCalls: responseMessage.tool_calls
-            .filter(tc => tc.type === 'function')
-            .map((tc, i) => ({
-              tool: tc.function.name,
-              arguments: JSON.parse(tc.function.arguments),
-              result: JSON.parse(toolResults[i].content)
-            }))
-        });
-      } else {
-        res.json({
-          message: responseMessage,
-          toolCalls: []
-        });
-      }
-    } catch (error) {
-      console.error("Chat error:", error);
-      res.status(500).json({ error: "Chat request failed" });
-    }
+    res.status(503).json({ 
+      error: "Chat feature is temporarily disabled",
+      message: "Focus is currently on text processing improvements. See docs/text-processing-analysis.md"
+    });
   });
 
   // RSS Feed proxy endpoint
