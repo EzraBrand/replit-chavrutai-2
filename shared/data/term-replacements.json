@@ -234,6 +234,8 @@
         "one hundredth": "1/100th",
         "five-hundredth": "5/100th",
         "five hundredth": "5/100th",
+        "five-100th": "5/100th",
+        "five 100th": "5/100th",
         "one-thousandth": "1/1000th",
         "one thousandth": "1/1000th"
       }
