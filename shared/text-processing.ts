@@ -355,9 +355,11 @@ export function replaceTerms(text: string): string {
   // Post-processing: Remove redundant "in a baraita" after "A baraita states"
   // This handles cases where Steinsaltz adds a non-bolded gloss "in a baraita" after "The Sages taught"
   // which becomes "A baraita states in a baraita" after the term replacement above.
-  // The pattern handles optional closing bold tags (</b> or </strong>) between the phrases.
+  // The pattern handles:
+  // - Optional closing bold tags (</b> or </strong>) after "A baraita states"
+  // - Optional italic tags (<i>baraita</i> or <em>baraita</em>) around "baraita"
   processedText = processedText.replace(
-    /(A baraita states)(<\/(?:b|strong)>)?\s+in a baraita\b/gi,
+    /(A baraita states)(<\/(?:b|strong)>)?\s+in a(?:\s+|(?:\s*<(?:i|em)>))baraita(?:<\/(?:i|em)>)?/gi,
     '$1$2'
   );
   
