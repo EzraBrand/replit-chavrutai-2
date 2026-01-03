@@ -49,7 +49,7 @@ task = "workflow.run"
 args = "Start application"
 
 [agent]
-integrations = ["javascript_sendgrid:1.0.0", "google-mail:1.0.0"]
+integrations = ["javascript_sendgrid:1.0.0", "google-mail:1.0.0", "javascript_openai:1.0.0"]
 
 [userenv]
 
