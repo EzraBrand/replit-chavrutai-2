@@ -135,7 +135,8 @@
         "seventieth": "70th",
         "eightieth": "80th",
         "ninetieth": "90th",
-        "hundredth": "100th"
+        "hundredth": "100th",
+        "one hundredth": "100th"
       }
     },
     "ordinals_compound": {
@@ -229,10 +230,9 @@
         "one-sixtieth": "1/60th",
         "one sixtieth": "1/60th",
         "one-hundredth": "1/100th",
-        "one hundredth": "1/100th",
         "one five-hundredth": "1/500th",
         "one-thousandth": "1/1000th",
-        "one thousandth": "1/1000th"
+        "one ten-thousandth": "1/10,000th"
       }
     },
     "numerals": {
