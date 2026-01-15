@@ -241,6 +241,9 @@ export default function BlogReader() {
                           prose-a:text-blue-600 hover:prose-a:text-blue-800 prose-a:underline
                           prose-strong:text-foreground
                           prose-blockquote:border-l-primary prose-blockquote:text-muted-foreground
+                          prose-blockquote:not-italic prose-blockquote:font-normal
+                          [&_blockquote_p:first-of-type]:before:content-none
+                          [&_blockquote_p:last-of-type]:after:content-none
                           prose-li:text-muted-foreground
                           prose-img:rounded-lg prose-img:max-w-full prose-img:h-auto"
                         dangerouslySetInnerHTML={{
