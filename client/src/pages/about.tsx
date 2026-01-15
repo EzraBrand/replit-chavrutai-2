@@ -42,7 +42,7 @@ const isEllipsisOrPunctuation = (text: string): boolean => {
   return /^[\[\]\(\)\.…,;:!?\-–—]+$/.test(cleaned);
 };
 
-const cleanHebrewElement = (el: Element) => {
+const cleanHebrewElement = (el: HTMLElement) => {
   el.querySelectorAll('em, i').forEach(italic => {
     const span = document.createElement('span');
     span.innerHTML = italic.innerHTML;
@@ -53,6 +53,19 @@ const cleanHebrewElement = (el: Element) => {
     span.innerHTML = q.innerHTML;
     q.replaceWith(span);
   });
+  
+  const blockquote = el.closest('blockquote');
+  if (blockquote) {
+    (blockquote as HTMLElement).style.fontStyle = 'normal';
+    (blockquote as HTMLElement).style.quotes = 'none';
+    const beforeStyle = document.createElement('style');
+    beforeStyle.textContent = `blockquote[data-hebrew-cleaned]::before, blockquote[data-hebrew-cleaned]::after { content: none !important; }`;
+    if (!document.head.querySelector('[data-hebrew-blockquote-style]')) {
+      beforeStyle.setAttribute('data-hebrew-blockquote-style', 'true');
+      document.head.appendChild(beforeStyle);
+    }
+    blockquote.setAttribute('data-hebrew-cleaned', 'true');
+  }
 };
 
 const applyRtlToHebrewElements = (container: HTMLElement) => {
@@ -77,6 +90,7 @@ const applyRtlToHebrewElements = (container: HTMLElement) => {
       cleanHebrewElement(htmlEl);
       previousWasHebrew = true;
     } else {
+      cleanHebrewElement(htmlEl);
       previousWasHebrew = false;
     }
   });
@@ -589,7 +603,7 @@ export default function About() {
                             <div className="border-t border-border">
                               <div
                                 ref={setContentRef(index)}
-                                className="p-4 prose prose-sm max-w-none dark:prose-invert prose-blockquote:not-italic prose-blockquote:font-normal prose-blockquote:before:content-none prose-blockquote:after:content-none prose-p:font-normal prose-strong:font-semibold [&_blockquote]:before:content-none [&_blockquote]:after:content-none [&_blockquote_p]:before:content-none [&_blockquote_p]:after:content-none"
+                                className="p-4 prose prose-sm max-w-none dark:prose-invert prose-blockquote:not-italic prose-blockquote:font-normal [&_blockquote_p:first-of-type]:before:content-none [&_blockquote_p:last-of-type]:after:content-none"
                                 dangerouslySetInnerHTML={{ __html: sanitizeHtml(item.content) }}
                               />
                             </div>
