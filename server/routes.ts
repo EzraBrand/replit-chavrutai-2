@@ -1188,6 +1188,53 @@ When answering questions:
     }
   });
 
+  // RSS Feed with full content endpoint
+  app.get("/api/rss-feed-full", async (req, res) => {
+    try {
+      const response = await fetch("https://www.ezrabrand.com/feed");
+      const xmlText = await response.text();
+      
+      // Parse XML to extract items with full content
+      const items: Array<{
+        title: string;
+        link: string;
+        pubDate: string;
+        description: string;
+        content: string;
+        author: string;
+      }> = [];
+      const itemRegex = /<item>([\s\S]*?)<\/item>/g;
+      let match;
+      
+      while ((match = itemRegex.exec(xmlText)) !== null) {
+        const itemXml = match[1];
+        const title = itemXml.match(/<title><!\[CDATA\[(.*?)\]\]><\/title>/)?.[1] || 
+                      itemXml.match(/<title>(.*?)<\/title>/)?.[1] || "";
+        const link = itemXml.match(/<link>(.*?)<\/link>/)?.[1] || "";
+        const pubDate = itemXml.match(/<pubDate>(.*?)<\/pubDate>/)?.[1] || "";
+        const description = itemXml.match(/<description><!\[CDATA\[(.*?)\]\]><\/description>/)?.[1] || 
+                           itemXml.match(/<description>(.*?)<\/description>/)?.[1] || "";
+        
+        // Extract full content from content:encoded tag (Substack uses this)
+        const contentMatch = itemXml.match(/<content:encoded><!\[CDATA\[([\s\S]*?)\]\]><\/content:encoded>/);
+        const content = contentMatch?.[1] || description;
+        
+        // Extract author
+        const authorMatch = itemXml.match(/<dc:creator><!\[CDATA\[(.*?)\]\]><\/dc:creator>/) ||
+                           itemXml.match(/<dc:creator>(.*?)<\/dc:creator>/);
+        const author = authorMatch?.[1] || "";
+        
+        items.push({ title, link, pubDate, description, content, author });
+      }
+      
+      // Return latest 10 posts with full content
+      res.json({ items: items.slice(0, 10) });
+    } catch (error) {
+      console.error("RSS feed full content fetch error:", error);
+      res.status(500).json({ error: "Failed to fetch RSS feed" });
+    }
+  });
+
   // Daf Yomi endpoint - fetches today's daf from Sefaria calendars API
   app.get("/api/daf-yomi", async (req, res) => {
     try {
