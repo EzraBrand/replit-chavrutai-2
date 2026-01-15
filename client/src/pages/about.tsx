@@ -2,7 +2,7 @@ import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { SharedLayout } from "@/components/layout";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
-import { ExternalLink, Rss } from "lucide-react";
+import { ExternalLink, Rss, Calendar, User, ChevronDown, ChevronUp } from "lucide-react";
 import { DafYomiWidget } from "@/components/DafYomiWidget";
 import {
   Accordion,
@@ -10,21 +10,86 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { useState, useCallback } from "react";
+import DOMPurify from "dompurify";
 
 interface RssFeedItem {
   title: string;
   link: string;
   pubDate: string;
   description: string;
+  content?: string;
+  author?: string;
 }
+
+const sanitizeHtml = (html: string): string => {
+  return DOMPurify.sanitize(html, {
+    ALLOWED_TAGS: ['p', 'div', 'span', 'a', 'strong', 'em', 'br', 'ul', 'ol', 'li', 'blockquote', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'img', 'figure', 'figcaption'],
+    ALLOWED_ATTR: ['href', 'src', 'alt', 'class', 'target', 'rel', 'dir', 'style', 'id', 'data-component-name'],
+  });
+};
+
+const isMainlyHebrew = (text: string): boolean => {
+  const hebrewChars = text.match(/[\u0590-\u05FF]/g) || [];
+  const latinChars = text.match(/[a-zA-Z]/g) || [];
+  const totalChars = hebrewChars.length + latinChars.length;
+  if (totalChars === 0) return false;
+  return hebrewChars.length / totalChars > 0.5;
+};
+
+const isEllipsisOrPunctuation = (text: string): boolean => {
+  const cleaned = text.replace(/[\s\u00A0]/g, '');
+  return /^[\[\]\(\)\.…,;:!?\-–—]+$/.test(cleaned);
+};
+
+const cleanHebrewElement = (el: Element) => {
+  el.querySelectorAll('em, i').forEach(italic => {
+    const span = document.createElement('span');
+    span.innerHTML = italic.innerHTML;
+    italic.replaceWith(span);
+  });
+  el.querySelectorAll('q').forEach(q => {
+    const span = document.createElement('span');
+    span.innerHTML = q.innerHTML;
+    q.replaceWith(span);
+  });
+};
+
+const applyRtlToHebrewElements = (container: HTMLElement) => {
+  const elements = container.querySelectorAll('p, blockquote, li, h1, h2, h3, h4, h5, h6, div.footnote-content');
+  let previousWasHebrew = false;
+  
+  elements.forEach((el) => {
+    const htmlEl = el as HTMLElement;
+    const text = htmlEl.textContent || '';
+    
+    if (isEllipsisOrPunctuation(text)) {
+      if (previousWasHebrew) {
+        htmlEl.setAttribute('dir', 'rtl');
+        htmlEl.style.textAlign = 'right';
+      }
+      return;
+    }
+    
+    if (isMainlyHebrew(text)) {
+      htmlEl.setAttribute('dir', 'rtl');
+      htmlEl.style.textAlign = 'right';
+      cleanHebrewElement(htmlEl);
+      previousWasHebrew = true;
+    } else {
+      previousWasHebrew = false;
+    }
+  });
+};
 
 export default function About() {
   useSEO(generateSEOData.aboutPage());
+  const [expandedPosts, setExpandedPosts] = useState<Set<number>>(new Set());
 
   const { data: rssFeed, isLoading: rssLoading } = useQuery<{
     items: RssFeedItem[];
   }>({
-    queryKey: ["/api/rss-feed"],
+    queryKey: ["/api/rss-feed-full"],
   });
 
   const formatDate = (dateStr: string) => {
@@ -39,6 +104,162 @@ export default function About() {
       return dateStr;
     }
   };
+
+  const togglePost = (index: number) => {
+    setExpandedPosts(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(index)) {
+        newSet.delete(index);
+      } else {
+        newSet.add(index);
+      }
+      return newSet;
+    });
+  };
+
+  const setContentRef = useCallback((index: number) => (el: HTMLDivElement | null) => {
+    if (!el) return;
+    
+    applyRtlToHebrewElements(el);
+    
+    const footnoteAnchors = el.querySelectorAll('a[id^="footnote-anchor-"]');
+    footnoteAnchors.forEach((anchor) => {
+      const htmlAnchor = anchor as HTMLAnchorElement;
+      const targetId = htmlAnchor.getAttribute('href')?.replace('#', '');
+      
+      htmlAnchor.style.cssText = `
+        color: #3b82f6;
+        text-decoration: none;
+        font-size: 0.75em;
+        vertical-align: super;
+        font-weight: 600;
+        cursor: pointer;
+        position: relative;
+      `;
+      
+      if (targetId) {
+        const footnoteEl = el.querySelector(`#${CSS.escape(targetId)}`);
+        const footnoteContainer = footnoteEl?.closest('.footnote');
+        const footnoteContent = footnoteContainer?.querySelector('.footnote-content');
+        if (footnoteContent) {
+          const footnoteText = footnoteContent.textContent?.trim() || '';
+          const previewText = footnoteText.length > 200 ? footnoteText.slice(0, 200) + '...' : footnoteText;
+          
+          const tooltip = document.createElement('div');
+          tooltip.className = 'footnote-tooltip';
+          tooltip.textContent = previewText;
+          tooltip.style.cssText = `
+            display: none;
+            position: fixed;
+            background: #1f2937;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            line-height: 1.4;
+            max-width: 300px;
+            z-index: 9999;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            font-weight: normal;
+            pointer-events: none;
+          `;
+          
+          htmlAnchor.addEventListener('mouseenter', () => {
+            const rect = htmlAnchor.getBoundingClientRect();
+            const tooltipWidth = 300;
+            
+            let left = rect.left + rect.width / 2 - tooltipWidth / 2;
+            if (left < 10) left = 10;
+            if (left + tooltipWidth > window.innerWidth - 10) {
+              left = window.innerWidth - tooltipWidth - 10;
+            }
+            
+            let top = rect.top - 8;
+            
+            tooltip.style.left = `${left}px`;
+            tooltip.style.bottom = `${window.innerHeight - top}px`;
+            tooltip.style.display = 'block';
+            document.body.appendChild(tooltip);
+          });
+          htmlAnchor.addEventListener('mouseleave', () => {
+            tooltip.style.display = 'none';
+            if (tooltip.parentElement === document.body) {
+              document.body.removeChild(tooltip);
+            }
+          });
+        }
+      }
+    });
+    
+    const footnoteBackLinks = el.querySelectorAll('.footnote a.footnote-number');
+    footnoteBackLinks.forEach((link) => {
+      const htmlLink = link as HTMLAnchorElement;
+      htmlLink.style.cssText = `
+        color: #3b82f6;
+        text-decoration: none;
+        font-weight: 600;
+        margin-right: 0.5rem;
+      `;
+    });
+    
+    const footnoteDivs = el.querySelectorAll('.footnote');
+    if (footnoteDivs.length > 0) {
+      const firstFootnote = footnoteDivs[0] as HTMLElement;
+      const divider = document.createElement('div');
+      divider.innerHTML = `
+        <div style="margin-top: 2rem; margin-bottom: 1rem; border-top: 1px solid #e5e7eb; padding-top: 1rem;">
+          <h4 style="font-size: 0.875rem; font-weight: 600; color: #6b7280; margin: 0;">Footnotes</h4>
+        </div>
+      `;
+      firstFootnote.parentNode?.insertBefore(divider, firstFootnote);
+    }
+    
+    footnoteDivs.forEach((footnote) => {
+      const htmlFootnote = footnote as HTMLElement;
+      htmlFootnote.style.cssText = `
+        font-size: 0.875rem;
+        color: #6b7280;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #f3f4f6;
+      `;
+      
+      const backLink = document.createElement('a');
+      backLink.textContent = '↩ Back to text';
+      backLink.style.cssText = `
+        display: inline-block;
+        margin-left: 0.5rem;
+        color: #3b82f6;
+        text-decoration: none;
+        font-size: 0.75rem;
+        cursor: pointer;
+      `;
+      
+      const footnoteNumberLink = htmlFootnote.querySelector('a.footnote-number');
+      if (footnoteNumberLink) {
+        const anchorId = footnoteNumberLink.getAttribute('href')?.replace('#', '');
+        if (anchorId) {
+          backLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetAnchor = el.querySelector(`#${CSS.escape(anchorId)}`);
+            if (targetAnchor) {
+              targetAnchor.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              const htmlTarget = targetAnchor as HTMLElement;
+              htmlTarget.style.transition = 'background-color 0.3s';
+              htmlTarget.style.backgroundColor = '#dbeafe';
+              setTimeout(() => {
+                htmlTarget.style.backgroundColor = 'transparent';
+              }, 1500);
+            }
+          });
+        }
+      }
+      
+      const footnoteContentDiv = htmlFootnote.querySelector('.footnote-content');
+      if (footnoteContentDiv) {
+        footnoteContentDiv.appendChild(backLink);
+      }
+    });
+  }, []);
 
   return (
     <SharedLayout variant="simple" mainMaxWidth="container">
@@ -315,27 +536,67 @@ export default function About() {
                     ))}
                   </div>
                 ) : rssFeed?.items && rssFeed.items.length > 0 ? (
-                  <div className="space-y-3" data-testid="rss-feed-list">
-                    {rssFeed.items.map((item, index) => (
-                      <a
-                        key={index}
-                        href={item.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="block bg-secondary/30 hover:bg-secondary/50 rounded-lg p-4 transition-colors"
-                        data-testid={`rss-item-${index}`}
-                      >
-                        <div className="flex items-start justify-between gap-2">
-                          <h4 className="font-medium text-foreground text-sm leading-snug">
-                            {item.title}
-                          </h4>
-                          <ExternalLink className="w-4 h-4 text-muted-foreground flex-shrink-0 mt-0.5" />
+                  <div className="space-y-4" data-testid="rss-feed-list">
+                    {rssFeed.items.map((item, index) => {
+                      const isExpanded = expandedPosts.has(index);
+                      return (
+                        <div
+                          key={index}
+                          className="bg-secondary/30 rounded-lg border border-border overflow-hidden"
+                          data-testid={`rss-item-${index}`}
+                        >
+                          <div
+                            className="flex items-center justify-between p-4 cursor-pointer hover:bg-secondary/50 transition-colors"
+                            onClick={() => togglePost(index)}
+                          >
+                            <div className="flex-1 min-w-0">
+                              <h4 className="font-medium text-foreground text-sm leading-snug">
+                                {item.title}
+                              </h4>
+                              <div className="flex items-center gap-3 mt-1 text-xs text-muted-foreground">
+                                <span className="flex items-center gap-1">
+                                  <Calendar className="w-3 h-3" />
+                                  {formatDate(item.pubDate)}
+                                </span>
+                                {item.author && (
+                                  <span className="flex items-center gap-1">
+                                    <User className="w-3 h-3" />
+                                    {item.author}
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-2 ml-2">
+                              <a
+                                href={item.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="p-1.5 hover:bg-secondary rounded transition-colors"
+                                onClick={(e) => e.stopPropagation()}
+                                title="Open original post"
+                              >
+                                <ExternalLink className="w-4 h-4 text-muted-foreground" />
+                              </a>
+                              {isExpanded ? (
+                                <ChevronUp className="w-5 h-5 text-muted-foreground" />
+                              ) : (
+                                <ChevronDown className="w-5 h-5 text-muted-foreground" />
+                              )}
+                            </div>
+                          </div>
+                          
+                          {isExpanded && item.content && (
+                            <div className="border-t border-border">
+                              <div
+                                ref={setContentRef(index)}
+                                className="p-4 prose prose-sm max-w-none dark:prose-invert prose-blockquote:not-italic prose-blockquote:before:content-none prose-blockquote:after:content-none"
+                                dangerouslySetInnerHTML={{ __html: sanitizeHtml(item.content) }}
+                              />
+                            </div>
+                          )}
                         </div>
-                        <p className="text-xs text-muted-foreground mt-1">
-                          {formatDate(item.pubDate)}
-                        </p>
-                      </a>
-                    ))}
+                      );
+                    })}
                   </div>
                 ) : (
                   <p className="text-sm text-muted-foreground">
