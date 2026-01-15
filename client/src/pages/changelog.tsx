@@ -59,6 +59,15 @@ export default function Changelog() {
           
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Blog Reader on About Page</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Replaced "Latest Posts" widget with expandable blog post reader showing full content</li>
+                <li>Added Hebrew RTL text support with automatic detection</li>
+                <li>Footnotes display with hover tooltips and click-to-navigate functionality</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Text Processing Improvements</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added 72 number text to numeral conversions (e.g., "forty million" → "40,000,000")</li>
