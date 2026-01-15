@@ -143,8 +143,10 @@ export default function BlogReader() {
         
         if (targetId) {
           const footnoteEl = el.querySelector(`#${CSS.escape(targetId)}`);
-          if (footnoteEl) {
-            const footnoteText = footnoteEl.textContent?.trim() || '';
+          const footnoteContainer = footnoteEl?.closest('.footnote');
+          const footnoteContent = footnoteContainer?.querySelector('.footnote-content');
+          if (footnoteContent) {
+            const footnoteText = footnoteContent.textContent?.trim() || '';
             const previewText = footnoteText.length > 200 ? footnoteText.slice(0, 200) + '...' : footnoteText;
             
             const tooltip = document.createElement('div');
@@ -184,18 +186,16 @@ export default function BlogReader() {
         }
       });
       
-      const footnoteSection = el.querySelector('.footnote, [class*="footnote"]:not(.footnote-anchor)');
-      if (footnoteSection) {
-        const parent = footnoteSection.parentElement;
-        if (parent && !parent.querySelector('.footnotes-divider')) {
-          const divider = document.createElement('div');
-          divider.className = 'footnotes-divider';
-          divider.innerHTML = `
-            <hr style="margin: 2rem 0 1rem; border: none; border-top: 1px solid #e5e7eb;" />
-            <p style="font-size: 0.875rem; font-weight: 600; color: #6b7280; margin-bottom: 0.75rem;">Footnotes</p>
-          `;
-          parent.insertBefore(divider, footnoteSection);
-        }
+      const allFootnotes = el.querySelectorAll('.footnote:not(.footnote-anchor)');
+      const firstFootnote = allFootnotes[0];
+      if (firstFootnote && !el.querySelector('.footnotes-divider')) {
+        const divider = document.createElement('div');
+        divider.className = 'footnotes-divider';
+        divider.innerHTML = `
+          <hr style="margin: 2rem 0 1rem; border: none; border-top: 1px solid #e5e7eb;" />
+          <p style="font-size: 0.875rem; font-weight: 600; color: #6b7280; margin-bottom: 0.75rem;">Footnotes</p>
+        `;
+        firstFootnote.parentElement?.insertBefore(divider, firstFootnote);
       }
       
       el.querySelectorAll('[id^="footnote-"]:not(.footnote-anchor)').forEach(footnote => {
