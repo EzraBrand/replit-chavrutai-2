@@ -25,6 +25,28 @@ function isEllipsisOrPunctuation(text: string): boolean {
   return /^[\[\]\.…\s"'״״]+$/.test(cleaned) && cleaned.length > 0;
 }
 
+function cleanHebrewElement(el: HTMLElement) {
+  el.querySelectorAll('em, i').forEach(emEl => {
+    const text = emEl.textContent || '';
+    if (isMainlyHebrew(text) || isEllipsisOrPunctuation(text)) {
+      const span = document.createElement('span');
+      span.textContent = text;
+      emEl.replaceWith(span);
+    }
+  });
+  
+  const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
+  let node;
+  while ((node = walker.nextNode())) {
+    const textNode = node as Text;
+    let text = textNode.textContent || '';
+    if (isMainlyHebrew(text) || isEllipsisOrPunctuation(text)) {
+      text = text.replace(/^["״"]+|["״"]+$/g, '');
+      textNode.textContent = text;
+    }
+  }
+}
+
 function applyRtlToHebrewElements(container: HTMLElement) {
   const blockElements = Array.from(container.querySelectorAll('p, li, h1, h2, h3, h4, h5, h6, blockquote, div'));
   
@@ -37,11 +59,13 @@ function applyRtlToHebrewElements(container: HTMLElement) {
     if (isMainlyHebrew(text)) {
       htmlEl.setAttribute('dir', 'rtl');
       htmlEl.style.textAlign = 'right';
+      cleanHebrewElement(htmlEl);
       lastWasHebrew = true;
     } else if (isEllipsisOrPunctuation(text) && lastWasHebrew) {
       htmlEl.setAttribute('dir', 'rtl');
       htmlEl.style.textAlign = 'right';
       htmlEl.style.fontStyle = 'normal';
+      cleanHebrewElement(htmlEl);
     } else {
       lastWasHebrew = false;
     }
