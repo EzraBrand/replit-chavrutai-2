@@ -126,6 +126,9 @@ export default function BlogReader() {
       
       el.querySelectorAll('a.footnote-anchor').forEach(anchor => {
         const htmlAnchor = anchor as HTMLElement;
+        const href = anchor.getAttribute('href');
+        const targetId = href?.slice(1);
+        
         htmlAnchor.style.cssText = `
           font-size: 0.75em;
           vertical-align: super;
@@ -135,8 +138,50 @@ export default function BlogReader() {
           padding: 0 2px;
           text-decoration: none;
           cursor: pointer;
+          position: relative;
         `;
-        htmlAnchor.title = 'Jump to footnote';
+        
+        if (targetId) {
+          const footnoteEl = el.querySelector(`#${CSS.escape(targetId)}`);
+          if (footnoteEl) {
+            const footnoteText = footnoteEl.textContent?.trim() || '';
+            const previewText = footnoteText.length > 200 ? footnoteText.slice(0, 200) + '...' : footnoteText;
+            
+            const tooltip = document.createElement('div');
+            tooltip.className = 'footnote-tooltip';
+            tooltip.textContent = previewText;
+            tooltip.style.cssText = `
+              display: none;
+              position: absolute;
+              bottom: 100%;
+              left: 50%;
+              transform: translateX(-50%);
+              background: #1f2937;
+              color: white;
+              padding: 8px 12px;
+              border-radius: 6px;
+              font-size: 0.8rem;
+              line-height: 1.4;
+              max-width: 300px;
+              width: max-content;
+              z-index: 50;
+              box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+              margin-bottom: 4px;
+              font-weight: normal;
+              vertical-align: baseline;
+            `;
+            
+            htmlAnchor.style.position = 'relative';
+            htmlAnchor.appendChild(tooltip);
+            
+            htmlAnchor.addEventListener('mouseenter', () => {
+              tooltip.style.display = 'block';
+            });
+            htmlAnchor.addEventListener('mouseleave', () => {
+              tooltip.style.display = 'none';
+            });
+          }
+        }
       });
       
       const footnoteSection = el.querySelector('.footnote, [class*="footnote"]:not(.footnote-anchor)');
@@ -152,6 +197,30 @@ export default function BlogReader() {
           parent.insertBefore(divider, footnoteSection);
         }
       }
+      
+      el.querySelectorAll('[id^="footnote-"]:not(.footnote-anchor)').forEach(footnote => {
+        const footnoteId = footnote.getAttribute('id');
+        if (footnoteId && !footnoteId.includes('anchor')) {
+          const anchorId = footnoteId.replace('footnote-', 'footnote-anchor-');
+          const existingBackLink = footnote.querySelector('.footnote-back-link');
+          if (!existingBackLink) {
+            const backLink = document.createElement('a');
+            backLink.className = 'footnote-back-link';
+            backLink.href = `#${anchorId}`;
+            backLink.innerHTML = ' ↩ Back to text';
+            backLink.style.cssText = `
+              color: #2563eb;
+              font-size: 0.75rem;
+              margin-left: 8px;
+              text-decoration: none;
+              cursor: pointer;
+              white-space: nowrap;
+            `;
+            backLink.title = 'Return to where this footnote is referenced';
+            footnote.appendChild(backLink);
+          }
+        }
+      });
       
       el.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', (e) => {
