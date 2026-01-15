@@ -124,6 +124,35 @@ export default function BlogReader() {
       contentRefs.current.set(index, el);
       applyRtlToHebrewElements(el);
       
+      el.querySelectorAll('a.footnote-anchor').forEach(anchor => {
+        const htmlAnchor = anchor as HTMLElement;
+        htmlAnchor.style.cssText = `
+          font-size: 0.75em;
+          vertical-align: super;
+          line-height: 0;
+          color: #2563eb;
+          font-weight: 600;
+          padding: 0 2px;
+          text-decoration: none;
+          cursor: pointer;
+        `;
+        htmlAnchor.title = 'Jump to footnote';
+      });
+      
+      const footnoteSection = el.querySelector('.footnote, [class*="footnote"]:not(.footnote-anchor)');
+      if (footnoteSection) {
+        const parent = footnoteSection.parentElement;
+        if (parent && !parent.querySelector('.footnotes-divider')) {
+          const divider = document.createElement('div');
+          divider.className = 'footnotes-divider';
+          divider.innerHTML = `
+            <hr style="margin: 2rem 0 1rem; border: none; border-top: 1px solid #e5e7eb;" />
+            <p style="font-size: 0.875rem; font-weight: 600; color: #6b7280; margin-bottom: 0.75rem;">Footnotes</p>
+          `;
+          parent.insertBefore(divider, footnoteSection);
+        }
+      }
+      
       el.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', (e) => {
           const href = anchor.getAttribute('href');
