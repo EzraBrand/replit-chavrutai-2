@@ -26,24 +26,20 @@ function isEllipsisOrPunctuation(text: string): boolean {
 }
 
 function cleanHebrewElement(el: HTMLElement) {
-  el.querySelectorAll('em, i').forEach(emEl => {
-    const text = emEl.textContent || '';
-    if (isMainlyHebrew(text) || isEllipsisOrPunctuation(text)) {
-      const span = document.createElement('span');
-      span.textContent = text;
-      emEl.replaceWith(span);
-    }
-  });
+  el.style.fontStyle = 'normal';
+  el.style.quotes = 'none';
   
-  const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
-  let node;
-  while ((node = walker.nextNode())) {
-    const textNode = node as Text;
-    let text = textNode.textContent || '';
-    if (isMainlyHebrew(text) || isEllipsisOrPunctuation(text)) {
-      text = text.replace(/^["״"]+|["״"]+$/g, '');
-      textNode.textContent = text;
+  const blockquote = el.closest('blockquote');
+  if (blockquote) {
+    (blockquote as HTMLElement).style.fontStyle = 'normal';
+    (blockquote as HTMLElement).style.quotes = 'none';
+    const beforeStyle = document.createElement('style');
+    beforeStyle.textContent = `blockquote[data-hebrew-cleaned]::before, blockquote[data-hebrew-cleaned]::after { content: none !important; }`;
+    if (!document.head.querySelector('[data-hebrew-blockquote-style]')) {
+      beforeStyle.setAttribute('data-hebrew-blockquote-style', 'true');
+      document.head.appendChild(beforeStyle);
     }
+    blockquote.setAttribute('data-hebrew-cleaned', 'true');
   }
 }
 
