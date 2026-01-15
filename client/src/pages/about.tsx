@@ -589,7 +589,7 @@ export default function About() {
                             <div className="border-t border-border">
                               <div
                                 ref={setContentRef(index)}
-                                className="p-4 prose prose-sm max-w-none dark:prose-invert prose-blockquote:not-italic prose-blockquote:before:content-none prose-blockquote:after:content-none"
+                                className="p-4 prose prose-sm max-w-none dark:prose-invert prose-blockquote:not-italic prose-blockquote:font-normal prose-blockquote:before:content-none prose-blockquote:after:content-none prose-p:font-normal prose-strong:font-semibold [&_blockquote]:before:content-none [&_blockquote]:after:content-none [&_blockquote_p]:before:content-none [&_blockquote_p]:after:content-none"
                                 dangerouslySetInnerHTML={{ __html: sanitizeHtml(item.content) }}
                               />
                             </div>
