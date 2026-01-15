@@ -43,16 +43,8 @@ const isEllipsisOrPunctuation = (text: string): boolean => {
 };
 
 const cleanHebrewElement = (el: HTMLElement) => {
-  el.querySelectorAll('em, i').forEach(italic => {
-    const span = document.createElement('span');
-    span.innerHTML = italic.innerHTML;
-    italic.replaceWith(span);
-  });
-  el.querySelectorAll('q').forEach(q => {
-    const span = document.createElement('span');
-    span.innerHTML = q.innerHTML;
-    q.replaceWith(span);
-  });
+  el.style.fontStyle = 'normal';
+  el.style.quotes = 'none';
   
   const blockquote = el.closest('blockquote');
   if (blockquote) {
@@ -76,21 +68,17 @@ const applyRtlToHebrewElements = (container: HTMLElement) => {
     const htmlEl = el as HTMLElement;
     const text = htmlEl.textContent || '';
     
-    if (isEllipsisOrPunctuation(text)) {
-      if (previousWasHebrew) {
-        htmlEl.setAttribute('dir', 'rtl');
-        htmlEl.style.textAlign = 'right';
-      }
-      return;
-    }
-    
     if (isMainlyHebrew(text)) {
       htmlEl.setAttribute('dir', 'rtl');
       htmlEl.style.textAlign = 'right';
       cleanHebrewElement(htmlEl);
       previousWasHebrew = true;
-    } else {
+    } else if (isEllipsisOrPunctuation(text) && previousWasHebrew) {
+      htmlEl.setAttribute('dir', 'rtl');
+      htmlEl.style.textAlign = 'right';
+      htmlEl.style.fontStyle = 'normal';
       cleanHebrewElement(htmlEl);
+    } else {
       previousWasHebrew = false;
     }
   });
