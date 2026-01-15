@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { SharedLayout } from "@/components/layout";
 import { ExternalLink, Calendar, User, ChevronDown, ChevronUp } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import DOMPurify from "dompurify";
 
 interface BlogPostFull {
@@ -13,14 +13,42 @@ interface BlogPostFull {
   author: string;
 }
 
+function isMainlyHebrew(text: string): boolean {
+  const cleanText = text.replace(/[\s\d.,;:!?'"()\[\]{}<>\/\\@#$%^&*+=\-_|~`]/g, '');
+  if (cleanText.length === 0) return false;
+  const hebrewChars = (cleanText.match(/[\u0590-\u05FF]/g) || []).length;
+  return hebrewChars / cleanText.length > 0.5;
+}
+
+function applyRtlToHebrewElements(container: HTMLElement) {
+  const blockElements = container.querySelectorAll('p, li, h1, h2, h3, h4, h5, h6, blockquote, div');
+  
+  blockElements.forEach((el) => {
+    const text = el.textContent || '';
+    if (isMainlyHebrew(text)) {
+      (el as HTMLElement).setAttribute('dir', 'rtl');
+      (el as HTMLElement).style.textAlign = 'right';
+    }
+  });
+}
+
 export default function BlogReader() {
   const [expandedPosts, setExpandedPosts] = useState<Set<number>>(new Set([0]));
+  const contentRefs = useRef<Map<number, HTMLDivElement>>(new Map());
 
   const { data: rssFeed, isLoading, error } = useQuery<{
     items: BlogPostFull[];
   }>({
     queryKey: ["/api/rss-feed-full"],
   });
+
+  useEffect(() => {
+    contentRefs.current.forEach((ref, index) => {
+      if (ref && expandedPosts.has(index)) {
+        applyRtlToHebrewElements(ref);
+      }
+    });
+  }, [expandedPosts, rssFeed]);
 
   const formatDate = (dateStr: string) => {
     try {
@@ -51,8 +79,17 @@ export default function BlogReader() {
   const sanitizeHtml = (html: string) => {
     return DOMPurify.sanitize(html, {
       ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'a', 'ul', 'ol', 'li', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'img', 'figure', 'figcaption', 'div', 'span'],
-      ALLOWED_ATTR: ['href', 'src', 'alt', 'class', 'target', 'rel'],
+      ALLOWED_ATTR: ['href', 'src', 'alt', 'class', 'target', 'rel', 'dir', 'style'],
     });
+  };
+
+  const setContentRef = (index: number) => (el: HTMLDivElement | null) => {
+    if (el) {
+      contentRefs.current.set(index, el);
+      applyRtlToHebrewElements(el);
+    } else {
+      contentRefs.current.delete(index);
+    }
   };
 
   return (
@@ -161,6 +198,7 @@ export default function BlogReader() {
                   {expandedPosts.has(index) && (
                     <div className="p-6 border-t border-border">
                       <div
+                        ref={setContentRef(index)}
                         className="prose prose-sm dark:prose-invert max-w-none
                           prose-headings:text-foreground prose-headings:font-semibold
                           prose-p:text-muted-foreground prose-p:leading-relaxed
