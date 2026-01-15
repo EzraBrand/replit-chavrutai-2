@@ -115,7 +115,7 @@ export default function BlogReader() {
   const sanitizeHtml = (html: string) => {
     return DOMPurify.sanitize(html, {
       ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'a', 'ul', 'ol', 'li', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'img', 'figure', 'figcaption', 'div', 'span'],
-      ALLOWED_ATTR: ['href', 'src', 'alt', 'class', 'target', 'rel', 'dir', 'style'],
+      ALLOWED_ATTR: ['href', 'src', 'alt', 'class', 'target', 'rel', 'dir', 'style', 'id', 'data-component-name'],
     });
   };
 
@@ -123,6 +123,24 @@ export default function BlogReader() {
     if (el) {
       contentRefs.current.set(index, el);
       applyRtlToHebrewElements(el);
+      
+      el.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', (e) => {
+          const href = anchor.getAttribute('href');
+          if (href && href.startsWith('#')) {
+            e.preventDefault();
+            const targetId = href.slice(1);
+            const targetEl = el.querySelector(`#${CSS.escape(targetId)}`);
+            if (targetEl) {
+              targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              (targetEl as HTMLElement).style.backgroundColor = 'rgba(59, 130, 246, 0.2)';
+              setTimeout(() => {
+                (targetEl as HTMLElement).style.backgroundColor = '';
+              }, 2000);
+            }
+          }
+        });
+      });
     } else {
       contentRefs.current.delete(index);
     }
