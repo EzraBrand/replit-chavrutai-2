@@ -154,10 +154,7 @@ export default function BlogReader() {
             tooltip.textContent = previewText;
             tooltip.style.cssText = `
               display: none;
-              position: absolute;
-              bottom: 100%;
-              left: 50%;
-              transform: translateX(-50%);
+              position: fixed;
               background: #1f2937;
               color: white;
               padding: 8px 12px;
@@ -165,22 +162,34 @@ export default function BlogReader() {
               font-size: 0.8rem;
               line-height: 1.4;
               max-width: 300px;
-              width: max-content;
-              z-index: 50;
+              z-index: 9999;
               box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-              margin-bottom: 4px;
               font-weight: normal;
-              vertical-align: baseline;
+              pointer-events: none;
             `;
             
-            htmlAnchor.style.position = 'relative';
-            htmlAnchor.appendChild(tooltip);
-            
-            htmlAnchor.addEventListener('mouseenter', () => {
+            htmlAnchor.addEventListener('mouseenter', (e) => {
+              const rect = htmlAnchor.getBoundingClientRect();
+              const tooltipWidth = 300;
+              
+              let left = rect.left + rect.width / 2 - tooltipWidth / 2;
+              if (left < 10) left = 10;
+              if (left + tooltipWidth > window.innerWidth - 10) {
+                left = window.innerWidth - tooltipWidth - 10;
+              }
+              
+              let top = rect.top - 8;
+              
+              tooltip.style.left = `${left}px`;
+              tooltip.style.bottom = `${window.innerHeight - top}px`;
               tooltip.style.display = 'block';
+              document.body.appendChild(tooltip);
             });
             htmlAnchor.addEventListener('mouseleave', () => {
               tooltip.style.display = 'none';
+              if (tooltip.parentElement === document.body) {
+                document.body.removeChild(tooltip);
+              }
             });
           }
         }
