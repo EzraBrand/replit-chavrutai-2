@@ -14,20 +14,36 @@ interface BlogPostFull {
 }
 
 function isMainlyHebrew(text: string): boolean {
-  const cleanText = text.replace(/[\s\d.,;:!?'"()\[\]{}<>\/\\@#$%^&*+=\-_|~`]/g, '');
+  const cleanText = text.replace(/[\s\d.,;:!?'"()\[\]{}<>\/\\@#$%^&*+=\-_|~`…]/g, '');
   if (cleanText.length === 0) return false;
   const hebrewChars = (cleanText.match(/[\u0590-\u05FF]/g) || []).length;
   return hebrewChars / cleanText.length > 0.5;
 }
 
+function isEllipsisOrPunctuation(text: string): boolean {
+  const cleaned = text.trim();
+  return /^[\[\]\.…\s"'״״]+$/.test(cleaned) && cleaned.length > 0;
+}
+
 function applyRtlToHebrewElements(container: HTMLElement) {
-  const blockElements = container.querySelectorAll('p, li, h1, h2, h3, h4, h5, h6, blockquote, div');
+  const blockElements = Array.from(container.querySelectorAll('p, li, h1, h2, h3, h4, h5, h6, blockquote, div'));
+  
+  let lastWasHebrew = false;
   
   blockElements.forEach((el) => {
     const text = el.textContent || '';
+    const htmlEl = el as HTMLElement;
+    
     if (isMainlyHebrew(text)) {
-      (el as HTMLElement).setAttribute('dir', 'rtl');
-      (el as HTMLElement).style.textAlign = 'right';
+      htmlEl.setAttribute('dir', 'rtl');
+      htmlEl.style.textAlign = 'right';
+      lastWasHebrew = true;
+    } else if (isEllipsisOrPunctuation(text) && lastWasHebrew) {
+      htmlEl.setAttribute('dir', 'rtl');
+      htmlEl.style.textAlign = 'right';
+      htmlEl.style.fontStyle = 'normal';
+    } else {
+      lastWasHebrew = false;
     }
   });
 }
