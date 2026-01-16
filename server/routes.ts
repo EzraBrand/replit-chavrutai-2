@@ -1227,8 +1227,8 @@ When answering questions:
         items.push({ title, link, pubDate, description, content, author });
       }
       
-      // Return latest 10 posts with full content
-      res.json({ items: items.slice(0, 10) });
+      // Return latest 20 posts with full content
+      res.json({ items: items.slice(0, 20) });
     } catch (error) {
       console.error("RSS feed full content fetch error:", error);
       res.status(500).json({ error: "Failed to fetch RSS feed" });
