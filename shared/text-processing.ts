@@ -307,6 +307,11 @@ export function replaceTerms(text: string): string {
   
   let processedText = text;
   
+  // STEP 0: Normalize animal-related terms with variable whitespace after comma
+  // Sefaria API sometimes inserts newlines/extra spaces: "small,\n domesticated animals"
+  // Normalize to single space so the term lookup can match ", domesticated animals"
+  processedText = processedText.replace(/,\s+(domesticated animals)/gi, ', $1');
+  
   // STEP 1: Handle Rabbi special cases first (complex logic, not in combined pattern)
   // "Rabbi," (vocative) → "Rabbi!" to mark direct address
   processedText = processedText.replace(RABBI_VOCATIVE_PATTERN, 'Rabbi!');
