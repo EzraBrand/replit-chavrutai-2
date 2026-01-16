@@ -55,6 +55,14 @@
         "harlot": "prostitute"
       }
     },
+    "animals": {
+      "description": "Animal-related terms",
+      "terms": {
+        ", domesticated animals": " livestock",
+        "domesticated animals": "livestock",
+        "non-domesticated": "wild"
+      }
+    },
     "objects": {
       "description": "Physical objects",
       "terms": {
