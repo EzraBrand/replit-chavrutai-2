@@ -134,8 +134,10 @@ export class SefariaAPI {
     
     for (const sense of senses) {
       if (sense.definition) {
+        // Include sense number if present (e.g., "1)", "—2)")
+        const numberPrefix = sense.number ? `${sense.number} ` : '';
         flattenedSenses.push({
-          definition: this.transformHyperlinks(sense.definition),
+          definition: numberPrefix + this.transformHyperlinks(sense.definition),
           grammar: sense.grammar
         });
       }
@@ -240,6 +242,7 @@ export class SefariaAPI {
               rid: entry.rid,
               parent_lexicon: entry.parent_lexicon,
               language_code: entry.language_code,
+              language_reference: entry.language_reference,
               content: {
                 ...entry.content,
                 senses: this.flattenSenses(entry.content.senses)
@@ -300,6 +303,7 @@ export class SefariaAPI {
               rid: entry.rid,
               parent_lexicon: entry.parent_lexicon,
               language_code: entry.language_code,
+              language_reference: entry.language_reference,
               content: {
                 ...entry.content,
                 senses: this.flattenSenses(entry.content.senses)

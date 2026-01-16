@@ -16,6 +16,8 @@ interface DictionaryEntry {
   headword: string;
   rid?: string;
   parent_lexicon: string;
+  language_code?: string;
+  language_reference?: string;
   content: {
     senses: Array<{
       definition: string;
@@ -570,24 +572,54 @@ export default function Dictionary() {
             </Card>
           ) : (
             <div className="space-y-4">
-              {results.map((entry, index) => (
-                <div key={entry.rid || index} className="pb-4 border-b border-border last:border-b-0" data-testid={`entry-${entry.rid || index}`}>
-                  <div className="flex items-start gap-4">
-                    <h3 className="text-lg font-bold font-hebrew text-primary min-w-fit">
-                      {entry.headword}
-                    </h3>
-                    <div className="text-foreground flex-1 prose prose-sm max-w-none">
-                      {entry.content.senses.map((sense, senseIndex) => (
-                        <div 
-                          key={senseIndex} 
-                          className="mb-2 last:mb-0 dictionary-content" 
-                          dangerouslySetInnerHTML={{ __html: expandAbbreviations(splitIntoParagraphs(sense.definition)) }} 
-                        />
-                      ))}
+              {results.map((entry, index) => {
+                // Format origin metadata (language_code and language_reference)
+                // Preserve original Sefaria format and let expandAbbreviations handle display
+                const formatOriginMetadata = () => {
+                  if (!entry.language_code && !entry.language_reference) return null;
+                  
+                  let originText = '';
+                  
+                  // Preserve language_code as-is (e.g., "(b. h.;", "ch.")
+                  if (entry.language_code) {
+                    originText = entry.language_code;
+                  }
+                  
+                  // Add language_reference if present (e.g., " cmp. <a>לָעַג</a>)")
+                  if (entry.language_reference) {
+                    originText += entry.language_reference;
+                  }
+                  
+                  return originText.trim();
+                };
+                
+                const originMetadata = formatOriginMetadata();
+                
+                return (
+                  <div key={entry.rid || index} className="pb-4 border-b border-border last:border-b-0" data-testid={`entry-${entry.rid || index}`}>
+                    <div className="flex items-start gap-4">
+                      <h3 className="text-lg font-bold font-hebrew text-primary min-w-fit">
+                        {entry.headword}
+                      </h3>
+                      <div className="text-foreground flex-1 prose prose-sm max-w-none">
+                        {originMetadata && (
+                          <div 
+                            className="mb-2 dictionary-content text-muted-foreground" 
+                            dangerouslySetInnerHTML={{ __html: expandAbbreviations(originMetadata) }} 
+                          />
+                        )}
+                        {entry.content.senses.map((sense, senseIndex) => (
+                          <div 
+                            key={senseIndex} 
+                            className="mb-2 last:mb-0 dictionary-content" 
+                            dangerouslySetInnerHTML={{ __html: expandAbbreviations(splitIntoParagraphs(sense.definition)) }} 
+                          />
+                        ))}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>
