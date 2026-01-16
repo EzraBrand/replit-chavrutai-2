@@ -64,6 +64,9 @@ export default function Changelog() {
                 <li>Replaced "Latest Posts" widget with expandable blog post reader showing full content</li>
                 <li>Added Hebrew RTL text support with automatic detection</li>
                 <li>Footnotes display with hover tooltips and click-to-navigate functionality</li>
+                <li>Added post numbering (1, 2, 3...) for easier reference</li>
+                <li>Expanded posts now show first 3 paragraphs with "Load more of the post..." option</li>
+                <li>Shows 5 posts by default with "Load more posts..." to view up to 20 posts</li>
               </ul>
             </div>
 
