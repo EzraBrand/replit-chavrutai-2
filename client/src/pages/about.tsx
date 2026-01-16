@@ -148,7 +148,7 @@ export default function About() {
   };
 
   const loadMorePosts = () => {
-    setVisiblePostsCount(prev => Math.min(prev + 10, 20));
+    setVisiblePostsCount(prev => Math.min(prev + 5, 20));
   };
 
   const setContentRef = useCallback((index: number) => (el: HTMLDivElement | null) => {
