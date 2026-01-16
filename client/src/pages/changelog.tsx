@@ -59,6 +59,15 @@ export default function Changelog() {
           
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Jastrow Dictionary Improvements</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Fixed sense numbering display (1, 2, 3...) that was being cut off from dictionary entries</li>
+                <li>Added origin metadata display showing language origins (Biblical Hebrew, Aramaic) and cross-references</li>
+                <li>Expanded abbreviation mappings with 10+ new terms (Assyr., frequ., opp., supra, etc.)</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Blog Reader on About Page</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Replaced "Latest Posts" widget with expandable blog post reader showing full content</li>
