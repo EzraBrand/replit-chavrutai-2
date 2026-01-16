@@ -135,7 +135,12 @@ export class SefariaAPI {
     for (const sense of senses) {
       if (sense.definition) {
         // Include sense number if present (e.g., "1)", "—2)")
-        const numberPrefix = sense.number ? `${sense.number} ` : '';
+        // Remove leading dashes from sense numbers (e.g., "—2)" -> "2)")
+        let cleanNumber = sense.number || '';
+        if (cleanNumber) {
+          cleanNumber = cleanNumber.replace(/^[—–-]+/, '').trim();
+        }
+        const numberPrefix = cleanNumber ? `${cleanNumber} ` : '';
         flattenedSenses.push({
           definition: numberPrefix + this.transformHyperlinks(sense.definition),
           grammar: sense.grammar
