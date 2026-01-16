@@ -87,6 +87,8 @@ const applyRtlToHebrewElements = (container: HTMLElement) => {
 export default function About() {
   useSEO(generateSEOData.aboutPage());
   const [expandedPosts, setExpandedPosts] = useState<Set<number>>(new Set());
+  const [expandedContent, setExpandedContent] = useState<Set<number>>(new Set());
+  const [visiblePostsCount, setVisiblePostsCount] = useState(5);
 
   const { data: rssFeed, isLoading: rssLoading } = useQuery<{
     items: RssFeedItem[];
@@ -117,6 +119,36 @@ export default function About() {
       }
       return newSet;
     });
+  };
+
+  const toggleContentExpansion = (index: number) => {
+    setExpandedContent(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(index)) {
+        newSet.delete(index);
+      } else {
+        newSet.add(index);
+      }
+      return newSet;
+    });
+  };
+
+  const extractFirst3Paragraphs = (html: string): { preview: string; hasMore: boolean } => {
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = html;
+    const paragraphs = tempDiv.querySelectorAll('p');
+    if (paragraphs.length <= 3) {
+      return { preview: html, hasMore: false };
+    }
+    const previewDiv = document.createElement('div');
+    for (let i = 0; i < 3; i++) {
+      previewDiv.appendChild(paragraphs[i].cloneNode(true));
+    }
+    return { preview: previewDiv.innerHTML, hasMore: true };
+  };
+
+  const loadMorePosts = () => {
+    setVisiblePostsCount(prev => Math.min(prev + 10, 20));
   };
 
   const setContentRef = useCallback((index: number) => (el: HTMLDivElement | null) => {
@@ -539,8 +571,10 @@ export default function About() {
                   </div>
                 ) : rssFeed?.items && rssFeed.items.length > 0 ? (
                   <div className="space-y-4" data-testid="rss-feed-list">
-                    {rssFeed.items.map((item, index) => {
+                    {rssFeed.items.slice(0, visiblePostsCount).map((item, index) => {
                       const isExpanded = expandedPosts.has(index);
+                      const isContentExpanded = expandedContent.has(index);
+                      const contentData = item.content ? extractFirst3Paragraphs(item.content) : null;
                       return (
                         <div
                           key={index}
@@ -551,21 +585,26 @@ export default function About() {
                             className="flex items-center justify-between p-4 cursor-pointer hover:bg-secondary/50 transition-colors"
                             onClick={() => togglePost(index)}
                           >
-                            <div className="flex-1 min-w-0">
-                              <h4 className="font-medium text-foreground text-sm leading-snug">
-                                {item.title}
-                              </h4>
-                              <div className="flex items-center gap-3 mt-1 text-xs text-muted-foreground">
-                                <span className="flex items-center gap-1">
-                                  <Calendar className="w-3 h-3" />
-                                  {formatDate(item.pubDate)}
-                                </span>
-                                {item.author && (
+                            <div className="flex items-center gap-3 flex-1 min-w-0">
+                              <span className="text-sm font-semibold text-muted-foreground w-6 flex-shrink-0">
+                                {index + 1}.
+                              </span>
+                              <div className="flex-1 min-w-0">
+                                <h4 className="font-medium text-foreground text-sm leading-snug">
+                                  {item.title}
+                                </h4>
+                                <div className="flex items-center gap-3 mt-1 text-xs text-muted-foreground">
                                   <span className="flex items-center gap-1">
-                                    <User className="w-3 h-3" />
-                                    {item.author}
+                                    <Calendar className="w-3 h-3" />
+                                    {formatDate(item.pubDate)}
                                   </span>
-                                )}
+                                  {item.author && (
+                                    <span className="flex items-center gap-1">
+                                      <User className="w-3 h-3" />
+                                      {item.author}
+                                    </span>
+                                  )}
+                                </div>
                               </div>
                             </div>
                             <div className="flex items-center gap-2 ml-2">
@@ -587,18 +626,56 @@ export default function About() {
                             </div>
                           </div>
                           
-                          {isExpanded && item.content && (
+                          {isExpanded && item.content && contentData && (
                             <div className="border-t border-border">
                               <div
                                 ref={setContentRef(index)}
                                 className="p-4 prose prose-sm max-w-none dark:prose-invert prose-blockquote:not-italic prose-blockquote:font-normal [&_blockquote_p:first-of-type]:before:content-none [&_blockquote_p:last-of-type]:after:content-none"
-                                dangerouslySetInnerHTML={{ __html: sanitizeHtml(item.content) }}
+                                dangerouslySetInnerHTML={{ 
+                                  __html: sanitizeHtml(isContentExpanded ? item.content : contentData.preview) 
+                                }}
                               />
+                              {contentData.hasMore && !isContentExpanded && (
+                                <div className="px-4 pb-4">
+                                  <button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      toggleContentExpansion(index);
+                                    }}
+                                    className="text-blue-600 hover:text-blue-800 text-sm font-medium underline"
+                                  >
+                                    Load more of the post...
+                                  </button>
+                                </div>
+                              )}
+                              {contentData.hasMore && isContentExpanded && (
+                                <div className="px-4 pb-4">
+                                  <button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      toggleContentExpansion(index);
+                                    }}
+                                    className="text-blue-600 hover:text-blue-800 text-sm font-medium underline"
+                                  >
+                                    Show less...
+                                  </button>
+                                </div>
+                              )}
                             </div>
                           )}
                         </div>
                       );
                     })}
+                    {rssFeed.items.length > visiblePostsCount && visiblePostsCount < 20 && (
+                      <div className="text-center pt-2">
+                        <button
+                          onClick={loadMorePosts}
+                          className="text-blue-600 hover:text-blue-800 text-sm font-medium underline"
+                        >
+                          Load more posts...
+                        </button>
+                      </div>
+                    )}
                   </div>
                 ) : (
                   <p className="text-sm text-muted-foreground">
