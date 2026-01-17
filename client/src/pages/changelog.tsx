@@ -87,6 +87,7 @@ export default function Changelog() {
                 <li>Supports large numbers with comma-separated thousands for readability</li>
                 <li>Added fractional ordinal conversions (e.g., "one five-hundredth" → "1/500th")</li>
                 <li>Added Hebrew month date conversions (e.g., "the first of Shevat" → "the 1st of Shevat")</li>
+                <li>Added measurement fractions with Unicode symbols (e.g., "a finger and a third" → "1⅓ fingers", "seven and a half" → "7½")</li>
               </ul>
             </div>
           </div>
