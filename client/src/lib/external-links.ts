@@ -54,7 +54,7 @@ const DAF_YOMI_MASSECHET_IDS: Record<string, number> = {
   "Shekalim": 287,
   "Yoma": 288,
   "Sukkah": 289,
-  "Beitza": 290,
+  "Beitzah": 290,
   "Rosh Hashanah": 291,
   "Taanit": 292,
   "Megillah": 293,
@@ -79,7 +79,7 @@ const DAF_YOMI_MASSECHET_IDS: Record<string, number> = {
   "Menachot": 312,
   "Chullin": 313,
   "Bekhorot": 314,
-  "Arachin": 315,
+  "Arakhin": 315,
   "Temurah": 316,
   "Keritot": 317,
   "Meilah": 318,
@@ -90,9 +90,7 @@ const DAF_YOMI_MASSECHET_IDS: Record<string, number> = {
 const EXTERNAL_TRACTATE_NAMES: Record<string, string> = {
   "Eruvin": "Eiruvin",
   "Rosh Hashanah": "Rosh_HaShanah",
-  "Beitza": "Beitzah",
-  "Chullin": "Chulin",
-  "Arachin": "Arakhin"
+  "Chullin": "Chulin"
 };
 
 function getExternalTractateName(tractate: string): string {

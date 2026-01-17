@@ -26,10 +26,10 @@ export const TRACTATE_LISTS = {
   ],
   "Talmud Bavli": [
     "Berakhot",
-    "Shabbat", "Eruvin", "Pesachim", "Rosh Hashanah", "Yoma", "Sukkah", "Beitza", "Taanit", "Megillah", "Moed Katan", "Chagigah",
+    "Shabbat", "Eruvin", "Pesachim", "Rosh Hashanah", "Yoma", "Sukkah", "Beitzah", "Taanit", "Megillah", "Moed Katan", "Chagigah",
     "Yevamot", "Ketubot", "Nedarim", "Nazir", "Sotah", "Gittin", "Kiddushin",
     "Bava Kamma", "Bava Metzia", "Bava Batra", "Sanhedrin", "Makkot", "Shevuot", "Avodah Zarah", "Horayot",
-    "Zevachim", "Menachot", "Chullin", "Bekhorot", "Arachin", "Temurah", "Keritot", "Meilah", "Tamid", "Niddah"
+    "Zevachim", "Menachot", "Chullin", "Bekhorot", "Arakhin", "Temurah", "Keritot", "Meilah", "Tamid", "Niddah"
   ]
 } as const;
 
@@ -42,7 +42,7 @@ export const TRACTATE_HEBREW_NAMES = {
   "Rosh Hashanah": "ראש השנה",
   "Yoma": "יומא",
   "Sukkah": "סוכה",
-  "Beitza": "ביצה",
+  "Beitzah": "ביצה",
   "Taanit": "תענית",
   "Megillah": "מגילה",
   "Moed Katan": "מועד קטן",
@@ -66,7 +66,7 @@ export const TRACTATE_HEBREW_NAMES = {
   "Menachot": "מנחות",
   "Chullin": "חולין",
   "Bekhorot": "בכורות",
-  "Arachin": "ערכין",
+  "Arakhin": "ערכין",
   "Temurah": "תמורה",
   "Keritot": "כריתות",
   "Meilah": "מעילה",
@@ -77,12 +77,12 @@ export const TRACTATE_HEBREW_NAMES = {
 // Folio ranges for all Talmud Bavli tractates
 export const TRACTATE_FOLIO_RANGES = {
   "Berakhot": 64, "Shabbat": 157, "Eruvin": 105, "Pesachim": 121, "Shekalim": 22, "Yoma": 88,
-  "Sukkah": 56, "Beitza": 40, "Rosh Hashanah": 35, "Taanit": 31, "Megillah": 32,
+  "Sukkah": 56, "Beitzah": 40, "Rosh Hashanah": 35, "Taanit": 31, "Megillah": 32,
   "Moed Katan": 29, "Chagigah": 27, "Yevamot": 122, "Ketubot": 112, "Nedarim": 91, 
   "Nazir": 66, "Sotah": 49, "Gittin": 90, "Kiddushin": 82, "Bava Kamma": 119, 
   "Bava Metzia": 119, "Bava Batra": 176, "Sanhedrin": 113, "Makkot": 24, "Shevuot": 49, 
   "Avodah Zarah": 76, "Horayot": 14, "Zevachim": 120, "Menachot": 110, "Chullin": 142, 
-  "Bekhorot": 61, "Arachin": 34, "Temurah": 34, "Keritot": 28, "Meilah": 22, 
+  "Bekhorot": 61, "Arakhin": 34, "Temurah": 34, "Keritot": 28, "Meilah": 22, 
   "Tamid": 33, "Niddah": 73
 } as const;
 
@@ -99,8 +99,8 @@ export const URL_TO_SEFARIA_TRACTATE_MAP: Record<string, string> = {
   "rosh-hashanah": "Rosh Hashanah",
   "yoma": "Yoma",
   "sukkah": "Sukkah", 
-  "beitza": "Beitza",
-  "beitzah": "Beitza",
+  "beitza": "Beitzah",
+  "beitzah": "Beitzah",
   "taanit": "Taanit",
   "megillah": "Megillah",
   "moed katan": "Moed Katan",
@@ -129,8 +129,8 @@ export const URL_TO_SEFARIA_TRACTATE_MAP: Record<string, string> = {
   "menachot": "Menachot",
   "chullin": "Chullin",
   "bekhorot": "Bekhorot", 
-  "arachin": "Arachin",
-  "arakhin": "Arachin",
+  "arachin": "Arakhin",
+  "arakhin": "Arakhin",
   "temurah": "Temurah",
   "keritot": "Keritot", 
   "meilah": "Meilah",
@@ -170,7 +170,7 @@ export const SEDER_TRACTATES = {
     { name: 'Rosh Hashanah', folios: 35, lastSide: 'a' as const },
     { name: 'Yoma', folios: 88, lastSide: 'a' as const },
     { name: 'Sukkah', folios: 56, lastSide: 'b' as const },
-    { name: 'Beitza', folios: 40, lastSide: 'b' as const },
+    { name: 'Beitzah', folios: 40, lastSide: 'b' as const },
     { name: 'Taanit', folios: 31, lastSide: 'a' as const },
     { name: 'Megillah', folios: 32, lastSide: 'a' as const },
     { name: 'Moed Katan', folios: 29, lastSide: 'a' as const },
@@ -200,7 +200,7 @@ export const SEDER_TRACTATES = {
     { name: 'Menachot', folios: 110, lastSide: 'a' as const },
     { name: 'Chullin', folios: 142, lastSide: 'a' as const },
     { name: 'Bekhorot', folios: 61, lastSide: 'a' as const },
-    { name: 'Arachin', folios: 34, lastSide: 'a' as const },
+    { name: 'Arakhin', folios: 34, lastSide: 'a' as const },
     { name: 'Temurah', folios: 34, lastSide: 'a' as const },
     { name: 'Keritot', folios: 28, lastSide: 'b' as const },
     { name: 'Meilah', folios: 22, lastSide: 'a' as const },
@@ -239,7 +239,7 @@ export function isValidFolio(tractate: string, folio: number): boolean {
  * @returns The tractate info object with folios and lastSide, or null if not found
  */
 export function getTractateInfo(tractate: string): { name: string; folios: number; lastSide: 'a' | 'b' } | null {
-  // First normalize using URL map to handle alternate spellings (e.g., "arakhin" -> "Arachin")
+  // First normalize using URL map to handle alternate spellings (e.g., "arachin" -> "Arakhin")
   const normalizedName = normalizeSefariaTractateName(tractate);
   const slug = getTractateSlug(normalizedName);
   

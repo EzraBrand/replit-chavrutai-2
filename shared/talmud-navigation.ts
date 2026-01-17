@@ -23,7 +23,7 @@ const tractateInfoCache = new Map<string, TractateInfo | null>();
  * Results are cached for performance
  */
 export function getTractateInfo(tractate: string): TractateInfo | null {
-  // First normalize using URL map to handle alternate spellings (e.g., "arakhin" -> "Arachin")
+  // First normalize using URL map to handle alternate spellings (e.g., "arachin" -> "Arakhin")
   const normalizedName = normalizeSefariaTractateName(tractate);
   const slug = getTractateSlug(normalizedName);
   
@@ -258,7 +258,9 @@ export function getAllTractates(): TractateInfo[] {
         name: t.name,
         folios: t.folios,
         lastSide: t.lastSide,
-        seder: sederName
+        seder: sederName,
+        startFolio: (t as any).startFolio ?? 2,
+        startSide: (t as any).startSide ?? 'a'
       });
     }
   }

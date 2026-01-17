@@ -4,14 +4,14 @@
 // Chapter data migration complete - now using JSON files exclusively
 
 // Static imports for all JSON files
-import arachinData from '../../../talmud-data/chapters/arachin.json';
+import arakhinData from '../../../talmud-data/chapters/arakhin.json';
 import avodahZarahData from '../../../talmud-data/chapters/avodah-zarah.json';
 import bavaBartraData from '../../../talmud-data/chapters/bava-batra.json';
 import bavaKammaData from '../../../talmud-data/chapters/bava-kamma.json';
 import bavaMetzeaData from '../../../talmud-data/chapters/bava-metzia.json';
 import bekhorotData from '../../../talmud-data/chapters/bekhorot.json';
 import berakhottData from '../../../talmud-data/chapters/berakhot.json';
-import beitzaData from '../../../talmud-data/chapters/beitza.json';
+import beitzahData from '../../../talmud-data/chapters/beitzah.json';
 import chagigahData from '../../../talmud-data/chapters/chagigah.json';
 import chullinData from '../../../talmud-data/chapters/chullin.json';
 import eruvinData from '../../../talmud-data/chapters/eruvin.json';
@@ -42,16 +42,18 @@ import yevamotData from '../../../talmud-data/chapters/yevamot.json';
 import yomaData from '../../../talmud-data/chapters/yoma.json';
 import zevachimData from '../../../talmud-data/chapters/zevachim.json';
 
-// JSON data registry
+// JSON data registry - supports both old and new spellings for backwards compatibility
 const JSON_CHAPTER_DATA: Record<string, ChapterInfo[]> = {
-  'arachin': arachinData as ChapterInfo[],
+  'arakhin': arakhinData as ChapterInfo[],
+  'arachin': arakhinData as ChapterInfo[],
   'avodah zarah': avodahZarahData as ChapterInfo[],
   'bava batra': bavaBartraData as ChapterInfo[],
   'bava kamma': bavaKammaData as ChapterInfo[],
   'bava metzia': bavaMetzeaData as ChapterInfo[],
   'bekhorot': bekhorotData as ChapterInfo[],
   'berakhot': berakhottData as ChapterInfo[],
-  'beitza': beitzaData as ChapterInfo[],
+  'beitzah': beitzahData as ChapterInfo[],
+  'beitza': beitzahData as ChapterInfo[],
   'chagigah': chagigahData as ChapterInfo[],
   'chullin': chullinData as ChapterInfo[],
   'eruvin': eruvinData as ChapterInfo[],

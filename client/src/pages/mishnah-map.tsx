@@ -50,11 +50,9 @@ const SEDER_ORGANIZATION = {
   }
 };
 
-// Local mapping for spelling variants in Mishnah map data
-const TRACTATE_NAME_VARIANTS: Record<string, string> = {
-  "Beitzah": "Beitza",
-  "Arakhin": "Arachin"
-};
+// Note: Tractate names now match Sefaria exactly (Beitzah, Arakhin)
+// No mapping needed - keeping empty for backwards compatibility if needed
+const TRACTATE_NAME_VARIANTS: Record<string, string> = {};
 
 interface MishnahTile {
   mishnahNumber: string;
