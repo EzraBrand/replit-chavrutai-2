@@ -263,7 +263,11 @@
         "a day and a half": "1½ days",
         "a finger and a half": "1½ fingers",
         "a finger and a third": "1⅓ fingers",
-        "a handbreadth and a half": "1½ handbreadths"
+        "a handbreadth and a half": "1½ handbreadths",
+        "four and a half cubits": "4½ cubits",
+        "one cubit": "1 cubit",
+        "two fingers": "2 fingers",
+        "Two fingers": "2 fingers"
       }
     },
     "numerals": {
