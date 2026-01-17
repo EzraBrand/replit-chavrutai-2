@@ -59,6 +59,15 @@ export default function Changelog() {
           
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Sefaria Compatibility Fix</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Fixed tractate name discrepancy with Sefaria: "Beitza" → "Beitzah" and "Arachin" → "Arakhin"</li>
+                <li>Restored broken Sefaria links on Mishnah Map page for these tractates</li>
+                <li>Added backwards compatibility for old URLs to prevent broken links</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Jastrow Dictionary Improvements</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Fixed sense numbering display (1, 2, 3...) that was being cut off from dictionary entries</li>
