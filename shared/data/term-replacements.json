@@ -128,7 +128,6 @@
         "seventh": "7th",
         "eighth": "8th",
         "ninth": "9th",
-        "tenth": "10th",
         "eleventh": "11th",
         "twelfth": "12th",
         "thirteenth": "13th",
@@ -252,7 +251,19 @@
         "one two-hundredth": "1/200th",
         "one two hundredth": "1/200th",
         "one-thousandth": "1/1000th",
-        "one ten-thousandth": "1/10,000th"
+        "one ten-thousandth": "1/10,000th",
+        "One fifty-eight thousand, eight hundred and eighty-eighth": "1/58,888th",
+        "a tenth part": "a 1/10th part",
+        "A tenth part": "a 1/10th part",
+        "an eighth-kav": "1/8th-kav",
+        "one-thirty-second of a kav": "1/32 of a kav",
+        "a fifth": "1/5th",
+        "a cubit and a half": "1½ cubits",
+        "two and a half": "2½",
+        "a day and a half": "1½ days",
+        "a finger and a half": "1½ fingers",
+        "a finger and a third": "1⅓ fingers",
+        "a handbreadth and a half": "1½ handbreadths"
       }
     },
     "numerals": {
