@@ -78,7 +78,10 @@
       "terms": {
         "rainy season": "winter",
         "Shabbat eve": "Friday",
-        "the eve of Shabbat": "Friday"
+        "the eve of Shabbat": "Friday",
+        "the first of Shevat": "the 1st of Shevat",
+        "the first of Tishrei": "the 1st of Tishrei",
+        "the first of Nisan": "the 1st of Nisan"
       }
     },
     "events": {
