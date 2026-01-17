@@ -81,7 +81,8 @@
         "the eve of Shabbat": "Friday",
         "the first of Shevat": "the 1st of Shevat",
         "the first of Tishrei": "the 1st of Tishrei",
-        "the first of Nisan": "the 1st of Nisan"
+        "the first of Nisan": "the 1st of Nisan",
+        "first of Elul": "1st of Elul"
       }
     },
     "events": {
@@ -258,6 +259,7 @@
         "an eighth-kav": "1/8th-kav",
         "one-thirty-second of a kav": "1/32 of a kav",
         "a fifth": "1/5th",
+        "half a cubit": "½ cubit",
         "a cubit and a half": "1½ cubits",
         "one and a half": "1½",
         "two and a half": "2½",
@@ -269,6 +271,16 @@
         "eight and a half": "8½",
         "nine and a half": "9½",
         "ten and a half": "10½",
+        "eleven and a half": "11½",
+        "twelve and a half": "12½",
+        "thirteen and a half": "13½",
+        "fourteen and a half": "14½",
+        "fifteen and a half": "15½",
+        "sixteen and a half": "16½",
+        "seventeen and a half": "17½",
+        "eighteen and a half": "18½",
+        "nineteen and a half": "19½",
+        "twenty and a half": "20½",
         "a day and a half": "1½ days",
         "a finger and a half": "1½ fingers",
         "a finger and a third": "1⅓ fingers",
