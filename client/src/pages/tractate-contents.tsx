@@ -128,7 +128,7 @@ export default function TractateContents() {
                       return (
                         <Link
                           key={`${folio.folio}${folio.side}`}
-                          href={`/tractate/${getTractateSlug(tractateDisplayName)}/${folio.folio}${folio.side}${sectionAnchor}`}
+                          href={`/talmud/${getTractateSlug(tractateDisplayName)}/${folio.folio}${folio.side}${sectionAnchor}`}
                         >
                           <Button
                             variant="outline"

@@ -1,4 +1,4 @@
-import { Switch, Route } from "wouter";
+import { Switch, Route, useParams, Redirect } from "wouter";
 import { lazy, Suspense, useEffect } from "react";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -9,6 +9,11 @@ import { PageLoading } from "@/components/page-loading";
 import { initAnalytics, isOptedOut } from "@/lib/analytics";
 import { useAnalytics } from "@/hooks/use-analytics";
 import { preloadChapterData } from "@/lib/chapter-data";
+
+function TractateRedirect() {
+  const { tractate, folio } = useParams<{ tractate: string; folio: string }>();
+  return <Redirect to={`/talmud/${tractate}/${folio}${window.location.hash}`} />;
+}
 
 import Contents from "@/pages/contents";
 
@@ -62,7 +67,8 @@ function Router() {
       <Route path="/search" component={SearchPage} />
       <Route path="/talmud" component={Contents} />
       <Route path="/talmud/:tractate" component={TractateContents} />
-      <Route path="/tractate/:tractate/:folio" component={TractateView} />
+      <Route path="/talmud/:tractate/:folio" component={TractateView} />
+      <Route path="/tractate/:tractate/:folio" component={TractateRedirect} />
       <Route path="/outline/:tractate/:chapter" component={TractateOutlinePage} />
       <Route component={NotFound} />
     </Switch>

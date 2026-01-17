@@ -251,7 +251,7 @@ export default function Sitemap() {
                           <div key={folio} className="flex gap-1">
                             {showASide && (
                               <Link 
-                                href={`/tractate/${tractate.slug}/${folio}a`}
+                                href={`/talmud/${tractate.slug}/${folio}a`}
                                 className="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 bg-blue-50 dark:bg-blue-900/20 px-2 py-1 rounded transition-colors"
                               >
                                 {folio}a
@@ -259,7 +259,7 @@ export default function Sitemap() {
                             )}
                             {showBSide && (
                               <Link 
-                                href={`/tractate/${tractate.slug}/${folio}b`}
+                                href={`/talmud/${tractate.slug}/${folio}b`}
                                 className="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 bg-blue-50 dark:bg-blue-900/20 px-2 py-1 rounded transition-colors"
                               >
                                 {folio}b

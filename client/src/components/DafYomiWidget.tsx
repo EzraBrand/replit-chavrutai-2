@@ -58,7 +58,7 @@ export function DafYomiWidget({ className = "", compact = false }: DafYomiWidget
 
     const parsed = parseDafYomiRef(dafYomi.ref);
     const studyLink = parsed 
-      ? `/tractate/${parsed.tractate}/${parsed.folio}`
+      ? `/talmud/${parsed.tractate}/${parsed.folio}`
       : `/talmud`;
 
     return (
@@ -101,7 +101,7 @@ export function DafYomiWidget({ className = "", compact = false }: DafYomiWidget
 
   const parsed = parseDafYomiRef(dafYomi.ref);
   const studyLink = parsed 
-    ? `/tractate/${parsed.tractate}/${parsed.folio}`
+    ? `/talmud/${parsed.tractate}/${parsed.folio}`
     : `/talmud`;
 
   return (

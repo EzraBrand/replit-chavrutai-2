@@ -117,7 +117,7 @@ export default function SearchPage() {
         const side = match[3];
         const section = match[4]; // First section number (before any dash)
         const sectionAnchor = section ? `#section-${section}` : '';
-        return `/tractate/${tractate}/${folio}${side}${sectionAnchor}`;
+        return `/talmud/${tractate}/${folio}${side}${sectionAnchor}`;
       }
     } else if (result.type === "bible") {
       // Match format like "Genesis 1:1" or "Genesis 1:1-3" (range refs)

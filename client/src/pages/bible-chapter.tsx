@@ -101,7 +101,7 @@ export default function BibleChapterPage() {
     // Navigate to Talmud tractate
     const tractateSlug = newLocation.tractate.toLowerCase().replace(/\s+/g, '-');
     const folioSlug = `${newLocation.folio}${newLocation.side}`;
-    window.location.href = `/tractate/${tractateSlug}/${folioSlug}`;
+    window.location.href = `/talmud/${tractateSlug}/${folioSlug}`;
   };
 
   if (!book || !chapter) {

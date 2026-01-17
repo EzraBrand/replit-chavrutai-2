@@ -54,7 +54,7 @@ export default function TractateOutlinePage() {
           </p>
           <div className="space-x-4">
             <Link 
-              href={`/tractate/${tractate.toLowerCase()}`}
+              href={`/talmud/${tractate.toLowerCase()}`}
               className="text-blue-600 dark:text-blue-400 hover:underline"
             >
               ← View {tractate.charAt(0).toUpperCase() + tractate.slice(1)} Contents

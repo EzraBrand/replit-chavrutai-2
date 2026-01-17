@@ -217,10 +217,10 @@ export const generateSEOData = {
     title: `${tractate} ${folio}${side} - Talmud Bavli | ChavrutAI`,
     description: `Study ${tractate} folio ${folio}${side} from the Babylonian Talmud with bilingual Hebrew-English text display. Read, analyze and learn from this classic text on ChavrutAI's digital study platform.`,
     keywords: `Talmud, ${tractate}, folio ${folio}${side}, Jewish texts, Hebrew, Aramaic, study, ChavrutAI, Babylonian Talmud`,
-    canonical: `${window.location.origin}/tractate/${getTractateSlug(tractate)}/${folio}${side}`,
+    canonical: `${window.location.origin}/talmud/${getTractateSlug(tractate)}/${folio}${side}`,
     ogTitle: `${tractate} ${folio}${side} - Study Talmud Bavli`,
     ogDescription: `Study ${tractate} folio ${folio}${side} from the Babylonian Talmud with Hebrew-English bilingual text on ChavrutAI.`,
-    ogUrl: `${window.location.origin}/tractate/${getTractateSlug(tractate)}/${folio}${side}`,
+    ogUrl: `${window.location.origin}/talmud/${getTractateSlug(tractate)}/${folio}${side}`,
     noindex: false, // Allow indexing of all folio pages
     robots: "index, follow", // Allow search engine indexing
     structuredData: {
@@ -228,7 +228,7 @@ export const generateSEOData = {
       "@type": "Article",
       headline: `${tractate} ${folio}${side} - Talmud Bavli`,
       description: `Study ${tractate} folio ${folio}${side} from the Babylonian Talmud with bilingual Hebrew-English text`,
-      url: `${window.location.origin}/tractate/${getTractateSlug(tractate)}/${folio}${side}`,
+      url: `${window.location.origin}/talmud/${getTractateSlug(tractate)}/${folio}${side}`,
       dateModified: new Date().toISOString(),
       author: {
         "@type": "Organization",

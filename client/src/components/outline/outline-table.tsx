@@ -15,8 +15,8 @@ export function OutlineTable({ outline }: OutlineTableProps) {
     const [startLocation] = locationRange.split(' - ');
     const [page, section] = startLocation.split(':');
     
-    // Create link with section anchor: /tractate/sanhedrin/90a#section-15
-    return `/tractate/${tractate.toLowerCase()}/${page}${section ? `#section-${section}` : ''}`;
+    // Create link with section anchor: /talmud/sanhedrin/90a#section-15
+    return `/talmud/${tractate.toLowerCase()}/${page}${section ? `#section-${section}` : ''}`;
   };
 
   return (

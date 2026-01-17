@@ -323,7 +323,7 @@ export default function SuggestedPages() {
           {SUGGESTED_PAGES.map((page, index) => (
             <Link 
               key={index}
-              href={`/tractate/${encodeURIComponent(page.tractate.toLowerCase())}/${page.folio}`}
+              href={`/talmud/${encodeURIComponent(page.tractate.toLowerCase())}/${page.folio}`}
             >
               <Card className="hover:shadow-sm transition-shadow cursor-pointer border-border hover:border-primary/20 bg-card/50">
                 <div className="p-3">

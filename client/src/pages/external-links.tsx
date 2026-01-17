@@ -291,11 +291,11 @@ function ExternalLinksPage() {
                     </div>
                     <div className="text-sm text-muted-foreground">ChavrutAI Talmud Reader - section anchor</div>
                     <div className="text-xs text-muted-foreground mt-1 font-mono break-all max-w-md">
-                      /tractate/{tractate.toLowerCase().replace(/ /g, '-')}/{folio}{side}#section-{section}
+                      /talmud/{tractate.toLowerCase().replace(/ /g, '-')}/{folio}{side}#section-{section}
                     </div>
                   </div>
                   <a
-                    href={`/tractate/${tractate.toLowerCase().replace(/ /g, '-')}/${folio}${side}#section-${section}`}
+                    href={`/talmud/${tractate.toLowerCase().replace(/ /g, '-')}/${folio}${side}#section-${section}`}
                     className="flex items-center gap-1 text-primary hover:underline flex-shrink-0 ml-4"
                     data-testid="link-section-chavrutai"
                   >
@@ -353,11 +353,11 @@ function ExternalLinksPage() {
                   </div>
                   <div className="text-sm text-muted-foreground">ChavrutAI Talmud Reader</div>
                   <div className="text-xs text-muted-foreground mt-1 font-mono break-all max-w-md">
-                    /tractate/{tractate.toLowerCase().replace(/ /g, '-')}/{folio}{side}
+                    /talmud/{tractate.toLowerCase().replace(/ /g, '-')}/{folio}{side}
                   </div>
                 </div>
                 <a
-                  href={`/tractate/${tractate.toLowerCase().replace(/ /g, '-')}/${folio}${side}`}
+                  href={`/talmud/${tractate.toLowerCase().replace(/ /g, '-')}/${folio}${side}`}
                   className="flex items-center gap-1 text-primary hover:underline flex-shrink-0 ml-4"
                   data-testid="link-page-chavrutai"
                 >

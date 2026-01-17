@@ -151,8 +151,8 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
       canonical: `${baseUrl}/talmud/${tractate}`,
       robots: "index, follow"
     };
-  } else if (url.match(/^\/tractate\/[^/]+\/\d+[ab]$/)) {
-    // Individual folio pages like /tractate/berakhot/2a
+  } else if (url.match(/^\/talmud\/[^/]+\/\d+[ab]$/)) {
+    // Individual folio pages like /talmud/berakhot/2a
     const urlParts = url.split('/');
     const tractate = urlParts[2];
     const folio = urlParts[3];
@@ -164,7 +164,7 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
       description: `Study ${tractateTitle} folio ${folioUpper} with parallel Hebrew-English text, traditional commentary, and modern study tools. Free access to Babylonian Talmud online.`,
       ogTitle: `${tractateTitle} ${folioUpper} – Talmud Study Page`,
       ogDescription: `Study ${tractateTitle} folio ${folioUpper} with parallel Hebrew-English text, traditional commentary, and modern study tools.`,
-      canonical: `${baseUrl}/tractate/${tractate}/${folio}`,
+      canonical: `${baseUrl}/talmud/${tractate}/${folio}`,
       robots: "index, follow"
     };
   }
@@ -289,18 +289,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
       needsRedirect = true;
     }
     
-    // Normalize tractate folio pages: /tractate/:tractate/:folio
-    const tractatePageMatch = canonicalUrl.match(/^\/tractate\/([^/]+)\/(\d+)([ab])$/i);
-    if (tractatePageMatch) {
-      const [, tractate, folio, side] = tractatePageMatch;
+    // Normalize tractate folio pages: /talmud/:tractate/:folio
+    const talmudFolioMatch = canonicalUrl.match(/^\/talmud\/([^/]+)\/(\d+)([ab])$/i);
+    if (talmudFolioMatch) {
+      const [, tractate, folio, side] = talmudFolioMatch;
       const normalizedTractate = getTractateSlug(tractate);
       const normalizedFolio = folio + side.toLowerCase();
-      const normalizedUrl = `/tractate/${normalizedTractate}/${normalizedFolio}`;
+      const normalizedUrl = `/talmud/${normalizedTractate}/${normalizedFolio}`;
       
       if (canonicalUrl !== normalizedUrl) {
         canonicalUrl = normalizedUrl;
         needsRedirect = true;
       }
+    }
+    
+    // Redirect old /tractate/:tractate/:folio URLs to /talmud/:tractate/:folio
+    const oldTractateMatch = canonicalUrl.match(/^\/tractate\/([^/]+)\/(\d+)([ab])$/i);
+    if (oldTractateMatch) {
+      const [, tractate, folio, side] = oldTractateMatch;
+      const normalizedTractate = getTractateSlug(tractate);
+      const normalizedFolio = folio + side.toLowerCase();
+      canonicalUrl = `/talmud/${normalizedTractate}/${normalizedFolio}`;
+      needsRedirect = true;
     }
     
     // Normalize tractate contents pages: /talmud/:tractate
@@ -356,7 +366,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/suggested-pages', servePageWithMeta);
   app.get('/privacy', servePageWithMeta);
   app.get('/talmud/:tractate', servePageWithMeta);
-  app.get('/tractate/:tractate/:folio', servePageWithMeta);
+  app.get('/talmud/:tractate/:folio', servePageWithMeta);
   
   // Get specific text
   app.get("/api/text", async (req, res) => {

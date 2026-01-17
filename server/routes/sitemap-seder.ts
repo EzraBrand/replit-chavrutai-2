@@ -75,7 +75,7 @@ export function generateSederSitemap(sederName: SederName) {
           
           sitemap += `
   <url>
-    <loc>${baseUrl}/tractate/${tractateSlug}/${folio}${side}</loc>
+    <loc>${baseUrl}/talmud/${tractateSlug}/${folio}${side}</loc>
     <priority>${priority}</priority>
     <changefreq>yearly</changefreq>
   </url>`;

@@ -195,5 +195,5 @@ export function findChapterForFolio(
 export function getChapterFirstPageUrl(tractate: string, chapter: ChapterInfo): string {
   const tractateSlug = encodeURIComponent(tractate.toLowerCase());
   const folioSlug = `${chapter.startFolio}${chapter.startSide}`;
-  return `/tractate/${tractateSlug}/${folioSlug}`;
+  return `/talmud/${tractateSlug}/${folioSlug}`;
 }

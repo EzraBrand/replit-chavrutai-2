@@ -147,7 +147,7 @@ export default function MishnahMapPage() {
                 // Generate link using normalized tractate name for correct slug
                 const normalizedTractate = TRACTATE_NAME_VARIANTS[mapping.tractate] || normalizeDisplayTractateName(mapping.tractate);
                 const tractateSlug = getTractateSlug(normalizedTractate);
-                const href = `/tractate/${tractateSlug}/${mapping.startDaf}#section-${mapping.startLine}`;
+                const href = `/talmud/${tractateSlug}/${mapping.startDaf}#section-${mapping.startLine}`;
 
                 // Generate Sefaria Mishnah URL
                 const sefariaTractateName = tractate.replace(/ /g, '_');
@@ -205,7 +205,7 @@ export default function MishnahMapPage() {
 
                   const normalizedTractate = TRACTATE_NAME_VARIANTS[mapping.tractate] || normalizeDisplayTractateName(mapping.tractate);
                   const tractateSlug = getTractateSlug(normalizedTractate);
-                  const href = `/tractate/${tractateSlug}/${mapping.startDaf}#section-${mapping.startLine}`;
+                  const href = `/talmud/${tractateSlug}/${mapping.startDaf}#section-${mapping.startLine}`;
 
                   // Generate Sefaria Mishnah URL
                   const sefariaTractateName = tractate.replace(/ /g, '_');

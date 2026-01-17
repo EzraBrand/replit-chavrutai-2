@@ -94,7 +94,7 @@ export default function TractateView() {
     // Update URL to match new location
     const tractateSlug = getTractateSlug(newLocation.tractate);
     const folioSlug = `${newLocation.folio}${newLocation.side}`;
-    setLocation(`/tractate/${tractateSlug}/${folioSlug}`);
+    setLocation(`/talmud/${tractateSlug}/${folioSlug}`);
   };
 
   const handleSectionChange = (section: number) => {
