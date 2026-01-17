@@ -59,6 +59,15 @@ export default function Changelog() {
           
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">URL Structure Improvements</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Changed Talmud page URLs from /tractate/ to /talmud/ for consistency (e.g., /talmud/berakhot/2a)</li>
+                <li>Old bookmarked /tractate/ URLs automatically redirect to new /talmud/ URLs</li>
+                <li>Updated all internal links, SEO metadata, and sitemaps to use the new URL structure</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Sefaria Compatibility Fix</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Fixed tractate name discrepancy with Sefaria: "Beitza" → "Beitzah" and "Arachin" → "Arakhin"</li>
