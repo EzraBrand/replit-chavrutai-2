@@ -31,21 +31,9 @@ interface SEOData {
 
 export function useSEO(seoData: SEOData) {
   useEffect(() => {
-    // Check server response headers for noindex directive
-    const checkServerNoIndex = () => {
-      const currentUrl = window.location.pathname;
-      // Check if this is a folio page pattern
-      if (/^\/tractate\/[^\/]+\/\d+[ab]$/i.test(currentUrl)) {
-        return true;
-      }
-      return false;
-    };
-
-    // Override noindex if server indicates this should be noindexed
-    const serverNoIndex = checkServerNoIndex();
-    if (serverNoIndex && !seoData.noindex) {
-      seoData = { ...seoData, noindex: true };
-    }
+    // Note: Old /tractate/ URLs are now 301 redirected to /talmud/ at the server level
+    // No client-side noindex overrides needed - rely on canonical URLs and redirects
+    
     // Update title
     document.title = seoData.title;
 

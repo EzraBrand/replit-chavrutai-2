@@ -9,7 +9,9 @@ export default function Contact() {
   useSEO({
     title: "Contact | ChavrutAI",
     description: "Contact ChavrutAI with feedback, suggestions, and corrections. We appreciate all input to improve our digital Talmud study platform.",
-    keywords: "contact, feedback, suggestions, corrections, ChavrutAI, Talmud study, support"
+    keywords: "contact, feedback, suggestions, corrections, ChavrutAI, Talmud study, support",
+    canonical: `${window.location.origin}/contact`,
+    robots: "index, follow"
   });
 
 

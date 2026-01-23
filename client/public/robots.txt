@@ -1,8 +1,18 @@
 User-agent: *
 Allow: /
 Allow: /talmud/
-Allow: /tractate/
+Allow: /bible/
 Allow: /about
+Allow: /suggested-pages
+Allow: /biblical-index
+Allow: /blog-posts
+Allow: /dictionary
+
+# Disallow deprecated URL patterns (redirect to canonical /talmud/ format)
+Disallow: /tractate/
+Disallow: /contents/
+
+# Disallow API endpoints
 Disallow: /api/
 
 # Crawl delay to respect Sefaria API limits and server resources
@@ -12,15 +22,14 @@ Crawl-delay: 2
 User-agent: Googlebot
 Crawl-delay: 1
 
-User-agent: Bingbot  
+User-agent: Bingbot
 Crawl-delay: 2
 
 # Sitemap
 Sitemap: https://chavrutai.com/sitemap.xml
 
-# Allow indexing of main pages, disallow dynamic content
-# This ensures search engines focus on core navigation pages
-# and don't index the thousands of individual folio pages
-
-# Strategic SEO for Jewish text accessibility
-# Focus on key educational content and entry points
+# SEO Strategy:
+# - /tractate/ URLs are deprecated and 301 redirect to /talmud/
+# - All canonical URLs use /talmud/ format
+# - Bible pages use /bible/ format
+# - This ensures Google consolidates indexing to canonical URLs only

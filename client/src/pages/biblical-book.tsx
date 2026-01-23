@@ -11,6 +11,7 @@ import { ArrowLeft, Search, BookOpen } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { sanitizeHtml } from "@/lib/html-sanitizer";
 import { Footer } from "@/components/footer";
+import { useSEO } from "@/hooks/use-seo";
 
 export default function BiblicalBookPage() {
   const [, params] = useRoute("/biblical-index/book/:bookName");
@@ -22,6 +23,21 @@ export default function BiblicalBookPage() {
     queryKey: ['biblical-book', bookName],
     queryFn: () => bookName ? getBiblicalBook(bookName) : null,
     enabled: !!bookName,
+  });
+
+  // Format book name for display
+  const formatBookName = (name: string): string => {
+    return name.split('_').map(word => 
+      word.charAt(0).toUpperCase() + word.slice(1)
+    ).join(' ');
+  };
+
+  // Set up SEO
+  useSEO({
+    title: bookName ? `${formatBookName(bookName)} - Biblical Citations in Talmud | ChavrutAI` : "Biblical Citations | ChavrutAI",
+    description: bookName ? `Find all Talmudic citations of ${formatBookName(bookName)}. Comprehensive index mapping biblical verses to their references in the Babylonian Talmud.` : "Biblical citations index",
+    canonical: `${window.location.origin}/biblical-index/book/${bookName || ''}`,
+    robots: "index, follow"
   });
 
   if (!bookName) {
