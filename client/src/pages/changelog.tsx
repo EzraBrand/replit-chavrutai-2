@@ -59,6 +59,15 @@ export default function Changelog() {
           
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">SEO Canonical URL Fix</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Fixed Google indexing issues caused by duplicate content between deprecated /tractate/ and canonical /talmud/ URLs</li>
+                <li>Updated robots.txt to block deprecated URL patterns and consolidate crawling to canonical URLs</li>
+                <li>Added missing canonical tags to contact, biblical-book, and other pages</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">URL Structure Improvements</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Changed Talmud page URLs from /tractate/ to /talmud/ for consistency (e.g., /talmud/berakhot/2a)</li>
