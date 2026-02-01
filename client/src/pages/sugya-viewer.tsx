@@ -273,13 +273,15 @@ export default function SefariaFetchPage() {
   const htmlToMarkdown = (html: string): string => {
     let md = html;
     
-    md = md.replace(/<([^>]*)\s+dir\s*=\s*"rtl"[^>]*>([\s\S]*?)<\/\1>/gi, (match, tag, content) => {
-      const innerContent = content.replace(/<[^>]+>/g, '').trim();
-      return `**${innerContent}**\n\n`;
-    });
     md = md.replace(/<div[^>]*\s+dir\s*=\s*"rtl"[^>]*>([\s\S]*?)<\/div>/gi, (match, content) => {
-      const innerContent = content.replace(/<[^>]+>/g, '').trim();
-      return `**${innerContent}**\n\n`;
+      let innerContent = content
+        .replace(/<\/p>/gi, '\n')
+        .replace(/<p[^>]*>/gi, '')
+        .replace(/<br[^>]*>/gi, '\n')
+        .replace(/<[^>]+>/g, '')
+        .trim();
+      const lines = innerContent.split('\n').filter((line: string) => line.trim());
+      return lines.map((line: string) => `**${line.trim()}**`).join('\n\n') + '\n\n';
     });
     md = md.replace(/<p[^>]*\s+dir\s*=\s*"rtl"[^>]*>([\s\S]*?)<\/p>/gi, (match, content) => {
       const innerContent = content.replace(/<[^>]+>/g, '').trim();
