@@ -241,13 +241,19 @@ export default function SefariaFetchPage() {
           const isRtl = el.getAttribute('dir') === 'rtl' || computedStyle.direction === 'rtl';
           
           const attrsToRemove: string[] = [];
+          const hasSticky = el.classList.contains('sticky');
           for (let i = 0; i < el.attributes.length; i++) {
             const attrName = el.attributes[i].name;
-            if (!['dir'].includes(attrName)) {
+            if (!['dir', 'class'].includes(attrName)) {
               attrsToRemove.push(attrName);
             }
           }
           attrsToRemove.forEach(attr => el.removeAttribute(attr));
+          if (hasSticky) {
+            el.className = 'sticky';
+          } else {
+            el.removeAttribute('class');
+          }
           
           const styles: string[] = [];
           if (isBold) styles.push('font-weight: bold');
@@ -272,6 +278,11 @@ export default function SefariaFetchPage() {
 
   const htmlToMarkdown = (html: string): string => {
     let md = html;
+    
+    md = md.replace(/<div[^>]*class\s*=\s*"[^"]*sticky[^"]*"[^>]*>([\s\S]*?)<\/div>/gi, (match, content) => {
+      const innerContent = content.replace(/<[^>]+>/g, '').trim();
+      return `${innerContent}\n\n`;
+    });
     
     md = md.replace(/<div[^>]*\s+dir\s*=\s*"rtl"[^>]*>([\s\S]*?)<\/div>/gi, (match, content) => {
       let innerContent = content
