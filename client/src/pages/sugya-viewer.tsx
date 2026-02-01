@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Search, Copy } from "lucide-react";
+import { Search, Copy, FileText, Code } from "lucide-react";
 import { formatEnglishText, processHebrewText } from "@/lib/text-processing";
 import { TRACTATE_LISTS } from "@shared/tractates";
 import { BlogPostSelector } from "@/components/sefaria/blog-post-selector";
@@ -213,6 +213,141 @@ export default function SefariaFetchPage() {
     range.selectNodeContents(container);
     selection?.removeAllRanges();
     selection?.addRange(range);
+  };
+
+  const getCleanHtml = (container: HTMLElement): string => {
+    const clone = container.cloneNode(true) as HTMLElement;
+    
+    clone.querySelectorAll('[data-no-copy]').forEach(el => el.remove());
+    
+    const allowedTags = ['strong', 'b', 'i', 'em', 'p', 'div', 'br', 'span', 'hr', 'sup', 'sub', 'small'];
+    
+    const processNode = (element: HTMLElement) => {
+      const children = Array.from(element.children);
+      children.forEach(child => {
+        const el = child as HTMLElement;
+        const tagName = el.tagName.toLowerCase();
+        
+        if (!allowedTags.includes(tagName)) {
+          while (el.firstChild) {
+            el.parentNode?.insertBefore(el.firstChild, el);
+          }
+          el.parentNode?.removeChild(el);
+        } else {
+          const computedStyle = window.getComputedStyle(el);
+          const isBold = computedStyle.fontWeight === 'bold' || parseInt(computedStyle.fontWeight) >= 700;
+          const isItalic = computedStyle.fontStyle === 'italic';
+          const isRtl = el.getAttribute('dir') === 'rtl' || computedStyle.direction === 'rtl';
+          
+          const attrsToRemove: string[] = [];
+          for (let i = 0; i < el.attributes.length; i++) {
+            const attrName = el.attributes[i].name;
+            if (!['dir'].includes(attrName)) {
+              attrsToRemove.push(attrName);
+            }
+          }
+          attrsToRemove.forEach(attr => el.removeAttribute(attr));
+          
+          const styles: string[] = [];
+          if (isBold) styles.push('font-weight: bold');
+          if (isItalic) styles.push('font-style: italic');
+          if (isRtl) {
+            el.setAttribute('dir', 'rtl');
+          }
+          if (styles.length > 0) {
+            el.setAttribute('style', styles.join('; '));
+          }
+          
+          if (el.children.length > 0) {
+            processNode(el);
+          }
+        }
+      });
+    };
+    
+    processNode(clone);
+    return clone.innerHTML;
+  };
+
+  const htmlToMarkdown = (html: string): string => {
+    let md = html;
+    
+    md = md.replace(/<[^>]*style\s*=\s*"[^"]*font-weight:\s*bold[^"]*"[^>]*>([\s\S]*?)<\/[^>]+>/gi, '**$1**');
+    md = md.replace(/<[^>]*style\s*=\s*"[^"]*font-style:\s*italic[^"]*"[^>]*>([\s\S]*?)<\/[^>]+>/gi, '*$1*');
+    
+    md = md.replace(/<strong[^>]*>([\s\S]*?)<\/strong>/gi, '**$1**');
+    md = md.replace(/<b[^>]*>([\s\S]*?)<\/b>/gi, '**$1**');
+    md = md.replace(/<em[^>]*>([\s\S]*?)<\/em>/gi, '*$1*');
+    md = md.replace(/<i[^>]*>([\s\S]*?)<\/i>/gi, '*$1*');
+    
+    md = md.replace(/<hr[^>]*>/gi, '\n\n---\n\n');
+    md = md.replace(/<br[^>]*>/gi, '\n');
+    md = md.replace(/<\/p>/gi, '\n\n');
+    md = md.replace(/<p[^>]*>/gi, '');
+    md = md.replace(/<\/div>/gi, '\n');
+    md = md.replace(/<div[^>]*>/gi, '');
+    
+    md = md.replace(/<[^>]+>/g, '');
+    
+    md = md.replace(/&nbsp;/g, ' ');
+    md = md.replace(/&amp;/g, '&');
+    md = md.replace(/&lt;/g, '<');
+    md = md.replace(/&gt;/g, '>');
+    md = md.replace(/&quot;/g, '"');
+    
+    md = md.replace(/\n{3,}/g, '\n\n');
+    md = md.trim();
+    
+    return md;
+  };
+
+  const downloadFile = (content: string, filename: string, mimeType: string) => {
+    const blob = new Blob([content], { type: mimeType });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  const handleExportMarkdown = () => {
+    const container = document.getElementById('text-display-container');
+    if (!container || !data) return;
+    
+    const cleanHtml = getCleanHtml(container);
+    const markdown = htmlToMarkdown(cleanHtml);
+    
+    const filename = `${data.tractate}_${data.span || data.page}.md`.replace(/[^a-zA-Z0-9._-]/g, '_');
+    downloadFile(markdown, filename, 'text/markdown');
+  };
+
+  const handleExportHtml = () => {
+    const container = document.getElementById('text-display-container');
+    if (!container || !data) return;
+    
+    const cleanHtml = getCleanHtml(container);
+    
+    const fullHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${data.tractate} ${data.span || data.page}</title>
+  <style>
+    body { font-family: sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.6; }
+    [dir="rtl"] { font-weight: bold; }
+  </style>
+</head>
+<body>
+${cleanHtml}
+</body>
+</html>`;
+    
+    const filename = `${data.tractate}_${data.span || data.page}.html`.replace(/[^a-zA-Z0-9._-]/g, '_');
+    downloadFile(fullHtml, filename, 'text/html');
   };
 
   const renderSections = () => {
@@ -488,14 +623,34 @@ export default function SefariaFetchPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <Card>
               <CardContent className="pt-6 space-y-4">
-                <Button 
-                  onClick={handleSelectAll} 
-                  variant="outline"
-                  data-testid="button-select-all"
-                >
-                  <Copy className="mr-2 h-4 w-4" />
-                  Select All Text (for copy/paste)
-                </Button>
+                <div className="flex flex-wrap gap-2">
+                  <Button 
+                    onClick={handleSelectAll} 
+                    variant="outline"
+                    data-testid="button-select-all"
+                  >
+                    <Copy className="mr-2 h-4 w-4" />
+                    Select All Text (for copy/paste)
+                  </Button>
+                  
+                  <Button 
+                    onClick={handleExportMarkdown} 
+                    variant="outline"
+                    data-testid="button-export-md"
+                  >
+                    <FileText className="mr-2 h-4 w-4" />
+                    Export .md
+                  </Button>
+                  
+                  <Button 
+                    onClick={handleExportHtml} 
+                    variant="outline"
+                    data-testid="button-export-html"
+                  >
+                    <Code className="mr-2 h-4 w-4" />
+                    Export .html
+                  </Button>
+                </div>
                 
                 <div 
                   id="text-display-container"
