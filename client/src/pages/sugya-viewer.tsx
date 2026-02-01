@@ -219,8 +219,9 @@ export default function SefariaFetchPage() {
     const clone = container.cloneNode(true) as HTMLElement;
     
     clone.querySelectorAll('[data-no-copy]').forEach(el => el.remove());
+    clone.querySelectorAll('hr').forEach(el => el.remove());
     
-    const allowedTags = ['strong', 'b', 'i', 'em', 'p', 'div', 'br', 'span', 'hr', 'sup', 'sub', 'small'];
+    const allowedTags = ['strong', 'b', 'i', 'em', 'p', 'div', 'br', 'span', 'sup', 'sub', 'small'];
     
     const processNode = (element: HTMLElement) => {
       const children = Array.from(element.children);
@@ -272,6 +273,19 @@ export default function SefariaFetchPage() {
   const htmlToMarkdown = (html: string): string => {
     let md = html;
     
+    md = md.replace(/<([^>]*)\s+dir\s*=\s*"rtl"[^>]*>([\s\S]*?)<\/\1>/gi, (match, tag, content) => {
+      const innerContent = content.replace(/<[^>]+>/g, '').trim();
+      return `**${innerContent}**\n\n`;
+    });
+    md = md.replace(/<div[^>]*\s+dir\s*=\s*"rtl"[^>]*>([\s\S]*?)<\/div>/gi, (match, content) => {
+      const innerContent = content.replace(/<[^>]+>/g, '').trim();
+      return `**${innerContent}**\n\n`;
+    });
+    md = md.replace(/<p[^>]*\s+dir\s*=\s*"rtl"[^>]*>([\s\S]*?)<\/p>/gi, (match, content) => {
+      const innerContent = content.replace(/<[^>]+>/g, '').trim();
+      return `**${innerContent}**\n\n`;
+    });
+    
     md = md.replace(/<[^>]*style\s*=\s*"[^"]*font-weight:\s*bold[^"]*"[^>]*>([\s\S]*?)<\/[^>]+>/gi, '**$1**');
     md = md.replace(/<[^>]*style\s*=\s*"[^"]*font-style:\s*italic[^"]*"[^>]*>([\s\S]*?)<\/[^>]+>/gi, '*$1*');
     
@@ -280,7 +294,7 @@ export default function SefariaFetchPage() {
     md = md.replace(/<em[^>]*>([\s\S]*?)<\/em>/gi, '*$1*');
     md = md.replace(/<i[^>]*>([\s\S]*?)<\/i>/gi, '*$1*');
     
-    md = md.replace(/<hr[^>]*>/gi, '\n\n---\n\n');
+    md = md.replace(/<hr[^>]*>/gi, '');
     md = md.replace(/<br[^>]*>/gi, '\n');
     md = md.replace(/<\/p>/gi, '\n\n');
     md = md.replace(/<p[^>]*>/gi, '');
