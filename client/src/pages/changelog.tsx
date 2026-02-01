@@ -51,6 +51,25 @@ export default function Changelog() {
       {/* Changelog Content */}
       <div className="bg-white dark:bg-sepia-900 rounded-lg shadow-lg p-6 max-w-4xl">
         
+        {/* February 2026 */}
+        <div className="mb-8">
+          <h2 className="text-xl font-semibold text-sepia-800 dark:text-sepia-200 mb-4 border-b border-sepia-200 dark:border-sepia-700 pb-2">
+            February 2026
+          </h2>
+          
+          <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
+            <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Sugya Viewer Export Options</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Added export buttons for Markdown (.md) and HTML (.html) formats</li>
+                <li>HTML export retains rich formatting (bold, italics, RTL direction)</li>
+                <li>Markdown export preserves Hebrew text as bold for readability</li>
+                <li>Useful for uploading text to chatbot assistants that don't retain formatting from copy/paste</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
         {/* January 2026 */}
         <div className="mb-8">
           <h2 className="text-xl font-semibold text-sepia-800 dark:text-sepia-200 mb-4 border-b border-sepia-200 dark:border-sepia-700 pb-2">
