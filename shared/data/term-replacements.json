@@ -75,46 +75,65 @@
         "eye shadow": "kohl"
       }
     },
-    "time": {
-      "description": "Time-related terms",
+    "time_general": {
+      "description": "General time-related terms",
       "terms": {
         "rainy season": "winter",
         "Shabbat eve": "Friday",
-        "the eve of Shabbat": "Friday",
+        "the eve of Shabbat": "Friday"
+      }
+    },
+    "time_hebrew_dates": {
+      "description": "Hebrew calendar date conversions (the Xth of [Hebrew month])",
+      "terms": {
         "the first of Shevat": "the 1st of Shevat",
         "the first of Tishrei": "the 1st of Tishrei",
         "the first of Nisan": "the 1st of Nisan",
-        "first of Elul": "1st of Elul",
+        "first of Elul": "1st of Elul"
+      }
+    },
+    "time_ordinals": {
+      "description": "Ordinal time expressions: 'the [ordinal] [unit]' pattern. Ordinals: first/1st, second/2nd, third/3rd, fifth/5th, tenth/10th. Units: year, month, day, week, hour, watch. Also includes 'the Xth of the month' pattern.",
+      "terms": {
         "the first year": "the 1st year",
-        "the second year": "the 2nd year",
-        "the third year": "the 3rd year",
-        "the fifth year": "the 5th year",
-        "the tenth year": "the 10th year",
         "the first month": "the 1st month",
-        "the second month": "the 2nd month",
-        "the third month": "the 3rd month",
-        "the fifth month": "the 5th month",
-        "the tenth month": "the 10th month",
-        "the first hour": "the 1st hour",
-        "the second hour": "the 2nd hour",
-        "the third hour": "the 3rd hour",
-        "the fifth hour": "the 5th hour",
-        "the tenth hour": "the 10th hour",
-        "the first watch": "the 1st watch",
-        "the second watch": "the 2nd watch",
-        "the third watch": "the 3rd watch",
-        "the fifth watch": "the 5th watch",
-        "the tenth watch": "the 10th watch",
         "the first day": "the 1st day",
-        "the second day": "the 2nd day",
-        "the third day": "the 3rd day",
-        "the fifth day": "the 5th day",
-        "the tenth day": "the 10th day",
         "the first week": "the 1st week",
+        "the first hour": "the 1st hour",
+        "the first watch": "the 1st watch",
+        "the first of the month": "the 1st of the month",
+
+        "the second year": "the 2nd year",
+        "the second month": "the 2nd month",
+        "the second day": "the 2nd day",
         "the second week": "the 2nd week",
+        "the second hour": "the 2nd hour",
+        "the second watch": "the 2nd watch",
+        "the second of the month": "the 2nd of the month",
+
+        "the third year": "the 3rd year",
+        "the third month": "the 3rd month",
+        "the third day": "the 3rd day",
         "the third week": "the 3rd week",
+        "the third hour": "the 3rd hour",
+        "the third watch": "the 3rd watch",
+        "the third of the month": "the 3rd of the month",
+
+        "the fifth year": "the 5th year",
+        "the fifth month": "the 5th month",
+        "the fifth day": "the 5th day",
         "the fifth week": "the 5th week",
-        "the tenth week": "the 10th week"
+        "the fifth hour": "the 5th hour",
+        "the fifth watch": "the 5th watch",
+        "the fifth of the month": "the 5th of the month",
+
+        "the tenth year": "the 10th year",
+        "the tenth month": "the 10th month",
+        "the tenth day": "the 10th day",
+        "the tenth week": "the 10th week",
+        "the tenth hour": "the 10th hour",
+        "the tenth watch": "the 10th watch",
+        "the tenth of the month": "the 10th of the month"
       }
     },
     "events": {
