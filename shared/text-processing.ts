@@ -442,8 +442,10 @@ export function splitEnglishText(text: string): string {
   processedText = processedText.replace(QUESTION_QUOTE_PATTERN, (match) => match + '\n');
   processedText = processedText.replace(QUESTION_OTHER_PATTERN, '?\n');
   
-  // Split on semicolons
-  processedText = processedText.replace(/;/g, ';\n');
+  // Split on semicolons - handle semicolon + quote clusters first (issue #90)
+  // Pattern: ];", ];" or similar - split AFTER the full cluster, not in the middle
+  processedText = processedText.replace(/;[""\u201C\u201D'\u2018\u2019]/g, (match) => match + '\n');
+  processedText = processedText.replace(/;(?![""\u201C\u201D'\u2018\u2019])/g, ';\n');
   
   // Clean up
   processedText = processedText
