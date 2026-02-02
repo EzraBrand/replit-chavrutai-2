@@ -431,6 +431,78 @@ export default function About() {
                     concepts, rabbi names, and place names.
                   </AccordionContent>
                 </AccordionItem>
+
+                <AccordionItem value="ai">
+                  <AccordionTrigger className="text-left">
+                    Where is the AI?
+                  </AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground">
+                    The AI features are still in beta. You can try the beta version on the{" "}
+                    <Link href="/sugya-viewer" className="text-blue-600 hover:text-blue-800 underline">
+                      Sugya Viewer page
+                    </Link>
+                    . After you select a page (or range), the AI chat option will appear there.
+                  </AccordionContent>
+                </AccordionItem>
+
+                <AccordionItem value="roadmap">
+                  <AccordionTrigger className="text-left">
+                    What major features are on the roadmap?
+                  </AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground">
+                    <p className="mb-2">Planned major features include:</p>
+                    <ol className="list-decimal list-inside space-y-1">
+                      <li><strong>Precise Hebrew–English alignment</strong>, clause by clause.</li>
+                      <li><strong>Term mapping and explanation</strong> for technical vocabulary.</li>
+                    </ol>
+                  </AccordionContent>
+                </AccordionItem>
+
+                <AccordionItem value="bold-text">
+                  <AccordionTrigger className="text-left">
+                    What do bold vs. non-bold text mean on the English side of the Talmud page?
+                  </AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground">
+                    <ul className="list-disc list-inside space-y-1">
+                      <li><strong>Bold</strong> text is the direct translation.</li>
+                      <li><strong>Non-bold</strong> text is the modern <strong>Steinsaltz edition</strong> gloss/commentary/interpretation, drawing on traditional commentators.</li>
+                    </ul>
+                  </AccordionContent>
+                </AccordionItem>
+
+                <AccordionItem value="difficulty">
+                  <AccordionTrigger className="text-left">
+                    Is it true that the Talmud is very difficult to understand?
+                  </AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground">
+                    Some parts are, and some parts aren't. For a discussion (and other common misconceptions), see my post:{" "}
+                    <a
+                      href="https://www.ezrabrand.com/p/beyond-the-mystique-correcting-common"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:text-blue-800 underline"
+                    >
+                      Beyond the Mystique: Correcting Common Misconceptions About the Talmud, and Pathways to Accessibility
+                    </a>
+                  </AccordionContent>
+                </AccordionItem>
+
+                <AccordionItem value="controversial">
+                  <AccordionTrigger className="text-left">
+                    What does the Talmud say about non-Jews and Jesus?
+                  </AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground">
+                    For discussion and context, see my post:{" "}
+                    <a
+                      href="https://www.ezrabrand.com/p/pt1-trending-talmud-top-queries-popular"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:text-blue-800 underline"
+                    >
+                      Trending Talmud: Top Queries, Popular Posts, and Plain Readings of Controversial Talmudic Passages
+                    </a>
+                  </AccordionContent>
+                </AccordionItem>
               </Accordion>
             </section>
 
