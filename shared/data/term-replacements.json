@@ -99,16 +99,9 @@
         "the first day": "the 1st day",
         "the second day": "the 2nd day",
         "the third day": "the 3rd day",
-        "the first night": "the 1st night",
-        "the second night": "the 2nd night",
-        "the third night": "the 3rd night",
         "the first week": "the 1st week",
         "the second week": "the 2nd week",
-        "the third week": "the 3rd week",
-        "the first Temple": "the 1st Temple",
-        "the second Temple": "the 2nd Temple",
-        "the First Temple": "the 1st Temple",
-        "the Second Temple": "the 2nd Temple"
+        "the third week": "the 3rd week"
       }
     },
     "events": {
