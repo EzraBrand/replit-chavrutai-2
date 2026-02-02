@@ -68,7 +68,7 @@ export default function Changelog() {
                 <li>Added "the Xth of the month" pattern (e.g., "the fifth of the month" → "the 5th of the month")</li>
                 <li>Added number conversion: "three hundred and fifty four" → "354"</li>
                 <li>Added fraction: "thirteen and a third" → "13⅓"</li>
-                <li>Fixed ambiguous fraction/ordinal mappings: standalone "third" and "fifth" no longer auto-convert (context-dependent)</li>
+                <li>Fixed ambiguous fraction/ordinal mappings: standalone "third", "fifth", and "tenth" no longer auto-convert (context-dependent)</li>
                 <li>Fixed kav measurements: "an eighth-kav" → "a 1/8th-kav", "one-thirty-second of a kav" → "1/32nd-kav"</li>
               </ul>
             </div>
