@@ -47,6 +47,7 @@
     "people": {
       "description": "References to groups of people",
       "terms": {
+        "Sages": "rabbis",
         "gentile": "non-Jew",
         "gentiles": "non-Jews",
         "nations of the world": "non-Jewish nations",
@@ -82,7 +83,19 @@
         "the first of Shevat": "the 1st of Shevat",
         "the first of Tishrei": "the 1st of Tishrei",
         "the first of Nisan": "the 1st of Nisan",
-        "first of Elul": "1st of Elul"
+        "first of Elul": "1st of Elul",
+        "the first year": "the 1st year",
+        "the second year": "the 2nd year",
+        "the third year": "the 3rd year",
+        "the first month": "the 1st month",
+        "the second month": "the 2nd month",
+        "the third month": "the 3rd month",
+        "the first hour": "the 1st hour",
+        "the second hour": "the 2nd hour",
+        "the third hour": "the 3rd hour",
+        "the first watch": "the 1st watch",
+        "the second watch": "the 2nd watch",
+        "the third watch": "the 3rd watch"
       }
     },
     "events": {
@@ -346,6 +359,8 @@
         "three hundred and sixty-five": "365",
         "three hundred and sixty four": "364",
         "Three hundred and sixty-four": "364",
+        "three hundred and fifty four": "354",
+        "three hundred and fifty-four": "354",
         "three hundred and eighteen": "318",
         "three hundred": "300",
         "two hundred and fifty": "250",
