@@ -475,7 +475,7 @@ export default function About() {
                     Is it true that the Talmud is very difficult to understand?
                   </AccordionTrigger>
                   <AccordionContent className="text-muted-foreground">
-                    Some parts are, and some parts aren't. For a discussion (and other common misconceptions), see my post:{" "}
+                    Some parts are, and some parts aren't. For a discussion (and correctives to other common misconceptions), see my post:{" "}
                     <a
                       href="https://www.ezrabrand.com/p/beyond-the-mystique-correcting-common"
                       target="_blank"
