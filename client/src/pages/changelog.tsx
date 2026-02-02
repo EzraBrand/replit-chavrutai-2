@@ -59,6 +59,20 @@ export default function Changelog() {
           
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Text Processing Improvements</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Hebrew text no longer splits after quotation marks (״), keeping quoted words inline</li>
+                <li>English text now correctly splits after semicolon + quote clusters (e.g., ];" stays together)</li>
+                <li>Added term mapping: "Sages" → "rabbis"</li>
+                <li>Added ordinal time expressions: "the first/second/third day/week/year/month/hour/watch" → "the 1st/2nd/3rd..."</li>
+                <li>Added number conversion: "three hundred and fifty four" → "354"</li>
+                <li>Added fraction: "thirteen and a third" → "13⅓"</li>
+                <li>Fixed ambiguous fraction/ordinal mappings: standalone "third" and "fifth" no longer auto-convert (context-dependent)</li>
+                <li>Fixed kav measurements: "an eighth-kav" → "a 1/8th-kav", "one-thirty-second of a kav" → "1/32nd-kav"</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Sugya Viewer Export Options</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added export buttons for Markdown (.md) and HTML (.html) formats</li>
