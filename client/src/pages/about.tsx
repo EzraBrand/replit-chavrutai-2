@@ -465,7 +465,7 @@ export default function About() {
                   <AccordionContent className="text-muted-foreground">
                     <ul className="list-disc list-inside space-y-1">
                       <li><strong>Bold</strong> text is the direct translation.</li>
-                      <li><strong>Non-bold</strong> text is the modern <strong>Steinsaltz edition</strong> gloss/commentary/interpretation, drawing on traditional commentators.</li>
+                      <li><strong>Non-bold</strong> text is the modern <strong>Steinsaltz edition</strong> running commentary. This running commentary supplies background, identifies allusive sources, and articulates the interpretive context that is implicit in the terse Talmudic style, drawing on the broader sugya and rabbinic sources, and on traditional commentators (especially Rashi).</li>
                     </ul>
                   </AccordionContent>
                 </AccordionItem>
