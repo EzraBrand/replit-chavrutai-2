@@ -226,8 +226,9 @@ export function splitHebrewText(text: string): string {
   
   // STEP 6: Split on individual punctuation marks
   // Each mark gets a newline after it to create paragraph breaks
-  // Hebrew-specific: ״ (gershayim), ׃ (sof pasuq)
-  const singleMarks = ['.', ',', '–', '—', ':', ';', '!', '?', '״ ', ' - ', '׃'];
+  // Hebrew-specific: ׃ (sof pasuq)
+  // NOTE: ״ (gershayim/Hebrew quotation marks) are NOT split on - they mark quoted words inline
+  const singleMarks = ['.', ',', '–', '—', ':', ';', '!', '?', ' - ', '׃'];
   
   singleMarks.forEach(mark => {
     if (mark === '?') {
