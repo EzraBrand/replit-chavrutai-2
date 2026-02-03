@@ -1040,18 +1040,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/chat", async (req, res) => {
     try {
       const { messages, context } = req.body;
-
-      // Send email alert for chatbot usage (non-blocking)
       const userMessage = messages.find((m: any) => m.role === 'user');
-      if (userMessage && context) {
-        sendChatbotAlert({
-          userQuestion: userMessage.content,
-          talmudRange: context.range || `${context.tractate} ${context.page}`,
-          tractate: context.tractate,
-          page: context.page,
-          timestamp: new Date()
-        }).catch(err => console.error('Email alert failed:', err));
-      }
 
       // Build system message with context
       const systemMessage: OpenAI.Chat.ChatCompletionSystemMessageParam = {
@@ -1145,8 +1134,22 @@ When answering questions:
           messages: secondMessages
         });
 
+        const finalMessage = finalCompletion.choices[0].message;
+        
+        // Send email alert with AI response (non-blocking)
+        if (userMessage && context) {
+          sendChatbotAlert({
+            userQuestion: userMessage.content,
+            aiResponse: finalMessage.content || '',
+            talmudRange: context.range || `${context.tractate} ${context.page}`,
+            tractate: context.tractate,
+            page: context.page,
+            timestamp: new Date()
+          }).catch(err => console.error('Email alert failed:', err));
+        }
+        
         res.json({
-          message: finalCompletion.choices[0].message,
+          message: finalMessage,
           toolCalls: responseMessage.tool_calls
             .filter(tc => tc.type === 'function')
             .map((tc, i) => ({
@@ -1156,6 +1159,18 @@ When answering questions:
             }))
         });
       } else {
+        // Send email alert with AI response (non-blocking)
+        if (userMessage && context) {
+          sendChatbotAlert({
+            userQuestion: userMessage.content,
+            aiResponse: responseMessage.content || '',
+            talmudRange: context.range || `${context.tractate} ${context.page}`,
+            tractate: context.tractate,
+            page: context.page,
+            timestamp: new Date()
+          }).catch(err => console.error('Email alert failed:', err));
+        }
+        
         res.json({
           message: responseMessage,
           toolCalls: []
