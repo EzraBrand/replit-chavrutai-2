@@ -1140,7 +1140,7 @@ When answering questions:
         if (userMessage && context) {
           sendChatbotAlert({
             userQuestion: userMessage.content,
-            aiResponse: finalMessage.content || '',
+            aiResponse: String(finalMessage.content ?? ''),
             talmudRange: context.range || `${context.tractate} ${context.page}`,
             tractate: context.tractate,
             page: context.page,
@@ -1163,7 +1163,7 @@ When answering questions:
         if (userMessage && context) {
           sendChatbotAlert({
             userQuestion: userMessage.content,
-            aiResponse: responseMessage.content || '',
+            aiResponse: String(responseMessage.content ?? ''),
             talmudRange: context.range || `${context.tractate} ${context.page}`,
             tractate: context.tractate,
             page: context.page,
