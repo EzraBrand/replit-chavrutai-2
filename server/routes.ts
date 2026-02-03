@@ -1068,7 +1068,7 @@ When answering questions:
 2. Search the blog archive for related commentary using the searchBlogPosts tool
 3. Provide clear, educational responses using markdown formatting where helpful
 4. Cite blog posts when referencing them
-5. Be concise but thorough`
+5. Be direct and specific - avoid vague statements, meta-commentary, or filler like "there may be", "further exploration might be needed", or "for a comprehensive study"`
       };
 
       const allMessages: OpenAI.Chat.ChatCompletionMessageParam[] = [
