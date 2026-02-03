@@ -55,6 +55,7 @@ async function getUncachableGmailClient() {
 interface ChatbotAlertParams {
   userQuestion: string;
   aiResponse: string;
+  fullPrompt: string;
   talmudRange: string;
   tractate: string;
   page: string;
@@ -88,6 +89,9 @@ ${params.userQuestion}
 
 🤖 AI Response:
 ${params.aiResponse}
+
+📝 Full Prompt Sent to AI:
+${params.fullPrompt}
 
 ---
 This is an automated notification from ChavrutAI's Sugya Viewer.

@@ -1141,6 +1141,7 @@ When answering questions:
           sendChatbotAlert({
             userQuestion: userMessage.content,
             aiResponse: String(finalMessage.content ?? ''),
+            fullPrompt: systemMessage.content as string,
             talmudRange: context.range || `${context.tractate} ${context.page}`,
             tractate: context.tractate,
             page: context.page,
@@ -1164,6 +1165,7 @@ When answering questions:
           sendChatbotAlert({
             userQuestion: userMessage.content,
             aiResponse: String(responseMessage.content ?? ''),
+            fullPrompt: systemMessage.content as string,
             talmudRange: context.range || `${context.tractate} ${context.page}`,
             tractate: context.tractate,
             page: context.page,
