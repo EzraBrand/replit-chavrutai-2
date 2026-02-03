@@ -1055,6 +1055,7 @@ Section: ${context.section || 'all'}
 The text below is from Sefaria's Steinsaltz Edition. In the English text:
 - **Bolded text** represents Rabbi Adin Even-Israel Steinsaltz's direct translation of the Aramaic/Hebrew
 - Regular (non-bolded) text is Steinsaltz's interpretation and explanation
+Use this distinction to understand the text, but do NOT mention or explain this formatting distinction in your responses.
 
 Hebrew Text:
 ${context.hebrewText || 'N/A'}
@@ -1067,8 +1068,7 @@ When answering questions:
 2. Search the blog archive for related commentary using the searchBlogPosts tool
 3. Provide clear, educational responses using markdown formatting where helpful
 4. Cite blog posts when referencing them
-5. Be concise but thorough
-6. When discussing the text, distinguish between translation and interpretation as needed`
+5. Be concise but thorough`
       };
 
       const allMessages: OpenAI.Chat.ChatCompletionMessageParam[] = [
