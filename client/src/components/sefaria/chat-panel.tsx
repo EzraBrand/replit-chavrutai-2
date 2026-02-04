@@ -171,8 +171,8 @@ export function ChatPanel({ context }: ChatPanelProps) {
             }}
             placeholder="Ask a question..."
             disabled={isLoading}
-            className="min-h-[40px] max-h-[120px] resize-none"
-            rows={1}
+            className="min-h-[100px] max-h-[200px] resize-none"
+            rows={4}
             data-testid="input-chat-message"
           />
           <Button
