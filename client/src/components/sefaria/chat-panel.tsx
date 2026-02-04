@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
@@ -159,12 +159,20 @@ export function ChatPanel({ context }: ChatPanelProps) {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="flex gap-2">
-          <Input
+        <form onSubmit={handleSubmit} className="flex gap-2 items-end">
+          <Textarea
             value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setInputValue(e.target.value)}
+            onKeyDown={(e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                handleSubmit(e as unknown as React.FormEvent);
+              }
+            }}
             placeholder="Ask a question..."
             disabled={isLoading}
+            className="min-h-[40px] max-h-[120px] resize-none"
+            rows={1}
             data-testid="input-chat-message"
           />
           <Button
