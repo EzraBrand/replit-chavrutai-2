@@ -59,6 +59,26 @@ export default function Changelog() {
           
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">AI Chatbot Improvements</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Chatbot responses are now more direct and specific, avoiding vague filler phrases</li>
+                <li>Removed meta-commentary from responses (e.g., "further exploration might be needed")</li>
+                <li>Expanded chat input to a multi-line text box (4 rows) for longer questions</li>
+                <li>Press Enter to send, Shift+Enter for new line</li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">About Page FAQs</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Added expandable FAQ section covering common questions</li>
+                <li>Topics include: free access, translation sources, text processing, customization options</li>
+                <li>Added FAQs about bold vs. non-bold text distinction in Steinsaltz translation</li>
+                <li>Linked to blog posts for deeper discussion of Talmud difficulty and controversial topics</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Text Processing Improvements</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Hebrew text no longer splits after quotation marks (״), keeping quoted words inline</li>
