@@ -1040,7 +1040,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/chat", async (req, res) => {
     try {
       const { messages, context } = req.body;
-      const userMessage = messages.find((m: any) => m.role === 'user');
+      const userMessages = messages.filter((m: any) => m.role === 'user');
+      const userMessage = userMessages[userMessages.length - 1];
 
       // Build system message with context
       const systemMessage: OpenAI.Chat.ChatCompletionSystemMessageParam = {
