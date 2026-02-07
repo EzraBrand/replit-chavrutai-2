@@ -90,6 +90,9 @@ export default function Changelog() {
                 <li>Added fraction: "thirteen and a third" → "13⅓"</li>
                 <li>Fixed ambiguous fraction/ordinal mappings: standalone "third", "fifth", and "tenth" no longer auto-convert (context-dependent)</li>
                 <li>Fixed kav measurements: "an eighth-kav" → "a 1/8th-kav", "one-thirty-second of a kav" → "1/32nd-kav"</li>
+                <li>Added 30 cardinal number conversions for large and compound numbers (e.g., "three hundred and sixty-five thousand" → "365,000", "forty and two thousand three hundred and sixty" → "42,360", "Five thousand eight hundred and eighty-eight" → "5,888")</li>
+                <li>Added ordinal mappings for compound ordinals (e.g., "six hundred and first" → "601st") and fractional ordinals ("two hundred fifty-sixth" → "1/256th")</li>
+                <li>Removed ambiguous ordinal mappings ("hundredth", "one hundredth", "two-hundredth") that could be either ordinal or fractional depending on context</li>
               </ul>
             </div>
 
