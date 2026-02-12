@@ -1148,14 +1148,21 @@ When answering questions:
   app.post("/api/chat", async (req, res) => {
     res.writeHead(200, {
       'Content-Type': 'text/event-stream',
-      'Cache-Control': 'no-cache',
+      'Cache-Control': 'no-cache, no-transform',
       'Connection': 'keep-alive',
-      'X-Accel-Buffering': 'no'
+      'X-Accel-Buffering': 'no',
+      'Transfer-Encoding': 'chunked'
     });
+    res.flushHeaders();
 
     const sendSSE = (event: string, data: any) => {
       res.write(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`);
+      if (typeof (res as any).flush === 'function') {
+        (res as any).flush();
+      }
     };
+
+    sendSSE('status', { message: 'Connecting...' });
 
     try {
       const { messages, context } = req.body;
@@ -1172,12 +1179,11 @@ When answering questions:
       let fullResponseText = '';
 
       const stream = await (openai as any).responses.create({
-        model: "gpt-5.2",
+        model: "gpt-4.1",
         instructions,
         input: inputMessages,
         tools: responsesTools,
         tool_choice: "auto",
-        reasoning: { effort: "medium", summary: "concise" },
         include: ["web_search_call.action.sources"],
         stream: true
       });
@@ -1189,6 +1195,7 @@ When answering questions:
       for await (const event of stream) {
         if (event.type === 'response.created') {
           firstResponseId = event.response?.id || null;
+          sendSSE('status', { message: 'Reasoning...' });
         }
 
         if (event.type === 'response.reasoning_summary_text.delta') {
@@ -1258,11 +1265,10 @@ When answering questions:
         sendSSE('status', { message: 'Composing response...' });
 
         const followUpStream = await (openai as any).responses.create({
-          model: "gpt-5.2",
+          model: "gpt-4.1",
           previous_response_id: firstResponseId,
           input: functionOutputs,
           tools: responsesTools,
-          reasoning: { effort: "medium", summary: "concise" },
           include: ["web_search_call.action.sources"],
           stream: true
         });
