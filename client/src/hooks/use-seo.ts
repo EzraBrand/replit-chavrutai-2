@@ -146,13 +146,13 @@ export function useSEO(seoData: SEOData) {
     updateMeta("og:locale:alternate", "he_IL", "property");
     updateMeta(
       "og:image",
-      `${window.location.origin}/og-image.svg`,
+      `${window.location.origin}/og-image.png`,
       "property",
     );
     updateMeta("og:image:alt", seoData.ogTitle || seoData.title, "property");
     updateMeta("og:image:width", "1200", "property");
     updateMeta("og:image:height", "630", "property");
-    updateMeta("og:image:type", "image/svg+xml", "property");
+    updateMeta("og:image:type", "image/png", "property");
     if (seoData.ogUrl) updateMeta("og:url", seoData.ogUrl, "property");
 
     // Twitter tags
@@ -162,7 +162,7 @@ export function useSEO(seoData: SEOData) {
       "twitter:description",
       seoData.ogDescription || seoData.description,
     );
-    updateMeta("twitter:image", `${window.location.origin}/og-image.svg`);
+    updateMeta("twitter:image", `${window.location.origin}/og-image.png`);
     updateMeta("twitter:image:alt", seoData.ogTitle || seoData.title);
     updateMeta("twitter:site", "@ChavrutAI");
 
