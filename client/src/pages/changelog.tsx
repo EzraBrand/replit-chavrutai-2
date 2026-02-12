@@ -78,6 +78,7 @@ export default function Changelog() {
                 <li>Added canonical URLs to Mishnah Map and Sugya Viewer</li>
                 <li>Added JSON-LD structured data across ~15 pages for better search engine rich results</li>
                 <li>Every page now has a unique title, meta description, canonical URL, and structured data</li>
+                <li>Converted OG (social sharing) image from SVG to PNG for compatibility with Facebook, LinkedIn, WhatsApp, and iMessage</li>
               </ul>
             </div>
 
