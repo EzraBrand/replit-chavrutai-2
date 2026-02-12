@@ -1181,7 +1181,7 @@ When answering questions:
       let fullResponseText = '';
 
       const stream = await (openai as any).responses.create({
-        model: "gpt-5",
+        model: "o4-mini",
         instructions,
         input: inputMessages,
         tools: responsesTools,
@@ -1268,7 +1268,7 @@ When answering questions:
         sendSSE('status', { message: 'Composing response...' });
 
         const followUpStream = await (openai as any).responses.create({
-          model: "gpt-5",
+          model: "o4-mini",
           previous_response_id: firstResponseId,
           input: functionOutputs,
           tools: responsesTools,
