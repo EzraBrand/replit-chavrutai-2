@@ -9,7 +9,19 @@ export default function Changelog() {
     description: 'Recent updates and improvements to ChavrutAI. Track new features, design enhancements, and user experience improvements for Talmud study.',
     keywords: 'ChavrutAI changelog, Talmud app updates, Jewish learning platform updates',
     canonical: `${window.location.origin}/changelog`,
-    robots: 'index, follow'
+    robots: 'index, follow',
+    structuredData: {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      name: "ChavrutAI Changelog",
+      description: "Recent updates and improvements to ChavrutAI digital Talmud study platform",
+      url: `${window.location.origin}/changelog`,
+      publisher: {
+        "@type": "Organization",
+        name: "ChavrutAI",
+        url: window.location.origin,
+      },
+    },
   });
 
   return (

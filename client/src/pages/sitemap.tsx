@@ -42,7 +42,19 @@ export default function Sitemap() {
     description: "Complete navigation guide to all 37 Talmud tractates organized by traditional Seder structure. Find any page across 5,400+ folios in the Babylonian Talmud.",
     ogUrl: `${baseUrl}/sitemap`,
     canonical: `${baseUrl}/sitemap`,
-    robots: "index, follow"
+    robots: "index, follow",
+    structuredData: {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      name: "ChavrutAI Site Map",
+      description: "Complete navigation guide to all 37 Talmud tractates organized by traditional Seder structure",
+      url: `${baseUrl}/sitemap`,
+      publisher: {
+        "@type": "Organization",
+        name: "ChavrutAI",
+        url: baseUrl,
+      },
+    },
   });
 
   const { data: sitemapData, isLoading } = useQuery<SitemapResponse>({

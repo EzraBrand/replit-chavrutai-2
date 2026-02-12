@@ -38,7 +38,29 @@ export default function BibleBookPage() {
     ogDescription: `Read all chapters of ${bookTitle} with parallel Hebrew-English text.`,
     ogUrl: `${baseUrl}/bible/${book}`,
     canonical: `${baseUrl}/bible/${book}`,
-    robots: "index, follow"
+    robots: "index, follow",
+    structuredData: {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      name: `${bookTitle} - Hebrew Bible`,
+      description: `All chapters of ${bookTitle} with Hebrew and English text from JPS 1985 translation`,
+      url: `${baseUrl}/bible/${book}`,
+      publisher: {
+        "@type": "Organization",
+        name: "ChavrutAI",
+        url: baseUrl,
+      },
+      about: {
+        "@type": "Book",
+        name: bookTitle,
+        inLanguage: ["he", "en"],
+        isPartOf: {
+          "@type": "Book",
+          name: "Hebrew Bible",
+          alternateName: "Tanach",
+        },
+      },
+    },
   });
 
   if (!book || !bookInfo) {

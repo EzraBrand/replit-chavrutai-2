@@ -77,7 +77,32 @@ export default function TractateOutlinePage() {
     description: `Detailed topic-based outline and analysis of ${outline.tractate} chapter ${outline.chapter}. Navigate through key discussions, themes, and rabbinic debates with structured organization.`,
     keywords: `Talmud outline, Talmud table of contents, ${outline.tractate}, Jewish learning, Talmudic analysis`,
     canonical: `${window.location.origin}/outline/${outline.tractate.toLowerCase()}/${outline.chapter}`,
-    robots: 'index, follow'
+    robots: 'index, follow',
+    structuredData: {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: `Outline of ${outline.tractate} Chapter ${outline.chapter}${outline.chapterName ? ` (${outline.chapterName})` : ''}`,
+      description: `Topic-based outline and analysis of ${outline.tractate} chapter ${outline.chapter}`,
+      url: `${window.location.origin}/outline/${outline.tractate.toLowerCase()}/${outline.chapter}`,
+      author: {
+        "@type": "Organization",
+        name: "ChavrutAI",
+        url: window.location.origin,
+      },
+      publisher: {
+        "@type": "Organization",
+        name: "ChavrutAI",
+        url: window.location.origin,
+        logo: {
+          "@type": "ImageObject",
+          url: `${window.location.origin}/favicon-192x192.png`,
+        },
+      },
+      isPartOf: {
+        "@type": "Book",
+        name: `${outline.tractate} - Babylonian Talmud`,
+      },
+    },
   });
 
   return (

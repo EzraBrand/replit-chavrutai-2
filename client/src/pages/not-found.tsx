@@ -2,8 +2,14 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { AlertCircle, Home, Mail } from "lucide-react";
 import { Link } from "wouter";
+import { useSEO } from "@/hooks/use-seo";
 
 export default function NotFound() {
+  useSEO({
+    title: "Page Not Found - ChavrutAI",
+    description: "The page you're looking for doesn't exist or has been moved. Return to ChavrutAI to continue studying Talmud and Jewish texts.",
+    noindex: true,
+  });
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-gray-50 dark:bg-gray-900">
       <Card className="w-full max-w-md mx-4">

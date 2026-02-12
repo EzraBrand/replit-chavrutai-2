@@ -87,7 +87,29 @@ export default function Dictionary() {
     ogTitle: "Jastrow Talmud Dictionary - Modernized Hebrew & Aramaic",
     ogDescription: "Search the comprehensive Jastrow Dictionary of Talmudic Hebrew and Aramaic with modernized presentation and enhanced readability.",
     canonical: `${window.location.origin}/dictionary`,
-    robots: "index, follow"
+    robots: "index, follow",
+    structuredData: {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      name: "Jastrow Talmud Dictionary",
+      description: "Comprehensive dictionary of Talmudic Hebrew and Aramaic with modernized presentation",
+      url: `${window.location.origin}/dictionary`,
+      applicationCategory: "ReferenceApplication",
+      operatingSystem: "Web",
+      publisher: {
+        "@type": "Organization",
+        name: "ChavrutAI",
+        url: window.location.origin,
+      },
+      about: {
+        "@type": "Book",
+        name: "A Dictionary of the Targumim, the Talmud Babli and Yerushalmi, and the Midrashic Literature",
+        author: {
+          "@type": "Person",
+          name: "Marcus Jastrow",
+        },
+      },
+    },
   });
 
   // Function to split text into paragraphs by long dash while preserving HTML structure

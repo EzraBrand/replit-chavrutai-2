@@ -80,7 +80,26 @@ export default function MishnahMapPage() {
 
   useSEO({
     title: "Mishnah-Talmud Mapping | ChavrutAI",
-    description: "Comprehensive mapping of Mishnah passages to their corresponding discussions in the Talmud. Find where each Mishnah is discussed and navigate directly to the relevant section."
+    description: "Comprehensive mapping of Mishnah passages to their corresponding discussions in the Talmud. Find where each Mishnah is discussed and navigate directly to the relevant section.",
+    canonical: `${window.location.origin}/mishnah-map`,
+    robots: "index, follow",
+    structuredData: {
+      "@context": "https://schema.org",
+      "@type": "Dataset",
+      name: "Mishnah-Talmud Mapping",
+      description: "Comprehensive mapping of Mishnah passages to their corresponding discussions in the Babylonian Talmud",
+      url: `${window.location.origin}/mishnah-map`,
+      creator: {
+        "@type": "Organization",
+        name: "ChavrutAI",
+        url: window.location.origin,
+      },
+      about: {
+        "@type": "Book",
+        name: "Babylonian Talmud",
+        inLanguage: ["he", "en"],
+      },
+    },
   });
 
   // Transform data into organized structure by Seder → Tractate → Chapter → Mishnah

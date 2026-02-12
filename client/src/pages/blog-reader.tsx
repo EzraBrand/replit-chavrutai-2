@@ -3,6 +3,7 @@ import { SharedLayout } from "@/components/layout";
 import { ExternalLink, Calendar, User, ChevronDown, ChevronUp } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import DOMPurify from "dompurify";
+import { useSEO } from "@/hooks/use-seo";
 
 interface BlogPostFull {
   title: string;
@@ -69,6 +70,13 @@ function applyRtlToHebrewElements(container: HTMLElement) {
 }
 
 export default function BlogReader() {
+  useSEO({
+    title: "Talmud & Tech Blog - Read Articles | ChavrutAI",
+    description: "Read the latest articles from the Talmud & Tech blog exploring intersections of Talmudic study and modern technology.",
+    canonical: `${window.location.origin}/blog-reader`,
+    robots: "index, follow",
+  });
+
   const [expandedPosts, setExpandedPosts] = useState<Set<number>>(new Set([0]));
   const contentRefs = useRef<Map<number, HTMLDivElement>>(new Map());
 

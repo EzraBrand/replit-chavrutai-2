@@ -37,7 +37,23 @@ export default function SearchPage() {
     ogTitle: "Search Talmud & Bible - Hebrew & English",
     ogDescription: "Search through the Babylonian Talmud and Hebrew Bible in Hebrew and English.",
     canonical: `${window.location.origin}/search`,
-    robots: "index, follow"
+    robots: "index, follow",
+    structuredData: {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      name: "ChavrutAI Search",
+      url: `${window.location.origin}/search`,
+      potentialAction: {
+        "@type": "SearchAction",
+        target: `${window.location.origin}/search?q={search_term}`,
+        "query-input": "required name=search_term",
+      },
+      publisher: {
+        "@type": "Organization",
+        name: "ChavrutAI",
+        url: window.location.origin,
+      },
+    },
   });
 
   const { data: searchResults, isLoading, error } = useQuery<TextSearchResponse>({

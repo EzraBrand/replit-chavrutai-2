@@ -19,7 +19,26 @@ export default function BibleContents() {
     ogDescription: "Read the complete Hebrew Bible with JPS 1985 translation.",
     ogUrl: `${baseUrl}/bible`,
     canonical: `${baseUrl}/bible`,
-    robots: "index, follow"
+    robots: "index, follow",
+    structuredData: {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      name: "Hebrew Bible (Tanach)",
+      description: "Complete Hebrew Bible with JPS 1985 English translation - Torah, Nevi'im, and Ketuvim",
+      url: `${baseUrl}/bible`,
+      publisher: {
+        "@type": "Organization",
+        name: "ChavrutAI",
+        url: baseUrl,
+      },
+      about: {
+        "@type": "Book",
+        name: "Hebrew Bible",
+        alternateName: "Tanach",
+        inLanguage: ["he", "en"],
+        genre: "Religious Text",
+      },
+    },
   });
 
   const { data: bibleData, isLoading } = useQuery({

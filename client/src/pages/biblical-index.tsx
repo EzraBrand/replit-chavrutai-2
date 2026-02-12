@@ -19,7 +19,19 @@ export default function BiblicalIndexPage() {
     ogTitle: "Biblical Citations in the Talmud - Complete Index",
     ogDescription: "Comprehensive digital index mapping biblical verses to their citations throughout the Babylonian Talmud.",
     canonical: `${window.location.origin}/biblical-index`,
-    robots: "index, follow"
+    robots: "index, follow",
+    structuredData: {
+      "@context": "https://schema.org",
+      "@type": "Dataset",
+      name: "Biblical Citations in the Talmud",
+      description: "Comprehensive digital index mapping biblical verses to their citations throughout the Babylonian Talmud",
+      url: `${window.location.origin}/biblical-index`,
+      creator: {
+        "@type": "Organization",
+        name: "ChavrutAI",
+        url: window.location.origin,
+      },
+    },
   });
 
   const { data: metadata, isLoading } = useQuery({

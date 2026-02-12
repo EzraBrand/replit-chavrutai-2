@@ -11,7 +11,19 @@ export default function Contact() {
     description: "Contact ChavrutAI with feedback, suggestions, and corrections. We appreciate all input to improve our digital Talmud study platform.",
     keywords: "contact, feedback, suggestions, corrections, ChavrutAI, Talmud study, support",
     canonical: `${window.location.origin}/contact`,
-    robots: "index, follow"
+    robots: "index, follow",
+    structuredData: {
+      "@context": "https://schema.org",
+      "@type": "ContactPage",
+      name: "Contact ChavrutAI",
+      description: "Contact ChavrutAI with feedback, suggestions, and corrections",
+      url: `${window.location.origin}/contact`,
+      publisher: {
+        "@type": "Organization",
+        name: "ChavrutAI",
+        url: window.location.origin,
+      },
+    },
   });
 
 

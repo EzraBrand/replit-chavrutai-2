@@ -17,6 +17,7 @@ import { locationToSefariaUrl } from "@/lib/blog-post-utils";
 import { Footer } from "@/components/footer";
 import { ChatPanel } from "@/components/sefaria/chat-panel";
 import type { ChatContext } from "@/hooks/use-chat";
+import { useSEO } from "@/hooks/use-seo";
 
 const tractates = TRACTATE_LISTS["Talmud Bavli"];
 const pages = Array.from({ length: 180 }, (_, i) => i + 2).flatMap(num => [`${num}a`, `${num}b`]);
@@ -33,6 +34,27 @@ interface SefariaResponse {
 }
 
 export default function SefariaFetchPage() {
+  useSEO({
+    title: "Sugya Viewer - Study Custom Talmud Ranges | ChavrutAI",
+    description: "View and study custom Talmud text ranges with bilingual Hebrew-English display. Select any tractate, page, and section for focused study.",
+    canonical: `${window.location.origin}/sugya-viewer`,
+    robots: "index, follow",
+    structuredData: {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      name: "Sugya Viewer",
+      description: "Tool for viewing custom Talmud text ranges with Hebrew-English bilingual display",
+      url: `${window.location.origin}/sugya-viewer`,
+      applicationCategory: "EducationalApplication",
+      operatingSystem: "Web",
+      publisher: {
+        "@type": "Organization",
+        name: "ChavrutAI",
+        url: window.location.origin,
+      },
+    },
+  });
+
   const [inputMethod, setInputMethod] = useState<"dropdown" | "url" | "blogpost">("dropdown");
   const [tractate, setTractate] = useState<string>(tractates[0]);
   const [page, setPage] = useState<string>("2a");

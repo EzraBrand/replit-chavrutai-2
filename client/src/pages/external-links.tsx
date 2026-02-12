@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ExternalLink, ArrowRight } from "lucide-react";
 import { Footer } from "@/components/footer";
+import { useSEO } from "@/hooks/use-seo";
 import { TRACTATE_LISTS, TRACTATE_HEBREW_NAMES, normalizeDisplayTractateName, isValidTractate } from "@shared/tractates";
 import { getMaxFolio, getStartFolio, getStartSide } from "@shared/talmud-navigation";
 import { 
@@ -17,6 +18,13 @@ import {
 } from "@/lib/external-links";
 
 function ExternalLinksPage() {
+  useSEO({
+    title: "External Links - Talmud Cross-References | ChavrutAI",
+    description: "Find external links to Talmud pages on Sefaria, Al HaTorah, Wikisource, and Daf Yomi resources. Cross-reference any tractate, page, and section.",
+    canonical: `${window.location.origin}/external-links`,
+    robots: "index, follow",
+  });
+
   const [location] = useLocation();
   const [tractate, setTractate] = useState<string>("Shabbat");
   const [folio, setFolio] = useState<number>(2);

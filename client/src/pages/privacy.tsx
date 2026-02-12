@@ -13,7 +13,19 @@ export default function Privacy() {
     ogDescription: "Privacy policy for ChavrutAI - learn how we handle your data when using our free Talmud study platform.",
     ogUrl: `${baseUrl}/privacy`,
     canonical: `${baseUrl}/privacy`,
-    robots: "index, follow"
+    robots: "index, follow",
+    structuredData: {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      name: "Privacy Policy - ChavrutAI",
+      description: "Privacy policy for ChavrutAI digital Talmud study platform",
+      url: `${baseUrl}/privacy`,
+      publisher: {
+        "@type": "Organization",
+        name: "ChavrutAI",
+        url: baseUrl,
+      },
+    },
   });
 
   return (

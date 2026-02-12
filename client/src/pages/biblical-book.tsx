@@ -37,7 +37,24 @@ export default function BiblicalBookPage() {
     title: bookName ? `${formatBookName(bookName)} - Biblical Citations in Talmud | ChavrutAI` : "Biblical Citations | ChavrutAI",
     description: bookName ? `Find all Talmudic citations of ${formatBookName(bookName)}. Comprehensive index mapping biblical verses to their references in the Babylonian Talmud.` : "Biblical citations index",
     canonical: `${window.location.origin}/biblical-index/book/${bookName || ''}`,
-    robots: "index, follow"
+    robots: "index, follow",
+    structuredData: bookName ? {
+      "@context": "https://schema.org",
+      "@type": "Dataset",
+      name: `${formatBookName(bookName)} - Biblical Citations in the Talmud`,
+      description: `Index of all Talmudic citations of ${formatBookName(bookName)}`,
+      url: `${window.location.origin}/biblical-index/book/${bookName}`,
+      isPartOf: {
+        "@type": "Dataset",
+        name: "Biblical Citations in the Talmud",
+        url: `${window.location.origin}/biblical-index`,
+      },
+      creator: {
+        "@type": "Organization",
+        name: "ChavrutAI",
+        url: window.location.origin,
+      },
+    } : undefined,
   });
 
   if (!bookName) {

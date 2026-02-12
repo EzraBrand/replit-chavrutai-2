@@ -31,7 +31,19 @@ export default function BlogPostsPage() {
     description: 'Blog posts analyzing Talmudic passages, organized by tractate and page location. Click on titles to go to the full articles at the "Talmud & Tech" Blog, or use location links to jump to the corresponding text in ChavrutAI.',
     keywords: 'Talmud & Tech, Talmud blog posts, Jewish learning, Talmudic analysis, Torah study, rabbinical literature',
     canonical: `${window.location.origin}/blog-posts`,
-    robots: 'index, follow'
+    robots: 'index, follow',
+    structuredData: {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      name: "Talmud & Tech Blog Posts",
+      description: "Blog posts analyzing Talmudic passages, organized by tractate and page location",
+      url: `${window.location.origin}/blog-posts`,
+      publisher: {
+        "@type": "Organization",
+        name: "ChavrutAI",
+        url: window.location.origin,
+      },
+    },
   });
 
   if (loading) {
