@@ -11,6 +11,7 @@
     "db:push": "drizzle-kit push"
   },
   "dependencies": {
+    "@google/genai": "^1.41.0",
     "@hookform/resolvers": "^3.10.0",
     "@jridgewell/trace-mapping": "^0.3.25",
     "@neondatabase/serverless": "^0.10.4",
@@ -52,7 +53,7 @@
     "date-fns": "^3.6.0",
     "dompurify": "^3.2.7",
     "drizzle-orm": "^0.39.1",
-    "drizzle-zod": "^0.7.0",
+    "drizzle-zod": "^0.7.1",
     "express": "^4.21.2",
     "express-session": "^1.18.1",
     "googleapis": "^148.0.0",
@@ -60,6 +61,8 @@
     "memorystore": "^1.6.7",
     "next-themes": "^0.4.6",
     "openai": "^6.9.1",
+    "p-limit": "^7.3.0",
+    "p-retry": "^7.1.1",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
     "posthog-js": "^1.310.0",
@@ -79,8 +82,8 @@
     "workbox-window": "^7.3.0",
     "wouter": "^3.3.5",
     "ws": "^8.18.0",
-    "zod": "^3.24.2",
-    "zod-validation-error": "^3.4.0"
+    "zod": "^3.25.76",
+    "zod-validation-error": "^3.5.4"
   },
   "devDependencies": {
     "@replit/vite-plugin-cartographer": "^0.2.8",

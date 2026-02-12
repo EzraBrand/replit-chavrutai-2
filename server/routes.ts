@@ -10,6 +10,7 @@ import { generateMainSitemap } from "./routes/sitemap-main";
 import { generateSederSitemap } from "./routes/sitemap-seder";
 import { z } from "zod";
 import OpenAI from "openai";
+import { GoogleGenAI, type FunctionDeclaration, Type, createPartFromFunctionResponse } from "@google/genai";
 import { getBlogPostSearch } from "./blog-search";
 import { sendChatbotAlert } from "./lib/gmail-client";
 
@@ -983,7 +984,54 @@ export async function registerRoutes(app: Express): Promise<Server> {
     apiKey: process.env.OPENAI_API_KEY
   });
 
+  const geminiAI = new GoogleGenAI({
+    apiKey: process.env.AI_INTEGRATIONS_GEMINI_API_KEY,
+    httpOptions: {
+      apiVersion: "",
+      baseUrl: process.env.AI_INTEGRATIONS_GEMINI_BASE_URL,
+    },
+  });
+
   const blogSearch = getBlogPostSearch();
+
+  const geminiFunctionDeclarations: FunctionDeclaration[] = [
+    {
+      name: "searchBlogPosts",
+      description: "Search the Talmud & Tech blog archive for posts related to specific Talmud locations or topics. Returns blog post titles, URLs, and relevant excerpts.",
+      parameters: {
+        type: Type.OBJECT,
+        properties: {
+          tractate: { type: Type.STRING, description: "Talmud tractate name (e.g., 'Berakhot', 'Sanhedrin')" },
+          location: { type: Type.STRING, description: "Talmud location or range (e.g., '7a', '7a.5-22', '7a-7b')" },
+          keywords: { type: Type.ARRAY, items: { type: Type.STRING }, description: "Keywords to search in post titles and content" },
+          limit: { type: Type.NUMBER, description: "Maximum number of results to return (default: 5)" }
+        }
+      }
+    },
+    {
+      name: "getBlogPostContent",
+      description: "Retrieve the full content of a specific blog post by its ID. Use this after searchBlogPosts to get detailed content of relevant posts.",
+      parameters: {
+        type: Type.OBJECT,
+        properties: {
+          postId: { type: Type.STRING, description: "The blog post ID returned from searchBlogPosts" }
+        },
+        required: ["postId"]
+      }
+    },
+    {
+      name: "fetchSefariaCommentary",
+      description: "Fetch commentaries (Rashi, Tosafot, Rashbam, Maharsha, etc.) on a specific Talmud passage from the Sefaria API. Returns a list of available commentators and excerpts of their commentary text.",
+      parameters: {
+        type: Type.OBJECT,
+        properties: {
+          reference: { type: Type.STRING, description: "Sefaria text reference, e.g. 'Berakhot.2a.1', 'Sanhedrin.37a', 'Shabbat.31a.3'" },
+          commentators: { type: Type.STRING, description: "Comma-separated list of specific commentator names to filter for, e.g. 'Rashi,Tosafot'. Leave empty for all commentators." }
+        },
+        required: ["reference"]
+      }
+    }
+  ];
 
   const responsesTools: any[] = [
     { type: "web_search" },
@@ -1172,133 +1220,99 @@ When answering questions:
       const userMessage = userMessages[userMessages.length - 1];
       const instructions = buildChatInstructions(context);
 
-      const inputMessages = messages.map((m: any) => ({
-        role: m.role,
-        content: m.content
-      }));
+      const geminiContents: any[] = [
+        { role: "user", parts: [{ text: instructions }] },
+        { role: "model", parts: [{ text: "Understood. I will follow these instructions for all responses." }] }
+      ];
+      for (const m of messages) {
+        geminiContents.push({
+          role: m.role === 'assistant' ? 'model' : 'user',
+          parts: [{ text: m.content }]
+        });
+      }
 
       const collectedToolCalls: any[] = [];
       let fullResponseText = '';
 
-      const stream = await (openai as any).responses.create({
-        model: "o4-mini",
-        instructions,
-        input: inputMessages,
-        tools: responsesTools,
-        tool_choice: "auto",
-        reasoning: { effort: "low" },
-        stream: true
+      sendSSE('status', { message: 'Thinking...' });
+
+      const response = await geminiAI.models.generateContent({
+        model: "gemini-3-pro-preview",
+        contents: geminiContents,
+        config: {
+          tools: [{ functionDeclarations: geminiFunctionDeclarations }],
+          maxOutputTokens: 8192,
+          thinkingConfig: { thinkingBudget: 1024 }
+        }
       });
 
-      const outputItems: any[] = [];
-      let currentFunctionCall: any = null;
-      let firstResponseId: string | null = null;
-
-      for await (const event of stream) {
-        if (event.type === 'response.created') {
-          firstResponseId = event.response?.id || null;
-          sendSSE('status', { message: 'Reasoning...' });
-        }
-
-        if (event.type === 'response.reasoning_summary_text.delta') {
-          sendSSE('reasoning', { delta: event.delta });
-        }
-
-        if (event.type === 'response.output_item.added') {
-          const item = event.item;
-          if (item?.type === 'web_search_call') {
-            outputItems.push(item);
-          } else if (item?.type === 'function_call') {
-            currentFunctionCall = { ...item, arguments: '' };
-            outputItems.push(currentFunctionCall);
-          }
-        }
-
-        if (event.type === 'response.function_call_arguments.delta' && currentFunctionCall) {
-          currentFunctionCall.arguments += event.delta;
-        }
-
-        if (event.type === 'response.output_item.done') {
-          const item = event.item;
-          if (item?.type === 'web_search_call') {
-            const wsData = {
-              tool: 'web_search',
-              arguments: { query: item?.action?.query || 'web search' },
-              result: item?.action?.sources || []
-            };
-            collectedToolCalls.push(wsData);
-            sendSSE('tool_call', wsData);
-            const idx = outputItems.findIndex((o: any) => o.id === item.id);
-            if (idx >= 0) outputItems[idx] = item;
-          }
-          if (item?.type === 'function_call') {
-            const idx = outputItems.findIndex((o: any) => o.id === item.id);
-            if (idx >= 0) outputItems[idx] = item;
-            currentFunctionCall = null;
-          }
-        }
-
-        if (event.type === 'response.output_text.delta') {
-          fullResponseText += event.delta;
-          sendSSE('text', { delta: event.delta });
-        }
+      const candidate = response.candidates?.[0];
+      if (!candidate) {
+        sendSSE('error', { message: 'No response from Gemini' });
+        res.end();
+        return;
       }
 
-      const functionCalls = outputItems.filter((item: any) => item.type === 'function_call');
+      const parts = candidate.content?.parts || [];
 
-      if (functionCalls.length > 0) {
-        const functionOutputs: any[] = [];
+      const thoughtParts = parts.filter((p: any) => p.thought && p.text);
+      for (const tp of thoughtParts) {
+        sendSSE('reasoning', { delta: tp.text });
+      }
 
-        for (const fc of functionCalls) {
-          const args = typeof fc.arguments === 'string' ? JSON.parse(fc.arguments) : fc.arguments;
-          const result = await executeFunction(fc.name, args);
+      const functionCallParts = parts.filter((p: any) => p.functionCall);
 
-          const tcData = { tool: fc.name, arguments: args, result };
+      if (functionCallParts.length > 0) {
+        const functionResponses: any[] = [];
+
+        for (const fcp of functionCallParts) {
+          const fc = fcp.functionCall;
+          if (!fc) continue;
+          const args = fc.args || {};
+          const fnName = fc.name || 'unknown';
+          const result = await executeFunction(fnName, args);
+
+          const tcData = { tool: fnName, arguments: args, result };
           collectedToolCalls.push(tcData);
           sendSSE('tool_call', tcData);
 
-          functionOutputs.push({
-            type: "function_call_output",
-            call_id: fc.call_id,
-            output: JSON.stringify(result)
-          });
+          functionResponses.push({
+            functionResponse: {
+              name: fnName,
+              response: { result: JSON.stringify(result) }
+            }
+          } as any);
         }
 
         sendSSE('status', { message: 'Composing response...' });
 
-        const followUpStream = await (openai as any).responses.create({
-          model: "o4-mini",
-          previous_response_id: firstResponseId,
-          input: functionOutputs,
-          tools: responsesTools,
-          reasoning: { effort: "low" },
-          stream: true
+        const followUpContents = [
+          ...geminiContents,
+          { role: "model", parts: parts },
+          { role: "user", parts: functionResponses }
+        ];
+
+        const followUpStream = await geminiAI.models.generateContentStream({
+          model: "gemini-3-pro-preview",
+          contents: followUpContents,
+          config: {
+            tools: [{ functionDeclarations: geminiFunctionDeclarations }],
+            maxOutputTokens: 8192,
+          }
         });
 
-        fullResponseText = '';
-
-        for await (const event of followUpStream) {
-          if (event.type === 'response.reasoning_summary_text.delta') {
-            sendSSE('reasoning', { delta: event.delta });
+        for await (const chunk of followUpStream) {
+          const text = chunk.text || "";
+          if (text) {
+            fullResponseText += text;
+            sendSSE('text', { delta: text });
           }
-
-          if (event.type === 'response.output_item.done') {
-            const item = event.item;
-            if (item?.type === 'web_search_call') {
-              const wsData = {
-                tool: 'web_search',
-                arguments: { query: item?.action?.query || 'web search' },
-                result: item?.action?.sources || []
-              };
-              collectedToolCalls.push(wsData);
-              sendSSE('tool_call', wsData);
-            }
-          }
-
-          if (event.type === 'response.output_text.delta') {
-            fullResponseText += event.delta;
-            sendSSE('text', { delta: event.delta });
-          }
+        }
+      } else {
+        const textParts = parts.filter((p: any) => !p.thought && p.text);
+        for (const tp of textParts) {
+          fullResponseText += tp.text;
+          sendSSE('text', { delta: tp.text });
         }
       }
 
