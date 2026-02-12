@@ -71,6 +71,17 @@ export default function Changelog() {
           
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">SEO Structured Data & Meta Tags</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Fixed duplicate title on Contents page (was sharing homepage title)</li>
+                <li>Added SEO meta tags to pages that were missing them: Sugya Viewer, Blog Reader, External Links, 404</li>
+                <li>Added canonical URLs to Mishnah Map and Sugya Viewer</li>
+                <li>Added JSON-LD structured data across ~15 pages for better search engine rich results</li>
+                <li>Every page now has a unique title, meta description, canonical URL, and structured data</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">AI Chatbot Improvements</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Chatbot responses are now more direct and specific, avoiding vague filler phrases</li>
