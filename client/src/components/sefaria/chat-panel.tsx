@@ -5,7 +5,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
-import { Send, Trash2, ExternalLink, Loader2 } from 'lucide-react';
+import { Send, Trash2, ExternalLink, Loader2, Globe, BookOpen, Search } from 'lucide-react';
 import { useChat, type ChatContext, type ToolCall } from '@/hooks/use-chat';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -38,31 +38,101 @@ export function ChatPanel({ context }: ChatPanelProps) {
 
     return (
       <div className="mt-2 space-y-2">
-        {toolCalls.map((tc, i) => (
-          <div key={i} className="text-xs bg-blue-50 dark:bg-blue-900/20 p-2 rounded border border-blue-200 dark:border-blue-800">
-            <div className="font-semibold text-blue-700 dark:text-blue-300 mb-1">
-              🔧 Used tool: {tc.tool}
-            </div>
-            {tc.result && Array.isArray(tc.result) && tc.result.length > 0 && (
-              <div className="space-y-1">
-                {tc.result.map((post: any, j: number) => (
-                  <div key={j} className="flex items-start gap-1">
-                    <span className="text-blue-600 dark:text-blue-400">•</span>
-                    <a 
-                      href={post.blogUrl} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-blue-600 dark:text-blue-400 hover:underline flex-1"
-                    >
-                      {post.title}
-                    </a>
-                    <ExternalLink className="h-3 w-3 text-blue-400" />
+        {toolCalls.map((tc, i) => {
+          if (tc.tool === 'web_search') {
+            const sources = Array.isArray(tc.result) ? tc.result : [];
+            return (
+              <div key={i} className="text-xs bg-green-50 dark:bg-green-900/20 p-2 rounded border border-green-200 dark:border-green-800">
+                <div className="font-semibold text-green-700 dark:text-green-300 mb-1 flex items-center gap-1">
+                  <Globe className="h-3 w-3" />
+                  Web search{tc.arguments?.query ? `: "${tc.arguments.query}"` : ''}
+                </div>
+                {sources.length > 0 && (
+                  <div className="space-y-1">
+                    {sources.slice(0, 5).map((source: any, j: number) => (
+                      <div key={j} className="flex items-start gap-1">
+                        <span className="text-green-600 dark:text-green-400">•</span>
+                        <a 
+                          href={source.url} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-green-600 dark:text-green-400 hover:underline flex-1 truncate"
+                        >
+                          {source.title || source.url}
+                        </a>
+                        <ExternalLink className="h-3 w-3 text-green-400 flex-shrink-0" />
+                      </div>
+                    ))}
                   </div>
-                ))}
+                )}
               </div>
-            )}
-          </div>
-        ))}
+            );
+          }
+
+          if (tc.tool === 'fetchSefariaCommentary') {
+            const result = tc.result || {};
+            const commentators = result.availableCommentators || [];
+            const results = result.results || [];
+            return (
+              <div key={i} className="text-xs bg-amber-50 dark:bg-amber-900/20 p-2 rounded border border-amber-200 dark:border-amber-800">
+                <div className="font-semibold text-amber-700 dark:text-amber-300 mb-1 flex items-center gap-1">
+                  <BookOpen className="h-3 w-3" />
+                  Sefaria commentary lookup
+                </div>
+                {commentators.length > 0 && (
+                  <div className="text-amber-600 dark:text-amber-400 mb-1">
+                    Found {result.totalCommentaries} commentaries from: {commentators.slice(0, 8).join(', ')}{commentators.length > 8 ? '...' : ''}
+                  </div>
+                )}
+                {results.length > 0 && (
+                  <div className="space-y-1">
+                    {results.slice(0, 5).map((r: any, j: number) => (
+                      <div key={j} className="flex items-start gap-1">
+                        <span className="text-amber-600 dark:text-amber-400">•</span>
+                        <a 
+                          href={r.sefariaUrl} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-amber-600 dark:text-amber-400 hover:underline flex-1"
+                        >
+                          {r.commentator}: {r.reference}
+                        </a>
+                        <ExternalLink className="h-3 w-3 text-amber-400 flex-shrink-0" />
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          }
+
+          return (
+            <div key={i} className="text-xs bg-blue-50 dark:bg-blue-900/20 p-2 rounded border border-blue-200 dark:border-blue-800">
+              <div className="font-semibold text-blue-700 dark:text-blue-300 mb-1 flex items-center gap-1">
+                <Search className="h-3 w-3" />
+                Blog search: {tc.tool}
+              </div>
+              {tc.result && Array.isArray(tc.result) && tc.result.length > 0 && (
+                <div className="space-y-1">
+                  {tc.result.map((post: any, j: number) => (
+                    <div key={j} className="flex items-start gap-1">
+                      <span className="text-blue-600 dark:text-blue-400">•</span>
+                      <a 
+                        href={post.blogUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-blue-600 dark:text-blue-400 hover:underline flex-1"
+                      >
+                        {post.title}
+                      </a>
+                      <ExternalLink className="h-3 w-3 text-blue-400 flex-shrink-0" />
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
     );
   };
