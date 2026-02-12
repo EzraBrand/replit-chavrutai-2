@@ -1186,8 +1186,7 @@ When answering questions:
         input: inputMessages,
         tools: responsesTools,
         tool_choice: "auto",
-        reasoning: { effort: "low", summary: "concise" },
-        include: ["web_search_call.action.sources"],
+        reasoning: { effort: "low" },
         stream: true
       });
 
@@ -1272,8 +1271,7 @@ When answering questions:
           previous_response_id: firstResponseId,
           input: functionOutputs,
           tools: responsesTools,
-          reasoning: { effort: "low", summary: "concise" },
-          include: ["web_search_call.action.sources"],
+          reasoning: { effort: "low" },
           stream: true
         });
 
