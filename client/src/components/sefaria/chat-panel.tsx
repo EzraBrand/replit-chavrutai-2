@@ -196,7 +196,7 @@ export function ChatPanel({ context }: ChatPanelProps) {
       <CardContent className="flex-1 flex flex-col p-4 pt-0 min-h-0">
         <div className="flex items-start gap-2 mb-3 p-2 bg-amber-50 dark:bg-amber-900/20 rounded border border-amber-200 dark:border-amber-800 text-xs text-amber-700 dark:text-amber-300">
           <Info className="h-3.5 w-3.5 mt-0.5 flex-shrink-0" />
-          <span>Powered by GPT-4.1. Responses may take 10-30s when using web search and commentary lookup.</span>
+          <span>Powered by GPT-5 with reasoning. Responses may take 10-30s when using web search and commentary lookup.</span>
         </div>
         <ScrollArea ref={scrollRef} className="flex-1 pr-4 mb-4">
           <div className="space-y-4">

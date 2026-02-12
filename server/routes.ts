@@ -1181,11 +1181,12 @@ When answering questions:
       let fullResponseText = '';
 
       const stream = await (openai as any).responses.create({
-        model: "gpt-4.1",
+        model: "gpt-5",
         instructions,
         input: inputMessages,
         tools: responsesTools,
         tool_choice: "auto",
+        reasoning: { effort: "low", summary: "concise" },
         include: ["web_search_call.action.sources"],
         stream: true
       });
@@ -1267,10 +1268,11 @@ When answering questions:
         sendSSE('status', { message: 'Composing response...' });
 
         const followUpStream = await (openai as any).responses.create({
-          model: "gpt-4.1",
+          model: "gpt-5",
           previous_response_id: firstResponseId,
           input: functionOutputs,
           tools: responsesTools,
+          reasoning: { effort: "low", summary: "concise" },
           include: ["web_search_call.action.sources"],
           stream: true
         });
