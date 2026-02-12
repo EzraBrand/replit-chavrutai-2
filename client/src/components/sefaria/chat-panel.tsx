@@ -5,7 +5,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
-import { Send, Trash2, ExternalLink, Loader2, Globe, BookOpen, Search, Clock, Info } from 'lucide-react';
+import { Send, Trash2, ExternalLink, Loader2, Globe, BookOpen, Search, Clock, Info, ChevronDown, ChevronRight, Brain } from 'lucide-react';
 import { useChat, type ChatContext, type ToolCall } from '@/hooks/use-chat';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -16,14 +16,15 @@ interface ChatPanelProps {
 
 export function ChatPanel({ context }: ChatPanelProps) {
   const [inputValue, setInputValue] = useState('');
-  const { messages, isLoading, error, lastToolCalls, elapsedSeconds, sendMessage, clearMessages } = useChat(context);
+  const [showReasoning, setShowReasoning] = useState(true);
+  const { messages, isLoading, error, lastToolCalls, elapsedSeconds, reasoningText, streamingContent, statusMessage, sendMessage, clearMessages } = useChat(context);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [messages]);
+  }, [messages, streamingContent, reasoningText]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,6 +32,7 @@ export function ChatPanel({ context }: ChatPanelProps) {
     
     sendMessage(inputValue);
     setInputValue('');
+    setShowReasoning(true);
   };
 
   const renderToolCalls = (toolCalls: ToolCall[]) => {
@@ -45,7 +47,7 @@ export function ChatPanel({ context }: ChatPanelProps) {
               <div key={i} className="text-xs bg-green-50 dark:bg-green-900/20 p-2 rounded border border-green-200 dark:border-green-800">
                 <div className="font-semibold text-green-700 dark:text-green-300 mb-1 flex items-center gap-1">
                   <Globe className="h-3 w-3" />
-                  Web search{tc.arguments?.query ? `: "${tc.arguments.query}"` : ''}
+                  Web search{tc.arguments?.query && tc.arguments.query !== 'web search' ? `: "${tc.arguments.query}"` : ''}
                 </div>
                 {sources.length > 0 && (
                   <div className="space-y-1">
@@ -137,6 +139,31 @@ export function ChatPanel({ context }: ChatPanelProps) {
     );
   };
 
+  const renderReasoningBlock = () => {
+    if (!reasoningText || !isLoading) return null;
+
+    return (
+      <div className="flex justify-start">
+        <div className="max-w-[85%] w-full">
+          <button
+            onClick={() => setShowReasoning(!showReasoning)}
+            className="flex items-center gap-1.5 text-xs text-purple-600 dark:text-purple-400 hover:text-purple-800 dark:hover:text-purple-300 mb-1 font-medium"
+          >
+            <Brain className="h-3.5 w-3.5" />
+            Thinking...
+            {showReasoning ? <ChevronDown className="h-3 w-3" /> : <ChevronRight className="h-3 w-3" />}
+          </button>
+          {showReasoning && (
+            <div className="bg-purple-50 dark:bg-purple-900/20 rounded-lg px-3 py-2 border border-purple-200 dark:border-purple-800 text-xs text-purple-700 dark:text-purple-300 italic whitespace-pre-wrap max-h-[200px] overflow-y-auto">
+              {reasoningText}
+              <span className="animate-pulse">|</span>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  };
+
   return (
     <Card className="h-full flex flex-col">
       <CardHeader className="pb-3">
@@ -163,11 +190,11 @@ export function ChatPanel({ context }: ChatPanelProps) {
       <CardContent className="flex-1 flex flex-col p-4 pt-0 min-h-0">
         <div className="flex items-start gap-2 mb-3 p-2 bg-amber-50 dark:bg-amber-900/20 rounded border border-amber-200 dark:border-amber-800 text-xs text-amber-700 dark:text-amber-300">
           <Info className="h-3.5 w-3.5 mt-0.5 flex-shrink-0" />
-          <span>Responses may take 10-30 seconds as the AI uses advanced reasoning, web search, and commentary lookup.</span>
+          <span>Powered by GPT-5.2 with reasoning. Responses may take 10-30s when using web search and commentary lookup.</span>
         </div>
         <ScrollArea ref={scrollRef} className="flex-1 pr-4 mb-4">
           <div className="space-y-4">
-            {messages.length === 0 && (
+            {messages.length === 0 && !isLoading && (
               <div className="text-center text-gray-500 py-8">
                 <p className="mb-2">Start a conversation!</p>
                 <p className="text-sm">
@@ -209,16 +236,42 @@ export function ChatPanel({ context }: ChatPanelProps) {
             ))}
 
             {isLoading && (
-              <div className="flex justify-start">
-                <div className="bg-gray-100 dark:bg-gray-800 rounded-lg px-4 py-2 flex items-center gap-2">
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                  <span className="text-sm">Thinking...</span>
-                  <span className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1">
-                    <Clock className="h-3 w-3" />
-                    {elapsedSeconds}s
-                  </span>
-                </div>
-              </div>
+              <>
+                {renderReasoningBlock()}
+
+                {lastToolCalls.length > 0 && (
+                  <div className="flex justify-start">
+                    <div className="max-w-[85%] w-full">
+                      {renderToolCalls(lastToolCalls)}
+                    </div>
+                  </div>
+                )}
+
+                {streamingContent ? (
+                  <div className="flex justify-start">
+                    <div className="max-w-[85%] rounded-lg px-4 py-2 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100">
+                      <div className="prose prose-sm dark:prose-invert max-w-none
+                        prose-p:my-2 prose-ul:my-2 prose-ol:my-2 prose-li:my-0
+                        prose-strong:font-bold prose-strong:text-gray-900 dark:prose-strong:text-gray-100">
+                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                          {streamingContent}
+                        </ReactMarkdown>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex justify-start">
+                    <div className="bg-gray-100 dark:bg-gray-800 rounded-lg px-4 py-2 flex items-center gap-2">
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      <span className="text-sm">{statusMessage || (reasoningText ? 'Reasoning...' : 'Thinking...')}</span>
+                      <span className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1">
+                        <Clock className="h-3 w-3" />
+                        {elapsedSeconds}s
+                      </span>
+                    </div>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </ScrollArea>

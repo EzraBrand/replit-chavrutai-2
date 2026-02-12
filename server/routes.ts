@@ -1113,13 +1113,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     return null;
   }
 
-  app.post("/api/chat", async (req, res) => {
-    try {
-      const { messages, context } = req.body;
-      const userMessages = messages.filter((m: any) => m.role === 'user');
-      const userMessage = userMessages[userMessages.length - 1];
-
-      const instructions = `You are a knowledgeable Talmud study assistant. You have access to:
+  function buildChatInstructions(context: any): string {
+    return `You are a knowledgeable Talmud study assistant. You have access to:
 1. **Web search** - to find commentators, academic articles, and relevant material online
 2. **Sefaria commentary lookup** - to fetch traditional commentaries (Rashi, Tosafot, Rashbam, Maharsha, etc.) directly from Sefaria
 3. **Talmud & Tech blog archive** - containing detailed analysis of Talmud passages
@@ -1148,35 +1143,99 @@ When answering questions:
 5. Provide clear, educational responses using markdown formatting where helpful
 6. Cite sources (blog posts, commentators, web links) when referencing them
 7. Be direct and specific - avoid vague statements, meta-commentary, or filler like "there may be", "further exploration might be needed", or "for a comprehensive study"`;
+  }
+
+  app.post("/api/chat", async (req, res) => {
+    res.writeHead(200, {
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache',
+      'Connection': 'keep-alive',
+      'X-Accel-Buffering': 'no'
+    });
+
+    const sendSSE = (event: string, data: any) => {
+      res.write(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`);
+    };
+
+    try {
+      const { messages, context } = req.body;
+      const userMessages = messages.filter((m: any) => m.role === 'user');
+      const userMessage = userMessages[userMessages.length - 1];
+      const instructions = buildChatInstructions(context);
 
       const inputMessages = messages.map((m: any) => ({
         role: m.role,
         content: m.content
       }));
 
-      const response = await (openai as any).responses.create({
+      const collectedToolCalls: any[] = [];
+      let fullResponseText = '';
+
+      const stream = await (openai as any).responses.create({
         model: "gpt-5.2",
         instructions,
         input: inputMessages,
         tools: responsesTools,
         tool_choice: "auto",
-        reasoning: { effort: "medium" },
-        include: ["web_search_call.action.sources"]
+        reasoning: { effort: "medium", summary: "concise" },
+        include: ["web_search_call.action.sources"],
+        stream: true
       });
 
-      const outputItems: any[] = response.output || [];
-      const functionCalls = outputItems.filter((item: any) => item.type === 'function_call');
-      const webSearchCalls = outputItems.filter((item: any) => item.type === 'web_search_call');
+      const outputItems: any[] = [];
+      let currentFunctionCall: any = null;
+      let firstResponseId: string | null = null;
 
-      const collectedToolCalls: any[] = [];
+      for await (const event of stream) {
+        if (event.type === 'response.created') {
+          firstResponseId = event.response?.id || null;
+        }
 
-      for (const ws of webSearchCalls) {
-        collectedToolCalls.push({
-          tool: 'web_search',
-          arguments: { query: ws?.action?.query || 'web search' },
-          result: ws?.action?.sources || []
-        });
+        if (event.type === 'response.reasoning_summary_text.delta') {
+          sendSSE('reasoning', { delta: event.delta });
+        }
+
+        if (event.type === 'response.output_item.added') {
+          const item = event.item;
+          if (item?.type === 'web_search_call') {
+            outputItems.push(item);
+          } else if (item?.type === 'function_call') {
+            currentFunctionCall = { ...item, arguments: '' };
+            outputItems.push(currentFunctionCall);
+          }
+        }
+
+        if (event.type === 'response.function_call_arguments.delta' && currentFunctionCall) {
+          currentFunctionCall.arguments += event.delta;
+        }
+
+        if (event.type === 'response.output_item.done') {
+          const item = event.item;
+          if (item?.type === 'web_search_call') {
+            const wsData = {
+              tool: 'web_search',
+              arguments: { query: item?.action?.query || 'web search' },
+              result: item?.action?.sources || []
+            };
+            collectedToolCalls.push(wsData);
+            sendSSE('tool_call', wsData);
+            const idx = outputItems.findIndex((o: any) => o.id === item.id);
+            if (idx >= 0) outputItems[idx] = item;
+          }
+          if (item?.type === 'function_call') {
+            const idx = outputItems.findIndex((o: any) => o.id === item.id);
+            if (idx >= 0) outputItems[idx] = item;
+            currentFunctionCall = null;
+          }
+        }
+
+        if (event.type === 'response.output_text.delta') {
+          fullResponseText += event.delta;
+          sendSSE('text', { delta: event.delta });
+        }
       }
+
+      const functionCalls = outputItems.filter((item: any) => item.type === 'function_call');
 
       if (functionCalls.length > 0) {
         const functionOutputs: any[] = [];
@@ -1185,11 +1244,9 @@ When answering questions:
           const args = typeof fc.arguments === 'string' ? JSON.parse(fc.arguments) : fc.arguments;
           const result = await executeFunction(fc.name, args);
 
-          collectedToolCalls.push({
-            tool: fc.name,
-            arguments: args,
-            result
-          });
+          const tcData = { tool: fc.name, arguments: args, result };
+          collectedToolCalls.push(tcData);
+          sendSSE('tool_call', tcData);
 
           functionOutputs.push({
             type: "function_call_output",
@@ -1198,66 +1255,63 @@ When answering questions:
           });
         }
 
-        const followUp = await (openai as any).responses.create({
+        sendSSE('status', { message: 'Composing response...' });
+
+        const followUpStream = await (openai as any).responses.create({
           model: "gpt-5.2",
-          previous_response_id: response.id,
+          previous_response_id: firstResponseId,
           input: functionOutputs,
           tools: responsesTools,
-          reasoning: { effort: "medium" },
-          include: ["web_search_call.action.sources"]
+          reasoning: { effort: "medium", summary: "concise" },
+          include: ["web_search_call.action.sources"],
+          stream: true
         });
 
-        const followUpItems: any[] = followUp.output || [];
-        const followUpWebSearchCalls = followUpItems.filter((item: any) => item.type === 'web_search_call');
-        for (const ws of followUpWebSearchCalls) {
-          collectedToolCalls.push({
-            tool: 'web_search',
-            arguments: { query: ws?.action?.query || 'web search' },
-            result: ws?.action?.sources || []
-          });
+        fullResponseText = '';
+
+        for await (const event of followUpStream) {
+          if (event.type === 'response.reasoning_summary_text.delta') {
+            sendSSE('reasoning', { delta: event.delta });
+          }
+
+          if (event.type === 'response.output_item.done') {
+            const item = event.item;
+            if (item?.type === 'web_search_call') {
+              const wsData = {
+                tool: 'web_search',
+                arguments: { query: item?.action?.query || 'web search' },
+                result: item?.action?.sources || []
+              };
+              collectedToolCalls.push(wsData);
+              sendSSE('tool_call', wsData);
+            }
+          }
+
+          if (event.type === 'response.output_text.delta') {
+            fullResponseText += event.delta;
+            sendSSE('text', { delta: event.delta });
+          }
         }
+      }
 
-        const finalText = followUp.output_text || '';
+      sendSSE('done', { toolCalls: collectedToolCalls });
+      res.end();
 
-        if (userMessage && context) {
-          sendChatbotAlert({
-            userQuestion: userMessage.content,
-            aiResponse: finalText,
-            fullPrompt: instructions,
-            talmudRange: context.range || `${context.tractate} ${context.page}`,
-            tractate: context.tractate,
-            page: context.page,
-            timestamp: new Date()
-          }).catch(err => console.error('Email alert failed:', err));
-        }
-
-        res.json({
-          message: { role: 'assistant', content: finalText },
-          toolCalls: collectedToolCalls
-        });
-      } else {
-        const finalText = response.output_text || '';
-
-        if (userMessage && context) {
-          sendChatbotAlert({
-            userQuestion: userMessage.content,
-            aiResponse: finalText,
-            fullPrompt: instructions,
-            talmudRange: context.range || `${context.tractate} ${context.page}`,
-            tractate: context.tractate,
-            page: context.page,
-            timestamp: new Date()
-          }).catch(err => console.error('Email alert failed:', err));
-        }
-
-        res.json({
-          message: { role: 'assistant', content: finalText },
-          toolCalls: collectedToolCalls
-        });
+      if (userMessage && context) {
+        sendChatbotAlert({
+          userQuestion: userMessage.content,
+          aiResponse: fullResponseText,
+          fullPrompt: instructions,
+          talmudRange: context.range || `${context.tractate} ${context.page}`,
+          tractate: context.tractate,
+          page: context.page,
+          timestamp: new Date()
+        }).catch(err => console.error('Email alert failed:', err));
       }
     } catch (error) {
       console.error("Chat error:", error);
-      res.status(500).json({ error: "Chat request failed" });
+      sendSSE('error', { message: 'Chat request failed' });
+      res.end();
     }
   });
 

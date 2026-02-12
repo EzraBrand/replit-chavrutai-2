@@ -1,5 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
-import { apiRequest } from '@/lib/queryClient';
+import { useState, useRef, useEffect, useCallback } from 'react';
 
 export interface ChatMessage {
   role: 'user' | 'assistant';
@@ -21,18 +20,17 @@ export interface ToolCall {
   result: any;
 }
 
-export interface ChatResponse {
-  message: ChatMessage;
-  toolCalls: ToolCall[];
-}
-
 export function useChat(context?: ChatContext) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [lastToolCalls, setLastToolCalls] = useState<ToolCall[]>([]);
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
+  const [reasoningText, setReasoningText] = useState('');
+  const [streamingContent, setStreamingContent] = useState('');
+  const [statusMessage, setStatusMessage] = useState('');
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const abortRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
     if (isLoading) {
@@ -51,36 +49,109 @@ export function useChat(context?: ChatContext) {
     };
   }, [isLoading]);
 
-  const sendMessage = async (content: string) => {
+  const sendMessage = useCallback(async (content: string) => {
     setIsLoading(true);
     setError(null);
+    setReasoningText('');
+    setStreamingContent('');
+    setStatusMessage('');
+    setLastToolCalls([]);
 
     const userMessage: ChatMessage = { role: 'user', content };
     const newMessages = [...messages, userMessage];
     setMessages(newMessages);
 
+    abortRef.current = new AbortController();
+
     try {
-      const res = await apiRequest('POST', '/api/chat', {
-        messages: newMessages,
-        context
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: newMessages, context }),
+        signal: abortRef.current.signal
       });
 
-      const response: ChatResponse = await res.json();
+      if (!response.ok) {
+        throw new Error('Chat request failed');
+      }
 
-      setLastToolCalls(response.toolCalls);
-      setMessages([...newMessages, response.message]);
+      const reader = response.body?.getReader();
+      if (!reader) throw new Error('No response body');
+
+      const decoder = new TextDecoder();
+      let buffer = '';
+      let accumulatedText = '';
+      let accumulatedReasoning = '';
+      const accumulatedToolCalls: ToolCall[] = [];
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+
+        const lines = buffer.split('\n');
+        buffer = lines.pop() || '';
+
+        let currentEvent = '';
+        for (const line of lines) {
+          if (line.startsWith('event: ')) {
+            currentEvent = line.slice(7);
+          } else if (line.startsWith('data: ') && currentEvent) {
+            try {
+              const data = JSON.parse(line.slice(6));
+
+              if (currentEvent === 'reasoning') {
+                accumulatedReasoning += data.delta;
+                setReasoningText(accumulatedReasoning);
+              } else if (currentEvent === 'text') {
+                accumulatedText += data.delta;
+                setStreamingContent(accumulatedText);
+              } else if (currentEvent === 'tool_call') {
+                accumulatedToolCalls.push(data);
+                setLastToolCalls([...accumulatedToolCalls]);
+              } else if (currentEvent === 'status') {
+                setStatusMessage(data.message || '');
+              } else if (currentEvent === 'done') {
+                if (data.toolCalls) {
+                  setLastToolCalls(data.toolCalls);
+                }
+              } else if (currentEvent === 'error') {
+                setError(data.message || 'Chat request failed');
+              }
+            } catch {
+            }
+            currentEvent = '';
+          }
+        }
+      }
+
+      if (accumulatedText) {
+        setMessages([...newMessages, { role: 'assistant', content: accumulatedText }]);
+      }
+      setStreamingContent('');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to send message');
+      if ((err as Error).name !== 'AbortError') {
+        setError(err instanceof Error ? err.message : 'Failed to send message');
+      }
     } finally {
       setIsLoading(false);
+      setStatusMessage('');
+      abortRef.current = null;
     }
-  };
+  }, [messages, context]);
 
-  const clearMessages = () => {
+  const clearMessages = useCallback(() => {
+    if (abortRef.current) {
+      abortRef.current.abort();
+    }
     setMessages([]);
     setLastToolCalls([]);
     setError(null);
-  };
+    setReasoningText('');
+    setStreamingContent('');
+    setStatusMessage('');
+  }, []);
 
   return {
     messages,
@@ -88,6 +159,9 @@ export function useChat(context?: ChatContext) {
     error,
     lastToolCalls,
     elapsedSeconds,
+    reasoningText,
+    streamingContent,
+    statusMessage,
     sendMessage,
     clearMessages
   };
