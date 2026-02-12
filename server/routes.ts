@@ -1160,7 +1160,7 @@ When answering questions:
         input: inputMessages,
         tools: responsesTools,
         tool_choice: "auto",
-        reasoning: { effort: "high" },
+        reasoning: { effort: "medium" },
         include: ["web_search_call.action.sources"]
       });
 
@@ -1203,7 +1203,7 @@ When answering questions:
           previous_response_id: response.id,
           input: functionOutputs,
           tools: responsesTools,
-          reasoning: { effort: "high" },
+          reasoning: { effort: "medium" },
           include: ["web_search_call.action.sources"]
         });
 

@@ -5,7 +5,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
-import { Send, Trash2, ExternalLink, Loader2, Globe, BookOpen, Search } from 'lucide-react';
+import { Send, Trash2, ExternalLink, Loader2, Globe, BookOpen, Search, Clock, Info } from 'lucide-react';
 import { useChat, type ChatContext, type ToolCall } from '@/hooks/use-chat';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -16,7 +16,7 @@ interface ChatPanelProps {
 
 export function ChatPanel({ context }: ChatPanelProps) {
   const [inputValue, setInputValue] = useState('');
-  const { messages, isLoading, error, lastToolCalls, sendMessage, clearMessages } = useChat(context);
+  const { messages, isLoading, error, lastToolCalls, elapsedSeconds, sendMessage, clearMessages } = useChat(context);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -144,7 +144,7 @@ export function ChatPanel({ context }: ChatPanelProps) {
           <div>
             <CardTitle className="text-lg">AI Study Assistant</CardTitle>
             <CardDescription className="text-sm">
-              Ask questions about the Talmud text and related blog posts
+              Ask questions about the Talmud text, commentators, and related material
             </CardDescription>
           </div>
           {messages.length > 0 && (
@@ -161,13 +161,17 @@ export function ChatPanel({ context }: ChatPanelProps) {
       </CardHeader>
 
       <CardContent className="flex-1 flex flex-col p-4 pt-0 min-h-0">
+        <div className="flex items-start gap-2 mb-3 p-2 bg-amber-50 dark:bg-amber-900/20 rounded border border-amber-200 dark:border-amber-800 text-xs text-amber-700 dark:text-amber-300">
+          <Info className="h-3.5 w-3.5 mt-0.5 flex-shrink-0" />
+          <span>Responses may take 10-30 seconds as the AI uses advanced reasoning, web search, and commentary lookup.</span>
+        </div>
         <ScrollArea ref={scrollRef} className="flex-1 pr-4 mb-4">
           <div className="space-y-4">
             {messages.length === 0 && (
               <div className="text-center text-gray-500 py-8">
                 <p className="mb-2">Start a conversation!</p>
                 <p className="text-sm">
-                  Try asking: "What is this passage about?" or "Are there related blog posts?"
+                  Try asking: "What is this passage about?" or "What does Rashi say?"
                 </p>
               </div>
             )}
@@ -209,6 +213,10 @@ export function ChatPanel({ context }: ChatPanelProps) {
                 <div className="bg-gray-100 dark:bg-gray-800 rounded-lg px-4 py-2 flex items-center gap-2">
                   <Loader2 className="h-4 w-4 animate-spin" />
                   <span className="text-sm">Thinking...</span>
+                  <span className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1">
+                    <Clock className="h-3 w-3" />
+                    {elapsedSeconds}s
+                  </span>
                 </div>
               </div>
             )}
