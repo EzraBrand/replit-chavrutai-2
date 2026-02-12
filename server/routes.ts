@@ -1119,7 +1119,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 2. **Sefaria commentary lookup** - to fetch traditional commentaries (Rashi, Tosafot, Rashbam, Maharsha, etc.) directly from Sefaria
 3. **Talmud & Tech blog archive** - containing detailed analysis of Talmud passages
 
-${context ? `Current Talmud Text Context:
+${context ? `IMPORTANT: The user is currently studying ${context.tractate} ${context.page}${context.section && context.section !== 'all' ? `, section ${context.section}` : ''}. When the user says "this passage", "the sugya", "here", or asks any question without specifying a location, ALWAYS assume they are referring to this specific text below. Never ask the user to clarify which sugya or passage they mean — you already have the full text.
+
+Current Talmud Text Context:
 Tractate: ${context.tractate}
 Page: ${context.page}
 Section: ${context.section || 'all'}
@@ -1133,11 +1135,11 @@ Hebrew Text:
 ${context.hebrewText || 'N/A'}
 
 English Text (Steinsaltz Edition):
-${context.englishText || 'N/A'}` : ''}
+${context.englishText || 'N/A'}` : 'No specific Talmud text is currently loaded. If the user asks about a specific passage, ask them which tractate and page they mean.'}
 
 When answering questions:
-1. Use the current Talmud text context when relevant
-2. Use fetchSefariaCommentary to look up traditional commentators (Rashi, Tosafot, etc.) when the user asks about commentaries or interpretations
+1. Always assume the user's question is about the current Talmud text provided above — do NOT ask them to specify which passage or sugya
+2. Use fetchSefariaCommentary to look up traditional commentators (Rashi, Tosafot, etc.) when the user asks about commentaries or interpretations. Use the reference format "${context?.tractate || 'Tractate'}.${context?.page || '2a'}" for the current page.
 3. Use web search to find additional scholarly material, modern commentaries, or background information when helpful
 4. Search the blog archive for related Talmud & Tech blog posts using searchBlogPosts
 5. Provide clear, educational responses using markdown formatting where helpful

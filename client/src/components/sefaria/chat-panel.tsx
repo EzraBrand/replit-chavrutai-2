@@ -26,6 +26,12 @@ export function ChatPanel({ context }: ChatPanelProps) {
     }
   }, [messages, streamingContent, reasoningText]);
 
+  const markdownComponents = {
+    a: ({ href, children, ...props }: any) => (
+      <a href={href} target="_blank" rel="noopener noreferrer" {...props}>{children}</a>
+    )
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputValue.trim() || isLoading) return;
@@ -222,7 +228,7 @@ export function ChatPanel({ context }: ChatPanelProps) {
                     <div className="prose prose-sm dark:prose-invert max-w-none
                       prose-p:my-2 prose-ul:my-2 prose-ol:my-2 prose-li:my-0
                       prose-strong:font-bold prose-strong:text-gray-900 dark:prose-strong:text-gray-100">
-                      <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                      <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
                         {msg.content}
                       </ReactMarkdown>
                     </div>
@@ -253,7 +259,7 @@ export function ChatPanel({ context }: ChatPanelProps) {
                       <div className="prose prose-sm dark:prose-invert max-w-none
                         prose-p:my-2 prose-ul:my-2 prose-ol:my-2 prose-li:my-0
                         prose-strong:font-bold prose-strong:text-gray-900 dark:prose-strong:text-gray-100">
-                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                        <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
                           {streamingContent}
                         </ReactMarkdown>
                       </div>
