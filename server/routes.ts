@@ -1155,11 +1155,12 @@ When answering questions:
       }));
 
       const response = await (openai as any).responses.create({
-        model: "gpt-4.1",
+        model: "gpt-5.2",
         instructions,
         input: inputMessages,
         tools: responsesTools,
         tool_choice: "auto",
+        reasoning: { effort: "high" },
         include: ["web_search_call.action.sources"]
       });
 
@@ -1198,10 +1199,11 @@ When answering questions:
         }
 
         const followUp = await (openai as any).responses.create({
-          model: "gpt-4.1",
+          model: "gpt-5.2",
           previous_response_id: response.id,
           input: functionOutputs,
           tools: responsesTools,
+          reasoning: { effort: "high" },
           include: ["web_search_call.action.sources"]
         });
 
