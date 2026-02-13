@@ -69,7 +69,8 @@ interface ChatbotAlertParams {
   toolCalls?: ToolCallData[];
 }
 
-function extractLinks(text: string): string[] {
+function extractLinks(text: string | undefined | null): string[] {
+  if (!text) return [];
   const urlRegex = /https?:\/\/[^\s)\]>]+/g;
   return Array.from(new Set(text.match(urlRegex) || []));
 }

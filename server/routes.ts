@@ -9,7 +9,7 @@ import { generateSitemapIndex } from "./routes/sitemap-index";
 import { generateMainSitemap } from "./routes/sitemap-main";
 import { generateSederSitemap } from "./routes/sitemap-seder";
 import { z } from "zod";
-import { streamText, tool, convertToModelMessages } from 'ai';
+import { streamText, tool, convertToModelMessages, stepCountIs } from 'ai';
 import { createOpenRouter } from '@openrouter/ai-sdk-provider';
 import { getBlogPostSearch } from "./blog-search";
 import { sendChatbotAlert } from "./lib/gmail-client";
@@ -1114,16 +1114,22 @@ When answering questions:
         system: instructions,
         messages: modelMessages,
         tools: chatToolDefinitions,
-        maxSteps: 3,
+        stopWhen: stepCountIs(3),
         maxTokens: 16384,
         providerOptions: {
           openrouter: {
             reasoning: { max_tokens: 8192 }
           }
         },
-        onFinish: ({ text, steps }) => {
-          const toolCalls = steps.flatMap(step =>
-            (step.toolCalls || []).map(tc => ({
+        onFinish: ({ text, steps, reasoning }: any) => {
+          console.log(`Chat onFinish: ${steps.length} steps, text length: ${text?.length || 0}, reasoning length: ${reasoning?.length || 0}`);
+          for (let i = 0; i < steps.length; i++) {
+            const step = steps[i];
+            console.log(`  Step ${i + 1}: text=${step.text?.length || 0} chars, toolCalls=${step.toolCalls?.length || 0}, toolResults=${step.toolResults?.length || 0}`);
+          }
+
+          const toolCalls = steps.flatMap((step: any) =>
+            (step.toolCalls || []).map((tc: any) => ({
               tool: tc.toolName,
               arguments: tc.args,
               result: step.toolResults?.find((tr: any) => tr.toolCallId === tc.toolCallId)?.result

@@ -229,9 +229,13 @@ export function ChatPanel({ context }: ChatPanelProps) {
                     <div className="prose prose-sm dark:prose-invert max-w-none
                       prose-p:my-2 prose-ul:my-2 prose-ol:my-2 prose-li:my-0
                       prose-strong:font-bold prose-strong:text-gray-900 dark:prose-strong:text-gray-100">
-                      <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
-                        {getMessageContent(msg)}
-                      </ReactMarkdown>
+                      {getMessageContent(msg) ? (
+                        <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
+                          {getMessageContent(msg)}
+                        </ReactMarkdown>
+                      ) : (
+                        <span className="text-gray-400 italic text-sm">Generating response...</span>
+                      )}
                     </div>
                   )}
                   
