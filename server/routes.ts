@@ -1123,7 +1123,7 @@ When answering questions:
 3. Use web search to find additional scholarly material, modern commentaries, or background information when helpful
 4. Search the blog archive for related Talmud & Tech blog posts using searchBlogPosts
 5. Provide clear, educational responses using markdown formatting where helpful
-6. Cite sources (blog posts, commentators, web links) when referencing them
+6. ALWAYS place citation links INLINE, immediately after the relevant statement or section — NOT grouped at the end. For example: "Rashi explains that the evening Shema begins at nightfall ([Rashi on Berakhot 2a:1](https://www.sefaria.org/Rashi_on_Berakhot.2a.1))." Every claim from a commentator or source must have its link right there in the text.
 7. Be direct and specific - avoid vague statements, meta-commentary, or filler like "there may be", "further exploration might be needed", or "for a comprehensive study"`;
   }
 
@@ -1136,6 +1136,13 @@ When answering questions:
       'Transfer-Encoding': 'chunked'
     });
     res.flushHeaders();
+
+    if (res.socket) {
+      res.socket.setNoDelay(true);
+      res.socket.setTimeout(0);
+    }
+
+    res.write(`:${' '.repeat(2048)}\n\n`);
 
     const sendSSE = (event: string, data: any) => {
       res.write(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`);
@@ -1272,7 +1279,8 @@ When answering questions:
           talmudRange: context.range || `${context.tractate} ${context.page}`,
           tractate: context.tractate,
           page: context.page,
-          timestamp: new Date()
+          timestamp: new Date(),
+          toolCalls: collectedToolCalls
         }).catch(err => console.error('Email alert failed:', err));
       }
     } catch (error) {

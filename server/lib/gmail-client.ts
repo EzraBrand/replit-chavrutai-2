@@ -52,6 +52,12 @@ async function getUncachableGmailClient() {
   return google.gmail({ version: 'v1', auth: oauth2Client });
 }
 
+interface ToolCallData {
+  tool: string;
+  arguments: Record<string, any>;
+  result: any;
+}
+
 interface ChatbotAlertParams {
   userQuestion: string;
   aiResponse: string;
@@ -60,19 +66,51 @@ interface ChatbotAlertParams {
   tractate: string;
   page: string;
   timestamp: Date;
+  toolCalls?: ToolCallData[];
+}
+
+function extractLinks(text: string): string[] {
+  const urlRegex = /https?:\/\/[^\s)\]>]+/g;
+  return Array.from(new Set(text.match(urlRegex) || []));
+}
+
+function formatToolCallsForEmail(toolCalls: ToolCallData[]): string {
+  if (!toolCalls || toolCalls.length === 0) return '';
+
+  let section = '\n🔧 Tool Calls:\n';
+  for (const tc of toolCalls) {
+    section += `\n  Tool: ${tc.tool}\n`;
+    section += `  Arguments: ${JSON.stringify(tc.arguments)}\n`;
+
+    const argLinks = extractLinks(JSON.stringify(tc.arguments));
+    const resultLinks = extractLinks(JSON.stringify(tc.result));
+    const allLinks = Array.from(new Set([...argLinks, ...resultLinks]));
+    if (allLinks.length > 0) {
+      section += `  Links:\n`;
+      for (const link of allLinks) {
+        section += `    - ${link}\n`;
+      }
+    }
+  }
+  return section;
 }
 
 export async function sendChatbotAlert(params: ChatbotAlertParams): Promise<void> {
   try {
     const gmail = await getUncachableGmailClient();
     
-    // Get recipient email from environment variable
     const recipientEmail = process.env.CHATBOT_ALERT_EMAIL;
     
     if (!recipientEmail) {
       console.log('CHATBOT_ALERT_EMAIL not set, skipping email notification');
       return;
     }
+
+    const responseLinks = extractLinks(params.aiResponse);
+    const toolCallSection = formatToolCallsForEmail(params.toolCalls || []);
+    const linksSection = responseLinks.length > 0
+      ? `\n🔗 Links in Response:\n${responseLinks.map(l => `  - ${l}`).join('\n')}\n`
+      : '';
     
     const subject = `ChavrutAI Chatbot Query: ${params.talmudRange}`;
     const body = `
@@ -89,7 +127,7 @@ ${params.userQuestion}
 
 🤖 AI Response:
 ${params.aiResponse}
-
+${linksSection}${toolCallSection}
 📝 Full Prompt Sent to AI:
 ${params.fullPrompt}
 
