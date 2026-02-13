@@ -196,7 +196,7 @@ export function ChatPanel({ context }: ChatPanelProps) {
       <CardContent className="flex-1 flex flex-col p-4 pt-0 min-h-0">
         <div className="flex items-start gap-2 mb-3 p-2 bg-amber-50 dark:bg-amber-900/20 rounded border border-amber-200 dark:border-amber-800 text-xs text-amber-700 dark:text-amber-300">
           <Info className="h-3.5 w-3.5 mt-0.5 flex-shrink-0" />
-          <span>Powered by DeepSeek V3.2 with reasoning. Responses may take 10-30s when using commentary lookup and blog search.</span>
+          <span>Powered by Claude Sonnet 4.5 with extended thinking. Responses may take 10-30s when using commentary lookup and blog search.</span>
         </div>
         <ScrollArea ref={scrollRef} className="flex-1 pr-4 mb-4">
           <div className="space-y-4">

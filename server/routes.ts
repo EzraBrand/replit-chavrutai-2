@@ -978,7 +978,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // AI Chat Routes - using DeepSeek V3.2 via OpenRouter
+  // AI Chat Routes - using Claude Sonnet 4.5 via OpenRouter
   const openrouter = new OpenAI({
     baseURL: process.env.AI_INTEGRATIONS_OPENROUTER_BASE_URL,
     apiKey: process.env.AI_INTEGRATIONS_OPENROUTER_API_KEY,
@@ -1169,75 +1169,36 @@ When answering questions:
         msgs: OpenAI.Chat.Completions.ChatCompletionMessageParam[],
         includeTools: boolean
       ): Promise<{ toolCalls: Array<{ id: string; name: string; arguments: string }> }> {
-        const stream = await openrouter.chat.completions.create({
-          model: "deepseek/deepseek-v3.2",
+        const requestBody: any = {
+          model: "anthropic/claude-sonnet-4.5",
           messages: msgs,
-          ...(includeTools ? { tools: chatTools } : {}),
           stream: true,
-          max_tokens: 8192,
-        });
+          max_tokens: 16384,
+          reasoning: {
+            enabled: true,
+            max_tokens: 8192
+          }
+        };
+        if (includeTools) {
+          requestBody.tools = chatTools;
+        }
+
+        const stream = await openrouter.chat.completions.create(requestBody) as any as AsyncIterable<OpenAI.Chat.Completions.ChatCompletionChunk>;
 
         const pendingToolCalls: Map<number, { id: string; name: string; arguments: string }> = new Map();
-        let inThinkBlock = false;
-        let thinkBuffer = '';
 
         for await (const chunk of stream) {
           const delta = chunk.choices[0]?.delta;
           if (!delta) continue;
 
-          const reasoningContent = (delta as any).reasoning_content;
+          const reasoningContent = (delta as any).reasoning_content || (delta as any).thinking;
           if (reasoningContent) {
             sendSSE('reasoning', { delta: reasoningContent });
           }
 
           if (delta.content) {
-            let content = delta.content;
-
-            if (!inThinkBlock && content.includes('<think>')) {
-              inThinkBlock = true;
-              const parts = content.split('<think>');
-              if (parts[0]) {
-                fullResponseText += parts[0];
-                sendSSE('text', { delta: parts[0] });
-              }
-              thinkBuffer = parts[1] || '';
-              if (thinkBuffer.includes('</think>')) {
-                const thinkParts = thinkBuffer.split('</think>');
-                sendSSE('reasoning', { delta: thinkParts[0] });
-                inThinkBlock = false;
-                const remainder = thinkParts[1] || '';
-                if (remainder) {
-                  fullResponseText += remainder;
-                  sendSSE('text', { delta: remainder });
-                }
-                thinkBuffer = '';
-              } else {
-                sendSSE('reasoning', { delta: thinkBuffer });
-              }
-              continue;
-            }
-
-            if (inThinkBlock) {
-              if (content.includes('</think>')) {
-                const parts = content.split('</think>');
-                if (parts[0]) {
-                  sendSSE('reasoning', { delta: parts[0] });
-                }
-                inThinkBlock = false;
-                thinkBuffer = '';
-                const remainder = parts[1] || '';
-                if (remainder) {
-                  fullResponseText += remainder;
-                  sendSSE('text', { delta: remainder });
-                }
-              } else {
-                sendSSE('reasoning', { delta: content });
-              }
-              continue;
-            }
-
-            fullResponseText += content;
-            sendSSE('text', { delta: content });
+            fullResponseText += delta.content;
+            sendSSE('text', { delta: delta.content });
           }
 
           if (delta.tool_calls) {
