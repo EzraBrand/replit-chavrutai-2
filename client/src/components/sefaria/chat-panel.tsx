@@ -7,6 +7,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Send, Trash2, ExternalLink, Loader2, Globe, BookOpen, Search, Clock, Info, ChevronDown, ChevronRight, Brain } from 'lucide-react';
 import { useChat, type ChatContext, type ToolCall } from '@/hooks/use-chat';
+import type { UIMessage } from 'ai';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
@@ -17,7 +18,7 @@ interface ChatPanelProps {
 export function ChatPanel({ context }: ChatPanelProps) {
   const [inputValue, setInputValue] = useState('');
   const [showReasoning, setShowReasoning] = useState(true);
-  const { messages, isLoading, error, lastToolCalls, elapsedSeconds, reasoningText, streamingContent, statusMessage, sendMessage, clearMessages } = useChat(context);
+  const { messages, isLoading, error, lastToolCalls, elapsedSeconds, reasoningText, streamingContent, statusMessage, sendMessage, clearMessages, getMessageContent } = useChat(context);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -223,13 +224,13 @@ export function ChatPanel({ context }: ChatPanelProps) {
                   }`}
                 >
                   {msg.role === 'user' ? (
-                    <div className="whitespace-pre-wrap break-words">{msg.content}</div>
+                    <div className="whitespace-pre-wrap break-words">{getMessageContent(msg)}</div>
                   ) : (
                     <div className="prose prose-sm dark:prose-invert max-w-none
                       prose-p:my-2 prose-ul:my-2 prose-ol:my-2 prose-li:my-0
                       prose-strong:font-bold prose-strong:text-gray-900 dark:prose-strong:text-gray-100">
                       <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
-                        {msg.content}
+                        {getMessageContent(msg)}
                       </ReactMarkdown>
                     </div>
                   )}

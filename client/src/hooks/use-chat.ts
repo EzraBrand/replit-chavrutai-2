@@ -1,9 +1,7 @@
-import { useState, useRef, useEffect, useCallback } from 'react';
-
-export interface ChatMessage {
-  role: 'user' | 'assistant';
-  content: string;
-}
+import { useChat as useAIChat } from '@ai-sdk/react';
+import { DefaultChatTransport } from 'ai';
+import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
+import type { UIMessage } from 'ai';
 
 export interface ChatContext {
   tractate?: string;
@@ -21,16 +19,24 @@ export interface ToolCall {
 }
 
 export function useChat(context?: ChatContext) {
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [lastToolCalls, setLastToolCalls] = useState<ToolCall[]>([]);
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
-  const [reasoningText, setReasoningText] = useState('');
-  const [streamingContent, setStreamingContent] = useState('');
-  const [statusMessage, setStatusMessage] = useState('');
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const abortRef = useRef<AbortController | null>(null);
+
+  const transport = useMemo(() => new DefaultChatTransport({
+    api: '/api/chat',
+    body: () => ({ context }),
+  }), [context?.tractate, context?.page, context?.section, context?.range]);
+
+  const {
+    messages,
+    sendMessage: aiSendMessage,
+    status,
+    error,
+    setMessages,
+    stop,
+  } = useAIChat({ transport });
+
+  const isLoading = status === 'submitted' || status === 'streaming';
 
   useEffect(() => {
     if (isLoading) {
@@ -49,120 +55,82 @@ export function useChat(context?: ChatContext) {
     };
   }, [isLoading]);
 
-  const sendMessage = useCallback(async (content: string) => {
-    setIsLoading(true);
-    setError(null);
-    setReasoningText('');
-    setStreamingContent('');
-    setStatusMessage('');
-    setLastToolCalls([]);
-
-    const userMessage: ChatMessage = { role: 'user', content };
-    const newMessages = [...messages, userMessage];
-    setMessages(newMessages);
-
-    abortRef.current = new AbortController();
-
-    try {
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: newMessages, context }),
-        signal: abortRef.current.signal
-      });
-
-      if (!response.ok) {
-        throw new Error('Chat request failed');
-      }
-
-      const reader = response.body?.getReader();
-      if (!reader) throw new Error('No response body');
-
-      const decoder = new TextDecoder();
-      let buffer = '';
-      let accumulatedText = '';
-      let accumulatedReasoning = '';
-      const accumulatedToolCalls: ToolCall[] = [];
-      let currentEvent = '';
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-
-        buffer += decoder.decode(value, { stream: true });
-
-        const lines = buffer.split('\n');
-        buffer = lines.pop() || '';
-
-        for (const line of lines) {
-          if (line.startsWith('event: ')) {
-            currentEvent = line.slice(7);
-          } else if (line.startsWith('data: ') && currentEvent) {
-            try {
-              const data = JSON.parse(line.slice(6));
-
-              if (currentEvent === 'reasoning') {
-                accumulatedReasoning += data.delta;
-                setReasoningText(accumulatedReasoning);
-              } else if (currentEvent === 'text') {
-                accumulatedText += data.delta;
-                setStreamingContent(accumulatedText);
-              } else if (currentEvent === 'tool_call') {
-                accumulatedToolCalls.push(data);
-                setLastToolCalls([...accumulatedToolCalls]);
-              } else if (currentEvent === 'status') {
-                setStatusMessage(data.message || '');
-              } else if (currentEvent === 'done') {
-                if (data.toolCalls) {
-                  setLastToolCalls(data.toolCalls);
-                }
-              } else if (currentEvent === 'error') {
-                setError(data.message || 'Chat request failed');
-              }
-            } catch {
-            }
-            currentEvent = '';
-          }
-        }
-      }
-
-      if (accumulatedText) {
-        setMessages([...newMessages, { role: 'assistant', content: accumulatedText }]);
-      }
-      setStreamingContent('');
-    } catch (err) {
-      if ((err as Error).name !== 'AbortError') {
-        setError(err instanceof Error ? err.message : 'Failed to send message');
-      }
-    } finally {
-      setIsLoading(false);
-      setStatusMessage('');
-      abortRef.current = null;
+  const lastAssistantMessage = useMemo(() => {
+    for (let i = messages.length - 1; i >= 0; i--) {
+      if (messages[i].role === 'assistant') return messages[i];
     }
-  }, [messages, context]);
+    return null;
+  }, [messages]);
+
+  const reasoningText = useMemo(() => {
+    if (!lastAssistantMessage?.parts) return '';
+    return lastAssistantMessage.parts
+      .filter((p) => p.type === 'reasoning')
+      .map((p) => 'reasoning' in p ? p.reasoning : '')
+      .join('');
+  }, [lastAssistantMessage]);
+
+  const lastToolCalls = useMemo((): ToolCall[] => {
+    if (!lastAssistantMessage?.parts) return [];
+    return lastAssistantMessage.parts
+      .filter((p) => p.type === 'tool-invocation' && 'state' in p && p.state === 'output-available')
+      .map((p: any) => ({
+        tool: p.toolName,
+        arguments: p.args as Record<string, any>,
+        result: p.output
+      }));
+  }, [lastAssistantMessage]);
+
+  const streamingContent = useMemo(() => {
+    if (!isLoading || !lastAssistantMessage?.parts) return '';
+    return lastAssistantMessage.parts
+      .filter((p) => p.type === 'text')
+      .map((p) => 'text' in p ? p.text : '')
+      .join('');
+  }, [isLoading, lastAssistantMessage]);
+
+  const statusMessage = useMemo(() => {
+    if (!isLoading) return '';
+    if (status === 'submitted') return 'Thinking...';
+    if (!lastAssistantMessage) return 'Thinking...';
+    const parts = lastAssistantMessage.parts || [];
+    const hasReasoning = parts.some((p) => p.type === 'reasoning');
+    const hasText = parts.some((p) => p.type === 'text' && 'text' in p && p.text);
+    const hasToolCall = parts.some((p) => p.type === 'tool-invocation');
+    if (hasText) return '';
+    if (hasToolCall) return 'Using tools...';
+    if (hasReasoning) return 'Reasoning...';
+    return 'Thinking...';
+  }, [isLoading, status, lastAssistantMessage]);
+
+  const sendMessage = useCallback(async (content: string) => {
+    await aiSendMessage({ text: content });
+  }, [aiSendMessage]);
 
   const clearMessages = useCallback(() => {
-    if (abortRef.current) {
-      abortRef.current.abort();
-    }
+    stop();
     setMessages([]);
-    setLastToolCalls([]);
-    setError(null);
-    setReasoningText('');
-    setStreamingContent('');
-    setStatusMessage('');
+  }, [stop, setMessages]);
+
+  const getMessageContent = useCallback((msg: UIMessage): string => {
+    return msg.parts
+      .filter((p) => p.type === 'text')
+      .map((p) => 'text' in p ? p.text : '')
+      .join('');
   }, []);
 
   return {
     messages,
     isLoading,
-    error,
+    error: error?.message || null,
     lastToolCalls,
     elapsedSeconds,
     reasoningText,
     streamingContent,
     statusMessage,
     sendMessage,
-    clearMessages
+    clearMessages,
+    stop,
+    getMessageContent,
   };
 }

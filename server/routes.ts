@@ -9,7 +9,8 @@ import { generateSitemapIndex } from "./routes/sitemap-index";
 import { generateMainSitemap } from "./routes/sitemap-main";
 import { generateSederSitemap } from "./routes/sitemap-seder";
 import { z } from "zod";
-import OpenAI from "openai";
+import { streamText, tool, convertToModelMessages } from 'ai';
+import { createOpenRouter } from '@openrouter/ai-sdk-provider';
 import { getBlogPostSearch } from "./blog-search";
 import { sendChatbotAlert } from "./lib/gmail-client";
 
@@ -978,120 +979,95 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // AI Chat Routes - using Claude Sonnet 4.5 via OpenRouter
-  const openrouter = new OpenAI({
-    baseURL: process.env.AI_INTEGRATIONS_OPENROUTER_BASE_URL,
+  // AI Chat Routes - using Claude Sonnet 4.5 via OpenRouter (Vercel AI SDK)
+  const openrouterProvider = createOpenRouter({
     apiKey: process.env.AI_INTEGRATIONS_OPENROUTER_API_KEY,
+    baseURL: process.env.AI_INTEGRATIONS_OPENROUTER_BASE_URL,
   });
 
   const blogSearch = getBlogPostSearch();
 
-  const chatTools: OpenAI.Chat.Completions.ChatCompletionTool[] = [
-    {
-      type: "function",
-      function: {
-        name: "searchBlogPosts",
-        description: "Search the Talmud & Tech blog archive for posts related to specific Talmud locations or topics. Returns blog post titles, URLs, and relevant excerpts.",
-        parameters: {
-          type: "object",
-          properties: {
-            tractate: { type: "string", description: "Talmud tractate name (e.g., 'Berakhot', 'Sanhedrin')" },
-            location: { type: "string", description: "Talmud location or range (e.g., '7a', '7a.5-22', '7a-7b')" },
-            keywords: { type: "array", items: { type: "string" }, description: "Keywords to search in post titles and content" },
-            limit: { type: "number", description: "Maximum number of results to return (default: 5)" }
+  const chatToolDefinitions = {
+    searchBlogPosts: tool({
+      description: "Search the Talmud & Tech blog archive for posts related to specific Talmud locations or topics. Returns blog post titles, URLs, and relevant excerpts.",
+      parameters: z.object({
+        tractate: z.string().optional().describe("Talmud tractate name (e.g., 'Berakhot', 'Sanhedrin')"),
+        location: z.string().optional().describe("Talmud location or range (e.g., '7a', '7a.5-22', '7a-7b')"),
+        keywords: z.array(z.string()).optional().describe("Keywords to search in post titles and content"),
+        limit: z.number().optional().describe("Maximum number of results to return (default: 5)")
+      }),
+      execute: async (args) => {
+        return blogSearch.search({
+          tractate: args.tractate,
+          location: args.location,
+          keywords: args.keywords,
+          limit: args.limit || 5
+        });
+      }
+    }),
+    getBlogPostContent: tool({
+      description: "Retrieve the full content of a specific blog post by its ID. Use this after searchBlogPosts to get detailed content of relevant posts.",
+      parameters: z.object({
+        postId: z.string().describe("The blog post ID returned from searchBlogPosts")
+      }),
+      execute: async (args) => {
+        const post = blogSearch.getPostById(args.postId);
+        return post ? {
+          id: post.id,
+          title: post.title,
+          contentText: post.contentText.slice(0, 3000),
+          blogUrl: post.blogUrl
+        } : null;
+      }
+    }),
+    fetchSefariaCommentary: tool({
+      description: "Fetch commentaries (Rashi, Tosafot, Rashbam, Maharsha, etc.) on a specific Talmud passage from the Sefaria API. Returns a list of available commentators and excerpts of their commentary text.",
+      parameters: z.object({
+        reference: z.string().describe("Sefaria text reference, e.g. 'Berakhot.2a.1', 'Sanhedrin.37a', 'Shabbat.31a.3'"),
+        commentators: z.string().optional().describe("Comma-separated list of specific commentator names to filter for, e.g. 'Rashi,Tosafot'. Leave empty for all commentators.")
+      }),
+      execute: async (args) => {
+        try {
+          const ref = args.reference.replace(/ /g, '_');
+          const linksRes = await fetch(`${sefariaAPIBaseURL}/links/${ref}?with_text=1`);
+          if (!linksRes.ok) {
+            return { error: `Sefaria API returned ${linksRes.status}` };
           }
+          const links = await linksRes.json();
+          const commentaryLinks = Array.isArray(links) ? links.filter((l: any) => l.type === 'commentary') : [];
+
+          const requestedCommentators = args.commentators
+            ? args.commentators.split(',').map((c: string) => c.trim().toLowerCase())
+            : null;
+
+          const filtered = requestedCommentators
+            ? commentaryLinks.filter((l: any) => {
+                const commentatorName = (l.collectiveTitle?.en || l.index_title || '').toLowerCase();
+                return requestedCommentators.some((rc: string) => commentatorName.includes(rc));
+              })
+            : commentaryLinks;
+
+          const results = filtered.slice(0, 15).map((l: any) => ({
+            commentator: l.collectiveTitle?.en || l.index_title || 'Unknown',
+            reference: l.ref,
+            hebrewText: typeof l.he === 'string' ? l.he.slice(0, 500) : Array.isArray(l.he) ? l.he.join(' ').slice(0, 500) : '',
+            englishText: typeof l.text === 'string' ? l.text.slice(0, 500) : Array.isArray(l.text) ? l.text.join(' ').slice(0, 500) : '',
+            sefariaUrl: `https://www.sefaria.org/${(l.ref || '').replace(/ /g, '_')}`
+          }));
+
+          const allCommentators = Array.from(new Set(commentaryLinks.map((l: any) => l.collectiveTitle?.en || l.index_title || 'Unknown')));
+
+          return {
+            totalCommentaries: commentaryLinks.length,
+            availableCommentators: allCommentators,
+            results
+          };
+        } catch (err) {
+          return { error: 'Failed to fetch commentary from Sefaria' };
         }
       }
-    },
-    {
-      type: "function",
-      function: {
-        name: "getBlogPostContent",
-        description: "Retrieve the full content of a specific blog post by its ID. Use this after searchBlogPosts to get detailed content of relevant posts.",
-        parameters: {
-          type: "object",
-          properties: {
-            postId: { type: "string", description: "The blog post ID returned from searchBlogPosts" }
-          },
-          required: ["postId"]
-        }
-      }
-    },
-    {
-      type: "function",
-      function: {
-        name: "fetchSefariaCommentary",
-        description: "Fetch commentaries (Rashi, Tosafot, Rashbam, Maharsha, etc.) on a specific Talmud passage from the Sefaria API. Returns a list of available commentators and excerpts of their commentary text.",
-        parameters: {
-          type: "object",
-          properties: {
-            reference: { type: "string", description: "Sefaria text reference, e.g. 'Berakhot.2a.1', 'Sanhedrin.37a', 'Shabbat.31a.3'" },
-            commentators: { type: "string", description: "Comma-separated list of specific commentator names to filter for, e.g. 'Rashi,Tosafot'. Leave empty for all commentators." }
-          },
-          required: ["reference"]
-        }
-      }
-    }
-  ];
-
-  async function executeFunction(name: string, args: any): Promise<any> {
-    if (name === "searchBlogPosts") {
-      return blogSearch.search({
-        tractate: args.tractate,
-        location: args.location,
-        keywords: args.keywords,
-        limit: args.limit || 5
-      });
-    } else if (name === "getBlogPostContent") {
-      const post = blogSearch.getPostById(args.postId);
-      return post ? {
-        id: post.id,
-        title: post.title,
-        contentText: post.contentText.slice(0, 3000),
-        blogUrl: post.blogUrl
-      } : null;
-    } else if (name === "fetchSefariaCommentary") {
-      try {
-        const ref = args.reference.replace(/ /g, '_');
-        const linksRes = await fetch(`${sefariaAPIBaseURL}/links/${ref}?with_text=1`);
-        if (!linksRes.ok) {
-          return { error: `Sefaria API returned ${linksRes.status}` };
-        }
-        const links = await linksRes.json();
-        const commentaryLinks = Array.isArray(links) ? links.filter((l: any) => l.type === 'commentary') : [];
-
-        const requestedCommentators = args.commentators
-          ? args.commentators.split(',').map((c: string) => c.trim().toLowerCase())
-          : null;
-
-        const filtered = requestedCommentators
-          ? commentaryLinks.filter((l: any) => {
-              const name = (l.collectiveTitle?.en || l.index_title || '').toLowerCase();
-              return requestedCommentators.some((rc: string) => name.includes(rc));
-            })
-          : commentaryLinks;
-
-        const results = filtered.slice(0, 15).map((l: any) => ({
-          commentator: l.collectiveTitle?.en || l.index_title || 'Unknown',
-          reference: l.ref,
-          hebrewText: typeof l.he === 'string' ? l.he.slice(0, 500) : Array.isArray(l.he) ? l.he.join(' ').slice(0, 500) : '',
-          englishText: typeof l.text === 'string' ? l.text.slice(0, 500) : Array.isArray(l.text) ? l.text.join(' ').slice(0, 500) : '',
-          sefariaUrl: `https://www.sefaria.org/${(l.ref || '').replace(/ /g, '_')}`
-        }));
-
-        const allCommentators = Array.from(new Set(commentaryLinks.map((l: any) => l.collectiveTitle?.en || l.index_title || 'Unknown')));
-
-        return {
-          totalCommentaries: commentaryLinks.length,
-          availableCommentators: allCommentators,
-          results
-        };
-      } catch (err) {
-        return { error: 'Failed to fetch commentary from Sefaria' };
-      }
-    }
-    return null;
-  }
+    })
+  };
 
   function buildChatInstructions(context: any): string {
     return `You are a knowledgeable Talmud study assistant. You have access to:
@@ -1128,165 +1104,58 @@ When answering questions:
   }
 
   app.post("/api/chat", async (req, res) => {
-    res.writeHead(200, {
-      'Content-Type': 'text/event-stream',
-      'Cache-Control': 'no-cache, no-transform',
-      'Connection': 'keep-alive',
-      'X-Accel-Buffering': 'no',
-      'Transfer-Encoding': 'chunked'
-    });
-    res.flushHeaders();
-
-    if (res.socket) {
-      res.socket.setNoDelay(true);
-      res.socket.setTimeout(0);
-    }
-
-    res.write(`:${' '.repeat(2048)}\n\n`);
-
-    const sendSSE = (event: string, data: any) => {
-      res.write(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`);
-      if (typeof (res as any).flush === 'function') {
-        (res as any).flush();
-      }
-    };
-
-    sendSSE('status', { message: 'Connecting...' });
-
     try {
-      const { messages, context } = req.body;
-      const userMessages = messages.filter((m: any) => m.role === 'user');
-      const userMessage = userMessages[userMessages.length - 1];
+      const { messages: uiMessages, context } = req.body;
       const instructions = buildChatInstructions(context);
+      const modelMessages = await convertToModelMessages(uiMessages);
 
-      const chatMessages: OpenAI.Chat.Completions.ChatCompletionMessageParam[] = [
-        { role: "system", content: instructions },
-        ...messages.map((m: any) => ({
-          role: m.role as 'user' | 'assistant',
-          content: m.content
-        }))
-      ];
-
-      const collectedToolCalls: any[] = [];
-      let fullResponseText = '';
-
-      sendSSE('status', { message: 'Thinking...' });
-
-      async function streamCompletion(
-        msgs: OpenAI.Chat.Completions.ChatCompletionMessageParam[],
-        includeTools: boolean
-      ): Promise<{ toolCalls: Array<{ id: string; name: string; arguments: string }> }> {
-        const requestBody: any = {
-          model: "anthropic/claude-sonnet-4.5",
-          messages: msgs,
-          stream: true,
-          max_tokens: 16384,
-          reasoning: {
-            enabled: true,
-            max_tokens: 8192
+      const result = streamText({
+        model: openrouterProvider('anthropic/claude-sonnet-4.5'),
+        system: instructions,
+        messages: modelMessages,
+        tools: chatToolDefinitions,
+        maxSteps: 3,
+        maxTokens: 16384,
+        providerOptions: {
+          openrouter: {
+            reasoning: { max_tokens: 8192 }
           }
-        };
-        if (includeTools) {
-          requestBody.tools = chatTools;
-        }
+        },
+        onFinish: ({ text, steps }) => {
+          const toolCalls = steps.flatMap(step =>
+            (step.toolCalls || []).map(tc => ({
+              tool: tc.toolName,
+              arguments: tc.args,
+              result: step.toolResults?.find((tr: any) => tr.toolCallId === tc.toolCallId)?.result
+            }))
+          );
 
-        const stream = await openrouter.chat.completions.create(requestBody) as any as AsyncIterable<OpenAI.Chat.Completions.ChatCompletionChunk>;
+          const userMsgs = uiMessages.filter((m: any) => m.role === 'user');
+          const lastUserMsg = userMsgs[userMsgs.length - 1];
+          const userQuestionText = lastUserMsg?.parts
+            ?.filter((p: any) => p.type === 'text')
+            .map((p: any) => p.text)
+            .join('') || '';
 
-        const pendingToolCalls: Map<number, { id: string; name: string; arguments: string }> = new Map();
-
-        for await (const chunk of stream) {
-          const delta = chunk.choices[0]?.delta;
-          if (!delta) continue;
-
-          const reasoningContent = (delta as any).reasoning_content || (delta as any).thinking;
-          if (reasoningContent) {
-            sendSSE('reasoning', { delta: reasoningContent });
-          }
-
-          if (delta.content) {
-            fullResponseText += delta.content;
-            sendSSE('text', { delta: delta.content });
-          }
-
-          if (delta.tool_calls) {
-            for (const tc of delta.tool_calls) {
-              const idx = tc.index;
-              if (!pendingToolCalls.has(idx)) {
-                pendingToolCalls.set(idx, {
-                  id: tc.id || `call_${idx}`,
-                  name: tc.function?.name || '',
-                  arguments: tc.function?.arguments || ''
-                });
-              } else {
-                const existing = pendingToolCalls.get(idx)!;
-                if (tc.id) existing.id = tc.id;
-                if (tc.function?.name) existing.name += tc.function.name;
-                if (tc.function?.arguments) existing.arguments += tc.function.arguments;
-              }
-            }
+          if (lastUserMsg && context) {
+            sendChatbotAlert({
+              userQuestion: userQuestionText,
+              aiResponse: text,
+              fullPrompt: instructions,
+              talmudRange: context.range || `${context.tractate} ${context.page}`,
+              tractate: context.tractate,
+              page: context.page,
+              timestamp: new Date(),
+              toolCalls
+            }).catch(err => console.error('Email alert failed:', err));
           }
         }
+      });
 
-        return { toolCalls: Array.from(pendingToolCalls.values()) };
-      }
-
-      const { toolCalls } = await streamCompletion(chatMessages, true);
-
-      if (toolCalls.length > 0) {
-        const toolMessages: OpenAI.Chat.Completions.ChatCompletionMessageParam[] = [];
-
-        const assistantToolCalls = toolCalls.map(tc => ({
-          id: tc.id,
-          type: "function" as const,
-          function: { name: tc.name, arguments: tc.arguments }
-        }));
-        toolMessages.push({
-          role: "assistant",
-          content: fullResponseText || null,
-          tool_calls: assistantToolCalls
-        });
-
-        for (const tc of toolCalls) {
-          let args: any = {};
-          try { args = JSON.parse(tc.arguments); } catch {}
-          const result = await executeFunction(tc.name, args);
-
-          const tcData = { tool: tc.name, arguments: args, result };
-          collectedToolCalls.push(tcData);
-          sendSSE('tool_call', tcData);
-
-          toolMessages.push({
-            role: "tool",
-            tool_call_id: tc.id,
-            content: JSON.stringify(result)
-          });
-        }
-
-        sendSSE('status', { message: 'Composing response...' });
-
-        fullResponseText = '';
-        await streamCompletion([...chatMessages, ...toolMessages], false);
-      }
-
-      sendSSE('done', { toolCalls: collectedToolCalls });
-      res.end();
-
-      if (userMessage && context) {
-        sendChatbotAlert({
-          userQuestion: userMessage.content,
-          aiResponse: fullResponseText,
-          fullPrompt: instructions,
-          talmudRange: context.range || `${context.tractate} ${context.page}`,
-          tractate: context.tractate,
-          page: context.page,
-          timestamp: new Date(),
-          toolCalls: collectedToolCalls
-        }).catch(err => console.error('Email alert failed:', err));
-      }
+      result.pipeUIMessageStreamToResponse(res);
     } catch (error) {
       console.error("Chat error:", error);
-      sendSSE('error', { message: 'Chat request failed' });
-      res.end();
+      res.status(500).json({ error: 'Chat request failed' });
     }
   });
 
