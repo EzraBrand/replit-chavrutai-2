@@ -223,7 +223,7 @@ export function Footer() {
                 data-testid="footer-link-sefaria"
               >
                 <img 
-                  src="/images/powered-by-sefaria.png" 
+                  src="/powered-by-sefaria.png" 
                   alt="Powered by Sefaria" 
                   className="h-8"
                   width={62}
