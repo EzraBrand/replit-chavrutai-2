@@ -52,7 +52,7 @@ export default function TractateContents() {
             <Link href="/" className="flex items-center space-x-2 flex-shrink-0 hover:opacity-80 transition-opacity duration-200">
               <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden">
                 <img
-                  src="/images/hebrew-book-icon.png"
+                  src="/hebrew-book-icon.png"
                   alt="ChavrutAI Logo"
                   className="w-10 h-10 object-cover"
                 />

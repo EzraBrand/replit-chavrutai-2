@@ -496,7 +496,7 @@ ${cleanHtml}
             >
               <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden">
                 <img 
-                  src="/images/hebrew-book-icon.png" 
+                  src="/hebrew-book-icon.png" 
                   alt="ChavrutAI Logo" 
                   className="w-10 h-10 object-cover"
                 />

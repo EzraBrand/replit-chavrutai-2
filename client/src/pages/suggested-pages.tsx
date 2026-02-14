@@ -292,7 +292,7 @@ export default function SuggestedPages() {
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-3">
               <img 
-                src="/images/hebrew-book-icon.png" 
+                src="/hebrew-book-icon.png" 
                 alt="ChavrutAI" 
                 className="h-8 w-8 object-contain"
               />
