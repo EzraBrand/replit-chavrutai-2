@@ -150,8 +150,8 @@ export function useSEO(seoData: SEOData) {
       "property",
     );
     updateMeta("og:image:alt", seoData.ogTitle || seoData.title, "property");
-    updateMeta("og:image:width", "1200", "property");
-    updateMeta("og:image:height", "630", "property");
+    updateMeta("og:image:width", "512", "property");
+    updateMeta("og:image:height", "512", "property");
     updateMeta("og:image:type", "image/png", "property");
     if (seoData.ogUrl) updateMeta("og:url", seoData.ogUrl, "property");
 
