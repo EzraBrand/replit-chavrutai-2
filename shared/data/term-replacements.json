@@ -29,7 +29,8 @@
         "GEMARA": "Talmud",
         "Gemara": "Talmud",
         "The Sages taught": "A baraita states",
-        "mishna": "Mishnah"
+        "mishna": "Mishnah",
+        "ch.": "chapter"
       }
     },
     "hebrew_terms": {
@@ -66,13 +67,16 @@
       }
     },
     "objects": {
-      "description": "Physical objects",
+      "description": "Physical objects and places",
       "terms": {
         "barrel": "jug",
         "barrels": "jugs",
         "blue eye shadow": "kohl",
         "blue shadow": "kohl",
-        "eye shadow": "kohl"
+        "eye shadow": "kohl",
+        "bathroom": "latrine",
+        "bathrooms": "latrines",
+        "lavatory": "latrine"
       }
     },
     "time_general": {
