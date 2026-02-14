@@ -53,11 +53,11 @@ const PREFERENCES_STORAGE_KEY = "talmud-study-preferences";
 const ALL_THEMES: Theme[] = ["paper", "white", "dark", "high-contrast"];
 
 function migrateTheme(storedTheme: string): Theme {
-  if (storedTheme === "light" || storedTheme === "sepia") return "paper";
+  if (storedTheme === "light" || storedTheme === "sepia") return "white";
   if (ALL_THEMES.includes(storedTheme as Theme)) {
     return storedTheme as Theme;
   }
-  return "paper";
+  return "white";
 }
 
 export function PreferencesProvider({ children }: { children: ReactNode }) {
