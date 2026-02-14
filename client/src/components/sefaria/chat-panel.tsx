@@ -5,7 +5,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
-import { Send, Trash2, ExternalLink, Loader2, Globe, BookOpen, Search, Clock, Info, ChevronDown, ChevronRight, Brain } from 'lucide-react';
+import { Send, Square, Trash2, ExternalLink, Loader2, Globe, BookOpen, Search, Clock, Info, ChevronDown, ChevronRight, Brain } from 'lucide-react';
 import { useChat, type ChatContext, type ToolCall } from '@/hooks/use-chat';
 import type { UIMessage } from 'ai';
 import ReactMarkdown from 'react-markdown';
@@ -18,7 +18,7 @@ interface ChatPanelProps {
 export function ChatPanel({ context }: ChatPanelProps) {
   const [inputValue, setInputValue] = useState('');
   const [showReasoning, setShowReasoning] = useState(true);
-  const { messages, isLoading, error, lastToolCalls, elapsedSeconds, reasoningText, streamingContent, statusMessage, sendMessage, clearMessages, getMessageContent } = useChat(context);
+  const { messages, isLoading, error, lastToolCalls, elapsedSeconds, reasoningText, streamingContent, statusMessage, sendMessage, clearMessages, stop, getMessageContent } = useChat(context);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -48,7 +48,7 @@ export function ChatPanel({ context }: ChatPanelProps) {
     return (
       <div className="mt-2 space-y-2">
         {toolCalls.map((tc, i) => {
-          if (tc.tool === 'web_search') {
+          if (tc.tool === 'webSearch' || tc.tool === 'web_search') {
             const sources = Array.isArray(tc.result) ? tc.result : [];
             return (
               <div key={i} className="text-xs bg-green-50 dark:bg-green-900/20 p-2 rounded border border-green-200 dark:border-green-800">
@@ -317,13 +317,24 @@ export function ChatPanel({ context }: ChatPanelProps) {
             rows={4}
             data-testid="input-chat-message"
           />
-          <Button
-            type="submit"
-            disabled={isLoading || !inputValue.trim()}
-            data-testid="button-send-message"
-          >
-            <Send className="h-4 w-4" />
-          </Button>
+          {isLoading ? (
+            <Button
+              type="button"
+              variant="destructive"
+              onClick={() => stop()}
+              data-testid="button-stop-message"
+            >
+              <Square className="h-4 w-4" />
+            </Button>
+          ) : (
+            <Button
+              type="submit"
+              disabled={!inputValue.trim()}
+              data-testid="button-send-message"
+            >
+              <Send className="h-4 w-4" />
+            </Button>
+          )}
         </form>
       </CardContent>
     </Card>

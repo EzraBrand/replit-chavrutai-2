@@ -13,6 +13,7 @@ import { streamText, tool, convertToModelMessages, stepCountIs } from 'ai';
 import { createOpenRouter } from '@openrouter/ai-sdk-provider';
 import { getBlogPostSearch } from "./blog-search";
 import { sendChatbotAlert } from "./lib/gmail-client";
+import { tavily } from "@tavily/core";
 
 // Import text processing utilities from shared library
 import { processHebrewTextCore as processHebrewText, processEnglishText } from "@shared/text-processing";
@@ -986,8 +987,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   const blogSearch = getBlogPostSearch();
+  const tavilyClient = process.env.TAVILY_API_KEY ? tavily({ apiKey: process.env.TAVILY_API_KEY }) : null;
 
   const chatToolDefinitions = {
+    webSearch: tool({
+      description: "Search the web for scholarly articles, Wikipedia entries, academic sources, and other relevant material about Talmud, Judaism, and related topics. Returns top search results with titles, URLs, and content snippets.",
+      parameters: z.object({
+        query: z.string().describe("The search query to find relevant web content")
+      }),
+      execute: async (args) => {
+        if (!tavilyClient) {
+          return [{ title: "Web search unavailable", url: "", snippet: "Web search is not configured. Please set the TAVILY_API_KEY environment variable." }];
+        }
+        try {
+          const response = await tavilyClient.search(args.query, {
+            maxResults: 5,
+            searchDepth: "basic",
+          });
+          return (response.results || []).map((r: any) => ({
+            title: r.title || '',
+            url: r.url || '',
+            snippet: (r.content || '').slice(0, 300)
+          }));
+        } catch (err) {
+          console.error("Web search error:", err);
+          return [{ title: "Search failed", url: "", snippet: "Web search encountered an error. Please try again." }];
+        }
+      }
+    }),
     searchBlogPosts: tool({
       description: "Search the Talmud & Tech blog archive for posts related to specific Talmud locations or topics. Returns blog post titles, URLs, and relevant excerpts.",
       parameters: z.object({
