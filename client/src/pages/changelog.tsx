@@ -71,6 +71,16 @@ export default function Changelog() {
           
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Performance Optimization</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Talmud pages now load instantly — chapter data is fetched on demand instead of loading all 37 tractates at once</li>
+                <li>Toggling term highlighting no longer freezes the page; regex matching is pre-compiled and results are cached</li>
+                <li>Gazetteer data (names, concepts, places) is only downloaded when highlighting is turned on</li>
+                <li>Hamburger menu and text selection remain responsive at all times during page load and highlighting</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Theme & Display Updates</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Changed default theme from "Paper" to "White" for new visitors</li>
