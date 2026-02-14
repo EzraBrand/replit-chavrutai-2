@@ -9,7 +9,7 @@ import { generateSitemapIndex } from "./routes/sitemap-index";
 import { generateMainSitemap } from "./routes/sitemap-main";
 import { generateSederSitemap } from "./routes/sitemap-seder";
 import { z } from "zod";
-import { streamText, tool, convertToModelMessages, stepCountIs } from 'ai';
+import { streamText, tool, convertToModelMessages, stepCountIs, jsonSchema } from 'ai';
 import { createOpenRouter } from '@openrouter/ai-sdk-provider';
 import { getBlogPostSearch } from "./blog-search";
 import { sendChatbotAlert } from "./lib/gmail-client";
@@ -992,8 +992,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   const chatToolDefinitions = {
     webSearch: tool({
       description: "Search the web for scholarly articles, Wikipedia entries, academic sources, and other relevant material about Talmud, Judaism, and related topics. Returns top search results with titles, URLs, and content snippets.",
-      parameters: z.object({
-        query: z.string().describe("The search query to find relevant web content")
+      parameters: jsonSchema({
+        type: 'object' as const,
+        properties: {
+          query: { type: 'string', description: 'The search query to find relevant web content' }
+        },
+        required: ['query']
       }),
       execute: async (args) => {
         if (!tavilyClient) {
@@ -1017,11 +1021,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }),
     searchBlogPosts: tool({
       description: "Search the Talmud & Tech blog archive for posts related to specific Talmud locations or topics. Returns blog post titles, URLs, and relevant excerpts.",
-      parameters: z.object({
-        tractate: z.string().optional().describe("Talmud tractate name (e.g., 'Berakhot', 'Sanhedrin')"),
-        location: z.string().optional().describe("Talmud location or range (e.g., '7a', '7a.5-22', '7a-7b')"),
-        keywords: z.array(z.string()).optional().describe("Keywords to search in post titles and content"),
-        limit: z.number().optional().describe("Maximum number of results to return (default: 5)")
+      parameters: jsonSchema({
+        type: 'object' as const,
+        properties: {
+          tractate: { type: 'string', description: "Talmud tractate name (e.g., 'Berakhot', 'Sanhedrin')" },
+          location: { type: 'string', description: "Talmud location or range (e.g., '7a', '7a.5-22', '7a-7b')" },
+          keywords: { type: 'array', items: { type: 'string' }, description: 'Keywords to search in post titles and content' },
+          limit: { type: 'number', description: 'Maximum number of results to return (default: 5)' }
+        },
+        required: []
       }),
       execute: async (args) => {
         return blogSearch.search({
@@ -1034,8 +1042,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }),
     getBlogPostContent: tool({
       description: "Retrieve the full content of a specific blog post by its ID. Use this after searchBlogPosts to get detailed content of relevant posts.",
-      parameters: z.object({
-        postId: z.string().describe("The blog post ID returned from searchBlogPosts")
+      parameters: jsonSchema({
+        type: 'object' as const,
+        properties: {
+          postId: { type: 'string', description: 'The blog post ID returned from searchBlogPosts' }
+        },
+        required: ['postId']
       }),
       execute: async (args) => {
         const post = blogSearch.getPostById(args.postId);
@@ -1049,9 +1061,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }),
     fetchSefariaCommentary: tool({
       description: "Fetch commentaries (Rashi, Tosafot, Rashbam, Maharsha, etc.) on a specific Talmud passage from the Sefaria API. Returns a list of available commentators and excerpts of their commentary text.",
-      parameters: z.object({
-        reference: z.string().describe("Sefaria text reference, e.g. 'Berakhot.2a.1', 'Sanhedrin.37a', 'Shabbat.31a.3'"),
-        commentators: z.string().optional().describe("Comma-separated list of specific commentator names to filter for, e.g. 'Rashi,Tosafot'. Leave empty for all commentators.")
+      parameters: jsonSchema({
+        type: 'object' as const,
+        properties: {
+          reference: { type: 'string', description: "Sefaria text reference, e.g. 'Berakhot.2a.1', 'Sanhedrin.37a', 'Shabbat.31a.3'" },
+          commentators: { type: 'string', description: "Comma-separated list of specific commentator names to filter for, e.g. 'Rashi,Tosafot'. Leave empty for all commentators." }
+        },
+        required: ['reference']
       }),
       execute: async (args) => {
         try {
