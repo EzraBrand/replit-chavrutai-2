@@ -107,83 +107,53 @@ ChavrutAI is a full-featured digital platform providing access to all 37 tractat
 ## Technology Stack
 
 ### Frontend
-- **React 18** - Component-based UI framework
-- **TypeScript** - Type-safe development
-- **Vite** - Fast development server and optimized builds
-- **Tailwind CSS** - Utility-first styling with custom design system
-- **shadcn/ui** - Accessible component library built on Radix UI
-- **TanStack Query** (React Query) - Server state management and caching
-- **Wouter** - Lightweight client-side routing
-- **Framer Motion** - Animation library
-- **next-themes** - Theme management
-- **Lucide React** - Icon system
+- **React 18** + **TypeScript** + **Vite**
+- **Tailwind CSS** + **shadcn/ui** (Radix UI primitives)
+- **TanStack Query** for server state and caching
+- **Wouter** for client-side routing
 
 ### Backend
-- **Node.js** with **Express.js** - HTTP server
-- **TypeScript** - End-to-end type safety
-- **Drizzle ORM** - Type-safe database access
-- **PostgreSQL** (Neon) - Serverless database
-- **express-session** - Session management
-- **Passport.js** - Authentication framework (ready for user accounts)
+- **Express.js** + **TypeScript**
+- **Drizzle ORM** + **PostgreSQL** (Neon serverless)
 
-### Infrastructure & APIs
-- **Sefaria API** - Primary text source and dictionary
-- **Google Analytics** - Usage tracking and insights
-- **Service Worker** - PWA support with offline capability
-- **GitHub** - Gazetteer data hosting
+### External APIs
+- **Sefaria API** — primary source for Talmud/Bible text and dictionary
+- **talmud-nlp-indexer** (GitHub) — gazetteer data for term highlighting
+- **PostHog** — product analytics
+
 ## Project Structure
 
 ```
-ChavrutAI/
-├── client/                     # React frontend application
-│   ├── public/                # Static assets, favicons, service worker
-│   └── src/
-│       ├── pages/             # 16 application pages
-│       ├── components/        # 60+ reusable components
-│       │   ├── ui/           # 54 shadcn/ui components
-│       │   ├── navigation/   # Navigation components
-│       │   ├── text/         # Text display components
-│       │   ├── seo/          # SEO optimization
-│       │   └── ...
-│       ├── lib/              # Utilities and services
-│       ├── hooks/            # Custom React hooks
-│       ├── context/          # React context providers
-│       ├── types/            # TypeScript definitions
-│       └── data/             # Static data files
-│
-├── server/                    # Express.js backend
-│   ├── index.ts              # Server entry point
-│   ├── routes.ts             # Main API routes
-│   ├── routes/               # Additional route handlers
-│   └── storage.ts            # Database layer & Sefaria integration
-│
-├── shared/                    # Shared types and schemas
-│   ├── schema.ts             # Database schemas
-│   └── tractates.ts          # Tractate metadata
-│
-├── talmud-data/              # Reference data (JSON)
-│   ├── chapters/             # Chapter metadata
-│   ├── outlines/             # Topic outlines
-│   └── biblical-index/       # Biblical citation mappings
-│
-└── tests/                    # Data integrity tests
+client/src/
+  pages/            — route pages (tractate-view, bible-chapter, search, etc.)
+  components/       — UI components (text/, navigation/, bible/, outline/)
+  lib/              — utilities (text-processing, gazetteer, analytics)
+  hooks/            — custom hooks (use-seo, use-chat, use-mobile)
+  context/          — React context providers (preferences)
+  types/            — TypeScript types (talmud, bible)
+client/public/
+  data/chapters/    — JSON files for 37 tractates (chapter/outline data)
+server/
+  routes.ts         — API endpoints (talmud, bible, dictionary, blog, sitemap)
+  storage.ts        — storage interface + in-memory implementation
+shared/
+  schema.ts         — Drizzle DB schema + Zod insert schemas
+  text-processing.ts — shared text splitting/formatting (Hebrew + English)
+  talmud-navigation.ts — page validation, prev/next navigation
+  talmud-data.ts    — tractate metadata, folio ranges, Seder groupings
 ```
 
 ## API Endpoints
 
-### Text & Study
-- `GET /api/text` - Fetch text for a specific folio
-- `GET /api/tractates` - List all tractates
-- `GET /api/chapters` - Get chapter information for a tractate
-- `GET /api/sitemap` - Get sitemap data
-
-### Dictionary
-- `GET /api/dictionary/search` - Search dictionary entries
-- `GET /api/dictionary/browse` - Browse entries by Hebrew letter
-- `GET /api/dictionary/autosuggest` - Autocomplete suggestions
-
-### SEO
-- `GET /sitemap.xml` - XML sitemap index
-- `GET /sitemap-main.xml` - Main pages sitemap
-- `GET /sitemap-seder-*.xml` - Per-Seder XML sitemaps
+- `GET /api/text` — Talmud folio text (Hebrew + English sections)
+- `GET /api/tractates` — list all 37 tractates
+- `GET /api/chapters` — chapter info for a tractate
+- `GET /api/bible/text` — Bible chapter text
+- `GET /api/bible/books` — list Bible books
+- `GET /api/bible/chapters` — chapter list for a Bible book
+- `GET /api/dictionary/search` — dictionary search
+- `GET /api/dictionary/browse` — browse by Hebrew letter
+- `GET /api/dictionary/autosuggest` — autocomplete suggestions
+- `GET /api/rss-feed` — blog feed (titles only)
+- `GET /api/rss-feed-full` — blog feed (full content)
 
