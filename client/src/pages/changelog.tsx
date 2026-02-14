@@ -119,6 +119,8 @@ export default function Changelog() {
                 <li>Removed unused Playfair Display font from loading</li>
                 <li>Fixed broken image preload path in index.html</li>
                 <li>Generated proper PNG version of OG image for WhatsApp and social sharing previews</li>
+                <li>Fixed color contrast: darkened muted text in Paper and Dark themes to meet WCAG AA 4.5:1 minimum ratio</li>
+                <li>Fixed nations gazetteer URL (was returning 404 errors in console)</li>
               </ul>
             </div>
 
