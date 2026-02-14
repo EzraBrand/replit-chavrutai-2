@@ -107,6 +107,22 @@ export default function Changelog() {
             </div>
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">SEO & Accessibility Audit Fixes</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Added H1 heading tags to Talmud folio pages and Sugya Viewer (previously missing, hurting topical relevance)</li>
+                <li>Trimmed folio page meta descriptions from 180 to ~121 characters to prevent Google truncation</li>
+                <li>Added aria-label to Sefaria attribution link in footer for screen readers and SEO</li>
+                <li>Added accessible descriptions to navigation menus (Sheet/Dialog components)</li>
+                <li>Removed viewport zoom restriction (maximum-scale=1 → 5) so users can pinch-to-zoom on mobile</li>
+                <li>Optimized main logo image from 1.3MB (1024x1024) to 4.8KB (80x80) with WebP version</li>
+                <li>Split Google Fonts loading: critical fonts (Roboto, Assistant) load first, 7 optional fonts deferred</li>
+                <li>Removed unused Playfair Display font from loading</li>
+                <li>Fixed broken image preload path in index.html</li>
+                <li>Generated proper PNG version of OG image for WhatsApp and social sharing previews</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">AI Chatbot Improvements</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Chatbot responses are now more direct and specific, avoiding vague filler phrases</li>
