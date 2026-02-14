@@ -98,35 +98,40 @@ export interface TextMatch {
 // Text highlighting engine
 export class TextHighlighter {
   private gazetteerData: GazetteerData;
+  private compiledRegexes: Map<HighlightCategory, { regex: RegExp; termsSet: Set<string> }> = new Map();
+  private cache: Map<string, string> = new Map();
+  private maxCacheSize = 500;
 
   constructor(gazetteerData: GazetteerData) {
     this.gazetteerData = gazetteerData;
+    this.precompileRegexes();
   }
 
-  // Find all bolded regions in the text (content inside <b> or <strong> tags)
+  private precompileRegexes(): void {
+    const categories: HighlightCategory[] = ['concept', 'name', 'place'];
+    for (const category of categories) {
+      const terms = this.getTermsForCategory(category);
+      if (terms.length === 0) continue;
+      const termsSet = new Set(terms);
+      const escapedTerms = terms.map(t => this.escapeRegex(t));
+      const alternation = escapedTerms.join('|');
+      const regex = new RegExp(`(?<![\\p{L}\\p{N}])(?:${alternation})s?(?![\\p{L}\\p{N}])`, 'gu');
+      this.compiledRegexes.set(category, { regex, termsSet });
+    }
+  }
+
   private findBoldRegions(text: string): Array<{ start: number; end: number }> {
     const regions: Array<{ start: number; end: number }> = [];
-    
-    // Match <b> or <strong> tags and capture content positions
     const boldPattern = /<(b|strong)[^>]*>([\s\S]*?)<\/\1>/gi;
     let match;
-    
     while ((match = boldPattern.exec(text)) !== null) {
-      // The full match starts at match.index
-      // The content (group 2) starts after the opening tag
       const openingTagEnd = match.index + match[0].indexOf('>') + 1;
       const closingTagStart = match.index + match[0].lastIndexOf('<');
-      
-      regions.push({
-        start: openingTagEnd,
-        end: closingTagStart,
-      });
+      regions.push({ start: openingTagEnd, end: closingTagStart });
     }
-    
     return regions;
   }
 
-  // Check if a position range is within any bold region
   private isWithinBoldRegion(
     startIndex: number,
     endIndex: number,
@@ -137,101 +142,87 @@ export class TextHighlighter {
     );
   }
 
-  // Find all matching terms in the text (only within bolded sections)
   findMatches(text: string, enabledCategories: HighlightCategory[]): TextMatch[] {
     const matches: TextMatch[] = [];
-    
-    // First, find all bold regions in the text
     const boldRegions = this.findBoldRegions(text);
-    
-    // If there are no bold regions, return no matches
-    if (boldRegions.length === 0) {
-      return matches;
-    }
-    
+    if (boldRegions.length === 0) return matches;
+
     for (const category of enabledCategories) {
-      const terms = this.getTermsForCategory(category);
-      
-      for (const term of terms) {
-        // Create word boundary regex to match whole words only (case-sensitive)
-        // Also match plurals by adding optional 's' at the end
-        // For R' terms, we need to handle the apostrophe correctly
-        const escapedTerm = this.escapeRegex(term);
-        const regex = new RegExp(`(?<![\\p{L}\\p{N}])${escapedTerm}s?(?![\\p{L}\\p{N}])`, 'gu');
-        let match;
-        
-        while ((match = regex.exec(text)) !== null) {
-          const startIndex = match.index;
-          const endIndex = match.index + match[0].length;
-          
-          // Only add match if it's within a bold region
-          if (this.isWithinBoldRegion(startIndex, endIndex, boldRegions)) {
-            // Determine the original gazetteer term for R' variants
-            const originalTerm = this.getOriginalTerm(term);
-            
-            matches.push({
-              term: originalTerm, // Store the original Rabbi form for data-term attribute
-              startIndex,
-              endIndex,
-              category,
-            });
+      const compiled = this.compiledRegexes.get(category);
+      if (!compiled) continue;
+
+      const { regex, termsSet } = compiled;
+      regex.lastIndex = 0;
+      let match;
+
+      while ((match = regex.exec(text)) !== null) {
+        const startIndex = match.index;
+        const endIndex = match.index + match[0].length;
+
+        if (this.isWithinBoldRegion(startIndex, endIndex, boldRegions)) {
+          const matchedText = match[0];
+          let baseTerm = matchedText;
+          if (!termsSet.has(baseTerm) && baseTerm.endsWith('s')) {
+            baseTerm = baseTerm.slice(0, -1);
           }
+          const originalTerm = this.getOriginalTerm(baseTerm);
+          matches.push({
+            term: originalTerm,
+            startIndex,
+            endIndex,
+            category,
+          });
         }
       }
     }
-    
-    // Sort matches by start position, then by length (descending) to prioritize longer matches
+
     return matches.sort((a, b) => {
-      if (a.startIndex !== b.startIndex) {
-        return a.startIndex - b.startIndex;
-      }
-      return b.term.length - a.term.length; // Longer terms first if same start position
+      if (a.startIndex !== b.startIndex) return a.startIndex - b.startIndex;
+      return b.term.length - a.term.length;
     });
   }
 
-  // Apply highlighting to text and return HTML
   applyHighlighting(text: string, enabledCategories: HighlightCategory[]): string {
+    const cacheKey = text + '|' + enabledCategories.join(',');
+    const cached = this.cache.get(cacheKey);
+    if (cached !== undefined) return cached;
+
     const matches = this.findMatches(text, enabledCategories);
-    
+
     if (matches.length === 0) {
+      this.setCacheEntry(cacheKey, text);
       return text;
     }
-    
 
-    // Build highlighted text by replacing matches with HTML spans
     let result = '';
     let lastIndex = 0;
 
     for (const match of matches) {
-      // Skip overlapping matches - this prevents shorter terms from interfering with longer ones
-      if (match.startIndex < lastIndex) {
-        continue;
-      }
-      
+      if (match.startIndex < lastIndex) continue;
 
-
-      // Add text before the match
       result += text.substring(lastIndex, match.startIndex);
-
-      // Add highlighted term with appropriate styling
       const highlightClass = this.getCssClassForCategory(match.category);
       const originalText = text.substring(match.startIndex, match.endIndex);
-      
       result += `<span class="${highlightClass}" data-term="${this.escapeHtml(match.term)}" data-category="${match.category}">${this.escapeHtml(originalText)}</span>`;
-
       lastIndex = match.endIndex;
     }
 
-    // Add remaining text
     result += text.substring(lastIndex);
-
+    this.setCacheEntry(cacheKey, result);
     return result;
   }
 
-  // Get terms for a specific category, including Rabbi/R' variants for names
+  private setCacheEntry(key: string, value: string): void {
+    if (this.cache.size >= this.maxCacheSize) {
+      const firstKey = this.cache.keys().next().value;
+      if (firstKey !== undefined) this.cache.delete(firstKey);
+    }
+    this.cache.set(key, value);
+  }
+
   private getTermsForCategory(category: HighlightCategory): string[] {
     let terms: string[] = [];
-    
+
     switch (category) {
       case 'concept':
         terms = [...this.gazetteerData.concepts];
@@ -252,38 +243,24 @@ export class TextHighlighter {
         return [];
     }
 
-    // For names category, add R' variants of Rabbi terms
     if (category === 'name') {
       const rabbiVariants: string[] = [];
       terms.forEach(term => {
         const hasStartRabbi = term.startsWith('Rabbi ');
         const hasMiddleRabbi = term.includes(' Rabbi ');
-        
-        // Handle Rabbi at the beginning of terms
         if (hasStartRabbi) {
-          const abbreviated = term.replace(/^Rabbi /, "R' ");
-          rabbiVariants.push(abbreviated);
+          rabbiVariants.push(term.replace(/^Rabbi /, "R' "));
         }
-        
-        // Handle Rabbi in the middle of phrases (e.g., "the school of Rabbi Yishmael")
         if (hasMiddleRabbi) {
-          const abbreviated = term.replace(/ Rabbi /g, " R' ");
-          rabbiVariants.push(abbreviated);
+          rabbiVariants.push(term.replace(/ Rabbi /g, " R' "));
         }
-        
-        // Handle BOTH start and middle (e.g., "Rabbi Elazar, son of Rabbi Shimon")
         if (hasStartRabbi && hasMiddleRabbi) {
-          const fullyAbbreviated = term.replace(/^Rabbi /, "R' ").replace(/ Rabbi /g, " R' ");
-          rabbiVariants.push(fullyAbbreviated);
+          rabbiVariants.push(term.replace(/^Rabbi /, "R' ").replace(/ Rabbi /g, " R' "));
         }
       });
-      
-      
       terms.push(...rabbiVariants);
     }
 
-    // Sort terms by length (descending) to prioritize longer matches
-    // This prevents "Rabba" and "Sheila" from matching before "Rabba bar Rav Sheila"
     return terms.sort((a, b) => b.length - a.length);
   }
 

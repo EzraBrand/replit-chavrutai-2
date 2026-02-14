@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useCallback } from "react";
+import { useEffect, useMemo, useCallback, useState, useTransition } from "react";
 import { ExternalLink as ExternalLinkIcon } from "lucide-react";
 import { formatEnglishText, processHebrewText, processEnglishText } from "@/lib/text-processing";
 import { usePreferences } from "@/context/preferences-context";
@@ -41,18 +41,47 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
     return new TextHighlighter(gazetteerData);
   }, [gazetteerData, enabledCategories]);
 
+  const [, startTransition] = useTransition();
+  const [deferredCategories, setDeferredCategories] = useState<HighlightCategory[]>([]);
+
+  useEffect(() => {
+    if (enabledCategories.length === 0) {
+      setDeferredCategories([]);
+    } else {
+      startTransition(() => {
+        setDeferredCategories(enabledCategories);
+      });
+    }
+  }, [enabledCategories]);
+
   const applyHighlighting = useCallback((inputText: string): string => {
-    if (!highlighter || enabledCategories.length === 0) {
+    if (!highlighter || deferredCategories.length === 0) {
       return inputText;
     }
     try {
-      return highlighter.applyHighlighting(inputText, enabledCategories);
+      return highlighter.applyHighlighting(inputText, deferredCategories);
     } catch (error) {
       return inputText;
     }
-  }, [highlighter, enabledCategories]);
-  
+  }, [highlighter, deferredCategories]);
 
+  const processedSections = useMemo(() => {
+    return Array.from({ length: maxSections }, (_, index) => {
+      const hebrewSection = hebrewSections[index] || '';
+      const englishSection = englishSections[index] || '';
+      if (!hebrewSection.trim() && !englishSection.trim()) return null;
+
+      const englishHtml = englishSection.trim()
+        ? applyHighlighting(formatEnglishText(processEnglishText(englishSection)))
+        : '';
+
+      const hebrewLines = hebrewSection.trim()
+        ? processHebrewText(hebrewSection).split('\n').filter((line: string) => line.trim()).map((line: string) => applyHighlighting(line.trim()))
+        : [];
+
+      return { englishHtml, hebrewLines };
+    });
+  }, [maxSections, hebrewSections, englishSections, applyHighlighting]);
 
   // Parse and validate section number from hash
   const parseSectionFromHash = (hash: string): number | null => {
@@ -385,14 +414,8 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
   return (
     <div className="bg-card rounded-lg shadow-sm border border-border p-6">
       <div className="space-y-8">
-        {Array.from({ length: maxSections }, (_, index) => {
-          const hebrewSection = hebrewSections[index] || '';
-          const englishSection = englishSections[index] || '';
-          
-          // Skip empty sections
-          if (!hebrewSection.trim() && !englishSection.trim()) {
-            return null;
-          }
+        {processedSections.map((section, index) => {
+          if (!section) return null;
           
           return (
             <div 
@@ -445,10 +468,10 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
               <div className="text-display flex flex-col lg:flex-row gap-6">
                 {/* English Section (First on Mobile, Left Side on Desktop) */}
                 <div className="text-column space-y-3 lg:order-1">
-                  {englishSection.trim() && (
+                  {section.englishHtml && (
                     <div className="english-text text-foreground">
                       <div 
-                        dangerouslySetInnerHTML={{ __html: applyHighlighting(formatEnglishText(processEnglishText(englishSection))) }}
+                        dangerouslySetInnerHTML={{ __html: section.englishHtml }}
                       />
                     </div>
                   )}
@@ -456,13 +479,13 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
 
                 {/* Hebrew Section (Second on Mobile, Right Side on Desktop) */}
                 <div className="text-column space-y-3 lg:order-2">
-                  {hebrewSection.trim() && (
+                  {section.hebrewLines.length > 0 && (
                     <div className={`hebrew-text text-foreground ${getHebrewFontClass()}`}>
-                      {processHebrewText(hebrewSection).split('\n').filter(line => line.trim()).map((line, lineIndex, array) => (
+                      {section.hebrewLines.map((lineHtml, lineIndex) => (
                         <p 
                           key={lineIndex} 
-                          className={`leading-relaxed ${lineIndex < array.length - 1 ? 'mb-6 lg:mb-8' : 'mb-2'}`}
-                          dangerouslySetInnerHTML={{ __html: applyHighlighting(line.trim()) }}
+                          className={`leading-relaxed ${lineIndex < section.hebrewLines.length - 1 ? 'mb-6 lg:mb-8' : 'mb-2'}`}
+                          dangerouslySetInnerHTML={{ __html: lineHtml }}
                         />
                       ))}
                     </div>
