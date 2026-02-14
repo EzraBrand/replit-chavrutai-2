@@ -203,7 +203,7 @@ export const generateSEOData = {
   // This is actually for tractate-view pages, should be noindexed
   folioPage: (tractate: string, folio: number, side: "a" | "b"): SEOData => ({
     title: `${tractate} ${folio}${side} - Talmud Bavli | ChavrutAI`,
-    description: `Study ${tractate} folio ${folio}${side} from the Babylonian Talmud with bilingual Hebrew-English text display. Read, analyze and learn from this classic text on ChavrutAI's digital study platform.`,
+    description: `Study ${tractate} ${folio}${side} - Babylonian Talmud with bilingual Hebrew-English text, navigation, and study tools. Free on ChavrutAI.`,
     keywords: `Talmud, ${tractate}, folio ${folio}${side}, Jewish texts, Hebrew, Aramaic, study, ChavrutAI, Babylonian Talmud`,
     canonical: `${window.location.origin}/talmud/${getTractateSlug(tractate)}/${folio}${side}`,
     ogTitle: `${tractate} ${folio}${side} - Study Talmud Bavli`,

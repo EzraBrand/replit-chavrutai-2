@@ -146,8 +146,7 @@ export default function TractateView() {
       {/* Main Content */}
       <main className={`max-w-4xl mx-auto px-4 py-6 text-size-${preferences.textSize} hebrew-font-${preferences.hebrewFont} english-font-${preferences.englishFont} layout-${preferences.layout}`}>
 
-        
-
+        <h1 className="sr-only">{talmudLocation.tractate} {talmudLocation.folio}{talmudLocation.side} - Talmud Bavli</h1>
 
         {/* Error State */}
         {error && (

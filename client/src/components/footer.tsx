@@ -220,6 +220,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 hover:opacity-80 transition-opacity duration-200"
+                aria-label="Powered by Sefaria - Talmud Library"
                 data-testid="footer-link-sefaria"
               >
                 <img 

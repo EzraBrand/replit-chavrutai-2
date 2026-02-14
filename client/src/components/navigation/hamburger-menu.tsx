@@ -2,7 +2,7 @@ import { Menu, Type, Columns, Highlighter } from "lucide-react";
 import { useState } from "react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetTrigger } from "@/components/ui/sheet";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { usePreferences, type TextSize, type HebrewFont, type EnglishFont, type Layout } from "@/context/preferences-context";
@@ -33,6 +33,7 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
       <SheetContent side="left" className="w-64">
         <SheetHeader>
           <SheetTitle className="text-left">Menu</SheetTitle>
+          <SheetDescription className="sr-only">Navigation menu and reading preferences</SheetDescription>
         </SheetHeader>
         
         <div className="flex flex-col h-full pt-6">

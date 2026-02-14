@@ -508,6 +508,7 @@ ${cleanHtml}
       </header>
 
       <div className="container mx-auto px-4 py-8 max-w-7xl">
+        <h1 className="text-2xl font-bold text-foreground mb-6">Sugya Viewer</h1>
         <Card className="mb-4 bg-sepia-50 border-sepia-200">
           <CardHeader className="pb-3">
             <CardTitle className="text-lg">About This Tool</CardTitle>

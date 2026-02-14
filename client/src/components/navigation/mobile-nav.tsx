@@ -2,7 +2,7 @@ import { X, Menu } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetTrigger } from "@/components/ui/sheet";
 import type { TalmudLocation, Work } from "@/types/talmud";
 import { WORKS } from "@/types/talmud";
 import { useQuery } from "@tanstack/react-query";
@@ -107,6 +107,7 @@ export function MobileNav({ location, onLocationChange }: MobileNavProps) {
       <SheetContent side="left" className="w-80 bg-background">
         <SheetHeader>
           <SheetTitle className="text-primary">ChavrutAI</SheetTitle>
+          <SheetDescription className="sr-only">Navigation and tractate selection</SheetDescription>
         </SheetHeader>
         
         <div className="mt-8 space-y-6">

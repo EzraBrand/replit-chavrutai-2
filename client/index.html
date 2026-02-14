@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5" />
     <title>Study Talmud Online - Free Digital Platform | ChavrutAI</title>
     
     <!-- Favicon and Icons -->
@@ -30,17 +30,22 @@
     <link rel="preconnect" href="https://www.sefaria.org" />
     
     <!-- Preload critical assets -->
-    <link rel="preload" href="/images/hebrew-book-icon.png" as="image" />
+    <link rel="preload" href="/hebrew-book-icon.png" as="image" />
     <link rel="modulepreload" href="/src/main.tsx" />
     
-    <!-- Google Fonts - loaded asynchronously to avoid render blocking -->
+    <!-- Google Fonts - critical fonts for initial render -->
     <link rel="stylesheet" 
-          href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Inter:wght@400;500;700&family=Source+Sans+3:wght@400;600;700&family=Open+Sans:wght@400;600;700&family=Playfair+Display:wght@400;700&family=Noto+Sans+Hebrew:wght@400;600;700&family=Noto+Serif+Hebrew:wght@400;600;700&family=Assistant:wght@400;600;700&family=Frank+Ruhl+Libre:wght@400;500;700&family=David+Libre:wght@400;500;700&display=swap" 
+          href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Assistant:wght@400;600;700&display=swap" 
           media="print" 
           onload="this.media='all'" />
     <noscript>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Inter:wght@400;500;700&family=Source+Sans+3:wght@400;600;700&family=Open+Sans:wght@400;600;700&family=Playfair+Display:wght@400;700&family=Noto+Sans+Hebrew:wght@400;600;700&family=Noto+Serif+Hebrew:wght@400;600;700&family=Assistant:wght@400;600;700&family=Frank+Ruhl+Libre:wght@400;500;700&family=David+Libre:wght@400;500;700&display=swap" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Assistant:wght@400;600;700&display=swap" />
     </noscript>
+    <!-- Optional fonts loaded after page render for font preference options -->
+    <link rel="stylesheet" 
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Source+Sans+3:wght@400;600;700&family=Open+Sans:wght@400;600;700&family=Noto+Sans+Hebrew:wght@400;600;700&family=Noto+Serif+Hebrew:wght@400;600;700&family=Frank+Ruhl+Libre:wght@400;500;700&family=David+Libre:wght@400;500;700&display=swap" 
+          media="print" 
+          onload="this.media='all'" />
     
     <!-- Open Graph / Facebook -->
     <meta property="og:title" content="Study Talmud Online Free - Digital Platform" />
