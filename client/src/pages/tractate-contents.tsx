@@ -2,7 +2,7 @@ import { useRoute, Link } from "wouter";
 import { ChevronLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { getChapterDataByTractate } from "@/lib/chapter-data";
+import { useChapterData } from "@/lib/chapter-data";
 import { generateFolioButtons } from "@/lib/folio-utils";
 import { Footer } from "@/components/footer";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
@@ -24,6 +24,8 @@ export default function TractateContents() {
   // Set up SEO
   useSEO(generateSEOData.tractatePage(tractateDisplayName));
 
+  const tractateChapters = useChapterData(tractate.toLowerCase().replace(/\s+/g, ' '));
+
   if (!match) {
     return <div>Tractate not found</div>;
   }
@@ -33,7 +35,6 @@ export default function TractateContents() {
     return <NotFound />;
   }
 
-  const tractateChapters = getChapterDataByTractate(tractate.toLowerCase().replace(/\s+/g, ' '));
   const maxFolio = getMaxFolio(tractateDisplayName);
   // Convert tractate name to proper case for Hebrew name lookup
   const properCaseTractate = tractateDisplayName;

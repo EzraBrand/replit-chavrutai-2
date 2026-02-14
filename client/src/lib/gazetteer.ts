@@ -71,14 +71,16 @@ async function fetchAllGazetteers(): Promise<GazetteerData> {
 }
 
 // React hook for fetching gazetteer data with caching
-export function useGazetteerData() {
+// Only fetches when highlighting is enabled to avoid blocking page load
+export function useGazetteerData(enabled: boolean = true) {
   return useQuery({
     queryKey: ['/gazetteers'],
     queryFn: fetchAllGazetteers,
-    staleTime: 24 * 60 * 60 * 1000, // Consider data stale after 24 hours
-    gcTime: 7 * 24 * 60 * 60 * 1000, // Cache for 7 days
-    retry: 3, // Retry failed requests 3 times
-    retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000), // Exponential backoff
+    staleTime: 24 * 60 * 60 * 1000,
+    gcTime: 7 * 24 * 60 * 60 * 1000,
+    retry: 2,
+    retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 10000),
+    enabled,
   });
 }
 

@@ -1,7 +1,7 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { TalmudLocation } from "@/types/talmud";
-import { findChapterForFolio } from "@/lib/chapter-data";
+import { useFindChapterForFolio } from "@/lib/chapter-data";
 import { getNextPage, getPreviousPage, formatPage, type TalmudPage } from "@shared/talmud-navigation";
 
 interface CenteredBreadcrumbNavProps {
@@ -10,8 +10,8 @@ interface CenteredBreadcrumbNavProps {
 }
 
 export function CenteredBreadcrumbNav({ location, onLocationChange }: CenteredBreadcrumbNavProps) {
-  // Find current chapter info
-  const currentChapter = findChapterForFolio(location.tractate, location.folio, location.side);
+  // Find current chapter info (reactive - re-renders when data loads)
+  const currentChapter = useFindChapterForFolio(location.tractate, location.folio, location.side);
   
   // Use unified navigation helpers
   const currentPage: TalmudPage = {

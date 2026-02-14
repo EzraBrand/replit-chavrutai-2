@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo, useCallback } from "react";
 import { ExternalLink as ExternalLinkIcon } from "lucide-react";
 import { formatEnglishText, processHebrewText, processEnglishText } from "@/lib/text-processing";
 import { usePreferences } from "@/context/preferences-context";
@@ -13,7 +13,7 @@ interface SectionedBilingualDisplayProps {
 
 export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedBilingualDisplayProps) {
   const { preferences } = usePreferences();
-  const { data: gazetteerData, isLoading: isGazetteerLoading, error: gazetteerError } = useGazetteerData();
+  const { data: gazetteerData, isLoading: isGazetteerLoading, error: gazetteerError } = useGazetteerData(preferences.highlighting.enabled);
 
   
   // Use sections if available, otherwise fall back to combined text
@@ -27,30 +27,30 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
   const getHebrewFontClass = () => `hebrew-font-${preferences.hebrewFont}`;
   const getEnglishFontClass = () => `english-font-${preferences.englishFont}`;
 
-  // Function to apply highlighting to text if enabled
-  const applyHighlighting = (text: string): string => {
-    if (!preferences.highlighting.enabled || !gazetteerData) {
-      return text;
+  const enabledCategories = useMemo((): HighlightCategory[] => {
+    if (!preferences.highlighting.enabled) return [];
+    const cats: HighlightCategory[] = [];
+    if (preferences.highlighting.concepts) cats.push('concept');
+    if (preferences.highlighting.names) cats.push('name');
+    if (preferences.highlighting.places) cats.push('place');
+    return cats;
+  }, [preferences.highlighting.enabled, preferences.highlighting.concepts, preferences.highlighting.names, preferences.highlighting.places]);
+
+  const highlighter = useMemo(() => {
+    if (!gazetteerData || enabledCategories.length === 0) return null;
+    return new TextHighlighter(gazetteerData);
+  }, [gazetteerData, enabledCategories]);
+
+  const applyHighlighting = useCallback((inputText: string): string => {
+    if (!highlighter || enabledCategories.length === 0) {
+      return inputText;
     }
-
-    const enabledCategories: HighlightCategory[] = [];
-    if (preferences.highlighting.concepts) enabledCategories.push('concept');
-    if (preferences.highlighting.names) enabledCategories.push('name');
-    if (preferences.highlighting.places) enabledCategories.push('place');
-
-    if (enabledCategories.length === 0) {
-      return text;
-    }
-
     try {
-      const highlighter = new TextHighlighter(gazetteerData);
-      const highlighted = highlighter.applyHighlighting(text, enabledCategories);
-      return highlighted;
+      return highlighter.applyHighlighting(inputText, enabledCategories);
     } catch (error) {
-      console.warn('Failed to apply highlighting:', error);
-      return text;
+      return inputText;
     }
-  };
+  }, [highlighter, enabledCategories]);
   
 
 

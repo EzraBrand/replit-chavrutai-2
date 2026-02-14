@@ -10,7 +10,7 @@ interface HighlightedTextProps {
 
 export function HighlightedText({ text, className = "" }: HighlightedTextProps) {
   const { preferences } = usePreferences();
-  const { data: gazetteerData, isLoading, error } = useGazetteerData();
+  const { data: gazetteerData, isLoading, error } = useGazetteerData(preferences.highlighting.enabled);
 
 
   // Determine which categories should be highlighted
@@ -70,7 +70,7 @@ export function HighlightedText({ text, className = "" }: HighlightedTextProps) 
 // Enhanced version with tooltips for highlighted terms
 export function HighlightedTextWithTooltips({ text, className = "" }: HighlightedTextProps) {
   const { preferences } = usePreferences();
-  const { data: gazetteerData, isLoading, error } = useGazetteerData();
+  const { data: gazetteerData, isLoading, error } = useGazetteerData(preferences.highlighting.enabled);
 
   // Determine which categories should be highlighted
   const enabledCategories = useMemo((): HighlightCategory[] => {

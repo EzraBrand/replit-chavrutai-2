@@ -15,7 +15,7 @@ function TractateRedirect() {
   return <Redirect to={`/talmud/${tractate}/${folio}${window.location.hash}`} />;
 }
 
-import Contents from "@/pages/contents";
+const Contents = lazy(() => import("@/pages/contents"));
 
 const About = lazy(() => import("@/pages/about"));
 const TractateContents = lazy(() => import("@/pages/tractate-contents"));
@@ -83,16 +83,10 @@ function App() {
       initAnalytics();
     }
     
-    const schedulePreload = () => {
-      preloadChapterData().catch(error => {
-        console.warn('Failed to preload chapter data:', error);
-      });
-    };
-    
-    if ('requestIdleCallback' in window) {
-      (window as any).requestIdleCallback(schedulePreload, { timeout: 3000 });
-    } else {
-      setTimeout(schedulePreload, 1000);
+    const pathMatch = window.location.pathname.match(/^\/talmud\/([^/]+)/);
+    if (pathMatch) {
+      const tractateFromUrl = decodeURIComponent(pathMatch[1]);
+      preloadChapterData(tractateFromUrl).catch(() => {});
     }
   }, []);
 

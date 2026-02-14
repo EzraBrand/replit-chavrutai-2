@@ -15,7 +15,7 @@ import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
 import { getTractateSlug, TRACTATE_HEBREW_NAMES, SEDER_TRACTATES, normalizeDisplayTractateName } from "@shared/tractates";
 import { MISHNAH_MAP_DATA, type MishnahMapping } from "@shared/mishnah-map";
-import { getMishnahChapterDataByTractate, type ChapterInfo } from "@/lib/chapter-data";
+import { getMishnahChapterDataByTractate, useChapterDataVersion, type ChapterInfo } from "@/lib/chapter-data";
 
 const SEDER_ORGANIZATION = {
   "Seder Zeraim": {
@@ -77,6 +77,7 @@ interface SederData {
 export default function MishnahMapPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSeder, setSelectedSeder] = useState<string>("all");
+  const chapterDataVersion = useChapterDataVersion();
 
   useSEO({
     title: "Mishnah-Talmud Mapping | ChavrutAI",
@@ -263,7 +264,7 @@ export default function MishnahMapPage() {
     });
 
     return result;
-  }, []);
+  }, [chapterDataVersion]);
 
   // Filter data based on search and selected Seder
   const filteredData = useMemo(() => {

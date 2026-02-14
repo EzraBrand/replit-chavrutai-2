@@ -15,6 +15,7 @@ import { ExternalLinksFooter } from "@/components/external-links-footer";
 import { usePreferences } from "@/context/preferences-context";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
 import { usePrefetchAdjacentPages } from "@/hooks/use-prefetch";
+import { preloadChapterData } from "@/lib/chapter-data";
 import type { TalmudLocation } from "@/types/talmud";
 import { sefariaAPI } from "@/lib/sefaria";
 import { normalizeDisplayTractateName, isValidTractate, getTractateSlug } from "@shared/tractates";
@@ -46,6 +47,13 @@ export default function TractateView() {
   
   // Prefetch adjacent pages for faster navigation
   usePrefetchAdjacentPages(talmudLocation);
+
+  // Preload chapter data for current tractate (dynamic import)
+  useEffect(() => {
+    if (tractate) {
+      preloadChapterData(tractate);
+    }
+  }, [tractate]);
 
   // Update location when URL params change
   useEffect(() => {
