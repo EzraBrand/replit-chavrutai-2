@@ -94,27 +94,27 @@
   --ring: hsl(210, 20%, 70%);
 }
 
-/* High Contrast Theme (WCAG AAA compliant - maximum accessibility) */
+/* High Contrast Theme (WCAG AAA compliant - light-based maximum accessibility) */
 .high-contrast {
-  --background: hsl(0, 0%, 0%);
-  --foreground: hsl(0, 0%, 100%);
-  --muted: hsl(0, 0%, 15%);
-  --muted-foreground: hsl(0, 0%, 80%);
-  --popover: hsl(0, 0%, 5%);
-  --popover-foreground: hsl(0, 0%, 100%);
-  --card: hsl(0, 0%, 5%);
-  --card-foreground: hsl(0, 0%, 100%);
-  --border: hsl(0, 0%, 40%);
-  --input: hsl(0, 0%, 15%);
-  --primary: hsl(60, 100%, 50%);
-  --primary-foreground: hsl(0, 0%, 0%);
-  --secondary: hsl(0, 0%, 20%);
-  --secondary-foreground: hsl(0, 0%, 100%);
-  --accent: hsl(180, 100%, 40%);
-  --accent-foreground: hsl(0, 0%, 0%);
-  --destructive: hsl(0, 100%, 60%);
-  --destructive-foreground: hsl(0, 0%, 0%);
-  --ring: hsl(60, 100%, 50%);
+  --background: hsl(0, 0%, 100%);
+  --foreground: hsl(0, 0%, 0%);
+  --muted: hsl(0, 0%, 90%);
+  --muted-foreground: hsl(0, 0%, 20%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(0, 0%, 0%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(0, 0%, 0%);
+  --border: hsl(0, 0%, 30%);
+  --input: hsl(0, 0%, 85%);
+  --primary: hsl(220, 100%, 30%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(0, 0%, 90%);
+  --secondary-foreground: hsl(0, 0%, 0%);
+  --accent: hsl(220, 80%, 25%);
+  --accent-foreground: hsl(0, 0%, 100%);
+  --destructive: hsl(0, 100%, 35%);
+  --destructive-foreground: hsl(0, 0%, 100%);
+  --ring: hsl(220, 100%, 30%);
 }
 
 @layer base {
