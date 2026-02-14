@@ -129,6 +129,7 @@ export default function Changelog() {
             <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Text Processing Improvements</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Fixed English text incorrectly splitting in the middle of punctuation clusters like ?'" (e.g., Berakhot 7b.1 now keeps ?'" together on one line)</li>
                 <li>Hebrew text no longer splits after quotation marks (״), keeping quoted words inline</li>
                 <li>English text now correctly splits after semicolon + quote clusters (e.g., ];" stays together)</li>
                 <li>Added term mappings: "Sages" → "rabbis", "our Lord" → "our God"</li>
