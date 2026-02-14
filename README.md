@@ -8,21 +8,21 @@ ChavrutAI is a full-featured digital platform providing access to all 37 tractat
 
 ## Major Features
 
-### 📚 Complete Text Library
+### Complete Text Library
 - **All 37 tractates** of the Babylonian Talmud (5,400+ folio pages)
 - **Bilingual text display** with Hebrew and English side-by-side
 - **Sefaria API integration** for authoritative, up-to-date text content
 - **Traditional folio numbering** supporting 2a, 2b, 3a format
 - **Page continuation preview** showing the first section of the next folio
 
-### 🧭 Intelligent Navigation
+### Intelligent Navigation
 - **Hierarchical structure**: Work → Tractate → Chapter → Folio
 - **Interactive breadcrumb navigation** with dropdown selectors
 - **Mobile-optimized hamburger menu** for tractate and chapter selection
 - **Section-by-section navigation** within individual folios
 - **Previous/Next controls** understanding Talmudic folio patterns
 
-### 📖 Study & Reference Tools
+### Study & Reference Tools
 
 #### Dictionary/Lexicon
 - **Full Jastrow Dictionary integration** via Sefaria API
@@ -46,7 +46,7 @@ ChavrutAI is a full-featured digital platform providing access to all 37 tractat
 - **Searchable and filterable** table of articles
 - **External analysis and commentary** from modern perspectives
 
-### 🎨 Advanced Text Processing
+### Advanced Text Processing
 - **Intelligent highlighting system** with 5,385+ terms across multiple gazetteers:
   - Concepts and ideas
   - Personal and place names
@@ -56,7 +56,7 @@ ChavrutAI is a full-featured digital platform providing access to all 37 tractat
 - **Proper RTL support** for Hebrew text
 - **Section markers** for navigating complex passages
 
-### ⚙️ Customizable Experience
+### Customizable Experience
 - **Text size controls** (5 levels: extra-small to extra-large)
 - **Hebrew font selection** (7 options: Calibri, Times, Frank Ruehl, Noto Sans Hebrew, Noto Serif Hebrew, Assistant, David Libre)
 - **Theme switching** (light/dark mode with sepia palette)
@@ -64,17 +64,10 @@ ChavrutAI is a full-featured digital platform providing access to all 37 tractat
 - **Highlighting toggles** (enable/disable by category)
 - **Persistent settings** saved to browser localStorage
 
-### 🔍 Discovery Features
+### Discovery Features
 - **Suggested Pages**: Curated list of 20+ famous Talmudic passages (Hillel's Golden Rule, Hannah's Prayer, "Who is wise?", etc.)
 - **Tractate Contents**: Visual grid showing all chapters and folio ranges
 - **Traditional Seder organization**: 6 major divisions (Zeraim, Moed, Nashim, Nezikin, Kodashim, Tohorot)
-
-### 🌐 SEO & Accessibility
-- **Server-side meta tag injection** for search engine crawlers
-- **XML sitemaps** (per-Seder and main site)
-- **Responsive design** from mobile to desktop
-- **Semantic HTML** with proper heading hierarchy
-- **Keyboard navigation** support
 
 ## Pages & Routes
 
