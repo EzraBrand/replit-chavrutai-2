@@ -523,7 +523,7 @@ ${cleanHtml}
               <li><strong>Blog Post Selection:</strong> Choose from a dropdown list of blog post titles and ranges of specific sugyot to auto-fill the Sefaria URL</li>
             </ul>
             <p>
-              Use the AI assistant (at the bottom on mobile, on the right side on desktop) to explore the text.  The AI assistant will see the displayed Talmud text (Hebrew and English), and has access to 125 published Talmud & Tech blog posts, Sefaria's commentary database (Rashi, Tosafot, etc.), and web search for finding additional scholarly material.
+              Use the AI assistant (at the bottom on mobile, on the right side on desktop) to explore the text.  The AI assistant will see the displayed Talmud text (Hebrew and English), and has access to 125 published Talmud & Tech blog posts.
             </p>
           </CardContent>
         </Card>

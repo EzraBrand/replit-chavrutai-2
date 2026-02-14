@@ -9,11 +9,9 @@ import { generateSitemapIndex } from "./routes/sitemap-index";
 import { generateMainSitemap } from "./routes/sitemap-main";
 import { generateSederSitemap } from "./routes/sitemap-seder";
 import { z } from "zod";
-import { streamText, tool, convertToModelMessages, stepCountIs, jsonSchema } from 'ai';
-import { createOpenRouter } from '@openrouter/ai-sdk-provider';
+import OpenAI from "openai";
 import { getBlogPostSearch } from "./blog-search";
 import { sendChatbotAlert } from "./lib/gmail-client";
-import { tavily } from "@tavily/core";
 
 // Import text processing utilities from shared library
 import { processHebrewTextCore as processHebrewText, processEnglishText } from "@shared/text-processing";
@@ -980,150 +978,80 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // AI Chat Routes - using Claude Sonnet 4.5 via OpenRouter (Vercel AI SDK)
-  const openrouterProvider = createOpenRouter({
-    apiKey: process.env.AI_INTEGRATIONS_OPENROUTER_API_KEY,
-    baseURL: process.env.AI_INTEGRATIONS_OPENROUTER_BASE_URL,
+  // AI Chat Routes
+  const openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY
   });
 
   const blogSearch = getBlogPostSearch();
-  const tavilyClient = process.env.TAVILY_API_KEY ? tavily({ apiKey: process.env.TAVILY_API_KEY }) : null;
 
-  const chatToolDefinitions = {
-    webSearch: tool({
-      description: "Search the web for scholarly articles, Wikipedia entries, academic sources, and other relevant material about Talmud, Judaism, and related topics. Returns top search results with titles, URLs, and content snippets.",
-      parameters: jsonSchema({
-        type: 'object' as const,
-        properties: {
-          query: { type: 'string', description: 'The search query to find relevant web content' }
-        },
-        required: ['query']
-      }),
-      execute: async (args) => {
-        if (!tavilyClient) {
-          return [{ title: "Web search unavailable", url: "", snippet: "Web search is not configured. Please set the TAVILY_API_KEY environment variable." }];
-        }
-        try {
-          const response = await tavilyClient.search(args.query, {
-            maxResults: 5,
-            searchDepth: "basic",
-          });
-          return (response.results || []).map((r: any) => ({
-            title: r.title || '',
-            url: r.url || '',
-            snippet: (r.content || '').slice(0, 300)
-          }));
-        } catch (err) {
-          console.error("Web search error:", err);
-          return [{ title: "Search failed", url: "", snippet: "Web search encountered an error. Please try again." }];
-        }
-      }
-    }),
-    searchBlogPosts: tool({
-      description: "Search the Talmud & Tech blog archive for posts related to specific Talmud locations or topics. Returns blog post titles, URLs, and relevant excerpts.",
-      parameters: jsonSchema({
-        type: 'object' as const,
-        properties: {
-          tractate: { type: 'string', description: "Talmud tractate name (e.g., 'Berakhot', 'Sanhedrin')" },
-          location: { type: 'string', description: "Talmud location or range (e.g., '7a', '7a.5-22', '7a-7b')" },
-          keywords: { type: 'array', items: { type: 'string' }, description: 'Keywords to search in post titles and content' },
-          limit: { type: 'number', description: 'Maximum number of results to return (default: 5)' }
-        },
-        required: []
-      }),
-      execute: async (args) => {
-        return blogSearch.search({
-          tractate: args.tractate,
-          location: args.location,
-          keywords: args.keywords,
-          limit: args.limit || 5
-        });
-      }
-    }),
-    getBlogPostContent: tool({
-      description: "Retrieve the full content of a specific blog post by its ID. Use this after searchBlogPosts to get detailed content of relevant posts.",
-      parameters: jsonSchema({
-        type: 'object' as const,
-        properties: {
-          postId: { type: 'string', description: 'The blog post ID returned from searchBlogPosts' }
-        },
-        required: ['postId']
-      }),
-      execute: async (args) => {
-        const post = blogSearch.getPostById(args.postId);
-        return post ? {
-          id: post.id,
-          title: post.title,
-          contentText: post.contentText.slice(0, 3000),
-          blogUrl: post.blogUrl
-        } : null;
-      }
-    }),
-    fetchSefariaCommentary: tool({
-      description: "Fetch commentaries (Rashi, Tosafot, Rashbam, Maharsha, etc.) on a specific Talmud passage from the Sefaria API. Returns a list of available commentators and excerpts of their commentary text.",
-      parameters: jsonSchema({
-        type: 'object' as const,
-        properties: {
-          reference: { type: 'string', description: "Sefaria text reference, e.g. 'Berakhot.2a.1', 'Sanhedrin.37a', 'Shabbat.31a.3'" },
-          commentators: { type: 'string', description: "Comma-separated list of specific commentator names to filter for, e.g. 'Rashi,Tosafot'. Leave empty for all commentators." }
-        },
-        required: ['reference']
-      }),
-      execute: async (args) => {
-        try {
-          const ref = args.reference.replace(/ /g, '_');
-          const linksRes = await fetch(`${sefariaAPIBaseURL}/links/${ref}?with_text=1`);
-          if (!linksRes.ok) {
-            return { error: `Sefaria API returned ${linksRes.status}` };
+  // Tool definitions for OpenAI function calling
+  const tools: OpenAI.Chat.ChatCompletionTool[] = [
+    {
+      type: "function",
+      function: {
+        name: "searchBlogPosts",
+        description: "Search the Talmud & Tech blog archive for posts related to specific Talmud locations or topics. Returns blog post titles, URLs, and relevant excerpts.",
+        parameters: {
+          type: "object",
+          properties: {
+            tractate: {
+              type: "string",
+              description: "Talmud tractate name (e.g., 'Berakhot', 'Sanhedrin')"
+            },
+            location: {
+              type: "string",
+              description: "Talmud location or range (e.g., '7a', '7a.5-22', '7a-7b')"
+            },
+            keywords: {
+              type: "array",
+              items: { type: "string" },
+              description: "Keywords to search in post titles and content"
+            },
+            limit: {
+              type: "number",
+              description: "Maximum number of results to return (default: 5)",
+              default: 5
+            }
           }
-          const links = await linksRes.json();
-          const commentaryLinks = Array.isArray(links) ? links.filter((l: any) => l.type === 'commentary') : [];
-
-          const requestedCommentators = args.commentators
-            ? args.commentators.split(',').map((c: string) => c.trim().toLowerCase())
-            : null;
-
-          const filtered = requestedCommentators
-            ? commentaryLinks.filter((l: any) => {
-                const commentatorName = (l.collectiveTitle?.en || l.index_title || '').toLowerCase();
-                return requestedCommentators.some((rc: string) => commentatorName.includes(rc));
-              })
-            : commentaryLinks;
-
-          const results = filtered.slice(0, 15).map((l: any) => ({
-            commentator: l.collectiveTitle?.en || l.index_title || 'Unknown',
-            reference: l.ref,
-            hebrewText: typeof l.he === 'string' ? l.he.slice(0, 500) : Array.isArray(l.he) ? l.he.join(' ').slice(0, 500) : '',
-            englishText: typeof l.text === 'string' ? l.text.slice(0, 500) : Array.isArray(l.text) ? l.text.join(' ').slice(0, 500) : '',
-            sefariaUrl: `https://www.sefaria.org/${(l.ref || '').replace(/ /g, '_')}`
-          }));
-
-          const allCommentators = Array.from(new Set(commentaryLinks.map((l: any) => l.collectiveTitle?.en || l.index_title || 'Unknown')));
-
-          return {
-            totalCommentaries: commentaryLinks.length,
-            availableCommentators: allCommentators,
-            results
-          };
-        } catch (err) {
-          return { error: 'Failed to fetch commentary from Sefaria' };
         }
       }
-    })
-  };
+    },
+    {
+      type: "function",
+      function: {
+        name: "getBlogPostContent",
+        description: "Retrieve the full content of a specific blog post by its ID. Use this after searchBlogPosts to get detailed content of relevant posts.",
+        parameters: {
+          type: "object",
+          properties: {
+            postId: {
+              type: "string",
+              description: "The blog post ID returned from searchBlogPosts"
+            }
+          },
+          required: ["postId"]
+        }
+      }
+    }
+  ];
 
-  function buildChatInstructions(context: any): string {
-    return `You are a knowledgeable Talmud study assistant. You have access to:
-1. **Web search** - to find commentators, academic articles, and relevant material online
-2. **Sefaria commentary lookup** - to fetch traditional commentaries (Rashi, Tosafot, Rashbam, Maharsha, etc.) directly from Sefaria
-3. **Talmud & Tech blog archive** - containing detailed analysis of Talmud passages
+  // Chat endpoint
+  app.post("/api/chat", async (req, res) => {
+    try {
+      const { messages, context } = req.body;
+      const userMessages = messages.filter((m: any) => m.role === 'user');
+      const userMessage = userMessages[userMessages.length - 1];
 
-${context ? `## CRITICAL RULE — READ THIS FIRST
-You are embedded in a Talmud study app. The user is currently viewing ${context.tractate} ${context.page}${context.section && context.section !== 'all' ? `, section ${context.section}` : ''}. The FULL TEXT of this page is provided below. Every question the user asks is about THIS page. You MUST NOT ask the user which passage, sugya, or daf they mean. You already know — it is ${context.tractate} ${context.page}. Respond directly about this text.
+      // Build system message with context
+      const systemMessage: OpenAI.Chat.ChatCompletionSystemMessageParam = {
+        role: "system",
+        content: `You are a knowledgeable Talmud study assistant. You have access to the Talmud & Tech blog archive which contains detailed analysis of Talmud passages.
 
-The Sefaria reference for this page is: ${context.tractate}.${context.page}
-
-Current Talmud Text (${context.tractate} ${context.page}):
+${context ? `Current Talmud Text Context:
+Tractate: ${context.tractate}
+Page: ${context.page}
+Section: ${context.section || 'all'}
 
 The text below is from Sefaria's Steinsaltz Edition. In the English text:
 - **Bolded text** represents Rabbi Adin Even-Israel Steinsaltz's direct translation of the Aramaic/Hebrew
@@ -1134,77 +1062,126 @@ Hebrew Text:
 ${context.hebrewText || 'N/A'}
 
 English Text (Steinsaltz Edition):
-${context.englishText || 'N/A'}` : 'No specific Talmud text is currently loaded. If the user asks about a specific passage, ask them which tractate and page they mean.'}
+${context.englishText || 'N/A'}` : ''}
 
 When answering questions:
-1. NEVER ask the user to specify which passage, sugya, tractate, or page they mean — you already have the text. Answer directly.
-2. Use fetchSefariaCommentary to look up traditional commentators (Rashi, Tosafot, etc.) when the user asks about commentaries or interpretations. Use the reference "${context?.tractate || 'Tractate'}.${context?.page || '2a'}" for the current page.
-3. Use web search to find additional scholarly material, modern commentaries, or background information when helpful
-4. Search the blog archive for related Talmud & Tech blog posts using searchBlogPosts
-5. Provide clear, educational responses using markdown formatting where helpful
-6. ALWAYS place citation links INLINE, immediately after the relevant statement or section — NOT grouped at the end. For example: "Rashi explains that the evening Shema begins at nightfall ([Rashi on Berakhot 2a:1](https://www.sefaria.org/Rashi_on_Berakhot.2a.1))." Every claim from a commentator or source must have its link right there in the text.
-7. Be direct and specific - avoid vague statements, meta-commentary, or filler like "there may be", "further exploration might be needed", or "for a comprehensive study"`;
-  }
+1. Use the current Talmud text context when relevant
+2. Search the blog archive for related commentary using the searchBlogPosts tool
+3. Provide clear, educational responses using markdown formatting where helpful
+4. Cite blog posts when referencing them
+5. Be direct and specific - avoid vague statements, meta-commentary, or filler like "there may be", "further exploration might be needed", or "for a comprehensive study"`
+      };
 
-  app.post("/api/chat", async (req, res) => {
-    try {
-      const { messages: uiMessages, context } = req.body;
-      const instructions = buildChatInstructions(context);
-      const modelMessages = await convertToModelMessages(uiMessages);
+      const allMessages: OpenAI.Chat.ChatCompletionMessageParam[] = [
+        systemMessage,
+        ...messages
+      ];
 
-      const result = streamText({
-        model: openrouterProvider('openai/gpt-5.2-pro'),
-        system: instructions,
-        messages: modelMessages,
-        tools: chatToolDefinitions,
-        stopWhen: stepCountIs(5),
-        maxTokens: 16384,
-        providerOptions: {
-          openrouter: {
-            reasoning: { effort: 'high' }
-          }
-        },
-        onFinish: ({ text, steps, reasoning }: any) => {
-          console.log(`Chat onFinish: ${steps.length} steps, text length: ${text?.length || 0}, reasoning length: ${reasoning?.length || 0}`);
-          for (let i = 0; i < steps.length; i++) {
-            const step = steps[i];
-            console.log(`  Step ${i + 1}: text=${step.text?.length || 0} chars, toolCalls=${step.toolCalls?.length || 0}, toolResults=${step.toolResults?.length || 0}`);
-          }
-
-          const toolCalls = steps.flatMap((step: any) =>
-            (step.toolCalls || []).map((tc: any) => ({
-              tool: tc.toolName,
-              arguments: tc.args,
-              result: step.toolResults?.find((tr: any) => tr.toolCallId === tc.toolCallId)?.result
-            }))
-          );
-
-          const userMsgs = uiMessages.filter((m: any) => m.role === 'user');
-          const lastUserMsg = userMsgs[userMsgs.length - 1];
-          const userQuestionText = lastUserMsg?.parts
-            ?.filter((p: any) => p.type === 'text')
-            .map((p: any) => p.text)
-            .join('') || '';
-
-          if (lastUserMsg && context) {
-            sendChatbotAlert({
-              userQuestion: userQuestionText,
-              aiResponse: text,
-              fullPrompt: instructions,
-              talmudRange: context.range || `${context.tractate} ${context.page}`,
-              tractate: context.tractate,
-              page: context.page,
-              timestamp: new Date(),
-              toolCalls
-            }).catch(err => console.error('Email alert failed:', err));
-          }
-        }
+      const completion = await openai.chat.completions.create({
+        model: "gpt-4o",
+        messages: allMessages,
+        tools: tools,
+        tool_choice: "auto"
       });
 
-      result.pipeUIMessageStreamToResponse(res);
+      const responseMessage = completion.choices[0].message;
+
+      // Handle tool calls
+      if (responseMessage.tool_calls) {
+        const toolResults: any[] = [];
+
+        for (const toolCall of responseMessage.tool_calls) {
+          if (toolCall.type !== 'function') continue;
+          
+          const functionName = toolCall.function.name;
+          const args = JSON.parse(toolCall.function.arguments);
+
+          let result: any;
+
+          if (functionName === "searchBlogPosts") {
+            const searchResults = blogSearch.search({
+              tractate: args.tractate,
+              location: args.location,
+              keywords: args.keywords,
+              limit: args.limit || 5
+            });
+            result = searchResults;
+          } else if (functionName === "getBlogPostContent") {
+            const post = blogSearch.getPostById(args.postId);
+            result = post ? {
+              id: post.id,
+              title: post.title,
+              contentText: post.contentText.slice(0, 3000), // Limit for token budget
+              blogUrl: post.blogUrl
+            } : null;
+          }
+
+          toolResults.push({
+            tool_call_id: toolCall.id,
+            role: "tool" as const,
+            content: JSON.stringify(result)
+          });
+        }
+
+        // Second API call with tool results
+        const secondMessages: OpenAI.Chat.ChatCompletionMessageParam[] = [
+          ...allMessages,
+          responseMessage,
+          ...toolResults
+        ];
+
+        const finalCompletion = await openai.chat.completions.create({
+          model: "gpt-4o",
+          messages: secondMessages
+        });
+
+        const finalMessage = finalCompletion.choices[0].message;
+        
+        // Send email alert with AI response (non-blocking)
+        if (userMessage && context) {
+          sendChatbotAlert({
+            userQuestion: userMessage.content,
+            aiResponse: String(finalMessage.content ?? ''),
+            fullPrompt: systemMessage.content as string,
+            talmudRange: context.range || `${context.tractate} ${context.page}`,
+            tractate: context.tractate,
+            page: context.page,
+            timestamp: new Date()
+          }).catch(err => console.error('Email alert failed:', err));
+        }
+        
+        res.json({
+          message: finalMessage,
+          toolCalls: responseMessage.tool_calls
+            .filter(tc => tc.type === 'function')
+            .map((tc, i) => ({
+              tool: tc.function.name,
+              arguments: JSON.parse(tc.function.arguments),
+              result: JSON.parse(toolResults[i].content)
+            }))
+        });
+      } else {
+        // Send email alert with AI response (non-blocking)
+        if (userMessage && context) {
+          sendChatbotAlert({
+            userQuestion: userMessage.content,
+            aiResponse: String(responseMessage.content ?? ''),
+            fullPrompt: systemMessage.content as string,
+            talmudRange: context.range || `${context.tractate} ${context.page}`,
+            tractate: context.tractate,
+            page: context.page,
+            timestamp: new Date()
+          }).catch(err => console.error('Email alert failed:', err));
+        }
+        
+        res.json({
+          message: responseMessage,
+          toolCalls: []
+        });
+      }
     } catch (error) {
       console.error("Chat error:", error);
-      res.status(500).json({ error: 'Chat request failed' });
+      res.status(500).json({ error: "Chat request failed" });
     }
   });
 
