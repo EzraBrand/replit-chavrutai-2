@@ -161,6 +161,7 @@ export default function Changelog() {
                 <li>Hebrew text no longer splits after quotation marks (״), keeping quoted words inline</li>
                 <li>English text now correctly splits after semicolon + quote clusters (e.g., ];" stays together)</li>
                 <li>Added term mappings: "Sages" → "rabbis", "our Lord" → "our God"</li>
+                <li>Added term mappings: "bathroom" → "latrine", "bathrooms" → "latrines", "lavatory" → "latrine", "sky blue" → "tekhelet", "ch." → "chapter"</li>
                 <li>Added ordinal time expressions: "the first/second/third/fifth/tenth [unit]" → "the 1st/2nd/3rd/5th/10th [unit]" for year, month, day, week, hour, watch</li>
                 <li>Added "the Xth of the month" pattern (e.g., "the fifth of the month" → "the 5th of the month")</li>
                 <li>Added number conversion: "three hundred and fifty four" → "354"</li>
