@@ -1137,7 +1137,7 @@ When answering questions:
       const modelMessages = await convertToModelMessages(uiMessages);
 
       const result = streamText({
-        model: openrouterProvider('anthropic/claude-sonnet-4.5'),
+        model: openrouterProvider('openai/gpt-5.2-pro'),
         system: instructions,
         messages: modelMessages,
         tools: chatToolDefinitions,
@@ -1145,7 +1145,7 @@ When answering questions:
         maxTokens: 16384,
         providerOptions: {
           openrouter: {
-            reasoning: { max_tokens: 8192 }
+            reasoning: { effort: 'high' }
           }
         },
         onFinish: ({ text, steps, reasoning }: any) => {
