@@ -101,6 +101,7 @@ export default function Changelog() {
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Restored missing header logo (hebrew-book-icon) and Sefaria "Powered by" badge</li>
                 <li>Moved image assets to main public directory for reliability across rollbacks</li>
+                <li>Updated OG (social sharing) image to match the site favicon</li>
               </ul>
             </div>
 
