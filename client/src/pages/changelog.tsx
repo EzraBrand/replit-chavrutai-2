@@ -71,6 +71,30 @@ export default function Changelog() {
           
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Theme & Display Updates</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Changed default theme from "Paper" to "White" for new visitors</li>
+                <li>High Contrast theme is now always light-based (white background, black text) regardless of OS dark mode setting</li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Name Recognition Fix</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Fixed gazetteer not recognizing names with special transliteration characters (e.g., Ḥizkiyya, Ḥulfana)</li>
+                <li>Updated word boundary matching to support full Unicode, so all transliterated names are now properly labeled</li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Asset & Image Fixes</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Restored missing header logo (hebrew-book-icon) and Sefaria "Powered by" badge</li>
+                <li>Moved image assets to main public directory for reliability across rollbacks</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">SEO Structured Data & Meta Tags</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Fixed duplicate title on Contents page (was sharing homepage title)</li>
