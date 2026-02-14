@@ -106,20 +106,9 @@ ChavrutAI is a full-featured digital platform providing access to all 37 tractat
 
 ## Technology Stack
 
-### Frontend
-- **React 18** + **TypeScript** + **Vite**
-- **Tailwind CSS** + **shadcn/ui** (Radix UI primitives)
-- **TanStack Query** for server state and caching
-- **Wouter** for client-side routing
-
-### Backend
-- **Express.js** + **TypeScript**
-- **Drizzle ORM** + **PostgreSQL** (Neon serverless)
-
-### External APIs
-- **Sefaria API** — primary source for Talmud/Bible text and dictionary
-- **talmud-nlp-indexer** (GitHub) — gazetteer data for term highlighting
-- **PostHog** — product analytics
+- **Frontend:** React 18, TypeScript, Vite, Tailwind CSS + shadcn/ui, TanStack Query, Wouter.
+- **Backend:** Express.js, TypeScript, Drizzle ORM + PostgreSQL (Neon serverless).
+- **External APIs:** Sefaria API (text and dictionary), talmud-nlp-indexer (term highlighting gazetteers).
 
 ## Project Structure
 
