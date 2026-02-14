@@ -176,25 +176,6 @@ export function useSEO(seoData: SEOData) {
       updateStructuredData(seoData.structuredData);
     }
 
-    // Add hreflang for Hebrew content support
-    const addHreflang = (lang: string, href: string) => {
-      let hreflang = document.querySelector(
-        `link[hreflang="${lang}"]`,
-      ) as HTMLLinkElement;
-      if (!hreflang) {
-        hreflang = document.createElement("link");
-        hreflang.setAttribute("rel", "alternate");
-        hreflang.setAttribute("hreflang", lang);
-        document.head.appendChild(hreflang);
-      }
-      hreflang.setAttribute("href", href);
-    };
-
-    // Add hreflang tags for Hebrew/English content
-    const currentUrl = window.location.href;
-    addHreflang("en", currentUrl);
-    addHreflang("he", currentUrl);
-    addHreflang("x-default", currentUrl);
   }, [seoData]);
 }
 
