@@ -1141,7 +1141,7 @@ When answering questions:
         system: instructions,
         messages: modelMessages,
         tools: chatToolDefinitions,
-        stopWhen: stepCountIs(3),
+        stopWhen: stepCountIs(5),
         maxTokens: 16384,
         providerOptions: {
           openrouter: {
