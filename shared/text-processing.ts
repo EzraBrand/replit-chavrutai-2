@@ -93,10 +93,10 @@ const CROSS_TAG_COMMA_PATTERN = /(?<!\d)<\/(b|strong)>,(?![""\u201C\u201D'\u2018
 const CROSS_TAG_COLON_PATTERN = /<\/(b|strong)>:(\s*)<\1[^>]*>/g;
 const ELLIPSIS_PATTERN = /\.{2,}/g;
 const TRIPLE_PUNCT_PATTERN = /([,.\?!;])[''\u2018\u2019][""\u201C\u201D]/g;
-const COMMA_QUOTE_PATTERN = /,[""\u201C\u201D'\u2018\u2019]/g;
-const PERIOD_QUOTE_PATTERN = /\.[""\u201C\u201D'\u2018\u2019]/g;
+const COMMA_QUOTE_PATTERN = /,[""\u201C\u201D'\u2018\u2019](?![""\u201C\u201D'\u2018\u2019])/g;
+const PERIOD_QUOTE_PATTERN = /\.[""\u201C\u201D'\u2018\u2019](?![""\u201C\u201D'\u2018\u2019])/g;
 const PERIOD_SPLIT_PATTERN = /\.(?![""\u201C\u201D'\u2018\u2019]|\s*[a-z]|,)/g;
-const QUESTION_QUOTE_PATTERN = /\?[""\u201C\u201D'\u2018\u2019]/g;
+const QUESTION_QUOTE_PATTERN = /\?[""\u201C\u201D'\u2018\u2019](?![""\u201C\u201D'\u2018\u2019])/g;
 const QUESTION_OTHER_PATTERN = /\?(?![""\u201C\u201D'\u2018\u2019])/g;
 const BOLD_COMMA_COLON_TEST = /[,:]/;
 const BOLD_COLON_SPLIT = /:/g;
@@ -444,7 +444,7 @@ export function splitEnglishText(text: string): string {
   
   // Split on semicolons - handle semicolon + quote clusters first (issue #90)
   // Pattern: ];", ];" or similar - split AFTER the full cluster, not in the middle
-  processedText = processedText.replace(/;[""\u201C\u201D'\u2018\u2019]/g, (match) => match + '\n');
+  processedText = processedText.replace(/;[""\u201C\u201D'\u2018\u2019](?![""\u201C\u201D'\u2018\u2019])/g, (match) => match + '\n');
   processedText = processedText.replace(/;(?![""\u201C\u201D'\u2018\u2019])/g, ';\n');
   
   // Clean up

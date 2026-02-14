@@ -346,6 +346,39 @@ describe('Known Bug Regression Tests', () => {
     });
   });
 
+  describe('Bug #99: punctuation cluster splitting', () => {
+    it('keeps ?\'\" together as a unit (Berakhot 7b.1)', () => {
+      const text = 'is it?\'"';
+      const result = splitEnglishText(text);
+      expect(result).toContain('it?\'"');
+      expect(result).not.toMatch(/\?\'\n"/);
+    });
+
+    it('keeps .\'\" together as a unit', () => {
+      const text = 'said it.\'"';
+      const result = splitEnglishText(text);
+      expect(result).toContain('.\'"');
+    });
+
+    it('keeps ,\'\" together as a unit', () => {
+      const text = 'said it,\'"';
+      const result = splitEnglishText(text);
+      expect(result).toContain(',\'"');
+    });
+
+    it('keeps ;\'\" together as a unit', () => {
+      const text = 'said it;\'"';
+      const result = splitEnglishText(text);
+      expect(result).toContain(';\'"');
+    });
+
+    it('still splits single quote patterns correctly', () => {
+      const text = 'he said." Then left.';
+      const result = splitEnglishText(text);
+      expect(result).toContain('."\n');
+    });
+  });
+
   describe('Bug #78: etc., splitting', () => {
     it('does not split etc. when followed by comma', () => {
       const text = 'apples, oranges, etc., and more.';
