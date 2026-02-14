@@ -155,7 +155,7 @@ export class TextHighlighter {
         // Also match plurals by adding optional 's' at the end
         // For R' terms, we need to handle the apostrophe correctly
         const escapedTerm = this.escapeRegex(term);
-        const regex = new RegExp(`\\b${escapedTerm}s?\\b`, 'g');
+        const regex = new RegExp(`(?<![\\p{L}\\p{N}])${escapedTerm}s?(?![\\p{L}\\p{N}])`, 'gu');
         let match;
         
         while ((match = regex.exec(text)) !== null) {
