@@ -39,6 +39,7 @@ const ExternalLinksPage = lazy(() => import("@/pages/external-links"));
 const SearchPage = lazy(() => import("@/pages/search"));
 const Home = lazy(() => import("@/pages/home"));
 const BlogReader = lazy(() => import("@/pages/blog-reader"));
+const SegmentationLabPage = lazy(() => import("@/pages/segmentation-lab"));
 const NotFound = lazy(() => import("@/pages/not-found"));
 
 function Router() {
@@ -50,6 +51,7 @@ function Router() {
       <Route path="/about" component={About} />
       <Route path="/blog-posts" component={BlogPostsPage} />
       <Route path="/blog-reader" component={BlogReader} />
+      <Route path="/segmentation-lab" component={SegmentationLabPage} />
       <Route path="/biblical-index" component={BiblicalIndexPage} />
       <Route path="/biblical-index/book/:bookName" component={BiblicalBookPage} />
       <Route path="/bible" component={BibleContents} />

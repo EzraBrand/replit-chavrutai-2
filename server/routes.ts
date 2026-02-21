@@ -12,6 +12,7 @@ import { z } from "zod";
 import OpenAI from "openai";
 import { getBlogPostSearch } from "./blog-search";
 import { sendChatbotAlert } from "./lib/gmail-client";
+import { coSegmentWithOpenAI } from "./lib/segmentation-llm";
 
 // Import text processing utilities from shared library
 import { processHebrewTextCore as processHebrewText, processEnglishText } from "@shared/text-processing";
@@ -29,6 +30,14 @@ const textQuerySchema = z.object({
 
 const tractateListSchema = z.object({
   work: z.string()
+});
+
+const coSegmentRequestSchema = z.object({
+  hebrewText: z.string().min(1, "hebrewText is required"),
+  englishText: z.string().min(1, "englishText is required"),
+  model: z.string().min(1).optional(),
+  temperature: z.number().min(0).max(2).optional(),
+  maxAttempts: z.number().int().min(1).max(4).optional(),
 });
 
 // Generate SEO meta tags based on URL route
@@ -975,6 +984,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
         console.error("Dictionary autosuggest error:", error);
         res.status(500).json({ error: "Dictionary autosuggest failed" });
       }
+    }
+  });
+
+  // LLM-based co-segmentation (word-index approach, strict text integrity)
+  app.post("/api/segment/co-segment", async (req, res) => {
+    try {
+      const { hebrewText, englishText, model, temperature, maxAttempts } = coSegmentRequestSchema.parse(req.body);
+      const result = await coSegmentWithOpenAI(
+        { hebrewText, englishText },
+        { model, temperature, maxAttempts },
+      );
+
+      res.json({
+        hebrewSegments: result.hebrewSegments,
+        englishSegments: result.englishSegments,
+        alignmentCount: result.hebrewSegments.length,
+        raw: result.raw,
+      });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ error: "Invalid co-segmentation request", details: error.issues });
+        return;
+      }
+
+      console.error("Co-segmentation error:", error);
+      const message = error instanceof Error ? error.message : "Co-segmentation request failed";
+      res.status(500).json({ error: message });
     }
   });
 
