@@ -18,6 +18,7 @@ export default function SearchPage() {
   const [typeFilter, setTypeFilter] = useState<"all" | "talmud" | "bible">("all");
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [isUserTyping, setIsUserTyping] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const [, navigate] = useLocation();
   const pageSize = 15;
@@ -94,14 +95,14 @@ export default function SearchPage() {
   }, [searchQuery]);
 
   useEffect(() => {
-    if (searchQuery.length >= 1 && filteredSuggestions.length > 0) {
+    if (isUserTyping && searchQuery.length >= 2 && searchQuery !== submittedQuery && filteredSuggestions.length > 0) {
       setSuggestions(filteredSuggestions);
       setShowSuggestions(true);
     } else {
       setSuggestions([]);
       setShowSuggestions(false);
     }
-  }, [searchQuery, filteredSuggestions]);
+  }, [searchQuery, filteredSuggestions, isUserTyping, submittedQuery]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -109,6 +110,7 @@ export default function SearchPage() {
       setSubmittedQuery(searchQuery.trim());
       setCurrentPage(1);
       setShowSuggestions(false);
+      setIsUserTyping(false);
     }
   };
 
@@ -117,6 +119,7 @@ export default function SearchPage() {
     setSubmittedQuery(suggestion);
     setCurrentPage(1);
     setShowSuggestions(false);
+    setIsUserTyping(false);
     searchInputRef.current?.blur();
   };
 
@@ -228,8 +231,8 @@ export default function SearchPage() {
                 type="text"
                 placeholder="Enter a word or phrase..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onFocus={() => suggestions.length > 0 && setShowSuggestions(true)}
+                onChange={(e) => { setSearchQuery(e.target.value); setIsUserTyping(true); }}
+                onFocus={() => { if (isUserTyping && suggestions.length > 0) setShowSuggestions(true); }}
                 onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
                 className="pr-10 text-lg py-6"
                 data-testid="input-search"
