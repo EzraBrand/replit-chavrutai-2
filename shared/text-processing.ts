@@ -308,10 +308,16 @@ export function replaceTerms(text: string): string {
   
   let processedText = text;
   
-  // STEP 0: Normalize animal-related terms with variable whitespace after comma
+  // STEP 0a: Normalize animal-related terms with variable whitespace after comma
   // Sefaria API sometimes inserts newlines/extra spaces: "small,\n domesticated animals"
   // Normalize to single space so the term lookup can match ", domesticated animals"
   processedText = processedText.replace(/,\s+(domesticated animals)/gi, ', $1');
+  
+  // STEP 0b: Normalize HTML tags splitting hyphenated terms
+  // Sefaria API wraps words in <b> tags that can split terms across tags:
+  // e.g., "<b>sky</b>-<b>blue wool</b>" prevents matching "sky-blue"
+  // This collapses "</b>-<b>" into just "-" so "sky-blue" becomes matchable
+  processedText = processedText.replace(/<\/b>-<b>/g, '-');
   
   // STEP 1: Handle Rabbi special cases first (complex logic, not in combined pattern)
   // "Rabbi," (vocative) → "Rabbi!" to mark direct address
