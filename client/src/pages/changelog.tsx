@@ -71,6 +71,15 @@ export default function Changelog() {
           
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Search Autosuggest Fix</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Fixed autosuggest dropdown appearing on search results pages when opened via URL (e.g., /search?q=rabbinic)</li>
+                <li>Suggestions now only appear while actively typing a new query, not on page load or after submitting a search</li>
+                <li>Increased minimum characters from 1 to 2 before suggestions appear</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Performance Optimization</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Talmud pages now load instantly — chapter data is fetched on demand instead of loading all 37 tractates at once</li>
