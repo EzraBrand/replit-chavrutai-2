@@ -175,7 +175,7 @@ export default function Changelog() {
                 <li>Added "the Xth of the month" pattern (e.g., "the fifth of the month" → "the 5th of the month")</li>
                 <li>Added number conversion: "three hundred and fifty four" → "354"</li>
                 <li>Added fraction: "thirteen and a third" → "13⅓"</li>
-                <li>Fixed ambiguous fraction/ordinal mappings: standalone "third" (שליש), "fifth" (חומש), and "tenth" (עשרון) no longer auto-convert (context-dependent)</li>
+                <li>Fixed ambiguous fraction/ordinal mappings: standalone "third" (שליש / שלישי), "fifth" (חומש / חמישי), and "tenth" (עשרון / עשירי) no longer auto-convert (context-dependent)</li>
                 <li>Fixed kav measurements: "an eighth-kav" → "a 1/8th-kav", "one-thirty-second of a kav" → "1/32nd-kav"</li>
                 <li>Added 30 cardinal number conversions for large and compound numbers (e.g., "three hundred and sixty-five thousand" → "365,000", "forty and two thousand three hundred and sixty" → "42,360", "Five thousand eight hundred and eighty-eight" → "5,888")</li>
                 <li>Added ordinal mappings for compound ordinals (e.g., "six hundred and first" → "601st") and fractional ordinals ("two hundred fifty-sixth" → "1/256th")</li>
