@@ -156,6 +156,14 @@ export default function Changelog() {
             </div>
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Sefaria Link & Text Fixes</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Fixed external Sefaria URLs for two-word tractates (e.g., Bava Metzia): space encoding changed from <code>%20</code> to <code>_</code></li>
+                <li>Fixed term replacement not working when Sefaria API splits hyphenated terms across HTML bold tags (e.g., "sky-blue" → "tekhelet" now works in Menachot 35b.4)</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Text Processing Improvements</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Fixed English text incorrectly splitting in the middle of punctuation clusters like ?'" (e.g., Berakhot 7b.1 now keeps ?'" together on one line)</li>
@@ -167,7 +175,7 @@ export default function Changelog() {
                 <li>Added "the Xth of the month" pattern (e.g., "the fifth of the month" → "the 5th of the month")</li>
                 <li>Added number conversion: "three hundred and fifty four" → "354"</li>
                 <li>Added fraction: "thirteen and a third" → "13⅓"</li>
-                <li>Fixed ambiguous fraction/ordinal mappings: standalone "third", "fifth", and "tenth" no longer auto-convert (context-dependent)</li>
+                <li>Fixed ambiguous fraction/ordinal mappings: standalone "third" (שליש), "fifth" (חומש), and "tenth" (עשרון) no longer auto-convert (context-dependent)</li>
                 <li>Fixed kav measurements: "an eighth-kav" → "a 1/8th-kav", "one-thirty-second of a kav" → "1/32nd-kav"</li>
                 <li>Added 30 cardinal number conversions for large and compound numbers (e.g., "three hundred and sixty-five thousand" → "365,000", "forty and two thousand three hundred and sixty" → "42,360", "Five thousand eight hundred and eighty-eight" → "5,888")</li>
                 <li>Added ordinal mappings for compound ordinals (e.g., "six hundred and first" → "601st") and fractional ordinals ("two hundred fifty-sixth" → "1/256th")</li>
