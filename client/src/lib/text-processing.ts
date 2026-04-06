@@ -92,7 +92,7 @@ export function linkBibleCitations(html: string): string {
   protected_ = protected_.replace(BIBLE_CITATION_PATTERN, (match, book: string, chapter: string, verse: string) => {
     const normalizedBook = book.replace(/\s+/g, ' ');
     const slug = BIBLE_NAME_TO_SLUG[normalizedBook] || normalizedBook;
-    return `<a href="https://chavrutai.com/bible/${slug}/${chapter}#${verse}" class="bible-citation-link">${match}</a>`;
+    return `<a href="/bible/${slug}/${chapter}#${verse}" class="bible-citation-link">${match}</a>`;
   });
 
   protected_ = protected_.replace(/__LINK_HTML_(\d+)__/g, (_, index) => htmlTags[parseInt(index)]);

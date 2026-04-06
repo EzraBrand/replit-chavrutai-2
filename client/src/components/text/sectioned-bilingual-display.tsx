@@ -333,6 +333,18 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
 
       reorderHebrewFirst(tempDiv);
 
+      const convertRelativeLinksToAbsolute = (element: HTMLElement): void => {
+        const links = element.querySelectorAll('a[href^="/"]');
+        links.forEach(link => {
+          const href = link.getAttribute('href');
+          if (href) {
+            link.setAttribute('href', `https://chavrutai.com${href}`);
+          }
+        });
+      };
+
+      convertRelativeLinksToAbsolute(tempDiv);
+
       const stripFormattingExcept = (element: HTMLElement): string => {
         const allowedTags = ['strong', 'b', 'i', 'em', 'p', 'div', 'br', 'span', 'a', 'sup', 'sub', 'small'];
         
