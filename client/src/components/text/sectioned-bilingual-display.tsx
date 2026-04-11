@@ -76,6 +76,18 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
     }
   }, [highlighter, deferredCategories]);
 
+  const mishnahRefMap = useMemo((): Record<number, MishnahReference> => {
+    const map: Record<number, MishnahReference> = {};
+    const folioLabel = `${text.folio}${text.side}`;
+    for (let i = 1; i <= maxSections; i++) {
+      const ref = getMishnahReferenceForSection(text.tractate, folioLabel, i);
+      if (ref) {
+        map[i] = ref;
+      }
+    }
+    return map;
+  }, [text.tractate, text.folio, text.side, maxSections]);
+
   const processedSections = useMemo(() => {
     return Array.from({ length: maxSections }, (_, index) => {
       const hebrewSection = hebrewSections[index] || '';
@@ -140,18 +152,6 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
     }
     return map;
   }, [chapters, text.tractate, text.folio, text.side]);
-
-  const mishnahRefMap = useMemo((): Record<number, MishnahReference> => {
-    const map: Record<number, MishnahReference> = {};
-    const folioLabel = `${text.folio}${text.side}`;
-    for (let i = 1; i <= maxSections; i++) {
-      const ref = getMishnahReferenceForSection(text.tractate, folioLabel, i);
-      if (ref) {
-        map[i] = ref;
-      }
-    }
-    return map;
-  }, [text.tractate, text.folio, text.side, maxSections]);
 
   // Parse and validate section number from hash (supports both #5 and legacy #section-5)
   const parseSectionFromHash = (hash: string): number | null => {
