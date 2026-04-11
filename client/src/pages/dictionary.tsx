@@ -161,8 +161,11 @@ export default function Dictionary() {
       return segment ? `${path}#${segment}` : path;
     });
     YERUSHALMI_LINK_RE.lastIndex = 0;
-    result = result.replace(YERUSHALMI_LINK_RE, (_match, tractate, chapter) => {
-      return `/yerushalmi/${tractate}/${chapter}`;
+    result = result.replace(YERUSHALMI_LINK_RE, (_match, tractate, chapter, halakhah, segment) => {
+      const path = `/yerushalmi/${tractate}/${chapter}`;
+      if (halakhah && segment) return `${path}#${halakhah}-${segment}`;
+      if (halakhah) return `${path}#${halakhah}`;
+      return path;
     });
     result = result.replace(/<a([^>]*?)href="(\/talmud\/[^"]*|\/yerushalmi\/[^"]*)"([^>]*?)>/g, (_m, before, href, after) => {
       const cleaned = (before + after).replace(/\s*target="[^"]*"/g, '').replace(/\s*rel="[^"]*"/g, '');
