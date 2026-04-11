@@ -147,7 +147,7 @@ export const MISHNAH_ONLY_TRACTATES = {
     { name: "Oholot", chapters: 18, sefaria: "Mishnah_Oholot" },
     { name: "Negaim", chapters: 14, sefaria: "Mishnah_Negaim" },
     { name: "Parah", chapters: 12, sefaria: "Mishnah_Parah" },
-    { name: "Taharot", chapters: 10, sefaria: "Mishnah_Taharot" },
+    { name: "Taharot", chapters: 10, sefaria: "Mishnah_Tahorot" },
     { name: "Mikvaot", chapters: 10, sefaria: "Mishnah_Mikvaot" },
     { name: "Makhshirin", chapters: 6, sefaria: "Mishnah_Makhshirin" },
     { name: "Zavim", chapters: 5, sefaria: "Mishnah_Zavim" },
