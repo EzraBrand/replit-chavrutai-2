@@ -104,17 +104,17 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
           const citation = `Mishnah (${mishnahRef.tractate} ${mishnahRef.chapter}:${mishnahRef.mishnah})`;
           rawProcessed = rawProcessed.replace(
             mishnahMarkerRe,
-            `<span class="section-marker">${citation}</span>`
+            `<span class="section-marker">${citation}</span>\n`
           );
         } else {
           rawProcessed = rawProcessed.replace(
             mishnahMarkerRe,
-            `<span class="section-marker">Mishnah</span>`
+            `<span class="section-marker">Mishnah</span>\n`
           );
         }
         rawProcessed = rawProcessed.replace(
           /<strong[^>]*>\s*(?:GEMARA|Talmud|Gemara):\s*<\/strong>/i,
-          `<span class="section-marker">Talmud</span>`
+          `<span class="section-marker">Talmud</span>\n`
         );
         englishHtml = applyHighlighting(linkBibleCitations(formatEnglishText(rawProcessed)));
       }
