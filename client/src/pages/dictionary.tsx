@@ -720,7 +720,14 @@ export default function Dictionary() {
                   <div key={entry.rid || index} className="pb-4 border-b border-border last:border-b-0" data-testid={`entry-${entry.rid || index}`}>
                     <div className="flex items-start gap-4">
                       <h3 className="text-lg font-bold font-hebrew text-primary min-w-fit">
-                        {entry.headword}
+                        <a
+                          href={`https://www.sefaria.org.il/Jastrow%2C_${encodeURIComponent(entry.headword)}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:underline"
+                        >
+                          {entry.headword}
+                        </a>
                       </h3>
                       <div className="text-foreground flex-1 prose prose-sm max-w-none">
                         {originMetadata && (
