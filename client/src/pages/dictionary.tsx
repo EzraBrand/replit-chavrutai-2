@@ -73,12 +73,6 @@ export default function Dictionary() {
       font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     }
     
-    /* Pilcrow marker */
-    .pilcrow-marker {
-      font-weight: bold;
-      margin-right: 2px;
-    }
-    
     /* Bullet list styling */
     .dictionary-bullet-list {
       list-style-type: disc;
@@ -170,8 +164,9 @@ export default function Dictionary() {
       return text;
     }
 
+    // Wrap each part in a paragraph tag with extra spacing, preserving HTML
     return parts
-      .map((part, i) => `<p class="mb-4">${i > 0 ? '<span class="pilcrow-marker">¶</span> ' : ''}${part.trim()}</p>`)
+      .map(part => `<p class="mb-4">${part.trim()}</p>`)
       .join('');
   };
 
@@ -725,14 +720,7 @@ export default function Dictionary() {
                   <div key={entry.rid || index} className="pb-4 border-b border-border last:border-b-0" data-testid={`entry-${entry.rid || index}`}>
                     <div className="flex items-start gap-4">
                       <h3 className="text-lg font-bold font-hebrew text-primary min-w-fit">
-                        <a
-                          href={`https://www.sefaria.org.il/Jastrow%2C_${encodeURIComponent(entry.headword)}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="hover:underline"
-                        >
-                          {entry.headword}
-                        </a>
+                        {entry.headword}
                       </h3>
                       <div className="text-foreground flex-1 prose prose-sm max-w-none">
                         {originMetadata && (
