@@ -101,6 +101,30 @@ export interface MishnahReference {
   tractate: string;
 }
 
+export interface MishnahTalmudLocation {
+  daf: string;
+  line: number;
+}
+
+export function getMishnahTalmudLocation(tractate: string, chapter: number, mishnah: number): MishnahTalmudLocation | null {
+  const normalizedTractate = tractate.toLowerCase();
+
+  const mapping = MISHNAH_MAP_DATA.find(
+    m =>
+      m.tractate.toLowerCase() === normalizedTractate &&
+      m.mishnahChapter === chapter &&
+      m.startMishnah <= mishnah &&
+      m.endMishnah >= mishnah
+  );
+
+  if (!mapping) return null;
+
+  return {
+    daf: mapping.startDaf,
+    line: mapping.startLine,
+  };
+}
+
 export function getMishnahReferenceForSection(tractate: string, daf: string, sectionLine: number): MishnahReference | null {
   const normalizedTractate = tractate.toLowerCase();
   const normalizedDaf = daf.toLowerCase();

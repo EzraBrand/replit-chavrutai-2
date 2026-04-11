@@ -9,6 +9,7 @@ import { useSEO } from "@/hooks/use-seo";
 import jastrowMappings from "@/data/jastrow-mappings.json";
 import { TRACTATE_LISTS, MISHNAH_ONLY_TRACTATES } from "@shared/tractates";
 import { ALL_BIBLE_BOOKS } from "@shared/bible-books";
+import { getMishnahTalmudLocation } from "@shared/mishnah-map";
 
 const BAVLI_LINK_RE = new RegExp(
   `https?://(?:www\\.)?sefaria\\.org(?:\\.il)?/(${
@@ -26,6 +27,13 @@ const BIBLE_SLUG_MAP = new Map(
 const BIBLE_LINK_RE = new RegExp(
   `https?://(?:www\\.)?sefaria\\.org(?:\\.il)?/(${
     ALL_BIBLE_BOOKS.map(b => b.sefaria.replace(/\s+/g, '_')).join('|')
+  })\\.(\\d+)(?:\\.(\\d+))?`,
+  'g'
+);
+
+const MISHNAH_BAVLI_LINK_RE = new RegExp(
+  `https?://(?:www\\.)?sefaria\\.org(?:\\.il)?/Mishnah_(${
+    TRACTATE_LISTS["Talmud Bavli"].map(t => t.replace(/\s+/g, '_')).join('|')
   })\\.(\\d+)(?:\\.(\\d+))?`,
   'g'
 );
@@ -192,6 +200,17 @@ export default function Dictionary() {
       if (halakhah && segment) return `${path}#${halakhah}-${segment}`;
       if (halakhah) return `${path}#${halakhah}`;
       return path;
+    });
+    MISHNAH_BAVLI_LINK_RE.lastIndex = 0;
+    result = result.replace(MISHNAH_BAVLI_LINK_RE, (fullMatch, tractate, chapter, mishnah) => {
+      const tractateNormalized = tractate.replace(/_/g, ' ');
+      const chapterNum = parseInt(chapter, 10);
+      const mishnahNum = mishnah ? parseInt(mishnah, 10) : 1;
+      const loc = getMishnahTalmudLocation(tractateNormalized, chapterNum, mishnahNum);
+      if (loc) {
+        return `/talmud/${tractate}/${loc.daf}#${loc.line}`;
+      }
+      return fullMatch;
     });
     MISHNAH_LINK_RE.lastIndex = 0;
     result = result.replace(MISHNAH_LINK_RE, (_match, sefariaName, chapter, mishnah) => {
