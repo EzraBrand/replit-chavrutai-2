@@ -72,6 +72,32 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Mishnah Headers & Citations in Talmud Bavli</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Mishnah and Gemara markers (מתני׳ / גמ׳ in Hebrew, Mishnah / Talmud in English) are now styled as distinct section headers with a larger serif font, darker color, and a subtle underline</li>
+                <li>Each Mishnah section in the Talmud now shows a citation identifying the specific Mishnah reference — e.g., "Mishnah (Berakhot 1:2)" instead of just "Mishnah"</li>
+                <li>The citation is hyperlinked to the corresponding Mishnah page on Sefaria</li>
+                <li>Section headers appear on separate lines when copy-pasting text</li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Jastrow Dictionary: Mishnah-in-Bavli Internal Links</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Mishnah references for tractates covered by the Talmud Bavli now link internally to the relevant Talmud page and section, using the Mishnah-to-Talmud mapping — e.g., Mishnah Rosh Hashanah 1:3 links to /talmud/Rosh_Hashanah/18a#15</li>
+                <li>Removed the "Ab." abbreviation mapping (too many false positives)</li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Tractate Naming: Taharot → Tahorot</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Canonical tractate name updated from "Taharot" to "Tahorot" to match Sefaria's spelling</li>
+                <li>Old "Taharot" URLs redirect automatically</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Jastrow Dictionary: Internal Links & Bullet Points</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Talmud Bavli, Yerushalmi, Mishnah, and Bible references in dictionary entries now link directly to the corresponding ChavrutAI pages instead of Sefaria</li>
