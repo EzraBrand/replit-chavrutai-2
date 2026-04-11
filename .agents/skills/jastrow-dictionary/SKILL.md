@@ -34,10 +34,9 @@ The Jastrow Dictionary is a modernized web presentation of Marcus Jastrow's *Dic
 Applied in this order when rendering each dictionary entry sense:
 
 1. **`splitIntoParagraphs(text)`** — Splits on em-dash/en-dash characters into `<p>` blocks
-2. **`splitByPeriodAndLink(text)`** — Splits into `<ul>/<li>` bullet list when a period+space is followed by a hyperlinked word (e.g., `it). Bava` or `ten. Berakhot`); leading prose stays outside the list
-3. **`convertRefParagraphsToListItems(text)`** — Converts `<p>` blocks that start with a non-Jastrow reference link into `<li>` bullet items wrapped in `<ul>`, so em-dash-separated reference citations also get bullet formatting
-4. **`convertSuperscriptLetters(text)`** — Converts tiny/superscript Unicode letters (ᵃ, ᵇ, ᶜ, ᵈ) to standard-size letters
-5. **`expandAbbreviations(text)`** — Replaces scholarly abbreviations with full names using `jastrow-mappings.json`
+2. **`splitByPeriodAndLink(text)`** — Splits into new lines when a period+space is followed by a hyperlinked word (e.g., `it). Bava` or `ten. Berakhot`)
+3. **`convertSuperscriptLetters(text)`** — Converts tiny/superscript Unicode letters (ᵃ, ᵇ, ᶜ, ᵈ) to standard-size letters
+4. **`expandAbbreviations(text)`** — Replaces scholarly abbreviations with full names using `jastrow-mappings.json`
 
 ## Abbreviation Mappings (`jastrow-mappings.json`)
 
