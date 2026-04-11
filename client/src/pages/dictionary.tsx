@@ -199,6 +199,47 @@ export default function Dictionary() {
     return `${leadingProse}<ul class="dictionary-bullet-list">${listHtml}</ul>`;
   };
 
+  const convertRefParagraphsToListItems = (text: string) => {
+    if (!text.includes('<p class="mb-4">')) return text;
+
+    const paragraphs = text.split(/(<p class="mb-4">[\s\S]*?<\/p>)/);
+    let result = '';
+    let pendingListItems: string[] = [];
+
+    const flushList = () => {
+      if (pendingListItems.length > 0) {
+        result += `<ul class="dictionary-bullet-list">${pendingListItems.join('')}</ul>`;
+        pendingListItems = [];
+      }
+    };
+
+    for (const part of paragraphs) {
+      const innerMatch = part.match(/^<p class="mb-4">([\s\S]*)<\/p>$/);
+      if (!innerMatch) {
+        if (part.trim()) {
+          flushList();
+          result += part;
+        }
+        continue;
+      }
+
+      const inner = innerMatch[1].trim();
+      const startsWithNonJastrowLink = /^<a\s[^>]*href="([^"]*)"/.test(inner) && 
+        !(/^<a\s[^>]*href="[^"]*Jastrow/.test(inner));
+      const startsWithSpanThenLink = /^<span[^>]*>\s*<a\s/.test(inner);
+
+      if (startsWithNonJastrowLink || startsWithSpanThenLink) {
+        pendingListItems.push(`<li>${inner}</li>`);
+      } else {
+        flushList();
+        result += part;
+      }
+    }
+    flushList();
+
+    return result;
+  };
+
   const convertSuperscriptLetters = (text: string) => {
     const superscriptMap: Record<string, string> = {
       'ᵃ': 'a', 'ᵇ': 'b', 'ᶜ': 'c', 'ᵈ': 'd', 'ᵉ': 'e',
@@ -733,7 +774,7 @@ export default function Dictionary() {
                           <div 
                             key={senseIndex} 
                             className="mb-2 last:mb-0 dictionary-content" 
-                            dangerouslySetInnerHTML={{ __html: expandAbbreviations(convertSuperscriptLetters(splitByPeriodAndLink(splitIntoParagraphs(sense.definition)))) }} 
+                            dangerouslySetInnerHTML={{ __html: expandAbbreviations(convertSuperscriptLetters(convertRefParagraphsToListItems(splitByPeriodAndLink(splitIntoParagraphs(sense.definition))))) }} 
                           />
                         ))}
                       </div>
