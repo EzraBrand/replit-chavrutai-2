@@ -94,3 +94,29 @@ export function getMishnahSection(tractate: string, chapter: number, page: strin
 
   return earliest.startLine;
 }
+
+export interface MishnahReference {
+  chapter: number;
+  mishnah: number;
+  tractate: string;
+}
+
+export function getMishnahReferenceForSection(tractate: string, daf: string, sectionLine: number): MishnahReference | null {
+  const normalizedTractate = tractate.toLowerCase();
+  const normalizedDaf = daf.toLowerCase();
+
+  const mapping = MISHNAH_MAP_DATA.find(
+    m =>
+      m.tractate.toLowerCase() === normalizedTractate &&
+      m.startDaf.toLowerCase() === normalizedDaf &&
+      m.startLine === sectionLine
+  );
+
+  if (!mapping) return null;
+
+  return {
+    chapter: mapping.mishnahChapter,
+    mishnah: mapping.startMishnah,
+    tractate: mapping.tractate,
+  };
+}

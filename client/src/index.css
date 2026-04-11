@@ -427,6 +427,24 @@
     color: hsl(20, 14.3%, 25%);
   }
   
+  .section-marker {
+    display: block;
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-size: 1.15em;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: hsl(20, 30%, 30%);
+  }
+
+  .dark .section-marker {
+    color: hsl(28, 30%, 70%);
+  }
+
+  .hebrew-text .section-marker {
+    font-family: inherit;
+    font-size: 1.2em;
+  }
+
   .english-text {
     direction: ltr;
     font-size: 1.05em;

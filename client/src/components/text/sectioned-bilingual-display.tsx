@@ -5,7 +5,7 @@ import { usePreferences } from "@/context/preferences-context";
 import { useGazetteerData, TextHighlighter, type HighlightCategory } from "@/lib/gazetteer";
 import { getSefariaLink, getAlHaTorahLink, type TalmudReference } from "@/lib/external-links";
 import { useChapterData, type ChapterInfo } from "@/lib/chapter-data";
-import { getMishnahSection } from "@shared/mishnah-map";
+import { getMishnahSection, getMishnahReferenceForSection, type MishnahReference } from "@shared/mishnah-map";
 import type { TalmudText } from "@/types/talmud";
 
 interface SectionedBilingualDisplayProps {
@@ -82,17 +82,46 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
       const englishSection = englishSections[index] || '';
       if (!hebrewSection.trim() && !englishSection.trim()) return null;
 
-      const englishHtml = englishSection.trim()
-        ? applyHighlighting(linkBibleCitations(formatEnglishText(processEnglishText(englishSection))))
-        : '';
+      const mishnahRef = mishnahRefMap[index + 1] || null;
+
+      let englishHtml = '';
+      if (englishSection.trim()) {
+        let processed = formatEnglishText(processEnglishText(englishSection));
+        if (mishnahRef) {
+          const citation = `Mishnah (${mishnahRef.tractate} ${mishnahRef.chapter}:${mishnahRef.mishnah})`;
+          processed = processed.replace(
+            /(<p[^>]*>)\s*MISHNA:\s*(<\/p>)/i,
+            `$1<span class="section-marker">${citation}</span>$2`
+          );
+        } else {
+          processed = processed.replace(
+            /(<p[^>]*>)\s*MISHNA:\s*(<\/p>)/i,
+            `$1<span class="section-marker">Mishnah</span>$2`
+          );
+        }
+        processed = processed.replace(
+          /(<p[^>]*>)\s*GEMARA:\s*(<\/p>)/i,
+          `$1<span class="section-marker">Gemara</span>$2`
+        );
+        englishHtml = applyHighlighting(linkBibleCitations(processed));
+      }
 
       const hebrewLines = hebrewSection.trim()
-        ? processHebrewText(hebrewSection).split('\n').filter((line: string) => line.trim()).map((line: string) => applyHighlighting(line.trim()))
+        ? processHebrewText(hebrewSection).split('\n').filter((line: string) => line.trim()).map((line: string) => {
+            const trimmed = line.trim();
+            if (/^מתני[׳']$/.test(trimmed)) {
+              return `<span class="section-marker">${trimmed}</span>`;
+            }
+            if (/^גמ[׳']$/.test(trimmed) || /^גמר[׳']$/.test(trimmed)) {
+              return `<span class="section-marker">${trimmed}</span>`;
+            }
+            return applyHighlighting(trimmed);
+          })
         : [];
 
       return { englishHtml, hebrewLines };
     });
-  }, [maxSections, hebrewSections, englishSections, applyHighlighting]);
+  }, [maxSections, hebrewSections, englishSections, applyHighlighting, mishnahRefMap]);
 
   // Load chapter data for the current tractate
   const chapters = useChapterData(text.tractate);
@@ -111,6 +140,18 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
     }
     return map;
   }, [chapters, text.tractate, text.folio, text.side]);
+
+  const mishnahRefMap = useMemo((): Record<number, MishnahReference> => {
+    const map: Record<number, MishnahReference> = {};
+    const folioLabel = `${text.folio}${text.side}`;
+    for (let i = 1; i <= maxSections; i++) {
+      const ref = getMishnahReferenceForSection(text.tractate, folioLabel, i);
+      if (ref) {
+        map[i] = ref;
+      }
+    }
+    return map;
+  }, [text.tractate, text.folio, text.side, maxSections]);
 
   // Parse and validate section number from hash (supports both #5 and legacy #section-5)
   const parseSectionFromHash = (hash: string): number | null => {
