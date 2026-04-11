@@ -72,6 +72,16 @@ export default function Dictionary() {
     .dictionary-header {
       font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     }
+    
+    /* Bullet list styling */
+    .dictionary-bullet-list {
+      list-style-type: disc;
+      padding-left: 1.25rem;
+      margin: 0.25rem 0;
+    }
+    .dictionary-bullet-list li {
+      margin-bottom: 0.15rem;
+    }
   `;
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedLetter, setSelectedLetter] = useState("");
@@ -162,13 +172,31 @@ export default function Dictionary() {
 
   const splitByPeriodAndLink = (text: string) => {
     const pattern = /(\.\)\s*|\.\s+)(<a\s[^>]*href="([^"]*)"[^>]*>)/g;
-    const result = text.replace(pattern, (match, periodPart, linkTag, href) => {
-      if (href && href.includes('Jastrow')) {
-        return match;
+    const matches: { index: number; fullMatch: string; periodPart: string; linkTag: string; href: string }[] = [];
+    let m;
+    while ((m = pattern.exec(text)) !== null) {
+      if (!m[3] || !m[3].includes('Jastrow')) {
+        matches.push({ index: m.index, fullMatch: m[0], periodPart: m[1], linkTag: m[2], href: m[3] });
       }
-      return `${periodPart}<br/><span style="margin-right:4px">&#8226;</span>${linkTag}`;
-    });
-    return result;
+    }
+    if (matches.length === 0) return text;
+
+    const segments: string[] = [];
+    let lastEnd = 0;
+    for (const match of matches) {
+      const beforeEnd = match.index + match.periodPart.length;
+      segments.push(text.substring(lastEnd, beforeEnd));
+      lastEnd = beforeEnd;
+    }
+    segments.push(text.substring(lastEnd));
+
+    const leadingProse = segments[0];
+    const bulletItems = segments.slice(1).filter(s => s.trim().length > 0);
+
+    if (bulletItems.length === 0) return text;
+
+    const listHtml = bulletItems.map(item => `<li>${item.trim()}</li>`).join('');
+    return `${leadingProse}<ul class="dictionary-bullet-list">${listHtml}</ul>`;
   };
 
   const convertSuperscriptLetters = (text: string) => {
@@ -419,7 +447,7 @@ export default function Dictionary() {
       removeExternalLinkArrow(tempDiv);
 
       const stripFormattingExcept = (element: HTMLElement): string => {
-        const allowedTags = ['strong', 'b', 'i', 'em', 'p', 'div', 'br', 'span', 'a', 'sup', 'sub', 'small'];
+        const allowedTags = ['strong', 'b', 'i', 'em', 'p', 'div', 'br', 'span', 'a', 'sup', 'sub', 'small', 'ul', 'li'];
         
         const walker = document.createTreeWalker(
           element,
@@ -516,6 +544,10 @@ export default function Dictionary() {
             
             if (tag === 'br') {
               text += '\n';
+            } else if (tag === 'li') {
+              text += '• ' + getPlainText(el, false) + '\n';
+            } else if (tag === 'ul') {
+              text += getPlainText(el, false);
             } else if (tag === 'p' || tag === 'div') {
               text += getPlainText(el, false) + '\n';
             } else {
