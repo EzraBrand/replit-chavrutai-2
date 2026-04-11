@@ -3,15 +3,12 @@ import { Link } from "wouter";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Search, Loader2, ExternalLink } from "lucide-react";
+import { Search, Loader2, ExternalLink, X } from "lucide-react";
 import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
 import jastrowMappings from "@/data/jastrow-mappings.json";
 import { TRACTATE_LISTS } from "@shared/tractates";
-
-const BAVLI_TRACTATE_SET = new Set(
-  TRACTATE_LISTS["Talmud Bavli"].map(t => t.replace(/\s+/g, '_'))
-);
+import { ALL_BIBLE_BOOKS } from "@shared/bible-books";
 
 const BAVLI_LINK_RE = new RegExp(
   `https?://(?:www\\.)?sefaria\\.org(?:\\.il)?/(${
@@ -21,6 +18,17 @@ const BAVLI_LINK_RE = new RegExp(
 );
 
 const YERUSHALMI_LINK_RE = /https?:\/\/(?:www\.)?sefaria\.org(?:\.il)?\/Jerusalem_Talmud_([A-Za-z_]+)\.(\d+)\.(\d+)(?:\.(\d+))?/g;
+
+const BIBLE_SLUG_MAP = new Map(
+  ALL_BIBLE_BOOKS.map(b => [b.sefaria.replace(/\s+/g, '_'), b.slug])
+);
+
+const BIBLE_LINK_RE = new RegExp(
+  `https?://(?:www\\.)?sefaria\\.org(?:\\.il)?/(${
+    ALL_BIBLE_BOOKS.map(b => b.sefaria.replace(/\s+/g, '_')).join('|')
+  })\\.(\\d+)(?:\\.(\\d+))?`,
+  'g'
+);
 
 const HEBREW_ALPHABET = [
   'א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח', 'ט', 'י', 'כ', 'ל', 'מ', 'ן', 'נ', 'ס', 'ע', 'פ', 'צ', 'ק', 'ר', 'ש', 'ת'
@@ -80,6 +88,12 @@ export default function Dictionary() {
     /* Hebrew letter buttons and search input */
     .font-hebrew {
       font-family: 'Assistant', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    
+    /* Hide native search clear button */
+    input[type="search"]::-webkit-search-cancel-button {
+      -webkit-appearance: none;
+      appearance: none;
     }
     
     /* Header title */
@@ -167,7 +181,13 @@ export default function Dictionary() {
       if (halakhah) return `${path}#${halakhah}`;
       return path;
     });
-    result = result.replace(/<a([^>]*?)href="(\/talmud\/[^"]*|\/yerushalmi\/[^"]*)"([^>]*?)>/g, (_m, before, href, after) => {
+    BIBLE_LINK_RE.lastIndex = 0;
+    result = result.replace(BIBLE_LINK_RE, (_match, book, chapter, verse) => {
+      const slug = BIBLE_SLUG_MAP.get(book) || book;
+      const path = `/bible/${slug}/${chapter}`;
+      return verse ? `${path}#${verse}` : path;
+    });
+    result = result.replace(/<a([^>]*?)href="(\/talmud\/[^"]*|\/yerushalmi\/[^"]*|\/bible\/[^"]*)"([^>]*?)>/g, (_m, before, href, after) => {
       const cleaned = (before + after).replace(/\s*target="[^"]*"/g, '').replace(/\s*rel="[^"]*"/g, '');
       return `<a${cleaned} href="${href}">`;
     });
@@ -655,10 +675,25 @@ export default function Dictionary() {
                     setShowSuggestions(true);
                   }
                 }}
-                className="pl-10 font-hebrew"
+                className="pl-10 pr-9 font-hebrew"
                 data-testid="input-search"
                 disabled={isLoading}
               />
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSearchQuery("");
+                    setSuggestions([]);
+                    setShowSuggestions(false);
+                    (searchInputRef.current?.querySelector('input[type="search"]') as HTMLInputElement)?.focus();
+                  }}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground z-10"
+                  aria-label="Clear search"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
 
               {/* Autosuggest Dropdown */}
               {showSuggestions && suggestions.length > 0 && (
