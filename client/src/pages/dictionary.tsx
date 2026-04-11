@@ -7,7 +7,7 @@ import { Search, Loader2, ExternalLink, X } from "lucide-react";
 import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
 import jastrowMappings from "@/data/jastrow-mappings.json";
-import { TRACTATE_LISTS } from "@shared/tractates";
+import { TRACTATE_LISTS, MISHNAH_ONLY_TRACTATES } from "@shared/tractates";
 import { ALL_BIBLE_BOOKS } from "@shared/bible-books";
 
 const BAVLI_LINK_RE = new RegExp(
@@ -26,6 +26,18 @@ const BIBLE_SLUG_MAP = new Map(
 const BIBLE_LINK_RE = new RegExp(
   `https?://(?:www\\.)?sefaria\\.org(?:\\.il)?/(${
     ALL_BIBLE_BOOKS.map(b => b.sefaria.replace(/\s+/g, '_')).join('|')
+  })\\.(\\d+)(?:\\.(\\d+))?`,
+  'g'
+);
+
+const MISHNAH_ONLY_LIST = Object.values(MISHNAH_ONLY_TRACTATES).flat();
+const MISHNAH_SLUG_MAP = new Map(
+  MISHNAH_ONLY_LIST.map(t => [t.sefaria, t.name.replace(/\s+/g, '_')])
+);
+
+const MISHNAH_LINK_RE = new RegExp(
+  `https?://(?:www\\.)?sefaria\\.org(?:\\.il)?/(${
+    MISHNAH_ONLY_LIST.map(t => t.sefaria).join('|')
   })\\.(\\d+)(?:\\.(\\d+))?`,
   'g'
 );
@@ -181,13 +193,19 @@ export default function Dictionary() {
       if (halakhah) return `${path}#${halakhah}`;
       return path;
     });
+    MISHNAH_LINK_RE.lastIndex = 0;
+    result = result.replace(MISHNAH_LINK_RE, (_match, sefariaName, chapter, mishnah) => {
+      const slug = MISHNAH_SLUG_MAP.get(sefariaName) || sefariaName.replace('Mishnah_', '');
+      const path = `/mishnah/${slug}/${chapter}`;
+      return mishnah ? `${path}#${mishnah}` : path;
+    });
     BIBLE_LINK_RE.lastIndex = 0;
     result = result.replace(BIBLE_LINK_RE, (_match, book, chapter, verse) => {
       const slug = BIBLE_SLUG_MAP.get(book) || book;
       const path = `/bible/${slug}/${chapter}`;
       return verse ? `${path}#${verse}` : path;
     });
-    result = result.replace(/<a([^>]*?)href="(\/talmud\/[^"]*|\/yerushalmi\/[^"]*|\/bible\/[^"]*)"([^>]*?)>/g, (_m, before, href, after) => {
+    result = result.replace(/<a([^>]*?)href="(\/talmud\/[^"]*|\/yerushalmi\/[^"]*|\/bible\/[^"]*|\/mishnah\/[^"]*)"([^>]*?)>/g, (_m, before, href, after) => {
       const cleaned = (before + after).replace(/\s*target="[^"]*"/g, '').replace(/\s*rel="[^"]*"/g, '');
       return `<a${cleaned} href="${href}">`;
     });

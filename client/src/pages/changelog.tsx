@@ -74,7 +74,7 @@ export default function Changelog() {
             <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Jastrow Dictionary: Internal Links & Bullet Points</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>Talmud Bavli, Yerushalmi, and Bible references in dictionary entries now link directly to the corresponding ChavrutAI pages instead of Sefaria</li>
+                <li>Talmud Bavli, Yerushalmi, Mishnah, and Bible references in dictionary entries now link directly to the corresponding ChavrutAI pages instead of Sefaria</li>
                 <li>Each dictionary entry headword is now hyperlinked to its source page on Sefaria</li>
                 <li>Bullet points in dictionary entries now render as proper HTML lists and copy-paste with correct formatting</li>
                 <li>Added clear search button (X) to quickly reset the search input</li>
