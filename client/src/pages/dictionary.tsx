@@ -7,6 +7,20 @@ import { Search, Loader2, ExternalLink } from "lucide-react";
 import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
 import jastrowMappings from "@/data/jastrow-mappings.json";
+import { TRACTATE_LISTS } from "@shared/tractates";
+
+const BAVLI_TRACTATE_SET = new Set(
+  TRACTATE_LISTS["Talmud Bavli"].map(t => t.replace(/\s+/g, '_'))
+);
+
+const BAVLI_LINK_RE = new RegExp(
+  `https?://(?:www\\.)?sefaria\\.org(?:\\.il)?/(${
+    TRACTATE_LISTS["Talmud Bavli"].map(t => t.replace(/\s+/g, '_')).join('|')
+  })\\.(\\d+[ab])(?:\\.(\\d+))?`,
+  'g'
+);
+
+const YERUSHALMI_LINK_RE = /https?:\/\/(?:www\.)?sefaria\.org(?:\.il)?\/Jerusalem_Talmud_([A-Za-z_]+)\.(\d+)\.(\d+)(?:\.(\d+))?/g;
 
 const HEBREW_ALPHABET = [
   'א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח', 'ט', 'י', 'כ', 'ל', 'מ', 'ן', 'נ', 'ס', 'ע', 'פ', 'צ', 'ק', 'ר', 'ש', 'ת'
@@ -138,6 +152,24 @@ export default function Dictionary() {
       },
     },
   });
+
+  const convertSefariaLinksToInternal = (html: string): string => {
+    let result = html;
+    BAVLI_LINK_RE.lastIndex = 0;
+    result = result.replace(BAVLI_LINK_RE, (_match, tractate, folio, segment) => {
+      const path = `/talmud/${tractate}/${folio}`;
+      return segment ? `${path}#${segment}` : path;
+    });
+    YERUSHALMI_LINK_RE.lastIndex = 0;
+    result = result.replace(YERUSHALMI_LINK_RE, (_match, tractate, chapter) => {
+      return `/yerushalmi/${tractate}/${chapter}`;
+    });
+    result = result.replace(/<a([^>]*?)href="(\/talmud\/[^"]*|\/yerushalmi\/[^"]*)"([^>]*?)>/g, (_m, before, href, after) => {
+      const cleaned = (before + after).replace(/\s*target="[^"]*"/g, '').replace(/\s*rel="[^"]*"/g, '');
+      return `<a${cleaned} href="${href}">`;
+    });
+    return result;
+  };
 
   // Function to split text into paragraphs by long dash while preserving HTML structure
   const splitIntoParagraphs = (text: string) => {
@@ -733,14 +765,14 @@ export default function Dictionary() {
                         {originMetadata && (
                           <div 
                             className="mb-2 dictionary-content text-muted-foreground" 
-                            dangerouslySetInnerHTML={{ __html: expandAbbreviations(originMetadata) }} 
+                            dangerouslySetInnerHTML={{ __html: convertSefariaLinksToInternal(expandAbbreviations(originMetadata)) }} 
                           />
                         )}
                         {entry.content.senses.map((sense, senseIndex) => (
                           <div 
                             key={senseIndex} 
                             className="mb-2 last:mb-0 dictionary-content" 
-                            dangerouslySetInnerHTML={{ __html: expandAbbreviations(convertSuperscriptLetters(splitByPeriodAndLink(splitIntoParagraphs(sense.definition)))) }} 
+                            dangerouslySetInnerHTML={{ __html: convertSefariaLinksToInternal(expandAbbreviations(convertSuperscriptLetters(splitByPeriodAndLink(splitIntoParagraphs(sense.definition))))) }} 
                           />
                         ))}
                       </div>
