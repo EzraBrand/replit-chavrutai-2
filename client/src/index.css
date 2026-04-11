@@ -430,19 +430,26 @@
   .section-marker {
     display: block;
     font-family: 'Georgia', 'Times New Roman', serif;
-    font-size: 1.15em;
+    font-size: 1.3em;
     font-weight: 700;
-    letter-spacing: 0.02em;
-    color: hsl(20, 30%, 30%);
+    font-variant: small-caps;
+    letter-spacing: 0.05em;
+    color: hsl(20, 40%, 28%);
+    border-bottom: 1.5px solid hsl(20, 30%, 75%);
+    padding-bottom: 0.15em;
+    margin-bottom: 0.3em;
   }
 
   .dark .section-marker {
-    color: hsl(28, 30%, 70%);
+    color: hsl(28, 35%, 72%);
+    border-bottom-color: hsl(28, 20%, 40%);
   }
 
   .hebrew-text .section-marker {
-    font-family: inherit;
-    font-size: 1.2em;
+    font-family: 'Frank Ruehl CLM', 'David', 'Times New Roman', serif;
+    font-size: 1.4em;
+    font-variant: normal;
+    letter-spacing: 0.08em;
   }
 
   .english-text {

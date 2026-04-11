@@ -98,24 +98,25 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
 
       let englishHtml = '';
       if (englishSection.trim()) {
-        let processed = formatEnglishText(processEnglishText(englishSection));
+        let rawProcessed = processEnglishText(englishSection);
+        const mishnahMarkerRe = /<strong[^>]*>\s*(?:MISHNA|Mishnah|mishna):\s*<\/strong>/i;
         if (mishnahRef) {
           const citation = `Mishnah (${mishnahRef.tractate} ${mishnahRef.chapter}:${mishnahRef.mishnah})`;
-          processed = processed.replace(
-            /(<p[^>]*>)\s*MISHNA:\s*(<\/p>)/i,
-            `$1<span class="section-marker">${citation}</span>$2`
+          rawProcessed = rawProcessed.replace(
+            mishnahMarkerRe,
+            `<span class="section-marker">${citation}</span>`
           );
         } else {
-          processed = processed.replace(
-            /(<p[^>]*>)\s*MISHNA:\s*(<\/p>)/i,
-            `$1<span class="section-marker">Mishnah</span>$2`
+          rawProcessed = rawProcessed.replace(
+            mishnahMarkerRe,
+            `<span class="section-marker">Mishnah</span>`
           );
         }
-        processed = processed.replace(
-          /(<p[^>]*>)\s*GEMARA:\s*(<\/p>)/i,
-          `$1<span class="section-marker">Gemara</span>$2`
+        rawProcessed = rawProcessed.replace(
+          /<strong[^>]*>\s*(?:GEMARA|Talmud|Gemara):\s*<\/strong>/i,
+          `<span class="section-marker">Gemara</span>`
         );
-        englishHtml = applyHighlighting(linkBibleCitations(processed));
+        englishHtml = applyHighlighting(linkBibleCitations(formatEnglishText(rawProcessed)));
       }
 
       const hebrewLines = hebrewSection.trim()
