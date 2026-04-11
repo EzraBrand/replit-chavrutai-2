@@ -445,6 +445,25 @@
     border-bottom-color: hsl(28, 20%, 40%);
   }
 
+  .section-marker .mishnah-citation-link {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: hsl(20, 30%, 65%);
+    text-underline-offset: 2px;
+  }
+
+  .section-marker .mishnah-citation-link:hover {
+    text-decoration-color: hsl(20, 40%, 45%);
+  }
+
+  .dark .section-marker .mishnah-citation-link {
+    text-decoration-color: hsl(28, 25%, 50%);
+  }
+
+  .dark .section-marker .mishnah-citation-link:hover {
+    text-decoration-color: hsl(28, 35%, 65%);
+  }
+
   .hebrew-text .section-marker {
     font-family: 'Frank Ruehl CLM', 'David', 'Times New Roman', serif;
     font-size: 1.4em;

@@ -101,7 +101,9 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
         let rawProcessed = processEnglishText(englishSection);
         const mishnahMarkerRe = /<strong[^>]*>\s*(?:MISHNA|Mishnah|mishna):\s*<\/strong>/i;
         if (mishnahRef) {
-          const citation = `Mishnah (${mishnahRef.tractate} ${mishnahRef.chapter}:${mishnahRef.mishnah})`;
+          const sefariaTractateName = mishnahRef.tractate.replace(/\s+/g, '_');
+          const sefariaUrl = `https://www.sefaria.org.il/Mishnah_${sefariaTractateName}.${mishnahRef.chapter}.${mishnahRef.mishnah}`;
+          const citation = `Mishnah (<a href="${sefariaUrl}" target="_blank" rel="nofollow noopener noreferrer" class="mishnah-citation-link">${mishnahRef.tractate} ${mishnahRef.chapter}:${mishnahRef.mishnah}</a>)`;
           rawProcessed = rawProcessed.replace(
             mishnahMarkerRe,
             `<span class="section-marker">${citation}</span>\n`

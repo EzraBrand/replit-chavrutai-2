@@ -16,7 +16,7 @@ export const TRACTATE_LISTS = {
     "Yevamot", "Ketubot", "Nedarim", "Nazir", "Sotah", "Gittin", "Kiddushin",
     "Bava Kamma", "Bava Metzia", "Bava Batra", "Sanhedrin", "Makkot", "Shevuot", "Eduyot", "Avodah Zarah", "Avot", "Horayot",
     "Zevachim", "Menachot", "Chullin", "Bekhorot", "Arakhin", "Temurah", "Keritot", "Meilah", "Tamid", "Middot", "Kinnim",
-    "Kelim", "Oholot", "Negaim", "Parah", "Taharot", "Mikvaot", "Niddah", "Makhshirin", "Zavim", "Tevul Yom", "Yadayim", "Uktzin"
+    "Kelim", "Oholot", "Negaim", "Parah", "Tahorot", "Mikvaot", "Niddah", "Makhshirin", "Zavim", "Tevul Yom", "Yadayim", "Uktzin"
   ],
   "Talmud Yerushalmi": [
     "Berakhot", "Peah", "Demai", "Kilayim", "Sheviit", "Terumot", "Maasrot", "Maaser Sheni", "Challah", "Orlah", "Bikkurim",
@@ -109,7 +109,7 @@ export const MISHNAH_ONLY_HEBREW_NAMES: Record<string, string> = {
   "Oholot": "אהלות",
   "Negaim": "נגעים",
   "Parah": "פרה",
-  "Taharot": "טהרות",
+  "Tahorot": "טהרות",
   "Mikvaot": "מקואות",
   "Makhshirin": "מכשירין",
   "Zavim": "זבים",
@@ -147,7 +147,7 @@ export const MISHNAH_ONLY_TRACTATES = {
     { name: "Oholot", chapters: 18, sefaria: "Mishnah_Oholot" },
     { name: "Negaim", chapters: 14, sefaria: "Mishnah_Negaim" },
     { name: "Parah", chapters: 12, sefaria: "Mishnah_Parah" },
-    { name: "Taharot", chapters: 10, sefaria: "Mishnah_Tahorot" },
+    { name: "Tahorot", chapters: 10, sefaria: "Mishnah_Tahorot" },
     { name: "Mikvaot", chapters: 10, sefaria: "Mishnah_Mikvaot" },
     { name: "Makhshirin", chapters: 6, sefaria: "Mishnah_Makhshirin" },
     { name: "Zavim", chapters: 5, sefaria: "Mishnah_Zavim" },
@@ -181,7 +181,8 @@ export const MISHNAH_URL_MAP: Record<string, string> = {
   "oholot": "Oholot",
   "negaim": "Negaim",
   "parah": "Parah",
-  "taharot": "Taharot",
+  "tahorot": "Tahorot",
+  "taharot": "Tahorot",
   "mikvaot": "Mikvaot",
   "makhshirin": "Makhshirin",
   "zavim": "Zavim",

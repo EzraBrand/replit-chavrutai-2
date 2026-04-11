@@ -21,7 +21,7 @@ const MISHNAH_ALHATORAH_NAMES: Record<string, string> = {
   "Chullin": "Chulin",
   "Eduyot": "Eiduyot",
   "Kelim": "Keilim",
-  "Taharot": "Tahorot",
+  "Tahorot": "Tahorot",
 };
 
 function getAlHaTorahTractateName(tractate: string): string {
