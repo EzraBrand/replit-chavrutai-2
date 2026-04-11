@@ -114,7 +114,7 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
         }
         rawProcessed = rawProcessed.replace(
           /<strong[^>]*>\s*(?:GEMARA|Talmud|Gemara):\s*<\/strong>/i,
-          `<span class="section-marker">Gemara</span>`
+          `<span class="section-marker">Talmud</span>`
         );
         englishHtml = applyHighlighting(linkBibleCitations(formatEnglishText(rawProcessed)));
       }
