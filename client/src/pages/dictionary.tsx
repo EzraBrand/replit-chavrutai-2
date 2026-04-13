@@ -538,6 +538,14 @@ export default function Dictionary() {
 
       removeExternalLinkArrow(tempDiv);
 
+      const links = tempDiv.querySelectorAll('a[href]');
+      links.forEach(link => {
+        const href = link.getAttribute('href');
+        if (href && href.startsWith('/')) {
+          link.setAttribute('href', `https://chavrutai.com${href}`);
+        }
+      });
+
       const stripFormattingExcept = (element: HTMLElement): string => {
         const allowedTags = ['strong', 'b', 'i', 'em', 'p', 'div', 'br', 'span', 'a', 'sup', 'sub', 'small', 'ul', 'li'];
         
