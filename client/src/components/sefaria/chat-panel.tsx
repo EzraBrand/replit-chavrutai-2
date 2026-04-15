@@ -74,7 +74,11 @@ export function ChatPanel({ context }: ChatPanelProps) {
           <div>
             <CardTitle className="text-lg">AI Study Assistant (beta)</CardTitle>
             <CardDescription className="text-sm">
-              Ask questions about the Talmud text and related blog posts
+              Ask questions about the Talmud text and related blog posts.
+              <br />
+              <span className="text-xs text-muted-foreground italic">
+                Note: currently, the AI only has access to the Talmud text and the Steinsaltz translation and interpretation; it doesn't have access to any additional commentaries or other sources.
+              </span>
             </CardDescription>
           </div>
           {messages.length > 0 && (
