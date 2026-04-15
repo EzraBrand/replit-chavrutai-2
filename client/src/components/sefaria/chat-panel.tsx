@@ -72,7 +72,7 @@ export function ChatPanel({ context }: ChatPanelProps) {
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle className="text-lg">AI Study Assistant</CardTitle>
+            <CardTitle className="text-lg">AI Study Assistant (beta)</CardTitle>
             <CardDescription className="text-sm">
               Ask questions about the Talmud text and related blog posts
             </CardDescription>
@@ -89,7 +89,6 @@ export function ChatPanel({ context }: ChatPanelProps) {
           )}
         </div>
       </CardHeader>
-
       <CardContent className="flex-1 flex flex-col p-4 pt-0 min-h-0">
         <ScrollArea ref={scrollRef} className={`pr-4 mb-4 ${messages.length > 0 ? 'flex-1' : ''}`}>
           <div className="space-y-4">
