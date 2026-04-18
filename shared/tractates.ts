@@ -71,7 +71,7 @@ export const TRACTATE_HEBREW_NAMES = {
   "Keritot": "כריתות",
   "Meilah": "מעילה",
   "Tamid": "תמיד",
-  "Niddah": "נדה"
+  "Niddah": "נידה"
 } as const;
 
 // Folio ranges for all Talmud Bavli tractates

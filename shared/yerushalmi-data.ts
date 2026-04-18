@@ -37,7 +37,7 @@ export const YERUSHALMI_HEBREW_NAMES: Record<string, string> = {
   "Shevuot": "שבועות",
   "Avodah Zarah": "עבודה זרה",
   "Horayot": "הוריות",
-  "Niddah": "נדה",
+  "Niddah": "נידה",
 };
 
 export const YERUSHALMI_TRACTATES = {
