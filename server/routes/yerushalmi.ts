@@ -93,6 +93,85 @@ export function createYerushalmiRouter(): Router {
     res.json({ shapes });
   });
 
+  router.get("/api/yerushalmi/:tractate/:chapter/:halakhah", async (req, res) => {
+    try {
+      const { tractate, chapter, halakhah } = req.params;
+
+      if (!/^\d+$/.test(chapter) || !/^\d+$/.test(halakhah)) {
+        res.status(400).json({ error: "Invalid chapter or halakhah number" });
+        return;
+      }
+
+      const chapterNum = parseInt(chapter, 10);
+      const halakhahNum = parseInt(halakhah, 10);
+
+      if (chapterNum < 1 || halakhahNum < 1) {
+        res.status(400).json({ error: "Invalid chapter or halakhah number" });
+        return;
+      }
+
+      const tractateInfo = getYerushalmiTractateInfo(tractate);
+      if (!tractateInfo) {
+        res.status(404).json({ error: `Invalid Yerushalmi tractate: ${tractate}` });
+        return;
+      }
+
+      if (chapterNum > tractateInfo.chapters) {
+        res.status(404).json({ error: `Chapter ${chapterNum} does not exist in ${tractateInfo.name} (max: ${tractateInfo.chapters})` });
+        return;
+      }
+
+      const sefariaBase = tractateInfo.sefaria;
+      const chapterShapes: number[][] = yerushalmiShapesData[sefariaBase] ?? [];
+      const halakhotSegmentCounts: number[] = chapterShapes[chapterNum - 1] ?? [];
+      if (halakhotSegmentCounts.length === 0) {
+        res.status(502).json({ error: "No shape data for this chapter" });
+        return;
+      }
+
+      const totalHalakhotInChapter = halakhotSegmentCounts.length;
+      if (halakhahNum > totalHalakhotInChapter) {
+        res.status(404).json({ error: `Halakhah ${halakhahNum} does not exist in ${tractateInfo.name} chapter ${chapterNum} (max: ${totalHalakhotInChapter})` });
+        return;
+      }
+
+      const guggenheimVersion = "versionTitle=The%20Jerusalem%20Talmud%2C%20translation%20and%20commentary%20by%20Heinrich%20W.%20Guggenheimer&versionTitleInHebrew=%D9%AA";
+      const halResponse = await fetch(`${sefariaAPIBaseURL}/texts/${sefariaBase}.${chapterNum}.${halakhahNum}?lang=bi&commentary=0&${guggenheimVersion}`);
+      const halData = halResponse.ok ? await halResponse.json() : null;
+
+      const heSegs: string[] = halData && Array.isArray(halData.he) ? halData.he : (halData && halData.he ? [halData.he] : []);
+      const enSegs: string[] = halData && Array.isArray(halData.text) ? halData.text : (halData && halData.text ? [halData.text] : []);
+      const count = Math.max(heSegs.length, enSegs.length);
+
+      const allHebrew: string[] = [];
+      const allEnglish: string[] = [];
+      const sectionRefs: string[] = [];
+      for (let segIdx = 0; segIdx < count; segIdx++) {
+        allHebrew.push(heSegs[segIdx] || '');
+        allEnglish.push(enSegs[segIdx] || '');
+        sectionRefs.push(`${sefariaBase}.${chapterNum}.${halakhahNum}.${segIdx + 1}`);
+      }
+
+      const processedHebrewSections = allHebrew.map(s => processHebrewText(s));
+      const processedEnglishSections = allEnglish.map(s => processEnglishText(s));
+
+      res.json({
+        tractate: tractateInfo.name,
+        chapter: chapterNum,
+        halakhah: halakhahNum,
+        totalChapters: tractateInfo.chapters,
+        totalHalakhotInChapter,
+        hebrewSections: processedHebrewSections,
+        englishSections: processedEnglishSections,
+        sefariaRef: `${sefariaBase}.${chapterNum}.${halakhahNum}`.replace(/_/g, ' '),
+        sectionRefs,
+      });
+    } catch (error) {
+      console.error('Error in /api/yerushalmi halakhah:', error);
+      res.status(500).json({ error: "Failed to fetch Yerushalmi halakhah" });
+    }
+  });
+
   router.get("/api/yerushalmi/:tractate/:chapter", async (req, res) => {
     try {
       const { tractate, chapter } = req.params;

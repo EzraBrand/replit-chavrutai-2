@@ -98,7 +98,7 @@ export default function YerushalmiTractate() {
                 <CardContent className="p-6">
                   <div className="mb-3">
                     <h3 className="text-xl text-primary mb-1">
-                      <Link href={`/yerushalmi/${tractateSlug}/${chapterNum}`} className="hover:underline">
+                      <Link href={`/yerushalmi/${tractateSlug}/${chapterNum}.1`} className="hover:underline">
                         Chapter {chapterNum}
                       </Link>
                     </h3>
@@ -114,7 +114,7 @@ export default function YerushalmiTractate() {
                       {chapterShape.map((_, halIdx) => (
                         <Link
                           key={halIdx}
-                          href={`/yerushalmi/${tractateSlug}/${chapterNum}#${halIdx + 1}-1`}
+                          href={`/yerushalmi/${tractateSlug}/${chapterNum}.${halIdx + 1}`}
                           className="inline-flex items-center justify-center w-8 h-8 rounded border border-border bg-secondary/50 text-secondary-foreground hover:bg-primary hover:text-primary-foreground hover:border-primary transition-colors text-sm font-medium"
                           title={`Halakhah ${halIdx + 1}`}
                         >

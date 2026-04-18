@@ -1,5 +1,15 @@
 import { Request, Response } from 'express';
+import fs from 'fs';
+import path from 'path';
 import { YERUSHALMI_TRACTATES, getYerushalmiTractateSlug } from '@shared/yerushalmi-data';
+
+let yerushalmiShapesData: Record<string, number[][]> = {};
+try {
+  const shapesPath = path.join(process.cwd(), 'shared/data/yerushalmi-shapes.json');
+  yerushalmiShapesData = JSON.parse(fs.readFileSync(shapesPath, 'utf-8'));
+} catch (e) {
+  console.error('sitemap-yerushalmi: failed to load shapes:', e);
+}
 
 export function generateYerushalmiSitemap(req: Request, res: Response) {
   const baseUrl = process.env.NODE_ENV === 'production'
@@ -25,7 +35,7 @@ export function generateYerushalmiSitemap(req: Request, res: Response) {
     nezikin: 'Seder Nezikin',
   };
 
-  let totalChapters = 0;
+  let totalHalakhot = 0;
   let totalTractates = 0;
 
   for (const [seder, tractates] of Object.entries(YERUSHALMI_TRACTATES)) {
@@ -45,22 +55,26 @@ export function generateYerushalmiSitemap(req: Request, res: Response) {
     <priority>0.6</priority>
   </url>`;
 
+      const chapterShapes = yerushalmiShapesData[tractate.sefaria] ?? [];
       for (let chapter = 1; chapter <= tractate.chapters; chapter++) {
-        totalChapters++;
-        sitemap += `
+        const halakhotCount = chapterShapes[chapter - 1]?.length ?? 0;
+        for (let halakhah = 1; halakhah <= halakhotCount; halakhah++) {
+          totalHalakhot++;
+          sitemap += `
   <url>
-    <loc>${baseUrl}/yerushalmi/${slug}/${chapter}</loc>
+    <loc>${baseUrl}/yerushalmi/${slug}/${chapter}.${halakhah}</loc>
     <lastmod>${currentDate}</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>`;
+        }
       }
     }
   }
 
   sitemap += `
 
-  <!-- Jerusalem Talmud: ${totalTractates} tractates, ${totalChapters} chapter pages -->
+  <!-- Jerusalem Talmud: ${totalTractates} tractates, ${totalHalakhot} halakhah pages -->
 </urlset>`;
 
   res.set('Content-Type', 'application/xml');

@@ -72,6 +72,18 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Yerushalmi: Per-Halakhah Pages</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Jerusalem Talmud pages are now scoped to a single <strong>halakhah</strong> instead of an entire chapter, matching how the text is studied and cited</li>
+                <li>New URL format: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/yerushalmi/Chagigah/2.1</code> (chapter.halakhah); section anchors are now segment numbers like <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">#3</code></li>
+                <li>Old chapter URLs (e.g. <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/yerushalmi/Chagigah/2</code>) <strong>301-redirect</strong> to the first halakhah; legacy <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">#H-S</code> hashes are translated client-side to the right page and segment</li>
+                <li>Header shows "Chapter 2 · Halakhah 1"; breadcrumbs include both Chapter and Halakhah levels</li>
+                <li>Prev/Next walk halakhah-by-halakhah and cross chapter boundaries (e.g. 2:7 → 3:1)</li>
+                <li>Sitemap and structured data updated to emit per-halakhah URLs</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Mishnah Headers & Citations in Talmud Bavli</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Mishnah and Gemara markers (מתני׳ / גמ׳ in Hebrew, Mishnah / Talmud in English) are now styled as distinct section headers with a larger serif font, darker color, and a subtle underline</li>
@@ -247,7 +259,7 @@ export default function Changelog() {
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Yerushalmi: Internal Link Conversion (Sefaria → ChavrutAI)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Sefaria-style relative hrefs in both main text and footnotes are automatically rewritten to ChavrutAI internal links</li>
-                <li><strong>Yerushalmi</strong>: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/Jerusalem_Talmud_Kiddushin.4.2.4</code> → <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/yerushalmi/Kiddushin/4</code></li>
+                <li><strong>Yerushalmi</strong>: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/Jerusalem_Talmud_Kiddushin.4.2.4</code> → <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/yerushalmi/Kiddushin/4.2#4</code></li>
                 <li><strong>Bavli</strong>: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/Berakhot.21a</code> → <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/talmud/Berakhot/21a</code></li>
                 <li><strong>Bible</strong>: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/Deuteronomy.24.1</code> → <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/bible/Deuteronomy/24#1</code> (verse as hash anchor)</li>
                 <li><strong>All other links</strong> (Rashi, Tosefta, Midrash, etc.) → converted to absolute <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">https://www.sefaria.org.il/...</code> links</li>

@@ -475,10 +475,11 @@ function generateServerSideStructuredData(url: string, baseUrl: string): object 
     };
   }
 
-  const yerushalmiChapterMatch = url.match(/^\/yerushalmi\/([^/]+)\/(\d+)$/);
-  if (yerushalmiChapterMatch) {
-    const tractateSlug = yerushalmiChapterMatch[1];
-    const chapter = yerushalmiChapterMatch[2];
+  const yerushalmiHalakhahMatch = url.match(/^\/yerushalmi\/([^/]+)\/(\d+)\.(\d+)$/);
+  if (yerushalmiHalakhahMatch) {
+    const tractateSlug = yerushalmiHalakhahMatch[1];
+    const chapter = yerushalmiHalakhahMatch[2];
+    const halakhah = yerushalmiHalakhahMatch[3];
     const tractateInfo = getYerushalmiTractateInfo(tractateSlug);
     const tractateName = tractateInfo ? tractateInfo.name : tractateSlug.replace(/_/g, ' ');
     return {
@@ -486,10 +487,10 @@ function generateServerSideStructuredData(url: string, baseUrl: string): object 
       "@graph": [
         {
           "@type": "Article",
-          "@id": `${origin}/yerushalmi/${tractateSlug}/${chapter}`,
-          headline: `Jerusalem Talmud ${tractateName} Chapter ${chapter}`,
-          description: `Study Jerusalem Talmud ${tractateName} Chapter ${chapter} with parallel Hebrew-English text (Guggenheimer translation).`,
-          url: `${origin}/yerushalmi/${tractateSlug}/${chapter}`,
+          "@id": `${origin}/yerushalmi/${tractateSlug}/${chapter}.${halakhah}`,
+          headline: `Jerusalem Talmud ${tractateName} ${chapter}:${halakhah}`,
+          description: `Study Jerusalem Talmud ${tractateName} Chapter ${chapter} Halakhah ${halakhah} with parallel Hebrew-English text (Guggenheimer translation).`,
+          url: `${origin}/yerushalmi/${tractateSlug}/${chapter}.${halakhah}`,
           author: { "@id": `${origin}/#organization` },
           publisher: { "@id": `${origin}/#organization` },
           isPartOf: {
@@ -504,7 +505,8 @@ function generateServerSideStructuredData(url: string, baseUrl: string): object 
             { "@type": "ListItem", position: 1, name: "Home", item: `${origin}/` },
             { "@type": "ListItem", position: 2, name: "Jerusalem Talmud", item: `${origin}/yerushalmi` },
             { "@type": "ListItem", position: 3, name: tractateName, item: `${origin}/yerushalmi/${tractateSlug}` },
-            { "@type": "ListItem", position: 4, name: `Chapter ${chapter}`, item: `${origin}/yerushalmi/${tractateSlug}/${chapter}` },
+            { "@type": "ListItem", position: 4, name: `Chapter ${chapter}`, item: `${origin}/yerushalmi/${tractateSlug}/${chapter}.1` },
+            { "@type": "ListItem", position: 5, name: `Halakhah ${halakhah}`, item: `${origin}/yerushalmi/${tractateSlug}/${chapter}.${halakhah}` },
           ],
         },
         organizationNode,
@@ -815,18 +817,18 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
       canonical: `${baseUrl}/yerushalmi`,
       robots: "index, follow"
     };
-  } else if (pathname.match(/^\/yerushalmi\/[^/]+\/\d+$/)) {
+  } else if (pathname.match(/^\/yerushalmi\/[^/]+\/\d+\.\d+$/)) {
     const urlParts = pathname.split('/');
     const tractateSlug = urlParts[2];
-    const chapter = urlParts[3];
+    const [chapter, halakhah] = urlParts[3].split('.');
     const tractateInfo = getYerushalmiTractateInfo(tractateSlug);
     const tractateName = tractateInfo ? tractateInfo.name : tractateSlug.replace(/_/g, ' ');
     seoData = {
-      title: `Jerusalem Talmud ${tractateName} Chapter ${chapter} - Hebrew & English | ChavrutAI`,
-      description: `Study Jerusalem Talmud ${tractateName} Chapter ${chapter} with parallel Hebrew-English text (Guggenheimer translation). Free online on ChavrutAI.`,
-      ogTitle: `Jerusalem Talmud ${tractateName} Chapter ${chapter} - Hebrew & English`,
-      ogDescription: `Read Jerusalem Talmud ${tractateName} Chapter ${chapter} with Hebrew-English text (Guggenheimer) on ChavrutAI.`,
-      canonical: `${baseUrl}/yerushalmi/${tractateSlug}/${chapter}`,
+      title: `Jerusalem Talmud ${tractateName} ${chapter}:${halakhah} - Hebrew & English | ChavrutAI`,
+      description: `Study Jerusalem Talmud ${tractateName} Chapter ${chapter} Halakhah ${halakhah} with parallel Hebrew-English text (Guggenheimer translation). Free online on ChavrutAI.`,
+      ogTitle: `Jerusalem Talmud ${tractateName} ${chapter}:${halakhah} - Hebrew & English`,
+      ogDescription: `Read Jerusalem Talmud ${tractateName} Chapter ${chapter} Halakhah ${halakhah} with Hebrew-English text (Guggenheimer) on ChavrutAI.`,
+      canonical: `${baseUrl}/yerushalmi/${tractateSlug}/${chapter}.${halakhah}`,
       robots: "index, follow"
     };
   } else if (pathname.match(/^\/yerushalmi\/[^/]+$/)) {
@@ -1198,28 +1200,49 @@ async function generateCrawlerBodyContent(urlPath: string, seoData: { title: str
     if (info) {
       nav = `<h3>Chapters</h3><ul>`;
       for (let c = 1; c <= info.chapters; c++) {
-        nav += `<li><a href="/yerushalmi/${safeTractate}/${c}">${escapeHtml(tractateTitle)} Chapter ${c}</a></li>`;
+        nav += `<li><a href="/yerushalmi/${safeTractate}/${c}.1">${escapeHtml(tractateTitle)} Chapter ${c}</a></li>`;
       }
       nav += `</ul>`;
     }
-  } else if (urlPath.match(/^\/yerushalmi\/[^/]+\/\d+$/)) {
+  } else if (urlPath.match(/^\/yerushalmi\/[^/]+\/\d+\.\d+$/)) {
     const parts = urlPath.split('/');
     const tractateSlug = parts[2];
-    const chapter = parseInt(parts[3]);
+    const [chapterStr, halakhahStr] = parts[3].split('.');
+    const chapterNum = parseInt(chapterStr);
+    const halakhahNum = parseInt(halakhahStr);
     const { getYerushalmiTractateInfo } = await import('@shared/yerushalmi-data');
     const info = getYerushalmiTractateInfo(tractateSlug);
     const tractateTitle = info ? info.name : tractateSlug.replace(/_/g, ' ');
     const safeTractate = safeSlug(tractateSlug);
-    heading = `${tractateTitle} Chapter ${chapter} — Jerusalem Talmud`;
-    breadcrumbs = `<nav aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; <a href="/yerushalmi">Jerusalem Talmud</a> &rsaquo; <a href="/yerushalmi/${safeTractate}">${escapeHtml(tractateTitle)}</a> &rsaquo; Chapter ${chapter}</nav>`;
+
+    // Read shape data to know halakhot per chapter (for cross-chapter nav)
+    let halakhotInChapter = 0;
+    let halakhotInPrevChapter = 0;
+    try {
+      const fs = await import('fs');
+      const path = await import('path');
+      const shapesPath = path.join(process.cwd(), 'shared/data/yerushalmi-shapes.json');
+      const shapes: Record<string, number[][]> = JSON.parse(fs.readFileSync(shapesPath, 'utf-8'));
+      if (info) {
+        const tractateShapes = shapes[info.sefaria] ?? [];
+        halakhotInChapter = tractateShapes[chapterNum - 1]?.length ?? 0;
+        halakhotInPrevChapter = chapterNum > 1 ? (tractateShapes[chapterNum - 2]?.length ?? 0) : 0;
+      }
+    } catch {}
+
+    heading = `${tractateTitle} Chapter ${chapterNum} · Halakhah ${halakhahNum} — Jerusalem Talmud`;
+    breadcrumbs = `<nav aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; <a href="/yerushalmi">Jerusalem Talmud</a> &rsaquo; <a href="/yerushalmi/${safeTractate}">${escapeHtml(tractateTitle)}</a> &rsaquo; <a href="/yerushalmi/${safeTractate}/${chapterNum}.1">Chapter ${chapterNum}</a> &rsaquo; Halakhah ${halakhahNum}</nav>`;
     body = `<p>${escapeHtml(seoData.description)}</p>`;
-    const chapterNum = chapter;
     nav = `<nav aria-label="Page navigation">`;
-    if (chapterNum > 1) {
-      nav += `<a href="/yerushalmi/${safeTractate}/${chapterNum - 1}">&larr; Chapter ${chapterNum - 1}</a> `;
+    if (halakhahNum > 1) {
+      nav += `<a href="/yerushalmi/${safeTractate}/${chapterNum}.${halakhahNum - 1}">&larr; ${chapterNum}:${halakhahNum - 1}</a> `;
+    } else if (chapterNum > 1 && halakhotInPrevChapter > 0) {
+      nav += `<a href="/yerushalmi/${safeTractate}/${chapterNum - 1}.${halakhotInPrevChapter}">&larr; ${chapterNum - 1}:${halakhotInPrevChapter}</a> `;
     }
-    if (info && chapterNum < info.chapters) {
-      nav += `<a href="/yerushalmi/${safeTractate}/${chapterNum + 1}">Chapter ${chapterNum + 1} &rarr;</a>`;
+    if (halakhotInChapter > 0 && halakhahNum < halakhotInChapter) {
+      nav += `<a href="/yerushalmi/${safeTractate}/${chapterNum}.${halakhahNum + 1}">${chapterNum}:${halakhahNum + 1} &rarr;</a>`;
+    } else if (info && chapterNum < info.chapters) {
+      nav += `<a href="/yerushalmi/${safeTractate}/${chapterNum + 1}.1">${chapterNum + 1}:1 &rarr;</a>`;
     }
     nav += `</nav>`;
   } else {

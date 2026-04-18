@@ -175,3 +175,12 @@ export function getYerushalmiTractateInfo(nameOrSlug: string): { name: string; c
 export function getYerushalmiTractateSlug(tractate: string): string {
   return tractate.replace(/ /g, '_');
 }
+
+export function parseChapterHalakhah(value: string): { chapter: number; halakhah: number } | null {
+  const match = /^(\d+)\.(\d+)$/.exec(value);
+  if (!match) return null;
+  const chapter = parseInt(match[1], 10);
+  const halakhah = parseInt(match[2], 10);
+  if (isNaN(chapter) || isNaN(halakhah) || chapter < 1 || halakhah < 1) return null;
+  return { chapter, halakhah };
+}

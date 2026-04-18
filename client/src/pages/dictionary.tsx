@@ -196,10 +196,9 @@ export default function Dictionary() {
     });
     YERUSHALMI_LINK_RE.lastIndex = 0;
     result = result.replace(YERUSHALMI_LINK_RE, (_match, tractate, chapter, halakhah, segment) => {
-      const path = `/yerushalmi/${tractate}/${chapter}`;
-      if (halakhah && segment) return `${path}#${halakhah}-${segment}`;
-      if (halakhah) return `${path}#${halakhah}`;
-      return path;
+      const h = halakhah || '1';
+      const path = `/yerushalmi/${tractate}/${chapter}.${h}`;
+      return segment ? `${path}#${segment}` : path;
     });
     MISHNAH_BAVLI_LINK_RE.lastIndex = 0;
     result = result.replace(MISHNAH_BAVLI_LINK_RE, (fullMatch, tractate, chapter, mishnah) => {

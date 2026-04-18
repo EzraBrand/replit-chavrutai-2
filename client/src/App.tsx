@@ -42,7 +42,7 @@ const MishnahTractate = lazy(() => import("@/pages/mishnah-tractate"));
 const MishnahChapterPage = lazy(() => import("@/pages/mishnah-chapter"));
 const YerushalmiContents = lazy(() => import("@/pages/yerushalmi-contents"));
 const YerushalmiTractate = lazy(() => import("@/pages/yerushalmi-tractate"));
-const YerushalmiChapterPage = lazy(() => import("@/pages/yerushalmi-chapter"));
+const YerushalmiHalakhahPage = lazy(() => import("@/pages/yerushalmi-halakhah"));
 const RambamContents = lazy(() => import("@/pages/rambam-contents"));
 const RambamTractate = lazy(() => import("@/pages/rambam-tractate"));
 const RambamChapterPage = lazy(() => import("@/pages/rambam-chapter"));
@@ -121,7 +121,7 @@ function Router() {
       <Route path="/mishnah/:tractate/:chapter" component={MishnahChapterPage} />
       <Route path="/yerushalmi" component={YerushalmiContents} />
       <Route path="/yerushalmi/:tractate" component={YerushalmiTractate} />
-      <Route path="/yerushalmi/:tractate/:chapter" component={YerushalmiChapterPage} />
+      <Route path="/yerushalmi/:tractate/:chapterHalakhah" component={YerushalmiHalakhahPage} />
       <Route path="/rambam" component={RambamContents} />
       <Route path="/rambam/:hilchot" component={RambamTractate} />
       <Route path="/rambam/:hilchot/:chapter" component={RambamChapterPage} />

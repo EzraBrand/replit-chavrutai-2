@@ -65,6 +65,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
     }
     
+    const yerushalmiOldChapterMatch = canonicalUrl.match(/^\/yerushalmi\/([^/]+)\/(\d+)$/);
+    if (yerushalmiOldChapterMatch) {
+      const [, tractate, chapter] = yerushalmiOldChapterMatch;
+      canonicalUrl = `/yerushalmi/${tractate}/${chapter}.1`;
+      needsRedirect = true;
+    }
+    
     if (canonicalUrl === '/contents') {
       canonicalUrl = '/talmud';
       needsRedirect = true;
@@ -116,7 +123,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/mishnah/:tractate/:chapter', servePageWithMeta);
   app.get('/yerushalmi', servePageWithMeta);
   app.get('/yerushalmi/:tractate', servePageWithMeta);
-  app.get('/yerushalmi/:tractate/:chapter', servePageWithMeta);
+  app.get('/yerushalmi/:tractate/:chapterHalakhah', servePageWithMeta);
   app.get('/rambam', servePageWithMeta);
   app.get('/rambam/:hilchot', servePageWithMeta);
   app.get('/rambam/:hilchot/:chapter', servePageWithMeta);
