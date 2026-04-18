@@ -7,8 +7,6 @@ import { useSEO } from "@/hooks/use-seo";
 import { BreadcrumbNavigation } from "@/components/navigation/breadcrumb-navigation";
 import {
   YERUSHALMI_HEBREW_NAMES,
-  isMissingYerushalmiHalakhah,
-  firstValidHalakhahInChapter,
   normalizeYerushalmiTractateName,
   isValidYerushalmiTractate,
   getYerushalmiTractateInfo,
@@ -93,19 +91,14 @@ export default function YerushalmiTractate() {
         <div className="grid grid-cols-1 gap-6 max-w-none sm:max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-3xl mx-auto">
           {Array.from({ length: tractateInfo.chapters }, (_, i) => i + 1).map((chapterNum) => {
             const chapterShape: number[] = shapes[chapterNum - 1] ?? [];
-            const totalCount = chapterShape.length;
-            const validHalakhot = chapterShape
-              .map((_, idx) => idx + 1)
-              .filter((h) => !isMissingYerushalmiHalakhah(tractateDisplayName, chapterNum, h));
-            const halakhotCount = validHalakhot.length;
-            const firstValid = firstValidHalakhahInChapter(tractateDisplayName, chapterNum, totalCount) ?? 1;
+            const halakhotCount = chapterShape.length;
 
             return (
               <Card key={chapterNum} className="hover:shadow-lg transition-shadow duration-200">
                 <CardContent className="p-6">
                   <div className="mb-3">
                     <h3 className="text-xl text-primary mb-1">
-                      <Link href={`/yerushalmi/${tractateSlug}/${chapterNum}.${firstValid}`} className="hover:underline">
+                      <Link href={`/yerushalmi/${tractateSlug}/${chapterNum}.1`} className="hover:underline">
                         Chapter {chapterNum}
                       </Link>
                     </h3>
@@ -118,14 +111,14 @@ export default function YerushalmiTractate() {
 
                   {halakhotCount > 0 && (
                     <div className="flex flex-wrap items-center gap-1.5">
-                      {validHalakhot.map((h) => (
+                      {chapterShape.map((_, halIdx) => (
                         <Link
-                          key={h}
-                          href={`/yerushalmi/${tractateSlug}/${chapterNum}.${h}`}
+                          key={halIdx}
+                          href={`/yerushalmi/${tractateSlug}/${chapterNum}.${halIdx + 1}`}
                           className="inline-flex items-center justify-center w-8 h-8 rounded border border-border bg-secondary/50 text-secondary-foreground hover:bg-primary hover:text-primary-foreground hover:border-primary transition-colors text-sm font-medium"
-                          title={`Halakhah ${h}`}
+                          title={`Halakhah ${halIdx + 1}`}
                         >
-                          {h}
+                          {halIdx + 1}
                         </Link>
                       ))}
                     </div>

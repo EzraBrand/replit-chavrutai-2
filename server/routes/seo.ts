@@ -1233,26 +1233,16 @@ async function generateCrawlerBodyContent(urlPath: string, seoData: { title: str
     heading = `${tractateTitle} Chapter ${chapterNum} · Halakhah ${halakhahNum} — Jerusalem Talmud`;
     breadcrumbs = `<nav aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; <a href="/yerushalmi">Jerusalem Talmud</a> &rsaquo; <a href="/yerushalmi/${safeTractate}">${escapeHtml(tractateTitle)}</a> &rsaquo; <a href="/yerushalmi/${safeTractate}/${chapterNum}.1">Chapter ${chapterNum}</a> &rsaquo; Halakhah ${halakhahNum}</nav>`;
     body = `<p>${escapeHtml(seoData.description)}</p>`;
-    const { prevValidHalakhahInChapter, nextValidHalakhahInChapter, firstValidHalakhahInChapter, lastValidHalakhahInChapter } = await import('@shared/yerushalmi-data');
-    const tractateName = info?.name ?? safeTractate;
     nav = `<nav aria-label="Page navigation">`;
-    const prevH = prevValidHalakhahInChapter(tractateName, chapterNum, halakhahNum);
-    if (prevH !== null) {
-      nav += `<a href="/yerushalmi/${safeTractate}/${chapterNum}.${prevH}">&larr; ${chapterNum}:${prevH}</a> `;
+    if (halakhahNum > 1) {
+      nav += `<a href="/yerushalmi/${safeTractate}/${chapterNum}.${halakhahNum - 1}">&larr; ${chapterNum}:${halakhahNum - 1}</a> `;
     } else if (chapterNum > 1 && halakhotInPrevChapter > 0) {
-      const lastInPrev = lastValidHalakhahInChapter(tractateName, chapterNum - 1, halakhotInPrevChapter);
-      if (lastInPrev !== null) {
-        nav += `<a href="/yerushalmi/${safeTractate}/${chapterNum - 1}.${lastInPrev}">&larr; ${chapterNum - 1}:${lastInPrev}</a> `;
-      }
+      nav += `<a href="/yerushalmi/${safeTractate}/${chapterNum - 1}.${halakhotInPrevChapter}">&larr; ${chapterNum - 1}:${halakhotInPrevChapter}</a> `;
     }
-    const nextH = halakhotInChapter > 0
-      ? nextValidHalakhahInChapter(tractateName, chapterNum, halakhahNum, halakhotInChapter)
-      : null;
-    if (nextH !== null) {
-      nav += `<a href="/yerushalmi/${safeTractate}/${chapterNum}.${nextH}">${chapterNum}:${nextH} &rarr;</a>`;
+    if (halakhotInChapter > 0 && halakhahNum < halakhotInChapter) {
+      nav += `<a href="/yerushalmi/${safeTractate}/${chapterNum}.${halakhahNum + 1}">${chapterNum}:${halakhahNum + 1} &rarr;</a>`;
     } else if (info && chapterNum < info.chapters) {
-      const firstInNext = firstValidHalakhahInChapter(tractateName, chapterNum + 1, 99) ?? 1;
-      nav += `<a href="/yerushalmi/${safeTractate}/${chapterNum + 1}.${firstInNext}">${chapterNum + 1}:${firstInNext} &rarr;</a>`;
+      nav += `<a href="/yerushalmi/${safeTractate}/${chapterNum + 1}.1">${chapterNum + 1}:1 &rarr;</a>`;
     }
     nav += `</nav>`;
   } else {

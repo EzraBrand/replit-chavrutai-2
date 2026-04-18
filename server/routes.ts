@@ -2,7 +2,6 @@ import express, { type Express } from "express";
 import { createServer, type Server } from "http";
 import path from "path";
 import { getTractateSlug } from "@shared/tractates";
-import { normalizeYerushalmiTractateName, isMissingYerushalmiHalakhah } from "@shared/yerushalmi-data";
 import { generateSitemapIndex } from "./routes/sitemap-index";
 import { generateMainSitemap } from "./routes/sitemap-main";
 import { generateSederSitemap } from "./routes/sitemap-seder";
@@ -71,19 +70,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const [, tractate, chapter] = yerushalmiOldChapterMatch;
       canonicalUrl = `/yerushalmi/${tractate}/${chapter}.1`;
       needsRedirect = true;
-    }
-
-    // Skip missing yerushalmi halakhot (e.g. Ketubot 4.5 → 4.6)
-    const yerushalmiHalakhahMatch = canonicalUrl.match(/^\/yerushalmi\/([^/]+)\/(\d+)\.(\d+)$/);
-    if (yerushalmiHalakhahMatch) {
-      const [, tractateSlug, chapterStr, halakhahStr] = yerushalmiHalakhahMatch;
-      const displayName = normalizeYerushalmiTractateName(tractateSlug);
-      const chapter = parseInt(chapterStr, 10);
-      const halakhah = parseInt(halakhahStr, 10);
-      if (displayName && isMissingYerushalmiHalakhah(displayName, chapter, halakhah)) {
-        canonicalUrl = `/yerushalmi/${tractateSlug}/${chapter}.${halakhah + 1}`;
-        needsRedirect = true;
-      }
     }
     
     if (canonicalUrl === '/contents') {

@@ -18,10 +18,6 @@ import {
   getYerushalmiTractateSlug,
   YERUSHALMI_HEBREW_NAMES,
   parseChapterHalakhah,
-  prevValidHalakhahInChapter,
-  nextValidHalakhahInChapter,
-  firstValidHalakhahInChapter,
-  lastValidHalakhahInChapter,
 } from "@shared/yerushalmi-data";
 import type { TalmudLocation } from "@/types/talmud";
 import NotFound from "@/pages/not-found";
@@ -259,36 +255,28 @@ export default function YerushalmiHalakhah() {
     }
     const shapes = shapeData?.shapes ?? [];
     const halakhotInCurrent = textData?.totalHalakhotInChapter ?? shapes[chapterNum - 1]?.length ?? 0;
-    const tractateName = tractateInfo.name;
 
     let prev: string | null = null;
     let prevLbl = '';
-    const prevH = prevValidHalakhahInChapter(tractateName, chapterNum, halakhahNum);
-    if (prevH !== null) {
-      prev = `/yerushalmi/${tractateSlug}/${chapterNum}.${prevH}`;
-      prevLbl = `${chapterNum}:${prevH}`;
+    if (halakhahNum > 1) {
+      prev = `/yerushalmi/${tractateSlug}/${chapterNum}.${halakhahNum - 1}`;
+      prevLbl = `${chapterNum}:${halakhahNum - 1}`;
     } else if (chapterNum > 1) {
       const prevChCount = shapes[chapterNum - 2]?.length ?? 0;
-      const lastInPrev = lastValidHalakhahInChapter(tractateName, chapterNum - 1, prevChCount);
-      if (lastInPrev !== null) {
-        prev = `/yerushalmi/${tractateSlug}/${chapterNum - 1}.${lastInPrev}`;
-        prevLbl = `${chapterNum - 1}:${lastInPrev}`;
+      if (prevChCount > 0) {
+        prev = `/yerushalmi/${tractateSlug}/${chapterNum - 1}.${prevChCount}`;
+        prevLbl = `${chapterNum - 1}:${prevChCount}`;
       }
     }
 
     let next: string | null = null;
     let nextLbl = '';
-    const nextH = halakhotInCurrent > 0
-      ? nextValidHalakhahInChapter(tractateName, chapterNum, halakhahNum, halakhotInCurrent)
-      : null;
-    if (nextH !== null) {
-      next = `/yerushalmi/${tractateSlug}/${chapterNum}.${nextH}`;
-      nextLbl = `${chapterNum}:${nextH}`;
+    if (halakhotInCurrent > 0 && halakhahNum < halakhotInCurrent) {
+      next = `/yerushalmi/${tractateSlug}/${chapterNum}.${halakhahNum + 1}`;
+      nextLbl = `${chapterNum}:${halakhahNum + 1}`;
     } else if (chapterNum < tractateInfo.chapters) {
-      const nextChCount = shapes[chapterNum]?.length ?? 0;
-      const firstInNext = firstValidHalakhahInChapter(tractateName, chapterNum + 1, nextChCount) ?? 1;
-      next = `/yerushalmi/${tractateSlug}/${chapterNum + 1}.${firstInNext}`;
-      nextLbl = `${chapterNum + 1}:${firstInNext}`;
+      next = `/yerushalmi/${tractateSlug}/${chapterNum + 1}.1`;
+      nextLbl = `${chapterNum + 1}:1`;
     }
 
     return { prevHref: prev, nextHref: next, prevLabel: prevLbl, nextLabel: nextLbl };
