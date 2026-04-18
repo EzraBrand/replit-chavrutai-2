@@ -176,6 +176,55 @@ export function getYerushalmiTractateSlug(tractate: string): string {
   return tractate.replace(/ /g, '_');
 }
 
+// Halakhot that exist in Sefaria's data but contain no actual text.
+// Keyed by display tractate name -> chapter -> list of missing halakhah numbers.
+// The website / sitemap / nav skip these, so e.g. Ketubot 4 jumps from 4.4 to 4.6.
+export const YERUSHALMI_MISSING_HALAKHOT: Record<string, Record<number, number[]>> = {
+  Ketubot: { 4: [5] },
+};
+
+export function isMissingYerushalmiHalakhah(tractate: string, chapter: number, halakhah: number): boolean {
+  return (YERUSHALMI_MISSING_HALAKHOT[tractate]?.[chapter] ?? []).includes(halakhah);
+}
+
+// Given a chapter's total halakhah count, return the sorted list of halakhah numbers
+// that actually have content (skipping any in YERUSHALMI_MISSING_HALAKHOT).
+export function getValidYerushalmiHalakhot(tractate: string, chapter: number, totalCount: number): number[] {
+  const missing = new Set(YERUSHALMI_MISSING_HALAKHOT[tractate]?.[chapter] ?? []);
+  const out: number[] = [];
+  for (let h = 1; h <= totalCount; h++) {
+    if (!missing.has(h)) out.push(h);
+  }
+  return out;
+}
+
+// Find the next/previous valid halakhah number within a chapter, skipping missing ones.
+// Returns null if none in this chapter.
+export function nextValidHalakhahInChapter(tractate: string, chapter: number, halakhah: number, totalCount: number): number | null {
+  const missing = new Set(YERUSHALMI_MISSING_HALAKHOT[tractate]?.[chapter] ?? []);
+  for (let h = halakhah + 1; h <= totalCount; h++) {
+    if (!missing.has(h)) return h;
+  }
+  return null;
+}
+
+export function prevValidHalakhahInChapter(tractate: string, chapter: number, halakhah: number): number | null {
+  const missing = new Set(YERUSHALMI_MISSING_HALAKHOT[tractate]?.[chapter] ?? []);
+  for (let h = halakhah - 1; h >= 1; h--) {
+    if (!missing.has(h)) return h;
+  }
+  return null;
+}
+
+// First / last valid halakhah in a chapter (used when crossing chapter boundaries).
+export function firstValidHalakhahInChapter(tractate: string, chapter: number, totalCount: number): number | null {
+  return nextValidHalakhahInChapter(tractate, chapter, 0, totalCount);
+}
+
+export function lastValidHalakhahInChapter(tractate: string, chapter: number, totalCount: number): number | null {
+  return prevValidHalakhahInChapter(tractate, chapter, totalCount + 1);
+}
+
 export function parseChapterHalakhah(value: string): { chapter: number; halakhah: number } | null {
   const match = /^(\d+)\.(\d+)$/.exec(value);
   if (!match) return null;
