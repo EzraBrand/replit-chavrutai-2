@@ -48,3 +48,9 @@ id = "MNyNTK1DX67pnmjwvnn9B"
 uri = "file://docs/text-processing-refactor-brainstorm.md"
 type = "text"
 title = "Text Processing Refactor — Research & Ideas"
+
+[[outputs]]
+id = "SR5U9gxzFpkz9VVNq-G4R"
+uri = "file://drafts/yerushalmi-longest-shortest.md"
+type = "text"
+title = "Draft: The Longest and Shortest Sugyot in the Talmud Yerushalmi"

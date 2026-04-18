@@ -100,3 +100,6 @@ artifacts/scripts/blogpost-longest-chapters.md
 
 # PDF files
 *.pdf
+
+# Draft blog posts
+drafts/
