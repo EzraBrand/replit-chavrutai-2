@@ -72,6 +72,25 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Yerushalmi: Hide Mishnayot Without Gemara</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Identified <strong>49 mishnayot</strong> across the Yerushalmi that have no Talmudic discussion (or only an untranslated French rendering of the bare Mishnah) and removed them from the site</li>
+                <li>Affected sections: all of <strong>Shabbat chapters 21–24</strong>, all of <strong>Makkot chapter 3</strong>, <strong>Niddah 4:2 onward</strong>, <strong>Ketubot 4:5</strong>, and ten scattered Yevamot halakhot (2:5, 4:5, 4:6, 4:14, 5:5, 5:7, 7:2, 8:4, 9:6, 9:7)</li>
+                <li>Prev/Next navigation now skips these halakhot and jumps directly to the next valid one — across chapter and (where relevant) tractate boundaries</li>
+                <li>Tractate page hides missing halakhot from the chapter pill grid; chapters that have no Yerushalmi text at all show "No Yerushalmi text for this chapter (Mishnah only)" and the chapter title is no longer a link</li>
+                <li>Old chapter URLs for fully-missing chapters (e.g. <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/yerushalmi/Shabbat/21</code>) now 301-redirect to the tractate page instead of a dead halakhah</li>
+                <li>Sitemap, structured data (JSON-LD), and crawler HTML no longer include these missing halakhot; direct visits return a Not Found page with <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">noindex</code></li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Yerushalmi: Wikisource Spelling Fix for Niddah</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>The Wikisource link for tractate Niddah now uses the spelling <strong>נידה</strong> (with yud) that Wikisource uses in its page titles, instead of the <strong>נדה</strong> spelling we display elsewhere on the site</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Yerushalmi: Per-Halakhah Pages</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Jerusalem Talmud pages are now scoped to a single <strong>halakhah</strong> instead of an entire chapter, matching how the text is studied and cited</li>
