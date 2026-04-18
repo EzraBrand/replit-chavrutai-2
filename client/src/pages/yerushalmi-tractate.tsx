@@ -12,6 +12,10 @@ import {
   getYerushalmiTractateInfo,
   getYerushalmiTractateSlug,
 } from "@shared/yerushalmi-data";
+import {
+  isYerushalmiHalakhahMissing,
+  findFirstValidHalakhahInChapter,
+} from "@shared/yerushalmi-missing";
 import NotFound from "@/pages/not-found";
 
 
@@ -92,33 +96,47 @@ export default function YerushalmiTractate() {
           {Array.from({ length: tractateInfo.chapters }, (_, i) => i + 1).map((chapterNum) => {
             const chapterShape: number[] = shapes[chapterNum - 1] ?? [];
             const halakhotCount = chapterShape.length;
+            const validHalakhot = chapterShape
+              .map((_, idx) => idx + 1)
+              .filter((h) => !isYerushalmiHalakhahMissing(tractateDisplayName, chapterNum, h));
+            const validCount = validHalakhot.length;
+            const firstValid = findFirstValidHalakhahInChapter(tractateDisplayName, chapterNum, shapes);
 
             return (
               <Card key={chapterNum} className="hover:shadow-lg transition-shadow duration-200">
                 <CardContent className="p-6">
                   <div className="mb-3">
                     <h3 className="text-xl text-primary mb-1">
-                      <Link href={`/yerushalmi/${tractateSlug}/${chapterNum}.1`} className="hover:underline">
-                        Chapter {chapterNum}
-                      </Link>
+                      {firstValid ? (
+                        <Link href={`/yerushalmi/${tractateSlug}/${chapterNum}.${firstValid}`} className="hover:underline">
+                          Chapter {chapterNum}
+                        </Link>
+                      ) : (
+                        <span>Chapter {chapterNum}</span>
+                      )}
                     </h3>
-                    {halakhotCount > 0 && (
+                    {halakhotCount > 0 && validCount > 0 && (
                       <p className="text-xs text-muted-foreground">
-                        {halakhotCount} {halakhotCount === 1 ? "halakhah" : "halakhot"}
+                        {validCount} {validCount === 1 ? "halakhah" : "halakhot"}
+                      </p>
+                    )}
+                    {halakhotCount > 0 && validCount === 0 && (
+                      <p className="text-xs text-muted-foreground italic">
+                        No Yerushalmi text for this chapter (Mishnah only)
                       </p>
                     )}
                   </div>
 
-                  {halakhotCount > 0 && (
+                  {validCount > 0 && (
                     <div className="flex flex-wrap items-center gap-1.5">
-                      {chapterShape.map((_, halIdx) => (
+                      {validHalakhot.map((halNum) => (
                         <Link
-                          key={halIdx}
-                          href={`/yerushalmi/${tractateSlug}/${chapterNum}.${halIdx + 1}`}
+                          key={halNum}
+                          href={`/yerushalmi/${tractateSlug}/${chapterNum}.${halNum}`}
                           className="inline-flex items-center justify-center w-8 h-8 rounded border border-border bg-secondary/50 text-secondary-foreground hover:bg-primary hover:text-primary-foreground hover:border-primary transition-colors text-sm font-medium"
-                          title={`Halakhah ${halIdx + 1}`}
+                          title={`Halakhah ${halNum}`}
                         >
-                          {halIdx + 1}
+                          {halNum}
                         </Link>
                       ))}
                     </div>

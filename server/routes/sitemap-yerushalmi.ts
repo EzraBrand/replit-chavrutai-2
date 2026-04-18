@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import fs from 'fs';
 import path from 'path';
 import { YERUSHALMI_TRACTATES, getYerushalmiTractateSlug } from '@shared/yerushalmi-data';
+import { isYerushalmiHalakhahMissing } from '@shared/yerushalmi-missing';
 
 let yerushalmiShapesData: Record<string, number[][]> = {};
 try {
@@ -59,6 +60,7 @@ export function generateYerushalmiSitemap(req: Request, res: Response) {
       for (let chapter = 1; chapter <= tractate.chapters; chapter++) {
         const halakhotCount = chapterShapes[chapter - 1]?.length ?? 0;
         for (let halakhah = 1; halakhah <= halakhotCount; halakhah++) {
+          if (isYerushalmiHalakhahMissing(tractate.name, chapter, halakhah)) continue;
           totalHalakhot++;
           sitemap += `
   <url>

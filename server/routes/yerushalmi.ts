@@ -3,6 +3,7 @@ import fs from "fs";
 import path from "path";
 import { getYerushalmiTractateInfo, YERUSHALMI_TRACTATES } from "@shared/yerushalmi-data";
 import { processHebrewTextCore as processHebrewText, processEnglishText } from "@shared/text-processing";
+import { isYerushalmiHalakhahMissing } from "@shared/yerushalmi-missing";
 
 const sefariaAPIBaseURL = "https://www.sefaria.org/api";
 
@@ -132,6 +133,11 @@ export function createYerushalmiRouter(): Router {
       const totalHalakhotInChapter = halakhotSegmentCounts.length;
       if (halakhahNum > totalHalakhotInChapter) {
         res.status(404).json({ error: `Halakhah ${halakhahNum} does not exist in ${tractateInfo.name} chapter ${chapterNum} (max: ${totalHalakhotInChapter})` });
+        return;
+      }
+
+      if (isYerushalmiHalakhahMissing(tractateInfo.name, chapterNum, halakhahNum)) {
+        res.status(404).json({ error: `${tractateInfo.name} ${chapterNum}.${halakhahNum} has no Yerushalmi text (Mishnah only or untranslated).` });
         return;
       }
 

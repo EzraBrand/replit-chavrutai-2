@@ -23,6 +23,11 @@ import type { TalmudLocation } from "@/types/talmud";
 import NotFound from "@/pages/not-found";
 import { apiRequest } from "@/lib/queryClient";
 import { getYerushalmiHalakhahLinks } from "@/lib/yerushalmi-external-links";
+import {
+  isYerushalmiHalakhahMissing,
+  findNextValidYerushalmiHalakhah,
+  findPrevValidYerushalmiHalakhah,
+} from "@shared/yerushalmi-missing";
 
 interface YerushalmiHalakhahData {
   tractate: string;
@@ -132,6 +137,8 @@ export default function YerushalmiHalakhah() {
 
   const isInvalidTractate = tractate && !isValidYerushalmiTractate(tractate);
   const isInvalidChapterHalakhah = !parsed || (tractateInfo && (chapterNum < 1 || chapterNum > tractateInfo.chapters));
+  const isMissingHalakhah = !!tractateDisplayName && !isNaN(chapterNum) && !isNaN(halakhahNum) &&
+    isYerushalmiHalakhahMissing(tractateDisplayName, chapterNum, halakhahNum);
 
   const hebrewName = tractateDisplayName ? (YERUSHALMI_HEBREW_NAMES[tractateDisplayName] || tractateDisplayName) : "";
   const tractateSlug = tractateDisplayName ? getYerushalmiTractateSlug(tractateDisplayName) : "";
@@ -211,7 +218,7 @@ export default function YerushalmiHalakhah() {
       const response = await apiRequest('GET', `/api/yerushalmi/${encodeURIComponent(tractateSlug)}/${chapterNum}/${halakhahNum}`);
       return response.json();
     },
-    enabled: !isInvalidTractate && !isInvalidChapterHalakhah && !!tractateDisplayName && !isNaN(chapterNum) && !isNaN(halakhahNum),
+    enabled: !isInvalidTractate && !isInvalidChapterHalakhah && !isMissingHalakhah && !!tractateDisplayName && !isNaN(chapterNum) && !isNaN(halakhahNum),
   });
 
   // Fetch shape for cross-chapter navigation
@@ -248,39 +255,26 @@ export default function YerushalmiHalakhah() {
     });
   }, [textData, applyHighlighting]);
 
-  // Cross-chapter prev/next navigation
+  // Cross-chapter prev/next navigation (skips halakhot that have no Yerushalmi text)
   const { prevHref, nextHref, prevLabel, nextLabel } = useMemo(() => {
-    if (!tractateSlug || isNaN(chapterNum) || isNaN(halakhahNum) || !tractateInfo) {
+    if (!tractateSlug || !tractateDisplayName || isNaN(chapterNum) || isNaN(halakhahNum) || !tractateInfo) {
       return { prevHref: null as string | null, nextHref: null as string | null, prevLabel: '', nextLabel: '' };
     }
     const shapes = shapeData?.shapes ?? [];
-    const halakhotInCurrent = textData?.totalHalakhotInChapter ?? shapes[chapterNum - 1]?.length ?? 0;
-
-    let prev: string | null = null;
-    let prevLbl = '';
-    if (halakhahNum > 1) {
-      prev = `/yerushalmi/${tractateSlug}/${chapterNum}.${halakhahNum - 1}`;
-      prevLbl = `${chapterNum}:${halakhahNum - 1}`;
-    } else if (chapterNum > 1) {
-      const prevChCount = shapes[chapterNum - 2]?.length ?? 0;
-      if (prevChCount > 0) {
-        prev = `/yerushalmi/${tractateSlug}/${chapterNum - 1}.${prevChCount}`;
-        prevLbl = `${chapterNum - 1}:${prevChCount}`;
-      }
+    if (shapes.length === 0) {
+      return { prevHref: null as string | null, nextHref: null as string | null, prevLabel: '', nextLabel: '' };
     }
 
-    let next: string | null = null;
-    let nextLbl = '';
-    if (halakhotInCurrent > 0 && halakhahNum < halakhotInCurrent) {
-      next = `/yerushalmi/${tractateSlug}/${chapterNum}.${halakhahNum + 1}`;
-      nextLbl = `${chapterNum}:${halakhahNum + 1}`;
-    } else if (chapterNum < tractateInfo.chapters) {
-      next = `/yerushalmi/${tractateSlug}/${chapterNum + 1}.1`;
-      nextLbl = `${chapterNum + 1}:1`;
-    }
+    const prevTarget = findPrevValidYerushalmiHalakhah(tractateDisplayName, chapterNum, halakhahNum, shapes);
+    const nextTarget = findNextValidYerushalmiHalakhah(tractateDisplayName, chapterNum, halakhahNum, shapes);
 
-    return { prevHref: prev, nextHref: next, prevLabel: prevLbl, nextLabel: nextLbl };
-  }, [tractateSlug, chapterNum, halakhahNum, tractateInfo, shapeData, textData]);
+    return {
+      prevHref: prevTarget ? `/yerushalmi/${tractateSlug}/${prevTarget.chapter}.${prevTarget.halakhah}` : null,
+      nextHref: nextTarget ? `/yerushalmi/${tractateSlug}/${nextTarget.chapter}.${nextTarget.halakhah}` : null,
+      prevLabel: prevTarget ? `${prevTarget.chapter}:${prevTarget.halakhah}` : '',
+      nextLabel: nextTarget ? `${nextTarget.chapter}:${nextTarget.halakhah}` : '',
+    };
+  }, [tractateSlug, tractateDisplayName, chapterNum, halakhahNum, tractateInfo, shapeData]);
 
   const handleLocationChange = (_newLocation: TalmudLocation) => {
     setLocation('/');
@@ -459,7 +453,7 @@ export default function YerushalmiHalakhah() {
     return () => container.removeEventListener('copy', handleCopy as EventListener);
   }, [textData]);
 
-  if (isInvalidTractate || isInvalidChapterHalakhah) {
+  if (isInvalidTractate || isInvalidChapterHalakhah || isMissingHalakhah) {
     return <NotFound />;
   }
 

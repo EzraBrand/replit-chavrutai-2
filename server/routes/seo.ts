@@ -5,6 +5,13 @@ import { storage } from "../storage";
 import { normalizeSefariaTractateName, normalizeDisplayTractateName, getTractateSlug } from "@shared/tractates";
 import { getMishnahTractateInfo } from "@shared/tractates";
 import { getYerushalmiTractateInfo } from "@shared/yerushalmi-data";
+import {
+  isYerushalmiHalakhahMissing,
+  isYerushalmiChapterEmpty,
+  findFirstValidHalakhahInChapter,
+  findPrevValidYerushalmiHalakhah,
+  findNextValidYerushalmiHalakhah,
+} from "@shared/yerushalmi-missing";
 import { getRambamHilchotInfo, RAMBAM_BOOKS } from "@shared/rambam-data";
 import { getBookBySlug } from "@shared/bible-books";
 
@@ -482,6 +489,9 @@ function generateServerSideStructuredData(url: string, baseUrl: string): object 
     const halakhah = yerushalmiHalakhahMatch[3];
     const tractateInfo = getYerushalmiTractateInfo(tractateSlug);
     const tractateName = tractateInfo ? tractateInfo.name : tractateSlug.replace(/_/g, ' ');
+    if (tractateInfo && isYerushalmiHalakhahMissing(tractateInfo.name, parseInt(chapter, 10), parseInt(halakhah, 10))) {
+      return null;
+    }
     return {
       "@context": "https://schema.org",
       "@graph": [
@@ -823,13 +833,16 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
     const [chapter, halakhah] = urlParts[3].split('.');
     const tractateInfo = getYerushalmiTractateInfo(tractateSlug);
     const tractateName = tractateInfo ? tractateInfo.name : tractateSlug.replace(/_/g, ' ');
+    const missing = tractateInfo
+      ? isYerushalmiHalakhahMissing(tractateInfo.name, parseInt(chapter, 10), parseInt(halakhah, 10))
+      : false;
     seoData = {
       title: `Jerusalem Talmud ${tractateName} ${chapter}:${halakhah} - Hebrew & English | ChavrutAI`,
       description: `Study Jerusalem Talmud ${tractateName} Chapter ${chapter} Halakhah ${halakhah} with parallel Hebrew-English text (Guggenheimer translation). Free online on ChavrutAI.`,
       ogTitle: `Jerusalem Talmud ${tractateName} ${chapter}:${halakhah} - Hebrew & English`,
       ogDescription: `Read Jerusalem Talmud ${tractateName} Chapter ${chapter} Halakhah ${halakhah} with Hebrew-English text (Guggenheimer) on ChavrutAI.`,
       canonical: `${baseUrl}/yerushalmi/${tractateSlug}/${chapter}.${halakhah}`,
-      robots: "index, follow"
+      robots: missing ? "noindex, follow" : "index, follow"
     };
   } else if (pathname.match(/^\/yerushalmi\/[^/]+$/)) {
     const tractateSlug = pathname.split('/')[2];
@@ -1198,9 +1211,19 @@ async function generateCrawlerBodyContent(urlPath: string, seoData: { title: str
     breadcrumbs = `<nav aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; <a href="/yerushalmi">Jerusalem Talmud</a> &rsaquo; ${escapeHtml(tractateTitle)}</nav>`;
     body = `<p>${escapeHtml(seoData.description)}</p>`;
     if (info) {
+      let chapterShapes: number[][] = [];
+      try {
+        const fs = await import('fs');
+        const path = await import('path');
+        const shapesPath = path.join(process.cwd(), 'shared/data/yerushalmi-shapes.json');
+        const shapes: Record<string, number[][]> = JSON.parse(fs.readFileSync(shapesPath, 'utf-8'));
+        chapterShapes = shapes[info.sefaria] ?? [];
+      } catch {}
       nav = `<h3>Chapters</h3><ul>`;
       for (let c = 1; c <= info.chapters; c++) {
-        nav += `<li><a href="/yerushalmi/${safeTractate}/${c}.1">${escapeHtml(tractateTitle)} Chapter ${c}</a></li>`;
+        const firstValid = findFirstValidHalakhahInChapter(info.name, c, chapterShapes);
+        if (firstValid === null) continue;
+        nav += `<li><a href="/yerushalmi/${safeTractate}/${c}.${firstValid}">${escapeHtml(tractateTitle)} Chapter ${c}</a></li>`;
       }
       nav += `</ul>`;
     }
@@ -1216,33 +1239,36 @@ async function generateCrawlerBodyContent(urlPath: string, seoData: { title: str
     const safeTractate = safeSlug(tractateSlug);
 
     // Read shape data to know halakhot per chapter (for cross-chapter nav)
-    let halakhotInChapter = 0;
-    let halakhotInPrevChapter = 0;
+    let tractateShapes: number[][] = [];
     try {
       const fs = await import('fs');
       const path = await import('path');
       const shapesPath = path.join(process.cwd(), 'shared/data/yerushalmi-shapes.json');
       const shapes: Record<string, number[][]> = JSON.parse(fs.readFileSync(shapesPath, 'utf-8'));
-      if (info) {
-        const tractateShapes = shapes[info.sefaria] ?? [];
-        halakhotInChapter = tractateShapes[chapterNum - 1]?.length ?? 0;
-        halakhotInPrevChapter = chapterNum > 1 ? (tractateShapes[chapterNum - 2]?.length ?? 0) : 0;
-      }
+      if (info) tractateShapes = shapes[info.sefaria] ?? [];
     } catch {}
 
+    const isMissing = info ? isYerushalmiHalakhahMissing(info.name, chapterNum, halakhahNum) : false;
+    const chapterFirstValid = info ? findFirstValidHalakhahInChapter(info.name, chapterNum, tractateShapes) : null;
+    const chapterLink = chapterFirstValid !== null
+      ? `<a href="/yerushalmi/${safeTractate}/${chapterNum}.${chapterFirstValid}">Chapter ${chapterNum}</a>`
+      : `Chapter ${chapterNum}`;
+
     heading = `${tractateTitle} Chapter ${chapterNum} · Halakhah ${halakhahNum} — Jerusalem Talmud`;
-    breadcrumbs = `<nav aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; <a href="/yerushalmi">Jerusalem Talmud</a> &rsaquo; <a href="/yerushalmi/${safeTractate}">${escapeHtml(tractateTitle)}</a> &rsaquo; <a href="/yerushalmi/${safeTractate}/${chapterNum}.1">Chapter ${chapterNum}</a> &rsaquo; Halakhah ${halakhahNum}</nav>`;
-    body = `<p>${escapeHtml(seoData.description)}</p>`;
+    breadcrumbs = `<nav aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; <a href="/yerushalmi">Jerusalem Talmud</a> &rsaquo; <a href="/yerushalmi/${safeTractate}">${escapeHtml(tractateTitle)}</a> &rsaquo; ${chapterLink} &rsaquo; Halakhah ${halakhahNum}</nav>`;
+    body = isMissing
+      ? `<p>This halakhah has no Yerushalmi gemara (Mishnah only or untranslated) and is not part of the Jerusalem Talmud reader.</p>`
+      : `<p>${escapeHtml(seoData.description)}</p>`;
     nav = `<nav aria-label="Page navigation">`;
-    if (halakhahNum > 1) {
-      nav += `<a href="/yerushalmi/${safeTractate}/${chapterNum}.${halakhahNum - 1}">&larr; ${chapterNum}:${halakhahNum - 1}</a> `;
-    } else if (chapterNum > 1 && halakhotInPrevChapter > 0) {
-      nav += `<a href="/yerushalmi/${safeTractate}/${chapterNum - 1}.${halakhotInPrevChapter}">&larr; ${chapterNum - 1}:${halakhotInPrevChapter}</a> `;
-    }
-    if (halakhotInChapter > 0 && halakhahNum < halakhotInChapter) {
-      nav += `<a href="/yerushalmi/${safeTractate}/${chapterNum}.${halakhahNum + 1}">${chapterNum}:${halakhahNum + 1} &rarr;</a>`;
-    } else if (info && chapterNum < info.chapters) {
-      nav += `<a href="/yerushalmi/${safeTractate}/${chapterNum + 1}.1">${chapterNum + 1}:1 &rarr;</a>`;
+    if (info) {
+      const prevTarget = findPrevValidYerushalmiHalakhah(info.name, chapterNum, halakhahNum, tractateShapes);
+      const nextTarget = findNextValidYerushalmiHalakhah(info.name, chapterNum, halakhahNum, tractateShapes);
+      if (prevTarget) {
+        nav += `<a href="/yerushalmi/${safeTractate}/${prevTarget.chapter}.${prevTarget.halakhah}">&larr; ${prevTarget.chapter}:${prevTarget.halakhah}</a> `;
+      }
+      if (nextTarget) {
+        nav += `<a href="/yerushalmi/${safeTractate}/${nextTarget.chapter}.${nextTarget.halakhah}">${nextTarget.chapter}:${nextTarget.halakhah} &rarr;</a>`;
+      }
     }
     nav += `</nav>`;
   } else {

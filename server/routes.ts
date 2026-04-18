@@ -2,6 +2,8 @@ import express, { type Express } from "express";
 import { createServer, type Server } from "http";
 import path from "path";
 import { getTractateSlug } from "@shared/tractates";
+import { isYerushalmiHalakhahMissing } from "@shared/yerushalmi-missing";
+import { getYerushalmiTractateInfo } from "@shared/yerushalmi-data";
 import { generateSitemapIndex } from "./routes/sitemap-index";
 import { generateMainSitemap } from "./routes/sitemap-main";
 import { generateSederSitemap } from "./routes/sitemap-seder";
@@ -68,7 +70,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
     const yerushalmiOldChapterMatch = canonicalUrl.match(/^\/yerushalmi\/([^/]+)\/(\d+)$/);
     if (yerushalmiOldChapterMatch) {
       const [, tractate, chapter] = yerushalmiOldChapterMatch;
-      canonicalUrl = `/yerushalmi/${tractate}/${chapter}.1`;
+      const chapterNum = parseInt(chapter, 10);
+      // Normalize tractate slug (e.g. "shabbat") to display name ("Shabbat") for the missing-chapter check.
+      const tractateDisplayName = getYerushalmiTractateInfo(tractate)?.name ?? tractate;
+      // If the entire chapter has no Yerushalmi text (e.g. Shabbat 21+, Makkot 3), redirect to tractate page.
+      if (isYerushalmiHalakhahMissing(tractateDisplayName, chapterNum, 1)) {
+        canonicalUrl = `/yerushalmi/${tractate}`;
+      } else {
+        canonicalUrl = `/yerushalmi/${tractate}/${chapter}.1`;
+      }
       needsRedirect = true;
     }
     
