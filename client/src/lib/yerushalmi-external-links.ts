@@ -8,9 +8,16 @@ export interface YerushalmiExternalLink {
   description?: string;
 }
 
+// Wikisource uses slightly different Hebrew spellings than our display names.
+// Map our display Hebrew name -> the spelling Wikisource uses in its page titles.
+const WIKISOURCE_HEBREW_NAME_OVERRIDES: Record<string, string> = {
+  'נדה': 'נידה',
+};
+
 export function getYerushalmiWikisourceLink(tractate: string, chapter: number, halakhah?: number): string {
-  const hebrewName = YERUSHALMI_HEBREW_NAMES[tractate];
-  if (!hebrewName) return '';
+  const rawHebrewName = YERUSHALMI_HEBREW_NAMES[tractate];
+  if (!rawHebrewName) return '';
+  const hebrewName = WIKISOURCE_HEBREW_NAME_OVERRIDES[rawHebrewName] ?? rawHebrewName;
   const hebrewChapter = numberToHebrewGematria(chapter);
   const suffix = halakhah ? `_${numberToHebrewGematria(halakhah)}` : '';
   const pageName = `ירושלמי_${hebrewName.replace(/ /g, '_')}_${hebrewChapter}${suffix}`;
