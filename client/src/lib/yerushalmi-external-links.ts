@@ -8,15 +8,16 @@ export interface YerushalmiExternalLink {
   description?: string;
 }
 
-export function getYerushalmiWikisourceLink(tractate: string, chapter: number): string {
+export function getYerushalmiWikisourceLink(tractate: string, chapter: number, halakhah?: number): string {
   const hebrewName = YERUSHALMI_HEBREW_NAMES[tractate];
   if (!hebrewName) return '';
   const hebrewChapter = numberToHebrewGematria(chapter);
-  const pageName = `ירושלמי_${hebrewName.replace(/ /g, '_')}_${hebrewChapter}`;
+  const suffix = halakhah ? `_${numberToHebrewGematria(halakhah)}` : '';
+  const pageName = `ירושלמי_${hebrewName.replace(/ /g, '_')}_${hebrewChapter}${suffix}`;
   return `https://he.wikisource.org/wiki/${encodeURIComponent(pageName)}`;
 }
 
-export function getYerushalmiHalakhahLinks(tractate: string, chapter: number, _halakhah: number, sefariaRef: string): YerushalmiExternalLink[] {
+export function getYerushalmiHalakhahLinks(tractate: string, chapter: number, halakhah: number, sefariaRef: string): YerushalmiExternalLink[] {
   const links: YerushalmiExternalLink[] = [];
 
   links.push({
@@ -26,13 +27,13 @@ export function getYerushalmiHalakhahLinks(tractate: string, chapter: number, _h
     description: 'View this halakhah on Sefaria',
   });
 
-  const wikisourceUrl = getYerushalmiWikisourceLink(tractate, chapter);
+  const wikisourceUrl = getYerushalmiWikisourceLink(tractate, chapter, halakhah);
   if (wikisourceUrl) {
     links.push({
       name: 'Wikisource',
       url: wikisourceUrl,
       type: 'chapter',
-      description: 'View this chapter on Hebrew Wikisource',
+      description: 'View this halakhah on Hebrew Wikisource',
     });
   }
 
