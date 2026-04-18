@@ -607,7 +607,7 @@ export default function YerushalmiHalakhah() {
                       >
                         <div className="flex items-center justify-center gap-3 mb-4">
                           <span className="bg-secondary text-secondary-foreground px-3 py-1 rounded-full text-sm font-semibold font-mono">
-                            {chapterNum}:{halakhahNum}:{s}
+                            section {s}
                           </span>
                           <button
                             onClick={() => copySectionUrl(s)}
