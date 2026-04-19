@@ -302,11 +302,6 @@ function normalizedRabbinicalName(raw: string): string {
   // 2. Honorifics: Rebbi → R'  |  R. → R'
   n = n.replace(/\bRebbi\b/g, "R'").replace(/\bR\.\s*/g, "R' ");
 
-  // 2b. Comma-patronymic: ", (the) son/daughter of X" → " ben/bat X"
-  // These arise from Guggenheimer's "Rebbi X, the son of Rebbi Y" style.
-  n = n.replace(/, (?:the )?son of /g, ' ben ');
-  n = n.replace(/, (?:the )?daughter of /g, ' bat ');
-
   // 3. J/I → Y (Guggenheimer uses Latin J/I for Hebrew Yod at word start)
   n = n.replace(/\bJo(ḥ|h)anan\b/g, 'Yo$1anan');
   n = n.replace(/\bJehudah\b/g, 'Yehudah');
