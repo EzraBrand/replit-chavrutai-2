@@ -93,6 +93,7 @@ temp-*
 # Development scripts folder (track specific output files)
 scripts/*
 !scripts/yerushalmi-names-results.csv
+!scripts/extract-yerushalmi-names.ts
 
 # Internal analysis
 analysis/
