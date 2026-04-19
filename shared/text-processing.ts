@@ -562,6 +562,29 @@ export function processEnglishText(text: string): string {
   let processed = text;
   
   processed = replaceTerms(processed);
+  // replaceTerms has already run Rabbi → R', but Rav stays as Rav.
+  // Biblical names: only normalize when preceded by R' or Rav
+  processed = processed
+    .replace(/(R'|Rav) Jacob\b/g, "$1 Ya'akov")
+    .replace(/(R'|Rav) Jonah\b/g, "$1 Yonah")
+    .replace(/(R'|Rav) Jeremiah\b/g, "$1 Yirmeyah")
+    .replace(/(R'|Rav) Jonathan\b/g, "$1 Yonatan")
+    .replace(/(R'|Rav) Isaac\b/g, "$1 Yitzḥak")
+    .replace(/(R'|Rav) Samuel\b/g, "$1 Shmuel")
+    .replace(/(R'|Rav) Nathan\b/g, "$1 Natan")
+    .replace(/(R'|Rav) Phineas\b/g, "$1 Pinḥas")
+    .replace(/(R'|Rav) Simeon\b/g, "$1 Shimon")
+    .replace(/(R'|Rav) Zadok\b/g, "$1 Tzadok")
+    .replace(/(R'|Rav) Eleazar\b/g, "$1 Elazar")
+    .replace(/(R'|Rav) Ishmael\b/g, "$1 Yishmael")
+    // Non-biblical names: normalize globally
+    .replace(/\bSimon\b/g, 'Shimon')
+    .replace(/\bLaqish\b/g, 'Lakish')
+    .replace(/\bQappara\b/g, 'Kappara')
+    .replace(/\bBeth Hillel\b/g, 'Beit Hillel')
+    .replace(/\bBeth Shammai\b/g, 'Beit Shammai')
+    .replace(/\bthe house of Hillel\b/g, 'Beit Hillel')
+    .replace(/\bthe house of Shammai\b/g, 'Beit Shammai');
   processed = splitEnglishText(processed);
   
   processed = processed
