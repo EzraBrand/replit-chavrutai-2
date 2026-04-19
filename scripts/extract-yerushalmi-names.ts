@@ -211,7 +211,7 @@ const HONORIFIC1 =
 const CONNECTOR =
   '(?:' + [
     'bar Rebbi', 'ben Rebbi',
-    'bar Rav', 'ben Rav', 'the son of Rav', 'the son of Rabbi',
+    'bar Rav', 'ben Rav', 'the son of Rebbi', 'the son of Rav', 'the son of Rabbi',
     'bar Rabbi', 'ben Rabbi', 'son of Rabbi', 'son of Rav',
     'the son of', 'son of',
     'the grandson of Rav', 'the grandson of Rabbi',
@@ -253,7 +253,7 @@ const pattern1 = new RegExp(
 const HONORIFIC2 =
   '(?:' + [
     'bar Rebbi', 'ben Rebbi',
-    'bar Rav', 'ben Rav', 'the son of Rav', 'the son of Rabbi',
+    'bar Rav', 'ben Rav', 'the son of Rebbi', 'the son of Rav', 'the son of Rabbi',
     'bar Rabbi', 'ben Rabbi', 'son of Rabbi', 'son of Rav',
     'the son of', 'son of',
     'the grandson of Rav', 'the grandson of Rabbi',
