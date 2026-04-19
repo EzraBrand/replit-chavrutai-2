@@ -217,7 +217,6 @@ export function processMishnahEnglishText(text: string): string {
     .replace(/\bJoshua\b/g, 'Yehoshua')
     .replace(/\bJudah\b/g, 'Yehuda')
     .replace(/\bYose\b/g, 'Yosei')
-    .replace(/\bIshmael\b/g, 'Yishmael')
     .replace(/\bAkiba\b/g, 'Akiva')
     // Biblical names: only normalize when preceded by R' (to avoid converting
     // biblical figures, place names, or other non-rabbinic uses)
@@ -232,6 +231,7 @@ export function processMishnahEnglishText(text: string): string {
     .replace(/R' Simeon\b/g, "R' Shimon")
     .replace(/R' Zadok\b/g, "R' Tzadok")
     .replace(/R' Eleazar\b/g, "R' Elazar")
+    .replace(/R' Ishmael\b/g, "R' Yishmael")
     // Non-biblical names: normalize globally
     .replace(/\bSimon\b/g, 'Shimon')
     .replace(/\bLaqish\b/g, 'Lakish')
