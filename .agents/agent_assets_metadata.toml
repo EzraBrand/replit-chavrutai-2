@@ -54,3 +54,9 @@ id = "SR5U9gxzFpkz9VVNq-G4R"
 uri = "file://drafts/yerushalmi-longest-shortest.md"
 type = "text"
 title = "Draft: The Longest and Shortest Sugyot in the Talmud Yerushalmi"
+
+[[outputs]]
+id = "6WlOO7zC1iaMOlgPjXyX1"
+uri = "file://scripts/yerushalmi-names-results.csv"
+type = "table"
+title = "Yerushalmi Names — Full Results (3,147 names)"
