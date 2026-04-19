@@ -77,6 +77,17 @@
         "Tannaïm": "Tannaim",
         "Amaleq": "Amalek",
         "Meïr": "Meir",
+        "Nethanael": "Netanel",
+        "Abuya": "Avuya",
+        "Qappara": "Kappara",
+        "R' Joshua": "R' Yehoshua",
+        "R' Jacob": "R' Ya'akov",
+        "R' Jonah": "R' Yonah",
+        "He said,": "He said:",
+        "He asked him,": "He asked him:",
+        "He told him,": "He told him:",
+        "He answered him,": "He answered him:",
+        "For example,": "For example:",
         "v.": "verse"
       }
     },
@@ -156,7 +167,9 @@
         "nations of the world": "non-Jewish nations",
         "maidservant": "female slave",
         "maidservants": "female slaves",
-        "harlot": "prostitute"
+        "harlot": "prostitute",
+        "proselyte": "convert",
+        "proselytes": "converts"
       }
     },
     "animals": {
@@ -185,7 +198,9 @@
       "terms": {
         "rainy season": "winter",
         "Shabbat eve": "Friday",
-        "the eve of Shabbat": "Friday"
+        "the eve of Shabbat": "Friday",
+        "the Day of Atonement": "Yom Kippur",
+        "Day of Atonement": "Yom Kippur"
       }
     },
     "time_hebrew_dates": {
