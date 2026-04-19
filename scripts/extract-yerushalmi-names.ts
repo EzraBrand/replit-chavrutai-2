@@ -466,7 +466,22 @@ async function main() {
   ];
   fs.writeFileSync(OUT_CSV, csvRows.join('\n'));
 
-  const top100 = namedRows.slice(0, 100);
+  // Group by normalized name for the top-100 table
+  const normalizedGroups = new Map<string, { rawNames: string[]; count: number; firstExample: string }>();
+  for (const r of namedRows) {
+    const key = r.normalizedName;
+    const existing = normalizedGroups.get(key);
+    if (existing) {
+      existing.rawNames.push(r.name);
+      existing.count += r.count;
+    } else {
+      normalizedGroups.set(key, { rawNames: [r.name], count: r.count, firstExample: r.examples[0] ?? '' });
+    }
+  }
+  const top100 = [...normalizedGroups.entries()]
+    .sort((a, b) => b[1].count - a[1].count)
+    .slice(0, 100);
+
   const md = [
     `# Yerushalmi Personal Name Extraction`,
     ``,
@@ -485,7 +500,7 @@ async function main() {
     ``,
     `| # | Name (raw) | Normalized | Count | First example |`,
     `|---|-----------|-----------|-------|---------------|`,
-    ...top100.map(r => `| ${r.rank} | ${r.name} | ${r.normalizedName} | ${r.count} | ${r.examples[0] ?? ''} |`),
+    ...top100.map(([norm, g], i) => `| ${i + 1} | ${g.rawNames.join('; ')} | ${norm} | ${g.count} | ${g.firstExample} |`),
     ``,
     `## Per-tractate counts`,
     ``,
