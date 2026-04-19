@@ -308,6 +308,7 @@ function normalizedRabbinicalName(raw: string): string {
   n = n.replace(/\bJehudah\b/g, 'Yehudah');
   n = n.replace(/\bJehuda\b/g, 'Yehudah');    // variant without final h
   n = n.replace(/\bJoshua\b/g, 'Yehoshua');
+  n = n.replace(/\bJoshiah\b/g, 'Yoshiah');
   n = n.replace(/\bJoshia\b/g, 'Yoshia');
   n = n.replace(/\bJo\u1E63adaq\b/g, 'Yotzadak');  // Joṣadaq → Yotzadak (before blanket ṣ→tz)
   n = n.replace(/\bJonah\b/g, 'Yonah');
@@ -352,14 +353,15 @@ function normalizedRabbinicalName(raw: string): string {
   n = n.replace(/(?<![a-zA-Z])\u1E24izqiah(?![a-zA-Z])/g, 'Ḥizkiah');  // Ḥizqiah → Ḥizkiah
   n = n.replace(/\bTarphon\b/g, 'Tarfon');
   n = n.replace(/\bZeriqan\b/g, 'Zerikan');
+  n = n.replace(/\bZeriqa\b/g, 'Zerika');
   n = n.replace(/\bUqba\b/g, 'Ukva');
   n = n.replace(/\bUqban\b/g, 'Ukban');
   // "Rab" as standalone honorific (not Rabb- or Raba etc.) → Rav
   n = n.replace(/\bRab\b/g, 'Rav');
 
-  // 4b. Illai diacritic variants → Illai
-  n = n.replace(/\bIla[\u00EF\u012B]\b/g, 'Illai');   // Ilaï (U+00EF), Ilaī (U+012B)
-  n = n.replace(/\bIlla[\u00EF]\b/g, 'Illai');         // Illaï
+  // 4b. Illai diacritic variants → Illai  (no \b after non-ASCII char; use lookahead instead)
+  n = n.replace(/\bIlla[\u00EF\u012B](?![a-zA-Z])/g, 'Illai');  // Illaï, Illaī
+  n = n.replace(/\bIla[\u00EF\u012B](?![a-zA-Z])/g, 'Illai');   // Ilaï, Ilaī
 
   // 4c. Blanket transliteration: diacritic consonants → standard Latin clusters
   // Do these AFTER specific name rules to avoid double-applying.

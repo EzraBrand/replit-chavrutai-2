@@ -238,19 +238,19 @@ rank,name,normalized_name,count,example_1,example_2,example_3
 237,Rebbi Ḥanina ben Gamliel,R' Ḥanina ben Gamliel,9,Berakhot 5:2.10,Sheviit 4:2.10,Orlah 1:3.7
 238,Rebbi Cahana,R' Kahana,9,Berakhot 6:4.4,Kilayim 1:6.4,Challah 3:4.7
 239,Rebbi Yose ben Shaul,R' Yose ben Shaul,9,Berakhot 7:2.2,Demai 1:4.6,Terumot 8:3.9
-240,Rebbi Zeriqa,R' Zeriqa,9,Berakhot 7:5.5,Maaser Sheni 1:1.5,Eruvin 9:3.2
+240,Rebbi Zeriqa,R' Zerika,9,Berakhot 7:5.5,Maaser Sheni 1:1.5,Eruvin 9:3.2
 241,Rebbi Justus bar Shunem,R' Yustus bar Shunem,9,Berakhot 8:7.2,Sheviit 6:1.23,Terumot 11:4.9
 242,Rebbi Simeon bar Ioḥai,R' Shimon bar Yoḥai,9,Peah 1:1.30,Peah 8:1.3,Sheviit 9:1.13
 243,Rebbi Ḥananiah the son of Rebbi Hillel,R' Ḥananiah the son of R' Hillel,9,Kilayim 7:5.4,Terumot 1:2.4,Orlah 1:3.7
 244,Rebbi Abba bar Ḥiyya,R' Abba bar Ḥiyya,9,Terumot 5:1.3,Yevamot 6:1.4,Ketubot 5:1.4
 245,Rebbi Maisha,R' Maisha,9,Maasrot 5:1.7,Orlah 1:3.10,Bikkurim 2:3.10
-246,Rebbi Joshiah,R' Joshiah,9,Shabbat 8:1.2,Shabbat 8:1.3,Shabbat 18:1.2
+246,Rebbi Joshiah,R' Yoshiah,9,Shabbat 8:1.2,Shabbat 8:1.3,Shabbat 18:1.2
 247,Rebbi Simon bar Zavdi,R' Shimon bar Zavdi,9,Pesachim 8:6.3,Pesachim 9:1.4,Pesachim 9:1.5
 248,Rebbi Phineas ben Yair,R' Pinḥas ben Yair,9,Shekalim 5:1.6,Shekalim 5:1.7,Shekalim 5:1.13
 249,Rebbi Isaac bar Ḥaqula,R' Yitzḥak bar Ḥaqula,9,Sukkah 1:12.3,Sukkah 3:6.3,Yevamot 6:6.6
 250,Abba Jehudah,Abba Yehudah,9,Horayot 3:4.3,,
 251,Rebbi Judah the Prince,R' Yehudah the Prince,8,Berakhot 3:1.22,Peah 1:5.7,Beitzah 1:9.3
-252,Rebbi Illaï,R' Illaï,8,Berakhot 3:4.13,Peah 3:7.16,Demai 1:1.11
+252,Rebbi Illaï,R' Illai,8,Berakhot 3:4.13,Peah 3:7.16,Demai 1:1.11
 253,Rebbi Zakkai,R' Zakkai,8,Berakhot 3:5.10,Shabbat 7:1.4,Shabbat 7:2.8
 254,Rebbi Ḥanina ben Dosa,R' Ḥanina ben Dosa,8,Berakhot 4:1.31,Berakhot 5:1.22,Berakhot 5:5.1
 255,Rebbi Ḥanina the son of Rebbi Abbahu,R' Ḥanina the son of R' Abbahu,8,Berakhot 4:4.6,Berakhot 7:3.7,Bikkurim 3:3.9
@@ -385,7 +385,7 @@ rank,name,normalized_name,count,example_1,example_2,example_3
 384,Rebbi Abba bar Mina,R' Abba bar Mina,5,Bava Metzia 1:4.3,Bava Metzia 1:5.3,Bava Metzia 4:1.3
 385,Rav Ada bar Aḥava,Rav Ada bar Aḥava,4,Berakhot 1:2.7,Berakhot 3:5.17,Pesachim 9:1.7
 386,R. Zeïra,R' Ze'ira,4,Berakhot 1:6.5,Berakhot 8:2.13,Kilayim 9:1.11
-387,Rebbi Ilaï,R' Ilaï,4,Berakhot 1:6.7,Berakhot 5:1.21,Peah 6:2.4
+387,Rebbi Ilaï,R' Illai,4,Berakhot 1:6.7,Berakhot 5:1.21,Peah 6:2.4
 388,Rebbi Alexander,R' Alexander,4,Berakhot 2:4.10,Rosh Hashanah 4:8.3,Yevamot 7:5.5
 389,Rabban Gamliël,Rabban Gamliel,4,Berakhot 2:6.1,Berakhot 2:9.3,Berakhot 2:9.4
 390,Rebbi Josiah,R' Josiah,4,Berakhot 2:6.5,Berakhot 3:4.13,Yevamot 7:1.4
@@ -925,7 +925,7 @@ rank,name,normalized_name,count,example_1,example_2,example_3
 924,Rebbi Ḥanina the Colleague of the Rabbis,R' Ḥanina the Colleague of the Rabbis,1,Berakhot 1:1.16,,
 925,Rebbi Ḥanina bar Andrei,R' Ḥanina bar Andrei,1,Berakhot 1:1.18,,
 926,R. Samuel ben Soṭar,R' Shmuel ben Sotar,1,Berakhot 1:1.18,,
-927,Rebbi Yehudah ben Rebbi Ilaï,R' Yehudah ben R' Ilaï,1,Berakhot 1:1.23,,
+927,Rebbi Yehudah ben Rebbi Ilaï,R' Yehudah ben R' Illai,1,Berakhot 1:1.23,,
 928,Rebbi Eleazar ben Rebbi Menaḥem,R' Elazar ben R' Menaḥem,1,Berakhot 1:1.27,,
 929,R. Samuel ben Naḥmani,R' Shmuel ben Naḥmani,1,Berakhot 1:1.29,,
 930,Rebbi Zeïra the Tanna,R' Ze'ira the Tanna,1,Berakhot 1:1.31,,
@@ -1045,7 +1045,7 @@ rank,name,normalized_name,count,example_1,example_2,example_3
 1044,Simeon ben Azai,Shimon ben Azai,1,Berakhot 9:5.12,,
 1045,Rebbi Yose ben Yehudah,R' Yose ben Yehudah,1,Berakhot 9:5.13,,
 1046,Rebbi Chelbo,R' Chelbo,1,Berakhot 9:5.16,,
-1047,Rebbi Abba bar Ilaï,R' Abba bar Ilaï,1,Berakhot 9:5.16,,
+1047,Rebbi Abba bar Ilaï,R' Abba bar Illai,1,Berakhot 9:5.16,,
 1048,Rebbi Yose ben Gezirah,R' Yose ben Gezirah,1,Berakhot 9:5.19,,
 1049,Rav Ḥabiba,Rav Ḥabiba,1,Peah 1:1.14,,
 1050,Rebbi Yeshebab,R' Yeshebab,1,Peah 1:1.16,,
@@ -1065,7 +1065,7 @@ rank,name,normalized_name,count,example_1,example_2,example_3
 1064,Rav Periri,Rav Periri,1,Peah 7:3.12,,
 1065,Rebbi Eleazer from the South,R' Eleazer from the South,1,Peah 8:2.3,,
 1066,Rebbi Abba bar Abba bar Mamal,R' Abba bar Abba bar Mamal,1,Peah 8:5.5,,
-1067,Rebbi Ilaī,R' Ilaī,1,Peah 8:5.5,,
+1067,Rebbi Ilaī,R' Illai,1,Peah 8:5.5,,
 1068,the father of Rabbi Oshaia,the father of Rabbi Oshaia,1,Peah 8:8.7,,
 1069,Rebbi Ḥinena bar Pappai,R' Ḥinena bar Pappai,1,Peah 8:8.8,,
 1070,"Rebbi Simeon, the son of Rebbi Abba","R' Shimon, the son of R' Abba",1,Demai 1:1.7,,
@@ -1147,7 +1147,7 @@ rank,name,normalized_name,count,example_1,example_2,example_3
 1146,Rebbi Ḥiyya bar Titus,R' Ḥiyya bar Titus,1,Terumot 8:3.6,,
 1147,Bar Neṭoza,Bar Netoza,1,Terumot 8:3.8,,
 1148,Rebbi Ḥiyya the Great,R' Ḥiyya the Great,1,Terumot 8:3.25,,
-1149,Rebbi Ilaї,R' Ilaï,1,Terumot 8:4.6,,
+1149,Rebbi Ilaї,R' Illai,1,Terumot 8:4.6,,
 1150,Rebbi Samuel bar Berekhiah,R' Shmuel bar Berekhiah,1,Terumot 8:4.8,,
 1151,Ulla bar Qoshav,Ulla bar Qoshav,1,Terumot 8:4.11,,
 1152,Zeir bar Ḥinena,Zeir bar Ḥinena,1,Terumot 8:4.13,,
@@ -1167,7 +1167,7 @@ rank,name,normalized_name,count,example_1,example_2,example_3
 1166,"Rebbi Yudan, the son of Rebbi Yose ben Ḥanina","R' Yudan, the son of R' Yose ben Ḥanina",1,Terumot 11:4.12,,
 1167,Issy ben Jehudah,Issy ben Yehudah,1,Maasrot 1:1.4,,
 1168,Rebbi Tanḥum bar Marion,R' Tanḥum bar Marion,1,Maasrot 1:2.2,,
-1169,Rebbi Tanḥum bar Ilaї,R' Tanḥum bar Ilaï,1,Maasrot 1:2.3,,
+1169,Rebbi Tanḥum bar Ilaї,R' Tanḥum bar Illai,1,Maasrot 1:2.3,,
 1170,Rebbi Simeon ben Barsana,R' Shimon ben Barsana,1,Maasrot 1:2.4,,
 1171,Rebbi Simeon the Pious,R' Shimon the Pious,1,Maasrot 1:2.6,,
 1172,Rebbi Jacob ben Sisin,R' Ya'akov ben Sisin,1,Maasrot 1:4.6,,
@@ -1177,7 +1177,7 @@ rank,name,normalized_name,count,example_1,example_2,example_3
 1176,Ulla ben Rebbi Ismael,Ulla ben R' Yishmael,1,Maasrot 3:1.2,,
 1177,Rebbi Jacob ben Idi,R' Ya'akov ben Idi,1,Maasrot 3:1.2,,
 1178,Rebbi Ulla ben Rebbi Ismael,R' Ulla ben R' Yishmael,1,Maasrot 3:1.5,,
-1179,Rebbi Jehudah ben Rebbi Ilaї,R' Yehudah ben R' Ilaï,1,Maasrot 3:1.5,,
+1179,Rebbi Jehudah ben Rebbi Ilaї,R' Yehudah ben R' Illai,1,Maasrot 3:1.5,,
 1180,Huna bar Ḥinena,Huna bar Ḥinena,1,Maasrot 4:3.2,,
 1181,Rav Taḥlifa bar Immi,Rav Taḥlifa bar Immi,1,Maasrot 4:3.2,,
 1182,Rebbi Ḥanina bar Papa,R' Ḥanina bar Papa,1,Maasrot 4:4.8,,
@@ -1630,7 +1630,7 @@ rank,name,normalized_name,count,example_1,example_2,example_3
 1629,"Rebbi Simeon, the son of Rebbi Ayvo","R' Shimon, the son of R' Ayvo",1,Yevamot 11:2.6,,
 1630,Rebbi Ashian bar Yaqim,R' Ashian bar Yaqim,1,Yevamot 11:7.3,,
 1631,Rebbi Abba bar Isaac,R' Abba bar Yitzḥak,1,Yevamot 12:1.11,,
-1632,Rabbi Zeriqa,Rabbi Zeriqa,1,Yevamot 12:1.16,,
+1632,Rabbi Zeriqa,Rabbi Zerika,1,Yevamot 12:1.16,,
 1633,Rebbi Hyrkanos,R' Hyrkanos,1,Yevamot 12:6.1,,
 1634,Rebbi Aḥa bar Ḥinena,R' Aḥa bar Ḥinena,1,Yevamot 13:2.8,,
 1635,Rebbi Nissa,R' Nissa,1,Yevamot 13:2.9,,
@@ -1719,7 +1719,7 @@ rank,name,normalized_name,count,example_1,example_2,example_3
 1718,Rebbi Eleazar ben Mattia,R' Elazar ben Mattia,1,Sotah 7:5.4,,
 1719,Ḥanina bar Ḥakhinai,Ḥanina bar Ḥakhinai,1,Sotah 7:5.4,,
 1720,Rebbi Simon bar Zabida,R' Shimon bar Zabida,1,Sotah 7:5.6,,
-1721,Rebbi Jehudah bar Ilaï,R' Yehudah bar Ilaï,1,Sotah 8:3.5,,
+1721,Rebbi Jehudah bar Ilaï,R' Yehudah bar Illai,1,Sotah 8:3.5,,
 1722,Rebbi Phineas ben Rebbi Abun,R' Pinḥas ben R' Abun,1,Sotah 9:1.4,,
 1723,Gidul bar Benjamin,Gidul bar Binyamin,1,Sotah 9:7.2,,
 1724,Eleazar ben Dinai,Elazar ben Dinai,1,Sotah 9:8.1,,
