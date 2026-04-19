@@ -9,7 +9,7 @@ import { BreadcrumbNavigation } from "@/components/navigation/breadcrumb-navigat
 import { Footer } from "@/components/footer";
 import { usePreferences } from "@/context/preferences-context";
 import { useSEO } from "@/hooks/use-seo";
-import { processHebrewText, processEnglishText, linkBibleCitations, replaceTerms } from "@/lib/text-processing";
+import { processYerushalmiHebrewText, processEnglishText, linkBibleCitations, replaceTerms } from "@/lib/text-processing";
 import { useGazetteerData, TextHighlighter, type HighlightCategory } from "@/lib/gazetteer";
 import {
   normalizeYerushalmiTractateName,
@@ -260,7 +260,7 @@ export default function YerushalmiHalakhah() {
         : [];
 
       const hebrewLines = hebrewSection.trim()
-        ? processHebrewText(hebrewSection).split('\n').filter((line: string) => line.trim()).map((line: string) => applyHighlighting(line.trim()))
+        ? processYerushalmiHebrewText(hebrewSection).split('\n').filter((line: string) => line.trim()).map((line: string) => applyHighlighting(line.trim()))
         : [];
 
       return { englishLines, sectionFootnotes, hebrewLines };

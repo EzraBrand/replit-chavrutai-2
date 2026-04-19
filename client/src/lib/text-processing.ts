@@ -40,6 +40,32 @@ export function processHebrewText(text: string): string {
 }
 
 /**
+ * Yerushalmi-specific Hebrew processing: applies a set of phrase-level
+ * punctuation conversions (period → colon/question/exclamation for
+ * dialogue, rhetorical, and vocative cues), then runs the shared core
+ * processing (nikud removal + paragraph splitting).
+ */
+export function processYerushalmiHebrewText(text: string): string {
+  if (!text) return '';
+
+  let processed = removeNikud(text);
+
+  processed = processed
+    .replace(/(?<![א-ת])אמר ליה\./g, 'אמר ליה:')
+    .replace(/(?<![א-ת])אמר לון\./g, 'אמר לון:')
+    .replace(/(?<![א-ת])אמרין ליה\./g, 'אמרין ליה:')
+    .replace(/(?<![א-ת])אמרו לו\./g, 'אמרו לו:')
+    .replace(/(?<![א-ת])ויש אומרים\./g, 'ויש אומרים:')
+    .replace(/(?<![א-ת])ולא כן כתיב\./g, 'ולא כן כתיב:')
+    .replace(/(?<![א-ת])דבר אחר\./g, 'דבר אחר:')
+    .replace(/(?<![א-ת])מה עבד\./g, 'מה עבד?')
+    .replace(/(?<![א-ת])אמר\./g, 'אמר:')
+    .replace(/(?<![א-ת])רבי\./g, 'רבי!');
+
+  return processHebrewTextCore(processed);
+}
+
+/**
  * Basic formatting for English text - processes HTML and line breaks while preserving formatting
  * CLIENT-SPECIFIC: Creates HTML paragraph tags
  */
