@@ -91,7 +91,7 @@ function splitLineByCommas(line: string): string[] {
     tags.push(m);
     return `\x00TAG${tags.length - 1}\x00`;
   });
-  const parts = protectedLine.split(/(?<!\d), (?!\d)/);
+  const parts = protectedLine.split(/(?<!\d), (?!\d|etc\.|i\.e\.|e\.g\.)/);
   if (parts.length <= 1) return [line];
   const restore = (s: string) => s.replace(/\x00TAG(\d+)\x00/g, (_, i) => tags[parseInt(i, 10)]);
   return parts
