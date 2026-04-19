@@ -80,10 +80,37 @@ function flatTractates() {
 // After generic HTML stripping, the footnote *text* is left in the segment
 // alongside the main translation, causing modern scholar names and historical
 // references (e.g. Taubenschlag, Bar Kochba) to be matched as rabbinic names.
+//
+// IMPORTANT: footnote bodies may contain nested <i>book title</i> markup.
+// A simple non-greedy regex stops at the inner </i> rather than the outer one,
+// leaving the tail of the footnote (often a medieval scholar's name) in the
+// text. We therefore use a depth-counting scanner to find the true matching </i>.
 function stripFootnotes(html: string): string {
-  return html
-    .replace(/<sup[^>]*class="footnote-marker"[^>]*>[\s\S]*?<\/sup>\s*<i[^>]*class="footnote"[^>]*>[\s\S]*?<\/i>/gi, ' ')
-    .replace(/<i[^>]*class="footnote"[^>]*>[\s\S]*?<\/i>/gi, ' ');
+  const OPEN = '<i class="footnote">';
+  let result = '';
+  let i = 0;
+  while (i < html.length) {
+    const fi = html.indexOf(OPEN, i);
+    if (fi === -1) { result += html.slice(i); break; }
+    result += html.slice(i, fi);
+    // Walk forward counting <i> opens and </i> closes to find the matching </i>
+    let depth = 1;
+    let j = fi + OPEN.length;
+    while (j < html.length && depth > 0) {
+      const nextOpen  = html.indexOf('<i', j);
+      const nextClose = html.indexOf('</i>', j);
+      if (nextClose === -1) { j = html.length; break; }
+      if (nextOpen !== -1 && nextOpen < nextClose) {
+        depth++;
+        j = nextOpen + 2;  // advance past '<i'
+      } else {
+        depth--;
+        j = nextClose + 4; // advance past '</i>'
+      }
+    }
+    i = j;
+  }
+  return result;
 }
 
 function stripHtml(html: string): string {
@@ -419,12 +446,22 @@ async function main() {
           cleaned = stripHtml(cleaned);
           if (STRIP_QUOTES) cleaned = stripQuotedVerses(cleaned);
           cleaned = cleaned.normalize('NFC');
+          // Fix Guggenheimer OCR/typographic artifacts that break name tokenisation:
+          // 1. Hebrew final nun (ן U+05DF) embedded between Latin letters is a
+          //    stand-in for ï (e.g. "Meןr" → "Meïr").
+          cleaned = cleaned.replace(/(?<=[A-Za-z\u00C0-\u024F\u1E00-\u1EFF])\u05DF(?=[A-Za-z\u00C0-\u024F\u1E00-\u1EFF])/g, '\u00EF');
+          // 2. Stray ASCII double-quote between Latin letters (e.g. `Mei"r` → `Meïr`).
+          cleaned = cleaned.replace(/(?<=[A-Za-z\u00C0-\u024F\u1E00-\u1EFF])"(?=[A-Za-z\u00C0-\u024F\u1E00-\u1EFF])/g, '\u00EF');
           tractateSegments++;
           totalSegments++;
 
           const ref = `${t.name} ${chIdx + 1}:${halIdx + 1}.${segIdx + 1}`;
 
           for (const name of extractNames(cleaned)) {
+            // Reject template/placeholder names where any word token is a bare
+            // single uppercase ASCII letter — e.g. "V son of W", "X ben Y",
+            // "Z daughter of U" used as variables in halakhic examples.
+            if (/(?:^|\s)[A-Z](?:\s|$)/.test(name)) continue;
             tractateMatches++;
             tractateUnique.add(name);
             const cur = allNames.get(name);
