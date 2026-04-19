@@ -68,6 +68,10 @@ Ezra Brand's Substack focuses on classical Jewish texts (Talmud, Mishnah, Yerush
 - Do not end with a call to action ("subscribe!", "let me know in the comments")
 - Do not pad word count with summaries of what was just said
 - Do not refer to the script code inline in the main body — that belongs in the technical appendix
+- **No fragmented sentences**: A phrase like "With some important modifications." as its own sentence reads as AI-generated. Attach it to the preceding sentence with a comma instead.
+- **No hyperbolic or breathless words**: Avoid "unmistakably", "remarkably", "fascinating", "great" (in the sense of "important"), "defining", "central". Prefer sober alternatives: "major", "prominent", "frequent". Let the numbers speak.
+- **No editorializing about historical significance**: Do not make claims like "X and Y are the defining intellectual presence of the Yerushalmi" or "he was a transitional figure who…". These are arguable and read as filler. Stick to what the data shows.
+- **No meta-commentary about the structure of texts**: Do not explain why certain figures appear in the data by characterizing the literary structure of the Talmud (e.g., "Yerushalmi discussions spend substantial time analyzing Mishnaic disputes"). Report the finding; let the reader draw structural conclusions.
 
 ## Example Opening Lines (Reference Only)
 
