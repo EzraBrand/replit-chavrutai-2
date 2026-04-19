@@ -74,6 +74,18 @@ function flatTractates() {
   return out;
 }
 
+// Strip Guggenheimer's inline footnotes BEFORE stripping HTML tags.
+// Each footnote is encoded as:
+//   <sup class="footnote-marker">N</sup><i class="footnote">...text...</i>
+// After generic HTML stripping, the footnote *text* is left in the segment
+// alongside the main translation, causing modern scholar names and historical
+// references (e.g. Taubenschlag, Bar Kochba) to be matched as rabbinic names.
+function stripFootnotes(html: string): string {
+  return html
+    .replace(/<sup[^>]*class="footnote-marker"[^>]*>[\s\S]*?<\/sup>\s*<i[^>]*class="footnote"[^>]*>[\s\S]*?<\/i>/gi, ' ')
+    .replace(/<i[^>]*class="footnote"[^>]*>[\s\S]*?<\/i>/gi, ' ');
+}
+
 function stripHtml(html: string): string {
   return html
     .replace(/<[^>]*>/g, ' ')
@@ -117,6 +129,8 @@ function stripQuotedVerses(text: string): string {
 // Unicode blocks included:
 //   \u00C0-\u024F  Latin-1 Supplement + Extended-A + Extended-B (upper+lower)
 //   \u1E00-\u1EFF  Latin Extended Additional (ḥ, ḳ, ṭ, ṣ, …)
+// Guggenheimer also uses Cyrillic ї (U+0457) and Ї (U+0406) in some segments
+// as a typographic stand-in for Latin ï — e.g. "Meїr", "Zeїra".
 // Apostrophe/glottal variants used by Guggenheimer inside names:
 //   \u2018  LEFT SINGLE QUOTATION MARK  Ze'ira
 //   \u2019  RIGHT SINGLE QUOTATION MARK
@@ -124,8 +138,8 @@ function stripQuotedVerses(text: string): string {
 //   \u02CB  MODIFIER LETTER GRAVE ACCENT  Zeˋira
 //   \u0060  GRAVE ACCENT (backtick)       Ze`ira
 const NAME_TOKEN =
-  '[A-Z\u00C0-\u024E\u1E00-\u1EFF]' +
-  "[a-z\u00C0-\u024F\u1E00-\u1EFF\u2019\u02BC\u2018\u02CB\u0060',]+";
+  '[A-Z\u00C0-\u024E\u1E00-\u1EFF\u0406]' +
+  "[a-z\u00C0-\u024F\u1E00-\u1EFF\u0457\u2019\u02BC\u2018\u02CB\u0060',]+";
 
 // Honorific/relational prefixes that may start a name expression.
 // Guggenheimer additions: "Rebbi", "R\\.", "R\\. bar", "R\\. ben", etc.
@@ -235,6 +249,56 @@ function normalizeName(raw: string): string {
     .trim();
 }
 
+// Produce a canonical normalized form of a raw matched name string, following
+// Steinsaltz-style transliteration conventions and using R' for רבי.
+// This is stored alongside the raw name for grouping and comparison; it does
+// not replace the raw string in the count.
+function normalizedRabbinicalName(raw: string): string {
+  let n = raw;
+
+  // 1. Cyrillic ї/Ї (U+0457/U+0406) → Latin ï/Ï — Guggenheimer typographic quirk
+  n = n.replace(/\u0457/g, '\u00EF').replace(/\u0406/g, '\u00CF');
+
+  // 2. Honorifics: Rebbi → R'  |  R. → R'
+  n = n.replace(/\bRebbi\b/g, "R'").replace(/\bR\.\s*/g, "R' ");
+
+  // 3. J → Y (Guggenheimer uses Latin J for Hebrew Yod at word start)
+  n = n.replace(/\bJo(ḥ|h)anan\b/g, 'Yo$1anan');
+  n = n.replace(/\bJehudah\b/g, 'Yehudah');
+  n = n.replace(/\bJoshua\b/g, 'Yehoshua');
+  n = n.replace(/\bJonah\b/g, 'Yonah');
+  n = n.replace(/\bJonathan\b/g, 'Yonatan');
+  n = n.replace(/\bJeremiah\b/g, 'Yirmeyah');
+  n = n.replace(/\bJacob\b/g, "Ya'akov");
+
+  // 4. Other name normalizations
+  n = n.replace(/\bSimeon\b/g, 'Shimon');
+  n = n.replace(/\bSimon\b/g, 'Shimon');
+  n = n.replace(/\bSamuel\b/g, 'Shmuel');
+  n = n.replace(/\bIsmael\b/g, 'Yishmael');
+  n = n.replace(/\bIshmael\b/g, 'Yishmael');
+  n = n.replace(/\bAqiba\b/g, 'Akiva');
+  n = n.replace(/\bEleazar\b/g, 'Elazar');
+  n = n.replace(/\bLaqish\b/g, 'Lakish');
+  n = n.replace(/\bQappara\b/g, 'Kappara');
+  n = n.replace(/\bNathan\b/g, 'Natan');
+  n = n.replace(/\bPhineas\b/g, 'Pinḥas');
+  n = n.replace(/\bZadok\b/g, 'Tzadok');
+  n = n.replace(/\bHoshaia\b/g, 'Hoshaya');
+  n = n.replace(/\bAzariah\b/g, 'Azaryah');
+
+  // 5. Meïr / Meїr → Meir (diaeresis is a Guggenheimer typographic convention)
+  n = n.replace(/Me\u00EFr\b/g, 'Meir');
+
+  // 6. Ze'ira spelling variants → Ze'ira
+  // "Zeïra": ï (U+00EF) represents both the glottal stop and the vowel i, so it's Ze+ï+ra
+  // "Zeˋira"/"Ze`ira": the glottal-stop char is a separate token before "ira"
+  n = n.replace(/Ze\u00EFra\b/g, "Ze'ira");           // Zeïra (incl. Zeїra after step 1)
+  n = n.replace(/Ze[\u02CB\u0060\u2018]ira\b/g, "Ze'ira"); // Zeˋira, Ze`ira, Ze'ira
+
+  return n.replace(/\s+/g, ' ').trim();
+}
+
 /**
  * Extract names from a single cleaned text segment using greedy
  * longest-match across both patterns. Overlapping spans are resolved by
@@ -328,7 +392,8 @@ async function main() {
           // NFC-normalize: Guggenheimer text uses decomposed sequences such
           // as "h" + U+0323 (combining dot below) for ḥ; without composition
           // the regex would truncate "Yoḥai" -> "Yoh".
-          let cleaned = stripHtml(raw);
+          let cleaned = stripFootnotes(raw);
+          cleaned = stripHtml(cleaned);
           if (STRIP_QUOTES) cleaned = stripQuotedVerses(cleaned);
           cleaned = cleaned.normalize('NFC');
           tractateSegments++;
@@ -365,6 +430,14 @@ async function main() {
 
   const sortedNames = [...allNames.entries()].sort((a, b) => b[1].count - a[1].count);
 
+  const namedRows = sortedNames.map(([name, v], i) => ({
+    rank: i + 1,
+    name,
+    normalizedName: normalizedRabbinicalName(name),
+    count: v.count,
+    examples: v.exampleRefs,
+  }));
+
   const result = {
     generatedAt: new Date().toISOString(),
     source: 'Sefaria-Export bucket — Guggenheimer English translation of the Jerusalem Talmud',
@@ -377,16 +450,23 @@ async function main() {
       runtimeSeconds: Math.round((Date.now() - startedAt) / 1000),
     },
     perTractate,
-    names: sortedNames.map(([name, v]) => ({
-      name,
-      count: v.count,
-      examples: v.exampleRefs,
-    })),
+    names: namedRows,
   };
 
   fs.writeFileSync(OUT_JSON, JSON.stringify(result, null, 2));
 
-  const top100 = sortedNames.slice(0, 100);
+  // CSV
+  const OUT_CSV = path.join(process.cwd(), 'scripts/yerushalmi-names-results.csv');
+  const csvRows = [
+    'rank,name,normalized_name,count,example_1,example_2,example_3',
+    ...namedRows.map(r => {
+      const cols = [r.rank, r.name, r.normalizedName, r.count, r.examples[0] ?? '', r.examples[1] ?? '', r.examples[2] ?? ''];
+      return cols.map(c => (String(c).includes(',') || String(c).includes('"') ? `"${String(c).replace(/"/g, '""')}"` : String(c))).join(',');
+    }),
+  ];
+  fs.writeFileSync(OUT_CSV, csvRows.join('\n'));
+
+  const top100 = namedRows.slice(0, 100);
   const md = [
     `# Yerushalmi Personal Name Extraction`,
     ``,
@@ -403,9 +483,9 @@ async function main() {
     ``,
     `## Top 100 names by occurrence`,
     ``,
-    `| # | Name | Count | First example |`,
-    `|---|------|-------|---------------|`,
-    ...top100.map(([n, v], i) => `| ${i + 1} | ${n} | ${v.count} | ${v.exampleRefs[0] ?? ''} |`),
+    `| # | Name (raw) | Normalized | Count | First example |`,
+    `|---|-----------|-----------|-------|---------------|`,
+    ...top100.map(r => `| ${r.rank} | ${r.name} | ${r.normalizedName} | ${r.count} | ${r.examples[0] ?? ''} |`),
     ``,
     `## Per-tractate counts`,
     ``,
@@ -419,6 +499,7 @@ async function main() {
   fs.writeFileSync(OUT_MD, md);
 
   console.log(`\nWrote ${OUT_JSON}`);
+  console.log(`Wrote ${OUT_CSV}`);
   console.log(`Wrote ${OUT_MD}`);
   console.log(
     `Done: ${result.totals.uniqueNames} unique names, ${result.totals.totalNameOccurrences} total occurrences`
