@@ -349,6 +349,77 @@ function normalizedRabbinicalName(raw: string): string {
   return n.replace(/\s+/g, ' ').trim();
 }
 
+// ─── Hardcoded false-positive exclusions ────────────────────────────────────
+// Names that pass the regex and normalization filters but are not Talmudic
+// sages: Biblical figures cited in passing, Talmud-category terms misread as
+// names, context fragments, and hybrid matches that include surrounding prose.
+// Checked against BOTH the raw matched string and its normalizedRabbinicalName.
+const EXCLUDED_NAMES = new Set([
+  // Biblical / historical figures (not Talmudic sages)
+  'Abner, Ben Qubisin',
+  'Ahab, Ben Kalba',
+  'Asaph, Ben Ṣiṣit',
+  'Balaq ben Ṣippor',
+  'Bileam ben Beor',
+  'Caleb ben Ḥeṣron',
+  'Caleb ben Yephuneh',
+  'David, Ben Yaṣaf',
+  'Ḥushim ben Dan',
+  'Jehu ben Nimshi',
+  'Jerobeam ben Nebaṭ',
+  'Jeroboam ben Nabat',
+  'Jeroboam ben Nabath',
+  'Jeroboam ben Nevat',
+  'Jeroboam ben Nevat the Ephraimite',
+  'Joab ben Ṣeruya',
+  'Joab ben Ẓeruiah',
+  'Joiakim ben Josia',
+  'King David',
+  'King Joash',
+  'King Joiachin',
+  'King Solomon',
+  'King Uziah',
+  'King Uziahu',
+  'King Yeḥizkiahu',
+  'King Yehoyakim',
+  'Mephiboshet ben Yonatan',
+  'Michaihu ben Nimla',
+  'Michal the daughter of Kushi',
+  'Michal the daughter of Saul',
+  'Michal, the daughter of Saul',
+  'Not the son of Amram',
+  // Context fragments / prose bleed-through
+  'About Ben Qatin',
+  'About Ben Qaṭin',
+  'Amora, bar Pada',
+  'Babli, Ben Azzai',
+  'ben R\'',
+  'Could Ben Azzai',
+  'Does Bar Piqa',
+  'Following Ben Azai',
+  'Following Ben Nanas',
+  'If Ben Bathyra',
+  'In Ben Azzai',
+  // Normalized forms that include surrounding prose
+  "R' Ḥizqiah, the Rabbinic",
+  "R' Ya'akov bar Ada, Bar Athlay",
+  "R' Yehudah ben R' Illai, the Ark",
+  "R' Yose, the House of Shammai",
+  "R' Ze'ira, the Mishnah",
+  // Raw forms of the same (before normalization)
+  'Rebbi Ḥizqiah, the Rabbinic',
+  'R. Ḥizqiah, the Rabbinic',
+  "Rebbi Ya'akov bar Ada, Bar Athlay",
+  "R. Ya'akov bar Ada, Bar Athlay",
+  'Rebbi Jehudah ben Rebbi Illai, the Ark',
+  'R. Jehudah ben R. Illai, the Ark',
+  'Rebbi Yose, the House of Shammai',
+  'R. Yose, the House of Shammai',
+  'Rebbi Ze\'ira, the Mishnah',
+  "Rebbi Ze'ira, the Mishnah",
+  'R. Ze\'ira, the Mishnah',
+]);
+
 /**
  * Extract names from a single cleaned text segment using greedy
  * longest-match across both patterns. Overlapping spans are resolved by
@@ -462,6 +533,14 @@ async function main() {
             // single uppercase ASCII letter — e.g. "V son of W", "X ben Y",
             // "Z daughter of U" used as variables in halakhic examples.
             if (/(?:^|\s)[A-Z](?:\s|$)/.test(name)) continue;
+            // Reject prose fragments that begin with an obvious English context word.
+            if (/^(?:Similarly|About|Could|Does|If|In|Not|Babli|Amora|Following)\b/.test(name)) continue;
+            // Reject names where a comma introduces a category description rather
+            // than a lineage phrase.  Legitimate exceptions: "the son/daughter/
+            // grandson/wife/brother/father/mother/Head of …" are kept.
+            if (/,\s+the\s+(?!(?:son|daughter|grandson|granddaughter|wife|brother|father|mother|Head)\b)/.test(name)) continue;
+            // Reject hardcoded false positives (checked against raw and normalized).
+            if (EXCLUDED_NAMES.has(name) || EXCLUDED_NAMES.has(normalizedRabbinicalName(name))) continue;
             tractateMatches++;
             tractateUnique.add(name);
             const cur = allNames.get(name);
