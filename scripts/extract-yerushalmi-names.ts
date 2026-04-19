@@ -301,6 +301,9 @@ function normalizedRabbinicalName(raw: string): string {
   n = n.replace(/\bIo(ḥ|h)ai\b/g, 'Yo$1ai');   // Ioḥai → Yoḥai
   n = n.replace(/\bJosef\b/g, 'Yosef');
   n = n.replace(/\bJoseph\b/g, 'Yosef');
+  n = n.replace(/\bJudah\b/g, 'Yehudah');
+  n = n.replace(/\bJudan\b/g, 'Yudan');
+  n = n.replace(/\bJustus\b/g, 'Yustus');
 
   // 4. Other name normalizations
   n = n.replace(/\bSimeon\b/g, 'Shimon');
@@ -357,14 +360,22 @@ function normalizedRabbinicalName(raw: string): string {
 const EXCLUDED_NAMES = new Set([
   // Biblical / historical figures (not Talmudic sages)
   'Abner, Ben Qubisin',
+  'Adoniah ben Ḥaggit',
+  'Aholiab ben Aḥisamakh',
+  'Achan ben Karmi',
   'Ahab, Ben Kalba',
   'Asaph, Ben Ṣiṣit',
   'Balaq ben Ṣippor',
+  'Baruch ben Neriah',
   'Bileam ben Beor',
   'Caleb ben Ḥeṣron',
   'Caleb ben Yephuneh',
   'David, Ben Yaṣaf',
+  'David ben Jesse',
+  'Gedalya ben Aḥiqam',
+  'Ḥanania ben Azzur',
   'Ḥushim ben Dan',
+  'Hoshea ben Ela',
   'Jehu ben Nimshi',
   'Jerobeam ben Nebaṭ',
   'Jeroboam ben Nabat',
@@ -388,18 +399,35 @@ const EXCLUDED_NAMES = new Set([
   'Michal the daughter of Saul',
   'Michal, the daughter of Saul',
   'Not the son of Amram',
+  'Sheba ben Bikhri',
+  'Shephatya ben Abutal',
+  'the daughter of Pharao',
   // Context fragments / prose bleed-through
   'About Ben Qatin',
   'About Ben Qaṭin',
   'Amora, bar Pada',
   'Babli, Ben Azzai',
   'ben R\'',
+  'Ben Zoma, Ben Ḥanikai',
   'Could Ben Azzai',
   'Does Bar Piqa',
   'Following Ben Azai',
   'Following Ben Nanas',
   'If Ben Bathyra',
   'In Ben Azzai',
+  'Melekh ben Melekh',
+  "R' Akiva the House of Hillel",
+  'Rebbi Aqiba the House of Hillel',
+  'R. Aqiba the House of Hillel',
+  'son of Mr',
+  'the daughter of Babylon',
+  'the daughter of Israel',
+  'Therefore, Bar Pedaiah',
+  'What Bar Kappara',
+  'When Ben Azai',
+  'When ben Zoma',
+  'When Ben Zoma',
+  'X, son of Mr',
   // Normalized forms that include surrounding prose
   "R' Ḥizqiah, the Rabbinic",
   "R' Ya'akov bar Ada, Bar Athlay",
@@ -532,13 +560,16 @@ async function main() {
             // Reject template/placeholder names where any word token is a bare
             // single uppercase ASCII letter — e.g. "V son of W", "X ben Y",
             // "Z daughter of U" used as variables in halakhic examples.
-            if (/(?:^|\s)[A-Z](?:\s|$)/.test(name)) continue;
+            if (/(?:^|\s)[A-Z](?:[\s,]|$)/.test(name)) continue;
             // Reject prose fragments that begin with an obvious English context word.
-            if (/^(?:Similarly|About|Could|Does|If|In|Not|Babli|Amora|Following)\b/.test(name)) continue;
+            if (/^(?:Similarly|About|Could|Does|If|In|Not|Babli|Amora|Following|Since|Therefore|What|When)\b/.test(name)) continue;
             // Reject names where a comma introduces a category description rather
             // than a lineage phrase.  Legitimate exceptions: "the son/daughter/
             // grandson/wife/brother/father/mother/Head of …" are kept.
             if (/,\s+the\s+(?!(?:son|daughter|grandson|granddaughter|wife|brother|father|mother|Head)\b)/.test(name)) continue;
+            // Reject names that bleed into a school reference ("the House of Hillel/Shammai").
+            // These are always prose context, never part of a sage's name.
+            if (/\bthe [Hh]ouse of\b/.test(name)) continue;
             // Reject hardcoded false positives (checked against raw and normalized).
             if (EXCLUDED_NAMES.has(name) || EXCLUDED_NAMES.has(normalizedRabbinicalName(name))) continue;
             tractateMatches++;
