@@ -293,7 +293,10 @@ function normalizedRabbinicalName(raw: string): string {
   // 3. J/I → Y (Guggenheimer uses Latin J/I for Hebrew Yod at word start)
   n = n.replace(/\bJo(ḥ|h)anan\b/g, 'Yo$1anan');
   n = n.replace(/\bJehudah\b/g, 'Yehudah');
+  n = n.replace(/\bJehuda\b/g, 'Yehudah');    // variant without final h
   n = n.replace(/\bJoshua\b/g, 'Yehoshua');
+  n = n.replace(/\bJoshia\b/g, 'Yoshia');
+  n = n.replace(/\bJo\u1E63adaq\b/g, 'Yotzadak');  // Joṣadaq → Yotzadak (before blanket ṣ→tz)
   n = n.replace(/\bJonah\b/g, 'Yonah');
   n = n.replace(/\bJonathan\b/g, 'Yonatan');
   n = n.replace(/\bJeremiah\b/g, 'Yirmeyah');
@@ -309,6 +312,7 @@ function normalizedRabbinicalName(raw: string): string {
   n = n.replace(/\bSimeon\b/g, 'Shimon');
   n = n.replace(/\bSimon\b/g, 'Shimon');
   n = n.replace(/\bSamuel\b/g, 'Shmuel');
+  n = n.replace(/\bIsma\u00EBl\b/g, 'Yishmael');  // Ismaël → Yishmael
   n = n.replace(/\bIsmael\b/g, 'Yishmael');
   n = n.replace(/\bIshmael\b/g, 'Yishmael');
   n = n.replace(/\bAqiba\b/g, 'Akiva');
@@ -318,6 +322,7 @@ function normalizedRabbinicalName(raw: string): string {
   n = n.replace(/\bQappara\b/g, 'Kappara');
   n = n.replace(/\bNathan\b/g, 'Natan');
   n = n.replace(/\bPhineas\b/g, 'Pinḥas');
+  n = n.replace(/\b\u1E62adoq\b/g, 'Tzadok');  // Ṣadoq → Tzadok (before blanket Ṣ→Tz)
   n = n.replace(/\bZadok\b/g, 'Tzadok');
   n = n.replace(/\bHoshaia\b/g, 'Hoshaya');
   n = n.replace(/\bAzariah\b/g, 'Azaryah');
@@ -330,8 +335,20 @@ function normalizedRabbinicalName(raw: string): string {
   n = n.replace(/\bA\u1E25awah?\b/g, 'Aḥava');  // Aḥawa / Aḥawah → Aḥava
   n = n.replace(/\bEudaimon\b/g, 'Avdimi');
   n = n.replace(/\bGamli\u00EBl\b/g, 'Gamliel');  // Gamliël → Gamliel
+  n = n.replace(/\bUqba\b/g, 'Ukva');
+  n = n.replace(/\bUqban\b/g, 'Ukban');
   // "Rab" as standalone honorific (not Rabb- or Raba etc.) → Rav
   n = n.replace(/\bRab\b/g, 'Rav');
+
+  // 4b. Illai diacritic variants → Illai
+  n = n.replace(/\bIla[\u00EF\u012B]\b/g, 'Illai');   // Ilaï (U+00EF), Ilaī (U+012B)
+  n = n.replace(/\bIlla[\u00EF]\b/g, 'Illai');         // Illaï
+
+  // 4c. Blanket transliteration: diacritic consonants → standard Latin clusters
+  // Do these AFTER specific name rules to avoid double-applying.
+  n = n.replace(/\u1E62/g, 'Tz').replace(/\u1E63/g, 'tz');  // Ṣ/ṣ → Tz/tz
+  n = n.replace(/\u1E92/g, 'Tz').replace(/\u1E93/g, 'tz');  // Ẓ/ẓ → Tz/tz
+  n = n.replace(/\u1E6C/g, 'T').replace(/\u1E6D/g, 't');    // Ṭ/ṭ → T/t
 
   // 5. Meïr and diacritic variants → Meir
   // Step 1 already converted Cyrillic ї → ï (U+00EF), handle remaining variants:
@@ -402,6 +419,7 @@ const EXCLUDED_NAMES = new Set([
   'Sheba ben Bikhri',
   'Shephatya ben Abutal',
   'the daughter of Pharao',
+  'Salomon, son of David',
   // Context fragments / prose bleed-through
   'About Ben Qatin',
   'About Ben Qaṭin',
