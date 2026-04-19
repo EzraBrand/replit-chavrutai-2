@@ -91,13 +91,10 @@ function splitLineByCommas(line: string): string[] {
     tags.push(m);
     return `\x00TAG${tags.length - 1}\x00`;
   });
-  const parts = protectedLine.split(/(?<!\d), (?!\d|etc\.|i\.e\.|e\.g\.)/);
-  if (parts.length <= 1) return [line];
+  let processed = protectedLine.replace(/((?<!\d), (?!\d|etc\.|i\.e\.|e\.g\.))/g, ',\n');
+  processed = processed.replace(/(\b(?:etc|i\.e|e\.g)\.) (?=[A-Z\x00])/g, '$1\n');
   const restore = (s: string) => s.replace(/\x00TAG(\d+)\x00/g, (_, i) => tags[parseInt(i, 10)]);
-  return parts
-    .map((part, i) => (i < parts.length - 1 ? part + ',' : part))
-    .map(restore)
-    .filter((s) => s.trim());
+  return processed.split('\n').map(restore).filter((s) => s.trim());
 }
 
 function parseSectionFootnotes(html: string): { cleanedHtml: string; footnotes: FootnoteEntry[] } {
