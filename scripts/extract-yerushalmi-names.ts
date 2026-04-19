@@ -166,7 +166,10 @@ function stripQuotedVerses(text: string): string {
 //   \u0060  GRAVE ACCENT (backtick)       Ze`ira
 const NAME_TOKEN =
   '[A-Z\u00C0-\u024E\u1E00-\u1EFF\u0406]' +
-  "[a-z\u00C0-\u024F\u1E00-\u1EFF\u0457\u2019\u02BC\u2018\u02CB\u0060',]+";
+  "[a-z\u00C0-\u024F\u1E00-\u1EFF\u0457\u2019\u02BC\u2018\u02CB\u0060']+";
+// NOTE: comma is intentionally excluded — it caused NAME_TOKEN to swallow the
+// comma in "Rebbi X, the son of Rebbi Y", producing truncated matches like
+// "Rebbi X, the son of Rebbi" (father's name missing). See COMMA_PATRONYMIC below.
 
 // Honorific/relational prefixes that may start a name expression.
 // Guggenheimer additions: "Rebbi", "R\\.", "R\\. bar", "R\\. ben", etc.
@@ -227,9 +230,18 @@ const CONNECTOR =
 const PLACE_TAIL =
   '(?:of Nehar|of the village of|of the city of|of the|of|from|the)';
 
+// Comma-separated patronymic: "Rebbi X, (the) son/daughter of Rebbi/R./Rav/Rabbi Y"
+// Guggenheimer often writes "Rebbi Eleazar, the son of Rebbi Yose" with a comma
+// before the relational clause. This optional group captures it as a single span so
+// the longest-match algorithm suppresses the spurious standalone "son of Rebbi Yose"
+// that would otherwise be counted separately.
+const COMMA_PATRONYMIC =
+  '(?:, (?:the )?(?:son|daughter) of (?:Rebbi|R\\.|Rav|Rabbi) ' + NAME_TOKEN + ')?';
+
 // Pattern 1: honorific-first  (e.g. "Rabbi X ben Y", "R. X bar Y")
 const pattern1 = new RegExp(
   HONORIFIC1 + ' ' + NAME_TOKEN +
+    COMMA_PATRONYMIC +
     '(?: ' + CONNECTOR + ' ' + NAME_TOKEN + ')?' +
     '(?: ' + CONNECTOR + ' ' + NAME_TOKEN + ')?' +
     '(?: ' + PLACE_TAIL + ' ' + NAME_TOKEN + ')?',
@@ -289,6 +301,11 @@ function normalizedRabbinicalName(raw: string): string {
 
   // 2. Honorifics: Rebbi → R'  |  R. → R'
   n = n.replace(/\bRebbi\b/g, "R'").replace(/\bR\.\s*/g, "R' ");
+
+  // 2b. Comma-patronymic: ", (the) son/daughter of X" → " ben/bat X"
+  // These arise from Guggenheimer's "Rebbi X, the son of Rebbi Y" style.
+  n = n.replace(/, (?:the )?son of /g, ' ben ');
+  n = n.replace(/, (?:the )?daughter of /g, ' bat ');
 
   // 3. J/I → Y (Guggenheimer uses Latin J/I for Hebrew Yod at word start)
   n = n.replace(/\bJo(ḥ|h)anan\b/g, 'Yo$1anan');
