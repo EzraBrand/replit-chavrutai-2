@@ -12,7 +12,9 @@ ChavrutAI is a full-featured digital platform providing access to all 37 tractat
 
 ChavrutAI is featured in the official [Sefaria Powered-By directory](https://developers.sefaria.org/docs/powered-by-sefaria), a curated list of projects and applications built using the Sefaria API and text data.
 
-## Screenshot
+## Demo Video and Screenshot
+
+https://github.com/user-attachments/assets/b046339f-26ff-4bb5-ab92-7002c33bc7e3
 
 ![ChavrutAI Talmud page showing Berakhot 2a with bilingual Hebrew/English text, section navigation, and links to Sefaria and Al HaTorah](client/public/talmud-page-screenshot.png)
 
