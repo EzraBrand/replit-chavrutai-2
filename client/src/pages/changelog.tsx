@@ -72,6 +72,27 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Yerushalmi: Reader Layout & English Text Refinements</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Hebrew and English columns now use a balanced <strong>50/50 split</strong> (matching Mishnah, Bible, and Rambam) instead of the narrower Bavli-style 65/35 layout</li>
+                <li>English text now also splits into a new line on <strong>commas</strong> (in addition to periods, semicolons, and colons), mirroring the way the Hebrew is broken up and making the parallel columns line up more closely</li>
+                <li>Smart handling of abbreviations: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">, etc.</code> / <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">, i.e.</code> / <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">, e.g.</code> stay attached to the preceding clause, and the line splits <em>after</em> the abbreviation instead</li>
+                <li>Comma-splitting is HTML-aware (won't break inside tag attributes) and skips numeric commas like <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">1,000</code></li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Talmud English: New Term Replacements</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Name normalizations: <strong>Nethanael → Netanel</strong>, <strong>Abuya → Avuya</strong>, <strong>Qappara → Kappara</strong></li>
+                <li>Rabbi names brought in line with the existing Hebrew-style transliterations: <strong>R' Joshua → R' Yehoshua</strong>, <strong>R' Jacob → R' Ya'akov</strong>, <strong>R' Jonah → R' Yonah</strong></li>
+                <li><strong>proselyte → convert</strong> (and the plural)</li>
+                <li><strong>the Day of Atonement → Yom Kippur</strong></li>
+                <li>Dialogue tags now end in a colon instead of a comma, signaling that quoted speech follows: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">He said,</code> → <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">He said:</code> (also <em>He said to him</em>, <em>He asked / told / answered him</em>, and <em>For example</em>)</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Yerushalmi: Hide Mishnayot Without Gemara</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Identified <strong>49 mishnayot</strong> across the Yerushalmi that have no Talmudic discussion and removed them from the site</li>
