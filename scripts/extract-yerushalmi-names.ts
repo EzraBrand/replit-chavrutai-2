@@ -254,7 +254,8 @@ function normalizeName(raw: string): string {
 // This is stored alongside the raw name for grouping and comparison; it does
 // not replace the raw string in the count.
 function normalizedRabbinicalName(raw: string): string {
-  let n = raw;
+  // Ensure consistent Unicode composition before all pattern matching
+  let n = raw.normalize('NFC');
 
   // 1. Cyrillic ї/Ї (U+0457/U+0406) → Latin ï/Ï — Guggenheimer typographic quirk
   n = n.replace(/\u0457/g, '\u00EF').replace(/\u0406/g, '\u00CF');
@@ -262,7 +263,7 @@ function normalizedRabbinicalName(raw: string): string {
   // 2. Honorifics: Rebbi → R'  |  R. → R'
   n = n.replace(/\bRebbi\b/g, "R'").replace(/\bR\.\s*/g, "R' ");
 
-  // 3. J → Y (Guggenheimer uses Latin J for Hebrew Yod at word start)
+  // 3. J/I → Y (Guggenheimer uses Latin J/I for Hebrew Yod at word start)
   n = n.replace(/\bJo(ḥ|h)anan\b/g, 'Yo$1anan');
   n = n.replace(/\bJehudah\b/g, 'Yehudah');
   n = n.replace(/\bJoshua\b/g, 'Yehoshua');
@@ -270,6 +271,9 @@ function normalizedRabbinicalName(raw: string): string {
   n = n.replace(/\bJonathan\b/g, 'Yonatan');
   n = n.replace(/\bJeremiah\b/g, 'Yirmeyah');
   n = n.replace(/\bJacob\b/g, "Ya'akov");
+  n = n.replace(/\bIo(ḥ|h)ai\b/g, 'Yo$1ai');   // Ioḥai → Yoḥai
+  n = n.replace(/\bJosef\b/g, 'Yosef');
+  n = n.replace(/\bJoseph\b/g, 'Yosef');
 
   // 4. Other name normalizations
   n = n.replace(/\bSimeon\b/g, 'Shimon');
@@ -278,6 +282,7 @@ function normalizedRabbinicalName(raw: string): string {
   n = n.replace(/\bIsmael\b/g, 'Yishmael');
   n = n.replace(/\bIshmael\b/g, 'Yishmael');
   n = n.replace(/\bAqiba\b/g, 'Akiva');
+  n = n.replace(/\bAqabia\b/g, 'Akavia');
   n = n.replace(/\bEleazar\b/g, 'Elazar');
   n = n.replace(/\bLaqish\b/g, 'Lakish');
   n = n.replace(/\bQappara\b/g, 'Kappara');
@@ -286,15 +291,33 @@ function normalizedRabbinicalName(raw: string): string {
   n = n.replace(/\bZadok\b/g, 'Tzadok');
   n = n.replace(/\bHoshaia\b/g, 'Hoshaya');
   n = n.replace(/\bAzariah\b/g, 'Azaryah');
+  n = n.replace(/\bBenjamin\b/g, 'Binyamin');
+  n = n.replace(/\bCahana\b/g, 'Kahana');
+  n = n.replace(/\bCohen\b/g, 'Kohen');
+  n = n.replace(/(?<![a-zA-Z])\u1E24alaphta(?![a-zA-Z])/g, '\u1E24alafta');  // Ḥalaphta → Ḥalafta
+  n = n.replace(/\bAbime\b/g, 'Avimi');
+  n = n.replace(/\bAbimi\b/g, 'Avimi');
+  n = n.replace(/\bA\u1E25awah?\b/g, 'Aḥava');  // Aḥawa / Aḥawah → Aḥava
+  n = n.replace(/\bEudaimon\b/g, 'Avdimi');
+  n = n.replace(/\bGamli\u00EBl\b/g, 'Gamliel');  // Gamliël → Gamliel
+  // "Rab" as standalone honorific (not Rabb- or Raba etc.) → Rav
+  n = n.replace(/\bRab\b/g, 'Rav');
 
-  // 5. Meïr / Meїr → Meir (diaeresis is a Guggenheimer typographic convention)
-  n = n.replace(/Me\u00EFr\b/g, 'Meir');
+  // 5. Meïr and diacritic variants → Meir
+  // Step 1 already converted Cyrillic ї → ï (U+00EF), handle remaining variants:
+  // Meĩr (U+0129), Meīr (U+012B), Meïr (U+00EF), and Ṃeïr (U+1E42 = M with dot below)
+  n = n.replace(/\u1E42e[\u00EF\u0129\u012B]r\b/g, 'Meir');  // Ṃeïr / Ṃeĩr / Ṃeīr
+  n = n.replace(/Me[\u00EF\u0129\u012B]r\b/g, 'Meir');        // Meïr / Meĩr / Meīr
 
-  // 6. Ze'ira spelling variants → Ze'ira
-  // "Zeïra": ï (U+00EF) represents both the glottal stop and the vowel i, so it's Ze+ï+ra
-  // "Zeˋira"/"Ze`ira": the glottal-stop char is a separate token before "ira"
-  n = n.replace(/Ze\u00EFra\b/g, "Ze'ira");           // Zeïra (incl. Zeїra after step 1)
-  n = n.replace(/Ze[\u02CB\u0060\u2018]ira\b/g, "Ze'ira"); // Zeˋira, Ze`ira, Ze'ira
+  // 6a. Ze'ura spelling variants → Ze'ura (different person from Ze'ira)
+  n = n.replace(/Ze[\u2019\u2018\u02BC\u02CB\u0060']ura\b/g, "Ze'ura");
+
+  // 6b. Ze'ira spelling variants → Ze'ira
+  // "Zeïra": ï (U+00EF) represents both glottal stop + vowel i (Ze+ï+ra)
+  // "Zeīra": ī (U+012B i-macron) same structure (Ze+ī+ra)
+  // "Zeˋira(h)"/"Ze`ira(h)": glottal-stop char is a separate token before "ira"
+  n = n.replace(/Ze[\u00EF\u012B]ra\b/g, "Ze'ira");              // Zeïra, Zeīra
+  n = n.replace(/Ze[\u02CB\u0060\u2018\u2019']irah?\b/g, "Ze'ira"); // Zeˋira(h), Ze`ira(h), Ze'ira(h)
 
   return n.replace(/\s+/g, ' ').trim();
 }
