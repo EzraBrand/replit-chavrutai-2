@@ -85,6 +85,21 @@ function splitLineByColons(line: string): string[] {
   return parts.map((part, i) => (i < parts.length - 1 ? part + ':' : part)).filter(s => s.trim());
 }
 
+function splitLineByCommas(line: string): string[] {
+  const tags: string[] = [];
+  const protectedLine = line.replace(/<[^>]+>/g, (m) => {
+    tags.push(m);
+    return `\x00TAG${tags.length - 1}\x00`;
+  });
+  const parts = protectedLine.split(/(?<!\d), (?!\d)/);
+  if (parts.length <= 1) return [line];
+  const restore = (s: string) => s.replace(/\x00TAG(\d+)\x00/g, (_, i) => tags[parseInt(i, 10)]);
+  return parts
+    .map((part, i) => (i < parts.length - 1 ? part + ',' : part))
+    .map(restore)
+    .filter((s) => s.trim());
+}
+
 function parseSectionFootnotes(html: string): { cleanedHtml: string; footnotes: FootnoteEntry[] } {
   const footnotes: FootnoteEntry[] = [];
 
@@ -244,7 +259,7 @@ export default function YerushalmiHalakhah() {
       const cleanedHtml = convertNoteLinks(rawCleanedHtml);
 
       const englishLines = cleanedHtml.trim()
-        ? processEnglishText(cleanedHtml).split('\n').flatMap((line: string) => splitLineByColons(line)).filter((line: string) => line.trim()).map((line: string) => applyHighlighting(linkBibleCitations(line.trim())))
+        ? processEnglishText(cleanedHtml).split('\n').flatMap((line: string) => splitLineByColons(line)).flatMap((line: string) => splitLineByCommas(line)).filter((line: string) => line.trim()).map((line: string) => applyHighlighting(linkBibleCitations(line.trim())))
         : [];
 
       const hebrewLines = hebrewSection.trim()
