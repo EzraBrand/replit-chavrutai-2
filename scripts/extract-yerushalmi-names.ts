@@ -207,7 +207,7 @@ const HONORIFIC1 =
 const CONNECTOR =
   '(?:' + [
     'bar Rebbi', 'ben Rebbi',
-    'bar Rav', 'the son of Rav', 'the son of Rabbi',
+    'bar Rav', 'ben Rav', 'the son of Rav', 'the son of Rabbi',
     'bar Rabbi', 'ben Rabbi', 'son of Rabbi', 'son of Rav',
     'the son of', 'son of',
     'the grandson of Rav', 'the grandson of Rabbi',
@@ -240,7 +240,7 @@ const pattern1 = new RegExp(
 const HONORIFIC2 =
   '(?:' + [
     'bar Rebbi', 'ben Rebbi',
-    'bar Rav', 'the son of Rav', 'the son of Rabbi',
+    'bar Rav', 'ben Rav', 'the son of Rav', 'the son of Rabbi',
     'bar Rabbi', 'ben Rabbi', 'son of Rabbi', 'son of Rav',
     'the son of', 'son of',
     'the grandson of Rav', 'the grandson of Rabbi',
@@ -335,6 +335,10 @@ function normalizedRabbinicalName(raw: string): string {
   n = n.replace(/\bA\u1E25awah?\b/g, 'Aḥava');  // Aḥawa / Aḥawah → Aḥava
   n = n.replace(/\bEudaimon\b/g, 'Avdimi');
   n = n.replace(/\bGamli\u00EBl\b/g, 'Gamliel');  // Gamliël → Gamliel
+  n = n.replace(/\bIsaac\b/g, 'Yitzḥak');
+  n = n.replace(/(?<![a-zA-Z])\u1E24izqiah(?![a-zA-Z])/g, 'Ḥizkiah');  // Ḥizqiah → Ḥizkiah
+  n = n.replace(/\bTarphon\b/g, 'Tarfon');
+  n = n.replace(/\bZeriqan\b/g, 'Zerikan');
   n = n.replace(/\bUqba\b/g, 'Ukva');
   n = n.replace(/\bUqban\b/g, 'Ukban');
   // "Rab" as standalone honorific (not Rabb- or Raba etc.) → Rav
