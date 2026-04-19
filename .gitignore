@@ -75,6 +75,7 @@ replit
 *.md
 !README.md
 !.agents/skills/**/*.md
+.agents/skills/blogpost-writing/
 
 # Temporary and backup files
 *.tmp
@@ -89,8 +90,9 @@ image_*.png
 !client/public/*.png
 temp-*
 
-# Development scripts folder
-scripts/
+# Development scripts folder (track specific output files)
+scripts/*
+!scripts/yerushalmi-names-results.csv
 
 # Internal analysis
 analysis/
