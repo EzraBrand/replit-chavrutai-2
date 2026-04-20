@@ -97,6 +97,9 @@ scripts/*
 !scripts/dump-yerushalmi-text.ts
 !scripts/yerushalmi-full-text.txt
 !scripts/yerushalmi-names-redacted.txt
+!scripts/merge-names-tables.ts
+!scripts/bavli-glossary.csv
+!scripts/yerushalmi-bavli-merged.csv
 
 # Internal analysis
 analysis/
