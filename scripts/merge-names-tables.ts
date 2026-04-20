@@ -383,7 +383,7 @@ const totalYerushalmi = [...groups.values()].reduce((s, g) => s + g.totalCount, 
 const totalBavli = bavliNames.reduce((s, r) => s + bavliCount(r), 0);
 
 const pct = (n: number, total: number): string =>
-  total > 0 ? (n / total * 100).toFixed(4) : '';
+  total > 0 ? (n / total * 100).toFixed(2) + '%' : '';
 
 const OUTPUT_COLS = [
   'rank', 'normalized_name', 'yerushalmi_count', 'yerushalmi_pct',
