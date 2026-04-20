@@ -13,7 +13,7 @@
  *   scripts/.cache/yerushalmi-guggenheimer/<Tractate>.json  (raw dumps)
  *
  * Run: npx tsx scripts/extract-yerushalmi-names.ts
- *      [--tractate=Berakhot] [--no-cache] [--no-strip-quotes]
+ *      [--tractate=Berakhot] [--no-cache] [--strip-quotes]
  */
 
 import * as fs from 'fs';
@@ -62,7 +62,9 @@ for (const a of args) {
 }
 const ONLY_TRACTATE = argMap['tractate'];
 const USE_CACHE = argMap['no-cache'] !== 'true';
-const STRIP_QUOTES = argMap['no-strip-quotes'] !== 'true';
+// Yerushalmi: quoted passages routinely contain genuine rabbinic attributions,
+// so by default we do NOT strip quoted text. Pass --strip-quotes=true to override.
+const STRIP_QUOTES = argMap['strip-quotes'] === 'true';
 
 if (USE_CACHE && !fs.existsSync(CACHE_DIR)) fs.mkdirSync(CACHE_DIR, { recursive: true });
 
@@ -310,6 +312,7 @@ function normalizedRabbinicalName(raw: string): string {
   n = n.replace(/\bJoshua\b/g, 'Yehoshua');
   n = n.replace(/\bJoshiah\b/g, 'Yoshiah');
   n = n.replace(/\bJoshia\b/g, 'Yoshia');
+  n = n.replace(/\bJosia\b/g, 'Yosia');
   n = n.replace(/\bJo\u1E63adaq\b/g, 'Yotzadak');  // Joṣadaq → Yotzadak (before blanket ṣ→tz)
   n = n.replace(/\bJonah\b/g, 'Yonah');
   n = n.replace(/\bJonathan\b/g, 'Yonatan');
@@ -356,6 +359,7 @@ function normalizedRabbinicalName(raw: string): string {
   n = n.replace(/\bZeriqa\b/g, 'Zerika');
   n = n.replace(/\bUqba\b/g, 'Ukva');
   n = n.replace(/\bUqban\b/g, 'Ukban');
+  n = n.replace(/\bYaqim\b/g, 'Yakim');
   // "Rab" as standalone honorific (not Rabb- or Raba etc.) → Rav
   n = n.replace(/\bRab\b/g, 'Rav');
 
