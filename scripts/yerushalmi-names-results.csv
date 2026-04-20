@@ -46,7 +46,7 @@ rank,name,normalized_name,count,example_1,example_2,example_3
 45,Rebbi Meїr,R' Meir,216,Sheviit 5:2.1,Terumot 1:1.22,Terumot 1:1.23
 46,Rav Jehudah,Rav Yehudah,213,Berakhot 8:1.7,Peah 4:4.2,Peah 7:3.4
 47,Rebbi Ḥizqiah,R' Ḥizkiah,201,Berakhot 1:1.15,Berakhot 1:1.27,Berakhot 1:6.5
-48,The House of Shammai,the House of Shammai,186,Berakhot 8:1.1,Berakhot 8:2.1,Berakhot 8:3.1
+48,The House of Shammai,Beit Shammai,186,Berakhot 8:1.1,Berakhot 8:2.1,Berakhot 8:3.1
 49,Ḥizqiah,Ḥizkiah,185,Berakhot 1:5.10,Berakhot 2:4.12,Berakhot 3:4.8
 50,Rebbi Abun bar Ḥiyya,R' Abun bar Ḥiyya,180,Berakhot 2:4.16,Peah 3:3.3,Peah 6:4.2
 51,Rebbi Jonathan,R' Yonatan,174,Berakhot 2:3.15,Berakhot 5:1.19,Berakhot 6:7.2
@@ -105,7 +105,7 @@ rank,name,normalized_name,count,example_1,example_2,example_3
 104,Rebbi Yehudah,R' Yehudah,57,Berakhot 1:1.22,Berakhot 1:2.6,Berakhot 2:1.1
 105,Rav Hamnuna,Rav Hamnuna,57,Berakhot 1:2.7,Kilayim 4:2.5,Maasrot 4:2.2
 106,Rebbi Yose ben Rebbi Ḥanina,R' Yose ben R' Ḥanina,57,Berakhot 8:2.5,Demai 5:1.2,Demai 6:2.5
-107,The House of Hillel,the House of Hillel,57,Berakhot 8:5.3,Berakhot 8:7.1,Demai 6:5.1
+107,The House of Hillel,Beit Hillel,57,Berakhot 8:5.3,Berakhot 8:7.1,Demai 6:5.1
 108,Rebbi Abba Mari,R' Abba Mari,55,Berakhot 1:2.9,Berakhot 7:1.7,Demai 2:1.9
 109,Rav Ḥiyya bar Ashi,Rav Ḥiyya bar Ashi,55,Berakhot 1:5.8,Berakhot 5:2.16,Berakhot 6:5.4
 110,Rebbi Ṭarphon,R' Tarphon,53,Berakhot 1:4.1,Peah 3:6.1,Peah 3:6.2
@@ -196,7 +196,7 @@ rank,name,normalized_name,count,example_1,example_2,example_3
 195,Rebbi Simeon from Shezur,R' Shimon from Shezur,15,Demai 4:1.1,Demai 4:1.9,Demai 4:1.10
 196,the rabbis of Caesarea,the rabbis of Caesarea,15,Demai 7:8.2,Challah 4:2.4,Shabbat 7:1.15
 197,Rebbi Ilai,R' Ilai,15,Terumot 2:2.4,Yoma 1:1.18,Sukkah 2:5.6
-198,Hillel the Elder,Hillel the Elder,15,Shabbat 19:1.8,Eruvin 10:1.8,Sukkah 5:4.2
+198,Hillel the Elder,Hillel,15,Shabbat 19:1.8,Eruvin 10:1.8,Sukkah 5:4.2
 199,Rebbi Samuel ben Naḥman,R' Shmuel ben Naḥman,14,Berakhot 1:5.4,Berakhot 9:2.12,Peah 1:1.49
 200,Rebbi Cohen,R' Kohen,14,Berakhot 3:1.17,Demai 7:8.2,Challah 4:2.4
 201,Rebbi Berekhia,R' Berekhia,14,Berakhot 5:2.3,Berakhot 9:5.2,Maasrot 5:2.3
@@ -276,7 +276,7 @@ rank,name,normalized_name,count,example_1,example_2,example_3
 275,Rebbi Simon bar Zavdi,R' Shimon bar Zavdi,9,Pesachim 8:6.3,Pesachim 9:1.4,Pesachim 9:1.5
 276,Rebbi Isaac bar Ḥaqula,R' Yitzḥak bar Ḥaqula,9,Sukkah 1:12.3,Sukkah 3:6.3,Yevamot 6:6.6
 277,Abba Jehudah,Abba Yehudah,9,Horayot 3:4.3,,
-278,the school of Hillel,the House of Hillel,8,Berakhot 1:3.1,Berakhot 1:3.2,Berakhot 1:3.3
+278,the school of Hillel,Beit Hillel,8,Berakhot 1:3.1,Berakhot 1:3.2,Berakhot 1:3.3
 279,Rebbi Judah the Prince,R' Yehudah the Prince,8,Berakhot 3:1.22,Peah 1:5.7,Beitzah 1:9.3
 280,Rebbi Zakkai,R' Zakkai,8,Berakhot 3:5.10,Shabbat 7:1.4,Shabbat 7:2.8
 281,Rebbi Ḥanina the son of Rebbi Abbahu,R' Ḥanina the son of R' Abbahu,8,Berakhot 4:4.6,Berakhot 7:3.7,Bikkurim 3:3.9
@@ -366,7 +366,7 @@ rank,name,normalized_name,count,example_1,example_2,example_3
 365,Rebbi Jehudah ben Tema,R' Yehudah ben Tema,6,Moed Katan 3:7.14,Nazir 2:4.2,Bava Metzia 7:7.3
 366,Rabban Gamliel the Elder,Rabban Gamliel the Elder,6,Yevamot 16:7.1,Gittin 4:2.1,Gittin 4:2.6
 367,Rebbi Simeon bar Yoḥai,R' Shimon bar Yoḥai,5,Berakhot 1:1.35,Berakhot 4:4.11,Berakhot 9:2.18
-368,the school of Shammai,the House of Shammai,5,Berakhot 1:3.2,Berakhot 1:3.3,Berakhot 1:4.1
+368,the school of Shammai,Beit Shammai,5,Berakhot 1:3.2,Berakhot 1:3.3,Berakhot 1:4.1
 369,Rebbi Abba bar Aḥa,R' Abba bar Aḥa,5,Berakhot 1:6.4,Berakhot 3:4.12,Shabbat 1:4.15
 370,Rebbi Aḥai,R' Aḥai,5,Berakhot 2:1.3,Kilayim 4:5.2,Ketubot 3:1.5
 371,Rebbi Ḥisqiah,R' Ḥisqiah,5,Berakhot 2:3.9,Eruvin 10:1.4,Shekalim 1:1.5
@@ -999,7 +999,7 @@ rank,name,normalized_name,count,example_1,example_2,example_3
 998,Proclos ben Ploslos,Proclos ben Ploslos,2,Avodah Zarah 3:4.1,Avodah Zarah 3:4.2,
 999,Rebbi Ḥanina bar Pappa,R' Ḥanina bar Pappa,2,Avodah Zarah 4:10.4,,
 1000,the father of Rebbi Hoshaiah,the father of R' Hoshaiah,2,Niddah 2:1.6,,
-1001,The Hause of Shammai,the House of Shammai,2,Niddah 2:6.1,Niddah 2:6.3,
+1001,The Hause of Shammai,Beit Shammai,2,Niddah 2:6.1,Niddah 2:6.3,
 1002,Isaac bar Jonathan,Yitzḥak bar Yonatan,2,Niddah 2:7.7,,
 1003,Rebbi Abba bar Pappus,R' Abba bar Pappus,1,Berakhot 1:1.6,,
 1004,R. Yehudah ben Pazi,R' Yehudah ben Pazi,1,Berakhot 1:1.10,,
@@ -1014,7 +1014,7 @@ rank,name,normalized_name,count,example_1,example_2,example_3
 1013,the brother of Rav Ḥiyya bar Ashi,the brother of Rav Ḥiyya bar Ashi,1,Berakhot 1:1.31,,
 1014,Rebbi Yehoshua,R' Yehoshua,1,Berakhot 1:2.1,,
 1015,Rebbi Zabida the son of Rebbi Jacob bar Zabdi,R' Zabida the son of R' Ya'akov bar Zabdi,1,Berakhot 1:2.7,,
-1016,The school of Shammai,the House of Shammai,1,Berakhot 1:3.1,,
+1016,The school of Shammai,Beit Shammai,1,Berakhot 1:3.1,,
 1017,Simeon ben Abba,Shimon ben Abba,1,Berakhot 1:4.2,,
 1018,R. Yoḥanan,R' Yoḥanan,1,Berakhot 1:4.2,,
 1019,"Rebbi Ḥananiah, the son of Rebbi Ada","R' Ḥananiah, the son of R' Ada",1,Berakhot 1:4.3,,

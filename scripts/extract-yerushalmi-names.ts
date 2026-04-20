@@ -466,10 +466,11 @@ function normalizedRabbinicalName(raw: string): string {
   if (n === 'The House of Shammai' || n === 'the House of Shammai' ||
       n === 'The Hause of Shammai' ||
       n === 'the school of Shammai' || n === 'The school of Shammai')
-    return 'the House of Shammai';
+    return 'Beit Shammai';
   if (n === 'The House of Hillel' || n === 'the House of Hillel' ||
       n === 'the school of Hillel' || n === 'The school of Hillel')
-    return 'the House of Hillel';
+    return 'Beit Hillel';
+  if (n === 'Hillel the Elder') return 'Hillel';
 
   // 1. Cyrillic ї/Ї (U+0457/U+0406) → Latin ï/Ï — Guggenheimer typographic quirk
   n = n.replace(/\u0457/g, '\u00EF').replace(/\u0406/g, '\u00CF');
