@@ -313,6 +313,10 @@ const SPECIAL_NAMES: string[] = [
   'The maternal uncle of Rebbi Ada',
   'The maternal uncle of Rav Cahana',
   'The rabbis of Caesarea', 'the rabbis of Caesarea',
+  'The rabbis of Caesaria', 'the rabbis of Caesaria',  // variant spelling
+  'the rabbis of Cesarea',                             // variant spelling
+  'The rabbis of Rebbi Justinus',
+  'The rabbis of Newe',
   'The father-in-law of Rebbi Yannai the younger',
   'the father-in-law of Rebbi Yannai the younger',
   '(Rebbi) Abba [bar Jeremiah]',
@@ -383,8 +387,12 @@ function normalizedRabbinicalName(raw: string): string {
     return "father-in-law of R' Yannai the younger";
   if (n === 'The maternal uncle of Rebbi Ada')  return "maternal uncle of R' Ada";
   if (n === 'The maternal uncle of Rav Cahana') return 'maternal uncle of Rav Cahana';
-  if (n === 'The rabbis of Caesarea' || n === 'the rabbis of Caesarea')
+  if (n === 'The rabbis of Caesarea' || n === 'the rabbis of Caesarea' ||
+      n === 'The rabbis of Caesaria' || n === 'the rabbis of Caesaria' ||
+      n === 'the rabbis of Cesarea')
     return 'the rabbis of Caesarea';
+  if (n === 'The rabbis of Rebbi Justinus') return "the rabbis of R' Justinus";
+  if (n === 'The rabbis of Newe') return 'the rabbis of Newe';
 
   // 1. Cyrillic ї/Ї (U+0457/U+0406) → Latin ï/Ï — Guggenheimer typographic quirk
   n = n.replace(/\u0457/g, '\u00EF').replace(/\u0406/g, '\u00CF');
