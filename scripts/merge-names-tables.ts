@@ -376,9 +376,18 @@ for (const yr of yRows) {
 
 // ── Build output rows (one per unique normalized_name) ─────────────────────────
 
+// ── Corpus totals for frequency normalisation ──────────────────────────────────
+// Yerushalmi total = all occurrences across every normalised name group.
+const totalYerushalmi = [...groups.values()].reduce((s, g) => s + g.totalCount, 0);
+// Bavli total = all name-occurrences in the filtered Bavli glossary (names, count > 10).
+const totalBavli = bavliNames.reduce((s, r) => s + bavliCount(r), 0);
+
+const pct = (n: number, total: number): string =>
+  total > 0 ? (n / total * 100).toFixed(4) : '';
+
 const OUTPUT_COLS = [
-  'rank', 'normalized_name', 'yerushalmi_count',
-  'bavli_term', 'bavli_count',
+  'rank', 'normalized_name', 'yerushalmi_count', 'yerushalmi_pct',
+  'bavli_term', 'bavli_count', 'bavli_pct',
   'wikipedia_he', 'hebrew_term', 'wikidata_id',
   'match_type', 'match_score', 'match_note',
   'yerushalmi_variant_names',
@@ -393,12 +402,15 @@ let rank = 1;
 for (const g of sortedGroups) {
   const m = findMatch(g.normalizedName);
   const normBavliTerm = m.bavliTerm.replace(/\bRabbi\b/g, "R'");
+  const bavliN = m.bavliCount ? parseInt(m.bavliCount) : 0;
   outRows.push({
     rank:                      String(rank++),
     normalized_name:           g.normalizedName,
     yerushalmi_count:          String(g.totalCount),
+    yerushalmi_pct:            pct(g.totalCount, totalYerushalmi),
     bavli_term:                normBavliTerm,
     bavli_count:               m.bavliCount,
+    bavli_pct:                 m.bavliCount ? pct(bavliN, totalBavli) : '',
     wikipedia_he:              m.wikipediaHe,
     hebrew_term:               m.hebrewTerm,
     wikidata_id:               m.wikidataId,
