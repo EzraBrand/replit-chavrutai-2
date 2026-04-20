@@ -207,16 +207,27 @@ const pattern2 = new RegExp(
 const _B  = '(?<![a-zA-Z\u00C0-\u024F\u1E00-\u1EFF])';
 const _A  = '(?![a-zA-Z\u00C0-\u024F\u1E00-\u1EFF])';
 const SPECIAL_NAMES_REDACT: string[] = [
+  // Multi-word phrases first (longest-match preference in regex alternation)
+  'The father-in-law of Rebbi Yannai the younger',
+  'the father-in-law of Rebbi Yannai the younger',
+  '(Rebbi) Abba [bar Jeremiah]',
+  'The great Rebbi \u1e24iyya', 'the great Rebbi \u1e24iyya',
+  'Elisha of the bird\u2019s wings', "Elisha of the bird's wings",
+  'Rabban (Simeon ben) Gamliel',
+  'Rebbi Yudan Antoraya',
+  'Rebbi Abba Mari',
   'the school of Shammai', 'The school of Shammai',
   'the school of Hillel',  'The school of Hillel',
   'the people of Sepphoris', 'The people of Sepphoris',
   'the father of Samuel', 'The father of Samuel',
-  'Naḥman the Old',
+  'Na\u1e25man the Old',
   'Benjamin from Ginzak',
   'Resh Laqish',
   'king Diocletian', 'King Diocletian',
   'Abbahu',
   'Mena\u1E25em',
+  '\u1e24izqiah',  // Ḥizqiah — standalone
+  'Maisha',
   'Assi',
   'Cahana',
   'Abdan',
