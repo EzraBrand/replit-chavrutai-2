@@ -202,10 +202,37 @@ const pattern2 = new RegExp(
   'g'
 );
 
+// Pattern 3: hardcoded proper names only (no "Rav said" / "in the name of" phrases —
+// those are attribution markers, not names to redact in the readable text).
+const _B  = '(?<![a-zA-Z\u00C0-\u024F\u1E00-\u1EFF])';
+const _A  = '(?![a-zA-Z\u00C0-\u024F\u1E00-\u1EFF])';
+const SPECIAL_NAMES_REDACT: string[] = [
+  'the school of Shammai', 'The school of Shammai',
+  'the school of Hillel',  'The school of Hillel',
+  'the people of Sepphoris', 'The people of Sepphoris',
+  'the father of Samuel', 'The father of Samuel',
+  'Naḥman the Old',
+  'Benjamin from Ginzak',
+  'Resh Laqish',
+  'king Diocletian', 'King Diocletian',
+  'Abbahu',
+  'Mena\u1E25em',
+  'Assi',
+  'Cahana',
+  'Abdan',
+  'Ulla',
+  'Samuel',
+  'Shmuel',
+];
+const pattern3 = new RegExp(
+  SPECIAL_NAMES_REDACT.map(n => _B + n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + _A).join('|'),
+  'g'
+);
+
 /** Return all non-overlapping match spans, longest-first at each position. */
 function matchSpans(text: string): { start: number; end: number }[] {
   const spans: { start: number; end: number }[] = [];
-  for (const re of [pattern1, pattern2]) {
+  for (const re of [pattern1, pattern2, pattern3]) {
     re.lastIndex = 0;
     let m: RegExpExecArray | null;
     while ((m = re.exec(text)) !== null) {
