@@ -95,6 +95,8 @@ scripts/*
 !scripts/yerushalmi-names-results.csv
 !scripts/extract-yerushalmi-names.ts
 !scripts/dump-yerushalmi-text.ts
+!scripts/yerushalmi-full-text.txt
+!scripts/yerushalmi-names-redacted.txt
 
 # Internal analysis
 analysis/

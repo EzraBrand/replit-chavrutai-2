@@ -88,6 +88,10 @@ function stripHtml(html: string): string {
 
 function cleanSegment(raw: string): string {
   let s = stripFootnotes(raw);
+  // Strip footnote-marker superscripts with their numeral content BEFORE generic
+  // HTML stripping, otherwise the number is left as a stray token in the text.
+  // e.g. <sup class="footnote-marker">23</sup> → removed entirely.
+  s = s.replace(/<sup[^>]*class="footnote-marker"[^>]*>[\s\S]*?<\/sup>/g, '');
   s = stripHtml(s);
   s = s.normalize('NFC');
   // Hebrew final nun ן between Latin letters → ï
