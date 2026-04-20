@@ -206,10 +206,12 @@ const pattern2 = new RegExp(
 // those are attribution markers, not names to redact in the readable text).
 const _B  = '(?<![a-zA-Z\u00C0-\u024F\u1E00-\u1EFF])';
 const _A  = '(?![a-zA-Z\u00C0-\u024F\u1E00-\u1EFF])';
+// ORDERING: longer/more-specific phrases before shorter ones they contain.
 const SPECIAL_NAMES_REDACT: string[] = [
-  // Multi-word phrases first (longest-match preference in regex alternation)
+  // ── Kinship / collective phrases ──────────────────────────────────────────
   'The maternal uncle of Rebbi Ada',
   'The maternal uncle of Rav Cahana',
+  'The Samaritans of Caesarea', 'the Samaritans of Caesarea',
   'The rabbis of Caesarea', 'the rabbis of Caesarea',
   'The rabbis of Caesaria', 'the rabbis of Caesaria',
   'the rabbis of Cesarea',
@@ -217,27 +219,69 @@ const SPECIAL_NAMES_REDACT: string[] = [
   'The rabbis of Newe',
   'The father-in-law of Rebbi Yannai the younger',
   'the father-in-law of Rebbi Yannai the younger',
+  'Abime the brother of \u1e24efa',
+  // ── "the great Rebbi X" ───────────────────────────────────────────────────
+  'The great Rebbi \u1e24oshaia', 'the great Rebbi \u1e24oshaia',
+  'The great Rebbi \u1e24iyya',   'the great Rebbi \u1e24iyya',
+  'The great Rebbi Yose',         'the great Rebbi Yose',
+  'The great Rebbi A\u1e25a',     'the great Rebbi A\u1e25a',
+  'The great Rebbi Isaac',        'the great Rebbi Isaac',
+  'The great Jehudah',            'the great Jehudah',
+  // ── Bracketed/parenthesised editorial forms ───────────────────────────────
   '(Rebbi) Abba [bar Jeremiah]',
-  'The great Rebbi \u1e24iyya', 'the great Rebbi \u1e24iyya',
-  'Elisha of the bird\u2019s wings', "Elisha of the bird's wings",
+  'Rebbi (Eleazar) [Eliezer]',
+  'Rebbi (Eleazar)',
+  'Rebbi [Jo\u1e25anan]',
+  'Rebbi (Joshua) [Hoshaia]',
+  'Rav (A\u1e25a) [Ada] bar A\u1e25awa',
+  'Rebbi \u1e24izqiah (said) [from Acco]',
   'Rabban (Simeon ben) Gamliel',
-  'Rebbi Yudan Antoraya',
-  'Rebbi Abba Mari',
+  // ── "X the scribe / carpenter" ────────────────────────────────────────────
+  'Jo\u1e25anan the scribe of Gufta',
+  'Rebbi \u1e24iyya the scribe',
+  'Rebbi \u1e24anina the scribe',
+  'Bar Shelemiah the scribe',
+  'Na\u1e25um the scribe',
+  'Bar Ko\u1e25a the carpenter',
+  // ── "the House of" — before standalone Hillel / Shammai ──────────────────
+  'The House of Shammai', 'the House of Shammai', 'The Hause of Shammai',
+  'The House of Hillel',  'the House of Hillel',
   'the school of Shammai', 'The school of Shammai',
   'the school of Hillel',  'The school of Hillel',
+  // ── "X the Elder" — before standalone names ───────────────────────────────
+  'Hillel the Elder',
+  'Gamliel the Elder',
+  'Samuel the Elder',
+  'Isaac the Elder',
+  'Simlai the Southerner',
+  // ── Other multi-word proper nouns ─────────────────────────────────────────
+  'Alexander the Macedonian',
+  'Rebbi Yudan Antoraya',
+  'Rebbi Abba Mari',
+  'Elisha of the bird\u2019s wings', "Elisha of the bird's wings",
   'the people of Sepphoris', 'The people of Sepphoris',
   'the father of Samuel', 'The father of Samuel',
+  'An Aramean youth',
+  'the family Osinos',
   'Na\u1e25man the Old',
   'Benjamin from Ginzak',
+  // ── Single-word proper names ───────────────────────────────────────────────
+  'Aphrodite',
   'Resh Laqish',
   'king Diocletian', 'King Diocletian',
   'Abbahu',
   'Mena\u1E25em',
-  '\u1e24izqiah',  // Ḥizqiah — standalone
+  '\u1e24izqiah',
   'Maisha',
-  'Ze\u00EFra',   // Zeïra — Latin ï variant
-  'Ze\u0457ra',   // Zeїra — Cyrillic ї variant
+  'Ganiba',
+  'Gedilah',
+  'Ze\u00EFra',
+  'Ze\u0457ra',
   'Rabba',
+  'Hillel',
+  'Shammai',
+  'Issy',
+  '\u1e24efa',
   'Assi',
   'Cahana',
   'Abdan',

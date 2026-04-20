@@ -308,10 +308,13 @@ const SPECIAL_PHRASES: string[] = [
 ];
 
 // Names with standard word-boundary treatment (no honorific suffix that could precede a name).
+// ORDERING: longer / more-specific phrases MUST precede shorter ones they contain,
+// because pattern3 is a single regex alternation and the first match at each position wins.
 const SPECIAL_NAMES: string[] = [
-  // Multi-word phrases: listed longest-first so the regex alternation prefers them
+  // ── Kinship / collective phrases ──────────────────────────────────────────
   'The maternal uncle of Rebbi Ada',
   'The maternal uncle of Rav Cahana',
+  'The Samaritans of Caesarea', 'the Samaritans of Caesarea',
   'The rabbis of Caesarea', 'the rabbis of Caesarea',
   'The rabbis of Caesaria', 'the rabbis of Caesaria',  // variant spelling
   'the rabbis of Cesarea',                             // variant spelling
@@ -319,27 +322,71 @@ const SPECIAL_NAMES: string[] = [
   'The rabbis of Newe',
   'The father-in-law of Rebbi Yannai the younger',
   'the father-in-law of Rebbi Yannai the younger',
+  'Abime the brother of \u1e24efa',  // Ḥ = U+1E24
+  // ── "the great Rebbi X" — must precede standalone 'the great Rebbi Ḥiyya'
+  'The great Rebbi \u1e24oshaia', 'the great Rebbi \u1e24oshaia',
+  'The great Rebbi \u1e24iyya',   'the great Rebbi \u1e24iyya',
+  'The great Rebbi Yose',         'the great Rebbi Yose',
+  'The great Rebbi A\u1e25a',     'the great Rebbi A\u1e25a',   // Ḥ = U+1E25
+  'The great Rebbi Isaac',        'the great Rebbi Isaac',
+  'The great Jehudah',            'the great Jehudah',
+  // ── Bracketed/parenthesised editorial forms ───────────────────────────────
+  // More-specific forms (with both parens and brackets) before less-specific
   '(Rebbi) Abba [bar Jeremiah]',
-  'The great Rebbi \u1e24iyya', 'the great Rebbi \u1e24iyya',  // Ḥ = U+1E24
-  'Elisha of the bird\u2019s wings', "Elisha of the bird's wings",
+  'Rebbi (Eleazar) [Eliezer]',  // before 'Rebbi (Eleazar)'
+  'Rebbi (Eleazar)',
+  'Rebbi [Jo\u1e25anan]',  // Ḥ = U+1E25
+  'Rebbi (Joshua) [Hoshaia]',
+  'Rav (A\u1e25a) [Ada] bar A\u1e25awa',  // Rav Ada bar Aḥava
+  'Rebbi \u1e24izqiah (said) [from Acco]',
   'Rabban (Simeon ben) Gamliel',
-  'Rebbi Yudan Antoraya',
-  'Rebbi Abba Mari',
+  // ── "X the scribe / carpenter" — must precede bare names ─────────────────
+  'Jo\u1e25anan the scribe of Gufta',       // full compound before shorter forms
+  'Rebbi \u1e24iyya the scribe',
+  'Rebbi \u1e24anina the scribe',
+  'Bar Shelemiah the scribe',
+  'Na\u1e25um the scribe',
+  'Bar Ko\u1e25a the carpenter',
+  // ── "the House of" — before standalone Hillel / Shammai ──────────────────
+  'The House of Shammai', 'the House of Shammai', 'The Hause of Shammai',
+  'The House of Hillel',  'the House of Hillel',
+  // ── "the school of" (kept for existing CSV rows; now also unifies below) ──
   'the school of Shammai', 'The school of Shammai',
   'the school of Hillel',  'The school of Hillel',
+  // ── "X the Elder" — before standalone single names ────────────────────────
+  'Hillel the Elder',    // before 'Hillel'
+  'Gamliel the Elder',
+  'Samuel the Elder',
+  'Isaac the Elder',
+  'Simlai the Southerner',
+  // ── Other multi-word proper nouns ─────────────────────────────────────────
+  'Alexander the Macedonian',
+  'Rebbi Yudan Antoraya',
+  'Rebbi Abba Mari',
+  'Elisha of the bird\u2019s wings', "Elisha of the bird's wings",
   'the people of Sepphoris', 'The people of Sepphoris',
   'the father of Samuel', 'The father of Samuel',
+  'An Aramean youth',
+  'the family Osinos',
   'Na\u1e25man the Old',   // Naḥman
   'Benjamin from Ginzak',
+  // ── Single-word proper names ───────────────────────────────────────────────
+  'Aphrodite',
   'Resh Laqish',
   'king Diocletian', 'King Diocletian',
   'Abbahu',
-  'Mena\u1E25em',  // Menaḥem
-  '\u1e24izqiah',  // Ḥizqiah — standalone (Rebbi Ḥizqiah caught by pattern1)
+  'Mena\u1E25em',   // Menaḥem
+  '\u1e24izqiah',   // Ḥizqiah — standalone
   'Maisha',
-  'Ze\u00EFra',   // Zeïra — Latin ï variant (normalizes to Ze'ira)
-  'Ze\u0457ra',   // Zeїra — Cyrillic ї variant (normalizes to Ze'ira)
+  'Ganiba',
+  'Gedilah',
+  'Ze\u00EFra',    // Zeïra — Latin ï variant
+  'Ze\u0457ra',    // Zeїra — Cyrillic ї variant
   'Rabba',
+  'Hillel',        // AFTER 'Hillel the Elder' and 'House of Hillel'
+  'Shammai',       // AFTER 'Shammai the Elder' and 'House of Shammai'
+  'Issy',
+  '\u1e24efa',     // Ḥefa
   'Assi',
   'Cahana',
   'Abdan',
@@ -378,21 +425,51 @@ function normalizedRabbinicalName(raw: string): string {
       n === 'in the name of Rav' || n === 'in the name of Rab') return 'Rav';
   if (n === 'Rebbi said' || n === 'in the name of Rebbi') return "R' Yehuda HaNasi";
   if (n === 'Rebbis say' || n === 'in the name of Rebbis') return 'Rabbis';
+  // "the great Rebbi X" forms
+  if (n === 'The great Rebbi \u1e24oshaia' || n === 'the great Rebbi \u1e24oshaia')
+    return "R' Hoshaya the Great";
   if (n === 'The great Rebbi \u1e24iyya' || n === 'the great Rebbi \u1e24iyya')
     return "R' \u1e24iyya the Great";
+  if (n === 'The great Rebbi Yose' || n === 'the great Rebbi Yose')
+    return "R' Yose the Great";
+  if (n === 'The great Rebbi A\u1e25a' || n === 'the great Rebbi A\u1e25a')
+    return "R' A\u1e25a the Great";
+  if (n === 'The great Rebbi Isaac' || n === 'the great Rebbi Isaac')
+    return "R' Yitz\u1e25ak the Great";
+  if (n === 'The great Jehudah' || n === 'the great Jehudah')
+    return 'Yehudah the Great';
+  // Bracketed / parenthesised editorial forms
+  if (n === 'Rebbi (Eleazar) [Eliezer]' || n === 'Rebbi (Eleazar)') return "R' Eliezer";
+  if (n === 'Rebbi [Jo\u1e25anan]') return "R' Yo\u1e25anan";
+  if (n === 'Rebbi (Joshua) [Hoshaia]') return "R' Hoshaya";
+  if (n === 'Rav (A\u1e25a) [Ada] bar A\u1e25awa') return 'Rav Ada bar A\u1e25ava';
+  if (n === 'Rebbi \u1e24izqiah (said) [from Acco]') return "R' \u1e24izkiah from Acco";
   if (n === 'Rabban (Simeon ben) Gamliel') return 'Rabban Shimon ben Gamliel';
   if (n === '(Rebbi) Abba [bar Jeremiah]') return 'Abba bar Jeremiah';
+  // Kinship phrases
   if (n === 'The father-in-law of Rebbi Yannai the younger' ||
       n === 'the father-in-law of Rebbi Yannai the younger')
     return "father-in-law of R' Yannai the younger";
   if (n === 'The maternal uncle of Rebbi Ada')  return "maternal uncle of R' Ada";
   if (n === 'The maternal uncle of Rav Cahana') return 'maternal uncle of Rav Cahana';
+  if (n === 'Abime the brother of \u1e24efa') return 'Avimi the brother of \u1e24efa';
+  // Collective groups
+  if (n === 'The Samaritans of Caesarea' || n === 'the Samaritans of Caesarea')
+    return 'the Samaritans of Caesarea';
   if (n === 'The rabbis of Caesarea' || n === 'the rabbis of Caesarea' ||
       n === 'The rabbis of Caesaria' || n === 'the rabbis of Caesaria' ||
       n === 'the rabbis of Cesarea')
     return 'the rabbis of Caesarea';
   if (n === 'The rabbis of Rebbi Justinus') return "the rabbis of R' Justinus";
   if (n === 'The rabbis of Newe') return 'the rabbis of Newe';
+  // "the House of" — all variants merge to one canonical form
+  if (n === 'The House of Shammai' || n === 'the House of Shammai' ||
+      n === 'The Hause of Shammai' ||
+      n === 'the school of Shammai' || n === 'The school of Shammai')
+    return 'the House of Shammai';
+  if (n === 'The House of Hillel' || n === 'the House of Hillel' ||
+      n === 'the school of Hillel' || n === 'The school of Hillel')
+    return 'the House of Hillel';
 
   // 1. Cyrillic ї/Ї (U+0457/U+0406) → Latin ï/Ï — Guggenheimer typographic quirk
   n = n.replace(/\u0457/g, '\u00EF').replace(/\u0406/g, '\u00CF');
