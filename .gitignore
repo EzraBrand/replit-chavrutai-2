@@ -94,6 +94,7 @@ temp-*
 scripts/*
 !scripts/yerushalmi-names-results.csv
 !scripts/extract-yerushalmi-names.ts
+!scripts/dump-yerushalmi-text.ts
 
 # Internal analysis
 analysis/
