@@ -283,25 +283,40 @@ const pattern2 = new RegExp(
   'g'
 );
 
-// Pattern 3: hardcoded literal names that pattern1/2 cannot catch because they
-// carry no honorific prefix or use non-standard structures.
+// Pattern 3: hardcoded literal names/phrases that pattern1/2 cannot catch.
 // Longer alternatives are listed first to take priority in left-to-right matching.
 // Word boundaries use lookarounds rather than \b to handle non-ASCII characters.
+
+const _B  = '(?<![a-zA-Z\u00C0-\u024F\u1E00-\u1EFF])'; // not preceded by a letter
+const _A  = '(?![a-zA-Z\u00C0-\u024F\u1E00-\u1EFF])';  // not followed by a letter
+// Not followed by a space + name-starting uppercase.
+// Used after honorifics (Rebbi/Rav/Rab) so that "in the name of Rebbi Yoḥanan"
+// does NOT match — pattern1 will catch "Rebbi Yoḥanan" directly instead.
+const _NF = '(?! [A-Z\u00C0-\u024E\u1E00-\u1EFF\u0406])';
+
+// Phrases that need _NF because they end with a bare honorific that may precede a name.
+// (see normalizedRabbinicalName for the → mappings)
+const SPECIAL_PHRASES: string[] = [
+  _B + 'said in the name of Rab' + _NF,
+  _B + 'in the name of Rebbis'   + _A,   // plural — never followed by an individual name
+  _B + 'in the name of Rebbi'    + _NF,
+  _B + 'in the name of Rav'      + _NF,
+  _B + 'in the name of Rab'      + _NF,
+  _B + 'Rebbis say' + _A,
+  _B + 'Rebbi said' + _A,
+  _B + 'Rav said'   + _A,
+];
+
+// Names with standard word-boundary treatment (no honorific suffix that could precede a name).
 const SPECIAL_NAMES: string[] = [
-  // Multi-word phrases first (longest first within each group)
-  'said in the name of Rab',   // → Rav  (see normalizedRabbinicalName)
   'the school of Shammai', 'The school of Shammai',
   'the school of Hillel',  'The school of Hillel',
   'the people of Sepphoris', 'The people of Sepphoris',
   'the father of Samuel', 'The father of Samuel',
-  'Rebbis say',                // → Rabbis
-  'Rebbi said',                // → R' Yehuda HaNasi
-  'Rav said',                  // → Rav
   'Naḥman the Old',
   'Benjamin from Ginzak',
   'Resh Laqish',
   'king Diocletian', 'King Diocletian',
-  // Standalone names
   'Abbahu',
   'Mena\u1E25em',  // Menaḥem
   'Assi',
@@ -312,13 +327,11 @@ const SPECIAL_NAMES: string[] = [
   'Shmuel',
 ];
 
-const _B = '(?<![a-zA-Z\u00C0-\u024F\u1E00-\u1EFF])'; // boundary before
-const _A = '(?![a-zA-Z\u00C0-\u024F\u1E00-\u1EFF])';  // boundary after
-
 const pattern3 = new RegExp(
-  SPECIAL_NAMES
-    .map(n => _B + n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + _A)
-    .join('|'),
+  [
+    ...SPECIAL_PHRASES,
+    ...SPECIAL_NAMES.map(n => _B + n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + _A),
+  ].join('|'),
   'g'
 );
 
@@ -340,9 +353,10 @@ function normalizedRabbinicalName(raw: string): string {
 
   // Pattern3 phrase mappings: raw phrase → canonical name (must run first,
   // before general honorific substitution rewrites the raw text).
-  if (n === 'Rav said' || n === 'said in the name of Rab') return 'Rav';
-  if (n === 'Rebbi said') return "R' Yehuda HaNasi";
-  if (n === 'Rebbis say') return 'Rabbis';
+  if (n === 'Rav said'   || n === 'said in the name of Rab' ||
+      n === 'in the name of Rav' || n === 'in the name of Rab') return 'Rav';
+  if (n === 'Rebbi said' || n === 'in the name of Rebbi') return "R' Yehuda HaNasi";
+  if (n === 'Rebbis say' || n === 'in the name of Rebbis') return 'Rabbis';
 
   // 1. Cyrillic ї/Ї (U+0457/U+0406) → Latin ï/Ï — Guggenheimer typographic quirk
   n = n.replace(/\u0457/g, '\u00EF').replace(/\u0406/g, '\u00CF');
