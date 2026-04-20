@@ -208,6 +208,9 @@ const _B  = '(?<![a-zA-Z\u00C0-\u024F\u1E00-\u1EFF])';
 const _A  = '(?![a-zA-Z\u00C0-\u024F\u1E00-\u1EFF])';
 const SPECIAL_NAMES_REDACT: string[] = [
   // Multi-word phrases first (longest-match preference in regex alternation)
+  'The maternal uncle of Rebbi Ada',
+  'The maternal uncle of Rav Cahana',
+  'The rabbis of Caesarea', 'the rabbis of Caesarea',
   'The father-in-law of Rebbi Yannai the younger',
   'the father-in-law of Rebbi Yannai the younger',
   '(Rebbi) Abba [bar Jeremiah]',
@@ -228,6 +231,9 @@ const SPECIAL_NAMES_REDACT: string[] = [
   'Mena\u1E25em',
   '\u1e24izqiah',  // Ḥizqiah — standalone
   'Maisha',
+  'Ze\u00EFra',   // Zeïra — Latin ï variant
+  'Ze\u0457ra',   // Zeїra — Cyrillic ї variant
+  'Rabba',
   'Assi',
   'Cahana',
   'Abdan',

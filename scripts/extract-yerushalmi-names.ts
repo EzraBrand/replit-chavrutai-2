@@ -310,6 +310,9 @@ const SPECIAL_PHRASES: string[] = [
 // Names with standard word-boundary treatment (no honorific suffix that could precede a name).
 const SPECIAL_NAMES: string[] = [
   // Multi-word phrases: listed longest-first so the regex alternation prefers them
+  'The maternal uncle of Rebbi Ada',
+  'The maternal uncle of Rav Cahana',
+  'The rabbis of Caesarea', 'the rabbis of Caesarea',
   'The father-in-law of Rebbi Yannai the younger',
   'the father-in-law of Rebbi Yannai the younger',
   '(Rebbi) Abba [bar Jeremiah]',
@@ -330,6 +333,9 @@ const SPECIAL_NAMES: string[] = [
   'Mena\u1E25em',  // Menaḥem
   '\u1e24izqiah',  // Ḥizqiah — standalone (Rebbi Ḥizqiah caught by pattern1)
   'Maisha',
+  'Ze\u00EFra',   // Zeïra — Latin ï variant (normalizes to Ze'ira)
+  'Ze\u0457ra',   // Zeїra — Cyrillic ї variant (normalizes to Ze'ira)
+  'Rabba',
   'Assi',
   'Cahana',
   'Abdan',
@@ -375,6 +381,10 @@ function normalizedRabbinicalName(raw: string): string {
   if (n === 'The father-in-law of Rebbi Yannai the younger' ||
       n === 'the father-in-law of Rebbi Yannai the younger')
     return "father-in-law of R' Yannai the younger";
+  if (n === 'The maternal uncle of Rebbi Ada')  return "maternal uncle of R' Ada";
+  if (n === 'The maternal uncle of Rav Cahana') return 'maternal uncle of Rav Cahana';
+  if (n === 'The rabbis of Caesarea' || n === 'the rabbis of Caesarea')
+    return 'the rabbis of Caesarea';
 
   // 1. Cyrillic ї/Ї (U+0457/U+0406) → Latin ï/Ï — Guggenheimer typographic quirk
   n = n.replace(/\u0457/g, '\u00EF').replace(/\u0406/g, '\u00CF');
