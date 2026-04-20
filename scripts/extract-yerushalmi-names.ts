@@ -289,10 +289,14 @@ const pattern2 = new RegExp(
 // Word boundaries use lookarounds rather than \b to handle non-ASCII characters.
 const SPECIAL_NAMES: string[] = [
   // Multi-word phrases first (longest first within each group)
+  'said in the name of Rab',   // → Rav  (see normalizedRabbinicalName)
   'the school of Shammai', 'The school of Shammai',
   'the school of Hillel',  'The school of Hillel',
   'the people of Sepphoris', 'The people of Sepphoris',
   'the father of Samuel', 'The father of Samuel',
+  'Rebbis say',                // → Rabbis
+  'Rebbi said',                // → R' Yehuda HaNasi
+  'Rav said',                  // → Rav
   'Naḥman the Old',
   'Benjamin from Ginzak',
   'Resh Laqish',
@@ -332,7 +336,13 @@ function normalizeName(raw: string): string {
 // not replace the raw string in the count.
 function normalizedRabbinicalName(raw: string): string {
   // Ensure consistent Unicode composition before all pattern matching
-  let n = raw.normalize('NFC');
+  let n = raw.normalize('NFC').replace(/\s+/g, ' ').trim();
+
+  // Pattern3 phrase mappings: raw phrase → canonical name (must run first,
+  // before general honorific substitution rewrites the raw text).
+  if (n === 'Rav said' || n === 'said in the name of Rab') return 'Rav';
+  if (n === 'Rebbi said') return "R' Yehuda HaNasi";
+  if (n === 'Rebbis say') return 'Rabbis';
 
   // 1. Cyrillic ї/Ї (U+0457/U+0406) → Latin ï/Ï — Guggenheimer typographic quirk
   n = n.replace(/\u0457/g, '\u00EF').replace(/\u0406/g, '\u00CF');
