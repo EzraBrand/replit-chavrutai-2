@@ -100,7 +100,7 @@ scripts/*
 !scripts/merge-names-tables.ts
 !scripts/bavli-glossary.csv
 !scripts/yerushalmi-bavli-merged.csv
-!scripts/README.md
+!scripts/README-yerushalmi-bavli-name-merge.md
 
 # Internal analysis
 analysis/
