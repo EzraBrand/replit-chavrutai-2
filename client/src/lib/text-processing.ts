@@ -51,18 +51,48 @@ export function processYerushalmiHebrewText(text: string): string {
   let processed = removeNikud(text);
 
   processed = processed
+    // === Speech/dialogue: period → colon ===
     .replace(/(?<![א-ת])אמר ליה\./g, 'אמר ליה:')
     .replace(/(?<![א-ת])אמר לון\./g, 'אמר לון:')
     .replace(/(?<![א-ת])אמרין ליה\./g, 'אמרין ליה:')
     .replace(/(?<![א-ת])אמרין\./g, 'אמרין:')
+    .replace(/(?<![א-ת])ואמרו לו\./g, 'ואמרו לו:')
     .replace(/(?<![א-ת])אמרו לו\./g, 'אמרו לו:')
     .replace(/(?<![א-ת])אמר לו\./g, 'אמר לו:')
     .replace(/(?<![א-ת])ויש אומרים\./g, 'ויש אומרים:')
     .replace(/(?<![א-ת])ולא כן כתיב\./g, 'ולא כן כתיב:')
     .replace(/(?<![א-ת])דבר אחר\./g, 'דבר אחר:')
+    // === Fixed introductory phrases: period → colon ===
+    .replace(/(?<![א-ת])כמאן דמר\./g, 'כמאן דמר:')
+    .replace(/(?<![א-ת])אלא כן אנן קיימין\./g, 'אלא כן אנן קיימין:')
+    .replace(/(?<![א-ת])אין תימר\./g, 'אין תימר:')
+    .replace(/(?<![א-ת])וכתוב\./g, 'וכתוב:')
+    // === Multi-word attribution patterns ([x] = 1-6 Hebrew words): period → colon ===
+    // Word token is restricted to Hebrew letters (with optional geresh/gershayim/maqaf)
+    // to avoid over-matching punctuation-heavy tokens. More specific patterns first.
+    .replace(/(?<![א-ת])((?:רבי|רב)\s+(?:[א-ת״׳'\-]+\s+){0,5}[א-ת״׳'\-]+\s+בשם\s+(?:[א-ת״׳'\-]+\s+){0,5}[א-ת״׳'\-]+\s+בשם\s+(?:[א-ת״׳'\-]+\s+){0,5}[א-ת״׳'\-]+)\./g, '$1:')
+    .replace(/(?<![א-ת])((?:רבי|רב)\s+(?:[א-ת״׳'\-]+\s+){0,5}[א-ת״׳'\-]+\s+בשם\s+(?:[א-ת״׳'\-]+\s+){0,5}[א-ת״׳'\-]+)\./g, '$1:')
+    .replace(/(?<![א-ת])(אמר\s+(?:רבי|רב)\s+(?:[א-ת״׳'\-]+\s+){0,5}[א-ת״׳'\-]+)\./g, '$1:')
+    .replace(/(?<![א-ת])(תני\s+(?:רבי|רב)\s+(?:[א-ת״׳'\-]+\s+){0,5}[א-ת״׳'\-]+)\./g, '$1:')
+    .replace(/(?<![א-ת])(תנא\s+(?:רבי|רב)\s+(?:[א-ת״׳'\-]+\s+){0,5}[א-ת״׳'\-]+)\./g, '$1:')
+    .replace(/(?<![א-ת])((?:רבי|רב)\s+(?:[א-ת״׳'\-]+\s+){0,5}[א-ת״׳'\-]+\s+אומר)\./g, '$1:')
+    .replace(/(?<![א-ת])((?:רבי|רב)\s+(?:[א-ת״׳'\-]+\s+){0,5}[א-ת״׳'\-]+\s+בעי)\./g, '$1:')
+    // === Single-word speech markers (optional ו/ד/ה prefix): period → colon ===
+    .replace(/(?<![א-ת])([ודה]?תני)\./g, '$1:')
+    .replace(/(?<![א-ת])([ודה]?בעי)\./g, '$1:')
+    .replace(/(?<![א-ת])([ודה]?בעא)\./g, '$1:')
+    .replace(/(?<![א-ת])([ודה]?תימר)\./g, '$1:')
+    .replace(/(?<![א-ת])([ודה]?אומרים)\./g, '$1:')
+    .replace(/(?<![א-ת])([ודה]?אומר)\./g, '$1:')
+    .replace(/(?<![א-ת])([ודה]?אמר)\./g, '$1:')
+    // === Rhetorical/interrogative: period → question mark ===
     .replace(/(?<![א-ת])מה עבד\./g, 'מה עבד?')
     .replace(/(?<![א-ת])מה טעם\./g, 'מה טעם?')
-    .replace(/(?<![א-ת])אמר\./g, 'אמר:')
+    .replace(/(?<![א-ת])ומה פליגין\./g, 'ומה פליגין?')
+    .replace(/(?<![א-ת])מאי כדון\./g, 'מאי כדון?')
+    .replace(/(?<![א-ת])מה אנן קיימין\./g, 'מה אנן קיימין?')
+    .replace(/(?<![א-ת])מהו\./g, 'מהו?')
+    // === Vocative: period → exclamation ===
     .replace(/(?<![א-ת])רבי\./g, 'רבי!');
 
   return processHebrewTextCore(processed);
