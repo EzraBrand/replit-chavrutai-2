@@ -71,6 +71,7 @@ export function processYerushalmiHebrewText(text: string): string {
     .replace(/(?<![א-ת])אין תימר\./g, 'אין תימר:')
     .replace(/(?<![א-ת])וכתוב\./g, 'וכתוב:')
     .replace(/(?<![א-ת])מן הדא\./g, 'מן הדא:')
+    .replace(/(?<![א-ת])הדא אמרה\./g, 'הדא אמרה:')
     .replace(/(?<![א-ת])([ודה]?תנינן)\./g, '$1:')
     // === Multi-word attribution patterns ([x] = 1-6 Hebrew words): period → colon ===
     // Word token is restricted to Hebrew letters (with optional geresh/gershayim/maqaf)
@@ -80,6 +81,7 @@ export function processYerushalmiHebrewText(text: string): string {
     .replace(/(?<![א-ת])(אמר\s+(?:רבי|רב)\s+(?:[א-ת״׳'\-]+\s+){0,5}[א-ת״׳'\-]+)\./g, '$1:')
     .replace(/(?<![א-ת])(תני\s+(?:רבי|רב)\s+(?:[א-ת״׳'\-]+\s+){0,5}[א-ת״׳'\-]+)\./g, '$1:')
     .replace(/(?<![א-ת])(תנא\s+(?:רבי|רב)\s+(?:[א-ת״׳'\-]+\s+){0,5}[א-ת״׳'\-]+)\./g, '$1:')
+    .replace(/(?<![א-ת])(דרש\s+(?:רבי|רב)\s+(?:[א-ת״׳'\-]+\s+){0,5}[א-ת״׳'\-]+)\./g, '$1:')
     .replace(/(?<![א-ת])((?:רבי|רב)\s+(?:[א-ת״׳'\-]+\s+){0,5}[א-ת״׳'\-]+\s+אומר)\./g, '$1:')
     .replace(/(?<![א-ת])((?:רבי|רב)\s+(?:[א-ת״׳'\-]+\s+){0,5}[א-ת״׳'\-]+\s+בעי)\./g, '$1:')
     // === Single-word speech markers (optional ו/ד/ה prefix): period → colon ===
@@ -98,9 +100,12 @@ export function processYerushalmiHebrewText(text: string): string {
     .replace(/(?<![א-ת])מיי כדון\./g, 'מיי כדון?')
     .replace(/(?<![א-ת])מה אנן קיימין\./g, 'מה אנן קיימין?')
     .replace(/(?<![א-ת])היך עבידא\./g, 'היך עבידא?')
+    .replace(/(?<![א-ת])מה יעשה\./g, 'מה יעשה?')
     .replace(/(?<![א-ת])מהו\./g, 'מהו?')
+    .replace(/(?<![א-ת])למה\./g, 'למה?')
     // === Vocative: period → exclamation ===
-    .replace(/(?<![א-ת])רבי\./g, 'רבי!');
+    .replace(/(?<![א-ת])רבי\./g, 'רבי!')
+    .replace(/(?<![א-ת])רבותיי\./g, 'רבותיי!');
 
   return processHebrewTextCore(processed);
 }
