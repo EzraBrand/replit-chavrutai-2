@@ -56,6 +56,7 @@ export function processYerushalmiHebrewText(text: string): string {
     .replace(/(?<![א-ת])אמר לון\./g, 'אמר לון:')
     .replace(/(?<![א-ת])אמרין ליה\./g, 'אמרין ליה:')
     .replace(/(?<![א-ת])אמרין\./g, 'אמרין:')
+    .replace(/(?<![א-ת])מני אמרו לו\./g, 'מני אמרו לו?')
     .replace(/(?<![א-ת])ואמרו לו\./g, 'ואמרו לו:')
     .replace(/(?<![א-ת])אמרו לו\./g, 'אמרו לו:')
     .replace(/(?<![א-ת])אמר לו\./g, 'אמר לו:')
@@ -64,9 +65,12 @@ export function processYerushalmiHebrewText(text: string): string {
     .replace(/(?<![א-ת])דבר אחר\./g, 'דבר אחר:')
     // === Fixed introductory phrases: period → colon ===
     .replace(/(?<![א-ת])כמאן דמר\./g, 'כמאן דמר:')
+    .replace(/(?<![א-ת])מאן דמר\./g, 'מאן דמר:')
     .replace(/(?<![א-ת])אלא כן אנן קיימין\./g, 'אלא כן אנן קיימין:')
     .replace(/(?<![א-ת])אין תימר\./g, 'אין תימר:')
     .replace(/(?<![א-ת])וכתוב\./g, 'וכתוב:')
+    .replace(/(?<![א-ת])מן הדא\./g, 'מן הדא:')
+    .replace(/(?<![א-ת])תנינן\./g, 'תנינן:')
     // === Multi-word attribution patterns ([x] = 1-6 Hebrew words): period → colon ===
     // Word token is restricted to Hebrew letters (with optional geresh/gershayim/maqaf)
     // to avoid over-matching punctuation-heavy tokens. More specific patterns first.
@@ -90,7 +94,9 @@ export function processYerushalmiHebrewText(text: string): string {
     .replace(/(?<![א-ת])מה טעם\./g, 'מה טעם?')
     .replace(/(?<![א-ת])ומה פליגין\./g, 'ומה פליגין?')
     .replace(/(?<![א-ת])מאי כדון\./g, 'מאי כדון?')
+    .replace(/(?<![א-ת])מיי כדון\./g, 'מיי כדון?')
     .replace(/(?<![א-ת])מה אנן קיימין\./g, 'מה אנן קיימין?')
+    .replace(/(?<![א-ת])היך עבידא\./g, 'היך עבידא?')
     .replace(/(?<![א-ת])מהו\./g, 'מהו?')
     // === Vocative: period → exclamation ===
     .replace(/(?<![א-ת])רבי\./g, 'רבי!');
