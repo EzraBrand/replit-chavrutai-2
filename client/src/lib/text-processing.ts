@@ -57,6 +57,7 @@ export function processYerushalmiHebrewText(text: string): string {
     .replace(/(?<![א-ת])אמרין ליה\./g, 'אמרין ליה:')
     .replace(/(?<![א-ת])אמרין\./g, 'אמרין:')
     .replace(/(?<![א-ת])מני אמרו לו\./g, 'מני אמרו לו?')
+    .replace(/(?<![א-ת])מנו אמרו לו\./g, 'מנו אמרו לו?')
     .replace(/(?<![א-ת])ואמרו לו\./g, 'ואמרו לו:')
     .replace(/(?<![א-ת])אמרו לו\./g, 'אמרו לו:')
     .replace(/(?<![א-ת])אמר לו\./g, 'אמר לו:')
@@ -70,7 +71,7 @@ export function processYerushalmiHebrewText(text: string): string {
     .replace(/(?<![א-ת])אין תימר\./g, 'אין תימר:')
     .replace(/(?<![א-ת])וכתוב\./g, 'וכתוב:')
     .replace(/(?<![א-ת])מן הדא\./g, 'מן הדא:')
-    .replace(/(?<![א-ת])תנינן\./g, 'תנינן:')
+    .replace(/(?<![א-ת])([ודה]?תנינן)\./g, '$1:')
     // === Multi-word attribution patterns ([x] = 1-6 Hebrew words): period → colon ===
     // Word token is restricted to Hebrew letters (with optional geresh/gershayim/maqaf)
     // to avoid over-matching punctuation-heavy tokens. More specific patterns first.
