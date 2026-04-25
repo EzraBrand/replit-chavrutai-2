@@ -70,18 +70,53 @@ export function Footer() {
         </div>
 
         {/* Multi-Column Navigation */}
-        <div className="grid grid-cols-[1.4fr_1fr] gap-4 sm:gap-8 max-w-2xl mx-auto mb-8">
-          {/* Column 1: Study Resources */}
+        <div className="grid grid-cols-[1fr_1.4fr_1fr] gap-4 sm:gap-8 max-w-3xl mx-auto mb-8">
+          {/* Column 1: Library */}
+          <div>
+            <h3 className="text-sm font-semibold text-foreground mb-4">Library</h3>
+            <nav className="flex flex-col gap-3">
+              <Link
+                href="/talmud"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+                data-testid="footer-link-library-talmud"
+              >
+                Babylonian Talmud
+              </Link>
+              <Link
+                href="/bible"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+                data-testid="footer-link-library-bible"
+              >
+                Tanakh (Hebrew Bible)
+              </Link>
+              <Link
+                href="/mishnah"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+                data-testid="footer-link-library-mishnah"
+              >
+                Mishnah
+              </Link>
+              <Link
+                href="/yerushalmi"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+                data-testid="footer-link-library-yerushalmi"
+              >
+                Jerusalem Talmud
+              </Link>
+              <Link
+                href="/rambam"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+                data-testid="footer-link-library-rambam"
+              >
+                Mishneh Torah (Rambam)
+              </Link>
+            </nav>
+          </div>
+
+          {/* Column 2: Study Resources */}
           <div>
             <h3 className="text-sm font-semibold text-foreground mb-4">Study Resources</h3>
             <nav className="flex flex-col gap-3">
-              <Link 
-                href="/talmud"
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
-                data-testid="footer-link-contents"
-              >
-                Talmud - Table of Contents
-              </Link>
               <Link 
                 href="/sugya-viewer"
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
@@ -102,27 +137,6 @@ export function Footer() {
                 data-testid="footer-link-biblical-index"
               >
                 Bible-Talmud Index
-              </Link>
-              <Link 
-                href="/mishnah"
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
-                data-testid="footer-link-mishnah"
-              >
-                Mishnah (not in Talmud)
-              </Link>
-              <Link 
-                href="/yerushalmi"
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
-                data-testid="footer-link-yerushalmi"
-              >
-                Jerusalem Talmud (Yerushalmi)
-              </Link>
-              <Link 
-                href="/rambam"
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
-                data-testid="footer-link-rambam"
-              >
-                Mishneh Torah (Rambam)
               </Link>
               <Link 
                 href="/mishnah-map"
@@ -151,13 +165,6 @@ export function Footer() {
                 data-testid="footer-link-term-index"
               >
                 Talmud Term Index
-              </Link>
-              <Link 
-                href="/bible"
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
-                data-testid="footer-link-bible"
-              >
-                Bible - Table of Contents
               </Link>
               <Link 
                 href="/search"
