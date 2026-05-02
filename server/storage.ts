@@ -1,4 +1,4 @@
-import { type User, type InsertUser, type Text, type InsertText, type Bookmark, type InsertBookmark, type DictionaryEntry, type SearchRequest, type BrowseRequest, type AutosuggestRequest, type AutosuggestResponse } from "@shared/schema";
+import { type User, type InsertUser, type Text, type InsertText, type Bookmark, type InsertBookmark, type DictionaryEntry, type SearchRequest } from "@shared/schema";
 import { randomUUID } from "crypto";
 
 export interface IStorage {
@@ -17,10 +17,11 @@ export interface IStorage {
   createBookmark(bookmark: InsertBookmark): Promise<Bookmark>;
   deleteBookmark(id: string): Promise<void>;
   
-  // Dictionary methods
+  // Jastrow Dictionary methods
   searchEntries(request: SearchRequest): Promise<DictionaryEntry[]>;
-  browseByLetter(request: BrowseRequest): Promise<DictionaryEntry[]>;
-  getAutosuggest(request: AutosuggestRequest): Promise<AutosuggestResponse>;
+
+  // BDB Dictionary methods
+  searchBdbEntries(request: SearchRequest): Promise<DictionaryEntry[]>;
 }
 
 export class MemStorage implements IStorage {
@@ -111,17 +112,14 @@ export class MemStorage implements IStorage {
     this.bookmarks.delete(id);
   }
 
-  // Dictionary methods - delegate to SefariaAPI
+  // Jastrow Dictionary methods - delegate to SefariaAPI
   async searchEntries(request: SearchRequest): Promise<DictionaryEntry[]> {
     return sefariaAPI.searchEntries(request);
   }
 
-  async browseByLetter(request: BrowseRequest): Promise<DictionaryEntry[]> {
-    return sefariaAPI.browseByLetter(request);
-  }
-
-  async getAutosuggest(request: AutosuggestRequest): Promise<AutosuggestResponse> {
-    return sefariaAPI.getAutosuggest(request);
+  // BDB Dictionary methods - delegate to SefariaAPI
+  async searchBdbEntries(request: SearchRequest): Promise<DictionaryEntry[]> {
+    return sefariaAPI.searchBdbEntries(request);
   }
 }
 
@@ -223,243 +221,122 @@ export class SefariaAPI {
     return transformed;
   }
 
-  async searchEntries(request: SearchRequest): Promise<DictionaryEntry[]> {
+  private mapEntry = (entry: any): DictionaryEntry => ({
+    headword: entry.headword,
+    rid: entry.rid,
+    parent_lexicon: entry.parent_lexicon,
+    language_code: entry.language_code,
+    language_reference: entry.language_reference,
+    content: {
+      ...entry.content,
+      senses: this.flattenSenses(entry.content.senses)
+    },
+    refs: entry.refs,
+    prev_hw: entry.prev_hw,
+    next_hw: entry.next_hw
+  });
+
+  private async searchEntriesForLexicon(query: string, lexiconName: string): Promise<DictionaryEntry[]> {
     try {
-      console.log('Improved search for:', request.query);
+      console.log(`[${lexiconName}] Improved search for:`, query);
 
       // First, try direct word lookup for exact matches
-      const directResponse = await fetch(`${this.baseURL}/words/${encodeURIComponent(request.query)}`);
+      const directResponse = await fetch(`${this.baseURL}/words/${encodeURIComponent(query)}`);
       let allEntries: DictionaryEntry[] = [];
-
 
       if (directResponse.ok) {
         const directData = await directResponse.json();
         if (Array.isArray(directData)) {
           const directEntries = directData
-            .filter((entry: any) => {
-              return entry.parent_lexicon === 'Jastrow Dictionary' &&
-                     entry.headword &&
-                     entry.content &&
-                     Array.isArray(entry.content.senses);
-            })
-            .map((entry: any) => ({
-              headword: entry.headword,
-              rid: entry.rid,
-              parent_lexicon: entry.parent_lexicon,
-              language_code: entry.language_code,
-              language_reference: entry.language_reference,
-              content: {
-                ...entry.content,
-                senses: this.flattenSenses(entry.content.senses)
-              },
-              refs: entry.refs,
-              prev_hw: entry.prev_hw,
-              next_hw: entry.next_hw
-            }));
+            .filter((entry: any) =>
+              entry.parent_lexicon === lexiconName &&
+              entry.headword &&
+              entry.content &&
+              Array.isArray(entry.content.senses)
+            )
+            .map(this.mapEntry);
           allEntries.push(...directEntries);
-          console.log('Direct search found:', directEntries.length, 'entries');
+          console.log(`[${lexiconName}] Direct search found:`, directEntries.length, 'entries');
         }
       }
 
-      // If direct search found results, return them
       if (allEntries.length > 0) {
-        console.log('Returning direct search results:', allEntries.length);
         return allEntries;
       }
 
-      // If no direct results, use completion API to find similar words
-      console.log('No direct results, trying completion API...');
-      const completionResponse = await fetch(`${this.baseURL}/words/completion/${encodeURIComponent(request.query)}`);
-
-      if (!completionResponse.ok) {
-        console.log('Completion API failed, returning empty results');
-        return [];
+      // Fall back to lexicon-scoped completion API; if that fails, fall back further
+      // to the unscoped completion API (preserves pre-refactor Jastrow search recall).
+      console.log(`[${lexiconName}] No direct results, trying completion API...`);
+      let completionResponse = await fetch(
+        `${this.baseURL}/words/completion/${encodeURIComponent(query)}/${encodeURIComponent(lexiconName)}`
+      );
+      let completionData: any = null;
+      if (completionResponse.ok) {
+        try {
+          completionData = await completionResponse.json();
+        } catch {
+          completionData = null;
+        }
       }
-
-      const completionData = await completionResponse.json();
       if (!Array.isArray(completionData) || completionData.length === 0) {
-        console.log('No completion suggestions found');
+        console.log(`[${lexiconName}] Scoped completion empty, falling back to unscoped completion`);
+        const unscoped = await fetch(`${this.baseURL}/words/completion/${encodeURIComponent(query)}`);
+        if (!unscoped.ok) {
+          return [];
+        }
+        try {
+          completionData = await unscoped.json();
+        } catch {
+          return [];
+        }
+      }
+      if (!Array.isArray(completionData) || completionData.length === 0) {
         return [];
       }
 
-      console.log('Found completion suggestions:', completionData.length);
-
-      // Try to find dictionary entries for the top completion suggestions
       const searchPromises = completionData.slice(0, 5).map(async (suggestion: any) => {
         if (!Array.isArray(suggestion) || suggestion.length < 2) return [];
-
-        const headword = suggestion[1] || suggestion[0]; // Use voweled version first
+        const headword = suggestion[1] || suggestion[0];
         try {
           const response = await fetch(`${this.baseURL}/words/${encodeURIComponent(headword)}`);
           if (!response.ok) return [];
-
           const data = await response.json();
           if (!Array.isArray(data)) return [];
-
           return data
-            .filter((entry: any) => {
-              return entry.parent_lexicon === 'Jastrow Dictionary' &&
-                     entry.headword &&
-                     entry.content &&
-                     Array.isArray(entry.content.senses);
-            })
-            .map((entry: any) => ({
-              headword: entry.headword,
-              rid: entry.rid,
-              parent_lexicon: entry.parent_lexicon,
-              language_code: entry.language_code,
-              language_reference: entry.language_reference,
-              content: {
-                ...entry.content,
-                senses: this.flattenSenses(entry.content.senses)
-              },
-              refs: entry.refs,
-              prev_hw: entry.prev_hw,
-              next_hw: entry.next_hw
-            }));
+            .filter((entry: any) =>
+              entry.parent_lexicon === lexiconName &&
+              entry.headword &&
+              entry.content &&
+              Array.isArray(entry.content.senses)
+            )
+            .map(this.mapEntry);
         } catch (error) {
-          console.log('Error searching for suggestion:', headword, error);
+          console.log(`[${lexiconName}] Error searching for suggestion:`, headword, error);
           return [];
         }
       });
 
       const searchResults = await Promise.all(searchPromises);
       const foundEntries = searchResults.flat();
-
-      // Remove duplicates by rid
       const uniqueEntries = Array.from(
         new Map(foundEntries.map(entry => [entry.rid, entry])).values()
       );
-
-      console.log('Search via completion found:', uniqueEntries.length, 'unique entries');
       return uniqueEntries;
 
     } catch (error) {
-      console.error('Search API error:', error);
+      console.error(`[${lexiconName}] Search API error:`, error);
       return [];
     }
   }
 
-  async browseByLetter(request: BrowseRequest): Promise<DictionaryEntry[]> {
-    try {
-      console.log('Browse by letter - using search for letter:', request.letter);
-
-      // Start with the initial search for the letter
-      const initialResults = await this.searchEntries({ query: request.letter });
-      console.log('Initial browse results:', initialResults.length, 'entries');
-
-      if (initialResults.length === 0) {
-        return [];
-      }
-
-      // Collect all results starting with the gathered entries
-      const allResults: DictionaryEntry[] = [...initialResults];
-      const processedIds = new Set(initialResults.map(entry => entry.rid));
-
-      // Try to get more entries by following the next_hw chain
-      // Reduce the number of additional entries for better performance
-      const maxAdditionalEntries = 8; // Reduced from 15 for faster response
-      let additionalCount = 0;
-      let currentHeadwords = initialResults.map(entry => entry.next_hw).filter(Boolean);
-
-      // Make parallel requests for better performance
-      while (currentHeadwords.length > 0 && additionalCount < maxAdditionalEntries) {
-        console.log(`Following next_hw chain in parallel for: ${currentHeadwords.slice(0, 3).join(', ')}`);
-
-        try {
-          // Process up to 3 headwords in parallel to avoid overwhelming the API
-          const batchSize = Math.min(3, currentHeadwords.length);
-          const currentBatch = currentHeadwords.slice(0, batchSize);
-          
-          const searchPromises = currentBatch
-            .filter((headword): headword is string => Boolean(headword))
-            .map(headword => 
-              this.searchEntries({ query: headword }).catch(error => {
-                console.log(`Error searching for ${headword}:`, error instanceof Error ? error.message : String(error));
-                return [];
-              })
-            );
-
-          const batchResults = await Promise.all(searchPromises);
-          const newHeadwords: string[] = [];
-
-          for (const nextResults of batchResults) {
-            if (nextResults.length === 0) continue;
-
-            // Check if the first result starts with the same letter
-            const nextEntry = nextResults[0];
-            if (!nextEntry.headword.startsWith(request.letter)) {
-              console.log(`Reached different letter: ${nextEntry.headword} - stopping chain`);
-              continue;
-            }
-
-            // Add new entries that we haven't seen before
-            for (const entry of nextResults) {
-              if (!processedIds.has(entry.rid)) {
-                allResults.push(entry);
-                processedIds.add(entry.rid);
-                additionalCount++;
-                
-                // Collect next headwords for the next batch
-                if (entry.next_hw && additionalCount < maxAdditionalEntries) {
-                  newHeadwords.push(entry.next_hw);
-                }
-              }
-            }
-          }
-
-          // Update currentHeadwords for next iteration
-          currentHeadwords = [...currentHeadwords.slice(batchSize), ...newHeadwords];
-
-        } catch (error) {
-          console.log('Error following chain, stopping:', error instanceof Error ? error.message : String(error));
-          break;
-        }
-      }
-
-      console.log(`Browse by letter final results: ${allResults.length} entries (${additionalCount} additional)`);
-      return allResults;
-
-    } catch (error) {
-      console.error('Browse API error:', error);
-      return [];
-    }
+  // Jastrow public method
+  async searchEntries(request: SearchRequest): Promise<DictionaryEntry[]> {
+    return this.searchEntriesForLexicon(request.query, 'Jastrow Dictionary');
   }
 
-  async getAutosuggest(request: AutosuggestRequest): Promise<AutosuggestResponse> {
-    try {
-      console.log('Making autosuggest request to:', `${this.baseURL}/words/completion/${encodeURIComponent(request.query)}`);
-
-      const response = await fetch(`${this.baseURL}/words/completion/${encodeURIComponent(request.query)}`);
-      if (!response.ok) {
-        console.error('Autosuggest API response not ok:', response.status, response.statusText);
-        return [];
-      }
-
-      const data = await response.json();
-      console.log('Autosuggest API raw response:', data);
-
-      // Validate that we got an array
-      if (!Array.isArray(data)) {
-        console.error('Autosuggest API did not return array:', typeof data, data);
-        return [];
-      }
-
-      // Transform the response from array of arrays to our expected format
-      const suggestions: AutosuggestResponse = data
-        .filter((item: any) => Array.isArray(item) && item.length >= 2)
-        .map((item: any) => ({
-          unvoweled: item[0],
-          voweled: item[1] || item[0] // fallback to unvoweled if voweled is empty
-        }))
-        .slice(0, 10); // Limit to 10 suggestions
-
-      console.log('Transformed autosuggest suggestions:', suggestions.length, suggestions);
-      return suggestions;
-    } catch (error) {
-      console.error('Autosuggest API error:', error);
-      return [];
-    }
+  // BDB public method
+  async searchBdbEntries(request: SearchRequest): Promise<DictionaryEntry[]> {
+    return this.searchEntriesForLexicon(request.query, 'BDB Dictionary');
   }
 }
 

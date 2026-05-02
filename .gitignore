@@ -101,6 +101,22 @@ scripts/*
 !scripts/bavli-glossary.csv
 !scripts/yerushalmi-bavli-merged.csv
 !scripts/README-yerushalmi-bavli-name-merge.md
+# BDB / lexicon work (May 2026)
+!scripts/README-bdb-noun-proper.md
+!scripts/bdb-noun-proper.csv
+!scripts/bdb-noun-proper.json
+!scripts/bdb-unmapped-acronyms.json
+!scripts/bdb-unmapped-acronyms.txt
+!scripts/fetch-lexicon-headwords.ts
+!scripts/filter-lexicon-headwords.ts
+!scripts/scan-lexicon-acronyms.ts
+!scripts/scrape-bdb-noun-proper.ts
+# Always ignore (planning docs, blogpost drafts, runtime artifacts)
+scripts/.cache/
+scripts/.run.log
+scripts/bdb-dictionary-blogpost.md
+scripts/blogpost-longest-chapters.md
+scripts/yerushalmi-names-blogpost.md
 
 # Internal analysis
 analysis/

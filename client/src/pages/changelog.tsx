@@ -62,7 +62,37 @@ export default function Changelog() {
 
       {/* Changelog Content */}
       <div className="bg-white dark:bg-sepia-900 rounded-lg shadow-lg p-6 max-w-4xl">
-        
+
+        {/* May 2026 */}
+        <div className="mb-8">
+          <h2 className="text-xl font-semibold text-sepia-800 dark:text-sepia-200 mb-4 border-b border-sepia-200 dark:border-sepia-700 pb-2">
+            May 2026
+          </h2>
+
+          <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
+            <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Dictionary Cleanup: Faster Cross-References &amp; Sharper Letter Browsing</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Clicking an internal cross-reference inside a Jastrow or BDB entry (e.g. <em>v. אבא</em>) now navigates instantly without a full page reload — the new search runs in place and back/forward through your history works as expected</li>
+                <li>The "Browse by Letter" buttons now go straight to the full headword index for that letter, in one click</li>
+                <li>The headword index now only lists entries that actually resolve to a real definition — about 3,800 BDB "ghost" headwords advertised by Sefaria's API but with no retrievable entry have been pruned, so every word you click on the letter pages leads somewhere</li>
+                <li>Behind the scenes: removed dead server endpoints, consolidated the Hebrew alphabet definition, and moved dictionary data files into <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">shared/</code> so both readers stay in sync</li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">New: BDB Hebrew Bible Dictionary &amp; Reorganized Dictionary URLs</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Added a <strong>Brown-Driver-Briggs (BDB) Hebrew Bible Dictionary</strong> reader at <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/bdb</code> — search by Hebrew root, browse by letter, autosuggest, and clickable Bible citations</li>
+                <li>BDB Bible references like "Nu 21:30" now display as their full form ("Numbers 21:30") and link directly to the corresponding chapter in the ChavrutAI Bible reader</li>
+                <li>BDB cross-references between entries (e.g. <em>II. אבה</em>) stay inside the BDB reader — no jumping out to Sefaria</li>
+                <li>Curated abbreviation expansion for BDB grammatical &amp; source-critical terms (Pf., Impf., cstr., LXX, Aram., etc.)</li>
+                <li>The Jastrow Dictionary moved from <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/dictionary</code> to <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/jastrow</code>; old URLs (including bookmarks like <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/dictionary?q=כתב</code>) automatically redirect</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
         {/* April 2026 */}
         <div className="mb-8">
           <h2 className="text-xl font-semibold text-sepia-800 dark:text-sepia-200 mb-4 border-b border-sepia-200 dark:border-sepia-700 pb-2">
@@ -259,7 +289,7 @@ export default function Changelog() {
             <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Jastrow Dictionary: Shareable URLs & Text Improvements</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>Dictionary searches and letter browsing now update the URL (e.g. <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/dictionary?q=כתב</code>), so you can share or bookmark specific lookups</li>
+                <li>Dictionary searches and letter browsing now update the URL (e.g. <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/jastrow?q=כתב</code>), so you can share or bookmark specific lookups</li>
                 <li>Long definitions now split into new lines where a period is followed by a hyperlinked reference (e.g. between "it). Bava" or "ten. Berakhot")</li>
                 <li>Superscript letters used in Yerushalmi citations (ᵃ, ᵇ, ᶜ, ᵈ) are now converted to standard-size letters for readability</li>
                 <li>Binyan (verb-form) abbreviations now display with full transliterations and colons (e.g. Af. becomes Af'el:, Pa. becomes Pa'el:)</li>

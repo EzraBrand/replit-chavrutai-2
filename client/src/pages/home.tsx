@@ -158,11 +158,20 @@ export default function Home() {
               </Card>
             </Link>
 
-            <Link href="/dictionary" className="block">
+            <Link href="/jastrow" className="block">
               <Card className="h-full hover:shadow-lg transition-shadow duration-200 cursor-pointer">
                 <CardContent className="p-4">
-                  <h3 className="font-medium text-foreground mb-2">Dictionary</h3>
-                  <p className="text-sm text-muted-foreground">Jastrow Talmud Dictionary</p>
+                  <h3 className="font-medium text-foreground mb-2">Jastrow Dictionary</h3>
+                  <p className="text-sm text-muted-foreground">Talmudic Hebrew &amp; Aramaic</p>
+                </CardContent>
+              </Card>
+            </Link>
+
+            <Link href="/bdb" className="block">
+              <Card className="h-full hover:shadow-lg transition-shadow duration-200 cursor-pointer">
+                <CardContent className="p-4">
+                  <h3 className="font-medium text-foreground mb-2">BDB Bible Dictionary</h3>
+                  <p className="text-sm text-muted-foreground">Brown-Driver-Briggs Hebrew lexicon</p>
                 </CardContent>
               </Card>
             </Link>
