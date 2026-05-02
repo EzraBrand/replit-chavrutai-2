@@ -32,6 +32,7 @@ export default function Bdb() {
   const [isLoading, setIsLoading] = useState(false);
   const [suggestions, setSuggestions] = useState<AutosuggestSuggestion[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [showAbout, setShowAbout] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const initialLoadRef = useRef(false);
   const suppressSuggestionsRef = useRef(false);
@@ -283,14 +284,99 @@ export default function Bdb() {
           BDB Hebrew Bible Dictionary
           <span className="ml-2 text-base font-medium text-muted-foreground align-middle" data-testid="badge-beta">(beta)</span>
         </h1>
-        <p className="text-sm text-muted-foreground mb-2">
+        <p className="text-sm text-muted-foreground mb-3">
           Brown, Driver, and Briggs — A Hebrew and English Lexicon of the Old Testament (1906)
         </p>
-        <p className="text-sm text-muted-foreground mb-6">
-          A modernized digital presentation of the classic lexicon: abbreviations are expanded inline
-          (e.g. <em>Pf.</em> → <em>perfect</em>), Bible citations link directly to the chapter
-          (e.g. <em>Nu 21:30</em> → <em>Numbers 21:30</em>), and BDB cross-references stay inside this reader.
-        </p>
+
+        <div className="mb-6">
+          <button
+            type="button"
+            onClick={() => setShowAbout((v) => !v)}
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
+            data-testid="button-about-toggle"
+            aria-expanded={showAbout}
+          >
+            {showAbout ? "▲" : "▼"} About this dictionary
+          </button>
+
+          {showAbout && (
+            <Card className="mt-2 bg-secondary/40 border-border" data-testid="about-panel">
+              <CardContent className="pt-4 text-sm text-foreground space-y-3">
+                <p>
+                  <strong>BDB</strong> is shorthand for Francis Brown, S. R. Driver, and Charles
+                  Briggs's <em>A Hebrew and English Lexicon of the Old Testament</em> (Oxford, 1906),
+                  the standard scholarly dictionary for biblical Hebrew. It covers every Hebrew root
+                  in the Tanakh with cognates from Akkadian, Aramaic, Arabic, Ugaritic, and more,
+                  spread across 1,127 pages of dense Edwardian abbreviations. The full text is in the
+                  public domain. This reader pulls live entries from Sefaria's{" "}
+                  <code className="text-xs bg-muted px-1 rounded">/api/words</code> endpoint and renders
+                  them with a modernized presentation layer.
+                </p>
+                <p className="font-medium">What this reader adds on top of the raw text:</p>
+                <ul className="list-disc list-inside space-y-1 ml-2">
+                  <li>
+                    <strong>Inline abbreviation expansion.</strong> A curated map of over 230
+                    abbreviations is replaced inline. Categories include grammatical shorthand
+                    (<em>Pf.</em>, <em>Impf.</em>, <em>cstr.</em>, <em>abs.</em>), Latin logic
+                    (<em>l.c.</em>, <em>c. acc.</em>, <em>i.q.</em>), cognate-language tags
+                    (<em>Ar.</em>, <em>Aram.</em>, <em>Akk.</em>, <em>Ugar.</em>), scholar surnames
+                    (<em>Dl</em> = Delitzsch, <em>Lag</em> = Lagarde, <em>We</em> = Wellhausen,{" "}
+                    <em>Hpt</em> = Haupt), and symbols (<em>√</em> = verbal root, <em>𝔊</em> =
+                    Septuagint, <em>𝔐</em> = Masoretic).
+                  </li>
+                  <li>
+                    <strong>Bible citations as live links.</strong> BDB's compact references like{" "}
+                    <em>Nu 21:30</em> or <em>Je 7:18</em> are expanded to <em>Numbers 21:30</em> /{" "}
+                    <em>Jeremiah 7:18</em> and link directly to the corresponding chapter in the
+                    ChavrutAI Bible reader.
+                  </li>
+                  <li>
+                    <strong>BDB cross-references stay internal.</strong> When an entry says{" "}
+                    <em>v. אבה</em>, the link rewrites to{" "}
+                    <code className="text-xs bg-muted px-1 rounded">/bdb?q=אבה</code> and runs the
+                    new search in place, with no full page reload and no jumping out to Sefaria.
+                    Browser back/forward navigates through your search history.
+                  </li>
+                  <li>
+                    <strong>Superscript and footnote markers inlined.</strong> BDB's tiny{" "}
+                    <code className="text-xs bg-muted px-1 rounded">&lt;sup&gt;</code> qualifications
+                    (e.g. <em>Genesis 26²¹</em>) are converted to readable parentheticals
+                    (<em>Genesis 26 (21)</em>) so they don't disappear into the line.
+                  </li>
+                  <li>
+                    <strong>Browse by Hebrew letter.</strong> Each letter button shows a per-letter
+                    headword count and goes straight to the full filtered headword index for that
+                    letter (5,250 entries total).
+                  </li>
+                  <li>
+                    <strong>Autosuggest + "did you mean".</strong> Typing in the search box pulls
+                    matches from the local headword index; if a search returns no results, fuzzy
+                    matches are surfaced as clickable suggestions.
+                  </li>
+                  <li>
+                    <strong>Shareable URLs.</strong>{" "}
+                    <code className="text-xs bg-muted px-1 rounded">/bdb?q=כתב</code> is a permalink
+                    to a search.
+                  </li>
+                  <li>
+                    <strong>Filtered for resolvability.</strong> Sefaria's headword-completion API
+                    advertises ~3,800 BDB headwords that have no actual entry attached. The browse
+                    index here is filtered against the live corpus so every word you click leads to
+                    a real definition.
+                  </li>
+                </ul>
+                <p className="text-muted-foreground">
+                  Status: <strong>beta</strong>. The abbreviation map is hand-curated and will keep
+                  growing as edge cases turn up. If you spot something rendering oddly,{" "}
+                  <Link href="/contact" className="text-blue-600 hover:underline dark:text-blue-400">
+                    let me know
+                  </Link>
+                  .
+                </p>
+              </CardContent>
+            </Card>
+          )}
+        </div>
 
         <div className="mb-8">
           <div className="flex gap-3 mb-6">
