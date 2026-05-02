@@ -331,17 +331,10 @@ export default function Bdb() {
                     ChavrutAI Bible reader.
                   </li>
                   <li>
-                    <strong>BDB cross-references stay internal.</strong> When an entry says{" "}
-                    <em>v. אבה</em>, the link rewrites to{" "}
-                    <code className="text-xs bg-muted px-1 rounded">/bdb?q=אבה</code> and runs the
-                    new search in place, with no full page reload and no jumping out to Sefaria.
-                    Browser back/forward navigates through your search history.
-                  </li>
-                  <li>
                     <strong>Superscript and footnote markers inlined.</strong> BDB's tiny{" "}
                     <code className="text-xs bg-muted px-1 rounded">&lt;sup&gt;</code> qualifications
                     (e.g. <em>Genesis 26²¹</em>) are converted to readable parentheticals
-                    (<em>Genesis 26 (21)</em>) so they don't disappear into the line.
+                    (<em>Genesis 26 (21)</em>).
                   </li>
                   <li>
                     <strong>Browse by Hebrew letter.</strong> Each letter button shows a per-letter
@@ -349,10 +342,9 @@ export default function Bdb() {
                     letter (5,250 entries total).
                   </li>
                   <li>
-                    <strong>Cognate-script transliteration.</strong> BDB cites cognates in their
-                    original scripts. Greek, Arabic, and Syriac runs are annotated inline with
-                    transliterations (Greek and Arabic into Latin, Syriac into Hebrew) so a reader
-                    who doesn't know all three alphabets can still follow the argument.
+                    <strong>Cognate-script transliteration.</strong> Greek, Arabic, and Syriac runs
+                    are annotated inline with transliterations (Greek and Arabic into Latin, Syriac
+                    into Hebrew).
                   </li>
                 </ul>
               </CardContent>
