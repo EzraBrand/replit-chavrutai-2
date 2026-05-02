@@ -12,6 +12,7 @@ import {
   dictionaryStyles,
   convertSefariaLinksToInternal,
   convertBdbInternalLinks,
+  convertSupTagsToParens,
   splitIntoParagraphs,
   splitByPeriodAndLink,
   convertSuperscriptLetters,
@@ -246,14 +247,17 @@ export default function Bdb() {
 
   useDictionaryCopyHandler('main.max-w-4xl', [results]);
 
-  // Pipeline: BDB-internal cross-refs first, then Bible/Talmud refs, then formatting and abbreviation expansion
+  // Pipeline: convert <sup> citations to inline parens first, then BDB-internal
+  // cross-refs, then Bible/Talmud refs, then formatting and abbreviation expansion
   const renderDefinition = (definition: string): string => {
     return convertSefariaLinksToInternal(
       convertBdbInternalLinks(
         expandAbbreviations(
           convertSuperscriptLetters(
             splitByPeriodAndLink(
-              splitIntoParagraphs(definition)
+              convertSupTagsToParens(
+                splitIntoParagraphs(definition)
+              )
             )
           ),
           bdbMappings.mappings

@@ -275,6 +275,14 @@ export function convertSuperscriptLetters(text: string) {
   return result;
 }
 
+// Replace <sup>...</sup> wrappers with " (...)" so citation refs render as
+// inline parenthetical notes instead of tiny superscript text. Inner HTML
+// (links, italics, etc.) is preserved verbatim. Browser whitespace collapsing
+// handles any double space that results from the leading space.
+export function convertSupTagsToParens(html: string): string {
+  return html.replace(/<sup>([\s\S]*?)<\/sup>/g, ' ($1)');
+}
+
 // Generic abbreviation expansion that takes a mappings dict.
 // Preserves HTML tags (only replaces text outside of `<...>`).
 export function expandAbbreviations(text: string, mappings: Record<string, string>) {
