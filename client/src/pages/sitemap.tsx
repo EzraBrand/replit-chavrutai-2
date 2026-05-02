@@ -214,8 +214,11 @@ export default function Sitemap() {
             <Link href="/rambam" className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 p-2 bg-card rounded border transition-colors">
               Mishneh Torah (Rambam)
             </Link>
-            <Link href="/dictionary" className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 p-2 bg-card rounded border transition-colors">
+            <Link href="/jastrow" className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 p-2 bg-card rounded border transition-colors">
               Jastrow Dictionary
+            </Link>
+            <Link href="/bdb" className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 p-2 bg-card rounded border transition-colors">
+              BDB Hebrew Bible Dictionary
             </Link>
             <Link href="/term-index" className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 p-2 bg-card rounded border transition-colors">
               Talmud Term Index

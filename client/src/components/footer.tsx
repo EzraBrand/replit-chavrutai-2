@@ -153,11 +153,18 @@ export function Footer() {
                 Blog Posts
               </Link>
               <Link 
-                href="/dictionary"
+                href="/jastrow"
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
-                data-testid="footer-link-dictionary"
+                data-testid="footer-link-jastrow"
               >
                 Jastrow Talmud Dictionary
+              </Link>
+              <Link 
+                href="/bdb"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+                data-testid="footer-link-bdb"
+              >
+                BDB Hebrew Bible Dictionary
               </Link>
               <Link 
                 href="/term-index"

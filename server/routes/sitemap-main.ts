@@ -49,7 +49,13 @@ export function generateMainSitemap(req: Request, res: Response) {
     <lastmod>${currentDate}</lastmod>
   </url>
   <url>
-    <loc>${baseUrl}/dictionary</loc>
+    <loc>${baseUrl}/jastrow</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>${currentDate}</lastmod>
+  </url>
+  <url>
+    <loc>${baseUrl}/bdb</loc>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
     <lastmod>${currentDate}</lastmod>

@@ -617,7 +617,7 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
       canonical: `${baseUrl}/blog-posts`,
       robots: "index, follow"
     };
-  } else if (pathname === '/dictionary') {
+  } else if (pathname === '/jastrow') {
     const letter = urlObj.searchParams.get('letter') || '';
     const query = urlObj.searchParams.get('q') || '';
     
@@ -627,7 +627,7 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
         description: `Browse Jastrow Dictionary entries starting with ${letter}. Comprehensive Talmudic Hebrew and Aramaic dictionary with modernized presentation.`,
         ogTitle: `Jastrow Dictionary - Letter ${letter}`,
         ogDescription: `Browse Jastrow Dictionary entries starting with ${letter}. Talmudic Hebrew and Aramaic with modernized presentation.`,
-        canonical: `${baseUrl}/dictionary?letter=${encodeURIComponent(letter)}`,
+        canonical: `${baseUrl}/jastrow?letter=${encodeURIComponent(letter)}`,
         robots: "index, follow"
       };
     } else if (query) {
@@ -637,7 +637,7 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
         description: `Jastrow Dictionary results for "${safeQuery}". Comprehensive Talmudic Hebrew and Aramaic dictionary with modernized presentation.`,
         ogTitle: `"${safeQuery}" - Jastrow Dictionary`,
         ogDescription: `Jastrow Dictionary results for "${safeQuery}". Talmudic Hebrew and Aramaic with modernized presentation.`,
-        canonical: `${baseUrl}/dictionary`,
+        canonical: `${baseUrl}/jastrow`,
         robots: "index, follow"
       };
     } else {
@@ -646,7 +646,40 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
         description: "Search the comprehensive Jastrow Dictionary of Talmudic Hebrew and Aramaic. Modernized presentation with expanded abbreviations, enhanced readability, and direct term lookup.",
         ogTitle: "Modernized Jastrow Talmud Dictionary of Hebrew & Aramaic",
         ogDescription: "Search the comprehensive Jastrow Dictionary of Talmudic Hebrew and Aramaic with modernized presentation and enhanced readability.",
-        canonical: `${baseUrl}/dictionary`,
+        canonical: `${baseUrl}/jastrow`,
+        robots: "index, follow"
+      };
+    }
+  } else if (pathname === '/bdb') {
+    const letter = urlObj.searchParams.get('letter') || '';
+    const query = urlObj.searchParams.get('q') || '';
+
+    if (letter) {
+      seoData = {
+        title: `BDB Hebrew Bible Dictionary - Letter ${letter} | ChavrutAI`,
+        description: `Browse Brown-Driver-Briggs (BDB) Hebrew Bible Dictionary entries starting with ${letter}. Classic biblical Hebrew lexicon with modernized presentation.`,
+        ogTitle: `BDB Hebrew Bible Dictionary - Letter ${letter}`,
+        ogDescription: `Browse Brown-Driver-Briggs (BDB) Hebrew Bible Dictionary entries starting with ${letter}.`,
+        canonical: `${baseUrl}/bdb?letter=${encodeURIComponent(letter)}`,
+        robots: "index, follow"
+      };
+    } else if (query) {
+      const safeQuery = escapeHtmlAttr(query);
+      seoData = {
+        title: `"${safeQuery}" - BDB Hebrew Bible Dictionary | ChavrutAI`,
+        description: `BDB Hebrew Bible Dictionary results for "${safeQuery}". Brown-Driver-Briggs biblical Hebrew lexicon with modernized presentation.`,
+        ogTitle: `"${safeQuery}" - BDB Hebrew Bible Dictionary`,
+        ogDescription: `BDB Hebrew Bible Dictionary results for "${safeQuery}".`,
+        canonical: `${baseUrl}/bdb`,
+        robots: "index, follow"
+      };
+    } else {
+      seoData = {
+        title: "BDB (Brown-Driver-Briggs) Hebrew Bible Dictionary | ChavrutAI",
+        description: "Search the Brown-Driver-Briggs (BDB) Hebrew Bible Dictionary. Modernized presentation with expanded abbreviations and direct links to biblical citations on ChavrutAI.",
+        ogTitle: "BDB (Brown-Driver-Briggs) Hebrew Bible Dictionary",
+        ogDescription: "Search the classic Brown-Driver-Briggs Hebrew Bible Dictionary with modernized presentation and direct biblical-citation links.",
+        canonical: `${baseUrl}/bdb`,
         robots: "index, follow"
       };
     }
@@ -945,7 +978,8 @@ async function generateCrawlerBodyContent(urlPath: string, seoData: { title: str
       `<li><a href="/talmud">Browse All Tractates</a></li>` +
       `<li><a href="/bible">Hebrew Bible (Tanach)</a></li>` +
       `<li><a href="/suggested-pages">Famous Talmud Pages</a></li>` +
-      `<li><a href="/dictionary">Talmud Dictionary</a></li>` +
+      `<li><a href="/jastrow">Jastrow Talmud Dictionary</a></li>` +
+      `<li><a href="/bdb">BDB Hebrew Bible Dictionary</a></li>` +
       `<li><a href="/search">Search</a></li>` +
       `<li><a href="/about">About</a></li>` +
       `</ul></nav>`;

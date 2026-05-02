@@ -16,7 +16,8 @@ import { createMishnahRouter } from "./routes/mishnah";
 import { createYerushalmiRouter } from "./routes/yerushalmi";
 import { createRambamRouter } from "./routes/rambam";
 import { createBibleRouter } from "./routes/bible";
-import { createDictionaryRouter } from "./routes/dictionary";
+import { createJastrowRouter } from "./routes/jastrow";
+import { createBdbRouter } from "./routes/bdb";
 import { createChatRouter } from "./routes/chat";
 import { createSearchRouter } from "./routes/search";
 import { createFeedRouter } from "./routes/feed";
@@ -86,6 +87,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
       canonicalUrl = '/talmud';
       needsRedirect = true;
     }
+
+    // Legacy /dictionary -> /jastrow (preserves query string via the unified redirect tail below)
+    if (canonicalUrl === '/dictionary') {
+      canonicalUrl = '/jastrow';
+      needsRedirect = true;
+    }
     const oldContentsPageMatch = canonicalUrl.match(/^\/contents\/([^/]+)$/i);
     if (oldContentsPageMatch) {
       const [, tractate] = oldContentsPageMatch;
@@ -119,7 +126,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/sitemap', servePageWithMeta);
   app.get('/contact', servePageWithMeta);
   app.get('/changelog', servePageWithMeta);
-  app.get('/dictionary', servePageWithMeta);
+  app.get('/jastrow', servePageWithMeta);
+  app.get('/bdb', servePageWithMeta);
   app.get('/term-index', servePageWithMeta);
   app.get('/blog-posts', servePageWithMeta);
   app.get('/biblical-index', servePageWithMeta);
@@ -145,7 +153,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.use(createYerushalmiRouter());
   app.use(createRambamRouter());
   app.use(createBibleRouter());
-  app.use(createDictionaryRouter());
+  app.use(createJastrowRouter());
+  app.use(createBdbRouter());
   app.use(createChatRouter());
   app.use(createSearchRouter());
   app.use(createFeedRouter());

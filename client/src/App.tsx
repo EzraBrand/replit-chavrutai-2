@@ -29,7 +29,8 @@ const Sitemap = lazy(() => import("@/pages/sitemap"));
 const Changelog = lazy(() => import("@/pages/changelog"));
 const Contact = lazy(() => import("@/pages/contact"));
 const Privacy = lazy(() => import("@/pages/privacy"));
-const Dictionary = lazy(() => import("@/pages/dictionary"));
+const Jastrow = lazy(() => import("@/pages/jastrow"));
+const Bdb = lazy(() => import("@/pages/bdb"));
 const SugyaViewerPage = lazy(() => import("@/pages/sugya-viewer"));
 const ExternalLinksPage = lazy(() => import("@/pages/external-links"));
 const SearchPage = lazy(() => import("@/pages/search"));
@@ -107,7 +108,11 @@ function Router() {
       <Route path="/changelog" component={Changelog} />
       <Route path="/contact" component={Contact} />
       <Route path="/privacy" component={Privacy} />
-      <Route path="/dictionary" component={Dictionary} />
+      <Route path="/jastrow" component={Jastrow} />
+      <Route path="/bdb" component={Bdb} />
+      <Route path="/dictionary">
+        {() => <Redirect to={`/jastrow${window.location.search}`} />}
+      </Route>
       <Route path="/mishnah-map" component={MishnahMapPage} />
       <Route path="/sugya-viewer" component={SugyaViewerPage} />
       <Route path="/external-links" component={ExternalLinksPage} />
