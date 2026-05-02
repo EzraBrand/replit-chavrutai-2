@@ -31,6 +31,7 @@ const Contact = lazy(() => import("@/pages/contact"));
 const Privacy = lazy(() => import("@/pages/privacy"));
 const Jastrow = lazy(() => import("@/pages/jastrow"));
 const Bdb = lazy(() => import("@/pages/bdb"));
+const LexiconHeadwords = lazy(() => import("@/pages/lexicon-headwords"));
 const SugyaViewerPage = lazy(() => import("@/pages/sugya-viewer"));
 const ExternalLinksPage = lazy(() => import("@/pages/external-links"));
 const SearchPage = lazy(() => import("@/pages/search"));
@@ -109,7 +110,19 @@ function Router() {
       <Route path="/contact" component={Contact} />
       <Route path="/privacy" component={Privacy} />
       <Route path="/jastrow" component={Jastrow} />
+      <Route path="/jastrow/headwords/:letter">
+        {(params) => <LexiconHeadwords lexiconKey="jastrow" letter={params.letter} />}
+      </Route>
+      <Route path="/jastrow/headwords">
+        {() => <LexiconHeadwords lexiconKey="jastrow" />}
+      </Route>
       <Route path="/bdb" component={Bdb} />
+      <Route path="/bdb/headwords/:letter">
+        {(params) => <LexiconHeadwords lexiconKey="bdb" letter={params.letter} />}
+      </Route>
+      <Route path="/bdb/headwords">
+        {() => <LexiconHeadwords lexiconKey="bdb" />}
+      </Route>
       <Route path="/dictionary">
         {() => <Redirect to={`/jastrow${window.location.search}`} />}
       </Route>

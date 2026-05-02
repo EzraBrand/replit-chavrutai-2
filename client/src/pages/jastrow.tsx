@@ -285,7 +285,16 @@ export default function Jastrow() {
         </div>
 
         <div className="mb-8">
-          <h2 className="text-lg font-semibold mb-4">Browse by Letter</h2>
+          <div className="flex items-baseline justify-between mb-4">
+            <h2 className="text-lg font-semibold">Browse by Letter</h2>
+            <Link
+              href="/jastrow/headwords"
+              className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 hover:underline"
+              data-testid="link-headword-index"
+            >
+              Browse all headwords →
+            </Link>
+          </div>
           <div className="grid grid-cols-8 sm:grid-cols-12 gap-2">
             {HEBREW_ALPHABET.map((letter) => {
               const count = lexiconIndex?.perLetterCounts[letter];
