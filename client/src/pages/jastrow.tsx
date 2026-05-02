@@ -30,6 +30,7 @@ export default function Jastrow() {
   const [isLoading, setIsLoading] = useState(false);
   const [suggestions, setSuggestions] = useState<AutosuggestSuggestion[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [showAbout, setShowAbout] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const initialLoadRef = useRef(false);
   const suppressSuggestionsRef = useRef(false);
@@ -252,7 +253,88 @@ export default function Jastrow() {
       </header>
 
       <main className="max-w-4xl mx-auto p-6">
-        <h1 className="text-3xl font-bold text-primary mb-6">Jastrow Talmudic Dictionary</h1>
+        <h1 className="text-3xl font-bold text-primary mb-2">Jastrow Talmudic Dictionary</h1>
+        <p className="text-muted-foreground mb-3">
+          Marcus Jastrow — A Dictionary of the Targumim, the Talmud Babli and Yerushalmi, and the
+          Midrashic Literature (1903)
+        </p>
+
+        <div className="mb-6">
+          <button
+            type="button"
+            onClick={() => setShowAbout((v) => !v)}
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
+            data-testid="button-about-toggle"
+            aria-expanded={showAbout}
+          >
+            {showAbout ? "▲" : "▼"} About this dictionary
+          </button>
+
+          {showAbout && (
+            <Card className="mt-2 bg-secondary/40 border-border" data-testid="about-panel">
+              <CardContent className="pt-4 text-sm text-foreground space-y-3">
+                <p>
+                  <strong>Jastrow</strong> is shorthand for Marcus Jastrow's{" "}
+                  <em>
+                    A Dictionary of the Targumim, the Talmud Babli and Yerushalmi, and the Midrashic
+                    Literature
+                  </em>{" "}
+                  (London / New York, 1903), the standard scholarly dictionary for Talmudic Hebrew
+                  and Aramaic. It covers the vocabulary of rabbinic literature. This reader pulls
+                  live entries from Sefaria's{" "}
+                  <code className="text-xs bg-muted px-1 rounded">/api/words</code> endpoint and
+                  renders them with a modernized presentation layer.
+                </p>
+                <p className="font-medium">What this reader adds on top of the raw text:</p>
+                <ul className="list-disc list-inside space-y-1 ml-2">
+                  <li>
+                    <strong>Inline abbreviation expansion.</strong> A curated map of over 400
+                    abbreviations is replaced inline. Categories include rabbinic source
+                    abbreviations (<em>Ber.</em>, <em>Sanh.</em>, <em>Pes.</em>, <em>Gen. R.</em>),
+                    grammatical shorthand (<em>denom.</em>, <em>constr.</em>, <em>pl.</em>,{" "}
+                    <em>fem.</em>), Latin logic (<em>i.e.</em>, <em>e.g.</em>, <em>l.c.</em>), and
+                    scholar surnames.
+                  </li>
+                  <li>
+                    <strong>Citations as live links.</strong> Bible references and Talmud passages
+                    link directly to the corresponding chapter or page in the ChavrutAI Bible and
+                    Talmud readers.
+                  </li>
+                  <li>
+                    <strong>Superscript and footnote markers inlined.</strong> Jastrow's tiny{" "}
+                    <code className="text-xs bg-muted px-1 rounded">&lt;sup&gt;</code> qualifications
+                    are converted to readable parentheticals.
+                  </li>
+                  <li>
+                    <strong>Browse by Hebrew letter.</strong> Each letter button shows a per-letter
+                    headword count and goes straight to the full filtered headword index for that
+                    letter (30,756 entries total).
+                  </li>
+                  <li>
+                    <strong>Cognate-script transliteration.</strong> Greek, Arabic, and Syriac runs
+                    are annotated inline with transliterations (Greek and Arabic into Latin, Syriac
+                    into Hebrew).
+                  </li>
+                </ul>
+                <p className="text-muted-foreground pt-1">
+                  For a fuller writeup, see:{" "}
+                  <a
+                    href="https://www.ezrabrand.com/p/jastrows-talmud-dictionary-a-modernized"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 hover:text-blue-800 hover:underline inline-flex items-center gap-1"
+                    data-testid="link-about-blogpost"
+                  >
+                    Jastrow's Talmud Dictionary: A Modernized and Enhanced Digital Presentation at
+                    ChavrutAI
+                    <ExternalLink className="h-3 w-3" />
+                  </a>{" "}
+                  <span className="text-muted-foreground">(Sep 28, 2025)</span>
+                </p>
+              </CardContent>
+            </Card>
+          )}
+        </div>
 
         <div className="mb-8">
           <div className="flex gap-3 mb-6">
@@ -421,23 +503,6 @@ export default function Jastrow() {
         </div>
         )}
 
-        <div className="mt-12 pt-8 border-t border-border text-center">
-          <p className="text-sm text-muted-foreground">
-            To find out more about this, see:{" "}
-            <a
-              href="https://www.ezrabrand.com/p/jastrows-talmud-dictionary-a-modernized"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-600 hover:text-blue-800 hover:underline inline-flex items-center gap-1"
-              data-testid="link-about"
-            >
-              Jastrow's Talmud Dictionary: A Modernized and Enhanced Digital Presentation at ChavrutAI
-              <ExternalLink className="h-3 w-3" />
-            </a>
-            {" "}
-            <span className="text-muted-foreground">(Sep 28, 2025)</span>
-          </p>
-        </div>
       </main>
       <Footer />
     </div>
