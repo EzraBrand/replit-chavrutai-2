@@ -75,6 +75,7 @@ export default function Changelog() {
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Clicking an internal cross-reference inside a Jastrow or BDB entry (e.g. <em>v. אבא</em>) now navigates instantly without a full page reload — the new search runs in place and back/forward through your history works as expected</li>
                 <li>The "Browse by Letter" buttons now go straight to the full headword index for that letter, in one click</li>
+                <li>The headword index now only lists entries that actually resolve to a real definition — about 3,800 BDB "ghost" headwords advertised by Sefaria's API but with no retrievable entry have been pruned, so every word you click on the letter pages leads somewhere</li>
                 <li>Behind the scenes: removed dead server endpoints, consolidated the Hebrew alphabet definition, and moved dictionary data files into <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">shared/</code> so both readers stay in sync</li>
               </ul>
             </div>
