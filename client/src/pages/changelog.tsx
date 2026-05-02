@@ -71,6 +71,15 @@ export default function Changelog() {
 
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Dictionary Cleanup: Faster Cross-References &amp; Sharper Letter Browsing</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Clicking an internal cross-reference inside a Jastrow or BDB entry (e.g. <em>v. אבא</em>) now navigates instantly without a full page reload — the new search runs in place and back/forward through your history works as expected</li>
+                <li>The "Browse by Letter" buttons now go straight to the full headword index for that letter, in one click</li>
+                <li>Behind the scenes: removed dead server endpoints, consolidated the Hebrew alphabet definition, and moved dictionary data files into <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">shared/</code> so both readers stay in sync</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">New: BDB Hebrew Bible Dictionary &amp; Reorganized Dictionary URLs</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added a <strong>Brown-Driver-Briggs (BDB) Hebrew Bible Dictionary</strong> reader at <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/bdb</code> — search by Hebrew root, browse by letter, autosuggest, and clickable Bible citations</li>

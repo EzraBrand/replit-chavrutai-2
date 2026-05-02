@@ -6,9 +6,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Search, Loader2, ExternalLink, X } from "lucide-react";
 import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
-import bdbMappings from "@/data/bdb-mappings.json";
+import { HEBREW_ALPHABET } from "@shared/hebrew-alphabet";
+import bdbMappings from "@shared/data/lexicon-mappings/bdb.json";
 import {
-  HEBREW_ALPHABET,
   dictionaryStyles,
   convertSefariaLinksToInternal,
   convertBdbInternalLinks,
@@ -28,7 +28,6 @@ import { useLexiconIndex, searchHeadwords, findFuzzyMatches } from "@/lib/lexico
 export default function Bdb() {
   const [searchQuery, setSearchQuery] = useState("");
   const [lastSearchedQuery, setLastSearchedQuery] = useState("");
-  const [selectedLetter, setSelectedLetter] = useState("");
   const [results, setResults] = useState<DictionaryEntry[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [suggestions, setSuggestions] = useState<AutosuggestSuggestion[]>([]);
@@ -38,26 +37,20 @@ export default function Bdb() {
   const suppressSuggestionsRef = useRef(false);
   const lexiconIndex = useLexiconIndex("bdb");
 
-  const seoTitle = selectedLetter
-    ? `BDB Hebrew Bible Dictionary - Letter ${selectedLetter} | ChavrutAI`
-    : searchQuery
-      ? `"${searchQuery}" - BDB Hebrew Bible Dictionary | ChavrutAI`
-      : "BDB (Brown-Driver-Briggs) Hebrew Bible Dictionary | ChavrutAI";
+  const seoTitle = searchQuery
+    ? `"${searchQuery}" - BDB Hebrew Bible Dictionary | ChavrutAI`
+    : "BDB (Brown-Driver-Briggs) Hebrew Bible Dictionary | ChavrutAI";
 
-  const seoDescription = selectedLetter
-    ? `Browse Brown-Driver-Briggs (BDB) Hebrew Bible Dictionary entries starting with ${selectedLetter}. Classic biblical Hebrew lexicon with modernized presentation.`
-    : searchQuery
-      ? `BDB Hebrew Bible Dictionary results for "${searchQuery}". Brown-Driver-Briggs biblical Hebrew lexicon with modernized presentation.`
-      : "Search the Brown-Driver-Briggs (BDB) Hebrew Bible Dictionary. Modernized presentation with expanded abbreviations and direct links to biblical citations on ChavrutAI.";
+  const seoDescription = searchQuery
+    ? `BDB Hebrew Bible Dictionary results for "${searchQuery}". Brown-Driver-Briggs biblical Hebrew lexicon with modernized presentation.`
+    : "Search the Brown-Driver-Briggs (BDB) Hebrew Bible Dictionary. Modernized presentation with expanded abbreviations and direct links to biblical citations on ChavrutAI.";
 
   useSEO({
     title: seoTitle,
     description: seoDescription,
     ogTitle: seoTitle.replace(' | ChavrutAI', ''),
     ogDescription: seoDescription,
-    canonical: selectedLetter
-      ? `${window.location.origin}/bdb?letter=${encodeURIComponent(selectedLetter)}`
-      : `${window.location.origin}/bdb`,
+    canonical: `${window.location.origin}/bdb`,
     robots: "index, follow",
     structuredData: {
       "@context": "https://schema.org",
@@ -84,12 +77,11 @@ export default function Bdb() {
     },
   });
 
-  const updateURLParams = useCallback((params: { q?: string; letter?: string }) => {
+  const updateURLParams = useCallback((params: { q?: string }) => {
     const url = new URL(window.location.href);
     url.searchParams.delete('q');
     url.searchParams.delete('letter');
     if (params.q) url.searchParams.set('q', params.q);
-    if (params.letter) url.searchParams.set('letter', params.letter);
     const newPath = url.pathname + url.search;
     window.history.replaceState(null, '', newPath);
   }, []);
@@ -108,7 +100,6 @@ export default function Bdb() {
         entry && entry.headword && entry.content && Array.isArray(entry.content.senses)
       ) : [];
       setResults(validEntries);
-      setSelectedLetter("");
     } catch (error) {
       console.error('BDB: Search error:', error);
       setResults([]);
@@ -116,39 +107,33 @@ export default function Bdb() {
     setIsLoading(false);
   }, [searchQuery, updateURLParams]);
 
-  const handleLetterClick = useCallback(async (letter: string) => {
-    setSelectedLetter(letter);
-    setLastSearchedQuery("");
-    setIsLoading(true);
-    updateURLParams({ letter });
-    try {
-      const response = await fetch(`/api/bdb/browse?letter=${encodeURIComponent(letter)}`);
-      if (!response.ok) throw new Error(`Browse failed: ${response.status}`);
-      const entries = await response.json();
-      const validEntries = Array.isArray(entries) ? entries.filter((entry: DictionaryEntry) =>
-        entry && entry.headword && entry.content && Array.isArray(entry.content.senses)
-      ) : [];
-      setResults(validEntries);
-      setSearchQuery("");
-    } catch (error) {
-      console.error('BDB: Browse error:', error);
-      setResults([]);
-    }
-    setIsLoading(false);
-  }, [updateURLParams]);
-
-  // Re-run on URL changes (e.g. clicking a BDB cross-ref rewrites to /bdb?q=X)
+  // Initial-load + popstate handler. Re-runs the search when the URL's `q`
+  // changes via back/forward or our click interceptor below. Legacy `?letter=`
+  // URLs redirect to the headword index page (which superseded inline browse).
   useEffect(() => {
     const runFromUrl = () => {
       const params = new URLSearchParams(window.location.search);
       const q = params.get('q');
       const letter = params.get('letter');
       if (q) {
-        suppressSuggestionsRef.current = true;
-        setSearchQuery(q);
+        // Only suppress suggestions if the query actually changes — otherwise
+        // setSearchQuery is a no-op, the suggestions effect never runs, and
+        // the flag would silently swallow the user's next keystroke.
+        setSearchQuery((prev) => {
+          if (prev !== q) suppressSuggestionsRef.current = true;
+          return q;
+        });
         handleSearch(q);
       } else if (letter) {
-        handleLetterClick(letter);
+        window.location.replace(`/bdb/headwords/${encodeURIComponent(letter)}`);
+      } else {
+        // Bare /bdb (e.g. user popped back past all searches) — clear stale state
+        // so the UI matches the URL.
+        setSearchQuery("");
+        setLastSearchedQuery("");
+        setResults([]);
+        setSuggestions([]);
+        setShowSuggestions(false);
       }
     };
 
@@ -162,20 +147,27 @@ export default function Bdb() {
     return () => window.removeEventListener('popstate', onPopState);
   }, []);
 
-  // Intercept clicks on internal /bdb?... links so we can re-run the search without a full page reload
+  // Intercept clicks on internal /bdb?... links (e.g. cross-refs in entry HTML)
+  // so we can re-run the search without a full page reload. We deliberately
+  // skip modifier-key / middle-click / target="_blank" / defaultPrevented
+  // events so open-in-new-tab and other browser conventions still work.
   useEffect(() => {
     const handler = (e: MouseEvent) => {
-      const target = (e.target as HTMLElement)?.closest?.('a');
-      if (!target) return;
-      const href = target.getAttribute('href');
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      const anchor = (e.target as HTMLElement)?.closest?.('a') as HTMLAnchorElement | null;
+      if (!anchor) return;
+      if (anchor.target && anchor.target !== '' && anchor.target !== '_self') return;
+      const href = anchor.getAttribute('href');
       if (!href || !href.startsWith('/bdb?')) return;
       e.preventDefault();
       window.history.pushState(null, '', href);
       const params = new URLSearchParams(href.split('?')[1] || '');
       const q = params.get('q');
       if (q) {
-        suppressSuggestionsRef.current = true;
-        setSearchQuery(q);
+        setSearchQuery((prev) => {
+          if (prev !== q) suppressSuggestionsRef.current = true;
+          return q;
+        });
         handleSearch(q);
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
@@ -364,14 +356,11 @@ export default function Bdb() {
             {HEBREW_ALPHABET.map((letter) => {
               const count = lexiconIndex?.perLetterCounts[letter];
               return (
-                <Button
+                <Link
                   key={letter}
-                  variant={selectedLetter === letter ? "default" : "outline"}
-                  size="sm"
-                  className="h-12 font-hebrew text-lg flex-col gap-0 py-1"
-                  onClick={() => handleLetterClick(letter)}
+                  href={`/bdb/headwords/${encodeURIComponent(letter)}`}
                   data-testid={`button-letter-${letter}`}
-                  disabled={isLoading}
+                  className="h-12 inline-flex flex-col items-center justify-center gap-0 rounded-md border border-border text-lg font-hebrew transition-colors hover:bg-accent"
                 >
                   <span className="leading-none">{letter}</span>
                   {count !== undefined && (
@@ -379,7 +368,7 @@ export default function Bdb() {
                       {count.toLocaleString()}
                     </span>
                   )}
-                </Button>
+                </Link>
               );
             })}
           </div>

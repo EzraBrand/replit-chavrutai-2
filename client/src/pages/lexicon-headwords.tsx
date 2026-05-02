@@ -3,9 +3,7 @@ import { Link, Redirect } from "wouter";
 import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
 import { ArrowLeft, ChevronRight } from "lucide-react";
-import {
-  HEBREW_ALPHABET,
-} from "@/lib/dictionary-format";
+import { HEBREW_ALPHABET, isHebrewLetter } from "@shared/hebrew-alphabet";
 import {
   useLexiconIndex,
   normalizeHebrew,
@@ -52,8 +50,8 @@ export default function LexiconHeadwords({ lexiconKey, letter }: Props) {
   // redirect to the canonical headword index instead of silently rendering
   // (avoids duplicate-content URLs for SEO). Defer the early return until
   // after all hooks have run so the call order stays stable across renders.
-  const invalidLetter = letter !== undefined && !HEBREW_ALPHABET.includes(letter);
-  const activeLetter = !invalidLetter && letter && HEBREW_ALPHABET.includes(letter) ? letter : "";
+  const invalidLetter = letter !== undefined && !isHebrewLetter(letter);
+  const activeLetter = !invalidLetter && letter && isHebrewLetter(letter) ? letter : "";
 
   const letterHeadwords = useMemo(() => {
     if (!index || !activeLetter) return [];

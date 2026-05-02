@@ -147,30 +147,12 @@ export const dictionaryEntrySchema = z.object({
 
 export type DictionaryEntry = z.infer<typeof dictionaryEntrySchema>;
 
-// Search/Browse request schemas
+// Dictionary search request schema
 export const searchRequestSchema = z.object({
   query: z.string().min(1)
 });
 
-export const browseRequestSchema = z.object({
-  letter: z.string().length(1)
-});
-
-export const autosuggestRequestSchema = z.object({
-  query: z.string().min(1, "Query is required"),
-});
-
 export type SearchRequest = z.infer<typeof searchRequestSchema>;
-export type BrowseRequest = z.infer<typeof browseRequestSchema>;
-export type AutosuggestRequest = z.infer<typeof autosuggestRequestSchema>;
-
-// Autosuggest response type
-export type AutosuggestSuggestion = {
-  unvoweled: string;
-  voweled: string;
-};
-
-export type AutosuggestResponse = AutosuggestSuggestion[];
 
 // Bible Location Schema
 export const BibleLocationSchema = z.object({

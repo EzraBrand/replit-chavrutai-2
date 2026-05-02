@@ -6,9 +6,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Search, Loader2, ExternalLink, X } from "lucide-react";
 import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
-import jastrowMappings from "@/data/jastrow-mappings.json";
+import { HEBREW_ALPHABET } from "@shared/hebrew-alphabet";
+import jastrowMappings from "@shared/data/lexicon-mappings/jastrow.json";
 import {
-  HEBREW_ALPHABET,
   dictionaryStyles,
   convertSefariaLinksToInternal,
   convertJastrowInternalLinks,
@@ -26,7 +26,6 @@ import { useLexiconIndex, searchHeadwords, findFuzzyMatches } from "@/lib/lexico
 export default function Jastrow() {
   const [searchQuery, setSearchQuery] = useState("");
   const [lastSearchedQuery, setLastSearchedQuery] = useState("");
-  const [selectedLetter, setSelectedLetter] = useState("");
   const [results, setResults] = useState<DictionaryEntry[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [suggestions, setSuggestions] = useState<AutosuggestSuggestion[]>([]);
@@ -36,26 +35,20 @@ export default function Jastrow() {
   const suppressSuggestionsRef = useRef(false);
   const lexiconIndex = useLexiconIndex("jastrow");
 
-  const seoTitle = selectedLetter
-    ? `Jastrow Dictionary - Letter ${selectedLetter} | ChavrutAI`
-    : searchQuery
-      ? `"${searchQuery}" - Jastrow Dictionary | ChavrutAI`
-      : "Jastrow Talmud Dictionary - Modernized Hebrew & Aramaic | ChavrutAI";
+  const seoTitle = searchQuery
+    ? `"${searchQuery}" - Jastrow Dictionary | ChavrutAI`
+    : "Jastrow Talmud Dictionary - Modernized Hebrew & Aramaic | ChavrutAI";
 
-  const seoDescription = selectedLetter
-    ? `Browse Jastrow Dictionary entries starting with ${selectedLetter}. Comprehensive Talmudic Hebrew and Aramaic dictionary with modernized presentation.`
-    : searchQuery
-      ? `Jastrow Dictionary results for "${searchQuery}". Comprehensive Talmudic Hebrew and Aramaic dictionary with modernized presentation.`
-      : "Search the comprehensive Jastrow Dictionary of Talmudic Hebrew and Aramaic. Modernized presentation with expanded abbreviations, enhanced readability, and direct term lookup.";
+  const seoDescription = searchQuery
+    ? `Jastrow Dictionary results for "${searchQuery}". Comprehensive Talmudic Hebrew and Aramaic dictionary with modernized presentation.`
+    : "Search the comprehensive Jastrow Dictionary of Talmudic Hebrew and Aramaic. Modernized presentation with expanded abbreviations, enhanced readability, and direct term lookup.";
 
   useSEO({
     title: seoTitle,
     description: seoDescription,
     ogTitle: seoTitle.replace(' | ChavrutAI', ''),
     ogDescription: seoDescription,
-    canonical: selectedLetter
-      ? `${window.location.origin}/jastrow?letter=${encodeURIComponent(selectedLetter)}`
-      : `${window.location.origin}/jastrow`,
+    canonical: `${window.location.origin}/jastrow`,
     robots: "index, follow",
     structuredData: {
       "@context": "https://schema.org",
@@ -81,12 +74,11 @@ export default function Jastrow() {
     },
   });
 
-  const updateURLParams = useCallback((params: { q?: string; letter?: string }) => {
+  const updateURLParams = useCallback((params: { q?: string }) => {
     const url = new URL(window.location.href);
     url.searchParams.delete('q');
     url.searchParams.delete('letter');
     if (params.q) url.searchParams.set('q', params.q);
-    if (params.letter) url.searchParams.set('letter', params.letter);
     const newPath = url.pathname + url.search;
     window.history.replaceState(null, '', newPath);
   }, []);
@@ -105,7 +97,6 @@ export default function Jastrow() {
         entry && entry.headword && entry.content && Array.isArray(entry.content.senses)
       ) : [];
       setResults(validEntries);
-      setSelectedLetter("");
     } catch (error) {
       console.error('Frontend: Search error:', error);
       setResults([]);
@@ -113,41 +104,75 @@ export default function Jastrow() {
     setIsLoading(false);
   }, [searchQuery, updateURLParams]);
 
-  const handleLetterClick = useCallback(async (letter: string) => {
-    setSelectedLetter(letter);
-    setLastSearchedQuery("");
-    setIsLoading(true);
-    updateURLParams({ letter });
-    try {
-      const response = await fetch(`/api/jastrow/browse?letter=${encodeURIComponent(letter)}`);
-      if (!response.ok) throw new Error(`Browse failed: ${response.status}`);
-      const entries = await response.json();
-      const validEntries = Array.isArray(entries) ? entries.filter((entry: DictionaryEntry) =>
-        entry && entry.headword && entry.content && Array.isArray(entry.content.senses)
-      ) : [];
-      setResults(validEntries);
-      setSearchQuery("");
-    } catch (error) {
-      console.error('Frontend: Browse error:', error);
-      setResults([]);
-    }
-    setIsLoading(false);
-  }, [updateURLParams]);
-
+  // Initial-load + popstate handler. Re-runs the search when the URL's `q`
+  // changes via back/forward or our click interceptor below. Legacy `?letter=`
+  // URLs redirect to the headword index page (which superseded inline browse).
   useEffect(() => {
-    if (initialLoadRef.current) return;
-    initialLoadRef.current = true;
-    const params = new URLSearchParams(window.location.search);
-    const q = params.get('q');
-    const letter = params.get('letter');
-    if (q) {
-      suppressSuggestionsRef.current = true;
-      setSearchQuery(q);
-      handleSearch(q);
-    } else if (letter) {
-      handleLetterClick(letter);
+    const runFromUrl = () => {
+      const params = new URLSearchParams(window.location.search);
+      const q = params.get('q');
+      const letter = params.get('letter');
+      if (q) {
+        // Only suppress suggestions if the query actually changes — otherwise
+        // setSearchQuery is a no-op, the suggestions effect never runs, and
+        // the flag would silently swallow the user's next keystroke.
+        setSearchQuery((prev) => {
+          if (prev !== q) suppressSuggestionsRef.current = true;
+          return q;
+        });
+        handleSearch(q);
+      } else if (letter) {
+        window.location.replace(`/jastrow/headwords/${encodeURIComponent(letter)}`);
+      } else {
+        // Bare /jastrow (e.g. user popped back past all searches) — clear stale
+        // state so the UI matches the URL.
+        setSearchQuery("");
+        setLastSearchedQuery("");
+        setResults([]);
+        setSuggestions([]);
+        setShowSuggestions(false);
+      }
+    };
+
+    if (!initialLoadRef.current) {
+      initialLoadRef.current = true;
+      runFromUrl();
     }
+
+    const onPopState = () => runFromUrl();
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
   }, []);
+
+  // Intercept clicks on internal /jastrow?... links (e.g. cross-refs in entry
+  // HTML) so we can re-run the search without a full page reload. We
+  // deliberately skip modifier-key / middle-click / target="_blank" /
+  // defaultPrevented events so open-in-new-tab and other browser conventions
+  // still work.
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      const anchor = (e.target as HTMLElement)?.closest?.('a') as HTMLAnchorElement | null;
+      if (!anchor) return;
+      if (anchor.target && anchor.target !== '' && anchor.target !== '_self') return;
+      const href = anchor.getAttribute('href');
+      if (!href || !href.startsWith('/jastrow?')) return;
+      e.preventDefault();
+      window.history.pushState(null, '', href);
+      const params = new URLSearchParams(href.split('?')[1] || '');
+      const q = params.get('q');
+      if (q) {
+        setSearchQuery((prev) => {
+          if (prev !== q) suppressSuggestionsRef.current = true;
+          return q;
+        });
+        handleSearch(q);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    };
+    document.addEventListener('click', handler);
+    return () => document.removeEventListener('click', handler);
+  }, [handleSearch]);
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
@@ -301,14 +326,11 @@ export default function Jastrow() {
             {HEBREW_ALPHABET.map((letter) => {
               const count = lexiconIndex?.perLetterCounts[letter];
               return (
-                <Button
+                <Link
                   key={letter}
-                  variant={selectedLetter === letter ? "default" : "outline"}
-                  size="sm"
-                  className="h-12 font-hebrew text-lg flex-col gap-0 py-1"
-                  onClick={() => handleLetterClick(letter)}
+                  href={`/jastrow/headwords/${encodeURIComponent(letter)}`}
                   data-testid={`button-letter-${letter}`}
-                  disabled={isLoading}
+                  className="h-12 inline-flex flex-col items-center justify-center gap-0 rounded-md border border-border text-lg font-hebrew transition-colors hover:bg-accent"
                 >
                   <span className="leading-none">{letter}</span>
                   {count !== undefined && (
@@ -316,7 +338,7 @@ export default function Jastrow() {
                       {count.toLocaleString()}
                     </span>
                   )}
-                </Button>
+                </Link>
               );
             })}
           </div>

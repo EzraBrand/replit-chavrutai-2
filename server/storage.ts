@@ -1,4 +1,4 @@
-import { type User, type InsertUser, type Text, type InsertText, type Bookmark, type InsertBookmark, type DictionaryEntry, type SearchRequest, type BrowseRequest, type AutosuggestRequest, type AutosuggestResponse } from "@shared/schema";
+import { type User, type InsertUser, type Text, type InsertText, type Bookmark, type InsertBookmark, type DictionaryEntry, type SearchRequest } from "@shared/schema";
 import { randomUUID } from "crypto";
 
 export interface IStorage {
@@ -19,13 +19,9 @@ export interface IStorage {
   
   // Jastrow Dictionary methods
   searchEntries(request: SearchRequest): Promise<DictionaryEntry[]>;
-  browseByLetter(request: BrowseRequest): Promise<DictionaryEntry[]>;
-  getAutosuggest(request: AutosuggestRequest): Promise<AutosuggestResponse>;
 
   // BDB Dictionary methods
   searchBdbEntries(request: SearchRequest): Promise<DictionaryEntry[]>;
-  browseBdbByLetter(request: BrowseRequest): Promise<DictionaryEntry[]>;
-  getBdbAutosuggest(request: AutosuggestRequest): Promise<AutosuggestResponse>;
 }
 
 export class MemStorage implements IStorage {
@@ -121,25 +117,9 @@ export class MemStorage implements IStorage {
     return sefariaAPI.searchEntries(request);
   }
 
-  async browseByLetter(request: BrowseRequest): Promise<DictionaryEntry[]> {
-    return sefariaAPI.browseByLetter(request);
-  }
-
-  async getAutosuggest(request: AutosuggestRequest): Promise<AutosuggestResponse> {
-    return sefariaAPI.getAutosuggest(request);
-  }
-
   // BDB Dictionary methods - delegate to SefariaAPI
   async searchBdbEntries(request: SearchRequest): Promise<DictionaryEntry[]> {
     return sefariaAPI.searchBdbEntries(request);
-  }
-
-  async browseBdbByLetter(request: BrowseRequest): Promise<DictionaryEntry[]> {
-    return sefariaAPI.browseBdbByLetter(request);
-  }
-
-  async getBdbAutosuggest(request: AutosuggestRequest): Promise<AutosuggestResponse> {
-    return sefariaAPI.getBdbAutosuggest(request);
   }
 }
 
@@ -349,121 +329,14 @@ export class SefariaAPI {
     }
   }
 
-  private async browseByLetterForLexicon(letter: string, lexiconName: string): Promise<DictionaryEntry[]> {
-    try {
-      const initialResults = await this.searchEntriesForLexicon(letter, lexiconName);
-      if (initialResults.length === 0) {
-        return [];
-      }
-
-      const allResults: DictionaryEntry[] = [...initialResults];
-      const processedIds = new Set(initialResults.map(entry => entry.rid));
-
-      const maxAdditionalEntries = 8;
-      let additionalCount = 0;
-      let currentHeadwords = initialResults.map(entry => entry.next_hw).filter(Boolean);
-
-      while (currentHeadwords.length > 0 && additionalCount < maxAdditionalEntries) {
-        try {
-          const batchSize = Math.min(3, currentHeadwords.length);
-          const currentBatch = currentHeadwords.slice(0, batchSize);
-
-          const searchPromises = currentBatch
-            .filter((headword): headword is string => Boolean(headword))
-            .map(headword =>
-              this.searchEntriesForLexicon(headword, lexiconName).catch(error => {
-                console.log(`[${lexiconName}] Error searching for ${headword}:`, error instanceof Error ? error.message : String(error));
-                return [];
-              })
-            );
-
-          const batchResults = await Promise.all(searchPromises);
-          const newHeadwords: string[] = [];
-
-          for (const nextResults of batchResults) {
-            if (nextResults.length === 0) continue;
-            const nextEntry = nextResults[0];
-            if (!nextEntry.headword.startsWith(letter)) {
-              continue;
-            }
-            for (const entry of nextResults) {
-              if (!processedIds.has(entry.rid)) {
-                allResults.push(entry);
-                processedIds.add(entry.rid);
-                additionalCount++;
-                if (entry.next_hw && additionalCount < maxAdditionalEntries) {
-                  newHeadwords.push(entry.next_hw);
-                }
-              }
-            }
-          }
-
-          currentHeadwords = [...currentHeadwords.slice(batchSize), ...newHeadwords];
-        } catch (error) {
-          console.log(`[${lexiconName}] Error following chain, stopping:`, error instanceof Error ? error.message : String(error));
-          break;
-        }
-      }
-
-      console.log(`[${lexiconName}] Browse by letter final results: ${allResults.length} entries`);
-      return allResults;
-    } catch (error) {
-      console.error(`[${lexiconName}] Browse API error:`, error);
-      return [];
-    }
-  }
-
-  private async getAutosuggestForLexicon(query: string, lexiconName: string): Promise<AutosuggestResponse> {
-    try {
-      // Lexicon-scoped completion endpoint; falls back to all-lexicon if it fails.
-      const scopedUrl = `${this.baseURL}/words/completion/${encodeURIComponent(query)}/${encodeURIComponent(lexiconName)}`;
-      let response = await fetch(scopedUrl);
-      if (!response.ok) {
-        console.log(`[${lexiconName}] Scoped completion failed, falling back to all-lexicon completion`);
-        response = await fetch(`${this.baseURL}/words/completion/${encodeURIComponent(query)}`);
-      }
-      if (!response.ok) {
-        console.error(`[${lexiconName}] Autosuggest API response not ok:`, response.status, response.statusText);
-        return [];
-      }
-      const data = await response.json();
-      if (!Array.isArray(data)) {
-        return [];
-      }
-      const suggestions: AutosuggestResponse = data
-        .filter((item: any) => Array.isArray(item) && item.length >= 2)
-        .map((item: any) => ({
-          unvoweled: item[0],
-          voweled: item[1] || item[0]
-        }))
-        .slice(0, 10);
-      return suggestions;
-    } catch (error) {
-      console.error(`[${lexiconName}] Autosuggest API error:`, error);
-      return [];
-    }
-  }
-
-  // Jastrow public methods
+  // Jastrow public method
   async searchEntries(request: SearchRequest): Promise<DictionaryEntry[]> {
     return this.searchEntriesForLexicon(request.query, 'Jastrow Dictionary');
   }
-  async browseByLetter(request: BrowseRequest): Promise<DictionaryEntry[]> {
-    return this.browseByLetterForLexicon(request.letter, 'Jastrow Dictionary');
-  }
-  async getAutosuggest(request: AutosuggestRequest): Promise<AutosuggestResponse> {
-    return this.getAutosuggestForLexicon(request.query, 'Jastrow Dictionary');
-  }
 
-  // BDB public methods
+  // BDB public method
   async searchBdbEntries(request: SearchRequest): Promise<DictionaryEntry[]> {
     return this.searchEntriesForLexicon(request.query, 'BDB Dictionary');
-  }
-  async browseBdbByLetter(request: BrowseRequest): Promise<DictionaryEntry[]> {
-    return this.browseByLetterForLexicon(request.letter, 'BDB Dictionary');
-  }
-  async getBdbAutosuggest(request: AutosuggestRequest): Promise<AutosuggestResponse> {
-    return this.getAutosuggestForLexicon(request.query, 'BDB Dictionary');
   }
 }
 

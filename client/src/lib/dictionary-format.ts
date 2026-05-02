@@ -4,9 +4,9 @@ import { ALL_BIBLE_BOOKS } from "@shared/bible-books";
 import { getMishnahTalmudLocation } from "@shared/mishnah-map";
 import { annotateAllTransliterations } from "@shared/transliteration";
 
-export const HEBREW_ALPHABET = [
-  'א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח', 'ט', 'י', 'כ', 'ל', 'מ', 'נ', 'ס', 'ע', 'פ', 'צ', 'ק', 'ר', 'ש', 'ת'
-];
+// Re-export for backwards-compatibility with existing imports.
+// New code should import from `@shared/hebrew-alphabet` directly.
+export { HEBREW_ALPHABET } from "@shared/hebrew-alphabet";
 
 export interface DictionaryEntry {
   headword: string;
