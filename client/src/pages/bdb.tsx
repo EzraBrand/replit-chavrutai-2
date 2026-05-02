@@ -3,7 +3,7 @@ import { Link } from "wouter";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Search, Loader2, X } from "lucide-react";
+import { Search, Loader2, ExternalLink, X } from "lucide-react";
 import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
 import bdbMappings from "@/data/bdb-mappings.json";
@@ -398,14 +398,16 @@ export default function Bdb() {
               {results.map((entry, index) => (
                 <div key={entry.rid || index} className="pb-4 border-b border-border last:border-b-0" data-testid={`entry-${entry.rid || index}`}>
                   <div className="flex items-start gap-4">
-                    <h3 className="text-lg font-bold font-hebrew text-primary min-w-fit">
+                    <h3 className="text-lg font-bold font-hebrew min-w-fit">
                       <a
                         href={`https://www.sefaria.org.il/BDB%2C_${encodeURIComponent(entry.headword)}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="hover:underline"
+                        className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 hover:underline inline-flex items-center gap-1.5"
+                        title="View this entry on Sefaria"
                       >
                         {entry.headword}
+                        <ExternalLink className="h-3.5 w-3.5 opacity-70" />
                       </a>
                     </h3>
                     <div className="text-foreground flex-1 prose prose-sm max-w-none">
