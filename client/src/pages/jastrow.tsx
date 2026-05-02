@@ -288,8 +288,8 @@ export default function Jastrow() {
                 <p className="font-medium">What this reader adds on top of the raw text:</p>
                 <ul className="list-disc list-inside space-y-1 ml-2">
                   <li>
-                    <strong>Inline abbreviation expansion.</strong> A curated map of over 400
-                    abbreviations is replaced inline. Categories include rabbinic source
+                    <strong>Inline abbreviation expansion.</strong> A wide variety of abbreviations
+                    are replaced inline. Categories include rabbinic source
                     abbreviations (<em>Ber.</em>, <em>Sanh.</em>, <em>Pes.</em>, <em>Gen. R.</em>),
                     grammatical shorthand (<em>denom.</em>, <em>constr.</em>, <em>pl.</em>,{" "}
                     <em>fem.</em>), Latin logic (<em>i.e.</em>, <em>e.g.</em>, <em>l.c.</em>), and
@@ -312,8 +312,9 @@ export default function Jastrow() {
                   </li>
                   <li>
                     <strong>Cognate-script transliteration.</strong> Greek, Arabic, and Syriac runs
-                    are annotated inline with transliterations (Greek and Arabic into Latin, Syriac
-                    into Hebrew).
+                    are annotated inline with transliterations (Greek and Arabic into Latin
+                    characters, Syriac into Hebrew characters), to make the entries accessible to a
+                    wider audience.
                   </li>
                 </ul>
                 <p className="text-muted-foreground pt-1">

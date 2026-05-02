@@ -313,8 +313,8 @@ export default function Bdb() {
                 <p className="font-medium">What this reader adds on top of the raw text:</p>
                 <ul className="list-disc list-inside space-y-1 ml-2">
                   <li>
-                    <strong>Inline abbreviation expansion.</strong> A curated map of over 230
-                    abbreviations is replaced inline. Categories include grammatical shorthand
+                    <strong>Inline abbreviation expansion.</strong> A wide variety of abbreviations
+                    are replaced inline. Categories include grammatical shorthand
                     (<em>Pf.</em>, <em>Impf.</em>, <em>cstr.</em>, <em>abs.</em>), Latin logic
                     (<em>l.c.</em>, <em>c. acc.</em>, <em>i.q.</em>), cognate-language tags
                     (<em>Ar.</em>, <em>Aram.</em>, <em>Akk.</em>, <em>Ugar.</em>), scholar surnames
@@ -340,8 +340,9 @@ export default function Bdb() {
                   </li>
                   <li>
                     <strong>Cognate-script transliteration.</strong> Greek, Arabic, and Syriac runs
-                    are annotated inline with transliterations (Greek and Arabic into Latin, Syriac
-                    into Hebrew).
+                    are annotated inline with transliterations (Greek and Arabic into Latin
+                    characters, Syriac into Hebrew characters), to make the entries accessible to a
+                    wider audience.
                   </li>
                 </ul>
               </CardContent>
