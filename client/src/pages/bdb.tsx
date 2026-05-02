@@ -306,9 +306,7 @@ export default function Bdb() {
                   <strong>BDB</strong> is shorthand for Francis Brown, S. R. Driver, and Charles
                   Briggs's <em>A Hebrew and English Lexicon of the Old Testament</em> (Oxford, 1906),
                   the standard scholarly dictionary for biblical Hebrew. It covers every Hebrew root
-                  in the Tanakh with cognates from Akkadian, Aramaic, Arabic, Ugaritic, and more,
-                  spread across 1,127 pages of dense Edwardian abbreviations. The full text is in the
-                  public domain. This reader pulls live entries from Sefaria's{" "}
+                  in the Tanakh. This reader pulls live entries from Sefaria's{" "}
                   <code className="text-xs bg-muted px-1 rounded">/api/words</code> endpoint and renders
                   them with a modernized presentation layer.
                 </p>
@@ -333,8 +331,7 @@ export default function Bdb() {
                   <li>
                     <strong>Superscript and footnote markers inlined.</strong> BDB's tiny{" "}
                     <code className="text-xs bg-muted px-1 rounded">&lt;sup&gt;</code> qualifications
-                    (e.g. <em>Genesis 26²¹</em>) are converted to readable parentheticals
-                    (<em>Genesis 26 (21)</em>).
+                    are converted to readable parentheticals.
                   </li>
                   <li>
                     <strong>Browse by Hebrew letter.</strong> Each letter button shows a per-letter
