@@ -12,6 +12,8 @@ import {
   dictionaryStyles,
   convertSefariaLinksToInternal,
   convertBdbInternalLinks,
+  convertJastrowInternalLinks,
+  annotateGreekInHtml,
   convertSupTagsToParens,
   splitIntoParagraphs,
   splitByPeriodAndLink,
@@ -235,19 +237,25 @@ export default function Bdb() {
   useDictionaryCopyHandler('main.max-w-4xl', [results]);
 
   // Pipeline: convert <sup> citations to inline parens first, then BDB-internal
-  // cross-refs, then Bible/Talmud refs, then formatting and abbreviation expansion
+  // cross-refs, Jastrow cross-refs, Bible/Talmud refs, then formatting and
+  // abbreviation expansion. Greek transliteration runs last so it walks the
+  // final HTML's text nodes only (not attribute values).
   const renderDefinition = (definition: string): string => {
-    return convertSefariaLinksToInternal(
-      convertBdbInternalLinks(
-        expandAbbreviations(
-          convertSuperscriptLetters(
-            splitByPeriodAndLink(
-              convertSupTagsToParens(
-                splitIntoParagraphs(definition)
-              )
+    return annotateGreekInHtml(
+      convertSefariaLinksToInternal(
+        convertJastrowInternalLinks(
+          convertBdbInternalLinks(
+            expandAbbreviations(
+              convertSuperscriptLetters(
+                splitByPeriodAndLink(
+                  convertSupTagsToParens(
+                    splitIntoParagraphs(definition)
+                  )
+                )
+              ),
+              bdbMappings.mappings
             )
-          ),
-          bdbMappings.mappings
+          )
         )
       )
     );

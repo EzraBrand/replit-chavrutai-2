@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { TRACTATE_LISTS, MISHNAH_ONLY_TRACTATES } from "@shared/tractates";
 import { ALL_BIBLE_BOOKS } from "@shared/bible-books";
 import { getMishnahTalmudLocation } from "@shared/mishnah-map";
+import { annotateGreekTransliterations } from "@shared/greek-transliteration";
 
 export const HEBREW_ALPHABET = [
   'א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח', 'ט', 'י', 'כ', 'ל', 'מ', 'נ', 'ס', 'ע', 'פ', 'צ', 'ק', 'ר', 'ש', 'ת'
@@ -129,6 +130,19 @@ const BDB_INTERNAL_LINK_RE = /href="\/BDB,_([^"#?]+)"/g;
 // Also handle the (rare) absolute-URL form, in case Sefaria ever returns it.
 const BDB_INTERNAL_LINK_ABS_RE = /href="https?:\/\/(?:www\.)?sefaria\.org(?:\.il)?\/BDB,_([^"#?]+)"/g;
 
+// Jastrow cross-reference links. Server-side transformHyperlinks rewrites
+// /Jastrow,_X.1 → https://www.sefaria.org/Jastrow%2C_X (absolute), but raw
+// forms with other sense suffixes or no suffix can still slip through. The
+// absolute form is matched with either "," or URL-encoded "%2C".
+const JASTROW_INTERNAL_LINK_RE = /href="\/Jastrow,_([^"#?]+)"/g;
+const JASTROW_INTERNAL_LINK_ABS_RE = /href="https?:\/\/(?:www\.)?sefaria\.org(?:\.il)?\/Jastrow(?:,|%2C)_([^"#?]+)"/g;
+
+// Strip any trailing ".1", ".2", etc. sense-suffix from a Jastrow URL slug;
+// ChavrutAI's /jastrow?q= takes the bare headword and resolves senses itself.
+function stripJastrowSenseSuffix(slug: string): string {
+  return slug.replace(/\.\d+$/, '');
+}
+
 export function convertSefariaLinksToInternal(html: string): string {
   let result = html;
 
@@ -171,6 +185,15 @@ export function convertSefariaLinksToInternal(html: string): string {
     return verse ? `${path}#${verse}` : path;
   });
 
+  // Sefaria-absolute Jastrow links → internal /jastrow?q= route.
+  // Catches the form produced by server/storage.ts transformHyperlinks
+  // (`https://www.sefaria.org/Jastrow%2C_X`) plus the rarer comma form.
+  JASTROW_INTERNAL_LINK_ABS_RE.lastIndex = 0;
+  result = result.replace(JASTROW_INTERNAL_LINK_ABS_RE, (_m, slug) => {
+    const decoded = safeDecode(stripJastrowSenseSuffix(slug));
+    return `href="/jastrow?q=${encodeURIComponent(decoded)}"`;
+  });
+
   // Strip target= and rel= attrs from any link we've rewritten to an internal path
   result = result.replace(/<a([^>]*?)href="(\/talmud\/[^"]*|\/yerushalmi\/[^"]*|\/bible\/[^"]*|\/mishnah\/[^"]*|\/bdb[^"]*|\/jastrow[^"]*)"([^>]*?)>/g, (_m, before, href, after) => {
     const cleaned = (before + after).replace(/\s*target="[^"]*"/g, '').replace(/\s*rel="[^"]*"/g, '');
@@ -207,6 +230,61 @@ export function convertBdbInternalLinks(html: string): string {
     return `<a${cleaned} href="${href}">`;
   });
   return result;
+}
+
+// Mirror of convertBdbInternalLinks for Jastrow's raw cross-reference form
+// (/Jastrow,_X). The Sefaria-absolute form is handled inside
+// convertSefariaLinksToInternal. Sense suffixes (.1, .2, …) are stripped since
+// ChavrutAI's /jastrow?q= resolves the headword and shows all senses.
+export function convertJastrowInternalLinks(html: string): string {
+  let result = html;
+  JASTROW_INTERNAL_LINK_RE.lastIndex = 0;
+  result = result.replace(JASTROW_INTERNAL_LINK_RE, (_m, slug) => {
+    const decoded = safeDecode(stripJastrowSenseSuffix(slug));
+    return `href="/jastrow?q=${encodeURIComponent(decoded)}"`;
+  });
+  // Strip target/rel from Jastrow-rewritten links too
+  result = result.replace(/<a([^>]*?)href="(\/jastrow[^"]*)"([^>]*?)>/g, (_m, before, href, after) => {
+    const cleaned = (before + after).replace(/\s*target="[^"]*"/g, '').replace(/\s*rel="[^"]*"/g, '');
+    return `<a${cleaned} href="${href}">`;
+  });
+  return result;
+}
+
+// Walk text nodes of an HTML fragment and append `[Latin transliteration]`
+// after each Greek run. HTML-aware so attribute values (hrefs, alts, etc.)
+// are never touched. Runs LAST in the render pipeline since other transformers
+// produce the final HTML structure. Idempotent — annotateGreekTransliterations
+// skips Greek runs already followed by `[...]`. SSR-safe (no-op without
+// DOMParser). Text nodes inside script/style/textarea are skipped defensively
+// (dictionary HTML shouldn't contain those, but better safe than corrupted).
+const GREEK_SKIP_PARENT_TAGS = new Set(['SCRIPT', 'STYLE', 'TEXTAREA']);
+
+export function annotateGreekInHtml(html: string): string {
+  if (typeof window === 'undefined' || typeof DOMParser === 'undefined') {
+    return html;
+  }
+  try {
+    const doc = new DOMParser().parseFromString(`<div id="__greek_root__">${html}</div>`, 'text/html');
+    const root = doc.getElementById('__greek_root__');
+    if (!root) return html;
+    const walker = doc.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+    const updates: { node: Text; value: string }[] = [];
+    let n: Node | null;
+    while ((n = walker.nextNode())) {
+      const t = n as Text;
+      const parentTag = t.parentElement?.tagName;
+      if (parentTag && GREEK_SKIP_PARENT_TAGS.has(parentTag)) continue;
+      const orig = t.nodeValue || '';
+      const annotated = annotateGreekTransliterations(orig);
+      if (annotated !== orig) updates.push({ node: t, value: annotated });
+    }
+    if (updates.length === 0) return html;
+    for (const u of updates) u.node.nodeValue = u.value;
+    return root.innerHTML;
+  } catch {
+    return html;
+  }
 }
 
 // Split text into paragraphs by long dash while preserving HTML structure
