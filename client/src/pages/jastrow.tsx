@@ -12,7 +12,7 @@ import {
   dictionaryStyles,
   convertSefariaLinksToInternal,
   convertJastrowInternalLinks,
-  annotateGreekInHtml,
+  annotateTransliterationsInHtml,
   splitIntoParagraphs,
   splitByPeriodAndLink,
   convertSuperscriptLetters,
@@ -387,14 +387,14 @@ export default function Jastrow() {
                         {originMetadata && (
                           <div
                             className="mb-2 dictionary-content text-muted-foreground"
-                            dangerouslySetInnerHTML={{ __html: annotateGreekInHtml(convertSefariaLinksToInternal(convertJastrowInternalLinks(expandAbbreviations(originMetadata, jastrowMappings.mappings)))) }}
+                            dangerouslySetInnerHTML={{ __html: annotateTransliterationsInHtml(convertSefariaLinksToInternal(convertJastrowInternalLinks(expandAbbreviations(originMetadata, jastrowMappings.mappings)))) }}
                           />
                         )}
                         {entry.content.senses.map((sense, senseIndex) => (
                           <div
                             key={senseIndex}
                             className="mb-2 last:mb-0 dictionary-content"
-                            dangerouslySetInnerHTML={{ __html: annotateGreekInHtml(convertSefariaLinksToInternal(convertJastrowInternalLinks(expandAbbreviations(convertSuperscriptLetters(splitByPeriodAndLink(splitIntoParagraphs(sense.definition))), jastrowMappings.mappings)))) }}
+                            dangerouslySetInnerHTML={{ __html: annotateTransliterationsInHtml(convertSefariaLinksToInternal(convertJastrowInternalLinks(expandAbbreviations(convertSuperscriptLetters(splitByPeriodAndLink(splitIntoParagraphs(sense.definition))), jastrowMappings.mappings)))) }}
                           />
                         ))}
                       </div>

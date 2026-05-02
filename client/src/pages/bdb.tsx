@@ -13,7 +13,7 @@ import {
   convertSefariaLinksToInternal,
   convertBdbInternalLinks,
   convertJastrowInternalLinks,
-  annotateGreekInHtml,
+  annotateTransliterationsInHtml,
   convertSupTagsToParens,
   splitIntoParagraphs,
   splitByPeriodAndLink,
@@ -241,7 +241,7 @@ export default function Bdb() {
   // abbreviation expansion. Greek transliteration runs last so it walks the
   // final HTML's text nodes only (not attribute values).
   const renderDefinition = (definition: string): string => {
-    return annotateGreekInHtml(
+    return annotateTransliterationsInHtml(
       convertSefariaLinksToInternal(
         convertJastrowInternalLinks(
           convertBdbInternalLinks(

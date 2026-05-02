@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { TRACTATE_LISTS, MISHNAH_ONLY_TRACTATES } from "@shared/tractates";
 import { ALL_BIBLE_BOOKS } from "@shared/bible-books";
 import { getMishnahTalmudLocation } from "@shared/mishnah-map";
-import { annotateGreekTransliterations } from "@shared/greek-transliteration";
+import { annotateAllTransliterations } from "@shared/transliteration";
 
 export const HEBREW_ALPHABET = [
   'א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח', 'ט', 'י', 'כ', 'ל', 'מ', 'נ', 'ס', 'ע', 'פ', 'צ', 'ק', 'ר', 'ש', 'ת'
@@ -251,22 +251,23 @@ export function convertJastrowInternalLinks(html: string): string {
   return result;
 }
 
-// Walk text nodes of an HTML fragment and append `[Latin transliteration]`
-// after each Greek run. HTML-aware so attribute values (hrefs, alts, etc.)
-// are never touched. Runs LAST in the render pipeline since other transformers
-// produce the final HTML structure. Idempotent — annotateGreekTransliterations
-// skips Greek runs already followed by `[...]`. SSR-safe (no-op without
-// DOMParser). Text nodes inside script/style/textarea are skipped defensively
-// (dictionary HTML shouldn't contain those, but better safe than corrupted).
-const GREEK_SKIP_PARENT_TAGS = new Set(['SCRIPT', 'STYLE', 'TEXTAREA']);
+// Walk text nodes of an HTML fragment and append `[transliteration]` after
+// each Greek / Syriac / Arabic run (Greek→Latin, Syriac→Hebrew, Arabic→Latin
+// per DIN 31635). HTML-aware so attribute values (hrefs, alts, etc.) are
+// never touched. Runs LAST in the render pipeline since other transformers
+// produce the final HTML structure. Idempotent — annotateAllTransliterations
+// skips runs already followed by `[...]`. SSR-safe (no-op without DOMParser).
+// Text nodes inside script/style/textarea are skipped defensively (dictionary
+// HTML shouldn't contain those, but better safe than corrupted).
+const TRANSLIT_SKIP_PARENT_TAGS = new Set(['SCRIPT', 'STYLE', 'TEXTAREA']);
 
-export function annotateGreekInHtml(html: string): string {
+export function annotateTransliterationsInHtml(html: string): string {
   if (typeof window === 'undefined' || typeof DOMParser === 'undefined') {
     return html;
   }
   try {
-    const doc = new DOMParser().parseFromString(`<div id="__greek_root__">${html}</div>`, 'text/html');
-    const root = doc.getElementById('__greek_root__');
+    const doc = new DOMParser().parseFromString(`<div id="__translit_root__">${html}</div>`, 'text/html');
+    const root = doc.getElementById('__translit_root__');
     if (!root) return html;
     const walker = doc.createTreeWalker(root, NodeFilter.SHOW_TEXT);
     const updates: { node: Text; value: string }[] = [];
@@ -274,9 +275,9 @@ export function annotateGreekInHtml(html: string): string {
     while ((n = walker.nextNode())) {
       const t = n as Text;
       const parentTag = t.parentElement?.tagName;
-      if (parentTag && GREEK_SKIP_PARENT_TAGS.has(parentTag)) continue;
+      if (parentTag && TRANSLIT_SKIP_PARENT_TAGS.has(parentTag)) continue;
       const orig = t.nodeValue || '';
-      const annotated = annotateGreekTransliterations(orig);
+      const annotated = annotateAllTransliterations(orig);
       if (annotated !== orig) updates.push({ node: t, value: annotated });
     }
     if (updates.length === 0) return html;
