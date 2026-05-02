@@ -349,30 +349,12 @@ export default function Bdb() {
                     letter (5,250 entries total).
                   </li>
                   <li>
-                    <strong>Autosuggest + "did you mean".</strong> Typing in the search box pulls
-                    matches from the local headword index; if a search returns no results, fuzzy
-                    matches are surfaced as clickable suggestions.
-                  </li>
-                  <li>
-                    <strong>Shareable URLs.</strong>{" "}
-                    <code className="text-xs bg-muted px-1 rounded">/bdb?q=כתב</code> is a permalink
-                    to a search.
-                  </li>
-                  <li>
-                    <strong>Filtered for resolvability.</strong> Sefaria's headword-completion API
-                    advertises ~3,800 BDB headwords that have no actual entry attached. The browse
-                    index here is filtered against the live corpus so every word you click leads to
-                    a real definition.
+                    <strong>Cognate-script transliteration.</strong> BDB cites cognates in their
+                    original scripts. Greek, Arabic, and Syriac runs are annotated inline with
+                    transliterations (Greek and Arabic into Latin, Syriac into Hebrew) so a reader
+                    who doesn't know all three alphabets can still follow the argument.
                   </li>
                 </ul>
-                <p className="text-muted-foreground">
-                  Status: <strong>beta</strong>. The abbreviation map is hand-curated and will keep
-                  growing as edge cases turn up. If you spot something rendering oddly,{" "}
-                  <Link href="/contact" className="text-blue-600 hover:underline dark:text-blue-400">
-                    let me know
-                  </Link>
-                  .
-                </p>
               </CardContent>
             </Card>
           )}
