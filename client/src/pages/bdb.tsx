@@ -279,9 +279,17 @@ export default function Bdb() {
       </header>
 
       <main className="max-w-4xl mx-auto p-6">
-        <h1 className="text-3xl font-bold text-primary mb-2">BDB Hebrew Bible Dictionary</h1>
-        <p className="text-sm text-muted-foreground mb-6">
+        <h1 className="text-3xl font-bold text-primary mb-2">
+          BDB Hebrew Bible Dictionary
+          <span className="ml-2 text-base font-medium text-muted-foreground align-middle" data-testid="badge-beta">(beta)</span>
+        </h1>
+        <p className="text-sm text-muted-foreground mb-2">
           Brown, Driver, and Briggs — A Hebrew and English Lexicon of the Old Testament (1906)
+        </p>
+        <p className="text-sm text-muted-foreground mb-6">
+          A modernized digital presentation of the classic lexicon: abbreviations are expanded inline
+          (e.g. <em>Pf.</em> → <em>perfect</em>), Bible citations link directly to the chapter
+          (e.g. <em>Nu 21:30</em> → <em>Numbers 21:30</em>), and BDB cross-references stay inside this reader.
         </p>
 
         <div className="mb-8">
@@ -365,6 +373,7 @@ export default function Bdb() {
           </div>
         </div>
 
+        {(isLoading || lastSearchedQuery) && (
         <div>
           <h2 className="text-lg font-semibold mb-4">Dictionary Entries</h2>
 
@@ -430,6 +439,7 @@ export default function Bdb() {
             </div>
           )}
         </div>
+        )}
       </main>
       <Footer />
     </div>

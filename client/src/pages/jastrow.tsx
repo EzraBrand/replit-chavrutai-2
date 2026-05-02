@@ -335,6 +335,7 @@ export default function Jastrow() {
           </div>
         </div>
 
+        {(isLoading || lastSearchedQuery) && (
         <div>
           <h2 className="text-lg font-semibold mb-4">Dictionary Entries</h2>
 
@@ -418,6 +419,7 @@ export default function Jastrow() {
             </div>
           )}
         </div>
+        )}
 
         <div className="mt-12 pt-8 border-t border-border text-center">
           <p className="text-sm text-muted-foreground">
