@@ -293,7 +293,12 @@ export function expandAbbreviations(text: string, mappings: Record<string, strin
       pattern = new RegExp(`\\b${escaped}(?![^<]*>)`, 'g');
     } else {
       const escaped = abbreviation.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      pattern = new RegExp(`\\b${escaped}\\b(?![^<]*>)`, 'g');
+      // \b only fires between \w and \W. When the abbreviation edge is itself a
+      // non-word character (symbols like √, 𝔊, 𝔗) \b never matches, so fall
+      // back to a negative lookaround for word chars on that side.
+      const left = /^\w/.test(abbreviation) ? '\\b' : '(?<![A-Za-z0-9_])';
+      const right = /\w$/.test(abbreviation) ? '\\b' : '(?![A-Za-z0-9_])';
+      pattern = new RegExp(`${left}${escaped}${right}(?![^<]*>)`, 'g');
     }
     result = result.replace(pattern, expansion);
   }
