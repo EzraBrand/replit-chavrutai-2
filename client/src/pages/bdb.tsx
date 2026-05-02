@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { Link } from "wouter";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -21,18 +21,20 @@ import {
   type DictionaryEntry,
   type AutosuggestSuggestion,
 } from "@/lib/dictionary-format";
+import { useLexiconIndex, searchHeadwords, findFuzzyMatches } from "@/lib/lexicon-index";
 
 export default function Bdb() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [lastSearchedQuery, setLastSearchedQuery] = useState("");
   const [selectedLetter, setSelectedLetter] = useState("");
   const [results, setResults] = useState<DictionaryEntry[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [suggestions, setSuggestions] = useState<AutosuggestSuggestion[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const initialLoadRef = useRef(false);
   const suppressSuggestionsRef = useRef(false);
+  const lexiconIndex = useLexiconIndex("bdb");
 
   const seoTitle = selectedLetter
     ? `BDB Hebrew Bible Dictionary - Letter ${selectedLetter} | ChavrutAI`
@@ -94,6 +96,7 @@ export default function Bdb() {
     const q = typeof query === 'string' ? query : searchQuery;
     if (!q.trim()) return;
     setIsLoading(true);
+    setLastSearchedQuery(q.trim());
     updateURLParams({ q: q.trim() });
     try {
       const response = await fetch(`/api/bdb/search?query=${encodeURIComponent(q)}`);
@@ -113,6 +116,7 @@ export default function Bdb() {
 
   const handleLetterClick = useCallback(async (letter: string) => {
     setSelectedLetter(letter);
+    setLastSearchedQuery("");
     setIsLoading(true);
     updateURLParams({ letter });
     try {
@@ -188,48 +192,31 @@ export default function Bdb() {
   };
 
   useEffect(() => {
-    const fetchSuggestions = async (query: string) => {
-      if (query.length < 1) {
-        setSuggestions([]);
-        setShowSuggestions(false);
-        return;
-      }
-      setIsLoadingSuggestions(true);
-      try {
-        const response = await fetch(`/api/bdb/autosuggest?query=${encodeURIComponent(query)}`);
-        if (response.ok) {
-          const suggestionsData = await response.json();
-          setSuggestions(suggestionsData);
-          setShowSuggestions(suggestionsData.length > 0);
-        } else {
-          setSuggestions([]);
-          setShowSuggestions(false);
-        }
-      } catch (error) {
-        console.error('BDB autosuggest error:', error);
-        setSuggestions([]);
-        setShowSuggestions(false);
-      }
-      setIsLoadingSuggestions(false);
-    };
-
     const timeoutId = setTimeout(() => {
       if (suppressSuggestionsRef.current) {
         suppressSuggestionsRef.current = false;
         return;
       }
-      if (searchQuery.trim()) {
-        fetchSuggestions(searchQuery.trim());
-      } else {
+      const q = searchQuery.trim();
+      if (!q || !lexiconIndex) {
         setSuggestions([]);
         setShowSuggestions(false);
+        return;
       }
-    }, 300);
-
+      const matches = searchHeadwords(lexiconIndex, q, 20);
+      setSuggestions(matches);
+      setShowSuggestions(matches.length > 0);
+    }, 80);
     return () => clearTimeout(timeoutId);
-  }, [searchQuery]);
+  }, [searchQuery, lexiconIndex]);
+
+  const didYouMean = useMemo(() => {
+    if (!lexiconIndex || results.length > 0 || !lastSearchedQuery || isLoading) return [];
+    return findFuzzyMatches(lexiconIndex, lastSearchedQuery, 5);
+  }, [lexiconIndex, results, lastSearchedQuery, isLoading]);
 
   const handleSuggestionClick = (suggestion: AutosuggestSuggestion) => {
+    suppressSuggestionsRef.current = true;
     setSearchQuery(suggestion.voweled);
     setShowSuggestions(false);
     handleSearch(suggestion.voweled);
@@ -345,12 +332,6 @@ export default function Bdb() {
                       )}
                     </div>
                   ))}
-                  {isLoadingSuggestions && (
-                    <div className="px-4 py-3 text-center text-muted-foreground">
-                      <Loader2 className="h-4 w-4 animate-spin inline-block mr-2" />
-                      Loading suggestions...
-                    </div>
-                  )}
                 </div>
               )}
             </div>
@@ -363,19 +344,27 @@ export default function Bdb() {
         <div className="mb-8">
           <h2 className="text-lg font-semibold mb-4">Browse by Letter</h2>
           <div className="grid grid-cols-8 sm:grid-cols-12 gap-2">
-            {HEBREW_ALPHABET.map((letter) => (
-              <Button
-                key={letter}
-                variant={selectedLetter === letter ? "default" : "outline"}
-                size="sm"
-                className="h-10 font-hebrew text-lg"
-                onClick={() => handleLetterClick(letter)}
-                data-testid={`button-letter-${letter}`}
-                disabled={isLoading}
-              >
-                {letter}
-              </Button>
-            ))}
+            {HEBREW_ALPHABET.map((letter) => {
+              const count = lexiconIndex?.perLetterCounts[letter];
+              return (
+                <Button
+                  key={letter}
+                  variant={selectedLetter === letter ? "default" : "outline"}
+                  size="sm"
+                  className="h-12 font-hebrew text-lg flex-col gap-0 py-1"
+                  onClick={() => handleLetterClick(letter)}
+                  data-testid={`button-letter-${letter}`}
+                  disabled={isLoading}
+                >
+                  <span className="leading-none">{letter}</span>
+                  {count !== undefined && (
+                    <span className="text-[10px] tabular-nums leading-none mt-0.5 opacity-70">
+                      {count.toLocaleString()}
+                    </span>
+                  )}
+                </Button>
+              );
+            })}
           </div>
         </div>
 
@@ -391,6 +380,25 @@ export default function Bdb() {
             <Card>
               <CardContent className="p-8 text-center">
                 <p className="text-muted-foreground">No entries found. Try a different search term or browse by letter.</p>
+                {didYouMean.length > 0 && (
+                  <div className="mt-6 max-w-md mx-auto">
+                    <p className="text-sm text-muted-foreground mb-2">Did you mean:</p>
+                    <div className="flex flex-wrap justify-center gap-2">
+                      {didYouMean.map((m, i) => (
+                        <button
+                          key={i}
+                          type="button"
+                          onClick={() => { setSearchQuery(m.voweled); handleSearch(m.voweled); }}
+                          className="font-hebrew text-base px-3 py-1 rounded-md border border-border hover:bg-accent text-blue-600 dark:text-blue-400"
+                          data-testid={`fuzzy-${i}`}
+                          dir="rtl"
+                        >
+                          {m.voweled}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </CardContent>
             </Card>
           ) : (
