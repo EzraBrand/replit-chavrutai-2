@@ -6,6 +6,7 @@
     "sefariaSource": "https://www.sefaria.org/BDB,_Abbrevations"
   },
   "mappings": {
+    "Palestine": "Eretz Yisrael",
     "Pf.": "Perfect",
     "Impf.": "Imperfect",
     "Inf.": "Infinitive",

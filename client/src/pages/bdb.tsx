@@ -344,6 +344,13 @@ export default function Bdb() {
                     Arabic, and Ethiopic into Latin characters; Syriac into Hebrew characters), to
                     make the entries accessible to a wider audience.
                   </li>
+                  <li>
+                    <strong>Expanded abbreviations as monospace pills.</strong> Every inline
+                    expansion is rendered in a small monospace pill, so consecutive expansions
+                    (e.g. "Wellhausen Nöldeke") read as two distinct authority tags rather than
+                    running together, and you can see at a glance which words came from the
+                    original abbreviated text.
+                  </li>
                 </ul>
               </CardContent>
             </Card>

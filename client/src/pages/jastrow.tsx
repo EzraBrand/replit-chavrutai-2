@@ -316,6 +316,13 @@ export default function Jastrow() {
                     characters, Syriac into Hebrew characters), to make the entries accessible to a
                     wider audience.
                   </li>
+                  <li>
+                    <strong>Expanded abbreviations as monospace pills.</strong> Every inline
+                    expansion is rendered in a small monospace pill, so consecutive expansions
+                    (e.g. two scholar names in a row) read as distinct tags rather than running
+                    together, and you can see at a glance which words came from the original
+                    abbreviated text.
+                  </li>
                 </ul>
                 <p className="text-muted-foreground pt-1">
                   For a fuller writeup, see:{" "}
