@@ -83,6 +83,29 @@ export const dictionaryStyles = `
   .dictionary-bullet-list li {
     margin-bottom: 0.15rem;
   }
+
+  /* Expanded abbreviation pills.
+     Each abbrev expansion (e.g. "Wellhausen" from "We") is wrapped in this
+     span so consecutive expansions ("Wellhausen Nöldeke") are visually
+     separated as distinct tokens, and so the reader can see at a glance
+     which words come from BDB's abbreviation key vs. its prose. */
+  .dict-expanded {
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas,
+                 "Liberation Mono", "Courier New", monospace;
+    font-size: 0.88em;
+    background-color: hsl(35, 35%, 91%);
+    color: hsl(28, 40%, 22%);
+    padding: 0 0.3em;
+    border-radius: 0.25em;
+    margin: 0 0.08em;
+    white-space: nowrap;
+    border: 1px solid hsl(35, 25%, 82%);
+  }
+  .dark .dict-expanded {
+    background-color: hsl(35, 12%, 22%);
+    color: hsl(35, 30%, 82%);
+    border-color: hsl(35, 12%, 30%);
+  }
 `;
 
 const BAVLI_LINK_RE = new RegExp(
@@ -363,10 +386,21 @@ export function convertSupTagsToParens(html: string): string {
 }
 
 // Generic abbreviation expansion that takes a mappings dict.
-// Preserves HTML tags (only replaces text outside of `<...>`).
+// Preserves HTML tags (only replaces text outside of `<...>`). Each expansion
+// is emitted as `<span class="dict-expanded">…</span>` so consecutive
+// expansions (e.g. "We Nö" → "Wellhausen Nöldeke") render as visually
+// distinct monospace pills rather than blending into a phrase.
+//
+// Implementation note: we replace into sentinel-bracketed text first
+// (\x01…\x02), then convert sentinels to <span> tags in a single final pass.
+// This prevents later iterations from matching inside the class attribute of
+// a span we just inserted, and keeps the existing `(?![^<]*>)` "skip inside
+// HTML tags" guard sound (sentinels aren't HTML brackets).
 export function expandAbbreviations(text: string, mappings: Record<string, string>) {
   let result = text;
   const sortedMappings = Object.entries(mappings).sort(([a], [b]) => b.length - a.length);
+  const OPEN = '\x01';
+  const CLOSE = '\x02';
 
   for (const [abbreviation, expansion] of sortedMappings) {
     let pattern: RegExp;
@@ -387,9 +421,26 @@ export function expandAbbreviations(text: string, mappings: Record<string, strin
       const right = /\w$/.test(abbreviation) ? '\\b' : '(?![A-Za-z0-9_])';
       pattern = new RegExp(`${left}${escaped}${right}(?![^<]*>)`, 'g');
     }
-    result = result.replace(pattern, expansion);
+    // Skip if this abbreviation would match inside an already-wrapped sentinel
+    // region (between OPEN and CLOSE). The sentinel chars are not word
+    // characters, so a `\b` won't help; instead, replace with a callback that
+    // peeks at the surrounding text.
+    result = result.replace(pattern, (match, offset: number, full: string) => {
+      // If we're already between OPEN and CLOSE (no CLOSE since the last OPEN
+      // at or before this offset), leave the match alone.
+      const before = full.lastIndexOf(OPEN, offset);
+      if (before !== -1) {
+        const close = full.indexOf(CLOSE, before);
+        if (close === -1 || close > offset) return match;
+      }
+      return `${OPEN}${expansion}${CLOSE}`;
+    });
   }
-  return result;
+
+  // Convert sentinels to span pills in one final pass.
+  return result
+    .replace(new RegExp(`${OPEN}([^${CLOSE}]*)${CLOSE}`, 'g'),
+             '<span class="dict-expanded">$1</span>');
 }
 
 // Copy-paste handler that preserves formatting (bold, italic, RTL) and rewrites

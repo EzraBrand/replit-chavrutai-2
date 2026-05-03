@@ -2,11 +2,14 @@
  * Multi-script transliteration helpers used by both the BDB / Jastrow live
  * readers (browser) and the BDB scraping script (Node).
  *
- *   • Greek   → Latin   (classical / scholarly conventions)
- *   • Syriac  → Hebrew  (one-to-one cognate-letter mapping with Hebrew sofit
- *                        forms applied at end of each word)
- *   • Arabic  → Latin   (DIN 31635 — the standard for Semitic-studies works
- *                        such as BDB: ḥ ḫ ġ ṣ ḍ ṭ ẓ ʿ ʾ etc.)
+ *   • Greek    → Latin   (classical / scholarly conventions)
+ *   • Syriac   → Hebrew  (one-to-one cognate-letter mapping with Hebrew sofit
+ *                         forms applied at end of each word)
+ *   • Arabic   → Latin   (DIN 31635 — the standard for Semitic-studies works
+ *                         such as BDB: ḥ ḫ ġ ṣ ḍ ṭ ẓ ʿ ʾ etc.)
+ *   • Ethiopic → Latin   (scholarly Ge'ez transliteration: each syllable is
+ *                         consonant + vowel from columns ä/u/i/a/e/ə/o, with
+ *                         labialized variants for the qʷ/kʷ/gʷ/ḫʷ rows)
  *
  * Each script gets:
  *   • `transliterateX(input)`           — pure character-level conversion
@@ -279,6 +282,78 @@ export function transliterateArabic(input: string): string {
 }
 
 // ============================================================================
+// ETHIOPIC (GE'EZ) → LATIN
+// ============================================================================
+// The Ethiopic syllabary is laid out in 8-column rows (U+1200, U+1208, …);
+// each row is a consonant whose syllables are vowel forms in column order
+// ä u i a e ə o, with column 7 being a "wä" labialized variant on most
+// rows. The four labio-velar consonants (qʷ kʷ gʷ ḫʷ) live in 5-column rows
+// (U+1248, U+12B0, U+1308, U+1288) using the vowels ä i a e ə (no u/o).
+//
+// Output uses scholarly transliteration (BDB-style): ä for the first-order
+// vowel, ʾ for alaph, ʿ for ʿayn, ḥ ḫ ṣ ḍ ṭ ś š č̣ p̣ for emphatics and
+// distinctive consonants. Punctuation marks U+1361–U+1368 map to ASCII
+// equivalents (word separator → space, ፨ paragraph mark → "::").
+
+const ETHIOPIC_BASE: Record<number, string> = {
+  0x1200: 'h',  0x1208: 'l',  0x1210: 'ḥ',  0x1218: 'm',  0x1220: 'ś',
+  0x1228: 'r',  0x1230: 's',  0x1238: 'š',  0x1240: 'q',
+  0x1260: 'b',  0x1268: 'v',  0x1270: 't',  0x1278: 'č',
+  0x1280: 'ḫ',  0x1290: 'n',  0x1298: 'ñ',
+  0x12A0: 'ʾ',  0x12A8: 'k',  0x12B8: 'x',
+  0x12C8: 'w',  0x12D0: 'ʿ',  0x12D8: 'z',  0x12E0: 'ž',
+  0x12E8: 'y',  0x12F0: 'd',  0x12F8: 'ḍ',  // DDA (Amharic emphatic d)
+  0x1300: 'ǧ',  // JA (sometimes written 'j')
+  0x1308: 'g',
+  0x1320: 'ṭ',  0x1328: 'č̣', 0x1330: 'p̣', 0x1338: 'ṣ',
+  0x1340: 'ḍ',  0x1348: 'f',  0x1350: 'p',
+};
+// 5-column labio-velar rows (vowels in cols 0–4: ä, [—], i, a, e, ə, [—])
+const ETHIOPIC_LABIOVELAR: Record<number, string> = {
+  0x1248: 'qʷ', 0x1288: 'ḫʷ', 0x12B0: 'kʷ', 0x12C0: 'xʷ', 0x1310: 'gʷ',
+};
+const ETHIOPIC_VOWELS  = ['ä', 'u', 'i', 'a', 'e', 'ə', 'o'];        // cols 0–6
+const ETHIOPIC_LV_VOW  = ['ä', '',  'i', 'a', 'e', 'ə', ''];         // cols 0–6 in 5-col rows
+const ETHIOPIC_PUNCT: Record<number, string> = {
+  0x1360: ' ',   // section mark (rare)
+  0x1361: ' ',   // word separator
+  0x1362: '.',   // full stop
+  0x1363: ',',   // comma
+  0x1364: ';',   // semicolon
+  0x1365: ':',   // colon
+  0x1366: '::',  // preface colon
+  0x1367: '?',   // question mark
+  0x1368: '¶',   // paragraph separator
+};
+
+export function transliterateEthiopic(input: string): string {
+  let out = '';
+  for (const ch of input) {
+    const cp = ch.codePointAt(0)!;
+    if (cp >= 0x1360 && cp <= 0x1368) { out += ETHIOPIC_PUNCT[cp] ?? ch; continue; }
+    if (cp < 0x1200 || cp > 0x135F) { out += ch; continue; }
+    const rowStart = cp & ~0x07;
+    const col = cp - rowStart;
+    if (rowStart in ETHIOPIC_LABIOVELAR) {
+      const base = ETHIOPIC_LABIOVELAR[rowStart];
+      // 5-col rows occupy columns 0–4 of an 8-col block; remaining cols are
+      // gaps in the syllabary, so emit the base alone for safety.
+      out += base + (ETHIOPIC_LV_VOW[col] ?? '');
+      continue;
+    }
+    const base = ETHIOPIC_BASE[rowStart];
+    if (!base) { out += ch; continue; }
+    if (col < 7) {
+      out += base + ETHIOPIC_VOWELS[col];
+    } else {
+      // Column 7 is the labialized "wä" form on most rows.
+      out += base + 'wä';
+    }
+  }
+  return out;
+}
+
+// ============================================================================
 // HTML-IGNORANT RUN ANNOTATORS
 // ============================================================================
 // Each annotator finds maximal runs of its script's letters (and combining
@@ -299,9 +374,10 @@ function buildRunRegex(blockPattern: string): RegExp | null {
   }
 }
 
-const GREEK_RUN_RE  = buildRunRegex('\\u0370-\\u03FF\\u1F00-\\u1FFF');
-const SYRIAC_RUN_RE = buildRunRegex('\\u0700-\\u074F');
-const ARABIC_RUN_RE = buildRunRegex('\\u0600-\\u06FF\\u0750-\\u077F');
+const GREEK_RUN_RE    = buildRunRegex('\\u0370-\\u03FF\\u1F00-\\u1FFF');
+const SYRIAC_RUN_RE   = buildRunRegex('\\u0700-\\u074F');
+const ARABIC_RUN_RE   = buildRunRegex('\\u0600-\\u06FF\\u0750-\\u077F');
+const ETHIOPIC_RUN_RE = buildRunRegex('\\u1200-\\u137F');
 
 /**
  * Apply `transliterate` to each match of `runRe` and append `[result]`.
@@ -336,9 +412,12 @@ export function annotateSyriacTransliterations(text: string): string {
 export function annotateArabicTransliterations(text: string): string {
   return annotateRuns(text, ARABIC_RUN_RE, transliterateArabic);
 }
+export function annotateEthiopicTransliterations(text: string): string {
+  return annotateRuns(text, ETHIOPIC_RUN_RE, transliterateEthiopic);
+}
 
 /**
- * Apply Greek + Syriac + Arabic annotation in one pass. Order is
+ * Apply Greek + Syriac + Arabic + Ethiopic annotation in one pass. Order is
  * inconsequential: each block is disjoint from the others, and each
  * transliteration produces output in a different block (Latin / Hebrew),
  * so no annotator can "see" another's output.
@@ -347,5 +426,6 @@ export function annotateAllTransliterations(text: string): string {
   text = annotateGreekTransliterations(text);
   text = annotateSyriacTransliterations(text);
   text = annotateArabicTransliterations(text);
+  text = annotateEthiopicTransliterations(text);
   return text;
 }

@@ -71,6 +71,16 @@ export default function Changelog() {
 
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB &amp; Jastrow: Sefaria-Aligned Abbreviations, Ethiopic Transliteration &amp; Pill Styling</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>BDB scholar / source abbreviations now follow Sefaria's digitized BDB Abbreviations table — added 90+ missing entries (<strong>Nö → Nöldeke</strong>, <strong>Wellh → Wellhausen</strong>, <strong>Ew → Ewald</strong>, <strong>KAT2/KAT3 → Schrader, Keilinschriften</strong>, <strong>NHWB → Levy, Neuhebr. Wörterbuch</strong>, A/B/L codices, RV/AV, etc.) and corrected <strong>loc. → "local, locality"</strong> (was "locative") and <strong>MI → "Mesha Inscription"</strong> (was "Moabite Inscription")</li>
+                <li>Each expanded abbreviation is now rendered as a small monospace pill, so consecutive expansions like "Wellhausen Nöldeke" read as two distinct authority tags instead of a single confusing phrase. Applies to both BDB and Jastrow</li>
+                <li>Added <strong>Ethiopic (Ge'ez) → Latin transliteration</strong> alongside the existing Greek, Arabic (DIN 31635), and Syriac → Hebrew annotators. Each Ethiopic syllable now renders inline with its scholarly transliteration in brackets</li>
+                <li>Fixed crawler-side meta tags for entry pages like <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/bdb?q=...</code> and <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/jastrow?q=...</code>: a stale path resolution was causing search-engine bots to receive the homepage title and description for every dictionary search</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Dictionary Cleanup: Faster Cross-References &amp; Sharper Letter Browsing</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Clicking an internal cross-reference inside a Jastrow or BDB entry (e.g. <em>v. אבא</em>) now navigates instantly without a full page reload — the new search runs in place and back/forward through your history works as expected</li>

@@ -1356,12 +1356,14 @@ async function servePageWithMeta(req: express.Request, res: express.Response, ne
       return next();
     }
     
-    const clientTemplate = path.resolve(
-      import.meta.dirname,
-      "..",
-      "client",
-      "index.html",
-    );
+    // In dev this file is at server/routes/seo.ts, so the source template
+    // lives two directories up at <repo>/client/index.html.
+    // In production the server is bundled and `import.meta.dirname` resolves
+    // to the bundle directory; the built template sits at
+    // <bundleDir>/public/index.html (mirroring serveStatic in server/vite.ts).
+    const devTemplate = path.resolve(import.meta.dirname, "..", "..", "client", "index.html");
+    const prodTemplate = path.resolve(import.meta.dirname, "public", "index.html");
+    const clientTemplate = isDevelopment ? devTemplate : prodTemplate;
 
     let template = await fs.promises.readFile(clientTemplate, "utf-8");
     

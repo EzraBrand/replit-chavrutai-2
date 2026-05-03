@@ -339,10 +339,10 @@ export default function Bdb() {
                     letter (5,250 entries total).
                   </li>
                   <li>
-                    <strong>Cognate-script transliteration.</strong> Greek, Arabic, and Syriac runs
-                    are annotated inline with transliterations (Greek and Arabic into Latin
-                    characters, Syriac into Hebrew characters), to make the entries accessible to a
-                    wider audience.
+                    <strong>Cognate-script transliteration.</strong> Greek, Arabic, Syriac, and
+                    Ethiopic (Ge'ez) runs are annotated inline with transliterations (Greek,
+                    Arabic, and Ethiopic into Latin characters; Syriac into Hebrew characters), to
+                    make the entries accessible to a wider audience.
                   </li>
                 </ul>
               </CardContent>
