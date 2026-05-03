@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Search, Loader2, ExternalLink, X } from "lucide-react";
 import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
+import { getJastrowSEO } from "@shared/seo-data";
 import { HEBREW_ALPHABET } from "@shared/hebrew-alphabet";
 import jastrowMappings from "@shared/data/lexicon-mappings/jastrow.json";
 import {
@@ -36,21 +37,10 @@ export default function Jastrow() {
   const suppressSuggestionsRef = useRef(false);
   const lexiconIndex = useLexiconIndex("jastrow");
 
-  const seoTitle = searchQuery
-    ? `"${searchQuery}" - Jastrow Dictionary | ChavrutAI`
-    : "Jastrow Talmud Dictionary - Modernized Hebrew & Aramaic | ChavrutAI";
-
-  const seoDescription = searchQuery
-    ? `Jastrow Dictionary results for "${searchQuery}". Comprehensive Talmudic Hebrew and Aramaic dictionary with modernized presentation.`
-    : "Search the comprehensive Jastrow Dictionary of Talmudic Hebrew and Aramaic. Modernized presentation with expanded abbreviations, enhanced readability, and direct term lookup.";
+  const jastrowSEO = getJastrowSEO("", searchQuery, window.location.origin);
 
   useSEO({
-    title: seoTitle,
-    description: seoDescription,
-    ogTitle: seoTitle.replace(' | ChavrutAI', ''),
-    ogDescription: seoDescription,
-    canonical: `${window.location.origin}/jastrow`,
-    robots: "index, follow",
+    ...jastrowSEO,
     structuredData: {
       "@context": "https://schema.org",
       "@type": "WebApplication",

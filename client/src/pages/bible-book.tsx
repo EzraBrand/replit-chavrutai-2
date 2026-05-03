@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
+import { getBibleBookSEO } from "@shared/seo-data";
 import { BreadcrumbNavigation, breadcrumbHelpers } from "@/components/navigation/breadcrumb-navigation";
 import { bibleAPI } from "@/lib/bible-api";
 import { getBaseUrl } from "@/lib/utils";
@@ -33,13 +34,8 @@ export default function BibleBookPage() {
   const bookTitle = bookInfo?.name || (book ? book.charAt(0).toUpperCase() + book.slice(1).replace(/-/g, ' ') : 'Bible');
   const baseUrl = getBaseUrl();
   useSEO({
-    title: `${bookTitle} - Hebrew & English Bible | ChavrutAI`,
-    description: `Read all ${chapters?.length || ''} chapters of ${bookTitle} with Hebrew and English text from the Koren Jerusalem Bible. Free access to the Bible online.`,
-    ogTitle: `${bookTitle} - Bible Study`,
-    ogDescription: `Read all chapters of ${bookTitle} with parallel Hebrew-English text.`,
+    ...getBibleBookSEO(book, baseUrl),
     ogUrl: `${baseUrl}/bible/${book}`,
-    canonical: `${baseUrl}/bible/${book}`,
-    robots: "index, follow",
     structuredData: {
       "@context": "https://schema.org",
       "@type": "CollectionPage",

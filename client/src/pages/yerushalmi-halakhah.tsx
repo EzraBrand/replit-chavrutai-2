@@ -9,6 +9,7 @@ import { BreadcrumbNavigation } from "@/components/navigation/breadcrumb-navigat
 import { Footer } from "@/components/footer";
 import { usePreferences } from "@/context/preferences-context";
 import { useSEO } from "@/hooks/use-seo";
+import { getStaticSEO, getYerushalmiHalachahSEO } from "@shared/seo-data";
 import { processYerushalmiHebrewText, processEnglishText, linkBibleCitations, replaceTerms } from "@/lib/text-processing";
 import { useGazetteerData, TextHighlighter, type HighlightCategory } from "@/lib/gazetteer";
 import {
@@ -175,18 +176,11 @@ export default function YerushalmiHalakhah() {
     setLocation(`/yerushalmi/${tractateSlug}/${chapterNum}.${h}#${s}`, { replace: true });
   }, [tractateSlug, chapterNum, halakhahNum, setLocation]);
 
-  useSEO({
-    title: tractateDisplayName && !isNaN(chapterNum) && !isNaN(halakhahNum)
-      ? `Jerusalem Talmud ${tractateDisplayName} ${chapterNum}:${halakhahNum} - Hebrew & English | ChavrutAI`
-      : "Jerusalem Talmud | ChavrutAI",
-    description: tractateDisplayName && !isNaN(chapterNum) && !isNaN(halakhahNum)
-      ? `Study Jerusalem Talmud ${tractateDisplayName} Chapter ${chapterNum} Halakhah ${halakhahNum} with parallel Hebrew-English text (Guggenheimer translation). Free on ChavrutAI.`
-      : "Study the Jerusalem Talmud with Hebrew-English text on ChavrutAI.",
-    canonical: tractateDisplayName && !isNaN(chapterNum) && !isNaN(halakhahNum)
-      ? `${window.location.origin}/yerushalmi/${tractateSlug}/${chapterNum}.${halakhahNum}`
-      : `${window.location.origin}/yerushalmi`,
-    robots: "index, follow",
-  });
+  useSEO(
+    tractateSlug && !isNaN(chapterNum) && !isNaN(halakhahNum)
+      ? getYerushalmiHalachahSEO(tractateSlug, String(chapterNum), String(halakhahNum), window.location.origin, isMissingHalakhah)
+      : getStaticSEO("/yerushalmi", window.location.origin)!
+  );
 
   const { data: gazetteerData } = useGazetteerData(preferences.highlighting.enabled);
 

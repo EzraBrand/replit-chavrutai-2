@@ -4,6 +4,7 @@ import { getBiblicalIndexMetadata } from "@/lib/biblical-index-data";
 import { Footer } from "@/components/footer";
 import { FooterPlaceholder } from "@/components/page-loading";
 import { useSEO } from "@/hooks/use-seo";
+import { getStaticSEO } from "@shared/seo-data";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const categoryDescriptions = {
@@ -14,12 +15,7 @@ const categoryDescriptions = {
 
 export default function BiblicalIndexPage() {
   useSEO({
-    title: "Biblical Citations in the Talmud - Complete Index | ChavrutAI",
-    description: "Comprehensive digital index mapping biblical verses to their citations throughout the Babylonian Talmud. Search Torah, Prophets, and Writings references with direct links to Talmudic passages.",
-    ogTitle: "Biblical Citations in the Talmud - Complete Index",
-    ogDescription: "Comprehensive digital index mapping biblical verses to their citations throughout the Babylonian Talmud.",
-    canonical: `${window.location.origin}/biblical-index`,
-    robots: "index, follow",
+    ...getStaticSEO("/biblical-index", window.location.origin)!,
     structuredData: {
       "@context": "https://schema.org",
       "@type": "Dataset",

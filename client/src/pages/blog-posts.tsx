@@ -4,6 +4,7 @@ import { Link } from "wouter";
 import { BlogPostsTable } from "@/components/blog-posts/blog-posts-table";
 import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
+import { getStaticSEO } from "@shared/seo-data";
 import { getBlogPostsData } from "@/lib/outline-data";
 import type { BlogPosts } from '@shared/schema';
 
@@ -27,11 +28,8 @@ export default function BlogPostsPage() {
 
   // SEO optimization
   useSEO({
-    title: '"Talmud & Tech" Blog Posts by Talmud Location | ChavrutAI',
-    description: 'Blog posts analyzing Talmudic passages, organized by tractate and page location. Click on titles to go to the full articles at the "Talmud & Tech" Blog, or use location links to jump to the corresponding text in ChavrutAI.',
+    ...getStaticSEO("/blog-posts", window.location.origin)!,
     keywords: 'Talmud & Tech, Talmud blog posts, Jewish learning, Talmudic analysis, Torah study, rabbinical literature',
-    canonical: `${window.location.origin}/blog-posts`,
-    robots: 'index, follow',
     structuredData: {
       "@context": "https://schema.org",
       "@type": "CollectionPage",

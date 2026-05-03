@@ -1,19 +1,15 @@
 import { Link } from "wouter";
 import { Footer } from "@/components/footer";
-import { useSEO, generateSEOData } from "@/hooks/use-seo";
+import { useSEO } from "@/hooks/use-seo";
+import { getStaticSEO } from "@shared/seo-data";
 import { getBaseUrl } from "@/lib/utils";
 
 export default function Privacy() {
   const baseUrl = getBaseUrl();
   // Set up SEO
   useSEO({
-    title: "Privacy Policy - ChavrutAI Talmud Study Platform",
-    description: "Privacy policy for ChavrutAI - learn how we handle your data when using our free Talmud study platform.",
-    ogTitle: "Privacy Policy - ChavrutAI",
-    ogDescription: "Privacy policy for ChavrutAI - learn how we handle your data when using our free Talmud study platform.",
+    ...getStaticSEO("/privacy", baseUrl)!,
     ogUrl: `${baseUrl}/privacy`,
-    canonical: `${baseUrl}/privacy`,
-    robots: "index, follow",
     structuredData: {
       "@context": "https://schema.org",
       "@type": "WebPage",

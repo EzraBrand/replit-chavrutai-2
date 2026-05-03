@@ -5,6 +5,7 @@ import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
 import { BreadcrumbNavigation } from "@/components/navigation/breadcrumb-navigation";
 import { RAMBAM_BOOKS, RAMBAM_PREFATORY } from "@shared/rambam-data";
+import { getStaticSEO } from "@shared/seo-data";
 import { ChevronDown, ChevronRight } from "lucide-react";
 
 export default function RambamContents() {
@@ -22,14 +23,7 @@ export default function RambamContents() {
     }
   }, []);
 
-  useSEO({
-    title: "Mishneh Torah (Rambam) - Complete Text | ChavrutAI",
-    description: "Study the Mishneh Torah (Rambam) online with bilingual Hebrew-English text. All 83 Hilchot across 14 books, with the Touger English translation via Sefaria.",
-    canonical: `${window.location.origin}/rambam`,
-    ogTitle: "Mishneh Torah (Rambam) - Complete Text | ChavrutAI",
-    ogDescription: "Study the Mishneh Torah (Rambam) with bilingual Hebrew-English text on ChavrutAI.",
-    robots: "index, follow",
-  });
+  useSEO(getStaticSEO("/rambam", window.location.origin)!);
 
   return (
     <div className="min-h-screen bg-background">

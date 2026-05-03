@@ -1,15 +1,13 @@
 import { Link } from "wouter";
 import { useSEO } from "@/hooks/use-seo";
+import { getStaticSEO } from "@shared/seo-data";
 import { Footer } from "@/components/footer";
 
 export default function Changelog() {
   // SEO optimization
   useSEO({
-    title: 'Changelog - ChavrutAI',
-    description: 'Recent updates and improvements to ChavrutAI. Track new features, design enhancements, and user experience improvements for Talmud study.',
+    ...getStaticSEO("/changelog", window.location.origin)!,
     keywords: 'ChavrutAI changelog, Talmud app updates, Jewish learning platform updates',
-    canonical: `${window.location.origin}/changelog`,
-    robots: 'index, follow',
     structuredData: {
       "@context": "https://schema.org",
       "@type": "WebPage",

@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
+import { getStaticSEO, getYerushalmiTractateSEO } from "@shared/seo-data";
 import { BreadcrumbNavigation } from "@/components/navigation/breadcrumb-navigation";
 import {
   YERUSHALMI_HEBREW_NAMES,
@@ -34,18 +35,11 @@ export default function YerushalmiTractate() {
     staleTime: Infinity,
   });
 
-  useSEO({
-    title: tractateDisplayName
-      ? `Jerusalem Talmud ${tractateDisplayName} - Hebrew & English | ChavrutAI`
-      : "Jerusalem Talmud | ChavrutAI",
-    description: tractateDisplayName
-      ? `Study Jerusalem Talmud ${tractateDisplayName} chapter by chapter with bilingual Hebrew-English text (Guggenheimer translation). Free online on ChavrutAI.`
-      : "Study the Jerusalem Talmud with Hebrew-English text on ChavrutAI.",
-    canonical: tractateDisplayName
-      ? `${window.location.origin}/yerushalmi/${tractateSlug}`
-      : `${window.location.origin}/yerushalmi`,
-    robots: "index, follow",
-  });
+  useSEO(
+    tractateSlug
+      ? getYerushalmiTractateSEO(tractateSlug, window.location.origin)
+      : getStaticSEO("/yerushalmi", window.location.origin)!
+  );
 
   if (!match || !isValidYerushalmiTractate(tractateParam)) {
     return <NotFound />;

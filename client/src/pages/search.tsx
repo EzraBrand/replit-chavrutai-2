@@ -8,6 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Search, Loader2, BookOpen, ScrollText, ChevronLeft, ChevronRight, ExternalLink, ChevronDown, ChevronUp } from "lucide-react";
 import { SharedLayout } from "@/components/layout";
 import { useSEO } from "@/hooks/use-seo";
+import { getStaticSEO } from "@shared/seo-data";
 import { SEARCH_SUGGESTIONS } from "@/data/search-suggestions";
 import { removeNikud, containsHebrew } from "@/lib/text-processing";
 import type { TextSearchResponse, SearchResult } from "@shared/schema";
@@ -93,12 +94,7 @@ export default function SearchPage() {
   };
 
   useSEO({
-    title: "Search Talmud & Bible - Hebrew & English | ChavrutAI",
-    description: "Search through the Babylonian Talmud and Hebrew Bible (Tanakh) in Hebrew and English. Find passages, concepts, and references across classical Jewish texts.",
-    ogTitle: "Search Talmud & Bible - Hebrew & English",
-    ogDescription: "Search through the Babylonian Talmud and Hebrew Bible in Hebrew and English.",
-    canonical: `${window.location.origin}/search`,
-    robots: "index, follow",
+    ...getStaticSEO("/search", window.location.origin)!,
     structuredData: {
       "@context": "https://schema.org",
       "@type": "WebSite",

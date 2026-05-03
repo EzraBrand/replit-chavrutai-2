@@ -8,6 +8,7 @@ import {
   MISHNAH_ONLY_HEBREW_NAMES,
   getMishnahTractateSlug,
 } from "@shared/tractates";
+import { getStaticSEO } from "@shared/seo-data";
 
 const SEDER_INFO: Record<string, { hebrew: string; description: string }> = {
   zeraim: { hebrew: "סדר זרעים", description: "Agriculture and blessings" },
@@ -26,14 +27,7 @@ const SEDER_DISPLAY_NAMES: Record<string, string> = {
 };
 
 export default function MishnahContents() {
-  useSEO({
-    title: "Mishnah - Hebrew & English | ChavrutAI",
-    description: "Study the Mishnah online with bilingual Hebrew-English text. Browse 26 tractates not covered by the Babylonian Talmud, organized by Seder.",
-    canonical: `${window.location.origin}/mishnah`,
-    ogTitle: "Mishnah - Hebrew & English | ChavrutAI",
-    ogDescription: "Study the Mishnah online with bilingual Hebrew-English text on ChavrutAI.",
-    robots: "index, follow",
-  });
+  useSEO(getStaticSEO("/mishnah", window.location.origin)!);
 
   return (
     <div className="min-h-screen bg-background">

@@ -7,6 +7,7 @@ import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
 import { BreadcrumbNavigation } from "@/components/navigation/breadcrumb-navigation";
 import { getRambamHilchotInfo, isValidRambamHilchot } from "@shared/rambam-data";
+import { getStaticSEO, getRambamHilchotSEO } from "@shared/seo-data";
 import NotFound from "@/pages/not-found";
 import { apiRequest } from "@/lib/queryClient";
 
@@ -39,18 +40,11 @@ export default function RambamTractate() {
     gcTime: 1000 * 60 * 60 * 24,
   });
 
-  useSEO({
-    title: info
-      ? `${info.displayName} - Mishneh Torah | ChavrutAI`
-      : "Mishneh Torah | ChavrutAI",
-    description: info
-      ? `Study Hilchot ${info.displayName} chapter by chapter with bilingual Hebrew-English text (Touger translation). Free online on ChavrutAI.`
-      : "Study the Mishneh Torah with Hebrew-English text on ChavrutAI.",
-    canonical: info
-      ? `${window.location.origin}/rambam/${info.slug}`
-      : `${window.location.origin}/rambam`,
-    robots: "index, follow",
-  });
+  useSEO(
+    info
+      ? getRambamHilchotSEO(hilchotParam, window.location.origin)
+      : getStaticSEO("/rambam", window.location.origin)!
+  );
 
   if (!match || !isValidRambamHilchot(hilchotParam)) {
     return <NotFound />;

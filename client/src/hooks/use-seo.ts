@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { getTractateSlug } from "@shared/tractates";
+import { getStaticSEO, getTalmudTractateSEO, getTalmudFolioSEO } from "@shared/seo-data";
 
 // Performance monitoring for Core Web Vitals
 const reportWebVitals = (metric: any) => {
@@ -182,18 +183,12 @@ export function useSEO(seoData: SEOData) {
 
 // Helper function to generate SEO data for different page types
 export const generateSEOData = {
-  // This is actually for tractate-view pages, should be noindexed
   folioPage: (tractate: string, folio: number, side: "a" | "b"): SEOData => ({
-    title: `${tractate} ${folio}${side} - Talmud Bavli | ChavrutAI`,
-    description: `Study ${tractate} ${folio}${side} - Babylonian Talmud with bilingual Hebrew-English text, navigation, and study tools. Free on ChavrutAI.`,
+    ...getTalmudFolioSEO(getTractateSlug(tractate), `${folio}${side}`, window.location.origin),
     keywords: `Talmud, ${tractate}, folio ${folio}${side}, Jewish texts, Hebrew, Aramaic, study, ChavrutAI, Babylonian Talmud`,
-    canonical: `${window.location.origin}/talmud/${getTractateSlug(tractate)}/${folio}${side}`,
     ogType: "article",
-    ogTitle: `${tractate} ${folio}${side} - Study Talmud Bavli`,
-    ogDescription: `Study ${tractate} folio ${folio}${side} from the Babylonian Talmud with Hebrew-English bilingual text on ChavrutAI.`,
     ogUrl: `${window.location.origin}/talmud/${getTractateSlug(tractate)}/${folio}${side}`,
-    noindex: false, // Allow indexing of all folio pages
-    robots: "index, follow", // Allow search engine indexing
+    noindex: false,
     structuredData: {
       "@context": "https://schema.org",
       "@type": "Article",
@@ -231,19 +226,11 @@ export const generateSEOData = {
     },
   }),
 
-  // Main homepage/contents page
   homePage: (): SEOData => ({
-    title: "Study Talmud Online - Free Digital Platform | ChavrutAI",
-    description:
-      "Access all 37 tractates of the Babylonian Talmud with Hebrew-English text, chapter navigation, and modern study tools. Start learning today - completely free.",
+    ...getStaticSEO("/", window.location.origin)!,
     keywords:
       "Talmud online, study Talmud free, Babylonian Talmud Hebrew English, digital Talmud study, Jewish learning, ChavrutAI",
-    canonical: `${window.location.origin}/`,
-    ogTitle: "Study Talmud Online Free - Digital Platform",
-    ogDescription:
-      "Access all 37 tractates of the Babylonian Talmud with Hebrew-English text, chapter navigation, and modern study tools. Start learning today - completely free.",
     ogUrl: `${window.location.origin}/`,
-    robots: "index, follow",
     structuredData: {
       "@context": "https://schema.org",
       "@graph": [
@@ -366,15 +353,9 @@ export const generateSEOData = {
   }),
 
   contentsPage: (): SEOData => ({
-    title: "Talmud Study Guide - All 37 Tractates Organized | ChavrutAI",
-    description:
-      "Navigate through all tractates of the Babylonian Talmud organized by traditional Seder. Easy chapter breakdown with Hebrew-English text display.",
+    ...getStaticSEO("/talmud", window.location.origin)!,
     keywords:
       "Talmud study guide, Babylonian Talmud tractates, Seder organization, Hebrew English Talmud, Jewish text navigation",
-    canonical: `${window.location.origin}/talmud`,
-    ogTitle: "Complete Talmud Study Guide - All Tractates",
-    ogDescription:
-      "Navigate through all tractates of the Babylonian Talmud organized by traditional Seder. Easy chapter breakdown with Hebrew-English text display.",
     ogUrl: `${window.location.origin}/talmud`,
     structuredData: {
       "@context": "https://schema.org",
@@ -398,14 +379,9 @@ export const generateSEOData = {
   }),
 
   tractatePage: (tractate: string): SEOData => ({
-    title: `${tractate} Talmud - Complete Chapter Guide | ChavrutAI`,
-    description: `Study ${tractate} tractate chapter by chapter with Hebrew-English text, detailed folio navigation, and traditional commentary access. Free online Talmud learning.`,
+    ...getTalmudTractateSEO(getTractateSlug(tractate), window.location.origin),
     keywords: `${tractate} Talmud, ${tractate} chapters, Hebrew English ${tractate}, Talmud study online, Jewish learning`,
-    canonical: `${window.location.origin}/talmud/${getTractateSlug(tractate)}`,
-    ogTitle: `${tractate} Talmud - Complete Study Guide`,
-    ogDescription: `Study ${tractate} tractate chapter by chapter with Hebrew-English text, detailed folio navigation, and traditional commentary access.`,
     ogUrl: `${window.location.origin}/talmud/${getTractateSlug(tractate)}`,
-    robots: "index, follow",
     structuredData: {
       "@context": "https://schema.org",
       "@type": "CollectionPage",
@@ -428,13 +404,9 @@ export const generateSEOData = {
   }),
 
   aboutPage: (): SEOData => ({
-    title: "About ChavrutAI - Free Digital Talmud Learning Platform",
-    description:
-      "Discover how ChavrutAI makes Jewish texts accessible with modern technology. Learn about our free bilingual Talmud study platform designed for learners at all levels.",
+    ...getStaticSEO("/about", window.location.origin)!,
     keywords:
       "ChavrutAI about, free Talmud platform, digital Jewish learning, bilingual Talmud study, Jewish education technology",
-    canonical: `${window.location.origin}/about`,
-    robots: "index, follow",
     structuredData: {
       "@context": "https://schema.org",
       "@type": "AboutPage",
@@ -457,13 +429,9 @@ export const generateSEOData = {
   }),
 
   suggestedPages: (): SEOData => ({
-    title: "Famous Talmud Pages - Essential Teachings & Stories | ChavrutAI",
-    description:
-      "Start with the most famous Talmud pages including Hillel's wisdom, Hannah's prayer, and other essential teachings. Perfect introduction for new learners.",
+    ...getStaticSEO("/suggested-pages", window.location.origin)!,
     keywords:
       "famous Talmud pages, essential Talmud teachings, Hillel quotes, Jewish wisdom stories, beginner Talmud study",
-    canonical: `${window.location.origin}/suggested-pages`,
-    robots: "index, follow",
     structuredData: {
       "@context": "https://schema.org",
       "@type": "CollectionPage",

@@ -1,17 +1,15 @@
 import { Link } from "wouter";
 import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
+import { getStaticSEO } from "@shared/seo-data";
 import { Mail } from "lucide-react";
 
 export default function Contact() {
 
   // Set up SEO
   useSEO({
-    title: "Contact | ChavrutAI",
-    description: "Contact ChavrutAI with feedback, suggestions, and corrections. We appreciate all input to improve our digital Talmud study platform.",
+    ...getStaticSEO("/contact", window.location.origin)!,
     keywords: "contact, feedback, suggestions, corrections, ChavrutAI, Talmud study, support",
-    canonical: `${window.location.origin}/contact`,
-    robots: "index, follow",
     structuredData: {
       "@context": "https://schema.org",
       "@type": "ContactPage",

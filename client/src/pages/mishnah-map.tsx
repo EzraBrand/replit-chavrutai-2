@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/select";
 import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
+import { getStaticSEO } from "@shared/seo-data";
 import { getTractateSlug, TRACTATE_HEBREW_NAMES, SEDER_TRACTATES, normalizeDisplayTractateName } from "@shared/tractates";
 import { MISHNAH_MAP_DATA, type MishnahMapping } from "@shared/mishnah-map";
 import { getMishnahChapterDataByTractate, getMishnahTalmudMapping, useChapterDataVersion, type ChapterInfo } from "@/lib/chapter-data";
@@ -81,10 +82,7 @@ export default function MishnahMapPage() {
   const chapterDataVersion = useChapterDataVersion();
 
   useSEO({
-    title: "Mishnah-Talmud Mapping | ChavrutAI",
-    description: "Comprehensive mapping of Mishnah passages to their corresponding discussions in the Talmud. Find where each Mishnah is discussed and navigate directly to the relevant section.",
-    canonical: `${window.location.origin}/mishnah-map`,
-    robots: "index, follow",
+    ...getStaticSEO("/mishnah-map", window.location.origin)!,
     structuredData: {
       "@context": "https://schema.org",
       "@type": "Dataset",

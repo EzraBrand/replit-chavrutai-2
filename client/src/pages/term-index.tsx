@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo, useCallback } from "react";
 import { Link } from "wouter";
 import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
+import { getStaticSEO } from "@shared/seo-data";
 import { ExternalLink } from "lucide-react";
 import { getTractateSlug } from "@shared/tractates";
 import { getBookBySlug } from "@shared/bible-books";
@@ -502,14 +503,9 @@ function TermCard({
 
 export default function TermIndexPage() {
   useSEO({
-    title: "Talmud Glossary: Names, Places & Terms | ChavrutAI",
-    description: "Searchable glossary of around 5,000 Talmudic and Biblical terms — rabbinic names, Aramaic place names, concepts, and nations. Includes Hebrew text, Wikipedia links, Wikidata, corpus counts, and biographical data (teachers, students, dates).",
-    ogTitle: "Talmud Glossary: Names, Places & Terms | ChavrutAI",
-    ogDescription: "Around 5,000 Talmudic and Biblical terms with Hebrew text, Wikipedia links, Wikidata, corpus counts, and biographical data from the Babylonian Talmud.",
+    ...getStaticSEO("/term-index", window.location.origin)!,
     ogUrl: `${window.location.origin}/term-index`,
-    canonical: `${window.location.origin}/term-index`,
     keywords: "Talmud glossary, Talmudic names, rabbinic names, Babylonian Talmud terms, Aramaic glossary, Hebrew glossary, Talmud place names, Talmud concepts, Amoraim, Tannaim, Wikidata Talmud, ChavrutAI",
-    robots: "index, follow",
     structuredData: {
       "@context": "https://schema.org",
       "@type": "Dataset",

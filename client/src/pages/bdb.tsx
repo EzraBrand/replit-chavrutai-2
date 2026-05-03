@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Search, Loader2, ExternalLink, X } from "lucide-react";
 import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
+import { getBDBSEO } from "@shared/seo-data";
 import { HEBREW_ALPHABET } from "@shared/hebrew-alphabet";
 import bdbMappings from "@shared/data/lexicon-mappings/bdb.json";
 import {
@@ -38,21 +39,10 @@ export default function Bdb() {
   const suppressSuggestionsRef = useRef(false);
   const lexiconIndex = useLexiconIndex("bdb");
 
-  const seoTitle = searchQuery
-    ? `"${searchQuery}" - BDB Hebrew Bible Dictionary | ChavrutAI`
-    : "BDB (Brown-Driver-Briggs) Hebrew Bible Dictionary | ChavrutAI";
-
-  const seoDescription = searchQuery
-    ? `BDB Hebrew Bible Dictionary results for "${searchQuery}". Brown-Driver-Briggs biblical Hebrew lexicon with modernized presentation.`
-    : "Search the Brown-Driver-Briggs (BDB) Hebrew Bible Dictionary. Modernized presentation with expanded abbreviations and direct links to biblical citations on ChavrutAI.";
+  const bdbSEO = getBDBSEO("", searchQuery, window.location.origin);
 
   useSEO({
-    title: seoTitle,
-    description: seoDescription,
-    ogTitle: seoTitle.replace(' | ChavrutAI', ''),
-    ogDescription: seoDescription,
-    canonical: `${window.location.origin}/bdb`,
-    robots: "index, follow",
+    ...bdbSEO,
     structuredData: {
       "@context": "https://schema.org",
       "@type": "WebApplication",

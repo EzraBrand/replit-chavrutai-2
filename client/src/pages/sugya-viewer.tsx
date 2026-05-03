@@ -17,6 +17,7 @@ import { Footer } from "@/components/footer";
 import { ChatPanel } from "@/components/sefaria/chat-panel";
 import type { ChatContext } from "@/hooks/use-chat";
 import { useSEO } from "@/hooks/use-seo";
+import { getStaticSEO } from "@shared/seo-data";
 
 const tractates = TRACTATE_LISTS["Talmud Bavli"];
 const pages = Array.from({ length: 180 }, (_, i) => i + 2).flatMap(num => [`${num}a`, `${num}b`]);
@@ -35,10 +36,7 @@ interface SefariaResponse {
 
 export default function SefariaFetchPage() {
   useSEO({
-    title: "Sugya Viewer - Study Custom Talmud Ranges | ChavrutAI",
-    description: "View and study custom Talmud text ranges with bilingual Hebrew-English display. Select any tractate, page, and section for focused study.",
-    canonical: `${window.location.origin}/sugya-viewer`,
-    robots: "index, follow",
+    ...getStaticSEO("/sugya-viewer", window.location.origin)!,
     structuredData: {
       "@context": "https://schema.org",
       "@type": "WebApplication",

@@ -9,6 +9,7 @@ import { BreadcrumbNavigation } from "@/components/navigation/breadcrumb-navigat
 import { Footer } from "@/components/footer";
 import { usePreferences } from "@/context/preferences-context";
 import { useSEO } from "@/hooks/use-seo";
+import { getStaticSEO, getMishnahChapterSEO } from "@shared/seo-data";
 import { processMishnahHebrewText, processMishnahEnglishText, processHebrewText, processEnglishText, linkBibleCitations } from "@/lib/text-processing";
 import { useGazetteerData, TextHighlighter, type HighlightCategory } from "@/lib/gazetteer";
 import {
@@ -51,18 +52,11 @@ export default function MishnahChapter() {
   const tractateSlug = tractateDisplayName ? getMishnahTractateSlug(tractateDisplayName) : "";
   const isShekalim = tractateDisplayName === "Shekalim";
 
-  useSEO({
-    title: tractateDisplayName && !isNaN(chapterNum)
-      ? `Mishnah ${tractateDisplayName} Chapter ${chapterNum} - Hebrew & English | ChavrutAI`
-      : "Mishnah | ChavrutAI",
-    description: tractateDisplayName && !isNaN(chapterNum)
-      ? `Study Mishnah ${tractateDisplayName} Chapter ${chapterNum} with parallel Hebrew-English text. Free on ChavrutAI.`
-      : "Study the Mishnah with Hebrew-English text on ChavrutAI.",
-    canonical: tractateDisplayName && !isNaN(chapterNum)
-      ? `${window.location.origin}/mishnah/${tractateSlug}/${chapterNum}`
-      : `${window.location.origin}/mishnah`,
-    robots: "index, follow",
-  });
+  useSEO(
+    tractateSlug && !isNaN(chapterNum)
+      ? getMishnahChapterSEO(tractateSlug, String(chapterNum), window.location.origin)
+      : getStaticSEO("/mishnah", window.location.origin)!
+  );
 
   const { data: gazetteerData } = useGazetteerData(preferences.highlighting.enabled);
 

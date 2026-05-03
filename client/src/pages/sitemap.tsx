@@ -3,6 +3,7 @@ import { Link } from "wouter";
 import { ExternalLink } from "lucide-react";
 import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
+import { getStaticSEO } from "@shared/seo-data";
 import { getBaseUrl } from "@/lib/utils";
 
 interface TractateData {
@@ -38,11 +39,8 @@ interface SitemapResponse {
 export default function Sitemap() {
   const baseUrl = getBaseUrl();
   useSEO({
-    title: "Site Map - ChavrutAI Talmud Navigation Guide",
-    description: "Complete navigation guide to all 37 Talmud tractates organized by traditional Seder structure. Find any page across 5,400+ folios in the Babylonian Talmud.",
+    ...getStaticSEO("/sitemap", baseUrl)!,
     ogUrl: `${baseUrl}/sitemap`,
-    canonical: `${baseUrl}/sitemap`,
-    robots: "index, follow",
     structuredData: {
       "@context": "https://schema.org",
       "@type": "CollectionPage",

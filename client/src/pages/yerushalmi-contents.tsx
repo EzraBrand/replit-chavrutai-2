@@ -8,6 +8,7 @@ import {
   YERUSHALMI_HEBREW_NAMES,
   getYerushalmiTractateSlug,
 } from "@shared/yerushalmi-data";
+import { getStaticSEO } from "@shared/seo-data";
 
 const SEDER_INFO: Record<string, { hebrew: string; description: string }> = {
   zeraim: { hebrew: "סדר זרעים", description: "Agriculture and blessings" },
@@ -24,14 +25,7 @@ const SEDER_DISPLAY_NAMES: Record<string, string> = {
 };
 
 export default function YerushalmiContents() {
-  useSEO({
-    title: "Jerusalem Talmud (Yerushalmi) - Hebrew & English | ChavrutAI",
-    description: "Study the Jerusalem Talmud (Talmud Yerushalmi) online with bilingual Hebrew-English text. 39 tractates with the Guggenheimer English translation, organized by Seder.",
-    canonical: `${window.location.origin}/yerushalmi`,
-    ogTitle: "Jerusalem Talmud (Yerushalmi) - Hebrew & English | ChavrutAI",
-    ogDescription: "Study the Jerusalem Talmud online with bilingual Hebrew-English text (Guggenheimer translation) on ChavrutAI.",
-    robots: "index, follow",
-  });
+  useSEO(getStaticSEO("/yerushalmi", window.location.origin)!);
 
   return (
     <div className="min-h-screen bg-background">

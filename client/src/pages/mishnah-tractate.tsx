@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
+import { getStaticSEO, getMishnahTractateSEO } from "@shared/seo-data";
 import { BreadcrumbNavigation } from "@/components/navigation/breadcrumb-navigation";
 import {
   MISHNAH_ONLY_HEBREW_NAMES,
@@ -40,18 +41,11 @@ export default function MishnahTractate() {
     gcTime: 1000 * 60 * 60 * 24,
   });
 
-  useSEO({
-    title: tractateDisplayName
-      ? `Mishnah ${tractateDisplayName} - Hebrew & English | ChavrutAI`
-      : "Mishnah | ChavrutAI",
-    description: tractateDisplayName
-      ? `Study Mishnah ${tractateDisplayName} chapter by chapter with bilingual Hebrew-English text. Free online on ChavrutAI.`
-      : "Study the Mishnah with Hebrew-English text on ChavrutAI.",
-    canonical: tractateDisplayName
-      ? `${window.location.origin}/mishnah/${tractateSlug}`
-      : `${window.location.origin}/mishnah`,
-    robots: "index, follow",
-  });
+  useSEO(
+    tractateSlug
+      ? getMishnahTractateSEO(tractateSlug, window.location.origin)
+      : getStaticSEO("/mishnah", window.location.origin)!
+  );
 
   if (!match || !isValidMishnahTractate(tractateParam)) {
     return <NotFound />;
