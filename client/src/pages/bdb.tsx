@@ -342,6 +342,16 @@ export default function Bdb() {
                     original abbreviated text.
                   </li>
                 </ul>
+                <p className="text-xs text-muted-foreground mt-2">
+                  <a
+                    href="https://www.ezrabrand.com/p/chavrutai-modernized-bdb-bible"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline hover:text-foreground transition-colors"
+                  >
+                    Read more about this feature →
+                  </a>
+                </p>
               </CardContent>
             </Card>
           )}
