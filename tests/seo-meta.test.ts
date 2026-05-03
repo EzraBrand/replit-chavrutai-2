@@ -139,11 +139,13 @@ const PAGE_SPECS: PageSpec[] = [
   { path: '/rambam/Repentance/1',  label: 'Rambam Repentance ch.1',expectedInTitle: ['Repentance', 'ChavrutAI'] },
 
   // ── Query-param pages ─────────────────────────────────────────────────────
-  // letter param — title must differ from the base /jastrow title
-  { path: '/jastrow?letter=%D7%90', label: 'Jastrow letter aleph', expectedInTitle: ['Jastrow', 'ChavrutAI'] },
-  { path: '/bdb?letter=aleph',      label: 'BDB letter aleph',     expectedInTitle: ['BDB', 'ChavrutAI'] },
+  // letter param — title must differ from the base page title
+  { path: '/jastrow?letter=%D7%90', label: 'Jastrow letter aleph',    expectedInTitle: ['Jastrow', 'ChavrutAI'] },
+  { path: '/bdb?letter=aleph',      label: 'BDB letter aleph',        expectedInTitle: ['BDB', 'ChavrutAI'] },
   // search query — title must contain the query term
-  { path: '/search?q=shabbat', label: 'Search: shabbat', expectedInTitle: ['shabbat', 'ChavrutAI'] },
+  { path: '/jastrow?q=shalom',  label: 'Jastrow query: shalom',   expectedInTitle: ['shalom', 'Jastrow', 'ChavrutAI'] },
+  { path: '/bdb?q=ruach',       label: 'BDB query: ruach',        expectedInTitle: ['ruach', 'BDB', 'ChavrutAI'] },
+  { path: '/search?q=shabbat',  label: 'Search: shabbat',         expectedInTitle: ['shabbat', 'ChavrutAI'] },
 ];
 
 const metaCache = new Map<string, PageMeta>();
@@ -299,7 +301,9 @@ describe('SEO Meta Tags — Live Production (chavrutai.com)', () => {
 
       const paramPages: Array<{ paramPath: string; basePath: string }> = [
         { paramPath: '/jastrow?letter=%D7%90', basePath: '/jastrow' },
+        { paramPath: '/jastrow?q=shalom',      basePath: '/jastrow' },
         { paramPath: '/bdb?letter=aleph',      basePath: '/bdb' },
+        { paramPath: '/bdb?q=ruach',           basePath: '/bdb' },
         { paramPath: '/search?q=shabbat',      basePath: '/search' },
       ];
 

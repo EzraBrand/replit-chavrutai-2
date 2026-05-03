@@ -640,12 +640,11 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
         robots: "index, follow"
       };
     } else if (query) {
-      const safeQuery = escapeHtmlAttr(query);
       seoData = {
-        title: `"${safeQuery}" - Jastrow Dictionary | ChavrutAI`,
-        description: `Jastrow Dictionary results for "${safeQuery}". Comprehensive Talmudic Hebrew and Aramaic dictionary with modernized presentation.`,
-        ogTitle: `"${safeQuery}" - Jastrow Dictionary`,
-        ogDescription: `Jastrow Dictionary results for "${safeQuery}". Talmudic Hebrew and Aramaic with modernized presentation.`,
+        title: `"${query}" - Jastrow Dictionary | ChavrutAI`,
+        description: `Jastrow Dictionary results for "${query}". Comprehensive Talmudic Hebrew and Aramaic dictionary with modernized presentation.`,
+        ogTitle: `"${query}" - Jastrow Dictionary`,
+        ogDescription: `Jastrow Dictionary results for "${query}". Talmudic Hebrew and Aramaic with modernized presentation.`,
         canonical: `${baseUrl}/jastrow`,
         robots: "index, follow"
       };
@@ -673,12 +672,11 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
         robots: "index, follow"
       };
     } else if (query) {
-      const safeQuery = escapeHtmlAttr(query);
       seoData = {
-        title: `"${safeQuery}" - BDB Hebrew Bible Dictionary | ChavrutAI`,
-        description: `BDB Hebrew Bible Dictionary results for "${safeQuery}". Brown-Driver-Briggs biblical Hebrew lexicon with modernized presentation.`,
-        ogTitle: `"${safeQuery}" - BDB Hebrew Bible Dictionary`,
-        ogDescription: `BDB Hebrew Bible Dictionary results for "${safeQuery}".`,
+        title: `"${query}" - BDB Hebrew Bible Dictionary | ChavrutAI`,
+        description: `BDB Hebrew Bible Dictionary results for "${query}". Brown-Driver-Briggs biblical Hebrew lexicon with modernized presentation.`,
+        ogTitle: `"${query}" - BDB Hebrew Bible Dictionary`,
+        ogDescription: `BDB Hebrew Bible Dictionary results for "${query}".`,
         canonical: `${baseUrl}/bdb`,
         robots: "index, follow"
       };
