@@ -5,12 +5,7 @@ description: Add, modify, or audit SEO meta titles, descriptions, Open Graph tag
 
 # SEO Management
 
-ChavrutAI is a server-side-rendered SPA. SEO data lives in **two places that must stay in sync**:
-
-1. **Client-side** — `useSEO()` hook in each page component (updates `document.title` and meta tags after React hydrates)
-2. **Server-side** — `generateServerSideMetaTags()` in `server/routes/seo.ts` (injects meta into HTML for crawlers before JS loads)
-
-Both systems must produce identical titles, descriptions, and OG tags for the same URL. If they diverge, crawlers see one thing and users see another.
+ChavrutAI is a server-side-rendered SPA. SEO text data lives in **one place** — `shared/seo-data.ts` — which both the server and the client import. This eliminates the client/server sync problem. To change a title or description, edit only that file.
 
 ## Architecture Overview
 
@@ -18,145 +13,203 @@ Both systems must produce identical titles, descriptions, and OG tags for the sa
 
 | File | Purpose |
 |------|---------|
-| `client/src/hooks/use-seo.ts` | `useSEO()` hook + `generateSEOData` helpers for common page types |
-| `server/routes/seo.ts` | `generateServerSideMetaTags()` — server-side meta for crawlers |
-| `server/routes/seo.ts` | `generateServerSideStructuredData()` — JSON-LD for crawlers |
-| `server/routes/seo.ts` | `generateCrawlerBodyContent()` — visible HTML body for crawlers |
-| `server/routes/seo.ts` | `servePageWithMeta()` — middleware that reads template, injects meta |
+| `shared/seo-data.ts` | **Single source of truth** — all titles, descriptions, ogTitles, ogDescriptions, robots |
+| `client/src/hooks/use-seo.ts` | `useSEO()` DOM hook + `generateSEOData` helpers; imports from shared |
+| `server/routes/seo.ts` | `generateServerSideMetaTags()` (4 lines, calls `getPageSEO`); crawler content and structured data |
 | `client/index.html` | Static fallback meta (homepage defaults) |
-| `tests/seo-meta.test.ts` | Live test suite (329 tests, 38 pages) |
+| `tests/seo-meta.test.ts` | Live test suite (347 tests, 38 pages) |
+
+### What's in `shared/seo-data.ts`
+
+- **`SEOEntry`** type: `{ title, description, ogTitle, ogDescription, robots }`
+- **`SEOResult`** type: `SEOEntry & { canonical: string }`
+- **`STATIC_MAP`** (private): record keyed by pathname for ~20 fixed pages
+- **`getStaticSEO(pathname, baseUrl)`** → `SEOResult | null`
+- **13 factory functions** for dynamic routes:
+  `getTalmudTractateSEO`, `getTalmudFolioSEO`, `getBibleBookSEO`, `getBibleChapterSEO`,
+  `getMishnahTractateSEO`, `getMishnahChapterSEO`, `getYerushalmiTractateSEO`,
+  `getYerushalmiHalachahSEO`, `getRambamHilchotSEO`, `getRambamChapterSEO`,
+  `getJastrowSEO`, `getBDBSEO`, `getSearchSEO`
+- **`getPageSEO(pathname, searchParams, baseUrl)`** — dispatches to the right factory; used only by the server
 
 ### How it works
 
 1. A crawler requests a page (e.g., `/jastrow?letter=א`)
 2. `servePageWithMeta()` detects the crawler user-agent
-3. It calls `generateServerSideMetaTags(req.originalUrl)` which:
-   - Parses `pathname` from the URL (stripping query params)
-   - Matches pathname against route patterns
-   - Returns title, description, ogTitle, ogDescription, canonical, robots
-4. The function replaces meta tags in `client/index.html` template using `escapeHtmlAttr()` for all attribute values
-5. It also injects JSON-LD and crawler body content
+3. It calls `generateServerSideMetaTags(req.originalUrl)` which calls `getPageSEO(pathname, searchParams, baseUrl)` from `shared/seo-data.ts`
+4. The result (title, description, ogTitle, ogDescription, canonical, robots) is injected into the HTML template via `escapeHtmlAttr()`
+5. JSON-LD and crawler body content are also injected
 
-For regular browsers, Vite serves the SPA normally, and `useSEO()` updates meta after React loads.
+For regular browsers, Vite serves the SPA normally, and `useSEO()` (which also calls the same shared factories) updates meta after React loads.
 
 ### Critical: URL parsing
 
-`generateServerSideMetaTags` receives `req.originalUrl` which **includes query parameters**. The function parses `pathname` using `new URL(url, baseUrl).pathname` before route matching. All route comparisons use `pathname`, not the raw URL. This prevents query params from breaking route matching.
+`generateServerSideMetaTags` receives `req.originalUrl` which **includes query parameters**. It calls `new URL(url, baseUrl)` and passes `urlObj.pathname` and `urlObj.searchParams` to `getPageSEO`. All route matching happens on `pathname`, never the raw URL.
 
 ### Critical: HTML escaping
 
-`servePageWithMeta()` calls `escapeHtmlAttr()` on **all values** before inserting them into HTML attributes (`content="..."` etc.). Therefore:
+`servePageWithMeta()` calls `escapeHtmlAttr()` on **all values** before inserting them into HTML attributes. Therefore:
 
 - **`seoData` strings must always be plain text** — no HTML entities (`&amp;`, `&quot;`, etc.)
-- **Never call `escapeHtmlAttr()` on query params before putting them in seoData** — it would cause double-encoding
-- The `<title>` element also gets `escapeHtmlAttr()` applied, so `"` in titles becomes `&quot;` (decoded correctly by browsers)
+- **Never pre-escape query params** before putting them in seoData — causes double-encoding
+- The `<title>` element also gets `escapeHtmlAttr()` applied
+
+### Key conventions
+
+- `canonical` and `baseUrl` are **never stored** in `shared/seo-data.ts` — always passed as a parameter
+- `structuredData` (JSON-LD) stays in page components — it is client-only and uses `window.location.origin`
+- `| ChavrutAI` suffix goes in `title`, **not** in `ogTitle` (a few Mishnah/Yerushalmi/Rambam entries are intentional exceptions)
+
+---
 
 ## Adding SEO to a New Page
 
-When adding a new page/route, you must update **all three layers**:
+### Step 1: Add to `shared/seo-data.ts`
 
-### Step 1: Client-side `useSEO()` in the page component
+**For a static page**, add an entry to `STATIC_MAP`:
 
-```tsx
-import { useSEO } from "@/hooks/use-seo";
+```ts
+"/my-page": {
+  title: "My Page Title | ChavrutAI",
+  description: "Page description for search engines.",
+  ogTitle: "My Page Title",
+  ogDescription: "Page description for social sharing.",
+  robots: "index, follow",
+},
+```
 
-export default function MyPage() {
-  useSEO({
-    title: "Page Title | ChavrutAI",
-    description: "Page description for search engines.",
-    ogTitle: "Page Title",
-    ogDescription: "Page description for social sharing.",
-    canonical: `${window.location.origin}/my-page`,
+**For a dynamic page** (route params or query params), add a factory function:
+
+```ts
+export function getMyPageSEO(slug: string, baseUrl: string): SEOResult {
+  return {
+    title: `${slug} - My Section | ChavrutAI`,
+    description: `Description for ${slug}.`,
+    ogTitle: `${slug} - My Section`,
+    ogDescription: `Description for ${slug}.`,
     robots: "index, follow",
-    structuredData: { /* JSON-LD */ },
-  });
-  // ...
+    canonical: `${baseUrl}/my-section/${slug}`,
+  };
 }
 ```
 
-### Step 2: Server-side meta in `generateServerSideMetaTags()`
-
-Add a new `else if` branch in `server/routes/seo.ts`:
+Then add a dispatch case in `getPageSEO()`:
 
 ```ts
-} else if (pathname === '/my-page') {
-  seoData = {
-    title: "Page Title | ChavrutAI",  // MUST match client
-    description: "Page description for search engines.",
-    ogTitle: "Page Title",            // no | ChavrutAI suffix
-    ogDescription: "Page description for social sharing.",
-    canonical: `${baseUrl}/my-page`,
-    robots: "index, follow"
-  };
+} else if (pathname.startsWith('/my-section/')) {
+  const slug = parts[2] || '';
+  return getMyPageSEO(slug, baseUrl);
+}
+```
+
+### Step 2: Update the page component
+
+```tsx
+import { useSEO } from "@/hooks/use-seo";
+import { getStaticSEO } from "@shared/seo-data";
+// or: import { getMyPageSEO } from "@shared/seo-data";
+
+export default function MyPage() {
+  // Static page (no structuredData):
+  useSEO(getStaticSEO("/my-page", window.location.origin)!);
+
+  // Static page (with structuredData):
+  useSEO({
+    ...getStaticSEO("/my-page", window.location.origin)!,
+    structuredData: { "@context": "https://schema.org", /* ... */ },
+  });
+
+  // Dynamic page:
+  useSEO(getMyPageSEO(slug, window.location.origin));
+  // ...
 }
 ```
 
 ### Step 3: Register the route for `servePageWithMeta`
 
-Add the Express route handler near the other `servePageWithMeta` registrations:
+Add the Express route handler in `server/routes/seo.ts`:
 
 ```ts
 app.get('/my-page', servePageWithMeta);
+// or for param routes:
+app.get('/my-section/:slug', servePageWithMeta);
 ```
 
 ### Step 4 (optional): Crawler body content
 
-For content-heavy pages, add a case in `generateCrawlerBodyContent()` to inject visible text/links for crawlers.
+For content-heavy pages, add a case in `generateCrawlerBodyContent()` in `server/routes/seo.ts` to inject visible text/links for crawlers.
 
-### Step 5 (optional): Structured data
+### Step 5 (optional): Server-side structured data
 
-For rich pages, add a case in `generateServerSideStructuredData()` to inject JSON-LD.
+For rich pages, add a case in `generateServerSideStructuredData()` in `server/routes/seo.ts` to inject JSON-LD for crawlers.
+
+### Step 6: Add to the test suite
+
+Add the page to `PAGE_SPECS` in `tests/seo-meta.test.ts`:
+
+```ts
+{ path: '/my-page', keywords: ['my', 'page'] },
+```
+
+---
 
 ## Dynamic Titles (Pages with Query Parameters)
 
-For pages where the title changes based on URL parameters (search, dictionaries, etc.):
+Both server and client share the same factory from `shared/seo-data.ts`. The factory receives the query string as a parameter:
 
-**Server-side:** Use `urlObj.searchParams` (already parsed at function top). Always use raw query values — do NOT pre-escape them:
+**In `shared/seo-data.ts`:**
 
 ```ts
-} else if (pathname === '/jastrow') {
-  const letter = urlObj.searchParams.get('letter') || '';
-  const query  = urlObj.searchParams.get('q') || '';
-
-  if (letter) {
-    seoData = {
-      title: `Jastrow Dictionary - Letter ${letter} | ChavrutAI`,
-      ogTitle: `Jastrow Dictionary - Letter ${letter}`,
-      // ...
-    };
-  } else if (query) {
-    // Use plain query — servePageWithMeta handles attribute escaping
-    seoData = {
+export function getJastrowSEO(letter: string, query: string, baseUrl: string): SEOResult {
+  if (query) {
+    return {
       title: `"${query}" - Jastrow Dictionary | ChavrutAI`,
       ogTitle: `"${query}" - Jastrow Dictionary`,
       // ...
     };
-  } else {
-    seoData = { /* default title */ };
   }
+  if (letter) {
+    return {
+      title: `Jastrow Dictionary - Letter ${letter} | ChavrutAI`,
+      ogTitle: `Jastrow Dictionary - Letter ${letter}`,
+      // ...
+    };
+  }
+  return { /* default */ };
 }
 ```
 
-**Client-side:** Derive title from React state:
-
-```tsx
-const seoTitle = selectedLetter
-  ? `Jastrow Dictionary - Letter ${selectedLetter} | ChavrutAI`
-  : "Modernized Jastrow Talmud Dictionary of Hebrew & Aramaic | ChavrutAI";
-
-useSEO({ title: seoTitle, /* ... */ });
+**Server dispatch in `getPageSEO()`:**
+```ts
+} else if (pathname === '/jastrow') {
+  return getJastrowSEO(
+    searchParams.get('letter') || '',
+    searchParams.get('q') || '',
+    baseUrl
+  );
+}
 ```
+
+**Client in the page component:**
+```tsx
+const jastrowSEO = getJastrowSEO("", searchQuery, window.location.origin);
+useSEO({ ...jastrowSEO, structuredData: { /* ... */ } });
+```
+
+---
 
 ## Title Format Conventions
 
 - `<title>` tags: `Specific Content - Category | ChavrutAI` — **always end with `| ChavrutAI`**
 - Keep under 60 characters when possible
 - `ogTitle`: same descriptive part but **without** the `| ChavrutAI` suffix
-- `seoData` strings are always plain text — let `servePageWithMeta` escape for HTML
+- All strings in `shared/seo-data.ts` are plain text — `servePageWithMeta` handles HTML escaping
+
+---
 
 ## Live Test Suite
 
-`tests/seo-meta.test.ts` — 329+ tests that fetch real pages with a Googlebot user-agent and assert:
+`tests/seo-meta.test.ts` — 347 tests that fetch real pages with a Googlebot user-agent and assert:
 
 - Every `<title>` ends with `| ChavrutAI`
 - Every `<title>` and `og:title` is non-empty and contains no raw HTML entities
@@ -177,58 +230,48 @@ npx vitest run tests/seo-meta.test.ts
 SKIP_LIVE_SEO_TESTS=1 npx vitest run tests/seo-meta.test.ts
 ```
 
-**When adding a new page:** add its spec to the `PAGE_SPECS` array in the test file so it is automatically covered.
+---
 
 ## SEO Audit Checklist
 
-When auditing or reviewing SEO:
+1. **Single source**: Is the text in `shared/seo-data.ts`? (Not duplicated in the page component and server separately)
+2. **`| ChavrutAI` suffix**: Does every `title` end with it? Does every `ogTitle` omit it?
+3. **Plain-text strings**: Are all strings in `shared/seo-data.ts` free of HTML entities?
+4. **`canonical` not stored**: Is `canonical` computed via `baseUrl` parameter, not hardcoded?
+5. **Route registration**: Is the route registered with `app.get('/route', servePageWithMeta)`?
+6. **`getPageSEO()` dispatch**: Is the new route handled in `getPageSEO()`?
+7. **Robots directives**: Are search results / thin pages set to `noindex, follow`?
+8. **Structured data**: Do key content pages have `structuredData` in the page component?
+9. **Crawler body**: Do text-heavy pages have a case in `generateCrawlerBodyContent()`?
+10. **Test coverage**: Is the new page added to `PAGE_SPECS` in `tests/seo-meta.test.ts`?
 
-1. **Title parity**: Do client and server produce the same title for each route?
-2. **`| ChavrutAI` suffix**: Does every `<title>` end with it? Does every `ogTitle` omit it?
-3. **Plain-text seoData**: Are all `seoData` strings free of HTML entities?
-4. **Query param safety**: Does `generateServerSideMetaTags` use `pathname` (not raw `url`) for route matching?
-5. **No pre-escaping of user input**: Are query params used raw in seoData (not passed through `escapeHtmlAttr` first)?
-6. **Canonical URLs**: Are canonicals consistent between client and server?
-7. **Route registration**: Is every client route also registered with `app.get('/route', servePageWithMeta)`?
-8. **Robots directives**: Are search results and thin pages set to `noindex, follow`?
-9. **Structured data**: Do key content pages have JSON-LD?
-10. **Crawler body**: Do text-heavy pages inject readable content for crawlers?
-11. **Test coverage**: Is the new page added to `PAGE_SPECS` in `tests/seo-meta.test.ts`?
+---
 
 ## Known Gaps (as of May 2026)
 
-### Title inconsistencies between client and server
-- **Folio pages** (`/talmud/:tractate/:folio`): Server uses en-dash (`–`) and "Hebrew & English Talmud", client uses hyphen and "Talmud Bavli"
-- Minor description wording differences on several pages
-
-### ogTitle inconsistencies (contains `| ChavrutAI` when it shouldn't)
-- `/term-index` — ogTitle includes `| ChavrutAI` suffix
-- `/mishnah-map` — ogTitle includes `| ChavrutAI` suffix
-- `/contact` — ogTitle includes `| ChavrutAI` suffix
-- `/yerushalmi` — ogTitle includes `| ChavrutAI` suffix
-- `/rambam` — ogTitle includes `| ChavrutAI` suffix
-
 ### Missing crawler body content
 These pages fall back to generic content for crawlers:
-- `/jastrow`, `/bdb` — no entries shown to crawlers
+- `/jastrow`, `/bdb` — no dictionary entries shown
 - `/term-index` — no terms shown
 - `/suggested-pages` — no page list shown
 - `/blog-posts` — no blog list shown
 
-### Missing structured data
-These pages have no JSON-LD:
+### Missing server-side structured data
+These pages have client-side `structuredData` in the page component but no JSON-LD from `generateServerSideStructuredData()` (so crawlers don't see it):
 - `/jastrow`, `/bdb`, `/term-index`, `/blog-posts`, `/suggested-pages`
 
 ### Missing text snippets in crawler body
-- Mishnah chapter pages — no text excerpts (unlike Talmud/Bible which do include them)
+- Mishnah chapter pages — no text excerpts (unlike Talmud/Bible pages)
 - Yerushalmi chapter pages — no text excerpts
+
+---
 
 ## Common Mistakes to Avoid
 
-1. **Using `url` instead of `pathname`** in `generateServerSideMetaTags` — query params will break matching
-2. **Pre-escaping query params** with `escapeHtmlAttr()` before putting them in seoData — causes double-encoding since `servePageWithMeta` escapes again
-3. **HTML entities in seoData strings** — use plain `&` and `"`, not `&amp;` or `&quot;`
-4. **Forgetting to update server-side** when changing client-side titles
-5. **Forgetting `servePageWithMeta` registration** when adding a new route
-6. **Hardcoding `window.location.origin`** on the server — use the `baseUrl` variable instead
-7. **Not adding the page to `PAGE_SPECS`** in `tests/seo-meta.test.ts`
+1. **Editing titles in the page component** instead of `shared/seo-data.ts` — the server won't pick up the change
+2. **Pre-escaping query params** with `escapeHtmlAttr()` before putting them in seoData — causes double-encoding
+3. **HTML entities in shared strings** — use plain `&` and `"`, not `&amp;` or `&quot;`
+4. **Storing `canonical` or `baseUrl` in `STATIC_MAP`** — always pass `baseUrl` as a parameter
+5. **Putting `structuredData` in `shared/seo-data.ts`** — it uses `window.location.origin` and belongs in page components
+6. **Forgetting `servePageWithMeta` registration** when adding a new route
+7. **Forgetting to add the page to `PAGE_SPECS`** in `tests/seo-meta.test.ts`
