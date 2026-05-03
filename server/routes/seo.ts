@@ -579,11 +579,20 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
     robots: "index, follow"
   };
 
-  if (pathname === '/' || pathname === '/talmud') {
-    seoData.canonical = `${baseUrl}${pathname === '/' ? '/' : '/talmud'}`;
+  if (pathname === '/') {
+    seoData.canonical = `${baseUrl}/`;
+  } else if (pathname === '/talmud') {
+    seoData = {
+      title: "Talmud Bavli — All 37 Tractates | ChavrutAI",
+      description: "Study the Babylonian Talmud online, free. Browse all 37 tractates organized by Seder with Hebrew-English text, chapter navigation, and modern study tools.",
+      ogTitle: "Talmud Bavli — All 37 Tractates",
+      ogDescription: "Browse all 37 tractates of the Babylonian Talmud with Hebrew-English text, chapter navigation, and modern study tools on ChavrutAI.",
+      canonical: `${baseUrl}/talmud`,
+      robots: "index, follow"
+    };
   } else if (pathname === '/about') {
     seoData = {
-      title: "About ChavrutAI - Free Digital Talmud Learning Platform",
+      title: "About ChavrutAI - Free Digital Talmud Learning Platform | ChavrutAI",
       description: "Discover how ChavrutAI makes Jewish texts accessible with modern technology. Learn about our free bilingual Talmud study platform designed for learners at all levels.",
       ogTitle: "About ChavrutAI - Free Digital Talmud Learning Platform",
       ogDescription: "Discover how ChavrutAI makes Jewish texts accessible with modern technology. Learn about our free bilingual Talmud study platform designed for learners at all levels.",
@@ -610,9 +619,9 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
     };
   } else if (pathname === '/blog-posts') {
     seoData = {
-      title: '"Talmud & Tech" Blog Posts by Talmud Location | ChavrutAI',
-      description: 'Blog posts analyzing Talmudic passages, organized by tractate and page location. Click on titles to go to the full articles at the "Talmud & Tech" Blog, or use location links to jump to the corresponding text in ChavrutAI.',
-      ogTitle: '"Talmud & Tech" Blog Posts by Talmud Location',
+      title: 'Talmud & Tech Blog Posts by Talmud Location | ChavrutAI',
+      description: 'Blog posts analyzing Talmudic passages, organized by tractate and page location. Click on titles to go to the full articles at the Talmud & Tech Blog, or use location links to jump to the corresponding text in ChavrutAI.',
+      ogTitle: 'Talmud & Tech Blog Posts by Talmud Location',
       ogDescription: 'Blog posts analyzing Talmudic passages, organized by tractate and page location.',
       canonical: `${baseUrl}/blog-posts`,
       robots: "index, follow"
@@ -747,9 +756,9 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
     };
   } else if (pathname === '/sitemap') {
     seoData = {
-      title: "Site Map - ChavrutAI Talmud Navigation Guide",
+      title: "Site Map - Talmud Navigation Guide | ChavrutAI",
       description: "Complete navigation guide to all 37 Talmud tractates organized by traditional Seder structure. Find any page across 5,400+ folios in the Babylonian Talmud.",
-      ogTitle: "Site Map - ChavrutAI Talmud Navigation Guide",
+      ogTitle: "Site Map - Talmud Navigation Guide",
       ogDescription: "Complete navigation guide to all 37 Talmud tractates organized by traditional Seder structure.",
       canonical: `${baseUrl}/sitemap`,
       robots: "index, follow"
@@ -758,25 +767,25 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
     seoData = {
       title: "Contact | ChavrutAI",
       description: "Contact ChavrutAI with feedback, suggestions, and corrections. We appreciate all input to improve our digital Talmud study platform.",
-      ogTitle: "Contact | ChavrutAI",
+      ogTitle: "Contact ChavrutAI",
       ogDescription: "Contact ChavrutAI with feedback, suggestions, and corrections.",
       canonical: `${baseUrl}/contact`,
       robots: "index, follow"
     };
   } else if (pathname === '/privacy') {
     seoData = {
-      title: "Privacy Policy - ChavrutAI Talmud Study Platform",
+      title: "Privacy Policy - ChavrutAI Talmud Study Platform | ChavrutAI",
       description: "Privacy policy for ChavrutAI - learn how we handle your data when using our free Talmud study platform.",
-      ogTitle: "Privacy Policy - ChavrutAI",
+      ogTitle: "Privacy Policy - ChavrutAI Talmud Study Platform",
       ogDescription: "Privacy policy for ChavrutAI - learn how we handle your data when using our free Talmud study platform.",
       canonical: `${baseUrl}/privacy`,
       robots: "index, follow"
     };
   } else if (pathname === '/changelog') {
     seoData = {
-      title: "Changelog - ChavrutAI",
+      title: "Changelog | ChavrutAI",
       description: "Recent updates and improvements to ChavrutAI. Track new features, design enhancements, and user experience improvements for Talmud study.",
-      ogTitle: "Changelog - ChavrutAI",
+      ogTitle: "Changelog - ChavrutAI Updates",
       ogDescription: "Recent updates and improvements to ChavrutAI.",
       canonical: `${baseUrl}/changelog`,
       robots: "index, follow"
@@ -918,7 +927,6 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
   } else if (pathname === '/search') {
     const query = urlObj.searchParams.get('q') || '';
     const type = urlObj.searchParams.get('type') || '';
-    const safeQuery = escapeHtmlAttr(query);
 
     let title: string;
     let description: string;
@@ -926,14 +934,14 @@ function generateServerSideMetaTags(url: string): { title: string; description: 
     let ogDescription: string;
 
     if (query) {
-      const typeLabel = type === 'bible' ? 'Bible' : type === 'talmud' ? 'Talmud' : 'Talmud &amp; Bible';
-      title = `Search results for &quot;${safeQuery}&quot; in ${typeLabel} | ChavrutAI`;
-      ogTitle = `Search: &quot;${safeQuery}&quot; \u2013 ${typeLabel} | ChavrutAI`;
-      description = `Search results for &quot;${safeQuery}&quot; in the ${typeLabel}. Find passages, explore Hebrew and English text, and study with ChavrutAI.`;
-      ogDescription = `Search results for &quot;${safeQuery}&quot; in the ${typeLabel} on ChavrutAI.`;
+      const typeLabel = type === 'bible' ? 'Bible' : type === 'talmud' ? 'Talmud' : 'Talmud & Bible';
+      title = `Search results for "${query}" in ${typeLabel} | ChavrutAI`;
+      ogTitle = `Search: "${query}" \u2013 ${typeLabel}`;
+      description = `Search results for "${query}" in the ${typeLabel}. Find passages, explore Hebrew and English text, and study with ChavrutAI.`;
+      ogDescription = `Search results for "${query}" in the ${typeLabel} on ChavrutAI.`;
     } else {
       title = "Search the Talmud & Bible – Hebrew & English | ChavrutAI";
-      ogTitle = "Search Talmud & Bible | ChavrutAI";
+      ogTitle = "Search Talmud & Bible";
       description = "Search through the Babylonian Talmud and Hebrew Bible in Hebrew and English. Find any passage, word, or topic across thousands of pages.";
       ogDescription = "Search through the Babylonian Talmud and Hebrew Bible in Hebrew and English on ChavrutAI.";
     }
@@ -1372,23 +1380,23 @@ async function servePageWithMeta(req: express.Request, res: express.Response, ne
     template = template
       .replace(
         /<title>.*?<\/title>/,
-        `<title>${seoData.title}</title>`
+        `<title>${escapeHtmlAttr(seoData.title)}</title>`
       )
       .replace(
         /<meta name="description" content=".*?"/,
-        `<meta name="description" content="${seoData.description}"`
+        `<meta name="description" content="${escapeHtmlAttr(seoData.description)}"`
       )
       .replace(
         /<meta property="og:title" content=".*?"/,
-        `<meta property="og:title" content="${seoData.ogTitle}"`
+        `<meta property="og:title" content="${escapeHtmlAttr(seoData.ogTitle)}"`
       )
       .replace(
         /<meta property="og:description" content=".*?"/,
-        `<meta property="og:description" content="${seoData.ogDescription}"`
+        `<meta property="og:description" content="${escapeHtmlAttr(seoData.ogDescription)}"`
       )
       .replace(
         /<meta property="og:url" content=".*?"/,
-        `<meta property="og:url" content="${seoData.canonical}"`
+        `<meta property="og:url" content="${escapeHtmlAttr(seoData.canonical)}"`
       )
       .replace(
         /<meta name="robots" content=".*?"/,
