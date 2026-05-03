@@ -2,14 +2,16 @@
  * Multi-script transliteration helpers used by both the BDB / Jastrow live
  * readers (browser) and the BDB scraping script (Node).
  *
- *   • Greek    → Latin   (classical / scholarly conventions)
- *   • Syriac   → Hebrew  (one-to-one cognate-letter mapping with Hebrew sofit
- *                         forms applied at end of each word)
- *   • Arabic   → Latin   (DIN 31635 — the standard for Semitic-studies works
- *                         such as BDB: ḥ ḫ ġ ṣ ḍ ṭ ẓ ʿ ʾ etc.)
- *   • Ethiopic → Latin   (scholarly Ge'ez transliteration: each syllable is
- *                         consonant + vowel from columns ä/u/i/a/e/ə/o, with
- *                         labialized variants for the qʷ/kʷ/gʷ/ḫʷ rows)
+ *   • Greek      → Latin   (classical / scholarly conventions)
+ *   • Syriac     → Hebrew  (one-to-one cognate-letter mapping with Hebrew sofit
+ *                           forms applied at end of each word)
+ *   • Samaritan  → Hebrew  (one-to-one cognate-letter mapping, same 22-letter
+ *                           abjad as Hebrew; sofit forms applied at word end)
+ *   • Arabic     → Latin   (DIN 31635 — the standard for Semitic-studies works
+ *                           such as BDB: ḥ ḫ ġ ṣ ḍ ṭ ẓ ʿ ʾ etc.)
+ *   • Ethiopic   → Latin   (scholarly Ge'ez transliteration: each syllable is
+ *                           consonant + vowel from columns ä/u/i/a/e/ə/o, with
+ *                           labialized variants for the qʷ/kʷ/gʷ/ḫʷ rows)
  *
  * Each script gets:
  *   • `transliterateX(input)`           — pure character-level conversion
@@ -149,6 +151,63 @@ export function transliterateSyriac(input: string): string {
   }
   // Apply Hebrew sofit forms at end of each word (within the matched run,
   // word boundaries are space or comma; or end-of-string).
+  return out.replace(/([\u05D0-\u05EA])(?=[\s,]|$)/g, (_, letter: string) =>
+    HEBREW_FINAL_FORM[letter] ?? letter
+  );
+}
+
+// ============================================================================
+// SAMARITAN → HEBREW
+// ============================================================================
+// The Samaritan alphabet is the same 22-letter abjad as Hebrew (they share
+// a common Proto-Sinaitic ancestor), with a clean one-to-one letter
+// correspondence. Unicode block U+0800–U+082F.
+// Samaritan vowel marks and cantillation (U+0816–U+082D, U+083F) are stripped
+// before mapping — only the consonantal skeleton is transferred to Hebrew.
+// Hebrew final-form (sofit) substitution is applied at the end of each word,
+// identical to the Syriac path above.
+//
+// Letter correspondence (in abjad order):
+//   U+0800 ALAF → א,  U+0801 BIT  → ב,  U+0802 GAMAN  → ג,  U+0803 DALAT → ד
+//   U+0804 IY   → ה,  U+0805 BAA  → ו,  U+0806 ZEN    → ז,  U+0807 IT    → ח
+//   U+0808 TIT  → ט,  U+0809 YUT  → י,  U+080A KAAF   → כ,  U+080B LABAT → ל
+//   U+080C MIM  → מ,  U+080D NUN  → נ,  U+080E SINGAAT → ס,  U+080F IN   → ע
+//   U+0810 FI   → פ,  U+0811 TSAADIY → צ, U+0812 QUF  → ק,  U+0813 RISH → ר
+//   U+0814 SHAN → ש,  U+0815 TAAF → ת
+
+const SAMARITAN_LETTER_MAP: Record<string, string> = {
+  '\u0800': 'א',  // ALAF
+  '\u0801': 'ב',  // BIT
+  '\u0802': 'ג',  // GAMAN
+  '\u0803': 'ד',  // DALAT
+  '\u0804': 'ה',  // IY
+  '\u0805': 'ו',  // BAA
+  '\u0806': 'ז',  // ZEN
+  '\u0807': 'ח',  // IT
+  '\u0808': 'ט',  // TIT
+  '\u0809': 'י',  // YUT
+  '\u080A': 'כ',  // KAAF
+  '\u080B': 'ל',  // LABAT
+  '\u080C': 'מ',  // MIM
+  '\u080D': 'נ',  // NUN
+  '\u080E': 'ס',  // SINGAAT
+  '\u080F': 'ע',  // IN (Ayin)
+  '\u0810': 'פ',  // FI
+  '\u0811': 'צ',  // TSAADIY
+  '\u0812': 'ק',  // QUF
+  '\u0813': 'ר',  // RISH
+  '\u0814': 'ש',  // SHAN
+  '\u0815': 'ת',  // TAAF
+};
+
+export function transliterateSamaritan(input: string): string {
+  // Strip Samaritan vowel marks and cantillation signs (U+0816–U+082D, U+083F)
+  const stripped = input.replace(/[\u0816-\u082D\u083F]/g, '');
+  let out = '';
+  for (const ch of stripped) {
+    out += SAMARITAN_LETTER_MAP[ch] ?? ch;
+  }
+  // Apply Hebrew sofit forms at end of each word (same logic as Syriac above)
   return out.replace(/([\u05D0-\u05EA])(?=[\s,]|$)/g, (_, letter: string) =>
     HEBREW_FINAL_FORM[letter] ?? letter
   );
@@ -374,10 +433,11 @@ function buildRunRegex(blockPattern: string): RegExp | null {
   }
 }
 
-const GREEK_RUN_RE    = buildRunRegex('\\u0370-\\u03FF\\u1F00-\\u1FFF');
-const SYRIAC_RUN_RE   = buildRunRegex('\\u0700-\\u074F');
-const ARABIC_RUN_RE   = buildRunRegex('\\u0600-\\u06FF\\u0750-\\u077F');
-const ETHIOPIC_RUN_RE = buildRunRegex('\\u1200-\\u137F');
+const GREEK_RUN_RE      = buildRunRegex('\\u0370-\\u03FF\\u1F00-\\u1FFF');
+const SYRIAC_RUN_RE     = buildRunRegex('\\u0700-\\u074F');
+const SAMARITAN_RUN_RE  = buildRunRegex('\\u0800-\\u082F');
+const ARABIC_RUN_RE     = buildRunRegex('\\u0600-\\u06FF\\u0750-\\u077F');
+const ETHIOPIC_RUN_RE   = buildRunRegex('\\u1200-\\u137F');
 
 /**
  * Apply `transliterate` to each match of `runRe` and append `[result]`.
@@ -409,6 +469,9 @@ export function annotateGreekTransliterations(text: string): string {
 export function annotateSyriacTransliterations(text: string): string {
   return annotateRuns(text, SYRIAC_RUN_RE, transliterateSyriac);
 }
+export function annotateSamaritanTransliterations(text: string): string {
+  return annotateRuns(text, SAMARITAN_RUN_RE, transliterateSamaritan);
+}
 export function annotateArabicTransliterations(text: string): string {
   return annotateRuns(text, ARABIC_RUN_RE, transliterateArabic);
 }
@@ -417,14 +480,15 @@ export function annotateEthiopicTransliterations(text: string): string {
 }
 
 /**
- * Apply Greek + Syriac + Arabic + Ethiopic annotation in one pass. Order is
- * inconsequential: each block is disjoint from the others, and each
+ * Apply Greek + Syriac + Samaritan + Arabic + Ethiopic annotation in one pass.
+ * Order is inconsequential: each block is disjoint from the others, and each
  * transliteration produces output in a different block (Latin / Hebrew),
  * so no annotator can "see" another's output.
  */
 export function annotateAllTransliterations(text: string): string {
   text = annotateGreekTransliterations(text);
   text = annotateSyriacTransliterations(text);
+  text = annotateSamaritanTransliterations(text);
   text = annotateArabicTransliterations(text);
   text = annotateEthiopicTransliterations(text);
   return text;
