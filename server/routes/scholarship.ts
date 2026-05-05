@@ -285,6 +285,7 @@ export function createScholarshipRouter(): Router {
         paragraphs,
         prevSection,
         nextSection,
+        sefariaRef: ref,
       });
     } catch (err) {
       console.error("Error fetching scholarship section text:", err);

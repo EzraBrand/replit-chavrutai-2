@@ -13,7 +13,7 @@ import { isValidScholarshipWork } from "@shared/data/scholarship-works";
 import { usePreferences, type TextSize, type HebrewFont, type Theme } from "@/context/preferences-context";
 import { convertSefariaLinksToInternal } from "@/lib/dictionary-format";
 import NotFound from "@/pages/not-found";
-import { Type, ArrowUp, ChevronLeft, ChevronRight, X } from "lucide-react";
+import { Type, ArrowUp, ChevronLeft, ChevronRight, X, ExternalLink } from "lucide-react";
 
 interface SectionData {
   title: string;
@@ -21,6 +21,7 @@ interface SectionData {
   paragraphs: string[];
   prevSection: { slug: string; title: string } | null;
   nextSection: { slug: string; title: string } | null;
+  sefariaRef: string;
 }
 
 interface FootnoteEntry {
@@ -551,14 +552,17 @@ export default function ScholarshipSection() {
                 </Link>
               )}
 
-              <a
-                href="https://www.sefaria.org.il/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-xs text-muted-foreground/50 hover:text-primary transition-colors flex-shrink-0"
-              >
-                Sefaria
-              </a>
+              {data.sefariaRef && (
+                <a
+                  href={`https://www.sefaria.org.il/${encodeURIComponent(data.sefariaRef)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-muted-foreground/60 hover:text-primary transition-colors flex-shrink-0 flex items-center gap-1"
+                >
+                  View at Sefaria
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              )}
 
               {data.prevSection ? (
                 <button
