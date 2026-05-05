@@ -193,29 +193,16 @@ export default function Home() {
                 </CardContent>
               </Card>
             </Link>
-          </div>
-        </section>
 
-        <section className="mb-10" data-testid="scholarship-section">
-          <h2 className="text-xl font-semibold text-foreground mb-4">Modern Scholarship</h2>
-          <Link href="/scholarship" className="block">
-            <Card className="hover:shadow-lg transition-shadow duration-200 cursor-pointer">
-              <CardContent className="p-5">
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-foreground mb-1">Introductions to Tanaitic &amp; Amoraic Literature</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed mb-2">
-                      J.N. Epstein's landmark academic introductions to the Mishnah, Tosefta, Halakhic Midrashim, and Babylonian Talmud — in the original Hebrew.
-                    </p>
-                    <span className="text-xs text-muted-foreground">2 works available</span>
-                  </div>
-                  <Button variant="outline" size="sm" className="flex-shrink-0 mt-1">
-                    Explore
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          </Link>
+            <Link href="/scholarship" className="block">
+              <Card className="h-full hover:shadow-lg transition-shadow duration-200 cursor-pointer">
+                <CardContent className="p-4">
+                  <h3 className="font-medium text-foreground mb-2">Modern Scholarship</h3>
+                  <p className="text-sm text-muted-foreground">J.N. Epstein's academic introductions to Talmudic literature</p>
+                </CardContent>
+              </Card>
+            </Link>
+          </div>
         </section>
 
         <section className="text-center mb-10" data-testid="about-section">
