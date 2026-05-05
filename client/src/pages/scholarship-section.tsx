@@ -439,10 +439,9 @@ export default function ScholarshipSection() {
           <>
             {/* Section heading */}
             <div className="mb-8 max-w-2xl">
-              <h1 className="text-2xl font-bold text-foreground mb-1 leading-tight">{data.title}</h1>
-              <div className="text-lg text-muted-foreground hebrew-text" style={{ direction: "rtl", textAlign: "right" }}>
+              <h1 className="text-2xl font-bold text-foreground mb-1 leading-tight hebrew-text" style={{ direction: "rtl", textAlign: "right" }}>
                 {data.heTitle}
-              </div>
+              </h1>
             </div>
 
             {/* Hebrew prose — with margin notes on xl */}
