@@ -55,6 +55,14 @@ export default function ScholarshipSection() {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [readingProgress, setReadingProgress] = useState(0);
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const [lineHeight, setLineHeight] = useState<number>(() => {
+    const stored = localStorage.getItem("scholarship-line-height");
+    return stored ? parseFloat(stored) : 1.8;
+  });
+
+  useEffect(() => {
+    localStorage.setItem("scholarship-line-height", String(lineHeight));
+  }, [lineHeight]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -175,6 +183,26 @@ export default function ScholarshipSection() {
                       </Select>
                     </div>
                     <Separator />
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <label className="text-sm font-medium text-foreground">Line Spacing</label>
+                        <span className="text-sm text-muted-foreground tabular-nums">{lineHeight.toFixed(1)}×</span>
+                      </div>
+                      <input
+                        type="range"
+                        min={1.4}
+                        max={2.8}
+                        step={0.2}
+                        value={lineHeight}
+                        onChange={(e) => setLineHeight(parseFloat(e.target.value))}
+                        className="w-full accent-primary cursor-pointer"
+                      />
+                      <div className="flex justify-between text-xs text-muted-foreground">
+                        <span>Tight</span>
+                        <span>Loose</span>
+                      </div>
+                    </div>
+                    <Separator />
                     <div className="space-y-2">
                       <label className="text-sm font-medium text-foreground">Hebrew Font</label>
                       <Select value={preferences.hebrewFont} onValueChange={(v) => setHebrewFont(v as HebrewFont)}>
@@ -285,8 +313,8 @@ export default function ScholarshipSection() {
                     {i + 1}
                   </span>
                   <p
-                    className="flex-1 leading-loose text-foreground hebrew-text"
-                    style={{ direction: "rtl", textAlign: "right" }}
+                    className="flex-1 text-foreground hebrew-text"
+                    style={{ direction: "rtl", textAlign: "right", lineHeight }}
                     dangerouslySetInnerHTML={{ __html: para }}
                   />
                 </div>
