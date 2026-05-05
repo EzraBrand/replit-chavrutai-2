@@ -53,7 +53,7 @@ export default function ScholarshipHome() {
           </nav>
           <h1 className="text-3xl font-bold text-foreground mb-2">J.N. Epstein's Introductions</h1>
           <p className="text-muted-foreground leading-relaxed">
-            Epstein's academic introductions to the Mishnah, Tosefta, Halakhic Midrashim, and Babylonian Talmud, in the original Hebrew.
+            Epstein's academic introductions to the Mishnah, Tosefta, Halakhic Midrashim, and Babylonian Talmud.
           </p>
         </div>
 
