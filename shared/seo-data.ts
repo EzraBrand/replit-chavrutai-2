@@ -65,6 +65,15 @@ const STATIC_MAP: Record<string, SEOEntry> = {
       "Study the Jerusalem Talmud online with bilingual Hebrew-English text (Guggenheimer translation) on ChavrutAI.",
     robots: "index, follow",
   },
+  "/scholarship": {
+    title: "Modern Scholarship on Jewish Texts | ChavrutAI",
+    description:
+      "Academic introductions and critical studies of classical Jewish texts. Read Epstein's Introductions to Tanaitic and Amoraic Literature in the original Hebrew.",
+    ogTitle: "Modern Scholarship on Jewish Texts | ChavrutAI",
+    ogDescription:
+      "Read modern academic scholarship on classical Jewish texts, including Epstein's landmark introductions to Tanaitic and Amoraic literature.",
+    robots: "index, follow",
+  },
   "/rambam": {
     title: "Mishneh Torah (Rambam) - Complete Text | ChavrutAI",
     description:

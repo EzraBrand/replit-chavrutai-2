@@ -21,6 +21,7 @@ import { createBdbRouter } from "./routes/bdb";
 import { createChatRouter } from "./routes/chat";
 import { createSearchRouter } from "./routes/search";
 import { createFeedRouter } from "./routes/feed";
+import { createScholarshipRouter } from "./routes/scholarship";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   
@@ -145,6 +146,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/rambam', servePageWithMeta);
   app.get('/rambam/:hilchot', servePageWithMeta);
   app.get('/rambam/:hilchot/:chapter', servePageWithMeta);
+  app.get('/scholarship', servePageWithMeta);
+  app.get('/scholarship/:workSlug', servePageWithMeta);
+  app.get('/scholarship/:workSlug/:sectionSlug', servePageWithMeta);
   app.get('/talmud/:tractate', servePageWithMeta);
   app.get('/talmud/:tractate/:folio', servePageWithMeta);
 
@@ -158,6 +162,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.use(createChatRouter());
   app.use(createSearchRouter());
   app.use(createFeedRouter());
+  app.use(createScholarshipRouter());
 
   app.get("/api/sitemap", async (req, res) => {
     try {

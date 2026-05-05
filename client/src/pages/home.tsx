@@ -148,30 +148,13 @@ export default function Home() {
 
         <section className="mb-10" data-testid="tools-section">
           <h2 className="text-xl font-semibold text-foreground mb-4">Study Tools</h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {/* Row 1 */}
             <Link href="/sugya-viewer" className="block">
               <Card className="h-full hover:shadow-lg transition-shadow duration-200 cursor-pointer">
                 <CardContent className="p-4">
                   <h3 className="font-medium text-foreground mb-2">Sugya Viewer</h3>
                   <p className="text-sm text-muted-foreground">Study custom Talmud text ranges</p>
-                </CardContent>
-              </Card>
-            </Link>
-
-            <Link href="/jastrow" className="block">
-              <Card className="h-full hover:shadow-lg transition-shadow duration-200 cursor-pointer">
-                <CardContent className="p-4">
-                  <h3 className="font-medium text-foreground mb-2">Jastrow Dictionary</h3>
-                  <p className="text-sm text-muted-foreground">Talmudic Hebrew &amp; Aramaic</p>
-                </CardContent>
-              </Card>
-            </Link>
-
-            <Link href="/bdb" className="block">
-              <Card className="h-full hover:shadow-lg transition-shadow duration-200 cursor-pointer">
-                <CardContent className="p-4">
-                  <h3 className="font-medium text-foreground mb-2">BDB Bible Dictionary</h3>
-                  <p className="text-sm text-muted-foreground">Brown-Driver-Briggs Hebrew lexicon</p>
                 </CardContent>
               </Card>
             </Link>
@@ -190,6 +173,34 @@ export default function Home() {
                 <CardContent className="p-4">
                   <h3 className="font-medium text-foreground mb-2">Mishnah Map</h3>
                   <p className="text-sm text-muted-foreground">Locate Mishnah passages in the Talmud</p>
+                </CardContent>
+              </Card>
+            </Link>
+
+            {/* Row 2 */}
+            <Link href="/jastrow" className="block">
+              <Card className="h-full hover:shadow-lg transition-shadow duration-200 cursor-pointer">
+                <CardContent className="p-4">
+                  <h3 className="font-medium text-foreground mb-2">Jastrow Dictionary</h3>
+                  <p className="text-sm text-muted-foreground">Talmudic Hebrew &amp; Aramaic</p>
+                </CardContent>
+              </Card>
+            </Link>
+
+            <Link href="/bdb" className="block">
+              <Card className="h-full hover:shadow-lg transition-shadow duration-200 cursor-pointer">
+                <CardContent className="p-4">
+                  <h3 className="font-medium text-foreground mb-2">BDB Bible Dictionary</h3>
+                  <p className="text-sm text-muted-foreground">Brown-Driver-Briggs Hebrew lexicon</p>
+                </CardContent>
+              </Card>
+            </Link>
+
+            <Link href="/scholarship" className="block">
+              <Card className="h-full hover:shadow-lg transition-shadow duration-200 cursor-pointer">
+                <CardContent className="p-4">
+                  <h3 className="font-medium text-foreground mb-2">J.N. Epstein's Introductions</h3>
+                  <p className="text-sm text-muted-foreground">Academic introductions to Talmudic literature</p>
                 </CardContent>
               </Card>
             </Link>

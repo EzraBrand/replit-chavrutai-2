@@ -69,6 +69,16 @@ export default function Changelog() {
 
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">New Works: J.N. Epstein's Introductions to Classical Rabbinic Literature</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Added two major works by Jacob Nahum Epstein, accessible under Study Tools: <strong>Introductions to Tanaitic Literature</strong> (Mishnah, Tosefta, and Halakhic Midrashim) and <strong>Introductions to Amoraic Literature</strong> (Babylonian Talmud)</li>
+                <li>Each work is presented as a paginated reader with full Hebrew text, section navigation, and footnotes displayed inline as margin notes on desktop or a collapsible panel on mobile</li>
+                <li>Footnote references open as floating popovers on click, keeping the reading flow uninterrupted</li>
+                <li>Every section links directly to its corresponding entry on Sefaria for cross-reference</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB &amp; Jastrow: Sefaria-Aligned Abbreviations, Ethiopic Transliteration &amp; Pill Styling</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>BDB scholar / source abbreviations now follow Sefaria's digitized BDB Abbreviations table — added 90+ missing entries (<strong>Nö → Nöldeke</strong>, <strong>Wellh → Wellhausen</strong>, <strong>Ew → Ewald</strong>, <strong>KAT2/KAT3 → Schrader, Keilinschriften</strong>, <strong>NHWB → Levy, Neuhebr. Wörterbuch</strong>, A/B/L codices, RV/AV, etc.) and corrected <strong>loc. → "local, locality"</strong> (was "locative") and <strong>MI → "Mesha Inscription"</strong> (was "Moabite Inscription")</li>

@@ -250,6 +250,65 @@
     line-height: 1.8;
   }
 
+  /* Scholarship prose: regular weight for academic reading */
+  .scholarship-prose .hebrew-text {
+    font-weight: 400;
+  }
+
+  /* Links inside scholarship prose */
+  .scholarship-prose a,
+  .scholarship-footnotes a {
+    color: hsl(203, 60%, 40%);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    cursor: pointer;
+  }
+  .scholarship-prose a:hover,
+  .scholarship-footnotes a:hover {
+    color: hsl(203, 70%, 30%);
+  }
+  .dark .scholarship-prose a,
+  .dark .scholarship-footnotes a {
+    color: hsl(203, 70%, 65%);
+  }
+  .dark .scholarship-prose a:hover,
+  .dark .scholarship-footnotes a:hover {
+    color: hsl(203, 80%, 75%);
+  }
+
+  /* Footnote reference superscripts */
+  .scholarship-prose a.scholarship-fn-ref {
+    font-size: 0.6em;
+    vertical-align: super;
+    line-height: 0;
+    text-decoration: none;
+    font-weight: 700;
+    color: hsl(203, 65%, 32%);
+    background: hsl(203, 60%, 92%);
+    border-radius: 3px;
+    padding: 0 2.5px;
+    margin-inline-start: 2px;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+  .scholarship-prose a.scholarship-fn-ref:hover {
+    background: hsl(203, 65%, 82%);
+    color: hsl(203, 70%, 22%);
+  }
+  .dark .scholarship-prose a.scholarship-fn-ref {
+    color: hsl(203, 80%, 78%);
+    background: hsl(203, 40%, 22%);
+  }
+  .dark .scholarship-prose a.scholarship-fn-ref:hover {
+    background: hsl(203, 45%, 28%);
+  }
+
+  /* Footnotes inherit the selected Hebrew font, not bold */
+  .scholarship-footnotes {
+    font-family: 'Assistant', sans-serif;
+    font-weight: 400;
+  }
+
   /* Hebrew font family classes - only apply to Hebrew text */
   .hebrew-font-calibri .hebrew-text {
     font-family: 'Calibri', 'Segoe UI', sans-serif;
