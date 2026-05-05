@@ -439,7 +439,7 @@ export default function ScholarshipSection() {
           <>
             {/* Section heading */}
             <div className="mb-8 max-w-2xl">
-              <h1 className="font-bold text-foreground mb-1 leading-snug" style={{ direction: "rtl", textAlign: "right", fontSize: "2.5rem" }}>
+              <h1 className="font-bold text-foreground mb-1 leading-snug" style={{ direction: "rtl", textAlign: "right", fontSize: "1.35rem" }}>
                 {data.heTitle}
               </h1>
             </div>
