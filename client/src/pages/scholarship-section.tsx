@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useRoute, Link, useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -11,6 +11,7 @@ import { useSEO } from "@/hooks/use-seo";
 import { apiRequest } from "@/lib/queryClient";
 import { isValidScholarshipWork } from "@shared/data/scholarship-works";
 import { usePreferences, type TextSize, type HebrewFont, type Theme } from "@/context/preferences-context";
+import { convertSefariaLinksToInternal } from "@/lib/dictionary-format";
 import NotFound from "@/pages/not-found";
 import { Type, ArrowUp, ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -20,6 +21,18 @@ interface SectionData {
   paragraphs: string[];
   prevSection: { slug: string; title: string } | null;
   nextSection: { slug: string; title: string } | null;
+}
+
+interface FootnoteEntry {
+  id: string;
+  num: string;
+  noteHtml: string;
+  paraIndex: number;
+}
+
+interface ProcessedParagraph {
+  html: string;
+  footnotes: FootnoteEntry[];
 }
 
 const TEXT_SIZE_OPTIONS: { value: TextSize; label: string }[] = [
@@ -46,6 +59,76 @@ const THEME_OPTIONS: { value: Theme; label: string }[] = [
   { value: "high-contrast", label: "High Contrast" },
 ];
 
+/** Extract <sup class="footnote-marker"> + <i class="footnote"> pairs from HTML.
+ *  Replaces each pair with a clickable anchor that links to the footnote list. */
+function parseFootnotes(html: string, paraIndex: number): ProcessedParagraph {
+  const footnotes: FootnoteEntry[] = [];
+  try {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(`<div>${html}</div>`, "text/html");
+    const container = doc.body.firstElementChild as HTMLElement;
+
+    const sups = Array.from(
+      container.querySelectorAll('sup.footnote-marker, sup[class*="footnote"]')
+    );
+    for (const sup of sups) {
+      const num = sup.textContent?.trim() || "";
+      const id = `fn-${paraIndex}-${num}`;
+      // Find adjacent <i class="footnote"> sibling
+      let sibling: ChildNode | null = sup.nextSibling;
+      while (
+        sibling &&
+        sibling.nodeType === Node.TEXT_NODE &&
+        (sibling.textContent || "").trim() === ""
+      ) {
+        sibling = sibling.nextSibling;
+      }
+      if (
+        sibling &&
+        sibling.nodeName === "I" &&
+        (sibling as Element).classList.contains("footnote")
+      ) {
+        footnotes.push({
+          id,
+          num,
+          noteHtml: (sibling as Element).innerHTML,
+          paraIndex,
+        });
+        (sibling as Element).remove();
+      }
+      // Replace <sup> with a small clickable anchor
+      const anchor = doc.createElement("a");
+      anchor.href = `#${id}`;
+      anchor.className = "scholarship-fn-ref";
+      anchor.setAttribute("data-fn-id", id);
+      anchor.textContent = num;
+      sup.replaceWith(anchor);
+    }
+    return { html: container.innerHTML, footnotes };
+  } catch {
+    return { html, footnotes };
+  }
+}
+
+/** Rewrite Sefaria hrefs → internal ChavrutAI routes; add target/rel to remaining external links. */
+function processLinks(html: string): string {
+  // Convert known Sefaria URLs to internal ChavrutAI paths
+  let result = convertSefariaLinksToInternal(html);
+  // Add target/rel to any remaining absolute external links
+  result = result.replace(
+    /<a([^>]*?)href="(https?:\/\/[^"]+)"([^>]*?)>/g,
+    (_m, before, href, after) => {
+      const attrs = before + after;
+      const hasTarget = /target=/.test(attrs);
+      if (!hasTarget) {
+        return `<a${attrs} href="${href}" target="_blank" rel="noopener noreferrer">`;
+      }
+      return `<a${attrs} href="${href}">`;
+    }
+  );
+  return result;
+}
+
 export default function ScholarshipSection() {
   const [match, params] = useRoute("/scholarship/:workSlug/:sectionSlug");
   const [, setLocation] = useLocation();
@@ -59,6 +142,7 @@ export default function ScholarshipSection() {
     const stored = localStorage.getItem("scholarship-line-height");
     return stored ? parseFloat(stored) : 1.8;
   });
+  const [notesExpanded, setNotesExpanded] = useState(false);
 
   useEffect(() => {
     localStorage.setItem("scholarship-line-height", String(lineHeight));
@@ -89,6 +173,19 @@ export default function ScholarshipSection() {
     staleTime: 0,
   });
 
+  // Process paragraphs: extract footnotes + rewrite links (memoised on data)
+  const processedData = useMemo(() => {
+    if (!data) return null;
+    const allFootnotes: FootnoteEntry[] = [];
+    const paragraphs = data.paragraphs.map((para, i) => {
+      const withLinks = processLinks(para);
+      const { html, footnotes } = parseFootnotes(withLinks, i);
+      allFootnotes.push(...footnotes);
+      return html;
+    });
+    return { paragraphs, footnotes: allFootnotes };
+  }, [data]);
+
   useSEO(
     data
       ? {
@@ -110,16 +207,36 @@ export default function ScholarshipSection() {
       ? "Introductions to Tanaitic Literature"
       : "Introductions to Amoraic Literature";
 
+  /** Click delegation: internal links use wouter, footnote anchors smooth-scroll. */
+  const handleContentClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const anchor = (e.target as HTMLElement).closest("a");
+    if (!anchor) return;
+    const href = anchor.getAttribute("href");
+    if (!href) return;
+    // Internal ChavrutAI route
+    if (href.startsWith("/") && !href.startsWith("//")) {
+      e.preventDefault();
+      setLocation(href);
+      return;
+    }
+    // Footnote back-ref anchor (#fn-...)
+    if (href.startsWith("#fn-")) {
+      e.preventDefault();
+      setNotesExpanded(true);
+      setTimeout(() => {
+        const el = document.getElementById(href.slice(1));
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 50);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* ── Header ── */}
       <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
         <div className="max-w-5xl mx-auto px-4 py-3 relative">
           <div className="flex items-center">
-            {/* Left spacer (mirrors button width) */}
             <div className="w-32 flex-shrink-0" />
-
-            {/* Center: logo */}
             <div className="flex-1 flex justify-center">
               <Link
                 href="/"
@@ -131,8 +248,6 @@ export default function ScholarshipSection() {
                 <div className="text-lg font-semibold text-primary font-roboto">ChavrutAI</div>
               </Link>
             </div>
-
-            {/* Right: Display settings */}
             <div className="w-32 flex-shrink-0 flex justify-end">
               <Sheet open={settingsOpen} onOpenChange={setSettingsOpen}>
                 <SheetTrigger asChild>
@@ -222,7 +337,6 @@ export default function ScholarshipSection() {
             </div>
           </div>
         </div>
-
         {/* Reading progress bar */}
         <div
           className="absolute bottom-0 left-0 h-0.5 bg-primary transition-[width] duration-75"
@@ -266,30 +380,25 @@ export default function ScholarshipSection() {
           <Alert variant="destructive" className="mb-6">
             <AlertDescription className="flex items-center justify-between">
               <span>Failed to load this section.</span>
-              <Button variant="outline" size="sm" onClick={() => refetch()}>
-                Retry
-              </Button>
+              <Button variant="outline" size="sm" onClick={() => refetch()}>Retry</Button>
             </AlertDescription>
           </Alert>
         )}
 
-        {data && (
+        {data && processedData && (
           <>
             {/* Section heading */}
             <div className="mb-8">
               <h1 className="text-2xl font-bold text-foreground mb-1 leading-tight">{data.title}</h1>
-              <div
-                className="text-lg text-muted-foreground hebrew-text"
-                style={{ direction: "rtl", textAlign: "right" }}
-              >
+              <div className="text-lg text-muted-foreground hebrew-text" style={{ direction: "rtl", textAlign: "right" }}>
                 {data.heTitle}
               </div>
             </div>
 
             {/* Paragraph jump anchors */}
-            {data.paragraphs.length > 0 && (
+            {processedData.paragraphs.length > 0 && (
               <div className="flex flex-wrap gap-1.5 mb-8">
-                {data.paragraphs.map((_, i) => (
+                {processedData.paragraphs.map((_, i) => (
                   <a
                     key={i}
                     href={`#p${i + 1}`}
@@ -301,33 +410,62 @@ export default function ScholarshipSection() {
               </div>
             )}
 
-            {/* Hebrew prose — single column RTL */}
-            <div className="space-y-5">
-              {data.paragraphs.map((para, i) => (
-                <div
-                  key={i}
-                  id={`p${i + 1}`}
-                  className="scroll-mt-20 flex gap-4 items-start"
-                >
+            {/* Hebrew prose */}
+            <div className="space-y-5" onClick={handleContentClick}>
+              {processedData.paragraphs.map((html, i) => (
+                <div key={i} id={`p${i + 1}`} className="scroll-mt-20 flex gap-4 items-start">
                   <span className="text-xs text-muted-foreground/40 mt-1.5 w-5 text-right flex-shrink-0 select-none">
                     {i + 1}
                   </span>
                   <p
                     className="flex-1 text-foreground hebrew-text"
                     style={{ direction: "rtl", textAlign: "right", lineHeight }}
-                    dangerouslySetInnerHTML={{ __html: para }}
+                    dangerouslySetInnerHTML={{ __html: html }}
                   />
                 </div>
               ))}
             </div>
 
-            {data.paragraphs.length === 0 && (
+            {processedData.paragraphs.length === 0 && (
               <p className="text-muted-foreground text-sm italic">No text available for this section.</p>
             )}
 
-            {/* Prev / Next navigation — RTL order: right=back, left=forward */}
+            {/* Footnotes */}
+            {processedData.footnotes.length > 0 && (
+              <div className="mt-10 pt-5 border-t border-border/60">
+                <button
+                  onClick={() => setNotesExpanded((v) => !v)}
+                  className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground hover:text-foreground transition-colors mb-3"
+                >
+                  <span>{notesExpanded ? "▼" : "▶"}</span>
+                  {notesExpanded
+                    ? "Hide Notes"
+                    : `Notes (${processedData.footnotes.length})`}
+                </button>
+                {notesExpanded && (
+                  <div
+                    className="space-y-3 text-sm text-muted-foreground scholarship-footnotes"
+                    style={{ direction: "rtl" }}
+                    onClick={handleContentClick}
+                  >
+                    {processedData.footnotes.map((fn) => (
+                      <div key={fn.id} id={fn.id} className="flex gap-2 scroll-mt-20 items-baseline">
+                        <a
+                          href={`#p${fn.paraIndex + 1}`}
+                          className="text-[10px] font-medium text-primary hover:underline flex-shrink-0"
+                        >
+                          {fn.num}
+                        </a>
+                        <span dangerouslySetInnerHTML={{ __html: fn.noteHtml }} />
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Prev / Next — RTL: right = back, left = forward */}
             <div className="border-t border-border mt-12 pt-6 flex items-center justify-between gap-4">
-              {/* LEFT = next (forward in RTL) */}
               {data.nextSection ? (
                 <button
                   className="text-sm text-primary hover:underline flex items-center gap-1"
@@ -352,7 +490,6 @@ export default function ScholarshipSection() {
                 Sefaria
               </a>
 
-              {/* RIGHT = previous (back in RTL) */}
               {data.prevSection ? (
                 <button
                   className="text-sm text-primary hover:underline flex items-center gap-1 text-right"
@@ -374,7 +511,6 @@ export default function ScholarshipSection() {
 
       <Footer />
 
-      {/* Back to top */}
       {showBackToTop && (
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}

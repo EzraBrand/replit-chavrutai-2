@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { SCHOLARSHIP_WORKS, getScholarshipWork } from "@shared/data/scholarship-works";
-import { processHebrewTextCore } from "@shared/text-processing";
+import { removeNikud } from "@shared/text-processing";
 
 const SEFARIA_BASE = "https://www.sefaria.org/api";
 
@@ -277,7 +277,7 @@ export function createScholarshipRouter(): Router {
 
       const paragraphs = rawParagraphs
         .filter((p: string) => p && p.trim())
-        .map((p: string) => processHebrewTextCore(p));
+        .map((p: string) => removeNikud(p));
 
       res.json({
         title: section.title,
