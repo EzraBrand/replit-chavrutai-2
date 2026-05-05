@@ -16,7 +16,7 @@ export const SCHOLARSHIP_WORKS: ScholarshipWork[] = [
     heTitle: "מבואות לספרות התנאים",
     author: "Jacob Nahum Epstein",
     description:
-      "Epstein's monumental introduction to the Mishnah, Tosefta, and Halakhic Midrashim — a foundational work of modern Talmudic scholarship.",
+      "Epstein's introduction to the Mishnah, Tosefta, and Halakhic Midrashim.",
     type: "book",
   },
   {
