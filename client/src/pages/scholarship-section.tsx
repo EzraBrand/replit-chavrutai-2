@@ -444,21 +444,6 @@ export default function ScholarshipSection() {
               </div>
             </div>
 
-            {/* Paragraph jump anchors */}
-            {processedData.paragraphs.length > 0 && (
-              <div className="flex flex-wrap gap-1.5 mb-8 max-w-2xl">
-                {processedData.paragraphs.map((_, i) => (
-                  <a
-                    key={i}
-                    href={`#p${i + 1}`}
-                    className="text-xs text-primary border border-border rounded px-2 py-1 hover:bg-secondary transition-colors duration-100"
-                  >
-                    {i + 1}
-                  </a>
-                ))}
-              </div>
-            )}
-
             {/* Hebrew prose — with margin notes on xl */}
             <div className="space-y-5" onClick={handleContentClick}>
               {processedData.paragraphs.map((html, i) => {
@@ -471,7 +456,7 @@ export default function ScholarshipSection() {
                   >
                     {/* Paragraph text */}
                     <div className="flex gap-4 items-start">
-                      <span className="text-xs text-muted-foreground/25 mt-1.5 w-5 text-right flex-shrink-0 select-none">
+                      <span className="text-xs text-muted-foreground/15 mt-1.5 w-5 text-right flex-shrink-0 select-none">
                         {i + 1}
                       </span>
                       <p
