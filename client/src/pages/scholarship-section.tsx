@@ -474,7 +474,7 @@ export default function ScholarshipSection() {
                           <div
                             key={fn.id}
                             id={fn.id}
-                            className={`flex gap-1.5 items-baseline transition-colors duration-150 rounded px-1 -mx-1 ${
+                            className={`flex flex-row-reverse gap-1.5 items-baseline transition-colors duration-150 rounded px-1 -mx-1 ${
                               activePopover?.id === fn.id ? "bg-primary/8" : ""
                             }`}
                           >
@@ -483,7 +483,7 @@ export default function ScholarshipSection() {
                             </span>
                             <span
                               className="text-[11px] leading-snug text-muted-foreground/80 hebrew-text scholarship-footnotes"
-                              style={{ direction: "rtl" }}
+                              style={{ direction: "rtl", textAlign: "right" }}
                               dangerouslySetInnerHTML={{ __html: fn.noteHtml }}
                             />
                           </div>
