@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Link, useRoute } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -34,7 +33,6 @@ interface WorkIndexData {
 export default function ScholarshipToc() {
   const [match, params] = useRoute("/scholarship/:workSlug");
   const workSlug = params?.workSlug || "";
-  const [expandedBooks, setExpandedBooks] = useState<Set<string>>(new Set());
 
   const { data, isLoading, error, refetch } = useQuery<WorkIndexData>({
     queryKey: ["/api/scholarship", workSlug, "index"],
@@ -63,18 +61,6 @@ export default function ScholarshipToc() {
   );
 
   if (!match || !isValidScholarshipWork(workSlug)) return <NotFound />;
-
-  const toggleBook = (title: string) => {
-    setExpandedBooks((prev) => {
-      const next = new Set(prev);
-      if (next.has(title)) {
-        next.delete(title);
-      } else {
-        next.add(title);
-      }
-      return next;
-    });
-  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -152,74 +138,37 @@ export default function ScholarshipToc() {
                 Table of Contents
               </h2>
 
-              <div className="space-y-2">
+              <div className="space-y-1">
                 {/* Top-level standalone sections */}
                 {data.topLevelSections.map((section) => (
-                  <Link key={section.slug} href={`/scholarship/${workSlug}/${section.slug}`}>
-                    <div className="flex items-center justify-between px-4 py-3 rounded-lg border border-border bg-card hover:border-primary/40 hover:shadow-sm transition-all duration-150 cursor-pointer">
-                      <div>
-                        <div className="text-sm font-medium text-foreground">{section.title}</div>
-                        <div
-                          className="text-sm text-muted-foreground font-serif mt-0.5"
-                          style={{ direction: "rtl" }}
-                        >
-                          {section.heTitle}
-                        </div>
-                      </div>
-                      <span className="text-sm text-primary ml-4 flex-shrink-0">Read →</span>
-                    </div>
-                  </Link>
+                  <SectionRow key={section.slug} section={section} workSlug={workSlug} />
                 ))}
 
-                {/* Books (collapsible) with their sections */}
+                {/* Books — always expanded */}
                 {data.books.map((book, bookIdx) => (
-                  <div key={book.title + bookIdx}>
-                    <button
-                      onClick={() => toggleBook(book.title + bookIdx)}
-                      className="w-full flex items-center justify-between px-4 py-3 rounded-lg border border-border bg-secondary/50 hover:bg-secondary transition-colors duration-150 text-left"
-                    >
-                      <div>
-                        <div className="text-sm font-semibold text-foreground">{book.title}</div>
-                        <div
-                          className="text-sm text-muted-foreground font-serif mt-0.5"
-                          style={{ direction: "rtl" }}
-                        >
-                          {book.heTitle}
-                        </div>
+                  <div key={book.title + bookIdx} className="pt-4 first:pt-0">
+                    {/* Book heading */}
+                    <div className="px-1 pb-2">
+                      <div className="text-sm font-semibold text-foreground">{book.title}</div>
+                      <div
+                        className="text-xs text-muted-foreground font-serif mt-0.5"
+                        style={{ direction: "rtl" }}
+                      >
+                        {book.heTitle}
                       </div>
-                      <span className="text-xs text-muted-foreground ml-4 flex-shrink-0">
-                        {expandedBooks.has(book.title + bookIdx) ? "▾" : "▸"} {book.sections.length}
-                      </span>
-                    </button>
+                    </div>
 
-                    {expandedBooks.has(book.title + bookIdx) && (
-                      <div className="ml-4 mt-1 space-y-1 border-l border-border pl-4">
-                        {book.sections.map((section, secIdx) => (
-                          <Link
-                            key={section.slug}
-                            href={`/scholarship/${workSlug}/${section.slug}`}
-                          >
-                            <div className="flex items-center justify-between px-4 py-2.5 rounded-lg bg-card hover:bg-secondary/60 hover:shadow-sm transition-all duration-150 cursor-pointer">
-                              <div className="flex items-center gap-3 min-w-0">
-                                <span className="text-xs text-muted-foreground w-5 text-right flex-shrink-0">
-                                  {secIdx + 1}
-                                </span>
-                                <div className="min-w-0">
-                                  <div className="text-sm text-foreground">{section.title}</div>
-                                  <div
-                                    className="text-xs text-muted-foreground font-serif mt-0.5"
-                                    style={{ direction: "rtl" }}
-                                  >
-                                    {section.heTitle}
-                                  </div>
-                                </div>
-                              </div>
-                              <span className="text-sm text-primary ml-4 flex-shrink-0">Read →</span>
-                            </div>
-                          </Link>
-                        ))}
-                      </div>
-                    )}
+                    {/* Sections under this book */}
+                    <div className="border-l border-border ml-1 pl-4 space-y-1">
+                      {book.sections.map((section, secIdx) => (
+                        <SectionRow
+                          key={section.slug}
+                          section={section}
+                          workSlug={workSlug}
+                          index={secIdx + 1}
+                        />
+                      ))}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -230,5 +179,41 @@ export default function ScholarshipToc() {
 
       <Footer />
     </div>
+  );
+}
+
+function SectionRow({
+  section,
+  workSlug,
+  index,
+}: {
+  section: ScholarshipSection;
+  workSlug: string;
+  index?: number;
+}) {
+  return (
+    <Link href={`/scholarship/${workSlug}/${section.slug}`}>
+      <div className="flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-secondary/60 hover:shadow-sm transition-all duration-150 cursor-pointer group">
+        <div className="flex items-center gap-3 min-w-0">
+          {index !== undefined && (
+            <span className="text-xs text-gray-300 w-5 text-right flex-shrink-0 select-none">
+              {index}
+            </span>
+          )}
+          <div className="min-w-0">
+            <div className="text-sm text-foreground">{section.title}</div>
+            <div
+              className="text-xs text-muted-foreground font-serif mt-0.5"
+              style={{ direction: "rtl" }}
+            >
+              {section.heTitle}
+            </div>
+          </div>
+        </div>
+        <span className="text-xs text-muted-foreground/40 group-hover:text-primary ml-4 flex-shrink-0 transition-colors">
+          →
+        </span>
+      </div>
+    </Link>
   );
 }
