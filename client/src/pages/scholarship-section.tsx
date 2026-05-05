@@ -471,7 +471,7 @@ export default function ScholarshipSection() {
                   >
                     {/* Paragraph text */}
                     <div className="flex gap-4 items-start">
-                      <span className="text-xs text-muted-foreground/40 mt-1.5 w-5 text-right flex-shrink-0 select-none">
+                      <span className="text-xs text-muted-foreground/25 mt-1.5 w-5 text-right flex-shrink-0 select-none">
                         {i + 1}
                       </span>
                       <p

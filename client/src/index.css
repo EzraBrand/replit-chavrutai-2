@@ -303,9 +303,10 @@
     background: hsl(203, 45%, 28%);
   }
 
-  /* Footnotes inherit the selected Hebrew font */
+  /* Footnotes inherit the selected Hebrew font, not bold */
   .scholarship-footnotes {
     font-family: 'Assistant', sans-serif;
+    font-weight: 400;
   }
 
   /* Hebrew font family classes - only apply to Hebrew text */
