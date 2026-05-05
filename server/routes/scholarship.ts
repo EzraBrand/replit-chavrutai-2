@@ -9,6 +9,7 @@ interface ScholarshipSection {
   slug: string;
   title: string;
   heTitle: string;
+  sefariaPath: string; // path segment after workKey,_ (includes parent for nested nodes)
 }
 
 interface ScholarshipBook {
@@ -36,8 +37,8 @@ function slugify(title: string): string {
     .replace(/^-|-$/g, "");
 }
 
-function buildSefariaRef(sefariaKey: string, sectionKey: string): string {
-  return `${sefariaKey},_${sectionKey.replace(/ /g, "_")}`;
+function buildSefariaRef(sefariaKey: string, sefariaPath: string): string {
+  return `${sefariaKey},_${sefariaPath}`;
 }
 
 function flattenSchema(sefariaIndex: Record<string, unknown>, workSlug: string): WorkIndexData {
@@ -96,15 +97,19 @@ function flattenSchema(sefariaIndex: Record<string, unknown>, workSlug: string):
     const childNodes = node.nodes as Record<string, unknown>[] | undefined;
 
     if (nodeType === "JaggedArrayNode") {
+      const key = (node.key || node.title) as string;
       const section: ScholarshipSection = {
-        key: (node.key || node.title) as string,
+        key,
         slug: assignSlug((node.title || "") as string),
         title: (node.title || "") as string,
         heTitle: (node.heTitle || "") as string,
+        sefariaPath: key.replace(/ /g, "_"),
       };
       topLevelSections.push(section);
       allSections.push(section);
     } else if (childNodes && childNodes.length > 0) {
+      const parentKey = (node.key || node.title) as string;
+      const parentPath = parentKey.replace(/ /g, "_");
       const book: ScholarshipBook = {
         title: (node.title || "") as string,
         heTitle: (node.heTitle || "") as string,
@@ -112,11 +117,13 @@ function flattenSchema(sefariaIndex: Record<string, unknown>, workSlug: string):
       };
       for (const child of childNodes) {
         if ((child.nodeType as string) === "JaggedArrayNode") {
+          const childKey = (child.key || child.title) as string;
           const section: ScholarshipSection = {
-            key: (child.key || child.title) as string,
+            key: childKey,
             slug: assignSlug((child.title || "") as string),
             title: (child.title || "") as string,
             heTitle: (child.heTitle || "") as string,
+            sefariaPath: `${parentPath},_${childKey.replace(/ /g, "_")}`,
           };
           book.sections.push(section);
           allSections.push(section);
@@ -254,7 +261,7 @@ export function createScholarshipRouter(): Router {
 
     // Fetch section text live from Sefaria (not cached)
     try {
-      const ref = buildSefariaRef(work.sefariaKey, section.key);
+      const ref = buildSefariaRef(work.sefariaKey, section.sefariaPath);
       const url = `${SEFARIA_BASE}/v3/texts/${encodeURIComponent(ref)}?context=0&pad=0`;
       const response = await fetch(url);
 

@@ -1,12 +1,16 @@
+import { useState } from "react";
 import { useRoute, Link, useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
 import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
 import { apiRequest } from "@/lib/queryClient";
 import { isValidScholarshipWork } from "@shared/data/scholarship-works";
-import { usePreferences } from "@/context/preferences-context";
+import { usePreferences, type TextSize, type HebrewFont } from "@/context/preferences-context";
 import NotFound from "@/pages/not-found";
 
 interface SectionData {
@@ -17,12 +21,30 @@ interface SectionData {
   nextSection: { slug: string; title: string } | null;
 }
 
+const TEXT_SIZE_OPTIONS: { value: TextSize; label: string }[] = [
+  { value: "extra-small", label: "Extra Small" },
+  { value: "small", label: "Small" },
+  { value: "medium", label: "Medium" },
+  { value: "large", label: "Large" },
+  { value: "extra-large", label: "Extra Large" },
+];
+
+const HEBREW_FONT_OPTIONS: { value: HebrewFont; label: string }[] = [
+  { value: "assistant", label: "Assistant" },
+  { value: "noto-serif-hebrew", label: "Noto Serif Hebrew" },
+  { value: "noto-sans-hebrew", label: "Noto Sans Hebrew" },
+  { value: "frank-ruehl", label: "Frank Rühl" },
+  { value: "david-libre", label: "David Libre" },
+  { value: "times", label: "Times New Roman" },
+];
+
 export default function ScholarshipSection() {
   const [match, params] = useRoute("/scholarship/:workSlug/:sectionSlug");
   const [, setLocation] = useLocation();
   const workSlug = params?.workSlug || "";
   const sectionSlug = params?.sectionSlug || "";
-  const { preferences } = usePreferences();
+  const { preferences, setTextSize, setHebrewFont } = usePreferences();
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   const { data, isLoading, error, refetch } = useQuery<SectionData>({
     queryKey: ["/api/scholarship", workSlug, "section", sectionSlug],
@@ -54,9 +76,6 @@ export default function ScholarshipSection() {
 
   if (!match || !isValidScholarshipWork(workSlug)) return <NotFound />;
 
-  const hebrewFontClass = `hebrew-font-${preferences.hebrewFont}`;
-  const textSizeClass = `text-size-${preferences.textSize}`;
-
   const workTitle =
     workSlug === "introductions-tanaitic"
       ? "Introductions to Tanaitic Literature"
@@ -66,7 +85,7 @@ export default function ScholarshipSection() {
     <div className="min-h-screen bg-background">
       <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
         <div className="max-w-5xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-between">
             <Link
               href="/"
               className="flex items-center space-x-2 flex-shrink-0 hover:opacity-80 transition-opacity duration-200"
@@ -76,11 +95,56 @@ export default function ScholarshipSection() {
               </div>
               <div className="text-xl font-semibold text-primary font-roboto">ChavrutAI</div>
             </Link>
+
+            {/* Settings panel */}
+            <Sheet open={settingsOpen} onOpenChange={setSettingsOpen}>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
+                  Aa
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-64">
+                <SheetHeader>
+                  <SheetTitle className="text-left">Display Settings</SheetTitle>
+                </SheetHeader>
+                <div className="pt-6 space-y-6">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-foreground">Text Size</label>
+                    <Select value={preferences.textSize} onValueChange={(v) => setTextSize(v as TextSize)}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {TEXT_SIZE_OPTIONS.map((o) => (
+                          <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <Separator />
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-foreground">Hebrew Font</label>
+                    <Select value={preferences.hebrewFont} onValueChange={(v) => setHebrewFont(v as HebrewFont)}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {HEBREW_FONT_OPTIONS.map((o) => (
+                          <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </header>
 
-      <main className="max-w-2xl mx-auto px-4 py-10">
+      <main
+        className={`max-w-2xl mx-auto px-4 py-10 text-size-${preferences.textSize} hebrew-font-${preferences.hebrewFont}`}
+      >
         {/* Breadcrumb */}
         <nav className="text-sm text-muted-foreground mb-8">
           <Link href="/" className="hover:text-primary transition-colors">Home</Link>
@@ -103,8 +167,8 @@ export default function ScholarshipSection() {
             <div className="h-8 w-2/3 bg-muted animate-pulse rounded" />
             <div className="h-6 w-1/2 bg-muted animate-pulse rounded" />
             <div className="mt-8 space-y-4">
-              {[1, 2, 3, 4, 5].map((i) => (
-                <div key={i} className="h-6 bg-muted animate-pulse rounded" style={{ width: `${85 + Math.random() * 15}%` }} />
+              {[1, 2, 3, 4, 5, 6].map((i) => (
+                <div key={i} className="h-5 bg-muted animate-pulse rounded" style={{ width: `${78 + (i % 3) * 7}%` }} />
               ))}
             </div>
           </div>
@@ -127,14 +191,14 @@ export default function ScholarshipSection() {
             <div className="mb-8">
               <h1 className="text-2xl font-bold text-foreground mb-2 leading-tight">{data.title}</h1>
               <div
-                className={`text-xl text-muted-foreground font-serif ${hebrewFontClass}`}
+                className="text-xl text-muted-foreground hebrew-text"
                 style={{ direction: "rtl", textAlign: "right" }}
               >
                 {data.heTitle}
               </div>
             </div>
 
-            {/* Jump anchors */}
+            {/* Paragraph jump anchors */}
             {data.paragraphs.length > 0 && (
               <div className="flex flex-wrap gap-1.5 mb-8">
                 {data.paragraphs.map((_, i) => (
@@ -149,19 +213,19 @@ export default function ScholarshipSection() {
               </div>
             )}
 
-            {/* Hebrew prose paragraphs */}
-            <div className={`space-y-6 ${textSizeClass}`}>
+            {/* Hebrew prose — single column RTL */}
+            <div className="space-y-5">
               {data.paragraphs.map((para, i) => (
                 <div
                   key={i}
                   id={`p${i + 1}`}
                   className="scroll-mt-20 flex gap-4 items-start"
                 >
-                  <span className="text-xs text-muted-foreground/50 mt-2 w-5 text-right flex-shrink-0 select-none">
+                  <span className="text-xs text-muted-foreground/40 mt-1.5 w-5 text-right flex-shrink-0 select-none">
                     {i + 1}
                   </span>
                   <p
-                    className={`flex-1 leading-loose text-foreground font-serif ${hebrewFontClass}`}
+                    className="flex-1 leading-loose text-foreground hebrew-text"
                     style={{ direction: "rtl", textAlign: "right" }}
                     dangerouslySetInnerHTML={{ __html: para }}
                   />
@@ -174,10 +238,10 @@ export default function ScholarshipSection() {
             )}
 
             {/* Prev / Next navigation */}
-            <div className="border-t border-border mt-12 pt-6 flex items-center justify-between">
+            <div className="border-t border-border mt-12 pt-6 flex items-center justify-between gap-4">
               {data.prevSection ? (
                 <button
-                  className="text-sm text-primary hover:underline flex items-center gap-1"
+                  className="text-sm text-primary hover:underline flex items-center gap-1 text-left"
                   onClick={() => setLocation(`/scholarship/${workSlug}/${data.prevSection!.slug}`)}
                 >
                   ← {data.prevSection.title}
@@ -189,17 +253,17 @@ export default function ScholarshipSection() {
               )}
 
               <a
-                href={`https://www.sefaria.org.il/${encodeURIComponent(workSlug === "introductions-tanaitic" ? "Introductions_to_Tanaitic_Literature" : "Introductions_to_Amoraic_Literature")}`}
+                href={`https://www.sefaria.org.il/`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs text-muted-foreground hover:text-primary transition-colors"
+                className="text-xs text-muted-foreground/50 hover:text-primary transition-colors flex-shrink-0"
               >
-                Sefaria source
+                Sefaria
               </a>
 
               {data.nextSection ? (
                 <button
-                  className="text-sm text-primary hover:underline flex items-center gap-1"
+                  className="text-sm text-primary hover:underline flex items-center gap-1 text-right"
                   onClick={() => setLocation(`/scholarship/${workSlug}/${data.nextSection!.slug}`)}
                 >
                   {data.nextSection.title} →
