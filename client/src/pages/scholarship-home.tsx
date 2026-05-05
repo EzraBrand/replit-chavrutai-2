@@ -49,11 +49,11 @@ export default function ScholarshipHome() {
           <nav className="text-sm text-muted-foreground mb-4">
             <Link href="/" className="hover:text-primary transition-colors">Home</Link>
             <span className="mx-2">›</span>
-            <span className="text-foreground">Modern Scholarship</span>
+            <span className="text-foreground">J.N. Epstein's Introductions</span>
           </nav>
-          <h1 className="text-3xl font-bold text-foreground mb-2">Modern Scholarship</h1>
+          <h1 className="text-3xl font-bold text-foreground mb-2">J.N. Epstein's Introductions</h1>
           <p className="text-muted-foreground leading-relaxed">
-            Academic introductions and critical studies of classical Jewish texts, drawn from Sefaria's digital library.
+            Epstein's academic introductions to the Mishnah, Tosefta, Halakhic Midrashim, and Babylonian Talmud, in the original Hebrew.
           </p>
         </div>
 
