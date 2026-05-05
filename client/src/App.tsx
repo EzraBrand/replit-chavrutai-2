@@ -48,6 +48,9 @@ const YerushalmiHalakhahPage = lazy(() => import("@/pages/yerushalmi-halakhah"))
 const RambamContents = lazy(() => import("@/pages/rambam-contents"));
 const RambamTractate = lazy(() => import("@/pages/rambam-tractate"));
 const RambamChapterPage = lazy(() => import("@/pages/rambam-chapter"));
+const ScholarshipHome = lazy(() => import("@/pages/scholarship-home"));
+const ScholarshipToc = lazy(() => import("@/pages/scholarship-toc"));
+const ScholarshipSection = lazy(() => import("@/pages/scholarship-section"));
 
 function TractateRedirect() {
   const { tractate, folio } = useParams<{ tractate: string; folio: string }>();
@@ -143,6 +146,9 @@ function Router() {
       <Route path="/rambam" component={RambamContents} />
       <Route path="/rambam/:hilchot" component={RambamTractate} />
       <Route path="/rambam/:hilchot/:chapter" component={RambamChapterPage} />
+      <Route path="/scholarship" component={ScholarshipHome} />
+      <Route path="/scholarship/:workSlug" component={ScholarshipToc} />
+      <Route path="/scholarship/:workSlug/:sectionSlug" component={ScholarshipSection} />
       <Route path="/tractate/:tractate/:folio" component={TractateRedirect} />
       <Route path="/outline/:tractate/:chapter" component={TractateOutlinePage} />
       <Route component={NotFound} />
