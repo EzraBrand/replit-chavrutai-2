@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRoute, Link, useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -10,8 +10,9 @@ import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
 import { apiRequest } from "@/lib/queryClient";
 import { isValidScholarshipWork } from "@shared/data/scholarship-works";
-import { usePreferences, type TextSize, type HebrewFont } from "@/context/preferences-context";
+import { usePreferences, type TextSize, type HebrewFont, type Theme } from "@/context/preferences-context";
 import NotFound from "@/pages/not-found";
+import { Type, ArrowUp, ChevronLeft, ChevronRight } from "lucide-react";
 
 interface SectionData {
   title: string;
@@ -38,13 +39,33 @@ const HEBREW_FONT_OPTIONS: { value: HebrewFont; label: string }[] = [
   { value: "times", label: "Times New Roman" },
 ];
 
+const THEME_OPTIONS: { value: Theme; label: string }[] = [
+  { value: "white", label: "White" },
+  { value: "paper", label: "Paper" },
+  { value: "dark", label: "Dark" },
+  { value: "high-contrast", label: "High Contrast" },
+];
+
 export default function ScholarshipSection() {
   const [match, params] = useRoute("/scholarship/:workSlug/:sectionSlug");
   const [, setLocation] = useLocation();
   const workSlug = params?.workSlug || "";
   const sectionSlug = params?.sectionSlug || "";
-  const { preferences, setTextSize, setHebrewFont } = usePreferences();
+  const { preferences, setTextSize, setHebrewFont, setTheme } = usePreferences();
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [readingProgress, setReadingProgress] = useState(0);
+  const [showBackToTop, setShowBackToTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      setReadingProgress(docHeight > 0 ? Math.min(100, (scrollTop / docHeight) * 100) : 0);
+      setShowBackToTop(scrollTop > 400);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const { data, isLoading, error, refetch } = useQuery<SectionData>({
     queryKey: ["/api/scholarship", workSlug, "section", sectionSlug],
@@ -83,67 +104,106 @@ export default function ScholarshipSection() {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* ── Header ── */}
       <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
-        <div className="max-w-5xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <Link
-              href="/"
-              className="flex items-center space-x-2 flex-shrink-0 hover:opacity-80 transition-opacity duration-200"
-            >
-              <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden">
-                <img src="/hebrew-book-icon.png" alt="ChavrutAI Logo" className="w-10 h-10 object-cover" />
-              </div>
-              <div className="text-xl font-semibold text-primary font-roboto">ChavrutAI</div>
-            </Link>
+        <div className="max-w-5xl mx-auto px-4 py-3 relative">
+          <div className="flex items-center">
+            {/* Left spacer (mirrors button width) */}
+            <div className="w-32 flex-shrink-0" />
 
-            {/* Settings panel */}
-            <Sheet open={settingsOpen} onOpenChange={setSettingsOpen}>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
-                  Aa
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="right" className="w-64">
-                <SheetHeader>
-                  <SheetTitle className="text-left">Display Settings</SheetTitle>
-                </SheetHeader>
-                <div className="pt-6 space-y-6">
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-foreground">Text Size</label>
-                    <Select value={preferences.textSize} onValueChange={(v) => setTextSize(v as TextSize)}>
-                      <SelectTrigger className="w-full">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {TEXT_SIZE_OPTIONS.map((o) => (
-                          <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <Separator />
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-foreground">Hebrew Font</label>
-                    <Select value={preferences.hebrewFont} onValueChange={(v) => setHebrewFont(v as HebrewFont)}>
-                      <SelectTrigger className="w-full">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {HEBREW_FONT_OPTIONS.map((o) => (
-                          <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
+            {/* Center: logo */}
+            <div className="flex-1 flex justify-center">
+              <Link
+                href="/"
+                className="flex items-center space-x-2 hover:opacity-80 transition-opacity duration-200"
+              >
+                <div className="w-9 h-9 rounded-full flex items-center justify-center overflow-hidden">
+                  <img src="/hebrew-book-icon.png" alt="ChavrutAI Logo" className="w-9 h-9 object-cover" />
                 </div>
-              </SheetContent>
-            </Sheet>
+                <div className="text-lg font-semibold text-primary font-roboto">ChavrutAI</div>
+              </Link>
+            </div>
+
+            {/* Right: Display settings */}
+            <div className="w-32 flex-shrink-0 flex justify-end">
+              <Sheet open={settingsOpen} onOpenChange={setSettingsOpen}>
+                <SheetTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="gap-1.5 border-primary/40 text-primary hover:bg-primary/5 font-medium"
+                  >
+                    <Type className="w-4 h-4" />
+                    Display
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="right" className="w-72">
+                  <SheetHeader>
+                    <SheetTitle className="text-left">Display Settings</SheetTitle>
+                  </SheetHeader>
+                  <div className="pt-6 space-y-6">
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-foreground">Theme</label>
+                      <div className="grid grid-cols-2 gap-2">
+                        {THEME_OPTIONS.map((o) => (
+                          <button
+                            key={o.value}
+                            onClick={() => setTheme(o.value)}
+                            className={`text-sm px-3 py-2 rounded border transition-colors ${
+                              preferences.theme === o.value
+                                ? "border-primary bg-primary/10 text-primary font-medium"
+                                : "border-border hover:border-primary/50 text-foreground"
+                            }`}
+                          >
+                            {o.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                    <Separator />
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-foreground">Text Size</label>
+                      <Select value={preferences.textSize} onValueChange={(v) => setTextSize(v as TextSize)}>
+                        <SelectTrigger className="w-full">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {TEXT_SIZE_OPTIONS.map((o) => (
+                            <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <Separator />
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-foreground">Hebrew Font</label>
+                      <Select value={preferences.hebrewFont} onValueChange={(v) => setHebrewFont(v as HebrewFont)}>
+                        <SelectTrigger className="w-full">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {HEBREW_FONT_OPTIONS.map((o) => (
+                            <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                </SheetContent>
+              </Sheet>
+            </div>
           </div>
         </div>
+
+        {/* Reading progress bar */}
+        <div
+          className="absolute bottom-0 left-0 h-0.5 bg-primary transition-[width] duration-75"
+          style={{ width: `${readingProgress}%` }}
+        />
       </header>
 
       <main
-        className={`max-w-2xl mx-auto px-4 py-10 text-size-${preferences.textSize} hebrew-font-${preferences.hebrewFont}`}
+        className={`max-w-2xl mx-auto px-4 py-10 text-size-${preferences.textSize} hebrew-font-${preferences.hebrewFont} scholarship-prose`}
       >
         {/* Breadcrumb */}
         <nav className="text-sm text-muted-foreground mb-8">
@@ -189,9 +249,9 @@ export default function ScholarshipSection() {
           <>
             {/* Section heading */}
             <div className="mb-8">
-              <h1 className="text-2xl font-bold text-foreground mb-2 leading-tight">{data.title}</h1>
+              <h1 className="text-2xl font-bold text-foreground mb-1 leading-tight">{data.title}</h1>
               <div
-                className="text-xl text-muted-foreground hebrew-text"
+                className="text-lg text-muted-foreground hebrew-text"
                 style={{ direction: "rtl", textAlign: "right" }}
               >
                 {data.heTitle}
@@ -237,23 +297,26 @@ export default function ScholarshipSection() {
               <p className="text-muted-foreground text-sm italic">No text available for this section.</p>
             )}
 
-            {/* Prev / Next navigation */}
+            {/* Prev / Next navigation — RTL order: right=back, left=forward */}
             <div className="border-t border-border mt-12 pt-6 flex items-center justify-between gap-4">
-              {data.prevSection ? (
+              {/* LEFT = next (forward in RTL) */}
+              {data.nextSection ? (
                 <button
-                  className="text-sm text-primary hover:underline flex items-center gap-1 text-left"
-                  onClick={() => setLocation(`/scholarship/${workSlug}/${data.prevSection!.slug}`)}
+                  className="text-sm text-primary hover:underline flex items-center gap-1"
+                  onClick={() => setLocation(`/scholarship/${workSlug}/${data.nextSection!.slug}`)}
                 >
-                  ← {data.prevSection.title}
+                  <ChevronLeft className="w-4 h-4 flex-shrink-0" />
+                  {data.nextSection.title}
                 </button>
               ) : (
-                <Link href={`/scholarship/${workSlug}`} className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                  ← Table of Contents
+                <Link href={`/scholarship/${workSlug}`} className="text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-1">
+                  <ChevronLeft className="w-4 h-4 flex-shrink-0" />
+                  Table of Contents
                 </Link>
               )}
 
               <a
-                href={`https://www.sefaria.org.il/`}
+                href="https://www.sefaria.org.il/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-xs text-muted-foreground/50 hover:text-primary transition-colors flex-shrink-0"
@@ -261,16 +324,19 @@ export default function ScholarshipSection() {
                 Sefaria
               </a>
 
-              {data.nextSection ? (
+              {/* RIGHT = previous (back in RTL) */}
+              {data.prevSection ? (
                 <button
                   className="text-sm text-primary hover:underline flex items-center gap-1 text-right"
-                  onClick={() => setLocation(`/scholarship/${workSlug}/${data.nextSection!.slug}`)}
+                  onClick={() => setLocation(`/scholarship/${workSlug}/${data.prevSection!.slug}`)}
                 >
-                  {data.nextSection.title} →
+                  {data.prevSection.title}
+                  <ChevronRight className="w-4 h-4 flex-shrink-0" />
                 </button>
               ) : (
-                <Link href={`/scholarship/${workSlug}`} className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                  Table of Contents →
+                <Link href={`/scholarship/${workSlug}`} className="text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-1">
+                  Table of Contents
+                  <ChevronRight className="w-4 h-4 flex-shrink-0" />
                 </Link>
               )}
             </div>
@@ -279,6 +345,17 @@ export default function ScholarshipSection() {
       </main>
 
       <Footer />
+
+      {/* Back to top */}
+      {showBackToTop && (
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          className="fixed bottom-8 right-6 z-50 bg-primary text-primary-foreground rounded-full p-3 shadow-lg hover:opacity-90 transition-opacity"
+          aria-label="Back to top"
+        >
+          <ArrowUp className="w-5 h-5" />
+        </button>
+      )}
     </div>
   );
 }

@@ -250,6 +250,11 @@
     line-height: 1.8;
   }
 
+  /* Scholarship prose: regular weight for academic reading */
+  .scholarship-prose .hebrew-text {
+    font-weight: 400;
+  }
+
   /* Hebrew font family classes - only apply to Hebrew text */
   .hebrew-font-calibri .hebrew-text {
     font-family: 'Calibri', 'Segoe UI', sans-serif;
