@@ -60,3 +60,9 @@ id = "6WlOO7zC1iaMOlgPjXyX1"
 uri = "file://scripts/yerushalmi-names-results.csv"
 type = "table"
 title = "Yerushalmi Names — Updated Results (2,675 names, with normalized_name)"
+
+[[outputs]]
+id = "pP4ZEv83BfgnV-MWBPvUm"
+uri = "file://scripts/scholarship-reader-blogpost.md"
+type = "text"
+title = "Scholarship Reader — Blog Post Draft"
