@@ -610,7 +610,7 @@ export default function ScholarshipSection() {
       {activePopover && (
         <div
           ref={popoverRef}
-          className="fn-popover fixed z-[200] bg-card border border-border rounded-xl shadow-2xl p-4 scholarship-footnotes"
+          className={`fn-popover fixed z-[200] bg-card border border-border rounded-xl shadow-2xl p-4 scholarship-footnotes hebrew-font-${preferences.hebrewFont}`}
           style={{
             top: activePopover.top,
             left: activePopover.left,
@@ -639,7 +639,7 @@ export default function ScholarshipSection() {
             </button>
           </div>
           <div
-            className="text-sm text-foreground leading-relaxed hebrew-text"
+            className="text-sm text-foreground leading-relaxed hebrew-text scholarship-footnotes"
             style={{ direction: "rtl", textAlign: "right" }}
             dangerouslySetInnerHTML={{ __html: activePopover.html }}
           />
