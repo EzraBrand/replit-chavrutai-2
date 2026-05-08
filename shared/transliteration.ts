@@ -445,6 +445,16 @@ const ETHIOPIC_RUN_RE   = buildRunRegex('\\u1200-\\u137F');
  * transliteration equals the input (which means every char passed through
  * unchanged — annotation would be uninformative).
  */
+// Matches a bracket group that contains ONLY Latin-range characters
+// (Basic Latin, Latin-1 Supplement, Latin Extended-A/B, IPA, Latin Extended
+// Additional, and common transliteration characters like ʾ ʿ ā ē ō etc.).
+// If the bracket content contains any character from a non-Latin script
+// (Greek U+0370–U+1FFF, Arabic U+0600–U+06FF, Syriac U+0700–U+074F,
+// Samaritan U+0800–U+082F, Ethiopic U+1200–U+137F) it is NOT treated as a
+// prior transliteration — which avoids falsely skipping Greek runs like
+// "Ἀβεσσα" that BDB annotates with an optional-letter bracket "[ι]".
+const ALREADY_ANNOTATED_RE = /^\s*\[[^\]\u0370-\u1FFF\u0600-\u06FF\u0700-\u074F\u0800-\u082F\u1200-\u137F]*\]/;
+
 function annotateRuns(
   text: string,
   runRe: RegExp | null,
@@ -456,7 +466,7 @@ function annotateRuns(
     const fullString: string = rest[rest.length - 1];
     const offset: number = rest[rest.length - 2];
     const tail = fullString.slice(offset + match.length);
-    if (/^\s*\[[^\]]*\]/.test(tail)) return match;
+    if (ALREADY_ANNOTATED_RE.test(tail)) return match;
     const out = transliterate(match).trim();
     if (!out || out === match) return match;
     return `${match} [${out}]`;
