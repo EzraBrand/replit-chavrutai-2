@@ -16,8 +16,7 @@ import {
   convertJastrowInternalLinks,
   annotateTransliterationsInHtml,
   convertSupTagsToParens,
-  splitIntoParagraphs,
-  splitByPeriodAndLink,
+  splitIntoParagraphsBdb,
   convertSuperscriptLetters,
   expandAbbreviations,
   useDictionaryCopyHandler,
@@ -219,10 +218,9 @@ export default function Bdb() {
 
   useDictionaryCopyHandler('main.max-w-4xl', [results]);
 
-  // Pipeline: convert <sup> citations to inline parens first, then BDB-internal
-  // cross-refs, Jastrow cross-refs, Bible/Talmud refs, then formatting and
-  // abbreviation expansion. Greek transliteration runs last so it walks the
-  // final HTML's text nodes only (not attribute values).
+  // Pipeline: split on long-dash only (no bullet-point splitting for BDB),
+  // then convert <sup> citations to inline parens, then cross-refs, Bible/Talmud
+  // refs, formatting, and abbreviation expansion. Greek transliteration runs last.
   const renderDefinition = (definition: string): string => {
     return annotateTransliterationsInHtml(
       convertSefariaLinksToInternal(
@@ -230,10 +228,8 @@ export default function Bdb() {
           convertBdbInternalLinks(
             expandAbbreviations(
               convertSuperscriptLetters(
-                splitByPeriodAndLink(
-                  convertSupTagsToParens(
-                    splitIntoParagraphs(definition)
-                  )
+                convertSupTagsToParens(
+                  splitIntoParagraphsBdb(definition)
                 )
               ),
               bdbMappings.mappings

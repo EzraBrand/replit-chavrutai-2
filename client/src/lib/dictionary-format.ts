@@ -84,6 +84,22 @@ export const dictionaryStyles = `
     margin-bottom: 0.15rem;
   }
 
+  /* BDB paragraph separators — each long-dash segment gets a top rule */
+  .bdb-paragraph {
+    margin-top: 0.9rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid hsl(35, 20%, 82%);
+    margin-bottom: 0;
+  }
+  .bdb-paragraph.bdb-paragraph-first {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+  }
+  .dark .bdb-paragraph {
+    border-top-color: hsl(35, 10%, 32%);
+  }
+
   /* Expanded abbreviation pills.
      Each abbrev expansion (e.g. "Wellhausen" from "We") is wrapped in this
      span so consecutive expansions ("Wellhausen Nöldeke") are visually
@@ -325,6 +341,27 @@ export function splitIntoParagraphs(text: string) {
   const parts = text.split(foundDash).filter(part => part.trim().length > 0);
   if (parts.length <= 1) return text;
   return parts.map(part => `<p class="mb-4">${part.trim()}</p>`).join('');
+}
+
+// BDB-specific paragraph splitter: splits only on long dash, no bullet logic.
+// Each paragraph after the first gets a visual separator via the bdb-paragraph class.
+export function splitIntoParagraphsBdb(text: string): string {
+  const dashPatterns = ['—', '&mdash;', '&#8212;', '&#x2014;'];
+  let foundDash = '';
+  for (const dash of dashPatterns) {
+    if (text.includes(dash)) {
+      foundDash = dash;
+      break;
+    }
+  }
+  if (!foundDash) return text;
+  const parts = text.split(foundDash).filter(part => part.trim().length > 0);
+  if (parts.length <= 1) return text;
+  return parts
+    .map((part, i) =>
+      `<p class="bdb-paragraph${i === 0 ? ' bdb-paragraph-first' : ''}">${part.trim()}</p>`
+    )
+    .join('');
 }
 
 // Group citation-style ". <a>...</a>" runs into bullet lists, but skip dictionary-self-lookup links
