@@ -112,7 +112,7 @@ export default function Home() {
                   All 83 Books of the Rambam's code of Jewish law with bilingual Hebrew-English text.
                 </p>
                 <Link href="/rambam">
-                  <Button variant="default" size="sm" className="w-full" data-testid="button-browse-rambam">
+                  <Button variant="default" size="sm" className="w-full text-xs sm:text-sm" data-testid="button-browse-rambam">
                     Browse Mishneh Torah
                   </Button>
                 </Link>
