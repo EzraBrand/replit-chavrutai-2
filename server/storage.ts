@@ -147,12 +147,20 @@ export class SefariaAPI {
       
       if (Array.isArray(sense.senses)) {
         const nestedFlattened = this.flattenSenses(sense.senses);
-        for (const nestedSense of nestedFlattened) {
+        for (const [idx, nestedSense] of nestedFlattened.entries()) {
           const grammarInfo = sense.grammar || nestedSense.grammar;
           let prefix = '';
-          if (grammarInfo?.verbal_stem) {
-            const binyanForm = grammarInfo.binyan_form?.join(', ') || '';
-            prefix = `<strong>${grammarInfo.verbal_stem}</strong>${binyanForm ? ` - <span dir="rtl">${binyanForm}</span>` : ''} `;
+          // Only label the first nested sense in a section; subsequent senses
+          // are sub-points and don't need the stem repeated every time.
+          if (idx === 0) {
+            if (sense.form) {
+              // BDB Dictionary: `form` field carries verbal-stem labels
+              // (e.g. "Qal", "Niph.", "Pi.", "Hithp.", "Hiph.")
+              prefix = `<strong>${sense.form}</strong> `;
+            } else if (grammarInfo?.verbal_stem) {
+              const binyanForm = grammarInfo.binyan_form?.join(', ') || '';
+              prefix = `<strong>${grammarInfo.verbal_stem}</strong>${binyanForm ? ` - <span dir="rtl">${binyanForm}</span>` : ''} `;
+            }
           }
           flattenedSenses.push({
             definition: prefix + nestedSense.definition,
