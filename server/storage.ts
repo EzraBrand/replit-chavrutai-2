@@ -132,13 +132,13 @@ export class SefariaAPI {
     
     for (const sense of senses) {
       if (sense.definition) {
-        // Include sense number if present (e.g., "1)", "—2)")
-        // Remove leading dashes from sense numbers (e.g., "—2)" -> "2)")
-        let cleanNumber = sense.number || '';
+        // `num` is the actual field name in Sefaria's BDB data (e.g. "1.", "a.", "2.")
+        // `number` was the old assumption — keep both for safety.
+        let cleanNumber = sense.num || sense.number || '';
         if (cleanNumber) {
           cleanNumber = cleanNumber.replace(/^[—–-]+/, '').trim();
         }
-        const numberPrefix = cleanNumber ? `${cleanNumber} ` : '';
+        const numberPrefix = cleanNumber ? `<strong>${cleanNumber}</strong> ` : '';
         flattenedSenses.push({
           definition: numberPrefix + this.transformHyperlinks(sense.definition),
           grammar: sense.grammar
@@ -151,12 +151,17 @@ export class SefariaAPI {
           const grammarInfo = sense.grammar || nestedSense.grammar;
           let prefix = '';
           // Only label the first nested sense in a section; subsequent senses
-          // are sub-points and don't need the stem repeated every time.
+          // are sub-points and don't need the stem/number repeated every time.
           if (idx === 0) {
             if (sense.form) {
               // BDB Dictionary: `form` field carries verbal-stem labels
               // (e.g. "Qal", "Niph.", "Pi.", "Hithp.", "Hiph.")
               prefix = `<strong>${sense.form}</strong> `;
+            } else if (sense.num || sense.number) {
+              // `num` carries numbered/lettered section labels (e.g. "1.", "2.", "a.", "b.")
+              // when the container sense itself has no definition — only child senses.
+              const n = (sense.num || sense.number).replace(/^[—–-]+/, '').trim();
+              prefix = `<strong>${n}</strong> `;
             } else if (grammarInfo?.verbal_stem) {
               const binyanForm = grammarInfo.binyan_form?.join(', ') || '';
               prefix = `<strong>${grammarInfo.verbal_stem}</strong>${binyanForm ? ` - <span dir="rtl">${binyanForm}</span>` : ''} `;
