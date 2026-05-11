@@ -33,6 +33,7 @@ export default function Bdb() {
   const [suggestions, setSuggestions] = useState<AutosuggestSuggestion[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
+  const [splitBySemicolon, setSplitBySemicolon] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const initialLoadRef = useRef(false);
   const suppressSuggestionsRef = useRef(false);
@@ -229,7 +230,7 @@ export default function Bdb() {
             expandAbbreviations(
               convertSuperscriptLetters(
                 convertSupTagsToParens(
-                  splitIntoParagraphsBdb(definition)
+                  splitIntoParagraphsBdb(definition, splitBySemicolon)
                 )
               ),
               bdbMappings.mappings
@@ -436,7 +437,18 @@ export default function Bdb() {
 
         {(isLoading || lastSearchedQuery) && (
         <div>
-          <h2 className="text-lg font-semibold mb-4">Dictionary Entries</h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold">Dictionary Entries</h2>
+            <label className="flex items-center gap-2 text-sm text-muted-foreground cursor-pointer select-none">
+              <input
+                type="checkbox"
+                checked={splitBySemicolon}
+                onChange={(e) => setSplitBySemicolon(e.target.checked)}
+                className="accent-primary"
+              />
+              Split by semicolons
+            </label>
+          </div>
 
           {isLoading ? (
             <div className="flex justify-center items-center py-8">

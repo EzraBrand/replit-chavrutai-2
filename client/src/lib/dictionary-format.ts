@@ -100,6 +100,23 @@ export const dictionaryStyles = `
     border-top-color: hsl(35, 10%, 32%);
   }
 
+  /* BDB semicolon sub-segments — lighter split within a paragraph */
+  .bdb-semicolon-segment {
+    display: block;
+    margin-top: 0.35rem;
+    padding-left: 0.75rem;
+    border-left: 2px solid hsl(35, 18%, 78%);
+    color: inherit;
+  }
+  .bdb-semicolon-segment.bdb-semicolon-first {
+    margin-top: 0;
+    padding-left: 0;
+    border-left: none;
+  }
+  .dark .bdb-semicolon-segment {
+    border-left-color: hsl(35, 10%, 30%);
+  }
+
   /* Expanded abbreviation pills.
      Each abbrev expansion (e.g. "Wellhausen" from "We") is wrapped in this
      span so consecutive expansions ("Wellhausen Nöldeke") are visually
@@ -343,9 +360,26 @@ export function splitIntoParagraphs(text: string) {
   return parts.map(part => `<p class="mb-4">${part.trim()}</p>`).join('');
 }
 
-// BDB-specific paragraph splitter: splits only on long dash, no bullet logic.
+// Split a single BDB segment by semicolons, wrapping each sub-part in a
+// <span class="bdb-semicolon-segment"> for lighter visual separation.
+// The first sub-part gets no indent/border (bdb-semicolon-first).
+// Semicolons are preserved at the end of each part (except the last).
+// Only splits when there are at least 2 non-empty sub-parts.
+function splitSegmentBySemicolon(segment: string): string {
+  const parts = segment.split(';').filter(p => p.trim().length > 0);
+  if (parts.length <= 1) return segment.trim();
+  return parts
+    .map((part, i) => {
+      const content = i < parts.length - 1 ? `${part.trim()};` : part.trim();
+      return `<span class="bdb-semicolon-segment${i === 0 ? ' bdb-semicolon-first' : ''}">${content}</span>`;
+    })
+    .join('');
+}
+
+// BDB-specific paragraph splitter: splits on long dash (prominent) and optionally
+// within each segment splits on semicolons (less prominent).
 // Each paragraph after the first gets a visual separator via the bdb-paragraph class.
-export function splitIntoParagraphsBdb(text: string): string {
+export function splitIntoParagraphsBdb(text: string, splitBySemicolon = false): string {
   const dashPatterns = ['—', '&mdash;', '&#8212;', '&#x2014;'];
   let foundDash = '';
   for (const dash of dashPatterns) {
@@ -354,12 +388,21 @@ export function splitIntoParagraphsBdb(text: string): string {
       break;
     }
   }
-  if (!foundDash) return text;
+
+  const applyInner = (segment: string) =>
+    splitBySemicolon ? splitSegmentBySemicolon(segment) : segment.trim();
+
+  if (!foundDash) {
+    if (!splitBySemicolon) return text;
+    const semicolonSplit = splitSegmentBySemicolon(text);
+    return semicolonSplit === text.trim() ? text : `<p class="bdb-paragraph bdb-paragraph-first">${semicolonSplit}</p>`;
+  }
+
   const parts = text.split(foundDash).filter(part => part.trim().length > 0);
   if (parts.length <= 1) return text;
   return parts
     .map((part, i) =>
-      `<p class="bdb-paragraph${i === 0 ? ' bdb-paragraph-first' : ''}">${part.trim()}</p>`
+      `<p class="bdb-paragraph${i === 0 ? ' bdb-paragraph-first' : ''}">${applyInner(part)}</p>`
     )
     .join('');
 }
