@@ -70,6 +70,14 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: Numbered &amp; Lettered Section Labels</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Fixed a bug where numbered and lettered section labels — <strong>1.</strong>, <strong>2.</strong>, <strong>a.</strong>, <strong>b.</strong>, <strong>c.</strong>, etc. — were silently dropped from BDB entries. The root cause was that our parser was reading a <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">number</code> field that does not exist in BDB Dictionary data; the correct field is <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">num</code>. Labels now appear in bold at the start of each sub-section</li>
+                <li>Fixed a secondary bug where the letter <strong>c.</strong> (used as a section label, e.g. <em>c. †Genesis 15:13</em>) was being incorrectly expanded to "with" by the abbreviation expander. The standalone <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">c.</code> mapping has been removed; compound forms like <em>c. acc.</em> ("with accusative") are unaffected</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: Verbal Stem Labels &amp; Semicolon Splitting</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Fixed a bug where verbal stem section headers — <strong>Qal</strong>, <strong>Niph.</strong>, <strong>Pi.</strong>, <strong>Hithp.</strong>, <strong>Hiph.</strong>, etc. — were silently dropped from BDB entries. The root cause was that BDB Dictionary entries carry these labels in a <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">form</code> field rather than the <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">grammar.verbal_stem</code> field our parser was reading; the fix reads both, and the label now appears in bold before the first conjugation in each stem section</li>
