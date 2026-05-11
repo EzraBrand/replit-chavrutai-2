@@ -68,6 +68,16 @@ export default function Changelog() {
           </h2>
 
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
+
+            <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: Verbal Stem Labels &amp; Semicolon Splitting</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Fixed a bug where verbal stem section headers — <strong>Qal</strong>, <strong>Niph.</strong>, <strong>Pi.</strong>, <strong>Hithp.</strong>, <strong>Hiph.</strong>, etc. — were silently dropped from BDB entries. The root cause was that BDB Dictionary entries carry these labels in a <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">form</code> field rather than the <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">grammar.verbal_stem</code> field our parser was reading; the fix reads both, and the label now appears in bold before the first conjugation in each stem section</li>
+                <li>Added an opt-in <strong>Split by semicolons</strong> toggle on the BDB page (off by default). When enabled, each em-dash paragraph is further divided at semicolons: the first clause sits flush, and each following clause is indented with a left border — making it easier to scan entries with many parallel sub-definitions. Semicolons are preserved in the text</li>
+                <li>Em-dash paragraph breaks remain the primary visual divider (full-width horizontal rule with generous spacing); semicolon breaks are deliberately lighter (thin left border, small indent) so the two levels of structure stay visually distinct</li>
+              </ul>
+            </div>
+
             <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">New Works: J.N. Epstein's Introductions to Classical Rabbinic Literature</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
