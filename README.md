@@ -2,7 +2,7 @@
 
 **[https://chavrutai.com](https://chavrutai.com)**
 
-A comprehensive web application for studying classical Jewish texts, featuring bilingual Hebrew-English access to the Babylonian Talmud, Jerusalem Talmud, Mishnah, Mishneh Torah, and Tanakh, alongside integrated reference tools, dictionaries, and an AI study assistant.
+A web application for studying classical Jewish texts, featuring bilingual Hebrew-English access to the Babylonian Talmud, Jerusalem Talmud, Mishnah, Mishneh Torah, and Tanakh, alongside integrated reference tools, dictionaries, and an AI study assistant.
 
 ## Overview
 
@@ -35,14 +35,13 @@ From my [Talmud & Tech](https://www.ezrabrand.com/) blog, where I write about bu
 - Bilingual Hebrew/English display with side-by-side or stacked layout
 - Traditional folio numbering (2a, 2b, 3a…)
 - Section-by-section navigation with inline chapter headers
-- Mishnah and Gemara markers styled as distinct section headers, with Mishnah citations linked to the Mishnah reader
+- Mishnah and Talmud markers styled as distinct section headers, with Mishnah citations linked to the Mishnah reader
 - External links to Sefaria, Al HaTorah, Wikisource, and Daf Yomi at page and section level
 
 ### Jerusalem Talmud (Talmud Yerushalmi)
 - **39 tractates** organized by Seder with bilingual text
 - Per-halakhah pages (e.g. `/yerushalmi/Chagigah/2.1`) matching scholarly citation conventions
 - Halakhah-by-halakhah navigation crossing chapter boundaries
-- 49 mishnayot without Gemara hidden from navigation and sitemaps
 
 ### Mishnah
 - All **63 tractates** organized by the six Sedarim
@@ -68,14 +67,13 @@ From my [Talmud & Tech](https://www.ezrabrand.com/) blog, where I write about bu
 - **Biblical Index** (`/biblical-index`) — comprehensive index of biblical citations in the Talmud, organized by book (Torah, Prophets, Writings)
 - **Mishnah Map** (`/mishnah-map`) — maps every Mishnah passage to its location in the Talmud Bavli, with inline notes where chapter ordering diverges
 - **Talmud Term Index** (`/term-index`) — tabbed, searchable glossary of 5,385+ personal names, place names, and key concepts from the Babylonian Talmud, with biographical data from Wikidata and links to corpus passages
-- **Chapter Outlines** (`/outline/:tractate/:chapter`) — topic-based outlines of key discussions within Talmud chapters
 
 ### Study Aids
 - **Sugya Viewer** (`/sugya-viewer`) — fetch and study custom Talmud text ranges; accepts ChavrutAI references, Sefaria references/URLs, or blog post selection; shareable URLs
 - **Full-Text Search** (`/search`) — search across Talmud and Bible texts in Hebrew and English, with section-level result links
 - **Suggested Pages** (`/suggested-pages`) — curated list of 20+ famous Talmudic passages (Hillel's Golden Rule, Hannah's Prayer, "Who is wise?", etc.)
 - **Daf Yomi Widget** — today's Talmud page with a direct study link, shown on the homepage
-- **AI Study Assistant** — Claude-powered chat panel for studying any Talmud passage
+- **AI Study Assistant** — chat panel for studying any Talmud passage
 
 ### Scholarship
 - **J.N. Epstein's Introductions** (`/scholarship`) — Introductions to Tanaitic Literature and to Amoraic Literature; paginated reader with footnotes as margin notes (desktop) or collapsible panel (mobile), floating footnote popovers, and links to Sefaria
