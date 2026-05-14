@@ -626,7 +626,7 @@ export default function About() {
                       <h3 className="font-medium text-foreground text-sm leading-snug">
                         Sefaria Powered-By Directory
                       </h3>
-                      <p className="text-xs text-muted-foreground mt-1">
+                      <p className="text-sm text-muted-foreground mt-1">
                         Featured in Sefaria's curated list of projects and applications built using the Sefaria API and text data.
                       </p>
                     </div>
@@ -644,7 +644,7 @@ export default function About() {
                       <h3 className="font-medium text-foreground text-sm leading-snug">
                         JewishAI Internet Index
                       </h3>
-                      <p className="text-xs text-muted-foreground mt-1">
+                      <p className="text-sm text-muted-foreground mt-1">
                         Listed in the AI and Judaism Resource Library's Internet Index, which aggregates tools, scholarship, and discussions at the intersection of Jewish tradition and modern artificial intelligence.
                       </p>
                     </div>
