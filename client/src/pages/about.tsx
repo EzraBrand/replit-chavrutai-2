@@ -313,14 +313,15 @@ export default function About() {
                 What is ChavrutAI?
               </h2>
               <p className="text-muted-foreground leading-relaxed mb-4">
-                ChavrutAI is a free website for studying the Babylonian Talmud
-                and Tanakh (Hebrew Bible). It displays Hebrew text alongside
-                English translation, making these classical texts accessible to
-                learners at all levels.
+                ChavrutAI is a free website for studying classical Jewish texts.
+                It provides bilingual Hebrew-English access to the Babylonian
+                Talmud, Jerusalem Talmud, Mishnah, Mishneh Torah, and Tanakh —
+                making these works accessible to learners at all levels.
               </p>
               <p className="text-muted-foreground leading-relaxed">
                 Whether you're new to Talmud study or an experienced learner,
-                ChavrutAI provides a clean, distraction-free reading experience.
+                ChavrutAI provides a clean, distraction-free reading experience
+                alongside reference tools, dictionaries, and study aids.
               </p>
             </section>
 
@@ -328,22 +329,62 @@ export default function About() {
               <h2 className="text-xl font-semibold text-foreground mb-4">
                 Available Texts
               </h2>
-              <div className="grid md:grid-cols-2 gap-6">
+              <div className="grid md:grid-cols-2 gap-4">
                 <div className="bg-secondary/30 rounded-lg p-4">
                   <h3 className="font-medium text-foreground mb-2">
                     Babylonian Talmud
                   </h3>
                   <p className="text-sm text-muted-foreground mb-3">
-                    All 37 tractates with standard page numbering based on the
-                    standard printed edition. Navigate by Seder (order),
-                    tractate, chapter, or individual page.
+                    All 37 tractates with over 5,400 folio pages. Navigate by Seder, tractate, chapter, or individual folio.
                   </p>
                   <Link
                     href="/talmud"
                     className="text-blue-600 hover:text-blue-800 underline text-sm font-medium"
                     data-testid="link-talmud-contents"
                   >
-                    Browse Talmud Contents
+                    Browse Talmud
+                  </Link>
+                </div>
+                <div className="bg-secondary/30 rounded-lg p-4">
+                  <h3 className="font-medium text-foreground mb-2">
+                    Jerusalem Talmud
+                  </h3>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    39 tractates organized by Seder. Pages are scoped to individual halakhot, matching scholarly citation conventions.
+                  </p>
+                  <Link
+                    href="/yerushalmi"
+                    className="text-blue-600 hover:text-blue-800 underline text-sm font-medium"
+                  >
+                    Browse Yerushalmi
+                  </Link>
+                </div>
+                <div className="bg-secondary/30 rounded-lg p-4">
+                  <h3 className="font-medium text-foreground mb-2">
+                    Mishnah
+                  </h3>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    All 63 tractates organized by the six Sedarim with bilingual Hebrew-English chapter readers.
+                  </p>
+                  <Link
+                    href="/mishnah"
+                    className="text-blue-600 hover:text-blue-800 underline text-sm font-medium"
+                  >
+                    Browse Mishnah
+                  </Link>
+                </div>
+                <div className="bg-secondary/30 rounded-lg p-4">
+                  <h3 className="font-medium text-foreground mb-2">
+                    Mishneh Torah
+                  </h3>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    All 83 Books of Maimonides' code of Jewish law, including his Introduction (Hakdamah).
+                  </p>
+                  <Link
+                    href="/rambam"
+                    className="text-blue-600 hover:text-blue-800 underline text-sm font-medium"
+                  >
+                    Browse Mishneh Torah
                   </Link>
                 </div>
                 <div className="bg-secondary/30 rounded-lg p-4">
@@ -351,16 +392,14 @@ export default function About() {
                     Tanakh (Hebrew Bible)
                   </h3>
                   <p className="text-sm text-muted-foreground mb-3">
-                    Torah, Prophets, and Writings with chapter-by-chapter
-                    navigation. Each book includes Hebrew text with English
-                    translation.
+                    Torah, Prophets, and Writings with chapter-by-chapter navigation and the Koren Jerusalem Bible English translation.
                   </p>
                   <Link
                     href="/bible"
                     className="text-blue-600 hover:text-blue-800 underline text-sm font-medium"
                     data-testid="link-tanakh-contents"
                   >
-                    Browse Tanakh Contents
+                    Browse Tanakh
                   </Link>
                 </div>
               </div>
