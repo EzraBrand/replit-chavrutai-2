@@ -573,6 +573,50 @@ export default function About() {
 
             <section className="pt-6 border-t border-border">
               <h2 className="text-xl font-semibold text-foreground mb-4">
+                Recognition
+              </h2>
+              <div className="space-y-3">
+                <a
+                  href="https://developers.sefaria.org/docs/powered-by-sefaria"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block bg-secondary/30 hover:bg-secondary/50 rounded-lg p-4 transition-colors"
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <h3 className="font-medium text-foreground text-sm leading-snug">
+                        Sefaria Powered-By Directory
+                      </h3>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Featured in Sefaria's curated list of projects and applications built using the Sefaria API and text data.
+                      </p>
+                    </div>
+                    <ExternalLink className="w-4 h-4 text-muted-foreground flex-shrink-0 mt-0.5" />
+                  </div>
+                </a>
+                <a
+                  href="https://jewishai.me/table.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block bg-secondary/30 hover:bg-secondary/50 rounded-lg p-4 transition-colors"
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <h3 className="font-medium text-foreground text-sm leading-snug">
+                        JewishAI Internet Index
+                      </h3>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Listed in the AI and Judaism Resource Library's Internet Index, which aggregates tools, scholarship, and discussions at the intersection of Jewish tradition and modern artificial intelligence.
+                      </p>
+                    </div>
+                    <ExternalLink className="w-4 h-4 text-muted-foreground flex-shrink-0 mt-0.5" />
+                  </div>
+                </a>
+              </div>
+            </section>
+
+            <section className="pt-6 border-t border-border">
+              <h2 className="text-xl font-semibold text-foreground mb-4">
                 About This Project
               </h2>
               <p className="text-muted-foreground leading-relaxed mb-4">

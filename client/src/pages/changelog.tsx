@@ -70,6 +70,13 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">About Page: Recognition Section</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Added a Recognition section to the About page listing ChavrutAI's inclusion in the <a href="https://developers.sefaria.org/docs/powered-by-sefaria" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Sefaria Powered-By directory</a> and the <a href="https://jewishai.me/table.html" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">JewishAI Internet Index</a></li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: Numbered &amp; Lettered Section Labels</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Fixed a bug where numbered and lettered section labels — <strong>1.</strong>, <strong>2.</strong>, <strong>a.</strong>, <strong>b.</strong>, <strong>c.</strong>, etc. — were silently dropped from BDB entries. The root cause was that our parser was reading a <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">number</code> field that does not exist in BDB Dictionary data; the correct field is <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">num</code>. Labels now appear in bold at the start of each sub-section</li>

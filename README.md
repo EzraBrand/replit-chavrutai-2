@@ -12,6 +12,8 @@ ChavrutAI is a full-featured digital platform providing bilingual (Hebrew/Englis
 
 ChavrutAI is featured in the official [Sefaria Powered-By directory](https://developers.sefaria.org/docs/powered-by-sefaria), a curated list of projects and applications built using the Sefaria API and text data.
 
+ChavrutAI is listed in the [JewishAI Internet Index](https://jewishai.me/table.html), the AI and Judaism Resource Library's curated index of tools, scholarship, and discussions at the intersection of Jewish tradition and modern artificial intelligence.
+
 ## Demo Video and Screenshot
 
 https://github.com/user-attachments/assets/b046339f-26ff-4bb5-ab92-7002c33bc7e3
