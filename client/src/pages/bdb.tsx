@@ -234,7 +234,16 @@ export default function Bdb() {
   // Stricter than [IVX]+ so we don't accept malformed strings like IIX or VX.
   const ROMAN_RE = /^(I{1,3}|IV|V|VI{0,3}|IX|X)$/;
 
-  type OutlineItem = { rawLevel: number; level: number; marker: string; label: string; index: number };
+  type OutlineItem = { rawLevel: number; level: number; marker: string; label: string; index: number; anchorId: string };
+
+  // Greek lowercase letters BDB uses for the deepest sub-marker level inside a
+  // single sense's prose (α., β., γ., δ., ε., ζ., η., θ., …). They appear inline
+  // between semicolons, not in <strong> tags, so we detect them on the plain
+  // text and inject anchor IDs in renderDefinition.
+  const GREEK_LETTERS = 'αβγδεζηθικλμνξοπρστυφχψω';
+  // Greek sub-markers may be preceded by whitespace, end-of-tag, an opening
+  // paren, a semicolon, or a dash/colon (BDB commonly writes "relations:—α.").
+  const GREEK_MARKER_RE = new RegExp(`(^|[\\s;(>—–:\\-])([${GREEK_LETTERS}])\\.`, 'g');
 
   const classifyMarker = (raw: string): { level: number; marker: string } | null => {
     const trimmed = raw.trim();
@@ -270,7 +279,7 @@ export default function Bdb() {
     return expanded;
   };
 
-  const buildOutline = (senses: { definition: string }[]): OutlineItem[] | null => {
+  const buildOutline = (senses: { definition: string }[], entryKey: string): OutlineItem[] | null => {
     const raw: OutlineItem[] = [];
     senses.forEach((sense, i) => {
       // Match up to two adjacent leading <strong>…</strong> tags. BDB occasionally
@@ -298,7 +307,36 @@ export default function Bdb() {
         marker: cls.marker,
         label: extractLabel(m[3] || ''),
         index: i,
+        anchorId: `sense-${entryKey}-${i}`,
       });
+
+      // Scan the rest of the sense's prose for inline Greek-letter sub-markers
+      // (α., β., γ., …). Strip HTML to plain text so we don't match inside
+      // attribute values, then walk matches in order. The label for each Greek
+      // row is the short phrase that follows up to the next ";" or Greek marker.
+      const plain = sense.definition.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+      GREEK_MARKER_RE.lastIndex = 0;
+      let gm: RegExpExecArray | null;
+      const greekRows: OutlineItem[] = [];
+      // Track per-letter occurrence index within this sense, since BDB reuses
+      // α./β./γ. across multiple sub-sub-sections within a single sense.
+      const occCount: Record<string, number> = {};
+      while ((gm = GREEK_MARKER_RE.exec(plain)) !== null) {
+        const letter = gm[2];
+        const occ = (occCount[letter] = (occCount[letter] ?? -1) + 1);
+        const after = plain.slice(gm.index + gm[0].length);
+        const stop = after.search(new RegExp(`;|[${GREEK_LETTERS}]\\.`));
+        const phrase = (stop >= 0 ? after.slice(0, stop) : after.slice(0, 60)).trim();
+        greekRows.push({
+          rawLevel: 4,
+          level: 4,
+          marker: `${letter}.`,
+          label: extractLabel(phrase),
+          index: i,
+          anchorId: `sense-${entryKey}-${i}-greek-${letter}-${occ}`,
+        });
+      }
+      raw.push(...greekRows);
     });
     if (raw.length < 2) return null;
     // Normalize so the shallowest level present renders flush-left.
@@ -309,7 +347,25 @@ export default function Bdb() {
   // Pipeline: split on long-dash only (no bullet-point splitting for BDB),
   // then convert <sup> citations to inline parens, then cross-refs, Bible/Talmud
   // refs, formatting, and abbreviation expansion. Greek transliteration runs last.
-  const renderDefinition = (definition: string): string => {
+  // Wrap inline Greek-letter markers (α., β., γ., …) in <span id=…> so the
+  // outline can deep-link to them. This MUST run before the rest of the
+  // pipeline because annotateTransliterationsInHtml inserts " [a]" between
+  // "α" and "." (it transliterates Greek runs of length 1 too), which would
+  // otherwise break the contiguous "letter+period" match here. Running first
+  // is safe: later pipeline steps don't touch single Greek letters, and the
+  // injected <span> wraps the marker so the transliterator can still annotate
+  // the Greek letter inside the span without changing its id.
+  const wrapGreekMarkers = (html: string, idPrefix: string): string => {
+    // Per-letter occurrence counter so each α./β./γ./… in the sense gets a
+    // unique anchor ID matching the one buildOutline generated.
+    const occCount: Record<string, number> = {};
+    return html.replace(GREEK_MARKER_RE, (_match, lead: string, letter: string) => {
+      const occ = (occCount[letter] = (occCount[letter] ?? -1) + 1);
+      return `${lead}<span id="${idPrefix}-greek-${letter}-${occ}" class="scroll-mt-20">${letter}.</span>`;
+    });
+  };
+
+  const renderDefinition = (definition: string, idPrefix: string): string => {
     return annotateTransliterationsInHtml(
       convertSefariaLinksToInternal(
         convertJastrowInternalLinks(
@@ -317,7 +373,10 @@ export default function Bdb() {
             expandAbbreviations(
               convertSuperscriptLetters(
                 convertSupTagsToParens(
-                  splitIntoParagraphsBdb(definition, splitBySemicolon)
+                  splitIntoParagraphsBdb(
+                    wrapGreekMarkers(definition, idPrefix),
+                    splitBySemicolon,
+                  )
                 )
               ),
               bdbMappings.mappings
@@ -571,7 +630,7 @@ export default function Bdb() {
             <div className="space-y-4">
               {results.map((entry, index) => {
                 const entryKey = entry.rid || `${index}`;
-                const outline = buildOutline(entry.content.senses);
+                const outline = buildOutline(entry.content.senses, entryKey);
                 return (
                 <div key={entry.rid || index} className="pb-4 border-b border-border last:border-b-0" data-testid={`entry-${entry.rid || index}`}>
                   <div className="flex items-start gap-4">
@@ -595,20 +654,20 @@ export default function Bdb() {
                           data-testid={`outline-${entryKey}`}
                         >
                           <ol className="list-none p-0 m-0 space-y-0.5">
-                            {outline.map((item) => (
+                            {outline.map((item, oi) => (
                               <li
-                                key={item.index}
+                                key={`${item.anchorId}-${oi}`}
                                 className="leading-snug"
                                 style={{ paddingLeft: `${item.level * 1.1}rem` }}
                               >
                                 <a
-                                  href={`#sense-${entryKey}-${item.index}`}
+                                  href={`#${item.anchorId}`}
                                   onClick={(e) => {
                                     e.preventDefault();
-                                    const el = document.getElementById(`sense-${entryKey}-${item.index}`);
+                                    const el = document.getElementById(item.anchorId);
                                     if (el) {
                                       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                                      history.replaceState(null, '', `#sense-${entryKey}-${item.index}`);
+                                      history.replaceState(null, '', `#${item.anchorId}`);
                                     }
                                   }}
                                   className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 hover:underline"
@@ -623,14 +682,17 @@ export default function Bdb() {
                           </ol>
                         </nav>
                       )}
-                      {entry.content.senses.map((sense, senseIndex) => (
-                        <div
-                          key={senseIndex}
-                          id={`sense-${entryKey}-${senseIndex}`}
-                          className="mb-2 last:mb-0 dictionary-content scroll-mt-20"
-                          dangerouslySetInnerHTML={{ __html: renderDefinition(sense.definition) }}
-                        />
-                      ))}
+                      {entry.content.senses.map((sense, senseIndex) => {
+                        const senseId = `sense-${entryKey}-${senseIndex}`;
+                        return (
+                          <div
+                            key={senseIndex}
+                            id={senseId}
+                            className="mb-2 last:mb-0 dictionary-content scroll-mt-20"
+                            dangerouslySetInnerHTML={{ __html: renderDefinition(sense.definition, senseId) }}
+                          />
+                        );
+                      })}
                     </div>
                   </div>
                 </div>
