@@ -72,7 +72,8 @@ export default function Changelog() {
             <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: Person/Number/Gender Abbreviations</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>Person markers that BDB uses for verb conjugations — <strong>1 s.</strong>, <strong>2 s.</strong>, <strong>3 s.</strong>, <strong>1 pl.</strong>, <strong>2 pl.</strong>, <strong>3 pl.</strong>, plus their gendered variants like <strong>3 fs.</strong>, <strong>3 ms.</strong>, <strong>3 mp.</strong>, <strong>3 fp.</strong>, and the spaced forms <strong>3 m. s.</strong>, <strong>3 f. pl.</strong>, etc. — now expand to readable labels like <em>3rd-person feminine singular</em> and <em>3rd-person masculine plural</em></li>
+                <li>Person markers that BDB uses for verb conjugations — <strong>1 s.</strong>, <strong>2 s.</strong>, <strong>3 s.</strong>, <strong>1 pl.</strong>, <strong>2 pl.</strong>, <strong>3 pl.</strong>, plus their gendered variants <strong>3 fs.</strong>, <strong>3 ms.</strong>, <strong>3 mp.</strong>/<strong>3 mpl.</strong>, <strong>3 fp.</strong>/<strong>3 fpl.</strong>, and the spaced forms <strong>3 m. s.</strong>, <strong>3 f. pl.</strong>, etc. — now expand to readable labels like <em>3rd-person feminine singular</em> and <em>3rd-person masculine plural</em></li>
+                <li>Added <strong>c.</strong> → <em>with</em> (the Latin <em>cum</em>, used heavily in BDB syntax notes like "γ. c. preposition"). The expander is careful not to touch the lettered section label <strong>c.</strong> when it appears in bold as a sub-sense marker</li>
                 <li>The abbreviation <strong>loc.</strong> now expands to <em>location</em> (previously the more confusing "local, locality")</li>
               </ul>
             </div>

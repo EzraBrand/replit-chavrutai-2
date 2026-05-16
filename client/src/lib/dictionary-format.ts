@@ -518,6 +518,11 @@ export function expandAbbreviations(text: string, mappings: Record<string, strin
     let pattern: RegExp;
     if (abbreviation === '&c.') {
       pattern = new RegExp('&c\\.(?![^<]*>)', 'g');
+    } else if (abbreviation === 'c.') {
+      // BDB uses <strong>c.</strong> as a section label (the lettered sub-sense
+      // "c."). Only expand bare `c.` ("with") when it isn't wrapped in <strong>.
+      // Variable-length lookbehind tolerates attributes like <strong class="...">.
+      pattern = new RegExp('(?<!<strong[^>]{0,200}>)\\bc\\.(?![^<]*>)', 'g');
     } else if (abbreviation.includes(' ')) {
       const escaped = abbreviation.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       pattern = new RegExp(`${escaped}(?![^<]*>)`, 'g');
