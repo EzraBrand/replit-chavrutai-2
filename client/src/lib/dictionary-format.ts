@@ -131,7 +131,13 @@ export const dictionaryStyles = `
     padding: 0 0.3em;
     border-radius: 0.25em;
     margin: 0 0.08em;
-    white-space: nowrap;
+    /* Allow long multi-word expansions (e.g. "Corpus Inscriptionum Semiticarum")
+       to break at spaces so they don't push the page width. box-decoration-break
+       keeps the pill background + rounded corners intact on each wrapped line. */
+    white-space: normal;
+    overflow-wrap: break-word;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
     border: 1px solid hsl(35, 25%, 82%);
   }
   .dark .dict-expanded {
@@ -399,7 +405,16 @@ export function splitIntoParagraphsBdb(text: string, splitBySemicolon = false): 
   }
 
   const parts = text.split(foundDash).filter(part => part.trim().length > 0);
-  if (parts.length <= 1) return text;
+  if (parts.length <= 1) {
+    // Dash exists but only yields one non-empty part (e.g. text ends with ";—").
+    // Fall through to semicolon-only splitting so the first paragraph still gets
+    // sub-segmented when the option is on. Use parts[0] (not raw text) so any
+    // leftover trailing dash doesn't become a stray "—" semicolon segment.
+    if (!splitBySemicolon) return text;
+    const onlyPart = parts[0] ?? text;
+    const semicolonSplit = splitSegmentBySemicolon(onlyPart);
+    return semicolonSplit === onlyPart.trim() ? text : `<p class="bdb-paragraph bdb-paragraph-first">${semicolonSplit}</p>`;
+  }
   return parts
     .map((part, i) =>
       `<p class="bdb-paragraph${i === 0 ? ' bdb-paragraph-first' : ''}">${applyInner(part)}</p>`

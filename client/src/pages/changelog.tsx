@@ -70,6 +70,15 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: Entry Outline, Pill Wrapping &amp; Semicolon Splitting Fixes</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Added a hyperlinked outline at the top of each multi-section BDB entry. Numbered senses (<strong>1.</strong>, <strong>2.</strong>, …) with italic labels like <em>father of individual</em> or <em>head of household</em> now appear as a compact jump list, so you can navigate straight to any sub-section of a long entry</li>
+                <li>Fixed long abbreviation pills (e.g. <em>Corpus Inscriptionum Semiticarum</em>) that previously stretched the page horizontally — pills now wrap at spaces while keeping their rounded background on each line</li>
+                <li>Fixed a bug where <strong>Split by semicolons</strong> only divided paragraphs from the second one onward; the first paragraph of each entry is now also split at semicolons when the option is enabled</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">About Page: Recognition Section</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added a Recognition section to the About page listing ChavrutAI's inclusion in the <a href="https://developers.sefaria.org/docs/powered-by-sefaria" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Sefaria Powered-By directory</a> and the <a href="https://jewishai.me/table.html" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">JewishAI Internet Index</a></li>

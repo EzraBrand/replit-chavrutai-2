@@ -219,6 +219,22 @@ export default function Bdb() {
 
   useDictionaryCopyHandler('main.max-w-4xl', [results]);
 
+  // Extract a numbered outline from an entry's senses. A "numbered sense" is one
+  // whose definition begins with <strong>N.</strong> (BDB's top-level numbered
+  // meanings). For each, we pull the first <em>…</em> phrase as a short label.
+  // Returns null when there are fewer than 2 numbered senses (nothing to outline).
+  const buildOutline = (senses: { definition: string }[]): { num: string; label: string; index: number }[] | null => {
+    const items: { num: string; label: string; index: number }[] = [];
+    senses.forEach((sense, i) => {
+      const m = sense.definition.match(/^\s*<strong>\s*(\d+)\.?\s*<\/strong>\s*(?:<em>([^<]+)<\/em>)?/);
+      if (m) {
+        const label = (m[2] || '').replace(/\s+/g, ' ').trim();
+        items.push({ num: m[1], label, index: i });
+      }
+    });
+    return items.length >= 2 ? items : null;
+  };
+
   // Pipeline: split on long-dash only (no bullet-point splitting for BDB),
   // then convert <sup> citations to inline parens, then cross-refs, Bible/Talmud
   // refs, formatting, and abbreviation expansion. Greek transliteration runs last.
@@ -482,7 +498,10 @@ export default function Bdb() {
             </Card>
           ) : (
             <div className="space-y-4">
-              {results.map((entry, index) => (
+              {results.map((entry, index) => {
+                const entryKey = entry.rid || `${index}`;
+                const outline = buildOutline(entry.content.senses);
+                return (
                 <div key={entry.rid || index} className="pb-4 border-b border-border last:border-b-0" data-testid={`entry-${entry.rid || index}`}>
                   <div className="flex items-start gap-4">
                     <h3 className="text-lg font-bold font-hebrew min-w-fit">
@@ -497,18 +516,49 @@ export default function Bdb() {
                         <ExternalLink className="h-3.5 w-3.5 opacity-70" />
                       </a>
                     </h3>
-                    <div className="text-foreground flex-1 prose prose-sm max-w-none">
+                    <div className="text-foreground flex-1 prose prose-sm max-w-none min-w-0">
+                      {outline && (
+                        <nav
+                          aria-label="Sense outline"
+                          className="mb-3 not-prose text-sm text-muted-foreground border-l-2 border-border pl-3"
+                          data-testid={`outline-${entryKey}`}
+                        >
+                          <ol className="list-none p-0 m-0 space-y-0.5">
+                            {outline.map((item) => (
+                              <li key={item.index} className="leading-snug">
+                                <a
+                                  href={`#sense-${entryKey}-${item.index}`}
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    const el = document.getElementById(`sense-${entryKey}-${item.index}`);
+                                    if (el) {
+                                      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                      history.replaceState(null, '', `#sense-${entryKey}-${item.index}`);
+                                    }
+                                  }}
+                                  className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 hover:underline"
+                                >
+                                  <span className="font-semibold tabular-nums">{item.num}.</span>
+                                  {item.label && <span className="italic ml-1">{item.label}</span>}
+                                </a>
+                              </li>
+                            ))}
+                          </ol>
+                        </nav>
+                      )}
                       {entry.content.senses.map((sense, senseIndex) => (
                         <div
                           key={senseIndex}
-                          className="mb-2 last:mb-0 dictionary-content"
+                          id={`sense-${entryKey}-${senseIndex}`}
+                          className="mb-2 last:mb-0 dictionary-content scroll-mt-20"
                           dangerouslySetInnerHTML={{ __html: renderDefinition(sense.definition) }}
                         />
                       ))}
                     </div>
                   </div>
                 </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>
