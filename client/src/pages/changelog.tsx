@@ -70,9 +70,10 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: Entry Outline, Pill Wrapping &amp; Semicolon Splitting Fixes</h3>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: Hierarchical Entry Outline, Pill Wrapping &amp; Semicolon Splitting Fixes</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>Added a hyperlinked outline at the top of each multi-section BDB entry. Numbered senses (<strong>1.</strong>, <strong>2.</strong>, …) with italic labels like <em>father of individual</em> or <em>head of household</em> now appear as a compact jump list, so you can navigate straight to any sub-section of a long entry</li>
+                <li>Added a hierarchical, hyperlinked outline at the top of multi-section BDB entries. Long entries like <a href="/bdb?q=הָלַךְ" className="text-blue-600 hover:underline">הָלַךְ</a> now show a nested jump list covering all four BDB structural levels — verbal stems (<strong>Qal</strong>, <strong>Niph.</strong>, <strong>Hithp.</strong>, <strong>Hiph.</strong>, …), Roman-numeral super-sections (<strong>I.</strong>, <strong>II.</strong>), numbered senses (<strong>1.</strong>, <strong>2.</strong>, …) and lettered sub-sections (<strong>a.</strong>, <strong>b.</strong>, <strong>c.</strong>, …). Each row shows a short italic gloss extracted from the entry text (e.g. <em>literally</em>, <em>traverse</em>, <em>walk, walk about</em>) and smooth-scrolls to its section</li>
+                <li>Outline levels normalize to the shallowest level present, so a flat entry with only numbered senses (like <a href="/bdb?q=אָב" className="text-blue-600 hover:underline">אָב²</a>) renders flush-left while a deeply-structured entry indents stems / numbers / letters proportionally</li>
                 <li>Fixed long abbreviation pills (e.g. <em>Corpus Inscriptionum Semiticarum</em>) that previously stretched the page horizontally — pills now wrap at spaces while keeping their rounded background on each line</li>
                 <li>Fixed a bug where <strong>Split by semicolons</strong> only divided paragraphs from the second one onward; the first paragraph of each entry is now also split at semicolons when the option is enabled</li>
               </ul>

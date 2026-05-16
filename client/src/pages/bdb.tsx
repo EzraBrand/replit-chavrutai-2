@@ -219,20 +219,91 @@ export default function Bdb() {
 
   useDictionaryCopyHandler('main.max-w-4xl', [results]);
 
-  // Extract a numbered outline from an entry's senses. A "numbered sense" is one
-  // whose definition begins with <strong>N.</strong> (BDB's top-level numbered
-  // meanings). For each, we pull the first <em>…</em> phrase as a short label.
-  // Returns null when there are fewer than 2 numbered senses (nothing to outline).
-  const buildOutline = (senses: { definition: string }[]): { num: string; label: string; index: number }[] | null => {
-    const items: { num: string; label: string; index: number }[] = [];
+  // Build a hierarchical outline from an entry's senses. BDB uses a 4-level
+  // structure inside long entries:
+  //   level 0 — verbal stems (Qal, Niph., Pi., Pu., Hiph., Hoph., Hithp., …)
+  //   level 1 — Roman-numeral super-sections (I., II., III., …)
+  //   level 2 — Arabic-numeral sections (1., 2., 3., …)
+  //   level 3 — letter sub-sections (a., b., c., …)
+  // Each sense's definition starts with a <strong>…</strong> tag carrying the
+  // label. We classify it, pull a short label from any following <em>…</em>
+  // (or the first short prose phrase), and normalize levels so the shallowest
+  // level present renders flush-left.
+  const VERBAL_STEM_RE = /^(Qal|Niph(?:al)?|Pi(?:el)?|Pu(?:al)?|Hiph(?:il)?|Hoph(?:al)?|Hithp(?:ael)?|Po(?:el|al|lel|lal)?|Pilp(?:el)?|Hithpalp(?:el)?|Hithpol(?:el|al)?|Hithpoel|Pulal)\.?$/;
+  // Canonical Roman numerals I–X (covers all realistic BDB sub-section depths).
+  // Stricter than [IVX]+ so we don't accept malformed strings like IIX or VX.
+  const ROMAN_RE = /^(I{1,3}|IV|V|VI{0,3}|IX|X)$/;
+
+  type OutlineItem = { rawLevel: number; level: number; marker: string; label: string; index: number };
+
+  const classifyMarker = (raw: string): { level: number; marker: string } | null => {
+    const trimmed = raw.trim();
+    const noPeriod = trimmed.replace(/\.$/, '');
+    // Stems take precedence so a hypothetical short stem isn't misread as Roman/letter.
+    if (VERBAL_STEM_RE.test(trimmed)) return { level: 0, marker: trimmed };
+    if (ROMAN_RE.test(noPeriod)) return { level: 1, marker: trimmed };
+    if (/^\d+$/.test(noPeriod)) return { level: 2, marker: trimmed };
+    if (/^[a-z]$/.test(noPeriod)) return { level: 3, marker: trimmed };
+    return null;
+  };
+
+  // Extract a short, readable label for an outline row from the text that
+  // follows the leading <strong>…</strong>. Prefer the first <em>…</em>; fall
+  // back to the first ~50 chars of plain text (stop at sentence punctuation).
+  // Abbreviations are expanded (e.g. "lit." → "literally") and any pill markup
+  // is stripped so the label stays plain.
+  const extractLabel = (tail: string): string => {
+    const em = tail.match(/^\s*<em>([^<]+)<\/em>/);
+    let label = '';
+    if (em) {
+      label = em[1];
+    } else {
+      const plain = tail.replace(/<[^>]+>/g, '').trim();
+      const m = plain.match(/^[^:;—]{1,60}/);
+      if (m) label = m[0];
+    }
+    label = label.replace(/\s+/g, ' ').trim().replace(/[,;.\s]+$/, '');
+    if (!label) return '';
+    // Expand abbreviations, then strip the pill spans expandAbbreviations adds.
+    const expanded = expandAbbreviations(label, bdbMappings.mappings)
+      .replace(/<span class="dict-expanded">([^<]*)<\/span>/g, '$1');
+    return expanded;
+  };
+
+  const buildOutline = (senses: { definition: string }[]): OutlineItem[] | null => {
+    const raw: OutlineItem[] = [];
     senses.forEach((sense, i) => {
-      const m = sense.definition.match(/^\s*<strong>\s*(\d+)\.?\s*<\/strong>\s*(?:<em>([^<]+)<\/em>)?/);
-      if (m) {
-        const label = (m[2] || '').replace(/\s+/g, ' ').trim();
-        items.push({ num: m[1], label, index: i });
+      // Match up to two adjacent leading <strong>…</strong> tags. BDB occasionally
+      // collapses a parent + child marker into one sense, e.g. "<strong>5.</strong>
+      // <strong>a.</strong> …" — we want to treat that as the deeper (letter) level
+      // so the following b., c. items align under it.
+      const m = sense.definition.match(/^\s*<strong>\s*([^<]{1,15}?)\s*<\/strong>(?:\s*<strong>\s*([^<]{1,15}?)\s*<\/strong>)?([\s\S]*)$/);
+      if (!m) return;
+      const first = classifyMarker(m[1]);
+      const second = m[2] ? classifyMarker(m[2]) : null;
+      let cls: { level: number; marker: string } | null;
+      if (first && second) {
+        // Combine both into a compound label (e.g. "5.a.") and use the deeper level.
+        cls = {
+          level: Math.max(first.level, second.level),
+          marker: `${first.marker.replace(/\.$/, '')}.${second.marker}`,
+        };
+      } else {
+        cls = first;
       }
+      if (!cls) return;
+      raw.push({
+        rawLevel: cls.level,
+        level: cls.level,
+        marker: cls.marker,
+        label: extractLabel(m[3] || ''),
+        index: i,
+      });
     });
-    return items.length >= 2 ? items : null;
+    if (raw.length < 2) return null;
+    // Normalize so the shallowest level present renders flush-left.
+    const minLevel = Math.min(...raw.map(r => r.rawLevel));
+    return raw.map(r => ({ ...r, level: r.rawLevel - minLevel }));
   };
 
   // Pipeline: split on long-dash only (no bullet-point splitting for BDB),
@@ -525,7 +596,11 @@ export default function Bdb() {
                         >
                           <ol className="list-none p-0 m-0 space-y-0.5">
                             {outline.map((item) => (
-                              <li key={item.index} className="leading-snug">
+                              <li
+                                key={item.index}
+                                className="leading-snug"
+                                style={{ paddingLeft: `${item.level * 1.1}rem` }}
+                              >
                                 <a
                                   href={`#sense-${entryKey}-${item.index}`}
                                   onClick={(e) => {
@@ -538,7 +613,9 @@ export default function Bdb() {
                                   }}
                                   className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 hover:underline"
                                 >
-                                  <span className="font-semibold tabular-nums">{item.num}.</span>
+                                  <span className={`tabular-nums ${item.rawLevel <= 1 ? 'font-semibold' : ''}`}>
+                                    {/^[a-z]\.?$/.test(item.marker) ? item.marker : item.marker.replace(/\.$/, '') + '.'}
+                                  </span>
                                   {item.label && <span className="italic ml-1">{item.label}</span>}
                                 </a>
                               </li>
