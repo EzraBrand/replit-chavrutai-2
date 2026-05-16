@@ -313,7 +313,10 @@ export default function Bdb() {
   const GREEK_LETTERS = 'αβγδεζηθικλμνξοπρστυφχψω';
   // Greek sub-markers may be preceded by whitespace, end-of-tag, an opening
   // paren, a semicolon, or a dash/colon (BDB commonly writes "relations:—α.").
-  const GREEK_MARKER_RE = new RegExp(`(^|[\\s;(>—–:\\-])([${GREEK_LETTERS}])\\.`, 'g');
+  // BDB uses two surface forms for the same marker: bare "α." (with period)
+  // and parenthesised "(α)" (no period, e.g. in entries like הָלַךְ). Capture
+  // the trailer so wrapGreekMarkers can keep the ")" outside the span.
+  const GREEK_MARKER_RE = new RegExp(`(^|[\\s;(>—–:\\-])([${GREEK_LETTERS}])(\\.|\\))`, 'g');
 
   const classifyMarker = (raw: string): { level: number; marker: string } | null => {
     const trimmed = raw.trim();
@@ -429,9 +432,16 @@ export default function Bdb() {
     // Per-letter occurrence counter so each α./β./γ./… in the sense gets a
     // unique anchor ID matching the one buildOutline generated.
     const occCount: Record<string, number> = {};
-    return html.replace(GREEK_MARKER_RE, (_match, lead: string, letter: string) => {
+    return html.replace(GREEK_MARKER_RE, (_match, lead: string, letter: string, trailer: string) => {
       const occ = (occCount[letter] = (occCount[letter] ?? -1) + 1);
-      return `${lead}<span id="${idPrefix}-greek-${letter}-${occ}" class="scroll-mt-20">${letter}.</span>`;
+      const id = `${idPrefix}-greek-${letter}-${occ}`;
+      // For "α." form, wrap letter + period together. For "(α)" form, wrap
+      // just the letter and leave the closing paren outside the span so the
+      // visible text still reads "(α)".
+      if (trailer === '.') {
+        return `${lead}<span id="${id}" class="scroll-mt-20">${letter}.</span>`;
+      }
+      return `${lead}<span id="${id}" class="scroll-mt-20">${letter}</span>)`;
     });
   };
 
