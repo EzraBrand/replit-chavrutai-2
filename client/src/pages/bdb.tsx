@@ -201,6 +201,16 @@ export default function Bdb() {
     return () => clearTimeout(timeoutId);
   }, [searchQuery, lexiconIndex]);
 
+  // Anchor ids are `sense-{entryKey}-{senseIdx}[-greek-{L}-{occ}]`. Pull the
+  // entryKey out so the floating hamburger can target whichever entry the
+  // user is currently reading. BDB rids ("BDB02413") never contain hyphens
+  // and fallback keys are bare indexes, so a single non-greedy match works.
+  const activeEntryKey = useMemo(() => {
+    if (!activeAnchorId) return null;
+    const m = activeAnchorId.match(/^sense-(.+?)-\d+/);
+    return m?.[1] ?? null;
+  }, [activeAnchorId]);
+
   const didYouMean = useMemo(() => {
     if (!lexiconIndex || results.length > 0 || !lastSearchedQuery || isLoading) return [];
     return findFuzzyMatches(lexiconIndex, lastSearchedQuery, 5);
@@ -692,25 +702,8 @@ export default function Bdb() {
                 const entryKey = entry.rid || `${index}`;
                 const outline = buildOutline(entry.content.senses, entryKey);
                 return (
-                <div key={entry.rid || index} className="pb-4 border-b border-border last:border-b-0" data-testid={`entry-${entry.rid || index}`}>
-                  <div className="flex items-start gap-2">
-                    {outline && (
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          const wasOpen = openOutlineEntry === entryKey;
-                          if (!wasOpen) outlineTriggerRef.current = e.currentTarget;
-                          setOpenOutlineEntry(wasOpen ? null : entryKey);
-                        }}
-                        className="mt-1 p-1.5 rounded-md hover:bg-accent text-muted-foreground hover:text-foreground transition-colors"
-                        title="Show outline"
-                        aria-label="Show outline"
-                        aria-expanded={openOutlineEntry === entryKey}
-                        data-testid={`outline-toggle-${entryKey}`}
-                      >
-                        <Menu className="h-5 w-5" />
-                      </button>
-                    )}
+                <div key={entry.rid || index} className="pb-4 border-b border-border last:border-b-0" data-testid={`entry-${entry.rid || index}`} data-entry-key={entryKey}>
+                  <div className="flex items-start gap-4">
                     <h3 className="text-lg font-bold font-hebrew min-w-fit">
                       <a
                         href={`https://www.sefaria.org.il/BDB%2C_${encodeURIComponent(entry.headword)}`}
@@ -840,6 +833,34 @@ export default function Bdb() {
                 </div>
                 );
               })}
+              {/* Floating hamburger — visible while results are on screen so
+                  the outline stays reachable even when the entry header has
+                  scrolled off. Targets the entry whose section is currently
+                  in view, falling back to the first entry. */}
+              {(() => {
+                const firstKey = results[0]?.rid || (results.length ? '0' : null);
+                const targetKey = activeEntryKey ?? firstKey;
+                if (!targetKey) return null;
+                const targetEntry = results.find((e, i) => (e.rid || `${i}`) === targetKey);
+                if (!targetEntry || !buildOutline(targetEntry.content.senses, targetKey)) return null;
+                const isOpen = openOutlineEntry === targetKey;
+                return (
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      if (!isOpen) outlineTriggerRef.current = e.currentTarget;
+                      setOpenOutlineEntry(isOpen ? null : targetKey);
+                    }}
+                    className="fixed top-20 left-4 z-40 p-2 rounded-md bg-card border border-border shadow-md hover:bg-accent text-muted-foreground hover:text-foreground transition-colors"
+                    title="Show outline"
+                    aria-label="Show outline"
+                    aria-expanded={isOpen}
+                    data-testid={`outline-toggle-floating`}
+                  >
+                    <Menu className="h-5 w-5" />
+                  </button>
+                );
+              })()}
             </div>
           )}
         </div>

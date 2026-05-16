@@ -72,7 +72,7 @@ export default function Changelog() {
             <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: Outline Hamburger, Scroll Tracking &amp; Section-Header Polish</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>Added a hamburger menu at the top-left of each BDB entry that opens a floating outline panel. As you scroll, the outline highlights the section you're currently reading — useful for navigating long entries like <a href="/bdb?q=הָלַךְ" className="text-blue-600 hover:underline">הָלַךְ</a> where the inline outline scrolls off-screen</li>
+                <li>Added a hamburger menu fixed to the top-left of the viewport that opens a floating outline panel for the BDB entry you're currently reading. The button stays in place as you scroll so the outline remains one click away even deep inside long entries like <a href="/bdb?q=הָלַךְ" className="text-blue-600 hover:underline">הָלַךְ</a>, and the panel highlights the section you're currently in</li>
                 <li>Sense headers whose abbreviations get expanded into pills (e.g. <strong>Niph.</strong> → <em>Niphal</em>, <strong>Hithp.</strong> → <em>Hithpael</em>) now stay visually bold and body-sized, so they still read as clear section headers rather than collapsing into small monospace pills mid-prose</li>
                 <li>The <strong>Split by semicolons</strong> toggle is now on by default — most BDB entries are easier to scan with parallel clauses indented</li>
               </ul>
