@@ -3,7 +3,7 @@ import { Link } from "wouter";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Search, Loader2, ExternalLink, X } from "lucide-react";
+import { Search, Loader2, ExternalLink, X, Menu } from "lucide-react";
 import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
 import { getBDBSEO } from "@shared/seo-data";
@@ -33,10 +33,14 @@ export default function Bdb() {
   const [suggestions, setSuggestions] = useState<AutosuggestSuggestion[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
-  const [splitBySemicolon, setSplitBySemicolon] = useState(false);
+  const [splitBySemicolon, setSplitBySemicolon] = useState(true);
+  const [openOutlineEntry, setOpenOutlineEntry] = useState<string | null>(null);
+  const [activeAnchorId, setActiveAnchorId] = useState<string | null>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const initialLoadRef = useRef(false);
   const suppressSuggestionsRef = useRef(false);
+  const outlineTriggerRef = useRef<HTMLButtonElement | null>(null);
+  const outlineCloseRef = useRef<HTMLButtonElement | null>(null);
   const lexiconIndex = useLexiconIndex("bdb");
 
   const bdbSEO = getBDBSEO("", searchQuery, window.location.origin);
@@ -82,6 +86,8 @@ export default function Bdb() {
     if (!q.trim()) return;
     setIsLoading(true);
     setLastSearchedQuery(q.trim());
+    setOpenOutlineEntry(null);
+    setActiveAnchorId(null);
     updateURLParams({ q: q.trim() });
     try {
       const response = await fetch(`/api/bdb/search?query=${encodeURIComponent(q)}`);
@@ -218,6 +224,60 @@ export default function Bdb() {
   }, []);
 
   useDictionaryCopyHandler('main.max-w-4xl', [results]);
+
+  // Scroll-spy: track which sense (or Greek sub-marker) is currently in view
+  // so the outline overlay can highlight the user's location. We observe every
+  // anchor target — top-level sense containers and every wrapped Greek-marker
+  // span — and pick the topmost intersecting element inside a band that runs
+  // from just under the sticky header down to ~40% of the viewport.
+  useEffect(() => {
+    if (!results.length) return;
+    const targets = Array.from(
+      document.querySelectorAll<HTMLElement>('[id^="sense-"]')
+    );
+    if (!targets.length) return;
+
+    const visible = new Map<Element, number>();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) visible.set(e.target, e.boundingClientRect.top);
+          else visible.delete(e.target);
+        }
+        if (visible.size === 0) {
+          setActiveAnchorId(null);
+          return;
+        }
+        let topEl: Element | null = null;
+        let topY = Infinity;
+        visible.forEach((y, el) => {
+          if (y < topY) { topY = y; topEl = el; }
+        });
+        if (topEl) setActiveAnchorId((topEl as HTMLElement).id);
+      },
+      { rootMargin: '-80px 0px -60% 0px', threshold: 0 }
+    );
+    targets.forEach((t) => observer.observe(t));
+    return () => observer.disconnect();
+  }, [results, splitBySemicolon]);
+
+  // Close the outline overlay on Escape, move focus into the panel when it
+  // opens (the close button is the first focusable target), and restore focus
+  // to the hamburger trigger when the panel closes so keyboard users don't
+  // lose their place.
+  useEffect(() => {
+    if (!openOutlineEntry) {
+      outlineTriggerRef.current?.focus();
+      outlineTriggerRef.current = null;
+      return;
+    }
+    outlineCloseRef.current?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpenOutlineEntry(null);
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [openOutlineEntry]);
 
   // Build a hierarchical outline from an entry's senses. BDB uses a 4-level
   // structure inside long entries:
@@ -633,7 +693,24 @@ export default function Bdb() {
                 const outline = buildOutline(entry.content.senses, entryKey);
                 return (
                 <div key={entry.rid || index} className="pb-4 border-b border-border last:border-b-0" data-testid={`entry-${entry.rid || index}`}>
-                  <div className="flex items-start gap-4">
+                  <div className="flex items-start gap-2">
+                    {outline && (
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          const wasOpen = openOutlineEntry === entryKey;
+                          if (!wasOpen) outlineTriggerRef.current = e.currentTarget;
+                          setOpenOutlineEntry(wasOpen ? null : entryKey);
+                        }}
+                        className="mt-1 p-1.5 rounded-md hover:bg-accent text-muted-foreground hover:text-foreground transition-colors"
+                        title="Show outline"
+                        aria-label="Show outline"
+                        aria-expanded={openOutlineEntry === entryKey}
+                        data-testid={`outline-toggle-${entryKey}`}
+                      >
+                        <Menu className="h-5 w-5" />
+                      </button>
+                    )}
                     <h3 className="text-lg font-bold font-hebrew min-w-fit">
                       <a
                         href={`https://www.sefaria.org.il/BDB%2C_${encodeURIComponent(entry.headword)}`}
@@ -654,7 +731,9 @@ export default function Bdb() {
                           data-testid={`outline-${entryKey}`}
                         >
                           <ol className="list-none p-0 m-0 space-y-0.5">
-                            {outline.map((item, oi) => (
+                            {outline.map((item, oi) => {
+                              const isActive = item.anchorId === activeAnchorId;
+                              return (
                               <li
                                 key={`${item.anchorId}-${oi}`}
                                 className="leading-snug"
@@ -670,7 +749,7 @@ export default function Bdb() {
                                       history.replaceState(null, '', `#${item.anchorId}`);
                                     }
                                   }}
-                                  className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 hover:underline"
+                                  className={`hover:underline ${isActive ? 'text-foreground font-semibold' : 'text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300'}`}
                                 >
                                   <span className={`tabular-nums ${item.rawLevel <= 1 ? 'font-semibold' : ''}`}>
                                     {/^[a-z]\.?$/.test(item.marker) ? item.marker : item.marker.replace(/\.$/, '') + '.'}
@@ -678,7 +757,8 @@ export default function Bdb() {
                                   {item.label && <span className="italic ml-1">{item.label}</span>}
                                 </a>
                               </li>
-                            ))}
+                              );
+                            })}
                           </ol>
                         </nav>
                       )}
@@ -695,6 +775,68 @@ export default function Bdb() {
                       })}
                     </div>
                   </div>
+                  {outline && openOutlineEntry === entryKey && (
+                    <>
+                      <div
+                        className="fixed inset-0 z-40 bg-black/10"
+                        onClick={() => setOpenOutlineEntry(null)}
+                        aria-hidden="true"
+                      />
+                      <div
+                        className="fixed top-20 left-4 z-50 w-80 max-w-[calc(100vw-2rem)] max-h-[75vh] overflow-y-auto bg-card border border-border rounded-md shadow-lg"
+                        role="dialog"
+                        aria-modal="true"
+                        aria-label="Entry outline"
+                        data-testid={`outline-panel-${entryKey}`}
+                      >
+                        <div className="flex items-center justify-between px-3 py-2 border-b border-border sticky top-0 bg-card">
+                          <span className="text-sm font-semibold">
+                            Outline · <span className="font-hebrew">{entry.headword}</span>
+                          </span>
+                          <button
+                            ref={outlineCloseRef}
+                            type="button"
+                            onClick={() => setOpenOutlineEntry(null)}
+                            className="p-1 rounded hover:bg-accent text-muted-foreground hover:text-foreground"
+                            aria-label="Close outline"
+                          >
+                            <X className="h-4 w-4" />
+                          </button>
+                        </div>
+                        <ol className="list-none p-2 m-0 space-y-0.5 text-sm">
+                          {outline.map((item, oi) => {
+                            const isActive = item.anchorId === activeAnchorId;
+                            return (
+                              <li
+                                key={`panel-${item.anchorId}-${oi}`}
+                                className="leading-snug"
+                                style={{ paddingLeft: `${item.level * 1.1}rem` }}
+                              >
+                                <a
+                                  href={`#${item.anchorId}`}
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    const el = document.getElementById(item.anchorId);
+                                    if (el) {
+                                      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                      history.replaceState(null, '', `#${item.anchorId}`);
+                                    }
+                                  }}
+                                  className={`block rounded px-1.5 py-0.5 hover:bg-accent ${isActive ? 'bg-accent text-foreground font-semibold' : 'text-muted-foreground'}`}
+                                  aria-current={isActive ? 'location' : undefined}
+                                >
+                                  <span className="tabular-nums">
+                                    {/^[a-z]\.?$/.test(item.marker) ? item.marker : item.marker.replace(/\.$/, '') + '.'}
+                                  </span>
+                                  {item.label && <span className="italic ml-1">{item.label}</span>}
+                                </a>
+                              </li>
+                            );
+                          })}
+                        </ol>
+                      </div>
+                    </>
+                  )}
                 </div>
                 );
               })}

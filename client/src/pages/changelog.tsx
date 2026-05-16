@@ -70,6 +70,15 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: Outline Hamburger, Scroll Tracking &amp; Section-Header Polish</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Added a hamburger menu at the top-left of each BDB entry that opens a floating outline panel. As you scroll, the outline highlights the section you're currently reading — useful for navigating long entries like <a href="/bdb?q=הָלַךְ" className="text-blue-600 hover:underline">הָלַךְ</a> where the inline outline scrolls off-screen</li>
+                <li>Sense headers whose abbreviations get expanded into pills (e.g. <strong>Niph.</strong> → <em>Niphal</em>, <strong>Hithp.</strong> → <em>Hithpael</em>) now stay visually bold and body-sized, so they still read as clear section headers rather than collapsing into small monospace pills mid-prose</li>
+                <li>The <strong>Split by semicolons</strong> toggle is now on by default — most BDB entries are easier to scan with parallel clauses indented</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: Hierarchical Entry Outline, Pill Wrapping &amp; Semicolon Splitting Fixes</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added a hierarchical, hyperlinked outline at the top of multi-section BDB entries. Long entries like <a href="/bdb?q=הָלַךְ" className="text-blue-600 hover:underline">הָלַךְ</a> now show a nested jump list covering all five BDB structural levels — verbal stems (<strong>Qal</strong>, <strong>Niph.</strong>, <strong>Hithp.</strong>, <strong>Hiph.</strong>, …), Roman-numeral super-sections (<strong>I.</strong>, <strong>II.</strong>), numbered senses (<strong>1.</strong>, <strong>2.</strong>, …), lettered sub-sections (<strong>a.</strong>, <strong>b.</strong>, <strong>c.</strong>, …) and inline Greek-letter sub-sub-markers (<strong>α.</strong>, <strong>β.</strong>, <strong>γ.</strong>, <strong>δ.</strong>, …) that appear mid-sense for things like preposition-grouped usages. Each row shows a short italic gloss extracted from the entry text and smooth-scrolls to its section. Greek markers that repeat within a sense (BDB reuses α./β./γ. across sub-groups) each get their own unique anchor so you land on the right occurrence</li>

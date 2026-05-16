@@ -145,6 +145,23 @@ export const dictionaryStyles = `
     color: hsl(35, 30%, 82%);
     border-color: hsl(35, 12%, 30%);
   }
+  /* When an expanded abbreviation pill lives inside a leading <strong> tag
+     that itself starts a paragraph/list-item/container (i.e. it IS the sense
+     header — e.g. "Niph." → "Niphal"), keep the bold section-header weight +
+     body font size, and shift the pill to a slightly darker tint so it still
+     reads as "expanded" but unmistakably as a header. We narrow the rule with
+     strong:first-child so a stray bold span deeper in prose isn't also
+     upgraded to header weight. */
+  :where(p, li, div, dt, dd) > strong:first-child > .dict-expanded {
+    font-family: inherit;
+    font-size: 1em;
+    font-weight: 700;
+    background-color: hsl(35, 35%, 86%);
+    padding: 0 0.35em;
+  }
+  .dark :where(p, li, div, dt, dd) > strong:first-child > .dict-expanded {
+    background-color: hsl(35, 12%, 28%);
+  }
 `;
 
 const BAVLI_LINK_RE = new RegExp(
