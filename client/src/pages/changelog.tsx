@@ -70,9 +70,10 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: Collapsed Outline by Default</h3>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: Collapsed Outline &amp; Clearer Section Headers</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>The entry outline now shows only the two shallowest levels by default — for a long entry like <a href="/bdb?q=%D7%94%D6%B8%D7%9C%D6%B7%D7%9A%D6%B0" className="text-blue-600 hover:underline">הָלַךְ</a> that's the verbal stem (<strong>Qal.</strong>) and the numbered senses (<strong>1.</strong>, <strong>2.</strong>, …). Deeper lettered sub-sections (<strong>a.</strong>, <strong>b.</strong>, …) and inline Greek sub-markers (<strong>α.</strong>, <strong>β.</strong>, …) collapse behind a "Show all (N more)" toggle. Applies to both the inline outline and the floating outline panel</li>
+                <li>The entry outline now shows only the two shallowest levels by default — for a long entry like <a href="/bdb?q=%D7%94%D6%B8%D7%9C%D6%B7%D7%9A%D6%B0" className="text-blue-600 hover:underline">הָלַךְ</a> that's the verbal stem (<strong>Qal.</strong>) and the numbered senses (<strong>1.</strong>, <strong>2.</strong>, …). Deeper lettered sub-sections (<strong>a.</strong>, <strong>b.</strong>, …) and inline Greek sub-markers (<strong>α.</strong>, <strong>β.</strong>, …) collapse behind a <strong>Show nested items (N more)</strong> toggle. Applies to both the inline outline and the floating outline panel</li>
+                <li>Verbal-stem section headers in the entry body (<strong>Qal.</strong>, <strong>Niph.</strong>, <strong>Hiph.</strong>, <strong>Hithp.</strong>, …) now sit on their own line above the section text, with a horizontal divider and extra spacing above the section. Roman-numeral super-sections (<strong>I.</strong>, <strong>II.</strong>) get a lighter dashed separator. Long entries like <a href="/bdb?q=%D7%91%D6%B4%D6%BC%D7%90%D6%B8%D7%94" className="text-blue-600 hover:underline">בִּאָה</a> are now much easier to scan because each new conjugation reads as a real section break rather than a pill blending into prose</li>
               </ul>
             </div>
 

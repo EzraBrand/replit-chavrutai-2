@@ -162,6 +162,67 @@ export const dictionaryStyles = `
   .dark :where(p, li, div, dt, dd) > strong:first-child > .dict-expanded {
     background-color: hsl(35, 12%, 28%);
   }
+
+  /* Section-break styling for the start of a new anchored sense.
+     bdb.tsx tags each sense's wrapper <div> with .bdb-section-level-{0..3}
+     based on its leading marker. Level 0 (verbal stems: Qal, Niph., Hiph., …)
+     and level 1 (Roman-numeral super-sections I., II., III.) get a clear
+     horizontal divider, extra top spacing, and a larger block-display label
+     so the eye catches a new section even mid-page. Levels 2 and 3 are left
+     inline (no wrapper styling) because they're sub-points within a section. */
+  .bdb-section-level-0 {
+    margin-top: 1.75rem;
+    padding-top: 1rem;
+    border-top: 2px solid hsl(35, 25%, 75%);
+  }
+  /* bdb-section-first is set in render code on the first occurrence of each
+     level, since the senses' parent contains an outline <nav> before them so
+     CSS :first-child wouldn't apply to the first sense div. */
+  .bdb-section-level-0.bdb-section-first {
+    margin-top: 0.25rem;
+    padding-top: 0;
+    border-top: none;
+  }
+  .dark .bdb-section-level-0 {
+    border-top-color: hsl(35, 12%, 32%);
+  }
+  /* Make the verbal-stem label sit on its own line above the body text and
+     read at a heading scale. We target the first <strong> inside the first
+     paragraph of the section, plus its inner expanded-abbreviation pill so
+     the pill's own font-size override doesn't shrink the label back down.
+     A fallback selector targets the leading <strong> directly in case the
+     definition isn't wrapped in a <p> tag. */
+  .bdb-section-level-0 > p:first-child > strong:first-child,
+  .bdb-section-level-0 > strong:first-child,
+  .bdb-section-level-0 > p:first-child > strong:first-child > .dict-expanded,
+  .bdb-section-level-0 > strong:first-child > .dict-expanded {
+    font-size: 1.2em;
+  }
+  .bdb-section-level-0 > p:first-child > strong:first-child,
+  .bdb-section-level-0 > strong:first-child {
+    display: inline-block;
+    margin-bottom: 0.35rem;
+    letter-spacing: 0.01em;
+  }
+
+  /* Roman-numeral super-sections: lighter separator, no block-display label. */
+  .bdb-section-level-1 {
+    margin-top: 1.1rem;
+    padding-top: 0.55rem;
+    border-top: 1px dashed hsl(35, 20%, 80%);
+  }
+  .bdb-section-level-1.bdb-section-first {
+    margin-top: 0.25rem;
+    padding-top: 0;
+    border-top: none;
+  }
+  .dark .bdb-section-level-1 {
+    border-top-color: hsl(35, 12%, 32%);
+  }
+  .bdb-section-level-1 > p:first-child > strong:first-child,
+  .bdb-section-level-1 > strong:first-child {
+    font-size: 1.08em;
+  }
 `;
 
 const BAVLI_LINK_RE = new RegExp(

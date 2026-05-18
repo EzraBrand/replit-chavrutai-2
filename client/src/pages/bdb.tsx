@@ -784,22 +784,42 @@ export default function Bdb() {
                               aria-expanded={isOutlineExpanded}
                               aria-controls={`outline-${entryKey}`}
                             >
-                              {isOutlineExpanded ? 'Show less' : `Show all (${hiddenCount} more)`}
+                              {isOutlineExpanded ? 'Hide nested items' : `Show nested items (${hiddenCount} more)`}
                             </button>
                           )}
                         </nav>
                       )}
-                      {entry.content.senses.map((sense, senseIndex) => {
-                        const senseId = `sense-${entryKey}-${senseIndex}`;
-                        return (
-                          <div
-                            key={senseIndex}
-                            id={senseId}
-                            className="mb-2 last:mb-0 dictionary-content scroll-mt-20"
-                            dangerouslySetInnerHTML={{ __html: renderDefinition(sense.definition, senseId) }}
-                          />
-                        );
-                      })}
+                      {(() => {
+                        // Pre-classify every sense so we can mark the first
+                        // occurrence of each section level as "bdb-section-first".
+                        // We can't rely on CSS :first-child because the outline
+                        // <nav> renders before the senses inside the same parent.
+                        const classifications = entry.content.senses.map(sense => {
+                          const leadMatch = sense.definition.match(/^\s*<strong>\s*([^<]{1,15}?)\s*<\/strong>/);
+                          return leadMatch ? classifyMarker(leadMatch[1]) : null;
+                        });
+                        const seenLevels = new Set<number>();
+                        return entry.content.senses.map((sense, senseIndex) => {
+                          const senseId = `sense-${entryKey}-${senseIndex}`;
+                          const cls = classifications[senseIndex];
+                          let levelClass = '';
+                          if (cls) {
+                            levelClass = `bdb-section-level-${cls.level}`;
+                            if (!seenLevels.has(cls.level)) {
+                              levelClass += ' bdb-section-first';
+                              seenLevels.add(cls.level);
+                            }
+                          }
+                          return (
+                            <div
+                              key={senseIndex}
+                              id={senseId}
+                              className={`mb-2 last:mb-0 dictionary-content scroll-mt-20 ${levelClass}`}
+                              dangerouslySetInnerHTML={{ __html: renderDefinition(sense.definition, senseId) }}
+                            />
+                          );
+                        });
+                      })()}
                     </div>
                   </div>
                   {outline && openOutlineEntry === entryKey && (
@@ -871,7 +891,7 @@ export default function Bdb() {
                               aria-expanded={isOutlineExpanded}
                               aria-controls={`outline-panel-${entryKey}`}
                             >
-                              {isOutlineExpanded ? 'Show less' : `Show all (${hiddenCount} more)`}
+                              {isOutlineExpanded ? 'Hide nested items' : `Show nested items (${hiddenCount} more)`}
                             </button>
                           </div>
                         )}
