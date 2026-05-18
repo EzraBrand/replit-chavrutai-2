@@ -1,206 +1,58 @@
 # BDB Dictionary — Unmapped abbreviation candidates
-# Scanned 9045 headwords, mapped keys excluded: 224
+# Scanned 200 headwords, mapped keys excluded: 995
 # Failed fetches: 0 (0.00%)
-# Total unique unmapped tokens (freq >= 2): 1280
-# Showing top 200
+# Total unique unmapped tokens (freq >= 2): 52
+# Showing top 52
 
-  1854  etc.            (late); אֲבוֹתָם + 106 times etc.;— father of individual (+ אֵם
-  1220  f.              d as father of Davidic line ; f. of needy (late) (cf. ) (in
-  1136  m.              rth etc. (cf. Pi. supr.) n. [ m. ] destruction , עֲדֵי א׳ , (J
-   996  i.              § 273b ). See also Ew Gesch. i. 524 H i. 365 . On the force o
-   883  ii.             שה א׳ (v. Co) sq. לְ (v. also ii. ad fin.); for calamity, ; (‖
-   823  p.              Nejd be willing So De Jes 3, p. 26; LCB 1880, 817 ) — (c. לֹא
-   577  s.              mpf. יְאַבֵּד ; וִיאַבֵּד ; 1 s. sf. וָאַבֶּדְךָ (for וָאֲאַבּ
-   499  l.              אֶת־ with . Here also Hithpoʿl. Impf. יִתְגּוֹרָ֖רוּ (cf. ),
-   422  d.              ostrate thyself! Benfey Verh. d. äg. Spr. z. Sem. 302 f ; āpre
-   377  iii.            ; of high official .—Josephus iii. 7. 2 ἀβανήθ; cf. further Lag
-   356  BN              coll. ( Lag BN 207 Inf. ) fresh, young ears
-   328  H.              א׳ ( Aeolis Josephus Jer Kn; H. Derenbourg Mélanges Graux, 23
-   259  iv.             ZMG 1887, 640 , Sab. בני CIS iv. 1, No. 56 , Aramaic בְּנָא ,
-   225  N.              ָה + (accent wrong Ew § 331 b N. ); pl. בָּאִים +; cstr. בָּאֵ
-   190  VB              unto ; ; , ; ; cf. (but v. Co VB); sq. הֵ֫נָּה ; sq. בָּבֶ֫לָה
-   176  R.              ; Impf. אֹבִידָה (Ges § 68, 2 R. 1 ). Inf. cstr. הַאֲבִיד + et
-   175  II              w Dûra , W. of Hebron, Rob BR II, 215 .
-   172  NB              orm with abstract sense v. Ba NB 149 ).
-   164  BAS             ܳܐ v. PS, As. agîru , cf. Hpt BAS i. 124 ; others gatherer , fr
-   155  I.              i al.; Wü Now read וְיָחִלוּ (I. חול , חיל )—for om. of dagh.
-   149  E.              ypt , fertile as Egypt?) E. of Jordan (where interpr. as
-   145  II.             216 ; in Aramaic חשיארש , CIS II. i. 122 [ 481] ) king of P
-   144  S.              mḥ. wheat-meadow NW. of Dan & S. of Mutulleh Rob BR III, 372 )
-   142  Zinj.           o Ethpa.; Aph. lead, conduct; Zinj. יבל id. , DHM
-   138  MV              Hup 3 ). > Others (Thes Ol De MV) think a title of Philist. ki
-   128  Ezek.           הַמִּשְׁפָּט v . in temple of Ezek.’s vision, partic. א׳ הַשַּׁעַ
-    87  a.              om or through her; cf. >Qal 2 a.
-    83  b.              so & perhaps —cf. בְּ III. 1. b. come upon, fall or light upon
-    76  impf.           ְךָ ; 3 fs. אָֽהֲבָה +, etc.; impf. יֶאֱהַב (־הָ֑ב) +; 1 s. אֵהָ֑
-    75  Hpt.            hrough is the earth (Che Heb. Hpt.. פרוק התפרקה ). Pōʿ. Pf. 2 ms
-    75  Proph.          race, community’ RS K 28 cf. Proph. iv. n 8 ); of Israel , ; cf.
-    75  W.              0, 1, xiv, 5, 3 ); now Dûra , W. of Hebron, Rob BR II, 215 .
-    74  crpt.           , in view of כֶּתֶם אוֹפִיר . crpt., v. Siegf ThLZ, Nov. 7, 1883,
-    74  e.              come ; partic. come with , i. e. come, bringing, sq. בְּ : אָב
-    74  WMM             cf. Glaser Skizze ii. 367 ff. WMM As. u. Eur. 111 identifies wi
-    73  ptcp.           +; of day of י׳ ; , , ; also ptcp. as adj. הַיָּמִים הַבָּאִים c
-    72  Germ.           y its antithesis or negation (Germ. un - is sometimes used simila
-    71  accus.          ) . With a voc. (or implicit accus.) , אוֹי עִיר הַדָּמִים ; abso
-    71  Dr.             fin read וּבְמַלְכְּכֶם 𝔊 We Dr. originator or patron of a cla
-    71  III             ֽתְךָ ) so & perhaps —cf. בְּ III. 1. b. come upon, fall or lig
-    71  J.              ther of Jerachmeel , . son of J. , .—Αρραν, Ραμ, etc. name of
-    71  pf.             me:—without a verb ; ; with a pf. ; אָז טוֹב לוֹ then was it we
-    70  crit.           כָּרִים cf. 𝔊 Lo Ew Di & Che crit. n. (> Stu גֵּרִים ). Pt. מִתְ
-    70  SW              . E. of Tyre, and nearly 3 m. SW. of the great bend of the Liṭ
-    70  SW.             . E. of Tyre, and nearly 3 m. SW. of the great bend of the Liṭâ
-    70  techn.          ) ; + cf. , , ; ; especially techn. of divisions of Isr. בֵּית אָ
-    70  var.            ; but Bae Rel 10 thinks dial. var. of אָדָם , בני אדום = בְנֵי א
-    69  Ephr.           eir time ; ; ; ; ; ; , ; ; ; (Ephr.) , ; unnamed prophet ; Hanan
-    69  Epigr.          , v. p. 42, & (Sab.) DHM Epigr. Denkm.88 . v. supr.
-    67  gent.           א׳ סָרִיס ; partic. bef. adj. gent. אִישׁ מִצְרִי , cf. ; , ; ; ,
-    66  Chrest.         ), Min. נפל remove Hom Südar. Chrest. 128 ) ;— Pf. נ׳ +, 3 fs. נָֽפ
-    66  Mand.           ٌ (v. Frä 153 ) Syriac ܐܰܢܟܳܐ Mand. אנכא , Assyrian anâku Lyon Sa
-    66  wh.             sq. עַל־ (but Che id. ; cf. , wh. however Ol would emend by ; )
-    65  NE              ly suitable, but much too far NE. for ; poss. there were two A
-    63  bef.            (= ארץ (J) (J?—‖ ארץ ) cstr. bef. א׳ מִצְרַיִם , ; א׳ יְה
-    63  concr.          = On, Heliopolis ;—abstr. for concr. = idols ; . trouble of iniqui
-    63  NE.             ly suitable, but much too far NE. for ; poss. there were two Ak
-    63  wd.             nfr.); Arabic تُفّاحٌ is loan-wd. Frä 140 ; on meaning apple v.
-    62  Ant.            Ges. Abh. 39 . described Jos Ant. iii. 7, 2 as a sash wound rou
-    62  Denkm.          abic أَخَذَ , Sab. אחֿדֿ Sab. Denkm. 39 , Aramaic אְחַד , ܐܶܚܰܕ ,
-    62  mts.            l upon (על) , so of house ; , mts. ; mt. also abs. (cf. ), heigh
-    62  Rel.            Great One is father (?) so Bä Rel. 156 , cf. Sab. ותר ) a priest
-    61  Abr.            ise term) ; (J; where used of Abr. & Isaac); greatgr. ; gr.-grea
-    61  temp.           ְּנִי because of (נפשׁ) ; sq. temp. clause (of occasion of weepin
-    60  Hast.           [? chief of princes ] Pinches Hast. DB. Rab-mag ; רַב־סָרִיס (cf.
-    58  BP              lalu , according to Dl in Zim BP 117 ) . vb. pollute, defile,
-    58  Pl.             h divine reference fr. human. Pl., with few except an intens. p
-    58  Prop.           perhaps for עֻזִּיָּהוּ Gray Prop. N. 291 .
-    56  preps.          ֲרֵי סָפַר vid. Dr with other preps.:— מֵאַחֲרֵי 57 , מִן־אַחֲרֵי
-    55  adj.gent.       344 ff. & We JBTh xxi. 602 .) adj.gent. sg. ; .
-    55  cpd.            י Jaw (- bone ); on cpd. with לחי , γνάθος, v. 𝔊 We P
-    55  MP              r of spoil (Abarb Hi Kn KueBr MP ). term of respect & honour (
-    55  PS              in to Syriac ܐܘܽܒܺܝܰܐ alas …! PS 53 ( AW Ges less prob. as a s
-    55  Stud.           Sargontexte 92 ; v. Lag Arm. Stud. § 103 cf. Id. BN 175 ) — אֲנָ
-    54  h.              rone erected ; א׳ בַת צִיּוֹן h. of daughter of Zion (= Jerusa
-    54  Id.             obebibel אֹבִיל הָעֲיָרִים v. Id. BN 45 ; Klo גִּבּוֹר ), ; אַב
-    54  Intr.           (v. Dr § 27 ) : ; ; ; (v. Dr Intr. 192 ) al. of fut. time (usual
-    54  st.             . = wish , with suff. & in c. st., ‘ my wish is that,’ etc.; cf
-    53  Anm.            ; NH גּוּמָּצָא cf. Ba NB 66, Anm. 1 ) , חֹפֵר ג׳ בּוֹ יִפּ֑וֹל
-    53  Codd.           + 10 times (v read הָעָם , so Codd. 𝔊 Di) ; + 6 times ; ; ; ; ,
-    50  epith.          r., אָמִיר ; Sab. אמר lofty , epith. of king JHMordtm ZMG 1876, 37
-    50  III.            ֽתְךָ ) so & perhaps —cf. בְּ III. 1. b. come upon, fall or ligh
-    50  Mt.             d erected an אֹהֶל for ark on Mt. Zion ; ; ; Joab fled for refu
-    49  A.              e of Terah, Abram’s father, & A.’s point of departure for Meso
-    49  genit.          these my signs, ; ; ; in the genit. ; and after כל + often Standi
-    49  Levit.          ii. 50 , cf. COT ) ) chief of Levit. line of Kohath, in time of Da
-    49  masc.           = חקל אברם (c. Egyptian art. masc.), in Sheshonk list. As regard
-    48  SE              m , Idumaea ( f. ; and ) S. & SE. of Pal. , + 32 textual (incl
-    48  SI              man (= vir ) ( MI, SI, Ph. אש , perh. also Sab. אסם
-    47  num.            (pl.) ; , (sg.) +. א׳ + other num. usually precedes it + often;
-    46  emend.          , , , ; ; cf. ; also , ; (cf. emend. supr.); on cf. VB; v. further
-    46  Eur.            Skizze ii. 367 ff. WMM As. u. Eur. 111 identifies with Egypt. Pv
-    46  SE.             m , Idumaea ( f. ; and ) S. & SE. of Pal. , + 32 textual (incl.
-    46  vb.denom.       ‖ מְדֻכָּא מֵעֲוֹנֹתֵינוּ ). vb.denom. play the pipe, pipe — Pt. pl.
-    45  nom.            pinion (nom. unit., poet.) of ostrich ; אֶ
-    44  app.            app. a descendant of Judah ( deriv
-    44  Can.            Asherah , all doubtful as to Can. goddess Asherah; question lef
-    44  erron.          ֲבִי הָעֲנָק cf. ), inferred (erron.) from קִרְיַת א׳ (
-    43  n.pr.gent.      n.pr.gent. & terr. Asshur, Assyria ( Ass
-    42  AG              from ȧxȧ be green , v. Ebers AG & BBMos. 338 ; Wied Sammlung
-    42  Dict.           v. Di Ri HWB , Herzog, Smith Dict. Bib. ; cf. Glaser Skizze ii.
-    42  k.              ers.),—opp. יצא be expended . k. in other phrases: וַתָּבֹא הָ
-    42  SK              god ) for אַל , cf. Di , & Gl SK ii. 280. 425. 435 God is love
-    41  G.              Edom ( name of a god? v. Sta G.1, 121 RS Sem 43 ; vid.
-    41  Hex.            out בית ; ; (×2) (always P in Hex.); also , + often in Ch; cf. ר
-    41  inhab.          s (‖ אנה , אבל ); in genl. in inhab. of smitten land (‖ תֶּאֱבַל ה
-    41  M.              וּ (so sts. לַיִת , ܠܰܝܬ , Nö M. p. 295 ); once, incorrectly,
-    41  Moab.           t. proposes nothing, nought ( Moab. אן , As. iûnu ) . † הַנּוֹתֵן
-    41  Pent.           c. books is concerned, in the Pent. (except Dt) אֲנִי is used in
-    41  Prol.           to Mas. (v. De Fr MM 247 Str Prol. Cr. 84 ), לא is written by er
-    40  pr.             אָח fire-pot v. sub ii. .) On pr. names compounded with אָח , v
-    40  Talm.           n. [ m. ] bowl, basin ( Talm. אוֹגָן , Aramaic אַגָּנָא , ܐ
-    39  JPh.            stress of necromancy (×2) ; ( JPh. xiv, 127 f makes אוֹב primari
-    39  part.           . by יֵשׁ . Treated as a mere part. of negation, אֵין may vary it
-    39  relat.          p. of יָכֹל was in use, and a relat. must be tacitly supplied: ‘Th
-    38  MSS             ִים ); of horses ; ; but many MSS. 𝔊 Aq Symm Theod 𝔙 many mod
-    38  NHWB            וֹרְיָא and פּוֹרְיוֹן , Levy NHWB i. 150, iv. 17 . ) א׳ עָשָׂה
-    38  no.             פְּעָמִים ; indef. for great no. (pl.) ; , (sg.) +. א׳ + other
-    38  qu.             אַיֵּה ); אַיָּם (in indirect qu.) and the place thereof is not
-    38  Toy.            .— is hopelessly corrupt, v. Toy. chief ( Assyrian-Bab. in
-    38  TP              bûrtum Dl Pr 182 , bûru Lotz TP 169 ) — בּ׳ abs. +; בֹּר ( Qr
-    37  Bu.             ly, (Ραμ[α], Αραμ), dub., cf. Bu. v. . vb. denom. be wormy ;— I
-    37  Chr.            ce without a verb as often in Chr.: Dr Intr. 504 f. ): cf. . Com
-    37  Fig.            r) of :—cf. also 2. a. supr. †Fig., of deep sleep, c. עַל (J), ;
-    37  imv.            hearken to me! ; . Cf. . With imv. (si vera l.) וְאִם־בִּֽינָה ;
-    37  Mish.           light ( late, Mish. id. , cf. Aramaic אוּרְתָּא e
-    37  Now.            ֑ה לֵב שָׂמֵחַ יֵיטִיב ג׳ cf. Now.
-    37  pp.             , Qr לו , Westerns, Baer (v. pp. 37, 56) לוֹ [‘now are ye beco
-    37  Pun.            ; MI 8 ארבען = 40; Ph. ארבע , Pun. ארבעת , four; so Assyrian arb
-    37  vi.             especially Kraetzschmar Hbr. vi. 298 ff , orig. a subst. ‘plac
-    36  Comp.           לֹ֕א and not = and if not , . Comp. וָיֵשׁ . † כְּלוֹא והיו כלוא
-    36  ES              an pašâḫu , grow calm , so Ba ES 9 Schulth Lex. ) ;— Impf. 3 m
-    36  GASm.           ; read prob. יִרְאָה cf. Now GASm. Pf. 3 ms. נִרְאָה +, etc.; Im
-    36  Obs.            ld look, etc., (v. Dr § 136 δ Obs. ); . ( b ) of pres. or fut.,
-    36  orat.           usually) clause ; ; + often ( orat. recta ); with adv. thus, so ,
-    36  SG              yr. in cpds. as ܐܰܝܟܰܢ how? W SG 120–2; cf. As. aiu , who? wha
-    36  suff.           , a necromancer or wizard; no suff. reason for exceptional use of
-    35  Anal.           FM JBL x (1891), 60 ); Perles Anal. 30 וְתִפְרַח . Impf. be frust
-    35  Lat.            šumma; SAr. hm; Arabic أَمْ (Lat. an ?) = أَاِمْ , cf. הַאִם :
-    35  Note.           נָתוֹ ; , + 12 times ; also . Note.— בן appears perhaps abbrev. a
-    35  xi.             , ; ; ( is diff.) cf. Dr JPh. xi. 224 f. ); אני אמרתי ; (Hez.)
-    34  HPS.            תָ֑יִם 𝔊 Th We Klo Dr Kmp Bu HPS. with other num.: (I) אַרְבַּע
-    34  Inschr.         ת Hom Chrest. 125 Mordtm Him. Inschr. 14, 15 ; Arabic صُورَةٌ is lo
-    34  Mess.           im ; perhaps also of gracious Mess. king אֲבִי עַד everlasting fa
-    34  n.pr.terr.      n.pr.terr. Ararat ( Assyrian Urarṭu COT
-    34  x.              tion or tie; iv. make lawful; x. esteem lawful or free, profan
-    33  Mass.           י , אֲדֹנָי are variations of Mass. pointing to distinguish divin
-    33  synon.          , build , DHM ZMG 1883, 413 , synon. בנה ; Ba ZA 1888, 58 , comp.
-    32  Am.             νάθος, v. 𝔊 We Prol. 344 Nes Am. J. Sem. Lang. xiii (1897), 17
-    32  him.            had been ‘best man’ (GFM) to him. evil, misery, distress,
-    32  infl.           ib.; as attrib. preceding n. (infl. of usage for numerals? Kö Syn
-    32  Jan.            , Arabic إِزَارٌ , cf. RS JQ Jan. 1892, 289 ff. ) — א׳ abs. + 8
-    32  refl.           f Miriam, after leprosy; also refl. betake oneself , of Moses (E)
-    32  term.           s in Naphtali, v. . n. [ m. ] term. techn. of jeweller’s work, pr
-    31  Armen.          om Nineveh, Assyrian Arbaḫa , Armen. Albak Lag Armen. Stud. 55 & r
-    31  dial.           בדאדם ; but Bae Rel 10 thinks dial. var. of אָדָם , בני אדום = בְ
-    31  Eng.            ight , as orig. stone (v. cf. Eng. weight stone = lb) אַבְנֵי־כִ
-    31  GGA             e 1877; MBAk 1877, 741 Oppert GGA 1878, 1055; Rev. d’Assyrian i
-    31  Hast.DB         = Jericho (JE), ; .—Vid. Post Hast.DB; palm-tree M’Lean Ency. Bib.
-    31  Je.             a ) in the phrase peculiar to Je., אֲשֶׁר הָיָה דְבַר י׳ אֶל יר
-    31  JED             (×2) ; , , , + often (mostly JED); of father as commanding (J)
-    31  pleon.          ; v. Dr § 137 ) . Foll. once pleon. by יֵשׁ . Treated as a mere p
-    31  Sm.             local special Baʿals, vid. Dr Sm. p. 50 ; pillars of Baal MV).
-    31  symb.           מִּישׁוֹר (of city), fig. ; ; symb. of firmness ; ; ; enduring ma
-    31  terr.           & terr. Asshur, Assyria ( Assyrian Aš
-    31  ZK              أُنْثَى , Sab. אנתֿת etc. DHM ZK 1884, 360 , Aramaic אִתְּתָא
-    30  dir.            cal; in all cases usually sq. dir. obj. of words said, ; being s
-    30  NHB             . u. A 100, 106, 107 ; Tristr NHB 334 f. thinks ת׳ = apricot (s
-    30  rd.             bull, sim. of king of Assyr. (rd. כְּאַבִּיר & v. Di); elsewh.
-    30  sing.           00 +, it mostly foll. num. in sing. (×3) , ; , , (×2) , ; (×2) (×
-    30  viii.           arry ; v. especially iii. iv. viii. x; Aramaic ܓܳܪ , Ethiopic in
-    30  VOJ             etym. dub.; according to Jen VOJ 1892, 58 ff. = Elamit.
-    29  div.            ahite = , cf. (all P) , , (on div. of verse v. Be VB); also , .
-    29  Einl.           del. ver. as gloss We Bleek’s Einl. 4:258 Kmp Kau Benz. vb. saw (
-    29  Engl.           ave it an asseverative force, Engl. idiom does not require it to
-    29  Heid.           d of victim, pour out wine We Heid. 2, 114, 118, 142 );— Pf. 3 ms
-    29  kg.             בְּיַד ), especially of city (kg., people) given into the hand
-    29  Metrol.         2, 9; = 39.39 lit. cf. Boeckh Metrol. Untersuch. 259 f. ; v. also J
-    28  ag.             t man ( without art. cf. over ag. הַשּׂ׳ etc. ) (J) , , , (P) .
-    28  Babyl.          gle ; אֶרֶךְ הָא׳ of king, of Babyl. under fig. of eagle (‖ גְּדוֹ
-    28  betw.           enmity , personal hostility, betw. men , (P), betw. serpent & wo
-    28  Ch.             & 2 S = אַבְשַׁי + 5 times 1 Ch.—grandson of Jesse; son of Zer
-    28  ex.             Hexat. only JED; but Jb post-ex.). אכלה הח׳ etc., of the sword
-    28  JQ              id. , Arabic إِزَارٌ , cf. RS JQ Jan. 1892, 289 ff. ) — א׳ abs
-    28  Rev.            7, 741 Oppert GGA 1878, 1055; Rev. d’Assyrian i. 124 (also on th
-    28  seld.           d ; (writers that use אֱלהִים seld. use אֲדֹנָי ); Adonay o
-    28  ver.            עַר הַיְסוֹד , v. ), but del. ver. as gloss We Bleek’s Einl. 4:2
-    28  xvi.            s. according to Ritter Geogr. xvi. 519 Survey iii. 9 .
-    27  Abh.            ἀβανήθ; cf. further Lag Ges. Abh. 39 . described Jos Ant. iii.
-    27  absol.          cus.) , אוֹי עִיר הַדָּמִים ; absol. . Used as a subst. לִמִי אוֹי
-    27  idiom.          ords (are) of him; and in the idiom. phrases מִדֵּי שָׁנָה בְּשָׁנ
-    27  intr.           c. sf. בְּלֹתִי ;— wear out (intr.), especially of garments ; (×
-    27  NS              ], Arabic كُرٌّ cistern; Hom NS 100 from כרר , orig. = ro
-    27  NW              (= Abil el Ḳamḥ. wheat-meadow NW. of Dan & S. of Mutulleh Rob
-    27  NW.             (= Abil el Ḳamḥ. wheat-meadow NW. of Dan & S. of Mutulleh Rob B
-    26  AE              ִתְגּוֹרָ֖רוּ is dub. (cf. ); AE Ki Thes Wü AV RV they assembl
-    26  Gr.             Assyrian Ulâi , cf. Dl Pa 329 Gr. Εὐλαιος ) only אוּלָ֑י , rive
-    26  JD              sehold ; , +, ; +; Hex mostly JD; E ; ; cf. infr.; P ; , , ; ;
-    26  Jer.            ֵי מלחמה) , ; ; +; so usually Jer.: ; +; freq. Ezek.: ; +; , , (
-    26  meton.          הָא׳ (J) tiller, husbandman; meton. אֹהֵב א׳ lover of husban
+    66  etc.            (late); אֲבוֹתָם + 106 times etc.;— father of individual (+ אֵם
+    28  f.              d as father of Davidic line ; f. of needy (late) (cf. ) (in
+    26  i.e.            פָּחוֹת , = a father’s house, i.e. a family or clan; more often
+    20  p.              Nejd be willing So De Jes 3, p. 26; LCB 1880, 817 ) — (c. לֹא
+    15  i.              § 273b ). See also Ew Gesch. i. 524 H i. 365 . On the force o
+    10  R.              ; Impf. אֹבִידָה (Ges § 68, 2 R. 1 ). Inf. cstr. הַאֲבִיד + et
+    10  s.              mpf. יְאַבֵּד ; וִיאַבֵּד ; 1 s. sf. וָאַבֶּדְךָ (for וָאֲאַבּ
+     9  iii.            ; of high official .—Josephus iii. 7. 2 ἀβανήθ; cf. further Lag
+     8  ii.             שה א׳ (v. Co) sq. לְ (v. also ii. ad fin.); for calamity, ; (‖
+     7  E.              ypt , fertile as Egypt?) E. of Jordan (where interpr. as
+     7  N.              ָה + (accent wrong Ew § 331 b N. ); pl. בָּאִים +; cstr. בָּאֵ
+     7  rd.             bull, sim. of king of Assyr. (rd. כְּאַבִּיר & v. Di); elsewh.
+     5  exc.            mighty (alw. = subst. & poet. exc. ). men (= violent ) (read א׳
+     5  fr.             AS i. 124 ; others gatherer , fr. i. אגר ) son of יָקֶה , an au
+     5  iv.             ZMG 1887, 640 , Sab. בני CIS iv. 1, No. 56 , Aramaic בְּנָא ,
+     5  Jonath.         mphasis on mortality ; Saul & Jonath., under fig. of weapons ; lion
+     5  S.              mḥ. wheat-meadow NW. of Dan & S. of Mutulleh Rob BR III, 372 )
+     4  alw.            ; pl. אַבִּירִים +;— mighty (alw. = subst. & poet. exc. ). men
+     4  appl.           ( Abbas, Pater, Papa, Pope ); appl. to master ; priest ; ; prophe
+     4  As.Dl           an ; horse (×2) (‖ שָׂרֹק cf. As.Dl W 87 (‖ שָׁחֹר ); heifer ; wa
+     4  Compl.          ; pl. אַחִים +; so read v. De Compl. Var. 23 cf. sub ; cstr. אֲחֵי
+     4  Ger.            f. בְּנוֹת הָא׳ , )— a man (= Ger. Mensch ) = human being , (×2)
+     4  gr.             of Abr. & Isaac); greatgr. ; gr.-greatgr. , etc.; cf. ; ; ; ;
+     4  III             ֽתְךָ ) so & perhaps —cf. בְּ III. 1. b. come upon, fall or lig
+     4  Ne.             בית א׳ ) cf. ; + often Ch Ezr Ne. ancestor ( a ) of individual;
+     4  Var.            ַחִים +; so read v. De Compl. Var. 23 cf. sub ; cstr. אֲחֵי +; s
+     3  ag.             t man ( without art. cf. over ag. הַשּׂ׳ etc. ) (J) , , , (P) .
+     3  h.              rone erected ; א׳ בַת צִיּוֹן h. of daughter of Zion (= Jerusa
+     3  II              w Dûra , W. of Hebron, Rob BR II, 215 .
+     3  Krae.           חַדָּה Co Berthol, אַתְּ Oort Krae. brother ( Ph. אח , Arabi
+     3  l.              אֶת־ with . Here also Hithpoʿl. Impf. יִתְגּוֹרָ֖רוּ (cf. ),
+     3  MA              her is might , Sab. אבחיל Hal MA 234 ) —prob. = אֲבִיהַיִל , א
+     3  Qal.            ring men); perhaps . caus. of Qal.—Pf. אִבַּד + 2 times; sf. וְא
+     3  Rehob.          ְשָׁלוֹם +, , , אַבְשָׁלֹם +— Rehob.’s father-in-law † , , . 3rd s
+     3  Sg.             r. أَذَامٌ coll. creatures ) —Sg. abs. exc. cstr. cf. Thes; ( ב
+     3  W.              0, 1, xiv, 5, 3 ); now Dûra , W. of Hebron, Rob BR II, 215 .
+     2  a.              om or through her; cf. >Qal 2 a.
+     2  adj.num.        adj.num. one ( Ph. אחד , Sab. id. , cf
+     2  b.              so & perhaps —cf. בְּ III. 1. b. come upon, fall or light upon
+     2  Ch.             & 2 S = אַבְשַׁי + 5 times 1 Ch.—grandson of Jesse; son of Zer
+     2  Co.             v. sub infr., so 𝔊 𝔖 Hi Sm Co.
+     2  indic.          ; cf. play the mourner (where indic. by dress); over unworthy Saul
+     2  Jerob.          . 2nd son of Samuel . son of Jerob. I . son of Becher, a Benjamit
+     2  Nov.            d p. 482 ; Lepage Renouf PSBA Nov. 1888, 5 f ȧb(u)-rek , thy com
+     2  PESoc.          Kefrein (?) Tristr & Merrill PESoc. 4th Statement, 89 ). אָבֵל כְ
+     2  suff.           , a necromancer or wizard; no suff. reason for exceptional use of
+     2  tr.             necrom. or wizard (H; usually tr. ‘a man also or woman that hat
+     2  unit.           pinion (nom. unit., poet.) of ostrich ; אֶבְרָתו
+     2  V.              v , ; v. however Di, & sub ).—V. also [ ] on p. 1061.
+     2  w.              etc., ; ; , ; ; (×2) , cf. , w. כֵּן †, sq. inf. , especially
+     2  WNW             ; modern Derʿât , 7 1/2 hours WNW. of Bosra; Euseb. Ἀδραά (Lag
+     2  WNW.            ; modern Derʿât , 7 1/2 hours WNW. of Bosra; Euseb. Ἀδραά (Lag O

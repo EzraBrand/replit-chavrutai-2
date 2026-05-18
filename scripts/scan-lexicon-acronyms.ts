@@ -144,7 +144,7 @@ async function main() {
 
   const lexiconName = LEXICON_NAMES[lex];
   const headwordsPath = path.join(process.cwd(), 'shared/data/lexicon-headwords', `${lex}.json`);
-  const mappingsPath = path.join(process.cwd(), `client/src/data/${lex}-mappings.json`);
+  const mappingsPath = path.join(process.cwd(), `shared/data/lexicon-mappings/${lex}.json`);
   const cacheDir = path.join(process.cwd(), 'scripts/.cache', `${lex}-corpus`);
   const outTxt = path.join(process.cwd(), 'scripts', `${lex}-unmapped-acronyms.txt`);
   const outJson = path.join(process.cwd(), 'scripts', `${lex}-unmapped-acronyms.json`);
