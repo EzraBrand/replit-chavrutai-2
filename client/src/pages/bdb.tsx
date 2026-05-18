@@ -36,6 +36,7 @@ export default function Bdb() {
   const [splitBySemicolon, setSplitBySemicolon] = useState(true);
   const [openOutlineEntry, setOpenOutlineEntry] = useState<string | null>(null);
   const [activeAnchorId, setActiveAnchorId] = useState<string | null>(null);
+  const [outlineExpanded, setOutlineExpanded] = useState<Record<string, boolean>>({});
   const searchInputRef = useRef<HTMLInputElement>(null);
   const initialLoadRef = useRef(false);
   const suppressSuggestionsRef = useRef(false);
@@ -711,6 +712,17 @@ export default function Bdb() {
               {results.map((entry, index) => {
                 const entryKey = entry.rid || `${index}`;
                 const outline = buildOutline(entry.content.senses, entryKey);
+                // By default show only the two shallowest distinct rawLevels (the
+                // "top-level + sub-items" view). Deeper levels — typically letter
+                // sub-sections (a./b./…) and inline Greek markers (α./β./…) — are
+                // collapsed behind a toggle so long entries (e.g. הָלַךְ) stay scannable.
+                const uniqueLevels = outline ? Array.from(new Set(outline.map(o => o.rawLevel))).sort((a, b) => a - b) : [];
+                const visibleLevels = new Set(uniqueLevels.slice(0, 2));
+                const isOutlineExpanded = !!outlineExpanded[entryKey];
+                const visibleOutline = outline
+                  ? (isOutlineExpanded ? outline : outline.filter(o => visibleLevels.has(o.rawLevel)))
+                  : null;
+                const hiddenCount = outline ? outline.length - (visibleOutline?.length ?? 0) : 0;
                 return (
                 <div key={entry.rid || index} className="pb-4 border-b border-border last:border-b-0" data-testid={`entry-${entry.rid || index}`} data-entry-key={entryKey}>
                   <div className="flex items-start gap-4">
@@ -734,7 +746,7 @@ export default function Bdb() {
                           data-testid={`outline-${entryKey}`}
                         >
                           <ol className="list-none p-0 m-0 space-y-0.5">
-                            {outline.map((item, oi) => {
+                            {(visibleOutline ?? []).map((item, oi) => {
                               const isActive = item.anchorId === activeAnchorId;
                               return (
                               <li
@@ -763,6 +775,18 @@ export default function Bdb() {
                               );
                             })}
                           </ol>
+                          {(hiddenCount > 0 || isOutlineExpanded) && (
+                            <button
+                              type="button"
+                              onClick={() => setOutlineExpanded(prev => ({ ...prev, [entryKey]: !isOutlineExpanded }))}
+                              className="mt-1 text-xs text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 hover:underline"
+                              data-testid={`outline-toggle-${entryKey}`}
+                              aria-expanded={isOutlineExpanded}
+                              aria-controls={`outline-${entryKey}`}
+                            >
+                              {isOutlineExpanded ? 'Show less' : `Show all (${hiddenCount} more)`}
+                            </button>
+                          )}
                         </nav>
                       )}
                       {entry.content.senses.map((sense, senseIndex) => {
@@ -807,7 +831,7 @@ export default function Bdb() {
                           </button>
                         </div>
                         <ol className="list-none p-2 m-0 space-y-0.5 text-sm">
-                          {outline.map((item, oi) => {
+                          {(visibleOutline ?? []).map((item, oi) => {
                             const isActive = item.anchorId === activeAnchorId;
                             return (
                               <li
@@ -837,6 +861,20 @@ export default function Bdb() {
                             );
                           })}
                         </ol>
+                        {(hiddenCount > 0 || isOutlineExpanded) && (
+                          <div className="px-2 pb-2">
+                            <button
+                              type="button"
+                              onClick={() => setOutlineExpanded(prev => ({ ...prev, [entryKey]: !isOutlineExpanded }))}
+                              className="text-xs text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 hover:underline"
+                              data-testid={`outline-panel-toggle-${entryKey}`}
+                              aria-expanded={isOutlineExpanded}
+                              aria-controls={`outline-panel-${entryKey}`}
+                            >
+                              {isOutlineExpanded ? 'Show less' : `Show all (${hiddenCount} more)`}
+                            </button>
+                          </div>
+                        )}
                       </div>
                     </>
                   )}

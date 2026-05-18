@@ -70,6 +70,13 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: Collapsed Outline by Default</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>The entry outline now shows only the two shallowest levels by default — for a long entry like <a href="/bdb?q=%D7%94%D6%B8%D7%9C%D6%B7%D7%9A%D6%B0" className="text-blue-600 hover:underline">הָלַךְ</a> that's the verbal stem (<strong>Qal.</strong>) and the numbered senses (<strong>1.</strong>, <strong>2.</strong>, …). Deeper lettered sub-sections (<strong>a.</strong>, <strong>b.</strong>, …) and inline Greek sub-markers (<strong>α.</strong>, <strong>β.</strong>, …) collapse behind a "Show all (N more)" toggle. Applies to both the inline outline and the floating outline panel</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: Person/Number/Gender Abbreviations</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Person markers that BDB uses for verb conjugations — <strong>1 s.</strong>, <strong>2 s.</strong>, <strong>3 s.</strong>, <strong>1 pl.</strong>, <strong>2 pl.</strong>, <strong>3 pl.</strong>, plus their gendered variants <strong>3 fs.</strong>, <strong>3 ms.</strong>, <strong>3 mp.</strong>/<strong>3 mpl.</strong>, <strong>3 fp.</strong>/<strong>3 fpl.</strong>, and the spaced forms <strong>3 m. s.</strong>, <strong>3 f. pl.</strong>, etc. — now expand to readable labels like <em>3rd-person feminine singular</em> and <em>3rd-person masculine plural</em></li>
