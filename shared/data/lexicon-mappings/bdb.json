@@ -506,8 +506,8 @@
     "Aethiop.": "Aethiopica",
     "SabDenkm": "Sabäische Denkmäler (Mordtmann & Müller)",
     "Sudar. Alt.": "Südarabische Altertümer",
-    "AG.": "Aramaic Grammar",
-    "AG": "Aramaic Grammar",
+    "AG.": "Wright, Arabic Grammar",
+    "AG": "Wright, Arabic Grammar",
     "// ── SCHOLARS ────────────────────────────────────────────────────────────": "",
     "De": "Delitzsch",
     "De Jes": "Delitzsch's Isaiah commentary",
@@ -1138,7 +1138,6 @@
     "MT, but A B Co": "Masoretic Text, but Codices Alexandrinus and Vaticanus; Cornill",
     "MT, but A B": "Masoretic Text, but Codices Alexandrinus and Vaticanus",
     "Is.": "Isaiah",
-    "Is": "Isaiah",
     "Dt.": "Deuteronomy",
     "term. techn.": "technical term",
     "// ── ARCHAIC ENGLISH (KJV-STYLE) MODERNIZED ──────────────────────────": "",
@@ -1228,6 +1227,9 @@
     "Synon": "Synonym",
     "nonne?": "is it not?",
     "Num?": "can it be?",
+    "introd.": "introduced",
+    "postB": "post-Biblical",
+    "postB.": "post-Biblical",
     "// ── END ─────────────────────────────────────────────────────────────": ""
   }
 }
