@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { useSEO } from "@/hooks/use-seo";
 import { getStaticSEO } from "@shared/seo-data";
+import { Footer } from "@/components/footer";
 import jastrowMappings from "@shared/data/lexicon-mappings/jastrow.json";
 
 type SortKey = "abbr" | "expansion";
@@ -60,7 +61,8 @@ export default function JastrowAbbreviations() {
     sortKey === key ? (sortAsc ? " ▲" : " ▼") : "";
 
   return (
-    <main className="max-w-4xl mx-auto px-4 py-8" data-testid="jastrow-abbreviations-page">
+    <div className="min-h-screen flex flex-col">
+    <main className="max-w-4xl mx-auto px-4 py-8 flex-1 w-full" data-testid="jastrow-abbreviations-page">
       <nav className="text-sm text-muted-foreground mb-4" aria-label="Breadcrumb">
         <Link href="/jastrow" className="hover:text-foreground underline">
           Jastrow Dictionary
@@ -162,5 +164,7 @@ export default function JastrowAbbreviations() {
         </CardContent>
       </Card>
     </main>
+      <Footer />
+    </div>
   );
 }

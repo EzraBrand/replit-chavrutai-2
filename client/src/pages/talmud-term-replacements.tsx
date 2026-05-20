@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { useSEO } from "@/hooks/use-seo";
 import { getStaticSEO } from "@shared/seo-data";
+import { Footer } from "@/components/footer";
 import termReplacements from "@shared/data/term-replacements.json";
 
 interface CategoryData {
@@ -86,8 +87,9 @@ export default function TalmudTermReplacements() {
   );
 
   return (
+    <div className="min-h-screen flex flex-col">
     <main
-      className="max-w-4xl mx-auto px-4 py-8"
+      className="max-w-4xl mx-auto px-4 py-8 flex-1 w-full"
       data-testid="talmud-term-replacements-page"
     >
       <nav className="text-sm text-muted-foreground mb-4" aria-label="Breadcrumb">
@@ -181,5 +183,7 @@ export default function TalmudTermReplacements() {
         )}
       </div>
     </main>
+      <Footer />
+    </div>
   );
 }
