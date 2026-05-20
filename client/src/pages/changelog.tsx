@@ -70,6 +70,15 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">New Reference Pages: Jastrow Abbreviations &amp; Talmud Term Replacements</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>New page at <a href="/jastrow/abbreviations" className="text-blue-600 hover:underline">/jastrow/abbreviations</a> listing every abbreviation expanded inline by the Jastrow reader (~400 entries) — rabbinic source abbreviations, grammatical shorthand, Latin phrases, and scholar surnames. Linked from the "About this dictionary" panel on the Jastrow search page.</li>
+                <li>New page at <a href="/talmud/term-replacements" className="text-blue-600 hover:underline">/talmud/term-replacements</a> showing every inline terminology update ChavrutAI applies to the English translation of the Talmud, grouped by category (divine references, Talmudic terms, personal names, Hebrew calendar, ordinals, and more). Linked from the main About page in the "What text processing improvements are made?" section.</li>
+                <li>Both pages support a live filter and link out to Sefaria's digitized originals where applicable.</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: Searchable Abbreviations Reference Page</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>New page at <a href="/bdb/abbreviations" className="text-blue-600 hover:underline">/bdb/abbreviations</a> listing every abbreviation expanded inline by the BDB reader (1,000+ entries) — scholar surnames, grammatical shorthand, Latin phrases, cognate-language tags, Bible book references, and BDB symbols. Filter by abbreviation or expansion, sort either column.</li>

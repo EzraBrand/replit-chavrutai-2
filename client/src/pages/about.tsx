@@ -454,7 +454,14 @@ export default function About() {
                     "tefillin," lengthy phrases like "The Holy One, Blessed be He" become 
                     simply "God," and euphemistic language is simplified to match the 
                     directness of the original. These changes reduce visual clutter while 
-                    bringing readers closer to the original Hebrew terminology.
+                    bringing readers closer to the original Hebrew terminology.{" "}
+                    <Link
+                      href="/talmud/term-replacements"
+                      className="underline hover:text-foreground transition-colors"
+                      data-testid="link-term-replacements"
+                    >
+                      Browse the full list of term replacements →
+                    </Link>
                   </AccordionContent>
                 </AccordionItem>
 

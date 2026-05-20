@@ -148,6 +148,24 @@ const STATIC_MAP: Record<string, SEOEntry> = {
       "Search the classic Brown-Driver-Briggs Hebrew Bible Dictionary with modernized presentation and direct biblical-citation links.",
     robots: "index, follow",
   },
+  "/jastrow/abbreviations": {
+    title: "Jastrow Abbreviations Reference | ChavrutAI",
+    description:
+      "Complete list of Jastrow Dictionary abbreviations expanded inline by the ChavrutAI Jastrow reader: rabbinic source abbreviations, grammatical shorthand, Latin logic phrases, and scholar surnames.",
+    ogTitle: "Jastrow Abbreviations Reference",
+    ogDescription:
+      "Searchable table of every abbreviation expanded inline by the ChavrutAI Jastrow reader.",
+    robots: "index, follow",
+  },
+  "/talmud/term-replacements": {
+    title: "Talmud Term Replacements Reference | ChavrutAI",
+    description:
+      "Complete list of inline terminology updates ChavrutAI applies to the English translation of the Talmud — archaic terms, divine epithets, personal names, Hebrew calendar dates, and more.",
+    ogTitle: "Talmud Term Replacements Reference",
+    ogDescription:
+      "Searchable, categorized table of every terminology update applied to the Talmud's English translation in ChavrutAI.",
+    robots: "index, follow",
+  },
   "/bdb/abbreviations": {
     title: "BDB Abbreviations Reference | ChavrutAI",
     description:

@@ -314,6 +314,15 @@ export default function Jastrow() {
                     abbreviated text.
                   </li>
                 </ul>
+                <p className="text-xs text-muted-foreground mt-2">
+                  <a
+                    href="/jastrow/abbreviations"
+                    className="underline hover:text-foreground transition-colors"
+                    data-testid="link-abbreviations"
+                  >
+                    Browse the full abbreviations reference →
+                  </a>
+                </p>
                 <p className="text-muted-foreground pt-1">
                   For a fuller writeup, see:{" "}
                   <a
