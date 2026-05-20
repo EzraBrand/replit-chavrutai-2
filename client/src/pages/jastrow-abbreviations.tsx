@@ -80,7 +80,7 @@ export default function JastrowAbbreviations() {
         For the original list of abbreviations as published in Jastrow itself,
         see{" "}
         <a
-          href="https://www.sefaria.org/Jastrow%2C_Abbreviations"
+          href="https://www.sefaria.org.il/Jastrow%2C_List_of_Abbreviations?lang=he"
           target="_blank"
           rel="noopener noreferrer"
           className="underline hover:text-foreground transition-colors"
