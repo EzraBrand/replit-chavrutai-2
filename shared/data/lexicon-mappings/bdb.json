@@ -721,7 +721,6 @@
     "Ezek.": "Ezekiel",
     "Pr.": "Proverbs",
     "Pr": "Proverbs",
-    "ψ": "Psalm",
     "Zc.": "Zechariah",
     "Zc": "Zechariah",
     "Zp": "Zephaniah",
@@ -1240,6 +1239,9 @@
     "Shews": "Shows",
     "didst": "did",
     "Didst": "Did",
+    "Ψ": "Psalm",
+    "BeRy": "Bertheau’s Commentary, ed. by Ryssel",
+    "Frankenb": "Frankenberg",
     "// ── END ─────────────────────────────────────────────────────────────": "",
     "NSG": "Nöldeke, Syrische Grammatik"
   }
