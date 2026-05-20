@@ -617,7 +617,7 @@
     "BP": "Zimmern, Babylonische Busspsalmen",
     "PS": "Payne Smith, Thesaurus Syriacus",
     "ES": "Barth, Etymologische Studien",
-    "SG": "Nöldeke, Syrische Grammatik",
+    "SG": "Semitic Grammar",
     "NS": "Hommel, Nordsemitische Studien",
     "SK": "Glaser, Skizze der Geschichte und Geographie Arabiens",
     "// ── MEDIEVAL COMMENTATORS ──────────────────────────────────────────────": "",
@@ -1187,7 +1187,7 @@
     "Onk": "Onkelos",
     "Onk.": "Onkelos",
     "Die Hebr. Condit. sätze": "Die hebräischen Conditionalsätze",
-    "CG": "Wright, Comparative Grammar of the Semitic Languages",
+    "CG": "Comparative Grammar",
     "Qor": "Koran",
     "Qor.": "Koran",
     "Mt": "Matthew",
@@ -1230,8 +1230,7 @@
     "introd.": "introduced",
     "postB": "post-Biblical",
     "postB.": "post-Biblical",
-    "W (AG": "Wright (Arabic Grammar",
-    "W (CG": "Wright (Comparative Grammar",
-    "// ── END ─────────────────────────────────────────────────────────────": ""
+    "// ── END ─────────────────────────────────────────────────────────────": "",
+    "NSG": "Nöldeke, Syrische Grammatik"
   }
 }
