@@ -70,11 +70,23 @@ export default function BdbAbbreviations() {
       </nav>
 
       <h1 className="text-2xl font-semibold mb-2">BDB Abbreviations</h1>
-      <p className="text-sm text-muted-foreground mb-6">
+      <p className="text-sm text-muted-foreground mb-3">
         The full list of abbreviations expanded inline by the ChavrutAI BDB
         reader. {rows.length.toLocaleString()} entries. These mappings cover
         scholar surnames, grammatical shorthand, Latin logic phrases, cognate
         languages, biblical book references, and BDB-specific symbols.
+      </p>
+      <p className="text-sm text-muted-foreground mb-6">
+        For the original list of abbreviations as published in BDB itself, see{" "}
+        <a
+          href="https://www.sefaria.org.il/BDB%2C_Abbrevations"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline hover:text-foreground transition-colors"
+          data-testid="link-sefaria-abbreviations"
+        >
+          BDB's own abbreviations list (digitized by Sefaria) →
+        </a>
       </p>
 
       <div className="mb-4">
