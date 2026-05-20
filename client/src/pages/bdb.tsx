@@ -16,6 +16,8 @@ import {
   convertJastrowInternalLinks,
   annotateTransliterationsInHtml,
   convertSupTagsToParens,
+  convertBdbSubFrequencyCounts,
+  prependBdbCircaMarker,
   splitIntoParagraphsBdb,
   convertSuperscriptLetters,
   expandAbbreviations,
@@ -455,7 +457,20 @@ export default function Bdb() {
     });
   };
 
-  const renderDefinition = (definition: string, idPrefix: string): string => {
+  const renderDefinition = (
+    definition: string,
+    idPrefix: string,
+    isFirstSense: boolean = false,
+  ): string => {
+    // Restore the leading "c." (circa) frequency marker that Sefaria's API
+    // strips, and convert <sub>NNNN</sub> occurrence counts into inline
+    // "(NNNN times)" parentheticals. Both run on the raw input before any
+    // other transform so downstream stages (paragraph splitting, semicolon
+    // sub-splitting, abbreviation expansion) see the rewritten text.
+    let prepared = convertBdbSubFrequencyCounts(definition);
+    if (isFirstSense) {
+      prepared = prependBdbCircaMarker(prepared);
+    }
     return annotateTransliterationsInHtml(
       convertSefariaLinksToInternal(
         convertJastrowInternalLinks(
@@ -464,7 +479,7 @@ export default function Bdb() {
               convertSuperscriptLetters(
                 convertSupTagsToParens(
                   splitIntoParagraphsBdb(
-                    wrapGreekMarkers(definition, idPrefix),
+                    wrapGreekMarkers(prepared, idPrefix),
                     splitBySemicolon,
                   )
                 )
@@ -833,7 +848,7 @@ export default function Bdb() {
                               key={senseIndex}
                               id={senseId}
                               className={`mb-2 last:mb-0 dictionary-content scroll-mt-20 ${levelClass}`}
-                              dangerouslySetInnerHTML={{ __html: renderDefinition(sense.definition, senseId) }}
+                              dangerouslySetInnerHTML={{ __html: renderDefinition(sense.definition, senseId, senseIndex === 0) }}
                             />
                           );
                         });

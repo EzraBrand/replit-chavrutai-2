@@ -247,6 +247,7 @@
     "n.pr.terr.": "noun proper territorial (land/region)",
     "n.pr.div.": "noun proper divine name",
     "n.pr.dei.": "noun proper divine name",
+    "n.pr.dei": "noun proper divine name",
     "n.pr.deae.": "noun proper goddess",
     "n.pr.fl.": "noun proper river",
     "n.pr.flum.": "noun proper river",

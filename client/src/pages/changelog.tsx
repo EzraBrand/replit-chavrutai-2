@@ -70,6 +70,15 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: Frequency Counts as Readable Parentheticals</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>BDB tags every Hebrew lemma form with the number of times it occurs in the Hebrew Bible. Sefaria's source markup encodes these as tiny subscript numbers (e.g. <span dir="rtl">יְהוָֹה</span><sub>6518</sub>) which were hard to read inline. They now render as natural parentheticals — <em>(6518 times)</em> — so the count reads as part of the sentence. See e.g. <a href="/bdb?q=%D7%99%D7%94%D7%95%D7%94" className="text-blue-600 hover:underline">יהוה</a></li>
+                <li>Restored the leading <strong>c.</strong> ("circa") frequency marker at the start of entries like <a href="/bdb?q=%D7%99%D7%94%D7%95%D7%94" className="text-blue-600 hover:underline">יהוה</a> — BDB writes "c. 6823" for the total count, but Sefaria's API strips the "c." prefix. ChavrutAI now restores it so the entry begins "c. 6823 i.e. …" as in the original lexicon.</li>
+                <li>Added <strong>n.pr.dei</strong> (noun proper divine name) to the abbreviation expansions — the periodless form BDB uses inside the יהוה entry.</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: More Abbreviation Expansions (Bible Books, Scholarly Terms, Archaic English)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added more Bible book / source abbreviations: <strong>Mal</strong> (Malachi), <strong>Hos</strong> (Hosea), <strong>Ju</strong> / <strong>Ju.</strong> (Judges), <strong>Jon</strong> (Jonah), <strong>Lv.</strong> (Leviticus), <strong>Jos.</strong> (Joshua), <strong>Chr</strong> (Chronicles), <strong>Ec</strong> (Ecclesiastes), <strong>Rom</strong> (Romans), <strong>Lk</strong> (Luke), <strong>2 Pet</strong> (2 Peter), <strong>NT</strong> (New Testament), and the symbols <strong>ψψ</strong> (Psalms), <strong>WisdLt</strong> (Wisdom Literature), and <strong>S &amp; K</strong> (Samuel &amp; Kings)</li>

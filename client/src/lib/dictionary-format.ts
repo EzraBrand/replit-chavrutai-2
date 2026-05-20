@@ -558,6 +558,24 @@ export function convertSupTagsToParens(html: string): string {
   return html.replace(/<sup>([\s\S]*?)<\/sup>/g, ' ($1)');
 }
 
+// BDB uses <sub>NNNN</sub> after a Hebrew lemma to give the total occurrence
+// count for that form in the Hebrew Bible (e.g. יְהוָֹה<sub>6518</sub>). Replace
+// with an inline " (NNNN times)" parenthetical so the count reads naturally
+// instead of as a tiny subscript number.
+export function convertBdbSubFrequencyCounts(html: string): string {
+  return html.replace(/<sub>(\d[\d,]*)<\/sub>/g, ' ($1 times)');
+}
+
+// Sefaria's /api/words/ endpoint strips the original `<big>headword</big><sub>c.</sub>`
+// prefix from BDB entries, leaving the leading frequency count as a bare
+// number (e.g. definition starts with "6823 i.e. …"). Restore the "c." (circa)
+// marker that BDB itself uses, so the entry reads "c. 6823 i.e. …" as in the
+// original lexicon. Only triggers when the definition begins with a bare
+// number followed by whitespace (not "1.", which is a section label).
+export function prependBdbCircaMarker(html: string): string {
+  return html.replace(/^(\s*)(\d[\d,]*)(\s+)(?=[A-Za-z<])/, '$1c. $2$3');
+}
+
 // Generic abbreviation expansion that takes a mappings dict.
 // Preserves HTML tags (only replaces text outside of `<...>`). Each expansion
 // is emitted as `<span class="dict-expanded">…</span>` so consecutive
@@ -622,6 +640,15 @@ export function expandAbbreviations(text: string, mappings: Record<string, strin
         if (before !== -1) {
           const close = segment.indexOf(CLOSE, before);
           if (close === -1 || close > offset) return match;
+        }
+        // BDB uses "c." for two different things: the Latin `cum` ("with",
+        // e.g. "c. preposition") and the "circa" frequency marker that
+        // precedes the leading occurrence count (e.g. "c. 6823 i.e."). The
+        // frequency marker is always followed by whitespace + a digit, so
+        // skip the `c.` -> "with" expansion in that context.
+        if (abbreviation === 'c.') {
+          const after = segment.slice(offset + match.length);
+          if (/^\s+\d/.test(after)) return match;
         }
         return `${OPEN}${expansion}${CLOSE}`;
       });
