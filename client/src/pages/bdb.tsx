@@ -195,12 +195,21 @@ export default function Bdb() {
         setShowSuggestions(false);
         return;
       }
+      // Don't pop the dropdown open when the input still matches the active
+      // search (URL-driven load, post-search state, or async lexiconIndex
+      // arriving after a URL load). Suggestions should only appear when the
+      // user is actively typing something different from the last search.
+      if (q === lastSearchedQuery.trim()) {
+        setSuggestions([]);
+        setShowSuggestions(false);
+        return;
+      }
       const matches = searchHeadwords(lexiconIndex, q, 20);
       setSuggestions(matches);
       setShowSuggestions(matches.length > 0);
     }, 80);
     return () => clearTimeout(timeoutId);
-  }, [searchQuery, lexiconIndex]);
+  }, [searchQuery, lexiconIndex, lastSearchedQuery]);
 
   // Anchor ids are `sense-{entryKey}-{senseIdx}[-greek-{L}-{occ}]`. Pull the
   // entryKey out so the floating hamburger can target whichever entry the
