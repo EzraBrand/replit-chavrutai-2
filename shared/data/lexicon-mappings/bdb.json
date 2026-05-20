@@ -911,7 +911,6 @@
     "Nbr": "A. Neubauer",
     "Neb": "Nebuchadnezzar",
     "Nes": "E. Nestle",
-    "Nor": "E. Norris",
     "Norzi": "J. S. ben Abraham Norzi",
     "Oehl": "Oehler",
     "Ol": "J. Olshausen",
@@ -1233,6 +1232,15 @@
     "W (SG": "Wright (Semitic Grammar",
     "W (AG": "Wright (Arabic Grammar",
     "W (CG": "Wright (Comparative Grammar",
+    "gramm.": "grammatical",
+    "Sts.": "Sometimes",
+    "ll. cc.": "in the places cited",
+    "a.d.": "CE",
+    "A.D.": "CE",
+    "shews": "shows",
+    "Shews": "Shows",
+    "didst": "did",
+    "Didst": "Did",
     "// ── END ─────────────────────────────────────────────────────────────": "",
     "NSG": "Nöldeke, Syrische Grammatik"
   }
