@@ -70,6 +70,16 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: More Abbreviations Expanded — Latin, Archaic English, and Additional Scholars</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Expanded more Latin terms that pepper BDB entries: <strong>rei</strong> ("of the thing"), <strong>vel</strong> ("or"), <strong>sub</strong> / <strong>supra</strong> ("under (the entry)" / "above"), <strong>et</strong> ("and"), <strong>et al.</strong>, <strong>et seq.</strong>, and <strong>consec.</strong> ("vav-consecutive"). See e.g. <a href="/bdb?q=%D7%A9%D6%B8%D7%81%D7%90%D6%B7%D7%9C" className="text-blue-600 hover:underline">שָׁאַל</a></li>
+                <li>Modernized common KJV-style archaisms: <em>thou/thee → you</em>, <em>thy/thine → your</em>, <em>ye → you</em>, <em>hast → have</em>, <em>hath → has</em>, <em>doth → does</em>, <em>saith → says</em>, <em>shew → show</em>, <em>shalt → shall</em>, <em>wilt → will</em>, <em>wert → were</em>, <em>ass → donkey</em>, and similar</li>
+                <li>Added more scholar / source abbreviations: <strong>Toy</strong> (C. H. Toy), <strong>van d. H.</strong> (van der Hooght), <strong>Frey</strong>, <strong>Dozy</strong>, <strong>RSLag</strong> (Lagarde, Reliquiae), and <strong>Safa</strong> / <strong>Safait.</strong> (Safaitic inscriptions). See e.g. <a href="/bdb?q=%D7%9C%D6%B8%D7%A7%D6%B7%D7%97" className="text-blue-600 hover:underline">לָקַח</a></li>
+                <li>Fixed <strong>Ephr.</strong> — now expands to <em>Ephraim</em> (was incorrectly "Ephrem")</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: Collapsed Outline &amp; Clearer Section Headers</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>The entry outline now shows only the two shallowest levels by default — for a long entry like <a href="/bdb?q=%D7%94%D6%B8%D7%9C%D6%B7%D7%9A%D6%B0" className="text-blue-600 hover:underline">הָלַךְ</a> that's the verbal stem (<strong>Qal.</strong>) and the numbered senses (<strong>1.</strong>, <strong>2.</strong>, …). Deeper lettered sub-sections (<strong>a.</strong>, <strong>b.</strong>, …) and inline Greek sub-markers (<strong>α.</strong>, <strong>β.</strong>, …) collapse behind a <strong>Show nested items (N more)</strong> toggle. Applies to both the inline outline and the floating outline panel</li>
