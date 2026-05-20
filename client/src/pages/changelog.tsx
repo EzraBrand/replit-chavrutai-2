@@ -70,6 +70,16 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: Another Round of Abbreviation Expansions &amp; Fixes</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Added grammar &amp; rhetoric terms: <strong>interj.</strong> (interjection), <strong>Interrog.</strong> (Interrogative), <strong>rhet.</strong> (rhetorical), <strong>anacol.</strong> (anacoluthon), <strong>aposiop.</strong> (aposiopesis), <strong>exclam.</strong> (exclamation), <strong>Indef.</strong> (Indefinite), <strong>hypoth.</strong> (hypothetical), <strong>constr.</strong> (construction), <strong>suff.</strong> (suffix), <strong>makk.</strong> (maqaf), <strong>paraph.</strong> (paraphrased), <strong>dittogr.</strong> (dittography), <strong>charact.</strong> (characteristic), <strong>correspond.</strong> (corresponding), <strong>transl.</strong> (translated), <strong>Synon.</strong> (Synonym), <strong>pres.</strong> (present), <strong>appy.</strong> (apparently), <strong>ultim.</strong> (ultimately), and the rhetorical Latin tags <strong>nonne?</strong> ("is it not?") and <strong>Num?</strong> ("can it be?")</li>
+                <li>Added more archaic English: <em>hadst → had</em>, <em>dost → do</em>, <em>wouldest → would</em>, <em>shouldst → should</em>, <em>perchance → perhaps</em></li>
+                <li>Added Bible book / source abbreviations: <strong>Jb</strong> (Job), <strong>Je</strong> (Jeremiah), <strong>Ez</strong> (Ezekiel), <strong>Hag</strong> (Haggai), and the NT references <strong>Mt</strong> (Matthew), <strong>Mk</strong> (Mark), <strong>Jn</strong> (John); plus <strong>Onk</strong> (Onkelos), <strong>Qor</strong> (Koran), <strong>SAr.</strong> (South Arabian), <strong>CG</strong> (Wright, Comparative Grammar of the Semitic Languages), and the German title <strong>Die Hebr. Condit. sätze</strong></li>
+                <li>Removed two over-eager mappings that produced false positives: bare <strong>Joseph</strong> (was incorrectly always expanding to "Josephus" — usually it's the patriarch) and bare <strong>So</strong> (was expanding to "A. Socin" inside ordinary English sentences). The longer <strong>Soc</strong>, <strong>JosKi</strong>, and <strong>Ant.</strong> mappings still cover the scholarly references</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: More Abbreviations Expanded — Latin, Archaic English, and Additional Scholars</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Expanded more Latin terms that pepper BDB entries: <strong>rei</strong> ("of the thing"), <strong>vel</strong> ("or"), <strong>sub</strong> / <strong>supra</strong> ("under (the entry)" / "above"), <strong>et</strong> ("and"), <strong>et al.</strong>, <strong>et seq.</strong>, and <strong>consec.</strong> ("vav-consecutive"). See e.g. <a href="/bdb?q=%D7%A9%D6%B8%D7%81%D7%90%D6%B7%D7%9C" className="text-blue-600 hover:underline">שָׁאַל</a></li>
