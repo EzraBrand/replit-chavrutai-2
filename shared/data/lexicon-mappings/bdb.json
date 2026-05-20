@@ -506,8 +506,8 @@
     "Aethiop.": "Aethiopica",
     "SabDenkm": "Sabäische Denkmäler (Mordtmann & Müller)",
     "Sudar. Alt.": "Südarabische Altertümer",
-    "AG.": "Wright, Arabic Grammar",
-    "AG": "Wright, Arabic Grammar",
+    "AG.": "Arabic Grammar",
+    "AG": "Arabic Grammar",
     "// ── SCHOLARS ────────────────────────────────────────────────────────────": "",
     "De": "Delitzsch",
     "De Jes": "Delitzsch's Isaiah commentary",
@@ -1230,6 +1230,8 @@
     "introd.": "introduced",
     "postB": "post-Biblical",
     "postB.": "post-Biblical",
+    "W (AG": "Wright (Arabic Grammar",
+    "W (CG": "Wright (Comparative Grammar",
     "// ── END ─────────────────────────────────────────────────────────────": ""
   }
 }
