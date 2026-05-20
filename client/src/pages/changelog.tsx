@@ -70,6 +70,16 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: More Abbreviation Expansions (Bible Books, Scholarly Terms, Archaic English)</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Added more Bible book / source abbreviations: <strong>Mal</strong> (Malachi), <strong>Hos</strong> (Hosea), <strong>Ju</strong> / <strong>Ju.</strong> (Judges), <strong>Jon</strong> (Jonah), <strong>Lv.</strong> (Leviticus), <strong>Jos.</strong> (Joshua), <strong>Chr</strong> (Chronicles), <strong>Ec</strong> (Ecclesiastes), <strong>Rom</strong> (Romans), <strong>Lk</strong> (Luke), <strong>2 Pet</strong> (2 Peter), <strong>NT</strong> (New Testament), and the symbols <strong>ψψ</strong> (Psalms), <strong>WisdLt</strong> (Wisdom Literature), and <strong>S &amp; K</strong> (Samuel &amp; Kings)</li>
+                <li>Added scholarly / source references: <strong>Jos</strong> (Josephus), <strong>Aq</strong> (Aquila), <strong>Sym</strong> (Symmachus), <strong>BarHeb.</strong> (Bar Hebraeus), <strong>Rab.</strong> (Rabbis), and <strong>Ger.</strong> (German)</li>
+                <li>Added grammatical / rhetorical terms: <strong>em.</strong> (emends), <strong>pref.</strong> (prefix), <strong>alw.</strong> (always), <strong>circumst.</strong> (circumstantial), <strong>modif.</strong> (modifying), <strong>anomal.</strong> (anomalous), <strong>enum.</strong> (enumeration), <strong>Excurs.</strong> (Excursus), <strong>interpret.</strong> (interpretation), <strong>liter.</strong> (literature), <strong>Trans.</strong> (Translation), <strong>agst.</strong> (against), <strong>Iimprob.</strong> (improbably), <strong>etymol.</strong> (etymology), <strong>symbol.</strong> (symbolic), <strong>fr.</strong> (from), <strong>Orig.</strong> (Originally), <strong>hist.</strong> (historical), <strong>scrib.</strong> (scribal), <strong>substit.</strong> (substituted), <strong>husb.</strong> (husband), and <strong>transit.</strong> (transition)</li>
+                <li>Added the BDB "and more" markers <strong>+;</strong> and <strong>+,</strong>, plus the archaic <em>thyself → yourself</em></li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">New Reference Pages: Jastrow Abbreviations &amp; Talmud Term Replacements</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>New page at <a href="/jastrow/abbreviations" className="text-blue-600 hover:underline">/jastrow/abbreviations</a> listing every abbreviation expanded inline by the Jastrow reader (~400 entries) — rabbinic source abbreviations, grammatical shorthand, Latin phrases, and scholar surnames. Linked from the "About this dictionary" panel on the Jastrow search page.</li>
