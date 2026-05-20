@@ -577,6 +577,15 @@ export default function Bdb() {
                 </ul>
                 <p className="text-xs text-muted-foreground mt-2">
                   <a
+                    href="/bdb/abbreviations"
+                    className="underline hover:text-foreground transition-colors"
+                    data-testid="link-abbreviations"
+                  >
+                    Browse the full abbreviations reference →
+                  </a>
+                </p>
+                <p className="text-xs text-muted-foreground mt-2">
+                  <a
                     href="https://www.ezrabrand.com/p/chavrutai-modernized-bdb-bible"
                     target="_blank"
                     rel="noopener noreferrer"

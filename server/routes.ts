@@ -129,6 +129,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/changelog', servePageWithMeta);
   app.get('/jastrow', servePageWithMeta);
   app.get('/bdb', servePageWithMeta);
+  app.get('/bdb/abbreviations', servePageWithMeta);
   app.get('/term-index', servePageWithMeta);
   app.get('/blog-posts', servePageWithMeta);
   app.get('/biblical-index', servePageWithMeta);

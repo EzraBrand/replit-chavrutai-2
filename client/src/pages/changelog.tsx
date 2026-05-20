@@ -70,6 +70,14 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: Searchable Abbreviations Reference Page</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>New page at <a href="/bdb/abbreviations" className="text-blue-600 hover:underline">/bdb/abbreviations</a> listing every abbreviation expanded inline by the BDB reader (1,000+ entries) — scholar surnames, grammatical shorthand, Latin phrases, cognate-language tags, Bible book references, and BDB symbols. Filter by abbreviation or expansion, sort either column.</li>
+                <li>Linked from the "About this dictionary" panel on the BDB search page.</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: Another Round of Abbreviation Expansions &amp; Fixes</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added grammar &amp; rhetoric terms: <strong>interj.</strong> (interjection), <strong>Interrog.</strong> (Interrogative), <strong>rhet.</strong> (rhetorical), <strong>anacol.</strong> (anacoluthon), <strong>aposiop.</strong> (aposiopesis), <strong>exclam.</strong> (exclamation), <strong>Indef.</strong> (Indefinite), <strong>hypoth.</strong> (hypothetical), <strong>constr.</strong> (construction), <strong>suff.</strong> (suffix), <strong>makk.</strong> (maqaf), <strong>paraph.</strong> (paraphrased), <strong>dittogr.</strong> (dittography), <strong>charact.</strong> (characteristic), <strong>correspond.</strong> (corresponding), <strong>transl.</strong> (translated), <strong>Synon.</strong> (Synonym), <strong>pres.</strong> (present), <strong>appy.</strong> (apparently), <strong>ultim.</strong> (ultimately), and the rhetorical Latin tags <strong>nonne?</strong> ("is it not?") and <strong>Num?</strong> ("can it be?")</li>

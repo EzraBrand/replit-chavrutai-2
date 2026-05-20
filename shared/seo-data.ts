@@ -148,6 +148,15 @@ const STATIC_MAP: Record<string, SEOEntry> = {
       "Search the classic Brown-Driver-Briggs Hebrew Bible Dictionary with modernized presentation and direct biblical-citation links.",
     robots: "index, follow",
   },
+  "/bdb/abbreviations": {
+    title: "BDB Abbreviations Reference | ChavrutAI",
+    description:
+      "Complete list of Brown-Driver-Briggs (BDB) abbreviations expanded inline by the ChavrutAI BDB reader: scholar surnames, grammatical shorthand, Latin logic phrases, cognate-language tags, biblical book references, and BDB-specific symbols.",
+    ogTitle: "BDB Abbreviations Reference",
+    ogDescription:
+      "Searchable table of every abbreviation expanded inline by the ChavrutAI BDB reader.",
+    robots: "index, follow",
+  },
   "/term-index": {
     title: "Talmud Term Index - Names, Places & Key Terms | ChavrutAI",
     description:

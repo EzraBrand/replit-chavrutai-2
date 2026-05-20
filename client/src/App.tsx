@@ -31,6 +31,7 @@ const Contact = lazy(() => import("@/pages/contact"));
 const Privacy = lazy(() => import("@/pages/privacy"));
 const Jastrow = lazy(() => import("@/pages/jastrow"));
 const Bdb = lazy(() => import("@/pages/bdb"));
+const BdbAbbreviations = lazy(() => import("@/pages/bdb-abbreviations"));
 const LexiconHeadwords = lazy(() => import("@/pages/lexicon-headwords"));
 const SugyaViewerPage = lazy(() => import("@/pages/sugya-viewer"));
 const ExternalLinksPage = lazy(() => import("@/pages/external-links"));
@@ -120,6 +121,7 @@ function Router() {
         {() => <LexiconHeadwords lexiconKey="jastrow" />}
       </Route>
       <Route path="/bdb" component={Bdb} />
+      <Route path="/bdb/abbreviations" component={BdbAbbreviations} />
       <Route path="/bdb/headwords/:letter">
         {(params) => <LexiconHeadwords lexiconKey="bdb" letter={params.letter} />}
       </Route>
