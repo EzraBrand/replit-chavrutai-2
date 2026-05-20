@@ -570,53 +570,67 @@ export function convertSupTagsToParens(html: string): string {
 // a span we just inserted, and keeps the existing `(?![^<]*>)` "skip inside
 // HTML tags" guard sound (sentinels aren't HTML brackets).
 export function expandAbbreviations(text: string, mappings: Record<string, string>) {
-  let result = text;
   const sortedMappings = Object.entries(mappings).sort(([a], [b]) => b.length - a.length);
   const OPEN = '\x01';
   const CLOSE = '\x02';
 
-  for (const [abbreviation, expansion] of sortedMappings) {
-    let pattern: RegExp;
-    if (abbreviation === '&c.') {
-      pattern = new RegExp('&c\\.(?![^<]*>)', 'g');
-    } else if (abbreviation === 'c.') {
-      // BDB uses <strong>c.</strong> as a section label (the lettered sub-sense
-      // "c."). Only expand bare `c.` ("with") when it isn't wrapped in <strong>.
-      // Variable-length lookbehind tolerates attributes like <strong class="...">.
-      pattern = new RegExp('(?<!<strong[^>]{0,200}>)\\bc\\.(?![^<]*>)', 'g');
-    } else if (abbreviation.includes(' ')) {
-      const escaped = abbreviation.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      pattern = new RegExp(`${escaped}(?![^<]*>)`, 'g');
-    } else if (abbreviation.endsWith('.')) {
-      const escaped = abbreviation.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      pattern = new RegExp(`\\b${escaped}(?![^<]*>)`, 'g');
-    } else {
-      const escaped = abbreviation.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      // \b only fires between \w and \W. When the abbreviation edge is itself a
-      // non-word character (symbols like √, 𝔊, 𝔗) \b never matches, so fall
-      // back to a negative lookaround for word chars on that side.
-      const left = /^\w/.test(abbreviation) ? '\\b' : '(?<![A-Za-z0-9_])';
-      const right = /\w$/.test(abbreviation) ? '\\b' : '(?![A-Za-z0-9_])';
-      pattern = new RegExp(`${left}${escaped}${right}(?![^<]*>)`, 'g');
-    }
-    // Skip if this abbreviation would match inside an already-wrapped sentinel
-    // region (between OPEN and CLOSE). The sentinel chars are not word
-    // characters, so a `\b` won't help; instead, replace with a callback that
-    // peeks at the surrounding text.
-    result = result.replace(pattern, (match, offset: number, full: string) => {
-      // If we're already between OPEN and CLOSE (no CLOSE since the last OPEN
-      // at or before this offset), leave the match alone.
-      const before = full.lastIndexOf(OPEN, offset);
-      if (before !== -1) {
-        const close = full.indexOf(CLOSE, before);
-        if (close === -1 || close > offset) return match;
+  // Split into alternating text segments (even indices) and HTML tag segments
+  // (odd indices). This isolates abbreviation matching from HTML markup so
+  // literal characters like `>` in the body text (BDB uses `>` as a
+  // "preferred over" marker) don't accidentally trip the "skip inside tag"
+  // guard. Previously we used a `(?![^<]*>)` lookahead which treated any later
+  // literal `>` as evidence of being inside a tag, causing common abbreviations
+  // like "Thes", "AV", "VB", "SS" to be silently skipped whenever they
+  // appeared in a clause that also contained a literal `>`.
+  const parts = text.split(/(<[^>]*>)/);
+
+  for (let i = 0; i < parts.length; i += 2) {
+    let segment = parts[i];
+    if (!segment) continue;
+
+    // BDB uses `<strong>c.</strong>` as a section label (the lettered sub-sense
+    // "c."). Skip bare `c.` -> "with" expansion when this text segment sits
+    // directly inside a <strong> open tag.
+    const prevTag = i > 0 ? parts[i - 1] : '';
+    const insideStrong = /^<strong\b[^>]*>$/.test(prevTag);
+
+    for (const [abbreviation, expansion] of sortedMappings) {
+      if (abbreviation === 'c.' && insideStrong) continue;
+
+      let pattern: RegExp;
+      if (abbreviation === '&c.') {
+        pattern = /&c\./g;
+      } else if (abbreviation.includes(' ')) {
+        const escaped = abbreviation.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        pattern = new RegExp(escaped, 'g');
+      } else if (abbreviation.endsWith('.')) {
+        const escaped = abbreviation.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        pattern = new RegExp(`\\b${escaped}`, 'g');
+      } else {
+        const escaped = abbreviation.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        // \b only fires between \w and \W. When the abbreviation edge is itself
+        // a non-word character (symbols like √, 𝔊, 𝔗) \b never matches, so
+        // fall back to a negative lookaround for word chars on that side.
+        const left = /^\w/.test(abbreviation) ? '\\b' : '(?<![A-Za-z0-9_])';
+        const right = /\w$/.test(abbreviation) ? '\\b' : '(?![A-Za-z0-9_])';
+        pattern = new RegExp(`${left}${escaped}${right}`, 'g');
       }
-      return `${OPEN}${expansion}${CLOSE}`;
-    });
+
+      segment = segment.replace(pattern, (match, offset: number) => {
+        // Skip if this match falls inside an already-wrapped sentinel region.
+        const before = segment.lastIndexOf(OPEN, offset);
+        if (before !== -1) {
+          const close = segment.indexOf(CLOSE, before);
+          if (close === -1 || close > offset) return match;
+        }
+        return `${OPEN}${expansion}${CLOSE}`;
+      });
+    }
+    parts[i] = segment;
   }
 
   // Convert sentinels to span pills in one final pass.
-  return result
+  return parts.join('')
     .replace(new RegExp(`${OPEN}([^${CLOSE}]*)${CLOSE}`, 'g'),
              '<span class="dict-expanded">$1</span>');
 }
