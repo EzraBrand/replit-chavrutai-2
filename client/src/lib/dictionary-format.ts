@@ -623,7 +623,11 @@ export function expandAbbreviations(text: string, mappings: Record<string, strin
         pattern = new RegExp(escaped, 'g');
       } else if (abbreviation.endsWith('.')) {
         const escaped = abbreviation.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        pattern = new RegExp(`\\b${escaped}`, 'g');
+        // \b only fires between \w and \W. When the leading edge of the
+        // abbreviation is itself a non-word character (e.g. "+."), \b never
+        // matches; fall back to a negative lookbehind for word chars instead.
+        const left = /^\w/.test(abbreviation) ? '\\b' : '(?<![A-Za-z0-9_])';
+        pattern = new RegExp(`${left}${escaped}`, 'g');
       } else {
         const escaped = abbreviation.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         // \b only fires between \w and \W. When the abbreviation edge is itself
