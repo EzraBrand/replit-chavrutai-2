@@ -3,13 +3,13 @@
     "lexicon": "BDB Dictionary",
     "source": "https://www.sefaria.org/api/words/completion/{prefix}/BDB%20Dictionary",
     "fetched_at": "2026-05-02T09:10:43Z",
-    "total_headwords": 5250,
+    "total_headwords": 5251,
     "per_letter_counts": {
       "א": 583,
       "ב": 318,
       "ג": 194,
       "ד": 106,
-      "ל": 111,
+      "ל": 112,
       "ה": 120,
       "ת": 158,
       "ו": 10,
@@ -55,7 +55,10 @@
     "note": "Each headword is a canonical lexicon entry id, suitable as a query for /api/words/{headword}. Filtered against local Sefaria corpus cache to drop \"ghost\" headwords whose /api/words/ response contains no entry in this lexicon.",
     "filtered_at": "2026-05-02T14:08:00.261Z",
     "filter_source": "scripts/.cache/bdb-corpus",
-    "filter_dropped": 3795
+    "filter_dropped": 3795,
+    "manual_additions": [
+      "ל"
+    ]
   },
   "headwords": [
     "אָב",
@@ -1166,6 +1169,7 @@
     "דִּבְלַ֫יִם",
     "דָּבֵק",
     "דָּבַק",
+    "ל",
     "לֹא דְבָר",
     "דִּבֵּר",
     "דֹּ֫בֶר",
