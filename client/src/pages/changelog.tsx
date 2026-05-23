@@ -70,6 +70,15 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: Additional Abbreviation Expansions</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Added more grammatical and scholarly abbreviations: <strong>orthogr.</strong> (orthography), <strong>coh.</strong> (cohortative), <strong>immed.</strong> (immediately), <strong>rhetor.</strong> (rhetorical), <strong>narrat.</strong> (narrative), <strong>sacrif.</strong> (sacrificial), <strong>tabern.</strong> (tabernacle), <strong>artif.</strong> (artificial), <strong>disting.</strong> (distinguish), <strong>distinct.</strong> (distinction), <strong>betw.</strong> (between), and <strong>Syn.</strong> (Synonym).</li>
+                <li>Added more Bible book / proper-name abbreviations: <strong>Exod.</strong> (Exodus), <strong>Napht.</strong> (Naphtali), <strong>Est</strong> (Esther), <strong>La</strong> (Lamentations), and <strong>Hg</strong> (Haggai).</li>
+                <li>Added archaic English modernizations: <strong>wouldst</strong> → would, <strong>mayest</strong> → may, <strong>spake</strong> → spoke.</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: Frequency Counts as Readable Parentheticals</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>BDB tags every Hebrew lemma form with the number of times it occurs in the Hebrew Bible. Sefaria's source markup encodes these as tiny subscript numbers (e.g. <span dir="rtl">יְהוָֹה</span><sub>6518</sub>) which were hard to read inline. They now render as natural parentheticals — <em>(6518 times)</em> — so the count reads as part of the sentence. See e.g. <a href="/bdb?q=%D7%99%D7%94%D7%95%D7%94" className="text-blue-600 hover:underline">יהוה</a></li>
