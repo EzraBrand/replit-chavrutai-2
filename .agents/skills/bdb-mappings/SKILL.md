@@ -33,9 +33,15 @@ In `bdb.tsx > renderDefinition()`, transforms run in this order (innermost to ou
 9. annotateTransliterationsInHtml
 ```
 
-**The implication that bites every time:** by the time mappings run, `<sup>...</sup>` is already `(…)` and Unicode superscript letters are already normal letters. So a mapping key must match the **post-pipeline** form, not the raw Sefaria source.
+**Two implications that bite every time:**
 
-Example: Sefaria source has `Origen<sup>Hom 4, 6 in Ex.</sup>`. Before `expandAbbreviations` runs, this is already `Origen (Hom 4, 6 in Ex.)`. To handle it, the mapping key must be `"Origen (Hom"` — not `"Origen<sup>Hom"` and not `"Origen Hom"`.
+1. **Pre-`expandAbbreviations` form.** By the time mappings run, `<sup>...</sup>` is already `(…)` and Unicode superscript letters are already normal letters. So a mapping key must match the **post-pipeline-but-pre-expansion** form, not the raw Sefaria source.
+
+   Example: Sefaria source has `Origen<sup>Hom 4, 6 in Ex.</sup>`. Before `expandAbbreviations` runs, this is `Origen (Hom 4, 6 in Ex.)`. The key must be `"Origen (Hom"` — not `"Origen<sup>Hom"` and not `"Origen Hom"`.
+
+2. **Single-pass expansion.** `expandAbbreviations` is one pass over the text with all keys sorted longest-first. Expansions are wrapped in `<span class="dict-expanded">…</span>` sentinels so a later iteration can't re-match inside them. **Crucially: a longer key that includes the *expanded* form of a shorter key will not match**, because the shorter key hasn't expanded yet when matching is decided. The longer key must contain the **abbreviated** form.
+
+   Example: Sefaria has `Lag<sup>M. i. 255</sup>` → after sup conversion: `Lag (M. i. 255)`. To override the generic `Lag → Lagarde` rule for the Mittheilungen citation, the key must be `"Lag (M."` → `"Lagarde (Mittheilungen"`. A key of `"Lagarde (M."` will never fire, because the text still says `Lag (M.` at match time.
 
 ## How `expandAbbreviations` Matches
 
