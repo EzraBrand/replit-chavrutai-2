@@ -70,6 +70,15 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: More Abbreviation Expansions (May 24)</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Grammar: <strong>personif.</strong> (personification), <strong>indecl.</strong> (indeclinable), <strong>vbb.</strong> (verbs), <strong>dicendi</strong> (of speaking), <strong>agendi</strong> (of action), <strong>double opt.</strong> (double optative), <strong>interrrog.</strong> (interrogative), <strong>Prob.</strong> (Probably).</li>
+                <li>Scholars / sources: <strong>Boch</strong> / <strong>Boch.</strong> (Bochart); <strong>Origen Hom</strong> → Origen Homilies.</li>
+                <li>Vocabulary: <strong>crocod.</strong> (crocodile), <strong>hippopot.</strong> (hippopotamus), <strong>the v.</strong> (the verse), <strong>doest</strong> → do.</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: Additional Abbreviation Expansions</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added more grammatical and scholarly abbreviations: <strong>orthogr.</strong> (orthography), <strong>coh.</strong> (cohortative), <strong>immed.</strong> (immediately), <strong>rhetor.</strong> (rhetorical), <strong>narrat.</strong> (narrative), <strong>sacrif.</strong> (sacrificial), <strong>tabern.</strong> (tabernacle), <strong>artif.</strong> (artificial), <strong>disting.</strong> (distinguish), <strong>distinct.</strong> (distinction), <strong>betw.</strong> (between), and <strong>Syn.</strong> (Synonym).</li>
