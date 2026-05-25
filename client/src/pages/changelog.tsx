@@ -70,6 +70,17 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: More Abbreviation Expansions (May 25)</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Grammar: <strong>superl.</strong> (superlative), <strong>Hithpōʿ.</strong> (Hithpo'el), <strong>metapl.</strong> (metaplasmic), <strong>reflex.</strong> (reflexive), <strong>Spec.</strong> (Specifically).</li>
+                <li>Textual operations: <strong>edds.</strong> (editions), <strong>transp.</strong> (transposes), <strong>leg.</strong> (to be read), <strong>evid.</strong> (evidence).</li>
+                <li>Vocabulary: <strong>Identif.</strong> (Identification), <strong>connex.</strong> (connection), <strong>penins.</strong> (peninsula), <strong>dyn.</strong> (dynasty), <strong>contempt.</strong> (contemptuous).</li>
+                <li>Sources: <strong>Ecclus</strong> (Ben Sira / Ecclesiasticus).</li>
+                <li>Archaic English: <strong>maketh</strong> → makes; <strong>nisi</strong> (unless).</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: More Abbreviation Expansions (May 24)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Grammar: <strong>personif.</strong> (personification), <strong>indecl.</strong> (indeclinable), <strong>vbb.</strong> (verbs), <strong>dicendi</strong> (of speaking), <strong>agendi</strong> (of action), <strong>double opt.</strong> (double optative), <strong>interrrog.</strong> (interrogative), <strong>Prob.</strong> (Probably); <strong>ag.</strong> (against); <strong>abbrev.</strong> (abbreviation).</li>
