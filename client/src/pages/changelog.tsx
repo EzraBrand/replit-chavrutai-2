@@ -77,7 +77,7 @@ export default function Changelog() {
                 <li>Vocabulary: <strong>Identif.</strong> (Identification), <strong>connex.</strong> (connection), <strong>penins.</strong> (peninsula), <strong>dyn.</strong> (dynasty), <strong>contempt.</strong> (contemptuous).</li>
                 <li>Sources: <strong>Ecclus</strong> (Ben Sira / Ecclesiasticus).</li>
                 <li>Archaic English: <strong>maketh</strong> → makes; <strong>nisi</strong> (unless).</li>
-                <li>Scholars / sources: <strong>G. Jacob</strong> (Georg Jacob); <strong>Arab. Dicht.</strong> (Arabischen Dichtern).</li>
+                <li>Scholars / sources: <strong>G. Jacob</strong> (Georg Jacob); <strong>Arab. Dicht.</strong> (Arabischen Dichtern); <strong>Yakut</strong> (Yaqut al-Hamawi); <strong>Altisr. Kultst.</strong> (Altisraelitische Kultstätten); <strong>Rel.Gesch.</strong> (Religions-geschichte).</li>
               </ul>
             </div>
 
