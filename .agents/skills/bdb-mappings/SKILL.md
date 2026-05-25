@@ -70,27 +70,32 @@ Defined in `dictionary-format.ts` around line 590. Key behaviors:
    curl -sL "http://localhost:5000/api/bdb/search?query=<HEBREW_LEMMA_URL_ENCODED>"
    ```
 
-2. **Check for existing mappings / conflicts.**
+2. **Check for existing mappings / conflicts.** Always search for the *exact* key (with trailing punctuation), not a prefix — `rg "reflex"` will hit the existing `"refl.":` line and trick you into thinking `reflex.` is already mapped. The helper script in step 3 also auto-skips duplicates and prints a `SKIP` warning, so you'll catch it there too.
    ```bash
-   rg -n "\"<abbr>\"" shared/data/lexicon-mappings/bdb.json
+   # Good — exact key match:
+   rg -nF '"reflex.":' shared/data/lexicon-mappings/bdb.json
+   # Bad — prefix match, false positives:
+   rg "reflex" shared/data/lexicon-mappings/bdb.json
    ```
    - If a shorter key already maps to something wrong in context (e.g. `Hom → Fritz Hommel`), add a longer, more specific key rather than removing the short one.
    - Case variants (`Prob.` vs `prob.`) are usually intentional — add both if needed.
 
-3. **Edit the JSON.** Append entries to the last `// ── REVIEW BATCH (YYYY-MM-DD) ──` block, or create a new dated batch block if none exists for today. Place new entries **before** the `// ── END ──` line.
+3. **Edit the JSON — use the helper script.** Do **not** hand-craft byte-level patches; the file has unpredictable per-line endings (the line *before* `END` is LF but the `END` line itself is CRLF) and the dash count in the END marker is not what you'd guess (it's 61, not 60). Use:
 
-   ⚠ **File has mixed line endings (CRLF + LF).** The `edit` tool's exact-match can fail. Use a small Python script via `bash` to preserve byte-perfect contents:
-   ```python
-   path = 'shared/data/lexicon-mappings/bdb.json'
-   data = open(path,'rb').read()
-   old = b'    "<anchor line>",\n    "// \xe2\x94\x80\xe2\x94\x80 END'
-   new = b'    "<anchor line>",\n    "<new key>": "<new value>",\n    "// \xe2\x94\x80\xe2\x94\x80 END'
-   assert old in data
-   open(path,'wb').write(data.replace(old, new, 1))
-   import json; json.load(open(path)); print('OK')
+   ```bash
+   node scripts/add-bdb-mappings.mjs '{"Identif.":"Identification","nisi":"unless"}'
    ```
 
-4. **Validate JSON** (`json.load` above, or `node -e "JSON.parse(require('fs').readFileSync('shared/data/lexicon-mappings/bdb.json'))"`).
+   The script:
+   - Locates the `// ── END ──` sentinel by regex (no hardcoded dash count).
+   - Appends to today's `REVIEW BATCH` block if one exists, otherwise creates one.
+   - Preserves the file's existing per-line EOL style.
+   - Skips keys already present in the file (and warns) — so it's safe to re-run.
+   - Validates JSON before writing.
+
+   Pass a date as the 2nd arg (`YYYY-MM-DD`) to backdate or batch under a specific day. If you ever need to edit the JSON by hand instead, read the END line's bytes first (`python3 -c "..."` with `rfind(b'END')`) — never assume dash count or line endings.
+
+4. **JSON is already validated by the script.** If you edited by hand, run `node -e "JSON.parse(require('fs').readFileSync('shared/data/lexicon-mappings/bdb.json'))"`.
 
 5. **Update the changelog** (`client/src/pages/changelog.tsx`) with a brief entry under the current month, listing the new mappings grouped by category (Grammar / Scholars / Vocabulary / Archaic English / etc.). Keep the user's exact spelling — including OCR oddities like `interrrog.` (triple r) — and flag any that look like typos.
 
@@ -108,6 +113,18 @@ Defined in `dictionary-format.ts` around line 590. Key behaviors:
 ## Categories Already Present
 
 The file is organized by `// ── HEADER ──` comment markers. New entries can go either into the appropriate existing section or into the latest dated review batch at the bottom. Existing sections include: Proper Names / Geography, Grammatical (Verb Forms / Stems / Noun & Adjective / Person-Number-Gender / Part-of-Speech / Syntax), Semantic, Qualifiers, Textual Operations, Reference Markers, Languages, Text-Versions & Sigla, Journals, Reference Works, Scholars, Symbols, Archaic English (KJV-style) Modernized, and the dated REVIEW BATCH sections.
+
+## Future Optimization Ideas
+
+Things worth considering if mapping-batch work becomes more frequent:
+
+- **Normalize line endings.** A one-time pass to convert the file to pure LF would let the `edit` tool handle exact-match edits directly, retiring the byte-level workflow entirely. Risk: ~1300-line diff that obscures real changes in `git blame`.
+- **Drop the comment-as-key sectioning.** The `"// ── …": ""` markers are clever but force JSON-with-fake-comments. Moving to `.jsonc` (with a tiny build step) or YAML would allow real comments and `# REVIEW BATCH` headers without polluting the runtime key space.
+- **Convert to a flat TSV/CSV** (`abbr<TAB>expansion<TAB>section`) loaded at server build time into the same object shape. Trivially appendable, diff-friendly, sortable, dedupe-able with `sort -u`.
+- **Add a per-batch `node scripts/verify-bdb-mappings.mjs`** that loads `bdb.json`, then for each new key fetches one or two known BDB entries containing it from Sefaria and asserts the post-pipeline expansion fires (and doesn't fire inside `<sup>` left-over boundaries). Would catch unicode-form mismatches like a decomposed `ō` in `Hithpōʿ.` automatically.
+- **Lint for shadow keys.** A small script that flags any new key whose substring matches an existing shorter key (`reflex.` vs `refl.`) — not necessarily a bug, but worth a confirm prompt.
+- **Move the `NSG` orphan** sitting outside the END marker back into the appropriate section so the END line is truly the last entry; this would let the helper script use a stricter anchor and let humans trust the END marker.
+- **Batch-input UX.** Accept a heredoc or file path in addition to the JSON-string CLI arg, so a user-supplied list (often pasted as `abbr - expansion` lines) can be piped through without manual JSON conversion.
 
 ## Cross-References
 
