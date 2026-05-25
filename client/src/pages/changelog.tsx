@@ -70,6 +70,15 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Sugya Viewer: Range Selection via Dropdowns (May 25)</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Added a <strong>Range Selection</strong> block on the Sugya Viewer page: pick a tractate, a starting page+section, and an ending page+section to build a multi-amud reference without needing to type a URL.</li>
+                <li>Range is limited to a single tractate and up to 10 amudim; inline validation shows when the selection is invalid or too large.</li>
+                <li>Generates the same shareable URL format as before (e.g. <code className="text-xs bg-sepia-200 px-1 rounded">/sugya-viewer?Berakhot.10a.26-10b.5</code>).</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: More Abbreviation Expansions (May 25)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Grammar: <strong>superl.</strong> (superlative), <strong>Hithpōʿ.</strong> (Hithpo'el), <strong>metapl.</strong> (metaplasmic), <strong>reflex.</strong> (reflexive), <strong>Spec.</strong> (Specifically).</li>

@@ -60,6 +60,32 @@ export default function SefariaFetchPage() {
   const [showBlogPostSelector, setShowBlogPostSelector] = useState<boolean>(false);
   const [showAbout, setShowAbout] = useState<boolean>(false);
 
+  // Range selection (within a single tractate)
+  const [rangeTractate, setRangeTractate] = useState<string>(tractates[0]);
+  const [rangeFromPage, setRangeFromPage] = useState<string>("2a");
+  const [rangeFromSection, setRangeFromSection] = useState<string>("1");
+  const [rangeToPage, setRangeToPage] = useState<string>("2b");
+  const [rangeToSection, setRangeToSection] = useState<string>("1");
+
+  const MAX_AMUDIM_RANGE = 10;
+  const rangeFromIdx = pages.indexOf(rangeFromPage);
+  const rangeToIdx = pages.indexOf(rangeToPage);
+  const amudimSpan = rangeToIdx - rangeFromIdx + 1;
+  const sameAmud = rangeFromIdx === rangeToIdx;
+  const rangeOrderValid =
+    rangeToIdx > rangeFromIdx ||
+    (sameAmud && Number(rangeToSection) >= Number(rangeFromSection));
+  const rangeWithinLimit = amudimSpan >= 1 && amudimSpan <= MAX_AMUDIM_RANGE;
+  const rangeValid = rangeOrderValid && rangeWithinLimit;
+  const rangeErrorMsg = !rangeOrderValid
+    ? "End must come after start."
+    : !rangeWithinLimit
+      ? `Range too large — max ${MAX_AMUDIM_RANGE} amudim (you selected ${amudimSpan}).`
+      : "";
+
+  const buildRangeRef = (t: string, fp: string, fs: string, tp: string, ts: string) =>
+    `${t}.${fp}.${fs}-${tp}.${ts}`;
+
   interface FetchParams {
     inputMethod: "dropdown" | "url";
     tractate: string;
@@ -139,9 +165,11 @@ export default function SefariaFetchPage() {
         }
       }
     } else if (raw && !raw.includes('=')) {
-      // New Sefaria-style format: ?Menachot.65a.4-66a.8
-      setUrl(raw);
-      setFetchParams({ inputMethod: 'url', tractate: tractates[0], page: '2a', section: 'all', url: `https://www.sefaria.org/${raw}` });
+      // New Sefaria-style format: ?Menachot.65a.4-66a.8 (decode for multi-word tractates)
+      let decodedRef = raw;
+      try { decodedRef = decodeURIComponent(raw); } catch { /* keep raw */ }
+      setUrl(decodedRef);
+      setFetchParams({ inputMethod: 'url', tractate: tractates[0], page: '2a', section: 'all', url: `https://www.sefaria.org/${decodedRef}` });
     }
   }, []);
 
@@ -177,6 +205,14 @@ export default function SefariaFetchPage() {
     const cleanRef = extractRef(ref);
     pushUrlParams(cleanRef);
     setFetchParams({ inputMethod: 'url', tractate, page, section, url: `https://www.sefaria.org/${cleanRef}` });
+  };
+
+  const handleFetchRange = () => {
+    if (!rangeValid) return;
+    const ref = buildRangeRef(rangeTractate, rangeFromPage, rangeFromSection, rangeToPage, rangeToSection);
+    setUrl(ref);
+    pushUrlParams(ref);
+    setFetchParams({ inputMethod: 'url', tractate: rangeTractate, page: rangeFromPage, section: rangeFromSection, url: `https://www.sefaria.org/${ref}` });
   };
 
   useEffect(() => {
@@ -742,6 +778,145 @@ ${cleanHtml}
                     </SelectContent>
                   </Select>
                 </div>
+              </div>
+            </div>
+
+            {/* Range Selection */}
+            <div className="space-y-2">
+              <Label className="text-sm font-semibold">
+                Range Selection
+              </Label>
+              <p className="text-xs text-muted-foreground -mt-1">
+                Choose a range within a single tractate (up to {MAX_AMUDIM_RANGE} amudim).
+              </p>
+
+              <div className="space-y-2">
+                <Label htmlFor="range-tractate" className="text-xs text-muted-foreground">Tractate</Label>
+                <Select
+                  value={rangeTractate}
+                  onValueChange={(v) => setRangeTractate(v)}
+                >
+                  <SelectTrigger id="range-tractate" data-testid="select-range-tractate">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {tractates.map((t) => (
+                      <SelectItem key={t} value={t} data-testid={`option-range-tractate-${t}`}>
+                        {t}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                <div className="space-y-2 border border-sepia-200 rounded-md p-3">
+                  <Label className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">From</Label>
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="space-y-1">
+                      <Label htmlFor="range-from-page" className="text-xs text-muted-foreground">Page</Label>
+                      <Select
+                        value={rangeFromPage}
+                        onValueChange={(v) => setRangeFromPage(v)}
+                      >
+                        <SelectTrigger id="range-from-page" data-testid="select-range-from-page">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {pages.map((p) => (
+                            <SelectItem key={p} value={p} data-testid={`option-range-from-page-${p}`}>
+                              {p}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-1">
+                      <Label htmlFor="range-from-section" className="text-xs text-muted-foreground">Section</Label>
+                      <Select
+                        value={rangeFromSection}
+                        onValueChange={(v) => setRangeFromSection(v)}
+                      >
+                        <SelectTrigger id="range-from-section" data-testid="select-range-from-section">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {sections.map((s) => (
+                            <SelectItem key={s} value={s.toString()} data-testid={`option-range-from-section-${s}`}>
+                              {s}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-2 border border-sepia-200 rounded-md p-3">
+                  <Label className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">To</Label>
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="space-y-1">
+                      <Label htmlFor="range-to-page" className="text-xs text-muted-foreground">Page</Label>
+                      <Select
+                        value={rangeToPage}
+                        onValueChange={(v) => setRangeToPage(v)}
+                      >
+                        <SelectTrigger id="range-to-page" data-testid="select-range-to-page">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {pages.map((p) => (
+                            <SelectItem key={p} value={p} data-testid={`option-range-to-page-${p}`}>
+                              {p}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-1">
+                      <Label htmlFor="range-to-section" className="text-xs text-muted-foreground">Section</Label>
+                      <Select
+                        value={rangeToSection}
+                        onValueChange={(v) => setRangeToSection(v)}
+                      >
+                        <SelectTrigger id="range-to-section" data-testid="select-range-to-section">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {sections.map((s) => (
+                            <SelectItem key={s} value={s.toString()} data-testid={`option-range-to-section-${s}`}>
+                              {s}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-col md:flex-row md:items-center gap-2 pt-2">
+                <Button
+                  onClick={handleFetchRange}
+                  variant="outline"
+                  disabled={!rangeValid}
+                  data-testid="button-fetch-range"
+                >
+                  <Search className="mr-2 h-4 w-4" />
+                  Fetch Range
+                </Button>
+                {rangeValid ? (
+                  <p className="text-xs text-muted-foreground">
+                    Reference:{" "}
+                    <code className="bg-muted px-1 rounded">
+                      {buildRangeRef(rangeTractate, rangeFromPage, rangeFromSection, rangeToPage, rangeToSection)}
+                    </code>
+                  </p>
+                ) : (
+                  <p className="text-xs text-destructive" data-testid="range-error">
+                    {rangeErrorMsg}
+                  </p>
+                )}
               </div>
             </div>
 
