@@ -70,6 +70,15 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: More Abbreviation Expansions (May 30)</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Grammar: <strong>demonstr.</strong> (demonstrative), <strong>disj.</strong> (disjunctive), <strong>cohort.</strong> (cohortative), <strong>contin.</strong> (continuation), <strong>syll.</strong> (syllable), <strong>gutt.</strong> (guttural), <strong>predic.</strong> (predicate), <strong>Prep.</strong> (Preposition), <strong>daghesh</strong> (dagesh).</li>
+                <li>Vocabulary: <strong>combin.</strong> (combination), <strong>geograph.</strong> (geographical), <strong>individ.</strong> (individual), <strong>connexion</strong> (connection).</li>
+                <li>Sources / scholars: <strong>Od.</strong> (Odyssey), <strong>Hdt</strong> (Herodotus), <strong>Nat. Hist. Bib.</strong> (Natural History of the Bible), and <strong>Dr (Sm</strong> → Driver (Samuel) in the <a href="/bdb?q=%D7%95" className="text-blue-600 hover:underline">וְ</a> entry.</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: Grammatical Particles Now Searchable (May 30)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Seven core grammatical particles that were missing from BDB search now appear in results: <strong className="font-hebrew">לְ</strong> (to, for), <strong className="font-hebrew">מִן־</strong> (from), <strong className="font-hebrew">וְ</strong> (and), <strong className="font-hebrew">בְּ</strong> (in), <strong className="font-hebrew">כְּ</strong> (like, as), <strong className="font-hebrew">הֲ</strong> (interrogative), and <strong className="font-hebrew">פֶּן־</strong> (lest).</li>
