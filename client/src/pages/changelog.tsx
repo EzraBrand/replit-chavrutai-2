@@ -70,6 +70,15 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: Grammatical Particles Now Searchable (May 30)</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Seven core grammatical particles that were missing from BDB search now appear in results: <strong className="font-hebrew">לְ</strong> (to, for), <strong className="font-hebrew">מִן־</strong> (from), <strong className="font-hebrew">וְ</strong> (and), <strong className="font-hebrew">בְּ</strong> (in), <strong className="font-hebrew">כְּ</strong> (like, as), <strong className="font-hebrew">הֲ</strong> (interrogative), and <strong className="font-hebrew">פֶּן־</strong> (lest).</li>
+                <li>These short prepositions and prefixes exist in BDB but were invisible to the dictionary's consonant search; they're now merged in alongside regular results (e.g. searching <span className="font-hebrew">פן</span> returns both <span className="font-hebrew">פֶּן־</span> and <span className="font-hebrew">פִּנָּה</span>).</li>
+                <li>They also now appear in the browsable <strong>Headword Index</strong> under their respective letters.</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Sugya Viewer: Range Selection via Dropdowns (May 25)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added a <strong>Range Selection</strong> block on the Sugya Viewer page: pick a tractate, a starting page+section, and an ending page+section to build a multi-amud reference without needing to type a URL.</li>

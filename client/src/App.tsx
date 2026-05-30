@@ -32,6 +32,7 @@ const Privacy = lazy(() => import("@/pages/privacy"));
 const Jastrow = lazy(() => import("@/pages/jastrow"));
 const Bdb = lazy(() => import("@/pages/bdb"));
 const BdbAbbreviations = lazy(() => import("@/pages/bdb-abbreviations"));
+const BdbPrefixTest = lazy(() => import("@/pages/bdb-prefix-test"));
 const JastrowAbbreviations = lazy(() => import("@/pages/jastrow-abbreviations"));
 const TalmudTermReplacements = lazy(() => import("@/pages/talmud-term-replacements"));
 const LexiconHeadwords = lazy(() => import("@/pages/lexicon-headwords"));
@@ -125,6 +126,7 @@ function Router() {
         {() => <LexiconHeadwords lexiconKey="jastrow" />}
       </Route>
       <Route path="/bdb" component={Bdb} />
+      <Route path="/bdb-prefix-test" component={BdbPrefixTest} />
       <Route path="/bdb/abbreviations" component={BdbAbbreviations} />
       <Route path="/bdb/headwords/:letter">
         {(params) => <LexiconHeadwords lexiconKey="bdb" letter={params.letter} />}
