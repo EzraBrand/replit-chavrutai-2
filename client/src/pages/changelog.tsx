@@ -70,6 +70,14 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: More Abbreviation Expansions &amp; a Fix (May 30)</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Sources / editions: <strong>V. d. H</strong> (van der Hooght), <strong>Sora</strong> (Sura), <strong>Var. Lect.</strong> (Variae Lectiones), <strong>Jüd. Ztschr.</strong> (Jüdische Zeitschrift), <strong>ad loc.</strong> (at the place).</li>
+                <li>Fixed <strong>Norzi</strong> — now expands to <em>Yedidya Nortzi (Minḥat Shai)</em>, naming his masoretic work.</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: More Headwords Searchable (May 30)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Three more BDB headwords that were missing from consonant search now appear in results: <strong className="font-hebrew">הַל</strong>, <strong className="font-hebrew">לָט</strong>, and <strong className="font-hebrew">לֹט</strong> (e.g. searching <span className="font-hebrew">לט</span> now returns both <span className="font-hebrew">לָט</span> and <span className="font-hebrew">לֹט</span>).</li>

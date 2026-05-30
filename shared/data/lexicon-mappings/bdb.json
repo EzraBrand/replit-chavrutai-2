@@ -913,7 +913,7 @@
     "Eg.": "Eigennamen",
     "Eg": "Eigennamen",
     "Nes": "E. Nestle",
-    "Norzi": "J. S. ben Abraham Norzi",
+    "Norzi": "Yedidya Nortzi (Minḥat Shai)",
     "Oehl": "Oehler",
     "Ol": "J. Olshausen",
     "Oort": "H. Oort",
@@ -1411,6 +1411,11 @@
     "Hdt": "Herodotus",
     "Nat. Hist. Bib.": "Natural History of the Bible",
     "Dr (Sm": "Driver (Samuel",
+    "V. d. H": "van der Hooght",
+    "Sora": "Sura",
+    "Var. Lect.": "Variae Lectiones",
+    "Jüd. Ztschr.": "Jüdische Zeitschrift",
+    "ad loc.": "at the place",
     "// ── END ─────────────────────────────────────────────────────────────": "",
     "NSG": "Nöldeke, Syrische Grammatik"
   }
