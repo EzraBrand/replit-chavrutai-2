@@ -74,6 +74,7 @@ export default function Changelog() {
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Seven core grammatical particles that were missing from BDB search now appear in results: <strong className="font-hebrew">לְ</strong> (to, for), <strong className="font-hebrew">מִן־</strong> (from), <strong className="font-hebrew">וְ</strong> (and), <strong className="font-hebrew">בְּ</strong> (in), <strong className="font-hebrew">כְּ</strong> (like, as), <strong className="font-hebrew">הֲ</strong> (interrogative), and <strong className="font-hebrew">פֶּן־</strong> (lest).</li>
                 <li>These short prepositions and prefixes exist in BDB but were invisible to the dictionary's consonant search; they're now merged in alongside regular results (e.g. searching <span className="font-hebrew">פן</span> returns both <span className="font-hebrew">פֶּן־</span> and <span className="font-hebrew">פִּנָּה</span>).</li>
+                <li>They also now appear in the browsable <strong>Headword Index</strong> under their respective letters.</li>
               </ul>
             </div>
 
