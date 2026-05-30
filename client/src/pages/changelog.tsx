@@ -73,6 +73,7 @@ export default function Changelog() {
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: More Headwords Searchable (May 30)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Three more BDB headwords that were missing from consonant search now appear in results: <strong className="font-hebrew">הַל</strong>, <strong className="font-hebrew">לָט</strong>, and <strong className="font-hebrew">לֹט</strong> (e.g. searching <span className="font-hebrew">לט</span> now returns both <span className="font-hebrew">לָט</span> and <span className="font-hebrew">לֹט</span>).</li>
+                <li>They also now appear in the browsable <strong>Headword Index</strong> under their respective letters.</li>
               </ul>
             </div>
 
