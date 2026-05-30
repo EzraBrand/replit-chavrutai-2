@@ -74,7 +74,7 @@ export default function Changelog() {
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Sources / editions: <strong>V. d. H</strong> (van der Hooght), <strong>Sora</strong> (Sura), <strong>Var. Lect.</strong> (Variae Lectiones), <strong>Jüd. Ztschr.</strong> (Jüdische Zeitschrift), <strong>ad loc.</strong> (at the place).</li>
                 <li>Fixed <strong>Norzi</strong> — now expands to <em>Yedidya Nortzi (Minḥat Shai)</em>, naming his masoretic work.</li>
-                <li>Added <strong>Delitzsch (W</strong> → <em>Delitzsch (Assyrisches Wörterbuch)</em>, naming his Assyrian dictionary.</li>
+                <li>Added <strong>Delitzsch (W</strong> and <strong>Dl (W</strong> → <em>Delitzsch (Assyrisches Wörterbuch)</em>, naming his Assyrian dictionary.</li>
               </ul>
             </div>
 
