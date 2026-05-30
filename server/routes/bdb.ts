@@ -19,5 +19,17 @@ export function createBdbRouter() {
     }
   });
 
+  // Internal/test: probe all single-letter prefix & preposition BDB entries
+  // via Sefaria's v3 texts API. Used by the /bdb-prefix-test page.
+  router.get("/api/bdb/prefix-probe", async (_req, res) => {
+    try {
+      const result = await storage.probeBdbPrefixEntries();
+      res.json(result);
+    } catch (error) {
+      console.error("BDB prefix probe error:", error);
+      res.status(500).json({ message: "Failed to probe BDB prefix entries" });
+    }
+  });
+
   return router;
 }

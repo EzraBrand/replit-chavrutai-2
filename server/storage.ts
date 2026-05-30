@@ -22,6 +22,25 @@ export interface IStorage {
 
   // BDB Dictionary methods
   searchBdbEntries(request: SearchRequest): Promise<DictionaryEntry[]>;
+
+  // BDB internal/test: probe single-letter prefix & preposition entries
+  probeBdbPrefixEntries(): Promise<BdbPrefixProbeResult>;
+}
+
+export interface BdbPrefixProbeEntry {
+  form: string;
+  ref: string;
+  type: "letter" | "prefix";
+  headword: string;
+  text: string;
+  length: number;
+}
+
+export interface BdbPrefixProbeResult {
+  generatedAt: string;
+  probed: number;
+  found: number;
+  entries: BdbPrefixProbeEntry[];
 }
 
 export class MemStorage implements IStorage {
@@ -120,6 +139,10 @@ export class MemStorage implements IStorage {
   // BDB Dictionary methods - delegate to SefariaAPI
   async searchBdbEntries(request: SearchRequest): Promise<DictionaryEntry[]> {
     return sefariaAPI.searchBdbEntries(request);
+  }
+
+  async probeBdbPrefixEntries(): Promise<BdbPrefixProbeResult> {
+    return sefariaAPI.probeBdbPrefixEntries();
   }
 }
 
@@ -350,6 +373,80 @@ export class SefariaAPI {
   // BDB public method
   async searchBdbEntries(request: SearchRequest): Promise<DictionaryEntry[]> {
     return this.searchEntriesForLexicon(request.query, 'BDB Dictionary');
+  }
+
+  // BDB internal/test: probe single-letter prefix & preposition entries via the
+  // v3 texts API (which DOES return them, unlike /api/words used by search).
+  private prefixProbeCache: BdbPrefixProbeResult | null = null;
+
+  async probeBdbPrefixEntries(): Promise<BdbPrefixProbeResult> {
+    if (this.prefixProbeCache) return this.prefixProbeCache;
+
+    // Every base Hebrew letter (incl. final forms) + the voweled prefix /
+    // preposition / particle headwords BDB actually stores as standalone entries.
+    const baseLetters = [
+      'א','ב','ג','ד','ה','ו','ז','ח','ט','י','כ','ך','ל','מ','ם',
+      'נ','ן','ס','ע','פ','ף','צ','ץ','ק','ר','ש','ת',
+    ];
+    const prefixForms = [
+      'בְּ','כְּ','לְ','וְ','הֲ','הַ','מִן','מִן־','מִ','שֶׁ','שַׁ','אֵת','אֶת','אֶת־',
+    ];
+    const forms = Array.from(new Set([...baseLetters, ...prefixForms]));
+
+    const entries: BdbPrefixProbeEntry[] = [];
+    for (const form of forms) {
+      try {
+        const url = `${this.baseURL}/v3/texts/${encodeURIComponent(`BDB, ${form}`)}`;
+        const r = await fetch(url);
+        if (!r.ok) continue;
+        const d: any = await r.json();
+        const versions: any[] = d.versions || [];
+        // Prefer the full 1906 BDB lexicon version; fall back to first non-empty.
+        const full =
+          versions.find((v) => /Hebrew and English lexicon/i.test(v.versionTitle || '')) ||
+          versions[0];
+        if (!full) continue;
+        const raw = full.text;
+        const joined = Array.isArray(raw) ? raw.filter(Boolean).join('\n') : String(raw || '');
+        if (!joined.trim()) continue;
+
+        // Classify: letter descriptions are tiny ("Bêth, 2nd letter…");
+        // preposition/conjunction entries are large grammatical articles.
+        const type: BdbPrefixProbeEntry['type'] =
+          joined.length > 1000 || /<strong>\s*(prep|conj|adv|subst|particle)\.?/i.test(joined)
+            ? 'prefix'
+            : 'letter';
+
+        // Headword: first rtl span in the entry, else the probed form.
+        const hwMatch = joined.match(/dir="rtl"[^>]*>([^<]+)</);
+        const headword = (hwMatch ? hwMatch[1] : form).trim();
+
+        entries.push({
+          form,
+          ref: d.ref || `BDB, ${form}`,
+          type,
+          headword,
+          text: joined,
+          length: joined.length,
+        });
+      } catch {
+        // ignore individual failures — probe is best-effort
+      }
+    }
+
+    // Prefixes/prepositions first (the grammatically important ones), then letters.
+    entries.sort((a, b) => {
+      if (a.type !== b.type) return a.type === 'prefix' ? -1 : 1;
+      return b.length - a.length;
+    });
+
+    this.prefixProbeCache = {
+      generatedAt: new Date().toISOString(),
+      probed: forms.length,
+      found: entries.length,
+      entries,
+    };
+    return this.prefixProbeCache;
   }
 }
 
