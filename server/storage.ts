@@ -426,13 +426,20 @@ export class SefariaAPI {
         const hwMatch = joined.match(/dir="rtl"[^>]*>([^<]+)</);
         const headword = (hwMatch ? hwMatch[1] : form).trim();
 
+        // Run the same hyperlink transform the main BDB reader applies: it
+        // rewrites internal refs to Sefaria URLs and replaces each citation's
+        // abbreviated display text ("2 S 18:20") with the full reference from
+        // the data-ref attribute ("II Samuel 18:20"). Without this the probe
+        // entries render with raw abbreviations, unlike the live reader.
+        const transformed = this.transformHyperlinks(joined);
+
         entries.push({
           form,
           ref: d.ref || `BDB, ${form}`,
           type,
           headword,
-          text: joined,
-          length: joined.length,
+          text: transformed,
+          length: transformed.length,
         });
       } catch {
         // ignore individual failures — probe is best-effort

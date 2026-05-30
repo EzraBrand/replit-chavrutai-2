@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
-import { Loader2 } from "lucide-react";
+import { Loader2, ExternalLink } from "lucide-react";
 import bdbMappings from "@shared/data/lexicon-mappings/bdb.json";
 import {
   dictionaryStyles,
@@ -183,8 +183,17 @@ function EntryView({ meta }: { meta: ProbeEntryMeta }) {
 
   return (
     <article className="border-t border-border pt-6" data-testid={`entry-${meta.form}`}>
-      <h2 className="text-3xl font-bold text-primary mb-4" dir="rtl">
-        {meta.headword}
+      <h2 className="text-3xl font-bold font-hebrew mb-4" dir="rtl">
+        <a
+          href={`https://www.sefaria.org.il/BDB%2C_${encodeURIComponent(meta.form)}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 hover:underline inline-flex items-center gap-1.5"
+          title="View this entry on Sefaria"
+        >
+          {meta.headword}
+          <ExternalLink className="h-4 w-4 opacity-70" />
+        </a>
       </h2>
       {isLoading && (
         <div className="flex items-center gap-2 text-muted-foreground py-2 text-sm">
