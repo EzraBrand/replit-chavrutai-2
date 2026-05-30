@@ -2,6 +2,38 @@ import { type User, type InsertUser, type Text, type InsertText, type Bookmark, 
 import { randomUUID } from "crypto";
 import bdbSupplementalData from "@shared/data/bdb-supplemental-entries.json";
 
+// Reduce a Hebrew form to its bare consonant "skeleton" so user queries (typed
+// without vowels/maqaf) can be matched against voweled supplemental headwords:
+// strip niqqud + cantillation, maqaf, and homograph superscripts, then map final
+// letters to their regular forms.
+const BDB_FINAL_LETTERS: Record<string, string> = {
+  'ך': 'כ', 'ם': 'מ', 'ן': 'נ', 'ף': 'פ', 'ץ': 'צ',
+};
+function bdbSkeleton(s: string): string {
+  return (s || '')
+    .replace(/[\u0591-\u05C7]/g, '') // niqqud + cantillation
+    .replace(/\u05BE/g, '')          // maqaf
+    .replace(/[¹²³⁴⁵⁶⁷⁸⁹⁰]/g, '')    // homograph superscripts
+    .split('')
+    .map((ch) => BDB_FINAL_LETTERS[ch] || ch)
+    .join('')
+    .trim();
+}
+
+// High-value BDB grammatical particles that exist via the v3 texts API but are
+// absent from /api/words consonant search. These are merged into the main /bdb
+// reader (the broader ~44 two-letter forms stay on /bdb-prefix-test for now).
+// Keyed by consonant skeleton -> voweled forms to fetch.
+const BDB_SUPPLEMENTAL_PARTICLE_FORMS = ['לְ', 'מִן־', 'וְ', 'בְּ', 'כְּ', 'הֲ', 'פֶּן־'];
+const BDB_SUPPLEMENTAL_PARTICLES: Record<string, string[]> = (() => {
+  const map: Record<string, string[]> = {};
+  for (const form of BDB_SUPPLEMENTAL_PARTICLE_FORMS) {
+    const key = bdbSkeleton(form);
+    (map[key] ||= []).push(form);
+  }
+  return map;
+})();
+
 export interface IStorage {
   // User methods
   getUser(id: string): Promise<User | undefined>;
@@ -279,6 +311,96 @@ export class SefariaAPI {
   });
 
   private async searchEntriesForLexicon(query: string, lexiconName: string): Promise<DictionaryEntry[]> {
+    const results = await this.searchLexiconCore(query, lexiconName);
+    if (lexiconName === 'BDB Dictionary') {
+      return this.mergeBdbSupplementalParticles(query, results);
+    }
+    return results;
+  }
+
+  // Fetch a single supplemental BDB headword from the v3 texts API and shape it
+  // as a DictionaryEntry. These forms are missing from /api/words search but
+  // present in /api/v3/texts. Cached in-memory (success or miss) to avoid refetch.
+  private bdbSupplementalEntryCache = new Map<string, DictionaryEntry | null>();
+
+  private async fetchBdbSupplementalEntry(form: string): Promise<DictionaryEntry | null> {
+    if (this.bdbSupplementalEntryCache.has(form)) {
+      return this.bdbSupplementalEntryCache.get(form) ?? null;
+    }
+    try {
+      const url = `${this.baseURL}/v3/texts/${encodeURIComponent(`BDB, ${form}`)}`;
+      const r = await fetch(url);
+      if (!r.ok) {
+        this.bdbSupplementalEntryCache.set(form, null);
+        return null;
+      }
+      const d: any = await r.json();
+      const versions: any[] = d.versions || [];
+      const full =
+        versions.find((v) => /Hebrew and English lexicon/i.test(v.versionTitle || '')) ||
+        versions[0];
+      if (!full) {
+        this.bdbSupplementalEntryCache.set(form, null);
+        return null;
+      }
+      const raw = full.text;
+      const joined = Array.isArray(raw) ? raw.filter(Boolean).join('\n') : String(raw || '');
+      if (!joined.trim()) {
+        this.bdbSupplementalEntryCache.set(form, null);
+        return null;
+      }
+
+      // Strip the leading headword block so the definition doesn't duplicate the
+      // headword the reader renders separately as <h3>. Handles an optional leading
+      // homograph numeral (e.g. "I. " before בְּ), nested <big><big> wrappers
+      // (e.g. מִן־, הֲ) and a trailing <sub>NNN</sub> frequency count (e.g. פֶּן־).
+      // Falls back to the full blob if the pattern doesn't match.
+      const stripped = joined.replace(
+        /^\s*†?\s*(?:[IVXLC]+\.\s*)?\[?\s*(?:<big>)+\s*<span dir="rtl">[\s\S]*?(?:<\/big>)+\]?\s*(?:<sub>[\s\S]*?<\/sub>)?\s*/,
+        '',
+      );
+      const body = stripped.trim() ? stripped : joined;
+      const definition = this.transformHyperlinks(body);
+
+      const entry: DictionaryEntry = {
+        headword: form,
+        rid: `BDB-suppl-${form}`,
+        parent_lexicon: 'BDB Dictionary',
+        content: { senses: [{ definition }] },
+      };
+      this.bdbSupplementalEntryCache.set(form, entry);
+      return entry;
+    } catch {
+      this.bdbSupplementalEntryCache.set(form, null);
+      return null;
+    }
+  }
+
+  // Merge high-value grammatical particles (לְ, מִן־, וְ, בְּ, כְּ, הֲ, פֶּן־) into
+  // BDB results. This is a MERGE, not an empty-only fallback: e.g. searching פן
+  // already returns פִּנָּה, yet still misses פֶּן־. Matching is by consonant
+  // skeleton; particles are surfaced first since they're the high-value hits.
+  private async mergeBdbSupplementalParticles(
+    query: string,
+    results: DictionaryEntry[],
+  ): Promise<DictionaryEntry[]> {
+    const forms = BDB_SUPPLEMENTAL_PARTICLES[bdbSkeleton(query)];
+    if (!forms || forms.length === 0) return results;
+
+    const existing = new Set(results.map((e) => e.headword));
+    const additions: DictionaryEntry[] = [];
+    for (const form of forms) {
+      if (existing.has(form)) continue;
+      const entry = await this.fetchBdbSupplementalEntry(form);
+      if (entry && !existing.has(entry.headword)) {
+        additions.push(entry);
+        existing.add(entry.headword);
+      }
+    }
+    return additions.length ? [...additions, ...results] : results;
+  }
+
+  private async searchLexiconCore(query: string, lexiconName: string): Promise<DictionaryEntry[]> {
     try {
       console.log(`[${lexiconName}] Improved search for:`, query);
 
