@@ -443,6 +443,17 @@ export class SefariaAPI {
         }
       }
       if (!Array.isArray(completionData) || completionData.length === 0) {
+        // The unscoped completion fallback exists to preserve Jastrow recall.
+        // For BDB it does more harm than good: when BDB's scoped completion is
+        // empty (e.g. short voweled particles like בְּ or לְ), the unscoped list
+        // returns unrelated words that merely share the prefix, and fetching
+        // them yields BDB entries for the WRONG headword (searching בְּ pulled in
+        // random אֵל entries). Those gaps are exactly the supplemental particles
+        // we now merge in separately, so for BDB we stop here rather than
+        // contaminate the results with noise.
+        if (lexiconName === 'BDB Dictionary') {
+          return [];
+        }
         console.log(`[${lexiconName}] Scoped completion empty, falling back to unscoped completion`);
         const unscoped = await fetch(`${this.baseURL}/words/completion/${encodeURIComponent(query)}`);
         if (!unscoped.ok) {
