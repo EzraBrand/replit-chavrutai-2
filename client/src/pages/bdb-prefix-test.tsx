@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
-import { Loader2 } from "lucide-react";
+import { Loader2, ChevronDown, ChevronRight } from "lucide-react";
 import bdbMappings from "@shared/data/lexicon-mappings/bdb.json";
 import {
   dictionaryStyles,
@@ -17,20 +17,23 @@ import {
   expandAbbreviations,
 } from "@/lib/dictionary-format";
 
-interface ProbeEntry {
+interface ProbeEntryMeta {
   form: string;
   ref: string;
   type: "letter" | "prefix";
   headword: string;
-  text: string;
   length: number;
+}
+
+interface ProbeEntry extends ProbeEntryMeta {
+  text: string;
 }
 
 interface ProbeResult {
   generatedAt: string;
   probed: number;
   found: number;
-  entries: ProbeEntry[];
+  entries: ProbeEntryMeta[];
 }
 
 // Greek sub-marker wrapping — mirrors bdb.tsx so α./β./(α) markers get anchor
@@ -182,50 +185,104 @@ export default function BdbPrefixTest() {
           <div className="text-destructive py-12">Failed to load probe results.</div>
         )}
 
-        <div className="space-y-8">
-          {entries.map((entry, idx) => {
-            const idPrefix = `probe-${idx}`;
-            const rendered = renderBdbDefinition(entry.text, idPrefix, splitBySemicolon);
-            return (
-              <article
-                key={entry.form}
-                className="border-b border-border pb-6"
-                data-testid={`entry-${entry.form}`}
-              >
-                <div className="flex items-baseline justify-between mb-2 flex-wrap gap-2">
-                  <h2 className="text-2xl font-bold text-primary" dir="rtl">
-                    {entry.headword}
-                  </h2>
-                  <div className="text-xs text-muted-foreground space-x-3">
-                    <span
-                      className={`px-2 py-0.5 rounded ${
-                        entry.type === "prefix"
-                          ? "bg-secondary text-secondary-foreground"
-                          : "bg-muted"
-                      }`}
-                    >
-                      {entry.type}
-                    </span>
-                    <span>{entry.ref}</span>
-                    <span>{entry.length.toLocaleString()} chars</span>
-                  </div>
-                </div>
-
-                {showRaw ? (
-                  <pre className="text-xs bg-muted p-3 rounded overflow-x-auto whitespace-pre-wrap break-words">
-                    {entry.text}
-                  </pre>
-                ) : (
-                  <div
-                    className="dictionary-content leading-relaxed"
-                    dangerouslySetInnerHTML={{ __html: rendered }}
-                  />
-                )}
-              </article>
-            );
-          })}
+        <div className="divide-y divide-border border-t border-border">
+          {entries.map((entry) => (
+            <PrefixEntryRow
+              key={entry.form}
+              meta={entry}
+              splitBySemicolon={splitBySemicolon}
+              showRaw={showRaw}
+            />
+          ))}
         </div>
       </main>
     </div>
+  );
+}
+
+// One collapsible row per discovered entry. The full text (which can be 150K+
+// chars for לְ) is fetched only when the row is expanded — mirroring how the
+// main BDB reader loads an entry only when searched.
+function PrefixEntryRow({
+  meta,
+  splitBySemicolon,
+  showRaw,
+}: {
+  meta: ProbeEntryMeta;
+  splitBySemicolon: boolean;
+  showRaw: boolean;
+}) {
+  const [open, setOpen] = useState(false);
+
+  const { data: entry, isLoading } = useQuery<ProbeEntry>({
+    queryKey: ["/api/bdb/prefix-entry", meta.form],
+    queryFn: async () => {
+      const res = await fetch(`/api/bdb/prefix-entry?form=${encodeURIComponent(meta.form)}`);
+      if (!res.ok) throw new Error("Failed to fetch entry");
+      return res.json();
+    },
+    enabled: open,
+    staleTime: Infinity,
+  });
+
+  const rendered =
+    entry && !showRaw
+      ? renderBdbDefinition(entry.text, `probe-${meta.form}`, splitBySemicolon)
+      : "";
+
+  return (
+    <article className="py-3" data-testid={`entry-${meta.form}`}>
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className="w-full flex items-center justify-between gap-2 text-left hover:opacity-80"
+        aria-expanded={open}
+        data-testid={`toggle-${meta.form}`}
+      >
+        <div className="flex items-center gap-2">
+          {open ? (
+            <ChevronDown className="h-4 w-4 text-muted-foreground shrink-0" />
+          ) : (
+            <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0" />
+          )}
+          <span className="text-2xl font-bold text-primary" dir="rtl">
+            {meta.headword}
+          </span>
+        </div>
+        <div className="text-xs text-muted-foreground space-x-3">
+          <span
+            className={`px-2 py-0.5 rounded ${
+              meta.type === "prefix" ? "bg-secondary text-secondary-foreground" : "bg-muted"
+            }`}
+          >
+            {meta.type}
+          </span>
+          <span>{meta.ref}</span>
+          <span>{meta.length.toLocaleString()} chars</span>
+        </div>
+      </button>
+
+      {open && (
+        <div className="mt-3 pl-6">
+          {isLoading && (
+            <div className="flex items-center gap-2 text-muted-foreground py-2 text-sm">
+              <Loader2 className="h-4 w-4 animate-spin" />
+              Loading entry…
+            </div>
+          )}
+          {entry && showRaw && (
+            <pre className="text-xs bg-muted p-3 rounded overflow-x-auto whitespace-pre-wrap break-words">
+              {entry.text}
+            </pre>
+          )}
+          {entry && !showRaw && (
+            <div
+              className="dictionary-content leading-relaxed"
+              dangerouslySetInnerHTML={{ __html: rendered }}
+            />
+          )}
+        </div>
+      )}
+    </article>
   );
 }

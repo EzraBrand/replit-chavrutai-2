@@ -25,6 +25,7 @@ export interface IStorage {
 
   // BDB internal/test: probe single-letter prefix & preposition entries
   probeBdbPrefixEntries(): Promise<BdbPrefixProbeResult>;
+  getBdbPrefixEntry(form: string): Promise<BdbPrefixProbeEntry | undefined>;
 }
 
 export interface BdbPrefixProbeEntry {
@@ -143,6 +144,10 @@ export class MemStorage implements IStorage {
 
   async probeBdbPrefixEntries(): Promise<BdbPrefixProbeResult> {
     return sefariaAPI.probeBdbPrefixEntries();
+  }
+
+  async getBdbPrefixEntry(form: string): Promise<BdbPrefixProbeEntry | undefined> {
+    return sefariaAPI.getBdbPrefixEntry(form);
   }
 }
 
@@ -447,6 +452,11 @@ export class SefariaAPI {
       entries,
     };
     return this.prefixProbeCache;
+  }
+
+  async getBdbPrefixEntry(form: string): Promise<BdbPrefixProbeEntry | undefined> {
+    const result = await this.probeBdbPrefixEntries();
+    return result.entries.find((e) => e.form === form);
   }
 }
 
