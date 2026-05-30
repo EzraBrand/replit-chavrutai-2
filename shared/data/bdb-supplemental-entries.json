@@ -1,6 +1,6 @@
 {
   "generatedAt": "2026-05-30T08:38:46.011689Z",
-  "note": "Two-letter BDB headwords that exist via v3 texts API but are absent from /api/words consonant search (direct + completion). Merged into main /bdb reader via v3 fallback.",
+  "note": "Two-letter BDB headwords that exist via v3 texts API but are absent from /api/words consonant search (direct + completion). Surfaced on /bdb-prefix-test for review; NOT yet merged into the main /bdb reader.",
   "bySkeleton": {
     "פנ": [
       "פֶּן־"

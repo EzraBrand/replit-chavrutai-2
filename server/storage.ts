@@ -1,5 +1,6 @@
 import { type User, type InsertUser, type Text, type InsertText, type Bookmark, type InsertBookmark, type DictionaryEntry, type SearchRequest } from "@shared/schema";
 import { randomUUID } from "crypto";
+import bdbSupplementalData from "@shared/data/bdb-supplemental-entries.json";
 
 export interface IStorage {
   // User methods
@@ -31,7 +32,7 @@ export interface IStorage {
 export interface BdbPrefixProbeEntry {
   form: string;
   ref: string;
-  type: "letter" | "prefix";
+  type: "letter" | "prefix" | "two-letter";
   headword: string;
   text: string;
   length: number;
@@ -396,7 +397,14 @@ export class SefariaAPI {
     const prefixForms = [
       'בְּ','כְּ','לְ','וְ','הֲ','הַ','מִן','מִן־','מִ','שֶׁ','שַׁ',
     ];
-    const forms = Array.from(new Set([...baseLetters, ...prefixForms]));
+    // Two-letter BDB headwords that exist via the v3 texts API but are absent
+    // from /api/words consonant search (direct lookup + completion). Surfaced
+    // here for review before being merged into the main /bdb reader.
+    const supplementalForms = Object.values(
+      (bdbSupplementalData as { bySkeleton: Record<string, string[]> }).bySkeleton,
+    ).flat();
+    const supplementalSet = new Set(supplementalForms);
+    const forms = Array.from(new Set([...baseLetters, ...prefixForms, ...supplementalForms]));
 
     const entries: BdbPrefixProbeEntry[] = [];
     for (const form of forms) {
@@ -417,14 +425,19 @@ export class SefariaAPI {
 
         // Classify: letter descriptions are tiny ("Bêth, 2nd letter…");
         // preposition/conjunction entries are large grammatical articles.
-        const type: BdbPrefixProbeEntry['type'] =
-          joined.length > 1000 || /<strong>\s*(prep|conj|adv|subst|particle)\.?/i.test(joined)
+        const type: BdbPrefixProbeEntry['type'] = supplementalSet.has(form)
+          ? 'two-letter'
+          : joined.length > 1000 || /<strong>\s*(prep|conj|adv|subst|particle)\.?/i.test(joined)
             ? 'prefix'
             : 'letter';
 
-        // Headword: first rtl span in the entry, else the probed form.
+        // Headword: first rtl span in the entry, else the probed form. For the
+        // supplemental two-letter forms keep the probed form so homographs
+        // (e.g. שֵׂט vs שֵׂט²) stay distinguishable.
         const hwMatch = joined.match(/dir="rtl"[^>]*>([^<]+)</);
-        const headword = (hwMatch ? hwMatch[1] : form).trim();
+        const headword = supplementalSet.has(form)
+          ? form
+          : (hwMatch ? hwMatch[1] : form).trim();
 
         // Run the same hyperlink transform the main BDB reader applies: it
         // rewrites internal refs to Sefaria URLs and replaces each citation's
@@ -446,9 +459,15 @@ export class SefariaAPI {
       }
     }
 
-    // Prefixes/prepositions first (the grammatically important ones), then letters.
+    // Two-letter entries first (the ones under review), then prefixes/prepositions,
+    // then single letters. Within a group, longest entries first.
+    const typeOrder: Record<BdbPrefixProbeEntry['type'], number> = {
+      'two-letter': 0,
+      prefix: 1,
+      letter: 2,
+    };
     entries.sort((a, b) => {
-      if (a.type !== b.type) return a.type === 'prefix' ? -1 : 1;
+      if (a.type !== b.type) return typeOrder[a.type] - typeOrder[b.type];
       return b.length - a.length;
     });
 

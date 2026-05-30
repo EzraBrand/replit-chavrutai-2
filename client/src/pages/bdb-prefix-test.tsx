@@ -20,7 +20,7 @@ import {
 interface ProbeEntryMeta {
   form: string;
   ref: string;
-  type: "letter" | "prefix";
+  type: "letter" | "prefix" | "two-letter";
   headword: string;
   length: number;
 }
@@ -35,6 +35,12 @@ interface ProbeResult {
   found: number;
   entries: ProbeEntryMeta[];
 }
+
+const GROUPS: { key: ProbeEntryMeta["type"]; label: string }[] = [
+  { key: "two-letter", label: "Two-letter headwords (under review)" },
+  { key: "prefix", label: "Prefixes & prepositions" },
+  { key: "letter", label: "Single letters" },
+];
 
 // Greek sub-marker wrapping — mirrors bdb.tsx so α./β./(α) markers get anchor
 // spans before downstream transforms run.
@@ -117,8 +123,8 @@ export default function BdbPrefixTest() {
           BDB Single-Letter &amp; Prefix Entries
         </h1>
         <p className="text-sm text-muted-foreground mb-6">
-          {entries.length} entries (prefixes/prepositions + single-letter descriptions) that the
-          live search misses. Click any headword to look it up.
+          {entries.length} entries (two-letter headwords + prefixes/prepositions + single-letter
+          descriptions) that the live search misses. Click any headword to look it up.
         </p>
 
         {isLoading && (
@@ -132,32 +138,45 @@ export default function BdbPrefixTest() {
           <div className="text-destructive py-12">Failed to load entries.</div>
         )}
 
-        {entries.length > 0 && (
-          <ul
-            className="columns-2 sm:columns-3 md:columns-4 gap-x-6 [&>li]:break-inside-avoid mb-8"
-            dir="rtl"
-          >
-            {entries.map((entry) => (
-              <li key={entry.form} className="mb-1">
-                <a
-                  href={`#${encodeURIComponent(entry.form)}`}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setSelected(entry);
-                  }}
-                  className={`font-hebrew text-base hover:underline ${
-                    selected?.form === entry.form
-                      ? "text-blue-800 dark:text-blue-300 font-bold"
-                      : "text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
-                  }`}
-                  data-testid={`headword-${entry.form}`}
+        {entries.length > 0 &&
+          GROUPS.map(({ key, label }) => {
+            const groupEntries = entries.filter((e) => e.type === key);
+            if (groupEntries.length === 0) return null;
+            return (
+              <section key={key} className="mb-8">
+                <h2 className="text-lg font-semibold text-primary mb-3">
+                  {label}{" "}
+                  <span className="text-sm font-normal text-muted-foreground">
+                    ({groupEntries.length})
+                  </span>
+                </h2>
+                <ul
+                  className="columns-2 sm:columns-3 md:columns-4 gap-x-6 [&>li]:break-inside-avoid"
+                  dir="rtl"
                 >
-                  {entry.headword}
-                </a>
-              </li>
-            ))}
-          </ul>
-        )}
+                  {groupEntries.map((entry) => (
+                    <li key={entry.form} className="mb-1">
+                      <a
+                        href={`#${encodeURIComponent(entry.form)}`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setSelected(entry);
+                        }}
+                        className={`font-hebrew text-base hover:underline ${
+                          selected?.form === entry.form
+                            ? "text-blue-800 dark:text-blue-300 font-bold"
+                            : "text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+                        }`}
+                        data-testid={`headword-${entry.form}`}
+                      >
+                        {entry.headword}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            );
+          })}
 
         {selected && <EntryView meta={selected} />}
       </main>
