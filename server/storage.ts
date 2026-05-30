@@ -24,7 +24,7 @@ function bdbSkeleton(s: string): string {
 // absent from /api/words consonant search. These are merged into the main /bdb
 // reader (the broader ~44 two-letter forms stay on /bdb-prefix-test for now).
 // Keyed by consonant skeleton -> voweled forms to fetch.
-const BDB_SUPPLEMENTAL_PARTICLE_FORMS = ['לְ', 'מִן־', 'וְ', 'בְּ', 'כְּ', 'הֲ', 'פֶּן־'];
+const BDB_SUPPLEMENTAL_PARTICLE_FORMS = ['לְ', 'מִן־', 'וְ', 'בְּ', 'כְּ', 'הֲ', 'פֶּן־', 'הַל', 'לָט', 'לֹט'];
 const BDB_SUPPLEMENTAL_PARTICLES: Record<string, string[]> = (() => {
   const map: Record<string, string[]> = {};
   for (const form of BDB_SUPPLEMENTAL_PARTICLE_FORMS) {
