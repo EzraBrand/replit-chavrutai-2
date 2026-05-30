@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
-import { Loader2, ChevronDown, ChevronRight } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import bdbMappings from "@shared/data/lexicon-mappings/bdb.json";
 import {
   dictionaryStyles,
@@ -90,14 +90,14 @@ function renderBdbDefinition(
 }
 
 export default function BdbPrefixTest() {
+  const [selected, setSelected] = useState<ProbeEntryMeta | null>(null);
+
   const { data, isLoading, isError } = useQuery<ProbeResult>({
     queryKey: ["/api/bdb/prefix-probe"],
     staleTime: Infinity,
   });
 
-  // Only the grammatically relevant prefix/preposition entries — the ones the
-  // live /api/words search misses. Letter-name descriptions are omitted.
-  const entries = (data?.entries ?? []).filter((e) => e.type === "prefix");
+  const entries = data?.entries ?? [];
 
   return (
     <div className="min-h-screen bg-background">
@@ -113,11 +113,12 @@ export default function BdbPrefixTest() {
       </header>
 
       <main className="max-w-4xl mx-auto p-6">
-        <h1 className="text-3xl font-bold text-primary mb-1">
-          BDB Prefix &amp; Preposition Entries
+        <h1 className="text-3xl font-bold text-primary mb-2">
+          BDB Single-Letter &amp; Prefix Entries
         </h1>
         <p className="text-sm text-muted-foreground mb-6">
-          Single-letter prefix/preposition entries missing from the live search. Click an entry to load it.
+          {entries.length} entries (prefixes/prepositions + single-letter descriptions) that the
+          live search misses. Click any headword to look it up.
         </p>
 
         {isLoading && (
@@ -131,22 +132,43 @@ export default function BdbPrefixTest() {
           <div className="text-destructive py-12">Failed to load entries.</div>
         )}
 
-        <div className="divide-y divide-border border-t border-border">
-          {entries.map((entry) => (
-            <PrefixEntryRow key={entry.form} meta={entry} />
-          ))}
-        </div>
+        {entries.length > 0 && (
+          <ul
+            className="columns-2 sm:columns-3 md:columns-4 gap-x-6 [&>li]:break-inside-avoid mb-8"
+            dir="rtl"
+          >
+            {entries.map((entry) => (
+              <li key={entry.form} className="mb-1">
+                <a
+                  href={`#${encodeURIComponent(entry.form)}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setSelected(entry);
+                  }}
+                  className={`font-hebrew text-base hover:underline ${
+                    selected?.form === entry.form
+                      ? "text-blue-800 dark:text-blue-300 font-bold"
+                      : "text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+                  }`}
+                  data-testid={`headword-${entry.form}`}
+                >
+                  {entry.headword}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {selected && <EntryView meta={selected} />}
       </main>
     </div>
   );
 }
 
-// One collapsible row per discovered entry. The full text (which can be 150K+
-// chars for לְ) is fetched only when the row is expanded — mirroring how the
-// main BDB reader loads an entry only when searched.
-function PrefixEntryRow({ meta }: { meta: ProbeEntryMeta }) {
-  const [open, setOpen] = useState(false);
-
+// Renders the selected entry. The full text (which can be 150K+ chars for לְ) is
+// fetched on demand — mirroring how the main BDB reader loads an entry only when
+// it is looked up.
+function EntryView({ meta }: { meta: ProbeEntryMeta }) {
   const { data: entry, isLoading } = useQuery<ProbeEntry>({
     queryKey: ["/api/bdb/prefix-entry", meta.form],
     queryFn: async () => {
@@ -154,46 +176,27 @@ function PrefixEntryRow({ meta }: { meta: ProbeEntryMeta }) {
       if (!res.ok) throw new Error("Failed to fetch entry");
       return res.json();
     },
-    enabled: open,
     staleTime: Infinity,
   });
 
   const rendered = entry ? renderBdbDefinition(entry.text, `probe-${meta.form}`, true) : "";
 
   return (
-    <article className="py-3" data-testid={`entry-${meta.form}`}>
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        className="w-full flex items-center gap-2 text-left hover:opacity-80"
-        aria-expanded={open}
-        data-testid={`toggle-${meta.form}`}
-      >
-        {open ? (
-          <ChevronDown className="h-4 w-4 text-muted-foreground shrink-0" />
-        ) : (
-          <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0" />
-        )}
-        <span className="text-2xl font-bold text-primary" dir="rtl">
-          {meta.headword}
-        </span>
-      </button>
-
-      {open && (
-        <div className="mt-3 pl-6">
-          {isLoading && (
-            <div className="flex items-center gap-2 text-muted-foreground py-2 text-sm">
-              <Loader2 className="h-4 w-4 animate-spin" />
-              Loading entry…
-            </div>
-          )}
-          {entry && (
-            <div
-              className="dictionary-content leading-relaxed"
-              dangerouslySetInnerHTML={{ __html: rendered }}
-            />
-          )}
+    <article className="border-t border-border pt-6" data-testid={`entry-${meta.form}`}>
+      <h2 className="text-3xl font-bold text-primary mb-4" dir="rtl">
+        {meta.headword}
+      </h2>
+      {isLoading && (
+        <div className="flex items-center gap-2 text-muted-foreground py-2 text-sm">
+          <Loader2 className="h-4 w-4 animate-spin" />
+          Loading entry…
         </div>
+      )}
+      {entry && (
+        <div
+          className="dictionary-content leading-relaxed"
+          dangerouslySetInnerHTML={{ __html: rendered }}
+        />
       )}
     </article>
   );
