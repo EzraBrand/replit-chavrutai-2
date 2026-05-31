@@ -77,7 +77,7 @@ export default function Changelog() {
                 <li>Languages: <strong>Amhar.</strong> (Amharic), <strong>Tigr.</strong> (Tigrinya), <strong>Kurd.</strong> (Kurdish).</li>
                 <li>Sources: <strong>Jarhb.</strong> (Jahrbücher).</li>
                 <li>Symbols: <strong>ψ</strong> (Psalms).</li>
-                <li>Scholars / sources: <strong>M`Lean</strong> (McLean), <strong>Abh. z. Arabic Philol.</strong> (Abhandlungen zur arabischen Philologie), <strong>Arm. Stud.</strong> (Armenische Studien), <strong>Ges. Abh.</strong> (Gesammelte Abhandlungen).</li>
+                <li>Scholars / sources: <strong>M`Lean</strong> (McLean), <strong>Abh. z. Arabic Philol.</strong> (Abhandlungen zur arabischen Philologie), <strong>Arm. Stud.</strong> (Armenische Studien), <strong>Ges. Abh.</strong> (Gesammelte Abhandlungen), <strong>Lag (Or</strong> → Lagarde (Orientalia).</li>
               </ul>
             </div>
 
