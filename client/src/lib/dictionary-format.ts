@@ -616,26 +616,31 @@ export function expandAbbreviations(text: string, mappings: Record<string, strin
       if (abbreviation === 'c.' && insideStrong) continue;
 
       let pattern: RegExp;
+      // A word character for boundary purposes is any Unicode letter, number,
+      // combining mark, or underscore. JS's native `\b` only recognises ASCII
+      // word chars, so it treats accented/transliteration letters (ḳ, ē, ʿ),
+      // Hebrew, Greek, etc. as boundaries — which let short keys like "Pe"
+      // match inside "Peḳaḥ". These Unicode-aware lookarounds fix that.
+      const NW = '\\p{L}\\p{N}\\p{M}_';
+      // Only anchor a side when the abbreviation's edge char is itself a word
+      // char; for symbol/punctuation edges (e.g. "(Sym", "+.") no anchor is
+      // needed (and one would never fire).
+      const leftWord = /^[\p{L}\p{N}\p{M}_]/u.test(abbreviation);
+      const rightWord = /[\p{L}\p{N}\p{M}_]$/u.test(abbreviation);
+      const leftAnchor = leftWord ? `(?<![${NW}])` : '';
+      const rightAnchor = rightWord ? `(?![${NW}])` : '';
       if (abbreviation === '&c.') {
         pattern = /&c\./g;
       } else if (abbreviation.includes(' ')) {
         const escaped = abbreviation.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        pattern = new RegExp(escaped, 'g');
+        pattern = new RegExp(`${leftAnchor}${escaped}${rightAnchor}`, 'gu');
       } else if (abbreviation.endsWith('.')) {
         const escaped = abbreviation.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        // \b only fires between \w and \W. When the leading edge of the
-        // abbreviation is itself a non-word character (e.g. "+."), \b never
-        // matches; fall back to a negative lookbehind for word chars instead.
-        const left = /^\w/.test(abbreviation) ? '\\b' : '(?<![A-Za-z0-9_])';
-        pattern = new RegExp(`${left}${escaped}`, 'g');
+        // Trailing "." is the right edge, so only a left anchor is needed.
+        pattern = new RegExp(`${leftAnchor}${escaped}`, 'gu');
       } else {
         const escaped = abbreviation.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        // \b only fires between \w and \W. When the abbreviation edge is itself
-        // a non-word character (symbols like √, 𝔊, 𝔗) \b never matches, so
-        // fall back to a negative lookaround for word chars on that side.
-        const left = /^\w/.test(abbreviation) ? '\\b' : '(?<![A-Za-z0-9_])';
-        const right = /\w$/.test(abbreviation) ? '\\b' : '(?![A-Za-z0-9_])';
-        pattern = new RegExp(`${left}${escaped}${right}`, 'g');
+        pattern = new RegExp(`${leftAnchor}${escaped}${rightAnchor}`, 'gu');
       }
 
       segment = segment.replace(pattern, (match, offset: number) => {

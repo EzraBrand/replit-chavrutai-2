@@ -70,6 +70,13 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: Abbreviation Matching Bug Fix (May 31)</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Fixed a word-boundary bug where short abbreviation keys could match inside a longer word when the surrounding letters were non-English. For example, <strong>Pe</strong> (Peʿal) was wrongly expanding inside the name <em>Peḳaḥ</em>, rendering it as <em>Pealḳaḥ</em>. Abbreviations now only expand when they form a complete token, correctly handling accented transliterations, Hebrew, and Greek text.</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: More Abbreviation Expansions (May 31)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Grammar: <strong>Hithpa.</strong> (Hithpa'el), <strong>Hithpo.</strong> (Hithpo'el), <strong>causat.</strong> (causative).</li>
