@@ -76,6 +76,7 @@ export default function Changelog() {
                 <li>Vocabulary: <strong>conject.</strong> (conjecture), <strong>interpr.</strong> (interpreting), <strong>obsol.</strong> (obsolete), <strong>cap.</strong> (chapter).</li>
                 <li>Languages: <strong>Amhar.</strong> (Amharic), <strong>Tigr.</strong> (Tigrinya).</li>
                 <li>Symbols: <strong>ψ</strong> (Psalms).</li>
+                <li>Scholars / sources: <strong>M`Lean</strong> (McLean), <strong>Abh. z. Arabic Philol.</strong> (Abhandlungen zur arabischen Philologie), <strong>Arm. Stud.</strong> (Armenische Studien).</li>
               </ul>
             </div>
 
