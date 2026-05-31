@@ -70,6 +70,16 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: More Abbreviation Expansions (May 31)</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Grammar: <strong>Hithpa.</strong> (Hithpa'el), <strong>Hithpo.</strong> (Hithpo'el), <strong>causat.</strong> (causative).</li>
+                <li>Vocabulary: <strong>conject.</strong> (conjecture), <strong>interpr.</strong> (interpreting), <strong>obsol.</strong> (obsolete), <strong>cap.</strong> (chapter).</li>
+                <li>Languages: <strong>Amhar.</strong> (Amharic), <strong>Tigr.</strong> (Tigrinya).</li>
+                <li>Symbols: <strong>ψ</strong> (Psalms).</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: More Abbreviation Expansions &amp; a Fix (May 30)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Sources / editions: <strong>V. d. H</strong> (van der Hooght), <strong>Sora</strong> (Sura), <strong>Var. Lect.</strong> (Variae Lectiones), <strong>Jüd. Ztschr.</strong> (Jüdische Zeitschrift), <strong>ad loc.</strong> (at the place).</li>

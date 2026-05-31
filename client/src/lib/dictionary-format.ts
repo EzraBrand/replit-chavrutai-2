@@ -654,6 +654,14 @@ export function expandAbbreviations(text: string, mappings: Record<string, strin
           const after = segment.slice(offset + match.length);
           if (/^\s+\d/.test(after)) return match;
         }
+        // BDB uses the Greek letter ψ both as the Psalms siglum (always a
+        // citation: "ψ 23", "ψ 119:105") and as an ordinary letter inside Greek
+        // words (e.g. ψυχή). Only expand ψ -> "Psalms" when it heads a citation
+        // (optional space + digit); otherwise leave the Greek word intact.
+        if (abbreviation === 'ψ') {
+          const after = segment.slice(offset + match.length);
+          if (!/^\s*\d/.test(after)) return match;
+        }
         return `${OPEN}${expansion}${CLOSE}`;
       });
     }
