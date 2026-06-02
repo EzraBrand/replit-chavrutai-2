@@ -61,6 +61,29 @@ export default function Changelog() {
       {/* Changelog Content */}
       <div className="bg-white dark:bg-sepia-900 rounded-lg shadow-lg p-6 max-w-4xl">
 
+        {/* June 2026 */}
+        <div className="mb-8">
+          <h2 className="text-xl font-semibold text-sepia-800 dark:text-sepia-200 mb-4 border-b border-sepia-200 dark:border-sepia-700 pb-2">
+            June 2026
+          </h2>
+
+          <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
+
+            <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: More Abbreviation Expansions &amp; a Fix (June 2)</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Grammar / vocabulary: <strong>identif.</strong> (identified), <strong>OHeb</strong> (Old Heb).</li>
+                <li>Archaic English: <strong>goeth</strong> → goes.</li>
+                <li>Latin: <strong>dei</strong> (god), <strong>regis</strong> (king).</li>
+                <li>Sources / scholars: <strong>Ency. Brit.</strong> (Encyclopedia Britannica), <strong>Röm. Gesch.</strong> (Römische Geschichte), <strong>Tabl.</strong> (Tablet).</li>
+                <li>Bible / texts: <strong>Ezech.</strong> (Ezekiel), <strong>Makk.</strong> (Maccabees), <strong>Lu</strong> (Luke).</li>
+                <li>Fixed <strong>Lu</strong> — it previously expanded incorrectly to <em>Martin Luther</em>; it now correctly expands to <em>Luke</em>.</li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+
         {/* May 2026 */}
         <div className="mb-8">
           <h2 className="text-xl font-semibold text-sepia-800 dark:text-sepia-200 mb-4 border-b border-sepia-200 dark:border-sepia-700 pb-2">
