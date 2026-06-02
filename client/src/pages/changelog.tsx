@@ -77,6 +77,7 @@ export default function Changelog() {
                 <li>Latin: <strong>dei</strong> (god), <strong>regis</strong> (king).</li>
                 <li>Sources / scholars: <strong>Ency. Brit.</strong> (Encyclopedia Britannica), <strong>Röm. Gesch.</strong> (Römische Geschichte), <strong>Tabl.</strong> (Tablet).</li>
                 <li>Bible / texts: <strong>Ezech.</strong> (Ezekiel), <strong>Makk.</strong> (Maccabees), <strong>Lu</strong> (Luke).</li>
+                <li>Sources / scholars: <strong>Schöpf.</strong> (Schöpfung), <strong>d. H.</strong> (van der Hooght — now also expands when not preceded by "van"), <strong>ÄgM</strong> (Ägypten und die Bücher Moses).</li>
                 <li>Fixed <strong>Lu</strong> — it previously expanded incorrectly to <em>Martin Luther</em>; it now correctly expands to <em>Luke</em>.</li>
               </ul>
             </div>
