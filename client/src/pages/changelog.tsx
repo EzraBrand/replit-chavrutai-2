@@ -76,6 +76,8 @@ export default function Changelog() {
                 <li>Vocabulary: <strong>kg.</strong> (king), <strong>b. c.</strong> (BCE), <strong>Mar.</strong> (March), <strong>cuneif.</strong> (cuneiform), <strong>inscr.</strong> (inscriptions).</li>
                 <li>Proper names: <strong>Sennach.</strong> (Sennacherib), <strong>Nebuchad.</strong> (Nebuchadnezzar).</li>
                 <li>Reference works: <strong>Encycl.</strong> (Encyclopedia), <strong>Encycl. Brit.</strong> (Encyclopedia Britannica), <strong>Comp. Hex.</strong> (Composition des Hexateuchs), <strong>Dl (Pa</strong> (Delitzsch, Wo lag das Paradies?).</li>
+                <li>Journals: <strong>Andover Rev.</strong> (Andover Review), <strong>Athen.</strong> (The Athenaeum), <strong>Acad.</strong> (The Academy).</li>
+                <li>Scholars: <strong>Dl (K</strong> (Delitzsch, Sprache der Kossäer).</li>
                 <li>Fixed abbreviations not expanding after BDB's <strong>&lt;</strong> "derived from" marker (e.g. <strong>Bab.</strong> in the entry for Nimrod) — a literal <strong>&lt;</strong> was being mistaken for the start of an HTML tag.</li>
               </ul>
             </div>
