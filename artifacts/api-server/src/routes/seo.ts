@@ -868,7 +868,7 @@ async function generateCrawlerBodyContent(urlPath: string, seoData: { title: str
       try {
         const fs = await import('fs');
         const path = await import('path');
-        const shapesPath = path.join(process.cwd(), 'src/shared/data/yerushalmi-shapes.json');
+        const shapesPath = path.join(import.meta.dirname, '..', 'src/shared/data/yerushalmi-shapes.json');
         const shapes: Record<string, number[][]> = JSON.parse(fs.readFileSync(shapesPath, 'utf-8'));
         chapterShapes = shapes[info.sefaria] ?? [];
       } catch {}
@@ -896,7 +896,7 @@ async function generateCrawlerBodyContent(urlPath: string, seoData: { title: str
     try {
       const fs = await import('fs');
       const path = await import('path');
-      const shapesPath = path.join(process.cwd(), 'src/shared/data/yerushalmi-shapes.json');
+      const shapesPath = path.join(import.meta.dirname, '..', 'src/shared/data/yerushalmi-shapes.json');
       const shapes: Record<string, number[][]> = JSON.parse(fs.readFileSync(shapesPath, 'utf-8'));
       if (info) tractateShapes = shapes[info.sefaria] ?? [];
     } catch {}

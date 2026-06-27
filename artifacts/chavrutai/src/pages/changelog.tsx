@@ -70,6 +70,13 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Fixed Deployment Startup Crash (June 27)</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Fixed a bug that prevented the site from publishing: the server read several data files (blog archive, Jerusalem Talmud structure, glossary) using paths that only worked in development, causing it to crash on startup in production. Paths now resolve correctly in both environments.</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: More Abbreviation Expansions &amp; a "Derived From" Fix (June 27)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Grammar: <strong>Hithpōʿl.</strong> (Hithpo'el), <strong>Pōʿl.</strong> (Po'el).</li>

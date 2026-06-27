@@ -244,7 +244,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/sitemap-rambam.xml', generateRambamSitemap);
 
   app.get("/api/glossary", (_req, res) => {
-    const filePath = path.join(process.cwd(), "src/shared/data/glossary_v4.json");
+    const filePath = path.join(import.meta.dirname, "..", "src/shared/data/glossary_v4.json");
     res.setHeader("Cache-Control", "no-cache");
     res.sendFile(filePath);
   });

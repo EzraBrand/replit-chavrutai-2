@@ -45,7 +45,7 @@ export class BlogPostSearch {
   private posts: BlogPost[];
   
   constructor() {
-    const dataPath = path.join(process.cwd(), 'public', 'data', 'blog-posts-full.json');
+    const dataPath = path.join(import.meta.dirname, '..', 'public', 'data', 'blog-posts-full.json');
     const data: BlogPostsData = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
     this.posts = data.posts;
   }

@@ -9,7 +9,7 @@ const sefariaAPIBaseURL = "https://www.sefaria.org/api";
 
 let yerushalmiShapesData: Record<string, number[][]> = {};
 try {
-  const shapesPath = path.join(process.cwd(), "src/shared/data/yerushalmi-shapes.json");
+  const shapesPath = path.join(import.meta.dirname, "..", "src/shared/data/yerushalmi-shapes.json");
   yerushalmiShapesData = JSON.parse(fs.readFileSync(shapesPath, "utf-8"));
 } catch (e) {
   console.error("Failed to load yerushalmi-shapes.json:", e);
