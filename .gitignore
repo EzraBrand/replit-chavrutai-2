@@ -47,10 +47,3 @@ Thumbs.db
 # Replit
 .cache/
 .local/
-
-# Chat uploads
-attached_assets/
-
-# Prototypes / mockups (kept private, not pushed to public GitHub)
-artifacts/mockup-sandbox/
-.canvas/

@@ -1,3 +1,2 @@
 - [BDB symbol/letter keys](bdb-symbol-keys.md) — single-char keys that are also script letters (e.g. ψ) need a citation-context guard in expandAbbreviations or they corrupt quoted Greek/Hebrew words.
 - [BDB tag splitter](bdb-tag-splitter.md) — BDB uses literal < and > as scholarly markers; expandAbbreviations must split on real tags only or abbrevs after a bare < silently never expand.
-- [Git index mutations blocked](git-index-mutations-blocked.md) — agent can't run git rm/reset/update-index (blocked at .git/index.lock) even inside a project task; gitignore alone won't untrack already-committed files.
