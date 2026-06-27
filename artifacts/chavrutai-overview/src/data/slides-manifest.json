@@ -1,0 +1,66 @@
+[
+  {
+    "id": "b1e1a000-0000-4000-8000-000000000001",
+    "position": 1,
+    "filepath": "src/pages/slides/Cover.tsx",
+    "title": "ChavrutAI",
+    "description": "Title cover — ChavrutAI wordmark, tagline, corpora list.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "b1e1a000-0000-4000-8000-000000000002",
+    "position": 2,
+    "filepath": "src/pages/slides/Mission.tsx",
+    "title": "The Mission",
+    "description": "Why ChavrutAI exists — bilingual access to the classical Jewish library.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "b1e1a000-0000-4000-8000-000000000003",
+    "position": 3,
+    "filepath": "src/pages/slides/Library.tsx",
+    "title": "The Library",
+    "description": "The five text corpora with real counts.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "b1e1a000-0000-4000-8000-000000000004",
+    "position": 4,
+    "filepath": "src/pages/slides/Reading.tsx",
+    "title": "The Reading Experience",
+    "description": "Bilingual display, reference panel, term highlighting, Daf Yomi.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "b1e1a000-0000-4000-8000-000000000005",
+    "position": 5,
+    "filepath": "src/pages/slides/Tools.tsx",
+    "title": "Study Tools",
+    "description": "Jastrow & BDB lexicons, AI study companion, full-text search.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "b1e1a000-0000-4000-8000-000000000006",
+    "position": 6,
+    "filepath": "src/pages/slides/Design.tsx",
+    "title": "Design Philosophy",
+    "description": "Scholarly, typography-first, warm parchment palette.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "b1e1a000-0000-4000-8000-000000000007",
+    "position": 7,
+    "filepath": "src/pages/slides/Technology.tsx",
+    "title": "Technology",
+    "description": "The frontend, backend, and AI/data stack.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "b1e1a000-0000-4000-8000-000000000008",
+    "position": 8,
+    "filepath": "src/pages/slides/Closing.tsx",
+    "title": "Continue the Study",
+    "description": "Closing wordmark and links.",
+    "speakerNotes": ""
+  }
+]

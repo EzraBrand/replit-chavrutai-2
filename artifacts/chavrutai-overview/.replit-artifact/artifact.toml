@@ -1,0 +1,31 @@
+kind = "slides"
+previewPath = "/chavrutai-overview/"
+title = "ChavrutAI Overview"
+version = "1.0.0"
+id = "artifacts/chavrutai-overview"
+router = "path"
+
+[[integratedSkills]]
+name = "slides"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/chavrutai-overview/" ]
+localPort = 23197
+
+[services.development]
+run = "pnpm --filter @workspace/chavrutai-overview run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/chavrutai-overview", "run", "build" ]
+publicDir = "artifacts/chavrutai-overview/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23197"
+BASE_PATH = "/chavrutai-overview/"
