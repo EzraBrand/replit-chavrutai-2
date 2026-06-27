@@ -70,14 +70,6 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">New: ChavrutAI Overview Slide Deck (June 27)</h3>
-              <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>Added an eight-slide overview presentation introducing ChavrutAI — its mission, the five text corpora (Babylonian Talmud, Jerusalem Talmud, Mishnah, Tanakh, and Mishneh Torah), the bilingual reading experience, study tools, design philosophy, and technology.</li>
-                <li>Designed to match the site's scholarly parchment-and-sepia aesthetic: typography-first, no splashy colors, no decorative icons.</li>
-              </ul>
-            </div>
-
-            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: More Abbreviation Expansions &amp; a "Derived From" Fix (June 27)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Grammar: <strong>Hithpōʿl.</strong> (Hithpo'el), <strong>Pōʿl.</strong> (Po'el).</li>
