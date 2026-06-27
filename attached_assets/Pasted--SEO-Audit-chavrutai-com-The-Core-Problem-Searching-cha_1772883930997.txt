@@ -1,0 +1,103 @@
+---
+
+## SEO Audit: chavrutai.com
+
+### The Core Problem
+
+Searching **"chavrutai"** on Google returns GitHub repos, LinkedIn, Substack, Hacker News — but **NOT chavrutai.com itself**. However:
+- `site:chavrutai.com` shows the site IS indexed (multiple pages)
+- `"chavrutai.com"` (in quotes) ranks the site #1
+- `"chavrutai talmud"` ranks the site #1
+
+**This is a brand-name ranking problem, not an indexing problem.**
+
+---
+
+### Critical Issues Found
+
+#### 1. Client-Side Rendering (CSR) — MOST CRITICAL
+The raw server HTML is a **near-empty shell**:
+```html
+<div id="root"></div>
+```
+Everything — content, schema, navigation — is rendered by JavaScript. While Google CAN render JS, it:
+- Does it in a **second, delayed pass** (can take days/weeks)
+- Gives **weaker ranking signals** to JS-rendered content
+- Means your JSON-LD schema, canonical tags, and page content are invisible on first crawl
+
+#### 2. No `<link rel="canonical">` in Server HTML
+The canonical tag is **only injected by JavaScript**. Google's first-pass HTML parser never sees it. **0 occurrences** in the raw HTML.
+
+#### 3. No `sameAs` in Schema — Anywhere
+`sameAs` is **completely absent** from both server HTML and the JS-rendered DOM. This means Google has no structured way to connect "ChavrutAI" the entity to your website. Other sites (GitHub, Substack) that mention "ChavrutAI" are winning the entity association.
+
+#### 4. `og:type` Being Overwritten by JS
+- Server HTML sends: `og:type = "website"` (correct)
+- JavaScript changes it to: `og:type = "article"` (wrong for homepage)
+
+#### 5. Google Confuses "chavrutai" with "chavruta"
+Google shows "Did you mean: *chavruta*" — it's treating your brand name as a misspelling of the Hebrew term for study partner. Without strong entity signals, Google can't distinguish your brand.
+
+---
+
+### Other Findings (Positive)
+
+- `robots.txt` is well-configured (allows key paths, blocks /api/)
+- Sitemap index is comprehensive and well-structured
+- Meta description and title are present in server HTML
+- OG tags and Twitter cards are in server HTML
+- `<meta name="robots" content="index, follow">` is present
+- H1 tag is properly used (single H1)
+- Images have alt text
+- `<noscript>` fallback exists with basic navigation
+
+---
+
+### Recommendations (Priority Order)
+
+#### 1. Add SSR/Pre-rendering — HIGH PRIORITY
+Move to **Next.js, Astro, or a pre-rendering service** so that Google gets fully-rendered HTML on first crawl. This is the single biggest change you can make. At minimum, use a pre-rendering service (like Prerender.io) as a stopgap.
+
+#### 2. Add `<link rel="canonical">` to Server HTML — QUICK FIX
+Put this directly in your `index.html` template, not via JavaScript:
+```html
+<link rel="canonical" href="https://chavrutai.com/" />
+```
+
+#### 3. Add `sameAs` to Organization Schema — YES, ADD IT BACK
+Add `sameAs` to your Organization schema pointing to your authoritative profiles:
+```json
+{
+  "@type": "Organization",
+  "name": "ChavrutAI",
+  "url": "https://chavrutai.com",
+  "sameAs": [
+    "https://github.com/EzraBrand/replit-chavrutai-2",
+    "https://github.com/EzraBrand/chavrutai-platform",
+    "https://www.ezrabrand.com"
+  ]
+}
+```
+This helps Google understand that "ChavrutAI" the entity = chavrutai.com. **Do NOT add sameAs pointing to sites you don't control** (like the Hacker News thread or Jerusalem Post article).
+
+#### 4. Fix the `og:type` JavaScript Override
+Ensure the homepage keeps `og:type = "website"`, not `"article"`. The React app is incorrectly overwriting this.
+
+#### 5. Register with Google Search Console
+The `site:` search showed Google's promotion "Try Google Search Console - Do you own chavrutai.com?" — verify ownership if you haven't already. This lets you:
+- Submit your sitemap directly
+- Request indexing of specific pages
+- Monitor for manual actions or penalties
+
+#### 6. Build Brand Entity Signals
+- Add a Wikipedia/Wikidata entry for ChavrutAI (even a stub)
+- Ensure your Substack, GitHub, and personal site all link **back to** chavrutai.com
+- Add the brand name "ChavrutAI" more prominently in the meta description
+
+---
+
+### Answer to Your Question: Should You Revert sameAs?
+
+`sameAs` is **not currently present at all** — there's nothing to revert. You should **add** it (correctly) to help Google associate your brand with your website. The absence of `sameAs` is likely contributing to the problem, because Google sees "ChavrutAI" mentioned on GitHub, LinkedIn, and Substack but has no structured data telling it that chavrutai.com is the canonical entity.
+
+The biggest win, though, is solving the CSR issue — everything else is secondary to that.

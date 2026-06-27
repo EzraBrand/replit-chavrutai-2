@@ -1,0 +1,31 @@
+REAL Issues Found (Verified in Chrome)
+1. CRITICAL: Client-Side Rendering / SSR Problem
+This is the single biggest SEO issue on your site. Every URL serves the exact same static HTML:
+
+Title (raw):     "Study Talmud Online - Free Digital Platform | ChavrutAI"
+Canonical (raw): "https://chavrutai.com/"
+Meta desc (raw): generic ChavrutAI description
+H1 (raw):        "ChavrutAI - Study Talmud Online"
+JSON-LD (raw):   NOT PRESENT
+Root div:         <div id="root"></div>  ← EMPTY
+
+I verified this for /talmud, /about, /bible/genesis/1, /talmud/berakhot/2a, /talmud/shabbat/2a — all return identical HTML. JavaScript then updates the title, meta tags, canonical, OG tags, and injects JSON-LD + page content.
+
+Why this matters:
+
+Googlebot crawls HTML first, then queues pages for JS rendering (can take days/weeks)
+During the HTML-only pass, Google sees ALL 5,400+ pages as having the same title, same canonical (pointing to homepage!), and same description
+The canonical https://chavrutai.com/ in raw HTML could cause Google to de-index inner pages because it thinks they're all duplicates of the homepage
+JSON-LD structured data is invisible until JS renders
+Fix: Implement server-side rendering (SSR) or static site generation (SSG) for at minimum: <title>, <meta name="description">, <link rel="canonical">, <script type="application/ld+json">, and the <h1>. Even a lightweight pre-rendering solution (like prerender.io or a Vite SSR plugin) would fix this.
+
+2. HIGH: No Breadcrumbs
+No breadcrumb navigation or BreadcrumbList schema on any page. With a deep hierarchy (Seder > Tractate > Chapter > Page), breadcrumbs would help both users and Google understand page relationships. Google shows breadcrumbs in search results as rich snippets.
+
+3. MEDIUM: Dictionary Page Missing H1
+The /dictionary page has no <h1> tag (all other pages have one). It has title/meta/canonical but the heading is missing.
+
+4. MEDIUM: High Outbound Link Ratio on Folio Pages
+Berakhot 2a has 37 external links (Sefaria, Al HaTorah per section) vs only 14 internal links. This "link juice" is flowing outward to competitors rather than deeper into your own site. Consider:
+
+Adding rel="nofollow" or rel="noopener" to external study links

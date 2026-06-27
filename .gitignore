@@ -1,131 +1,49 @@
-node_modules
+# See https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+
+# compiled output
 dist
+tmp
+out-tsc
+*.tsbuildinfo
+.expo
+.expo-shared
+
+# dependencies
+node_modules
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+yarn-error.log
+testem.log
+/typings
+
+# System Files
 .DS_Store
-server/public
-vite.config.ts.*
-*.tar.gz
+Thumbs.db
 
-# Development artifacts
-attached_assets/
-temp/
-tmp/
-*.log
-*.tmp
-*.pid
-.env.local
-.env.development
+.cursor/rules/nx-rules.mdc
+.github/instructions/nx.instructions.md
 
-# Data processing artifacts
-*.xlsx
-*.xls
-*.csv
-*-extract.txt
-*-analysis.txt
-
-
-# SEO and testing artifacts
-test-seo.html
-seo-*.html
-*.test.html
-coverage/
-.nyc_output/
-
-# Python development artifacts (prevent reintroduction)
-pyproject.toml
-uv.lock
-*.py
-__pycache__/
-*.pyc
-
-# Editor and IDE artifacts
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-
-
-# Additional cache and system directories
+# Replit
 .cache/
-.local/state/
-**/archive-v0/
-**/dist-info/
-.config/configstore/
-
-# Replit-specific artifacts
-.upm/
-replit
-
-# Large development data files
-*-raw.txt
-*-data-extract.txt
-*_data_only.ts
-*-analysis.txt
-
-# Duplicate asset prevention
-/client/favicon*
-/client/apple-touch-icon*
-/client/*.ico
-/client/*.png
-
-
-
-# All other markdown files (except README.md and agent skills)
-*.md
-!README.md
-!.agents/skills/**/*.md
-.agents/skills/blogpost-writing/
-
-# Temporary and backup files
-*.tmp
-*.temp
-*-backup.*
-*-copy.*
-debug-*
-test-*
-screenshot-*
-image_*.png
-*.png
-!client/public/*.png
-temp-*
-
-# Development scripts folder (track specific output files)
-scripts/*
-!scripts/yerushalmi-names-results.csv
-!scripts/extract-yerushalmi-names.ts
-!scripts/dump-yerushalmi-text.ts
-!scripts/yerushalmi-full-text.txt
-!scripts/yerushalmi-names-redacted.txt
-!scripts/merge-names-tables.ts
-!scripts/bavli-glossary.csv
-!scripts/yerushalmi-bavli-merged.csv
-!scripts/README-yerushalmi-bavli-name-merge.md
-# BDB / lexicon work (May 2026)
-!scripts/README-bdb-noun-proper.md
-!scripts/bdb-noun-proper.csv
-!scripts/bdb-noun-proper.json
-!scripts/bdb-unmapped-acronyms.json
-!scripts/bdb-unmapped-acronyms.txt
-!scripts/fetch-lexicon-headwords.ts
-!scripts/filter-lexicon-headwords.ts
-!scripts/scan-lexicon-acronyms.ts
-!scripts/scrape-bdb-noun-proper.ts
-# Always ignore (planning docs, blogpost drafts, runtime artifacts)
-scripts/.cache/
-scripts/.run.log
-scripts/bdb-dictionary-blogpost.md
-scripts/blogpost-longest-chapters.md
-scripts/yerushalmi-names-blogpost.md
-
-# Internal analysis
-analysis/
-
-# Mockup and prototype artifacts
-artifacts/
-
-# PDF files
-*.pdf
-
-# Draft blog posts
-drafts/
+.local/

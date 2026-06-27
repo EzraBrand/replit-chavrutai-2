@@ -1,0 +1,124 @@
+convert periods (.) to colon (:) - and all these with optional hebrew letter 'vav' or "dalet" or "heh" at the beginning (eg; תני / ותני / דתני / התני): 
+
+דתני.
+to 
+דתני: 
+https://chavrutai.com/yerushalmi/Shabbat/1.1#7
+
+תני.
+to
+תני:
+https://chavrutai.com/yerushalmi/Shabbat/1.1#14
+
+בעי.
+to
+בעי:
+https://chavrutai.com/yerushalmi/Shabbat/1.1#14
+
+בעא.
+to
+בעא:
+https://chavrutai.com/yerushalmi/Yevamot/1.1#20
+
+דאמר.
+to
+דאמר:
+https://chavrutai.com/yerushalmi/Yevamot/1.1#20
+
+דתימר.
+to
+דתימר: 
+https://chavrutai.com/yerushalmi/Yevamot/1.1#22
+
+אומר.
+to
+אומר: 
+https://chavrutai.com/yerushalmi/Shabbat/1.1#7
+
+אומרים.
+to
+אומרים:
+https://chavrutai.com/yerushalmi/Shabbat/1.1#27
+
+ואמרו לו.
+to
+ואמרו לו: 
+https://chavrutai.com/yerushalmi/Shabbat/1.1#13
+
+כמאן דמר.
+to
+כמאן דמר: 
+https://chavrutai.com/yerushalmi/Shabbat/1.1#16
+
+וכתוב.
+to
+וכתוב: 
+https://chavrutai.com/yerushalmi/Shabbat/1.1#19
+
+אין תימר.
+to
+אין תימר:
+https://chavrutai.com/yerushalmi/Shabbat/1.1#26
+
+אלא כן אנן קיימין.
+to
+אלא כן אנן קיימין: 
+https://chavrutai.com/yerushalmi/Shabbat/1.1#27
+
+[x -  where 'x' is 1 to 6 words]. also, for all of these both רבי and רב: 
+
+אמר רבי [x].
+to
+אמר רבי [x]: 
+https://chavrutai.com/yerushalmi/Shabbat/1.1#18
+
+רב [x] אומר.
+to
+רב [x] אומר:
+https://chavrutai.com/yerushalmi/Shabbat/1.1#19
+
+תני רבי [x].
+to
+תני רבי [x]:
+https://chavrutai.com/yerushalmi/Shabbat/1.1#18
+
+רבי [x] בעי.
+to
+רבי [x] בעי:
+https://chavrutai.com/yerushalmi/Shabbat/1.1#19
+
+תנא רבי [x].
+to
+תנא רבי [x]:
+https://chavrutai.com/yerushalmi/Shabbat/1.1#19
+
+רבי [x] בשם [x].
+ to
+רבי [x] בשם [x]:
+
+רבי [x] בשם [x] בשם [x].
+to
+רבי [x] בשם [x] בשם [x]:
+https://chavrutai.com/yerushalmi/Shabbat/1.1#21
+
+convert periods (.) to question mark (?) :
+
+ומה פליגין.
+to 
+ומה פליגין? 
+https://chavrutai.com/yerushalmi/Shabbat/1.1#12
+
+מהו.
+to 
+מהו? 
+https://chavrutai.com/yerushalmi/Shabbat/1.1#14
+
+מאי כדון.
+to
+מאי כדון?
+https://chavrutai.com/yerushalmi/Shabbat/1.1#19
+
+מה אנן קיימין.
+to
+מה אנן קיימין?
+https://chavrutai.com/yerushalmi/Shabbat/1.1#27

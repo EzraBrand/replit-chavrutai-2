@@ -1,0 +1,2 @@
+- [BDB symbol/letter keys](bdb-symbol-keys.md) — single-char keys that are also script letters (e.g. ψ) need a citation-context guard in expandAbbreviations or they corrupt quoted Greek/Hebrew words.
+- [BDB tag splitter](bdb-tag-splitter.md) — BDB uses literal < and > as scholarly markers; expandAbbreviations must split on real tags only or abbrevs after a bare < silently never expand.
