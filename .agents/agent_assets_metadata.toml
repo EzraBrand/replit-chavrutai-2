@@ -6,3 +6,9 @@ id = "IidxH4lFleOHUjYRK0tUs"
 uri = "file://MIGRATION_STATUS.md"
 type = "text"
 title = "ChavrutAI Migration — Status & Decision Brief"
+
+[[outputs]]
+id = "QqJc_JFnrtcfBdv2xoRwL"
+uri = "file://.local/task-4-untrack-mockups-status.md"
+type = "text"
+title = "Task #4 — Untrack Mockups: Status & Next Steps"
