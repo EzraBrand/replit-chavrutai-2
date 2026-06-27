@@ -600,7 +600,15 @@ export function expandAbbreviations(text: string, mappings: Record<string, strin
   // literal `>` as evidence of being inside a tag, causing common abbreviations
   // like "Thes", "AV", "VB", "SS" to be silently skipped whenever they
   // appeared in a clause that also contained a literal `>`.
-  const parts = text.split(/(<[^>]*>)/);
+  //
+  // BDB also uses a literal `<` as a "derived from" marker (e.g. "< name of
+  // Bab. king"). A naive `/(<[^>]*>)/` split treats that bare `<` as the start
+  // of an HTML tag and swallows everything up to the next real tag's `>` into a
+  // single "tag" segment, so abbreviations in that range never expand. Real
+  // tags always begin with `<` followed by a letter (open tag) or `</` (close
+  // tag), whereas the marker is followed by a space/punctuation. Anchoring on
+  // that lets the literal `<` stay in a text segment where it belongs.
+  const parts = text.split(/(<\/?[a-zA-Z][^>]*>)/);
 
   for (let i = 0; i < parts.length; i += 2) {
     let segment = parts[i];

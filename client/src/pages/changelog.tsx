@@ -70,12 +70,13 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: More Abbreviation Expansions (June 27)</h3>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: More Abbreviation Expansions &amp; a "Derived From" Fix (June 27)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Grammar: <strong>Hithpōʿl.</strong> (Hithpo'el), <strong>Pōʿl.</strong> (Po'el).</li>
                 <li>Vocabulary: <strong>kg.</strong> (king), <strong>b. c.</strong> (BCE), <strong>Mar.</strong> (March), <strong>cuneif.</strong> (cuneiform), <strong>inscr.</strong> (inscriptions).</li>
                 <li>Proper names: <strong>Sennach.</strong> (Sennacherib), <strong>Nebuchad.</strong> (Nebuchadnezzar).</li>
-                <li>Reference works: <strong>Encycl.</strong> (Encyclopedia).</li>
+                <li>Reference works: <strong>Encycl.</strong> (Encyclopedia), <strong>Encycl. Brit.</strong> (Encyclopedia Britannica), <strong>Comp. Hex.</strong> (Composition des Hexateuchs), <strong>Dl (Pa</strong> (Delitzsch, Wo lag das Paradies?).</li>
+                <li>Fixed abbreviations not expanding after BDB's <strong>&lt;</strong> "derived from" marker (e.g. <strong>Bab.</strong> in the entry for Nimrod) — a literal <strong>&lt;</strong> was being mistaken for the start of an HTML tag.</li>
               </ul>
             </div>
 
