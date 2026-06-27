@@ -70,6 +70,16 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: More Abbreviation Expansions (June 27)</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Grammar: <strong>Hithpōʿl.</strong> (Hithpo'el), <strong>Pōʿl.</strong> (Po'el).</li>
+                <li>Vocabulary: <strong>kg.</strong> (king), <strong>b. c.</strong> (BCE), <strong>Mar.</strong> (March), <strong>cuneif.</strong> (cuneiform), <strong>inscr.</strong> (inscriptions).</li>
+                <li>Proper names: <strong>Sennach.</strong> (Sennacherib), <strong>Nebuchad.</strong> (Nebuchadnezzar).</li>
+                <li>Reference works: <strong>Encycl.</strong> (Encyclopedia).</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: More Abbreviation Expansions &amp; a Fix (June 2)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Grammar / vocabulary: <strong>identif.</strong> (identified), <strong>OHeb</strong> (Old Heb).</li>
