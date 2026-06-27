@@ -1,0 +1,38 @@
+[
+  {
+    "number": 1,
+    "englishName": "Arba'ah Roshei Shanim",
+    "hebrewName": "ארבעה ראשי שנים",
+    "startFolio": 2,
+    "startSide": "a",
+    "endFolio": 22,
+    "endSide": "a"
+  },
+  {
+    "number": 2,
+    "englishName": "Im Einan Makirin",
+    "hebrewName": "אם אינן מכירין",
+    "startFolio": 22,
+    "startSide": "a",
+    "endFolio": 25,
+    "endSide": "b"
+  },
+  {
+    "number": 3,
+    "englishName": "Ra'uhu Beit Din",
+    "hebrewName": "ראוהו בית דין",
+    "startFolio": 25,
+    "startSide": "b",
+    "endFolio": 29,
+    "endSide": "b"
+  },
+  {
+    "number": 4,
+    "englishName": "Yom Tov",
+    "hebrewName": "יום טוב",
+    "startFolio": 29,
+    "startSide": "b",
+    "endFolio": 35,
+    "endSide": "a"
+  }
+]

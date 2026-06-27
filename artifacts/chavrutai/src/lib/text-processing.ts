@@ -1,0 +1,435 @@
+/**
+ * Client-side text processing utilities
+ * 
+ * This module re-exports shared text processing functions and adds
+ * client-specific features like HTML styling and formatting.
+ */
+
+// Import shared functions for local use and re-export
+import {
+  removeNikud,
+  splitHebrewText,
+  replaceTerms,
+  splitEnglishText,
+  processEnglishText,
+  containsHebrew,
+  normalizeApiText,
+  processHebrewTextCore
+} from '@shared/text-processing';
+import { ALL_BIBLE_BOOKS } from '@shared/bible-books';
+
+// Re-export all shared text processing functions
+export {
+  removeNikud,
+  splitHebrewText,
+  replaceTerms,
+  splitEnglishText,
+  processEnglishText,
+  containsHebrew,
+  normalizeApiText,
+  processHebrewTextCore
+};
+
+/**
+ * Processes Hebrew text (alias for core processing)
+ * Note: Previously included HTML styling for parentheses, but that was removed
+ * due to issues with Hebrew text in Niddah 47a.16 and other sections
+ */
+export function processHebrewText(text: string): string {
+  return processHebrewTextCore(text);
+}
+
+/**
+ * Yerushalmi-specific Hebrew processing: applies a set of phrase-level
+ * punctuation conversions (period → colon/question/exclamation for
+ * dialogue, rhetorical, and vocative cues), then runs the shared core
+ * processing (nikud removal + paragraph splitting).
+ */
+export function processYerushalmiHebrewText(text: string): string {
+  if (!text) return '';
+
+  let processed = removeNikud(text);
+
+  processed = processed
+    // === Speech/dialogue: period → colon ===
+    .replace(/(?<![א-ת])אמר ליה\./g, 'אמר ליה:')
+    .replace(/(?<![א-ת])אמר לון\./g, 'אמר לון:')
+    .replace(/(?<![א-ת])אמרין ליה\./g, 'אמרין ליה:')
+    .replace(/(?<![א-ת])אמרין\./g, 'אמרין:')
+    .replace(/(?<![א-ת])מני אמרו לו\./g, 'מני אמרו לו?')
+    .replace(/(?<![א-ת])מנו אמרו לו\./g, 'מנו אמרו לו?')
+    .replace(/(?<![א-ת])ואמרו לו\./g, 'ואמרו לו:')
+    .replace(/(?<![א-ת])אמרו לו\./g, 'אמרו לו:')
+    .replace(/(?<![א-ת])אמר לו\./g, 'אמר לו:')
+    .replace(/(?<![א-ת])ויש אומרים\./g, 'ויש אומרים:')
+    .replace(/(?<![א-ת])ולא כן כתיב\./g, 'ולא כן כתיב:')
+    .replace(/(?<![א-ת])דבר אחר\./g, 'דבר אחר:')
+    // === Fixed introductory phrases: period → colon ===
+    .replace(/(?<![א-ת])כמאן דמר\./g, 'כמאן דמר:')
+    .replace(/(?<![א-ת])מאן דמר\./g, 'מאן דמר:')
+    .replace(/(?<![א-ת])אלא כן אנן קיימין\./g, 'אלא כן אנן קיימין:')
+    .replace(/(?<![א-ת])אין תימר\./g, 'אין תימר:')
+    .replace(/(?<![א-ת])וכתוב\./g, 'וכתוב:')
+    .replace(/(?<![א-ת])מן הדא\./g, 'מן הדא:')
+    .replace(/(?<![א-ת])הדא אמרה\./g, 'הדא אמרה:')
+    .replace(/(?<![א-ת])([ודה]?תנינן)\./g, '$1:')
+    // === Multi-word attribution patterns ([x] = 1-6 Hebrew words): period → colon ===
+    // Word token is restricted to Hebrew letters (with optional geresh/gershayim/maqaf)
+    // to avoid over-matching punctuation-heavy tokens. More specific patterns first.
+    .replace(/(?<![א-ת])((?:רבי|רב)\s+(?:[א-ת״׳'\-]+\s+){0,5}[א-ת״׳'\-]+\s+בשם\s+(?:[א-ת״׳'\-]+\s+){0,5}[א-ת״׳'\-]+\s+בשם\s+(?:[א-ת״׳'\-]+\s+){0,5}[א-ת״׳'\-]+)\./g, '$1:')
+    .replace(/(?<![א-ת])((?:רבי|רב)\s+(?:[א-ת״׳'\-]+\s+){0,5}[א-ת״׳'\-]+\s+בשם\s+(?:[א-ת״׳'\-]+\s+){0,5}[א-ת״׳'\-]+)\./g, '$1:')
+    .replace(/(?<![א-ת])(אמר\s+(?:רבי|רב)\s+(?:[א-ת״׳'\-]+\s+){0,5}[א-ת״׳'\-]+)\./g, '$1:')
+    .replace(/(?<![א-ת])(תני\s+(?:רבי|רב)\s+(?:[א-ת״׳'\-]+\s+){0,5}[א-ת״׳'\-]+)\./g, '$1:')
+    .replace(/(?<![א-ת])(תנא\s+(?:רבי|רב)\s+(?:[א-ת״׳'\-]+\s+){0,5}[א-ת״׳'\-]+)\./g, '$1:')
+    .replace(/(?<![א-ת])(דרש\s+(?:רבי|רב)\s+(?:[א-ת״׳'\-]+\s+){0,5}[א-ת״׳'\-]+)\./g, '$1:')
+    .replace(/(?<![א-ת])((?:רבי|רב)\s+(?:[א-ת״׳'\-]+\s+){0,5}[א-ת״׳'\-]+\s+אומר)\./g, '$1:')
+    .replace(/(?<![א-ת])((?:רבי|רב)\s+(?:[א-ת״׳'\-]+\s+){0,5}[א-ת״׳'\-]+\s+בעי)\./g, '$1:')
+    // === Single-word speech markers (optional ו/ד/ה prefix): period → colon ===
+    .replace(/(?<![א-ת])([ודה]?תני)\./g, '$1:')
+    .replace(/(?<![א-ת])([ודה]?בעי)\./g, '$1:')
+    .replace(/(?<![א-ת])([ודה]?בעא)\./g, '$1:')
+    .replace(/(?<![א-ת])([ודה]?תימר)\./g, '$1:')
+    .replace(/(?<![א-ת])([ודה]?אומרים)\./g, '$1:')
+    .replace(/(?<![א-ת])([ודה]?אומר)\./g, '$1:')
+    .replace(/(?<![א-ת])([ודה]?אמר)\./g, '$1:')
+    // === Rhetorical/interrogative: period → question mark ===
+    .replace(/(?<![א-ת])מה עבד\./g, 'מה עבד?')
+    .replace(/(?<![א-ת])מה טעם\./g, 'מה טעם?')
+    .replace(/(?<![א-ת])ומה פליגין\./g, 'ומה פליגין?')
+    .replace(/(?<![א-ת])מאי כדון\./g, 'מאי כדון?')
+    .replace(/(?<![א-ת])מיי כדון\./g, 'מיי כדון?')
+    .replace(/(?<![א-ת])מה אנן קיימין\./g, 'מה אנן קיימין?')
+    .replace(/(?<![א-ת])היך עבידא\./g, 'היך עבידא?')
+    .replace(/(?<![א-ת])מה יעשה\./g, 'מה יעשה?')
+    .replace(/(?<![א-ת])מהו\./g, 'מהו?')
+    .replace(/(?<![א-ת])למה\./g, 'למה?')
+    // === Vocative: period → exclamation ===
+    .replace(/(?<![א-ת])רבי\./g, 'רבי!')
+    .replace(/(?<![א-ת])רבותיי\./g, 'רבותיי!');
+
+  return processHebrewTextCore(processed);
+}
+
+/**
+ * Basic formatting for English text - processes HTML and line breaks while preserving formatting
+ * CLIENT-SPECIFIC: Creates HTML paragraph tags
+ */
+export function formatEnglishText(text: string): string {
+  if (!text) return '';
+  
+  // Split text into lines and create paragraph tags with proper spacing
+  const lines = text.split('\n').filter(line => line.trim());
+  
+  if (lines.length === 0) return '';
+  
+  // Create properly spaced paragraphs
+  const paragraphs = lines.map(line => {
+    const trimmedLine = line.trim();
+    if (!trimmedLine) return '';
+    return `<p class="mb-3 leading-relaxed">${trimmedLine}</p>`;
+  }).filter(p => p);
+  
+  return paragraphs.join('');
+}
+
+const BIBLE_NAME_TO_SLUG: Record<string, string> = {};
+for (const book of ALL_BIBLE_BOOKS) {
+  BIBLE_NAME_TO_SLUG[book.name] = book.slug;
+}
+
+const BIBLE_BOOK_NAMES_SORTED = ALL_BIBLE_BOOKS.map(b => b.name)
+  .sort((a, b) => b.length - a.length);
+
+const BIBLE_CITATION_PATTERN = new RegExp(
+  `(${BIBLE_BOOK_NAMES_SORTED.map(n => n.replace(/\s+/g, '\\s+')).join('|')})\\s+(\\d+):(\\d+)(?:\\s*[–\\-]\\s*\\d+)?`,
+  'g'
+);
+
+export function linkBibleCitations(html: string): string {
+  if (!html) return '';
+
+  const anchors: string[] = [];
+  let protected_ = html.replace(/<a\s[^>]*>[\s\S]*?<\/a>/gi, (match) => {
+    anchors.push(match);
+    return `__EXISTING_ANCHOR_${anchors.length - 1}__`;
+  });
+  
+  const htmlTags: string[] = [];
+  protected_ = protected_.replace(/<[^>]+>/g, (match) => {
+    htmlTags.push(match);
+    return `__LINK_HTML_${htmlTags.length - 1}__`;
+  });
+
+  protected_ = protected_.replace(BIBLE_CITATION_PATTERN, (match, book: string, chapter: string, verse: string) => {
+    const normalizedBook = book.replace(/\s+/g, ' ');
+    const slug = BIBLE_NAME_TO_SLUG[normalizedBook] || normalizedBook;
+    return `<a href="/bible/${slug}/${chapter}#${verse}" class="bible-citation-link">${match}</a>`;
+  });
+
+  protected_ = protected_.replace(/__LINK_HTML_(\d+)__/g, (_, index) => htmlTags[parseInt(index)]);
+  protected_ = protected_.replace(/__EXISTING_ANCHOR_(\d+)__/g, (_, index) => anchors[parseInt(index)]);
+
+  return protected_;
+}
+
+/**
+ * Processes Bible Hebrew text (no biblical quote styling for Ketiv-Qere notation)
+ * Bible text should not apply italic styling to parentheses since those are Ketiv-Qere notations
+ */
+export function processBibleHebrewText(text: string): string {
+  if (!text) return '';
+
+  // Just normalize whitespace - nikud already removed by backend
+  const processed = text
+    .replace(/[ \t]+/g, ' ')  // Multiple spaces/tabs to single space
+    .replace(/\n[ \t]+/g, '\n')  // Remove leading whitespace on new lines
+    .replace(/[ \t]+\n/g, '\n')  // Remove trailing whitespace before new lines
+    .trim();
+
+  return processed;
+}
+
+/**
+ * Processes Mishnah Hebrew text: just removes nikud and normalizes whitespace.
+ * Unlike Talmud Hebrew, Mishnah text is already pre-split by the API,
+ * so we skip the additional punctuation splitting that processHebrewText does.
+ */
+export function processMishnahHebrewText(text: string): string {
+  if (!text) return '';
+
+  let processed = removeNikud(text);
+
+  processed = processed
+    .replace(/אומרים,/g, 'אומרים:')
+    .replace(/אומר,/g, 'אומר:')
+    .replace(/אמרו לו,/g, 'אמרו לו:')
+    .replace(/(אמרו להם\s+[^,\n]+),/g, '$1:')
+    .replace(/אמרו להם,/g, 'אמרו להם:')
+    .replace(/אמר להם,/g, 'אמר להם:')
+    .replace(/אמר לו רבי ([^,\n]+),/g, 'אמר לו רבי $1:')
+    .replace(/אמר רבי ([^,\n]+),/g, 'אמר רבי $1:')
+    .replace(/אמר לו,/g, 'אמר לו:')
+    .replace(/(אמר\s+[^,\n]+),/g, '$1:')
+    .replace(/אמר,/g, 'אמר:')
+    .replace(/ואלו הן,/g, 'ואלו הן:')
+    .replace(/(אלו\s+[^.\n]+)\./g, '$1:')
+    .replace(/שני לו,/g, 'שני לו:')
+    .replace(/שלישי לו,/g, 'שלישי לו:')
+    .replace(/(איזהו\s+[^,\n]+),/g, '$1?')
+    .replace(/(ואיזו היא\s+[^,\n]+),/g, '$1?')
+    .replace(/(מה בין\s+[^.\n]+)\./g, '$1?')
+    .replace(/(כיצד\s+[^,.\n]+)[,.]/g, '$1?')
+    .replace(/כיצד\./g, 'כיצד?')
+    .replace(/כיצד,/g, 'כיצד?')
+    .replace(/במה דברים אמורים,/g, 'במה דברים אמורים?')
+    .replace(/אימתי,/g, 'אימתי?')
+    .replace(/זה הכלל,/g, 'זה הכלל:')
+    .replace(/(איזהו\s+[^.\n]+)\./g, '$1?')
+    .replace(/(באיזה\s+[^,\n]+),/g, '$1?')
+    .replace(/(באיזה\s+[^.\n]+)\./g, '$1?')
+    .replace(/(מאימתי\s+[^.\n]+)\./g, '$1?');
+
+  processed = processed
+    .replace(/[ \t]+/g, ' ')
+    .replace(/\n[ \t]+/g, '\n')
+    .replace(/[ \t]+\n/g, '\n')
+    .trim();
+
+  return processed;
+}
+
+/**
+ * Processes Mishnah English text: splits by punctuation into separate lines.
+ * Mishnah English is pure translation (like Bible), so we split on sentence-ending
+ * punctuation (periods, semicolons, colons, question marks, exclamation marks)
+ * to create line-by-line display matching the Hebrew layout.
+ */
+export function processMishnahEnglishText(text: string): string {
+  if (!text) return '';
+
+  let processed = text
+    .replace(/<[^>]*>/g, '')
+    .replace(/\r\n/g, '\n')
+    .replace(/[ \t]+/g, ' ')
+    .trim();
+
+  processed = processed
+    .replace(/\bsaid,/g, 'said:')
+    .replace(/\bR\.\s/g, "R' ")
+    .replace(/\bJoshua\b/g, 'Yehoshua')
+    .replace(/\bJudah\b/g, 'Yehuda')
+    .replace(/\bYose\b/g, 'Yosei')
+    .replace(/\bAkiba\b/g, 'Akiva')
+    // Biblical names: only normalize when preceded by R' or Rav
+    .replace(/(R'|Rav) Jacob\b/g, "$1 Ya'akov")
+    .replace(/(R'|Rav) Jonah\b/g, "$1 Yonah")
+    .replace(/(R'|Rav) Jeremiah\b/g, "$1 Yirmeyah")
+    .replace(/(R'|Rav) Jonathan\b/g, "$1 Yonatan")
+    .replace(/(R'|Rav) Isaac\b/g, "$1 Yitzḥak")
+    .replace(/(R'|Rav) Samuel\b/g, "$1 Shmuel")
+    .replace(/(R'|Rav) Nathan\b/g, "$1 Natan")
+    .replace(/(R'|Rav) Phineas\b/g, "$1 Pinḥas")
+    .replace(/(R'|Rav) Simeon\b/g, "$1 Shimon")
+    .replace(/(R'|Rav) Zadok\b/g, "$1 Tzadok")
+    .replace(/(R'|Rav) Eleazar\b/g, "$1 Elazar")
+    .replace(/(R'|Rav) Ishmael\b/g, "$1 Yishmael")
+    // Non-biblical names: normalize globally
+    .replace(/\bSimon\b/g, 'Shimon')
+    .replace(/\bLaqish\b/g, 'Lakish')
+    .replace(/\bQappara\b/g, 'Kappara')
+    .replace(/\bBeth Hillel\b/g, 'Beit Hillel')
+    .replace(/\bBeth Shammai\b/g, 'Beit Shammai')
+    .replace(/\bthe house of Hillel\b/g, 'Beit Hillel')
+    .replace(/\bthe house of Shammai\b/g, 'Beit Shammai')
+    .replace(/\bthyself\b/gi, (m) => m[0] === 'T' ? 'Yourself' : 'yourself')
+    .replace(/\bthy\b/gi, (m) => m[0] === 'T' ? 'Your' : 'your')
+    .replace(/\bMt\.\s/g, 'Mount ')
+    .replace(/\bi\.e\./g, 'i\x00e\x00')
+    .replace(/\be\.g\./g, 'e\x00g\x00')
+    .replace(/\bibid\./g, 'ibid\x00')
+    .replace(/\bb\.\s/g, 'b\x00 ')
+    .replace(/R'/g, 'R\x00')
+    .replace(/([.;:?!,])(?![\]\)'])(?=[\[A-Z])/g, '$1\n')
+    .replace(/([.;:?!,])(?![\]\)'])\s+(?!\))/g, '$1\n')
+    .replace(/R\x00/g, "R'")
+    .replace(/i\x00e\x00/g, 'i.e.')
+    .replace(/e\x00g\x00/g, 'e.g.')
+    .replace(/ibid\x00/g, 'ibid.')
+    .replace(/b\x00/g, 'b.');
+
+  processed = processed
+    .replace(/\n{3,}/g, '\n')
+    .replace(/\n[ \t]+/g, '\n')
+    .replace(/[ \t]+\n/g, '\n')
+    .trim();
+
+  return processed;
+}
+
+/**
+ * Processes Rambam Hebrew text: removes nikud and normalizes whitespace.
+ * Starts identical to processMishnahHebrewText; Rambam-specific rules added as needed.
+ */
+export function processRambamHebrewText(text: string): string {
+  if (!text) return '';
+
+  let processed = removeNikud(text);
+
+  processed = processed
+    .replace(/כיצד\./g, 'כיצד?');
+
+  processed = processed
+    .replace(/[ \t]+/g, ' ')
+    .replace(/\n[ \t]+/g, '\n')
+    .replace(/[ \t]+\n/g, '\n')
+    .replace(/:$/, '.')
+    .trim();
+
+  return processed;
+}
+
+/**
+ * Processes Rambam English text (Touger translation): strips HTML tags and splits into lines.
+ * NOTE: Footnote extraction (parseSectionFootnotes) must be called BEFORE this function
+ * so that the raw HTML with footnote markers is processed first.
+ * Starts identical to processMishnahEnglishText.
+ */
+export function processRambamEnglishText(text: string): string {
+  if (!text) return '';
+
+  // Step 1: Protect <sup data-note-ref> elements — restored AFTER sentence splitting
+  // so splitting patterns can see the period that precedes each footnote marker.
+  const protectedSups: string[] = [];
+  let processed = text.replace(/<sup[^>]*data-note-ref[^>]*>[\s\S]*?<\/sup>/g, (match) => {
+    protectedSups.push(match);
+    return `\x00RAMBAM_NOTE_${protectedSups.length - 1}\x00`;
+  });
+
+  // Step 2: Protect <em>/<i> italic content — normalize both to <em> so italics display.
+  // Restored AFTER all splitting/cleanup so HTML doesn't interfere with text patterns.
+  const protectedItalics: string[] = [];
+  processed = processed.replace(/<(?:em|i)>([\s\S]*?)<\/(?:em|i)>/gi, (_, content) => {
+    protectedItalics.push(`<em>${content}</em>`);
+    return `\x00RAMBAM_ITALIC_${protectedItalics.length - 1}\x00`;
+  });
+
+  // Step 3: Strip remaining HTML (other tags like <b>, <span>, etc.), normalize whitespace
+  processed = processed
+    .replace(/<[^>]*>/g, '')
+    .replace(/\r\n/g, '\n')
+    .replace(/[ \t]+/g, ' ')
+    .trim();
+
+  // Step 4: Protect abbreviations so their periods don't trigger sentence splits
+  processed = processed
+    .replace(/\bR\.\s/g, "R' ")
+    .replace(/\bi\.e\./g, 'i\x00e\x00')
+    .replace(/\be\.g\./g, 'e\x00g\x00')
+    .replace(/\bibid\./g, 'ibid\x00')
+    .replace(/\bb\.\s/g, 'b\x00 ')
+    .replace(/R'/g, 'R\x00');
+
+  // Step 5: Sentence splitting — must run BEFORE sup/italic restoration.
+  // Pattern A: period/etc. immediately followed by a sup placeholder (e.g. "build.¹ Below")
+  processed = processed
+    .replace(/([.;:?!])(\x00RAMBAM_NOTE_\d+\x00)\s*/g, '$1$2\n')
+    // Pattern A2: period/etc. followed by italic placeholder — same logic
+    .replace(/([.;:?!])(\x00RAMBAM_ITALIC_\d+\x00)\s*/g, '$1$2\n')
+    // Pattern B: period/etc. directly followed by uppercase or [
+    .replace(/([.;:?!])(?![\]\)'])(?=[\[A-Z])/g, '$1\n')
+    // Pattern C: period/etc. followed by whitespace (not followed by closing paren)
+    .replace(/([.;:?!])(?![\]\)'])\s+(?!\))/g, '$1\n')
+    // Pattern D: split before a), b), c)... and i), ii), iii), iv)... xxxviii)... list items
+    .replace(/([;:.])\s*([a-z]{1,7}\))/g, '$1\n$2');
+
+  // Step 6: Restore abbreviations
+  processed = processed
+    .replace(/R\x00/g, "R'")
+    .replace(/i\x00e\x00/g, 'i.e.')
+    .replace(/e\x00g\x00/g, 'e.g.')
+    .replace(/ibid\x00/g, 'ibid.')
+    .replace(/b\x00/g, 'b.');
+
+  // Step 7: Restore footnote sups — land after the newline that split their sentence
+  processed = processed.replace(/\x00RAMBAM_NOTE_(\d+)\x00/g, (_, i) => protectedSups[parseInt(i)]);
+
+  // Step 8: Restore italic placeholders
+  processed = processed.replace(/\x00RAMBAM_ITALIC_(\d+)\x00/g, (_, i) => protectedItalics[parseInt(i)]);
+
+  // Step 9: Final cleanup
+  processed = processed
+    .replace(/\n{3,}/g, '\n')
+    .replace(/\n[ \t]+/g, '\n')
+    .replace(/[ \t]+\n/g, '\n')
+    .replace(/:$/, '.')
+    .trim();
+
+  return processed;
+}
+
+/**
+ * Simpler processing for Bible English text - no auto-splitting
+ * (Backend already handles verse splitting and HTML processing)
+ */
+export function processBibleEnglishText(text: string): string {
+  if (!text) return '';
+
+  // Backend has already:
+  // - Replaced HTML-wrapped divine names with "YHWH"
+  // - Stripped all HTML tags
+  // - Split verses into segments
+  
+  // Apply shared term replacements
+  let processed = replaceTerms(text);
+
+  // Normalize whitespace
+  processed = processed
+    .replace(/\r\n/g, '\n')  // Normalize line endings
+    .replace(/\n{3,}/g, '\n\n')  // Multiple line breaks to double
+    .replace(/[ \t]+/g, ' ')  // Multiple spaces/tabs to single space
+    .replace(/\n[ \t]+/g, '\n')  // Remove leading whitespace on new lines
+    .replace(/[ \t]+\n/g, '\n')  // Remove trailing whitespace before new lines
+    .trim();
+
+  return processed;
+}

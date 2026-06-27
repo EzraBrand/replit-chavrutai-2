@@ -1,0 +1,92 @@
+[
+  {
+    "number": 1,
+    "englishName": "Arba'ah Avot",
+    "hebrewName": "ארבעה אבות",
+    "startFolio": 2,
+    "startSide": "a",
+    "endFolio": 17,
+    "endSide": "a"
+  },
+  {
+    "number": 2,
+    "englishName": "Keytzad HaRegel",
+    "hebrewName": "כיצד הרגל",
+    "startFolio": 17,
+    "startSide": "a",
+    "endFolio": 27,
+    "endSide": "a"
+  },
+  {
+    "number": 3,
+    "englishName": "HaManiah",
+    "hebrewName": "המניח",
+    "startFolio": 27,
+    "startSide": "a",
+    "endFolio": 36,
+    "endSide": "a"
+  },
+  {
+    "number": 4,
+    "englishName": "Shor She'nagach Dalet VaHeh",
+    "hebrewName": "שור שנגח ד' וה'",
+    "startFolio": 36,
+    "startSide": "a",
+    "endFolio": 46,
+    "endSide": "a"
+  },
+  {
+    "number": 5,
+    "englishName": "Shor She'nagach Et HaParah",
+    "hebrewName": "שור שנגח את הפרה",
+    "startFolio": 46,
+    "startSide": "a",
+    "endFolio": 55,
+    "endSide": "b"
+  },
+  {
+    "number": 6,
+    "englishName": "HaKones",
+    "hebrewName": "הכונס",
+    "startFolio": 55,
+    "startSide": "b",
+    "endFolio": 62,
+    "endSide": "b"
+  },
+  {
+    "number": 7,
+    "englishName": "Merubah",
+    "hebrewName": "מרובה",
+    "startFolio": 62,
+    "startSide": "b",
+    "endFolio": 83,
+    "endSide": "b"
+  },
+  {
+    "number": 8,
+    "englishName": "HaChoveil",
+    "hebrewName": "החובל",
+    "startFolio": 83,
+    "startSide": "b",
+    "endFolio": 93,
+    "endSide": "b"
+  },
+  {
+    "number": 9,
+    "englishName": "HaGozeil Etzim",
+    "hebrewName": "הגוזל עצים",
+    "startFolio": 93,
+    "startSide": "b",
+    "endFolio": 111,
+    "endSide": "b"
+  },
+  {
+    "number": 10,
+    "englishName": "HaGozeil UMe'akhil",
+    "hebrewName": "הגוזל ומאכיל",
+    "startFolio": 111,
+    "startSide": "b",
+    "endFolio": 119,
+    "endSide": "b"
+  }
+]

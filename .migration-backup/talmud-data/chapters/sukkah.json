@@ -1,0 +1,47 @@
+[
+  {
+    "number": 1,
+    "englishName": "Sukkah",
+    "hebrewName": "סוכה",
+    "startFolio": 2,
+    "startSide": "a",
+    "endFolio": 20,
+    "endSide": "b"
+  },
+  {
+    "number": 2,
+    "englishName": "HaYashein Tachat HaMitah",
+    "hebrewName": "הישן תחת המטה",
+    "startFolio": 20,
+    "startSide": "b",
+    "endFolio": 29,
+    "endSide": "b"
+  },
+  {
+    "number": 3,
+    "englishName": "Lulav HaGazul",
+    "hebrewName": "לולב הגזול",
+    "startFolio": 29,
+    "startSide": "b",
+    "endFolio": 42,
+    "endSide": "b"
+  },
+  {
+    "number": 4,
+    "englishName": "Lulav VeAravah",
+    "hebrewName": "לולב וערבה",
+    "startFolio": 42,
+    "startSide": "b",
+    "endFolio": 50,
+    "endSide": "a"
+  },
+  {
+    "number": 5,
+    "englishName": "HaChalil",
+    "hebrewName": "החליל",
+    "startFolio": 50,
+    "startSide": "a",
+    "endFolio": 56,
+    "endSide": "b"
+  }
+]

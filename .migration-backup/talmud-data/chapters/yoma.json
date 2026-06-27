@@ -1,0 +1,74 @@
+[
+  {
+    "number": 1,
+    "englishName": "Shivat Yamim",
+    "hebrewName": "שבעת ימים",
+    "startFolio": 2,
+    "startSide": "a",
+    "endFolio": 22,
+    "endSide": "a"
+  },
+  {
+    "number": 2,
+    "englishName": "BaRishonah",
+    "hebrewName": "בראשונה",
+    "startFolio": 22,
+    "startSide": "a",
+    "endFolio": 28,
+    "endSide": "a"
+  },
+  {
+    "number": 3,
+    "englishName": "Amar Lahem HaMemuneh",
+    "hebrewName": "אמר להם הממונה",
+    "startFolio": 28,
+    "startSide": "a",
+    "endFolio": 39,
+    "endSide": "a"
+  },
+  {
+    "number": 4,
+    "englishName": "Taraf BaKalpi",
+    "hebrewName": "טרף בקלפי",
+    "startFolio": 39,
+    "startSide": "a",
+    "endFolio": 47,
+    "endSide": "a"
+  },
+  {
+    "number": 5,
+    "englishName": "Hotziu Lo",
+    "hebrewName": "הוציאו לו",
+    "startFolio": 47,
+    "startSide": "a",
+    "endFolio": 62,
+    "endSide": "a"
+  },
+  {
+    "number": 6,
+    "englishName": "Shnei Se'irei",
+    "hebrewName": "שני שעירי",
+    "startFolio": 62,
+    "startSide": "a",
+    "endFolio": 68,
+    "endSide": "b"
+  },
+  {
+    "number": 7,
+    "englishName": "Ba Lo Kohen Gadol",
+    "hebrewName": "בא לו (כהן גדול)",
+    "startFolio": 68,
+    "startSide": "b",
+    "endFolio": 73,
+    "endSide": "b"
+  },
+  {
+    "number": 8,
+    "englishName": "Yom HaKippurim",
+    "hebrewName": "יום הכיפורים",
+    "startFolio": 73,
+    "startSide": "b",
+    "endFolio": 88,
+    "endSide": "a"
+  }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "number": 1,
+    "englishName": "Me'eimatay",
+    "hebrewName": "מאימתי",
+    "startFolio": 2,
+    "startSide": "a",
+    "endFolio": 15,
+    "endSide": "a"
+  },
+  {
+    "number": 2,
+    "englishName": "Seder Ta'aniyot Keytzad",
+    "hebrewName": "סדר תעניות כיצד",
+    "startFolio": 15,
+    "startSide": "a",
+    "endFolio": 18,
+    "endSide": "b"
+  },
+  {
+    "number": 3,
+    "englishName": "Seder Ta'aniyot Eilu",
+    "hebrewName": "סדר תעניות אלו",
+    "startFolio": 18,
+    "startSide": "b",
+    "endFolio": 26,
+    "endSide": "a"
+  },
+  {
+    "number": 4,
+    "englishName": "Bi'Sheloshah Perakim",
+    "hebrewName": "בשלשה פרקים",
+    "startFolio": 26,
+    "startSide": "a",
+    "endFolio": 31,
+    "endSide": "a"
+  }
+]

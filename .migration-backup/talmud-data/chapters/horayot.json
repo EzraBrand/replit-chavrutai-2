@@ -1,0 +1,29 @@
+[
+  {
+    "number": 1,
+    "englishName": "Horu Beit Din",
+    "hebrewName": "הורו בית דין",
+    "startFolio": 2,
+    "startSide": "a",
+    "endFolio": 6,
+    "endSide": "b"
+  },
+  {
+    "number": 2,
+    "englishName": "Horah Kohen Mashiach",
+    "hebrewName": "הורה כהן משיח",
+    "startFolio": 6,
+    "startSide": "b",
+    "endFolio": 9,
+    "endSide": "b"
+  },
+  {
+    "number": 3,
+    "englishName": "Kohen Mashiach",
+    "hebrewName": "כהן משיח",
+    "startFolio": 9,
+    "startSide": "b",
+    "endFolio": 14,
+    "endSide": "a"
+  }
+]

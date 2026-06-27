@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "ChavrutAI"
+version = "1.0.0"
+id = "artifacts/chavrutai"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23737
+
+[services.development]
+run = "pnpm --filter @workspace/chavrutai run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/chavrutai", "run", "build" ]
+publicDir = "artifacts/chavrutai/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23737"
+BASE_PATH = "/"

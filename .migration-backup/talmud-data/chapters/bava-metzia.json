@@ -1,0 +1,92 @@
+[
+  {
+    "number": 1,
+    "englishName": "Shnayim Ochazin",
+    "hebrewName": "שנים אוחזין",
+    "startFolio": 2,
+    "startSide": "a",
+    "endFolio": 21,
+    "endSide": "a"
+  },
+  {
+    "number": 2,
+    "englishName": "Eilu Metziot",
+    "hebrewName": "אלו מציאות",
+    "startFolio": 21,
+    "startSide": "a",
+    "endFolio": 33,
+    "endSide": "b"
+  },
+  {
+    "number": 3,
+    "englishName": "HaMafkid",
+    "hebrewName": "המפקיד",
+    "startFolio": 33,
+    "startSide": "b",
+    "endFolio": 44,
+    "endSide": "a"
+  },
+  {
+    "number": 4,
+    "englishName": "HaZahav",
+    "hebrewName": "הזהב",
+    "startFolio": 44,
+    "startSide": "a",
+    "endFolio": 60,
+    "endSide": "b"
+  },
+  {
+    "number": 5,
+    "englishName": "Eizehu Neshech",
+    "hebrewName": "איזהו נשך",
+    "startFolio": 60,
+    "startSide": "b",
+    "endFolio": 75,
+    "endSide": "b"
+  },
+  {
+    "number": 6,
+    "englishName": "HaSokher Et Ha'Omanin",
+    "hebrewName": "השוכר את האומנין",
+    "startFolio": 75,
+    "startSide": "b",
+    "endFolio": 83,
+    "endSide": "a"
+  },
+  {
+    "number": 7,
+    "englishName": "HaSokher Et HaPo'alim",
+    "hebrewName": "השוכר את הפועלים",
+    "startFolio": 83,
+    "startSide": "a",
+    "endFolio": 94,
+    "endSide": "a"
+  },
+  {
+    "number": 8,
+    "englishName": "HaSho'el Et HaParah",
+    "hebrewName": "השואל את הפרה",
+    "startFolio": 94,
+    "startSide": "a",
+    "endFolio": 103,
+    "endSide": "a"
+  },
+  {
+    "number": 9,
+    "englishName": "HaMekabel Sadeh Mechaveiro",
+    "hebrewName": "המקבל שדה מחבירו",
+    "startFolio": 103,
+    "startSide": "a",
+    "endFolio": 116,
+    "endSide": "b"
+  },
+  {
+    "number": 10,
+    "englishName": "HaBayit VeHaAliyah",
+    "hebrewName": "הבית והעלייה",
+    "startFolio": 116,
+    "startSide": "b",
+    "endFolio": 119,
+    "endSide": "b"
+  }
+]

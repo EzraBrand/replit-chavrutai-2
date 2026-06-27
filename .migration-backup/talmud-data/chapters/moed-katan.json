@@ -1,0 +1,29 @@
+[
+  {
+    "number": 1,
+    "englishName": "Mashkin Beit HaShelachin",
+    "hebrewName": "משקין בית השלחין",
+    "startFolio": 2,
+    "startSide": "a",
+    "endFolio": 11,
+    "endSide": "b"
+  },
+  {
+    "number": 2,
+    "englishName": "Mi She'hafach",
+    "hebrewName": "מי שהפך",
+    "startFolio": 11,
+    "startSide": "b",
+    "endFolio": 13,
+    "endSide": "b"
+  },
+  {
+    "number": 3,
+    "englishName": "V'Eilu Megalchin",
+    "hebrewName": "ואלו מגלחין",
+    "startFolio": 13,
+    "startSide": "b",
+    "endFolio": 29,
+    "endSide": "a"
+  }
+]

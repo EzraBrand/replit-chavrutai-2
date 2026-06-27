@@ -1,0 +1,92 @@
+[
+  {
+    "number": 1,
+    "englishName": "Or Le'arbah Asar",
+    "hebrewName": "אור לארבעה עשר",
+    "startFolio": 2,
+    "startSide": "a",
+    "endFolio": 21,
+    "endSide": "a"
+  },
+  {
+    "number": 2,
+    "englishName": "Kol Sha'ah",
+    "hebrewName": "כל שעה",
+    "startFolio": 21,
+    "startSide": "a",
+    "endFolio": 42,
+    "endSide": "a"
+  },
+  {
+    "number": 3,
+    "englishName": "V'Eilu Ovrin",
+    "hebrewName": "(ו)אלו עוברין",
+    "startFolio": 42,
+    "startSide": "a",
+    "endFolio": 50,
+    "endSide": "a"
+  },
+  {
+    "number": 4,
+    "englishName": "Makom She'nahagu",
+    "hebrewName": "מקום שנהגו",
+    "startFolio": 50,
+    "startSide": "a",
+    "endFolio": 58,
+    "endSide": "a"
+  },
+  {
+    "number": 5,
+    "englishName": "Tamid Nishchat",
+    "hebrewName": "תמיד נשחט",
+    "startFolio": 58,
+    "startSide": "a",
+    "endFolio": 65,
+    "endSide": "b"
+  },
+  {
+    "number": 6,
+    "englishName": "Eilu Devarim",
+    "hebrewName": "אלו דברים",
+    "startFolio": 65,
+    "startSide": "b",
+    "endFolio": 74,
+    "endSide": "a"
+  },
+  {
+    "number": 7,
+    "englishName": "Keytzad Tzolin",
+    "hebrewName": "כיצד צולין",
+    "startFolio": 74,
+    "startSide": "a",
+    "endFolio": 87,
+    "endSide": "a"
+  },
+  {
+    "number": 8,
+    "englishName": "HaIshah",
+    "hebrewName": "האשה",
+    "startFolio": 87,
+    "startSide": "a",
+    "endFolio": 92,
+    "endSide": "b"
+  },
+  {
+    "number": 9,
+    "englishName": "Mi She'hayah",
+    "hebrewName": "מי שהיה",
+    "startFolio": 92,
+    "startSide": "b",
+    "endFolio": 99,
+    "endSide": "b"
+  },
+  {
+    "number": 10,
+    "englishName": "Arvei Pesachim",
+    "hebrewName": "ערבי פסחים",
+    "startFolio": 99,
+    "startSide": "b",
+    "endFolio": 121,
+    "endSide": "b"
+  }
+]

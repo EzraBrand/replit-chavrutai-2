@@ -2,67 +2,7 @@ uploads = []
 generated = []
 
 [[outputs]]
-id = "BMzZvwpHYvUu12XuvAT-T"
-uri = "file://docs/yerushalmi-review.md"
+id = "IidxH4lFleOHUjYRK0tUs"
+uri = "file://MIGRATION_STATUS.md"
 type = "text"
-title = "Yerushalmi Reader: Sprint Review & Improvement Brainstorm"
-
-[[outputs]]
-id = "NgwJE9hQ3IoxspvYWW-Pd"
-uri = "file://analysis/guggenheimer-greek-latin.csv"
-type = "table"
-title = "Guggenheimer Greek & Latin Words Analysis"
-
-[[outputs]]
-id = "xyyPTuFHtSbgwUFPEPp_N"
-uri = "file://analysis/README.md"
-type = "text"
-title = "Greek & Latin Loanword Extraction — Abstract & Documentation"
-
-[[outputs]]
-id = "-Z7Ez8FJSGoYjxoJSDndB"
-uri = "file://docs/alhatorah-book-names.csv"
-type = "table"
-title = "Al HaTorah Book Names (site.dw.8.min.js)"
-
-[[outputs]]
-id = "rpEeSTWD0E0TKLpC4FZta"
-uri = "file://competitive-analysis.pdf"
-type = "pdf"
-title = "ChavrutAI Competitive Analysis Report"
-
-[[outputs]]
-id = "3YY7tM-7BnXCFvHwjugxm"
-uri = "file://scripts/blogpost-longest-chapters.md"
-type = "text"
-title = "Blog Post: Longest & Shortest Chapters in Yerushalmi and Rambam"
-
-[[outputs]]
-id = "aNiRkKYGkWjTGWZ3425cG"
-uri = "file://scripts/wordcount-analysis.tar.gz"
-type = "unspecified"
-title = "Wordcount Analysis — Scripts, Results & Blog Post"
-
-[[outputs]]
-id = "MNyNTK1DX67pnmjwvnn9B"
-uri = "file://docs/text-processing-refactor-brainstorm.md"
-type = "text"
-title = "Text Processing Refactor — Research & Ideas"
-
-[[outputs]]
-id = "SR5U9gxzFpkz9VVNq-G4R"
-uri = "file://drafts/yerushalmi-longest-shortest.md"
-type = "text"
-title = "Draft: The Longest and Shortest Sugyot in the Talmud Yerushalmi"
-
-[[outputs]]
-id = "6WlOO7zC1iaMOlgPjXyX1"
-uri = "file://scripts/yerushalmi-names-results.csv"
-type = "table"
-title = "Yerushalmi Names — Updated Results (2,675 names, with normalized_name)"
-
-[[outputs]]
-id = "pP4ZEv83BfgnV-MWBPvUm"
-uri = "file://scripts/scholarship-reader-blogpost.md"
-type = "text"
-title = "Scholarship Reader — Blog Post Draft"
+title = "ChavrutAI Migration — Status & Decision Brief"

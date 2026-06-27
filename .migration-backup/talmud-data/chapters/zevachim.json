@@ -1,0 +1,128 @@
+[
+  {
+    "number": 1,
+    "englishName": "Kol HaZevachim",
+    "hebrewName": "כל הזבחים",
+    "startFolio": 2,
+    "startSide": "a",
+    "endFolio": 15,
+    "endSide": "b"
+  },
+  {
+    "number": 2,
+    "englishName": "Kol HaZevachim She'kiblu Daman",
+    "hebrewName": "כל הזבחים שקבלו דמן",
+    "startFolio": 15,
+    "startSide": "b",
+    "endFolio": 31,
+    "endSide": "b"
+  },
+  {
+    "number": 3,
+    "englishName": "Kol HaPesulin",
+    "hebrewName": "כל הפסולין",
+    "startFolio": 31,
+    "startSide": "b",
+    "endFolio": 36,
+    "endSide": "b"
+  },
+  {
+    "number": 4,
+    "englishName": "Beit Shammai",
+    "hebrewName": "בית שמאי",
+    "startFolio": 36,
+    "startSide": "b",
+    "endFolio": 47,
+    "endSide": "a"
+  },
+  {
+    "number": 5,
+    "englishName": "Eizehu Mekoman",
+    "hebrewName": "איזהו מקומן",
+    "startFolio": 47,
+    "startSide": "a",
+    "endFolio": 58,
+    "endSide": "a"
+  },
+  {
+    "number": 6,
+    "englishName": "Kodshei Kodashim",
+    "hebrewName": "קדשי קדשים",
+    "startFolio": 58,
+    "startSide": "a",
+    "endFolio": 66,
+    "endSide": "a"
+  },
+  {
+    "number": 7,
+    "englishName": "Chatat HaOf",
+    "hebrewName": "חטאת העוף",
+    "startFolio": 66,
+    "startSide": "a",
+    "endFolio": 70,
+    "endSide": "b"
+  },
+  {
+    "number": 8,
+    "englishName": "Kol HaZevachim",
+    "hebrewName": "כל הזבחים",
+    "startFolio": 70,
+    "startSide": "b",
+    "endFolio": 83,
+    "endSide": "a"
+  },
+  {
+    "number": 9,
+    "englishName": "HaMizbe'ach Mekadesh",
+    "hebrewName": "המזבח מקדש",
+    "startFolio": 83,
+    "startSide": "a",
+    "endFolio": 89,
+    "endSide": "a"
+  },
+  {
+    "number": 10,
+    "englishName": "Kol HaTadir",
+    "hebrewName": "כל התדיר",
+    "startFolio": 89,
+    "startSide": "a",
+    "endFolio": 92,
+    "endSide": "a"
+  },
+  {
+    "number": 11,
+    "englishName": "Dam Chatat",
+    "hebrewName": "דם חטאת",
+    "startFolio": 92,
+    "startSide": "a",
+    "endFolio": 98,
+    "endSide": "b"
+  },
+  {
+    "number": 12,
+    "englishName": "Tevul Yom",
+    "hebrewName": "טבול יום",
+    "startFolio": 98,
+    "startSide": "b",
+    "endFolio": 106,
+    "endSide": "a"
+  },
+  {
+    "number": 13,
+    "englishName": "HaShochet VeHamaaleh",
+    "hebrewName": "השוחט והמעלה",
+    "startFolio": 106,
+    "startSide": "a",
+    "endFolio": 112,
+    "endSide": "a"
+  },
+  {
+    "number": 14,
+    "englishName": "Parat Chatat",
+    "hebrewName": "פרת חטאת",
+    "startFolio": 112,
+    "startSide": "a",
+    "endFolio": 120,
+    "endSide": "b"
+  }
+]

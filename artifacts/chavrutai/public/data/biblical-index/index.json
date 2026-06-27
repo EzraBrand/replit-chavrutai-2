@@ -1,0 +1,215 @@
+{
+  "description": "Biblical Citations in the Talmud - Index of all available books",
+  "totalBooks": 40,
+  "books": [
+    {
+      "filename": "genesis.json",
+      "displayName": "Genesis"
+    },
+    {
+      "filename": "exodus.json",
+      "displayName": "Exodus"
+    },
+    {
+      "filename": "leviticus_part1.json",
+      "displayName": "Leviticus part1"
+    },
+    {
+      "filename": "leviticus_part2.json",
+      "displayName": "Leviticus part2"
+    },
+    {
+      "filename": "numbers.json",
+      "displayName": "Numbers"
+    },
+    {
+      "filename": "deuteronomy_part1.json",
+      "displayName": "Deuteronomy part1"
+    },
+    {
+      "filename": "deuteronomy_part2.json",
+      "displayName": "Deuteronomy part2"
+    },
+    {
+      "filename": "joshua.json",
+      "displayName": "Joshua"
+    },
+    {
+      "filename": "judges.json",
+      "displayName": "Judges"
+    },
+    {
+      "filename": "1_samuel.json",
+      "displayName": "1 Samuel"
+    },
+    {
+      "filename": "2_samuel.json",
+      "displayName": "2 Samuel"
+    },
+    {
+      "filename": "1_kings.json",
+      "displayName": "1 Kings"
+    },
+    {
+      "filename": "2_kings.json",
+      "displayName": "2 Kings"
+    },
+    {
+      "filename": "isaiah.json",
+      "displayName": "Isaiah"
+    },
+    {
+      "filename": "jeremiah.json",
+      "displayName": "Jeremiah"
+    },
+    {
+      "filename": "ezekiel.json",
+      "displayName": "Ezekiel"
+    },
+    {
+      "filename": "hosea.json",
+      "displayName": "Hosea"
+    },
+    {
+      "filename": "joel.json",
+      "displayName": "Joel"
+    },
+    {
+      "filename": "amos.json",
+      "displayName": "Amos"
+    },
+    {
+      "filename": "obadiah.json",
+      "displayName": "Obadiah"
+    },
+    {
+      "filename": "jonah.json",
+      "displayName": "Jonah"
+    },
+    {
+      "filename": "micah.json",
+      "displayName": "Micah"
+    },
+    {
+      "filename": "nahum.json",
+      "displayName": "Nahum"
+    },
+    {
+      "filename": "habakkuk.json",
+      "displayName": "Habakkuk"
+    },
+    {
+      "filename": "zephaniah.json",
+      "displayName": "Zephaniah"
+    },
+    {
+      "filename": "haggai.json",
+      "displayName": "Haggai"
+    },
+    {
+      "filename": "zechariah.json",
+      "displayName": "Zechariah"
+    },
+    {
+      "filename": "malachi.json",
+      "displayName": "Malachi"
+    },
+    {
+      "filename": "psalms.json",
+      "displayName": "Psalms"
+    },
+    {
+      "filename": "proverbs.json",
+      "displayName": "Proverbs"
+    },
+    {
+      "filename": "job.json",
+      "displayName": "Job"
+    },
+    {
+      "filename": "ruth.json",
+      "displayName": "Ruth"
+    },
+    {
+      "filename": "lamentations.json",
+      "displayName": "Lamentations"
+    },
+    {
+      "filename": "ecclesiastes.json",
+      "displayName": "Ecclesiastes"
+    },
+    {
+      "filename": "esther.json",
+      "displayName": "Esther"
+    },
+    {
+      "filename": "daniel.json",
+      "displayName": "Daniel"
+    },
+    {
+      "filename": "ezra.json",
+      "displayName": "Ezra"
+    },
+    {
+      "filename": "nehemiah.json",
+      "displayName": "Nehemiah"
+    },
+    {
+      "filename": "1_chronicles.json",
+      "displayName": "1 Chronicles"
+    },
+    {
+      "filename": "2_chronicles.json",
+      "displayName": "2 Chronicles"
+    }
+  ],
+  "categories": {
+    "torah": [
+      "Genesis",
+      "Exodus",
+      "Leviticus_part1",
+      "Leviticus_part2",
+      "Numbers",
+      "Deuteronomy_part1",
+      "Deuteronomy_part2"
+    ],
+    "neviim": [
+      "Joshua",
+      "Judges",
+      "1_Samuel",
+      "2_Samuel",
+      "1_Kings",
+      "2_Kings",
+      "Isaiah",
+      "Jeremiah",
+      "Ezekiel",
+      "Hosea",
+      "Joel",
+      "Amos",
+      "Obadiah",
+      "Jonah",
+      "Micah",
+      "Nahum",
+      "Habakkuk",
+      "Zephaniah",
+      "Haggai",
+      "Zechariah",
+      "Malachi"
+    ],
+    "ketuvim": [
+      "Psalms",
+      "Proverbs",
+      "Job",
+      "Song_of_Songs",
+      "Ruth",
+      "Lamentations",
+      "Ecclesiastes",
+      "Esther",
+      "Daniel",
+      "Ezra",
+      "Nehemiah",
+      "1_Chronicles",
+      "2_Chronicles"
+    ]
+  }
+}

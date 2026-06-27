@@ -1,0 +1,83 @@
+[
+  {
+    "number": 1,
+    "englishName": "HaMevi Get",
+    "hebrewName": "המביא גט",
+    "startFolio": 2,
+    "startSide": "a",
+    "endFolio": 15,
+    "endSide": "a"
+  },
+  {
+    "number": 2,
+    "englishName": "HaMevi Get",
+    "hebrewName": "המביא גט",
+    "startFolio": 15,
+    "startSide": "a",
+    "endFolio": 24,
+    "endSide": "a"
+  },
+  {
+    "number": 3,
+    "englishName": "Kol HaGet",
+    "hebrewName": "כל הגט",
+    "startFolio": 24,
+    "startSide": "a",
+    "endFolio": 32,
+    "endSide": "a"
+  },
+  {
+    "number": 4,
+    "englishName": "HaSholei'ach",
+    "hebrewName": "השולח",
+    "startFolio": 32,
+    "startSide": "a",
+    "endFolio": 48,
+    "endSide": "b"
+  },
+  {
+    "number": 5,
+    "englishName": "HaNizakin",
+    "hebrewName": "הניזקין",
+    "startFolio": 48,
+    "startSide": "b",
+    "endFolio": 62,
+    "endSide": "b"
+  },
+  {
+    "number": 6,
+    "englishName": "HaOmer",
+    "hebrewName": "האומר",
+    "startFolio": 62,
+    "startSide": "b",
+    "endFolio": 67,
+    "endSide": "b"
+  },
+  {
+    "number": 7,
+    "englishName": "Mi She'achazu",
+    "hebrewName": "מי שאחזו",
+    "startFolio": 67,
+    "startSide": "b",
+    "endFolio": 77,
+    "endSide": "a"
+  },
+  {
+    "number": 8,
+    "englishName": "HaZorek",
+    "hebrewName": "הזורק",
+    "startFolio": 77,
+    "startSide": "a",
+    "endFolio": 82,
+    "endSide": "a"
+  },
+  {
+    "number": 9,
+    "englishName": "HaMegaresh",
+    "hebrewName": "המגרש",
+    "startFolio": 82,
+    "startSide": "a",
+    "endFolio": 90,
+    "endSide": "b"
+  }
+]
