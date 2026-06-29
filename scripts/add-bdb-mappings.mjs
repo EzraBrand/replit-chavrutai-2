@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 /**
- * Append new BDB abbreviation mappings to shared/data/lexicon-mappings/bdb.json.
+ * Append new BDB abbreviation mappings to
+ * artifacts/chavrutai/src/shared/data/lexicon-mappings/bdb.json
+ * (the single, frontend-only source of truth). Run from the repo root.
  *
  * Usage:
  *   node scripts/add-bdb-mappings.mjs '<json-object-of-mappings>' [YYYY-MM-DD]
@@ -19,7 +21,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-const FILE = 'shared/data/lexicon-mappings/bdb.json';
+const FILE = 'artifacts/chavrutai/src/shared/data/lexicon-mappings/bdb.json';
 
 function today() {
   const d = new Date();

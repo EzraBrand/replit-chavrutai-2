@@ -11,13 +11,13 @@ The BDB reader (`/bdb`) displays Brown-Driver-Briggs lexicon entries fetched fro
 
 > **Layout note (post-pnpm migration):** the project is now a pnpm monorepo. The
 > source files live under `artifacts/chavrutai/src/...`, **not** the old `client/src/...`.
-> Crucially, `bdb.json` is **copied into two trees** and BOTH must be updated:
-> - `artifacts/chavrutai/src/shared/data/lexicon-mappings/bdb.json` (frontend)
-> - `artifacts/api-server/src/shared/data/lexicon-mappings/bdb.json` (backend)
+> The abbreviation expansion is **client-side only**, so the mappings live in a
+> single place — the frontend tree. (The api-server used to carry an unused copy
+> under `shared/data/lexicon-mappings/`; it has been removed.)
 
 | File | Purpose |
 |---|---|
-| `artifacts/{chavrutai,api-server}/src/shared/data/lexicon-mappings/bdb.json` | The abbreviation → expansion map. **Two copies — keep them in sync.** |
+| `artifacts/chavrutai/src/shared/data/lexicon-mappings/bdb.json` | The abbreviation → expansion map. **This is the single source of truth.** |
 | `artifacts/chavrutai/src/lib/dictionary-format.ts` | Transformation functions: `expandAbbreviations`, `convertSupTagsToParens`, `convertBdbSubFrequencyCounts`, `prependBdbCircaMarker`, `convertSuperscriptLetters`, etc. |
 | `artifacts/chavrutai/src/pages/bdb.tsx` | Composes the transformation pipeline in `renderDefinition()`. |
 | `artifacts/chavrutai/src/pages/bdb-abbreviations.tsx` | Auto-generated index page that reads `bdb.json` — no edits needed when adding mappings. |
@@ -86,12 +86,10 @@ Defined in `dictionary-format.ts` around line 590. Key behaviors:
    - If a shorter key already maps to something wrong in context (e.g. `Hom → Fritz Hommel`), add a longer, more specific key rather than removing the short one.
    - Case variants (`Prob.` vs `prob.`) are usually intentional — add both if needed.
 
-3. **Edit the JSON — use the helper script, once per tree.** Do **not** hand-craft byte-level patches; the file has unpredictable per-line endings (the line *before* `END` is LF but the `END` line itself is CRLF) and the dash count in the END marker is not what you'd guess. The script's `FILE` path (`shared/data/lexicon-mappings/bdb.json`) is **relative to the current working directory**, so you must `cd` into each tree's `src/` and run it twice — the script only updates one copy per run:
+3. **Edit the JSON — use the helper script.** Do **not** hand-craft byte-level patches; the file has unpredictable per-line endings (the line *before* `END` is LF but the `END` line itself is CRLF) and the dash count in the END marker is not what you'd guess. Run it from the repo root — the script targets the single frontend copy:
 
    ```bash
-   M='{"Identif.":"Identification","nisi":"unless"}'
-   (cd artifacts/chavrutai/src  && node /home/runner/workspace/scripts/add-bdb-mappings.mjs "$M")
-   (cd artifacts/api-server/src && node /home/runner/workspace/scripts/add-bdb-mappings.mjs "$M")
+   node scripts/add-bdb-mappings.mjs '{"Identif.":"Identification","nisi":"unless"}'
    ```
 
    The script:
