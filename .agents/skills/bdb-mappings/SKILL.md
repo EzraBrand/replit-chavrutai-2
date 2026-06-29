@@ -9,13 +9,19 @@ The BDB reader (`/bdb`) displays Brown-Driver-Briggs lexicon entries fetched fro
 
 ## Key Files
 
+> **Layout note (post-pnpm migration):** the project is now a pnpm monorepo. The
+> source files live under `artifacts/chavrutai/src/...`, **not** the old `client/src/...`.
+> Crucially, `bdb.json` is **copied into two trees** and BOTH must be updated:
+> - `artifacts/chavrutai/src/shared/data/lexicon-mappings/bdb.json` (frontend)
+> - `artifacts/api-server/src/shared/data/lexicon-mappings/bdb.json` (backend)
+
 | File | Purpose |
 |---|---|
-| `shared/data/lexicon-mappings/bdb.json` | The abbreviation → expansion map. **This is the single source of truth.** |
-| `client/src/lib/dictionary-format.ts` | Transformation functions: `expandAbbreviations`, `convertSupTagsToParens`, `convertBdbSubFrequencyCounts`, `prependBdbCircaMarker`, `convertSuperscriptLetters`, etc. |
-| `client/src/pages/bdb.tsx` | Composes the transformation pipeline in `renderDefinition()` (around line 460). |
-| `client/src/pages/bdb-abbreviations.tsx` | Auto-generated index page that reads `bdb.json` — no edits needed when adding mappings. |
-| `client/src/pages/changelog.tsx` | Add an entry under the current month after any mapping batch. |
+| `artifacts/{chavrutai,api-server}/src/shared/data/lexicon-mappings/bdb.json` | The abbreviation → expansion map. **Two copies — keep them in sync.** |
+| `artifacts/chavrutai/src/lib/dictionary-format.ts` | Transformation functions: `expandAbbreviations`, `convertSupTagsToParens`, `convertBdbSubFrequencyCounts`, `prependBdbCircaMarker`, `convertSuperscriptLetters`, etc. |
+| `artifacts/chavrutai/src/pages/bdb.tsx` | Composes the transformation pipeline in `renderDefinition()`. |
+| `artifacts/chavrutai/src/pages/bdb-abbreviations.tsx` | Auto-generated index page that reads `bdb.json` — no edits needed when adding mappings. |
+| `artifacts/chavrutai/src/pages/changelog.tsx` | Add an entry under the current month after any mapping batch. |
 
 ## Critical: The Transformation Pipeline Order
 
@@ -65,25 +71,27 @@ Defined in `dictionary-format.ts` around line 590. Key behaviors:
    ```bash
    curl -sL "https://www.sefaria.org/api/v3/texts/BDB,_<HEBREW_LEMMA_URL_ENCODED>" -o /tmp/bdb.json
    ```
-   or hit the local API:
+   or hit the local API (through the shared proxy on port 80, never the service port directly):
    ```bash
-   curl -sL "http://localhost:5000/api/bdb/search?query=<HEBREW_LEMMA_URL_ENCODED>"
+   curl -sL "http://localhost:80/api/bdb/search?query=<HEBREW_LEMMA_URL_ENCODED>"
    ```
 
 2. **Check for existing mappings / conflicts.** Always search for the *exact* key (with trailing punctuation), not a prefix — `rg "reflex"` will hit the existing `"refl.":` line and trick you into thinking `reflex.` is already mapped. The helper script in step 3 also auto-skips duplicates and prints a `SKIP` warning, so you'll catch it there too.
    ```bash
    # Good — exact key match:
-   rg -nF '"reflex.":' shared/data/lexicon-mappings/bdb.json
+   rg -nF '"reflex.":' artifacts/chavrutai/src/shared/data/lexicon-mappings/bdb.json
    # Bad — prefix match, false positives:
-   rg "reflex" shared/data/lexicon-mappings/bdb.json
+   rg "reflex" artifacts/chavrutai/src/shared/data/lexicon-mappings/bdb.json
    ```
    - If a shorter key already maps to something wrong in context (e.g. `Hom → Fritz Hommel`), add a longer, more specific key rather than removing the short one.
    - Case variants (`Prob.` vs `prob.`) are usually intentional — add both if needed.
 
-3. **Edit the JSON — use the helper script.** Do **not** hand-craft byte-level patches; the file has unpredictable per-line endings (the line *before* `END` is LF but the `END` line itself is CRLF) and the dash count in the END marker is not what you'd guess (it's 61, not 60). Use:
+3. **Edit the JSON — use the helper script, once per tree.** Do **not** hand-craft byte-level patches; the file has unpredictable per-line endings (the line *before* `END` is LF but the `END` line itself is CRLF) and the dash count in the END marker is not what you'd guess. The script's `FILE` path (`shared/data/lexicon-mappings/bdb.json`) is **relative to the current working directory**, so you must `cd` into each tree's `src/` and run it twice — the script only updates one copy per run:
 
    ```bash
-   node scripts/add-bdb-mappings.mjs '{"Identif.":"Identification","nisi":"unless"}'
+   M='{"Identif.":"Identification","nisi":"unless"}'
+   (cd artifacts/chavrutai/src  && node /home/runner/workspace/scripts/add-bdb-mappings.mjs "$M")
+   (cd artifacts/api-server/src && node /home/runner/workspace/scripts/add-bdb-mappings.mjs "$M")
    ```
 
    The script:
@@ -95,9 +103,9 @@ Defined in `dictionary-format.ts` around line 590. Key behaviors:
 
    Pass a date as the 2nd arg (`YYYY-MM-DD`) to backdate or batch under a specific day. If you ever need to edit the JSON by hand instead, read the END line's bytes first (`python3 -c "..."` with `rfind(b'END')`) — never assume dash count or line endings.
 
-4. **JSON is already validated by the script.** If you edited by hand, run `node -e "JSON.parse(require('fs').readFileSync('shared/data/lexicon-mappings/bdb.json'))"`.
+4. **JSON is already validated by the script.** If you edited by hand, validate both copies: `node -e "JSON.parse(require('fs').readFileSync('artifacts/chavrutai/src/shared/data/lexicon-mappings/bdb.json'));JSON.parse(require('fs').readFileSync('artifacts/api-server/src/shared/data/lexicon-mappings/bdb.json'))"`.
 
-5. **Update the changelog** (`client/src/pages/changelog.tsx`) with a brief entry under the current month, listing the new mappings grouped by category (Grammar / Scholars / Vocabulary / Archaic English / etc.). Keep the user's exact spelling — including OCR oddities like `interrrog.` (triple r) — and flag any that look like typos.
+5. **Update the changelog** (`artifacts/chavrutai/src/pages/changelog.tsx`) with a brief entry under the current month, listing the new mappings grouped by category (Grammar / Scholars / Vocabulary / Archaic English / etc.). Keep the user's exact spelling — including OCR oddities like `interrrog.` (triple r) — and flag any that look like typos.
 
 6. **Verify in the browser** on `/bdb?q=<lemma>` (or wherever the user reported the bug). The dev server hot-reloads JSON imports.
 
