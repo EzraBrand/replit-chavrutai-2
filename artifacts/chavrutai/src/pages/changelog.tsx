@@ -76,6 +76,7 @@ export default function Changelog() {
                 <li>Vocabulary: <strong>contemp.</strong> (contemporary), <strong>corresp.</strong> (corresponding), <strong>subseq.</strong> (subsequent), <strong>purif.</strong> (purification), <strong>interpol.</strong> (interpolation), <strong>txt</strong> (text).</li>
                 <li>Archaic English: <strong>hither</strong> → here.</li>
                 <li>Languages / sources: <strong>Jüd.</strong> (Jüdische), <strong>Rabbin.</strong> (Rabbinical), <strong>Joseph (Ant).</strong> (Josephus, Antiquities), <strong>Esth.</strong> (Esther).</li>
+                <li>Sources: <strong>Dl (Par</strong> (Delitzsch, Wo lag das Paradies?), <strong>Alttest. Unters.</strong> (Alttestamentliche Untersuchungen).</li>
               </ul>
             </div>
 
