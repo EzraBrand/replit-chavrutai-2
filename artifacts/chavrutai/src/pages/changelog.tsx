@@ -70,6 +70,16 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: More Abbreviation Expansions (June 29)</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Grammar: <strong>plur.</strong> (plural), <strong>irreg.</strong> (irregular), <strong>indeclin.</strong> (indeclinable), <strong>affirm.</strong> (affirmative).</li>
+                <li>Vocabulary: <strong>contemp.</strong> (contemporary), <strong>corresp.</strong> (corresponding), <strong>subseq.</strong> (subsequent), <strong>purif.</strong> (purification), <strong>interpol.</strong> (interpolation), <strong>txt</strong> (text).</li>
+                <li>Archaic English: <strong>hither</strong> → here.</li>
+                <li>Languages / sources: <strong>Jüd.</strong> (Jüdische), <strong>Rabbin.</strong> (Rabbinical), <strong>Joseph (Ant).</strong> (Josephus, Antiquities), <strong>Esth.</strong> (Esther).</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Search Engine Optimization Fix (June 29)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Restored per-page titles, descriptions, social-share previews, and structured data for search engines and link previews. After the recent modernization, every page had been showing the homepage's information to crawlers; each page now serves its own.</li>
