@@ -76,7 +76,7 @@ export default function Changelog() {
                 <li>Vocabulary: <strong>contemp.</strong> (contemporary), <strong>corresp.</strong> (corresponding), <strong>subseq.</strong> (subsequent), <strong>purif.</strong> (purification), <strong>interpol.</strong> (interpolation), <strong>txt</strong> (text).</li>
                 <li>Archaic English: <strong>hither</strong> → here.</li>
                 <li>Languages / sources: <strong>Jüd.</strong> (Jüdische), <strong>Rabbin.</strong> (Rabbinical), <strong>Joseph (Ant).</strong> (Josephus, Antiquities), <strong>Esth.</strong> (Esther).</li>
-                <li>Sources: <strong>Dl (Par</strong> (Delitzsch, Wo lag das Paradies?), <strong>Alttest. Unters.</strong> (Alttestamentliche Untersuchungen), <strong>Bd</strong> (Bädeker), <strong>Bd (Pal</strong> (Bädeker, Palestine and Syria), <strong>Poet. Acc</strong> (Accentuation of Poetical Books), <strong>Hariri Cons.</strong> (Hariri Consessus [Maqāmāt]).</li>
+                <li>Sources: <strong>Dl (Par</strong> (Delitzsch, Wo lag das Paradies?), <strong>Alttest. Unters.</strong> (Alttestamentliche Untersuchungen), <strong>Bd</strong> (Bädeker), <strong>Bd (Pal</strong> (Bädeker, Palestine and Syria), <strong>Poet. Acc</strong> (Accentuation of Poetical Books), <strong>Hariri Cons.</strong> (al-Ḥariri, Consessus [Maqāmāt]).</li>
                 <li>Fixed citation references where BDB put a space before a superscript note (e.g. <strong>Dl <sup>Par&nbsp;…</sup></strong>) — these were producing a double space that stopped contextual abbreviations from expanding; they now render and expand correctly.</li>
               </ul>
             </div>
