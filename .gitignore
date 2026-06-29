@@ -47,3 +47,6 @@ Thumbs.db
 # Replit
 .cache/
 .local/
+
+# Personal uploads / scratch assets (not used by the app)
+attached_assets/
