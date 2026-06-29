@@ -77,6 +77,7 @@ export default function Changelog() {
                 <li>Archaic English: <strong>hither</strong> → here.</li>
                 <li>Languages / sources: <strong>Jüd.</strong> (Jüdische), <strong>Rabbin.</strong> (Rabbinical), <strong>Joseph (Ant).</strong> (Josephus, Antiquities), <strong>Esth.</strong> (Esther).</li>
                 <li>Sources: <strong>Dl (Par</strong> (Delitzsch, Wo lag das Paradies?), <strong>Alttest. Unters.</strong> (Alttestamentliche Untersuchungen).</li>
+                <li>Fixed citation references where BDB put a space before a superscript note (e.g. <strong>Dl <sup>Par&nbsp;…</sup></strong>) — these were producing a double space that stopped contextual abbreviations from expanding; they now render and expand correctly.</li>
               </ul>
             </div>
 

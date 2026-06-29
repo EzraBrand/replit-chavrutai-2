@@ -112,6 +112,7 @@ Defined in `dictionary-format.ts` around line 590. Key behaviors:
 ## Common Pitfalls
 
 - **Mapping doesn't fire.** Almost always: the key doesn't match the *post-pipeline* form. Check whether a `<sup>`, `<sub>`, paren, comma, or superscript-letter sits between the words you're trying to match. Re-check pipeline order above.
+- **Space before `<sup>` (BDB is inconsistent).** Some entries write `X<sup>…` (no space) and others `X <sup>…` (with a space). `convertSupTagsToParens` inserts a leading space, so a contextual key like `"Dl (Par"` must match `Dl (Par` — but `X <sup>` used to yield `X  (…)` (double space) and silently fail to match. This is now normalised in `convertSupTagsToParens` (it consumes one optional space before `<sup>`), so always write the key with a **single** space. If a `X (…)` key still won't fire, re-check that the normalisation is intact.
 - **Mapping fires too aggressively.** A short generic key (e.g. `Hom`, `Bo`, `Pi`) is matching where you didn't want it. Fix by adding a longer, more specific contextual key — never weaken the short one without confirming nothing else relies on it.
 - **`doest`-style modernizations.** Safe because plain word keys get `\b` on both sides — `doest` will not match inside `does`. But test with `rg` for unintended substrings before adding very short keys.
 - **Bible-book references.** Already handled via Sefaria's `<a data-ref="…">` tags; don't duplicate them in the mappings.

@@ -552,10 +552,13 @@ export function convertSuperscriptLetters(text: string) {
 
 // Replace <sup>...</sup> wrappers with " (...)" so citation refs render as
 // inline parenthetical notes instead of tiny superscript text. Inner HTML
-// (links, italics, etc.) is preserved verbatim. Browser whitespace collapsing
-// handles any double space that results from the leading space.
+// (links, italics, etc.) is preserved verbatim.
 export function convertSupTagsToParens(html: string): string {
-  return html.replace(/<sup>([\s\S]*?)<\/sup>/g, ' ($1)');
+  // Consume an optional space immediately before <sup> so that both `X<sup>…`
+  // and `X <sup>…` (BDB is inconsistent) normalise to a single space before the
+  // inserted paren — otherwise `X <sup>` yields `X  (…)` (double space), which
+  // breaks contextual abbreviation keys like "Dl (Par".
+  return html.replace(/ ?<sup>([\s\S]*?)<\/sup>/g, ' ($1)');
 }
 
 // BDB uses <sub>NNNN</sub> after a Hebrew lemma to give the total occurrence
