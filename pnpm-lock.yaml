@@ -236,6 +236,9 @@ importers:
       dompurify:
         specifier: ^3.4.11
         version: 3.4.11
+      express:
+        specifier: ^5.2.1
+        version: 5.2.1
       posthog-js:
         specifier: ^1.393.5
         version: 1.393.5
@@ -351,6 +354,9 @@ importers:
       '@tanstack/react-query':
         specifier: 'catalog:'
         version: 5.101.0(react@19.1.0)
+      '@types/express':
+        specifier: ^5.0.6
+        version: 5.0.6
       '@types/node':
         specifier: 'catalog:'
         version: 25.9.4
@@ -384,6 +390,9 @@ importers:
       embla-carousel-react:
         specifier: ^8.6.0
         version: 8.6.0(react@19.1.0)
+      esbuild:
+        specifier: 0.27.3
+        version: 0.27.3
       framer-motion:
         specifier: 'catalog:'
         version: 12.40.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)

@@ -10,7 +10,7 @@ import { generateSederSitemap } from "./routes/sitemap-seder";
 import { generateMishnahSitemap } from "./routes/sitemap-mishnah";
 import { generateYerushalmiSitemap } from "./routes/sitemap-yerushalmi";
 import { generateRambamSitemap } from "./routes/sitemap-rambam";
-import { servePageWithMeta, shouldNoIndex } from "./routes/seo";
+import { servePageWithMeta, shouldNoIndex, renderSeoEnhancement } from "./routes/seo";
 import { createTalmudRouter } from "./routes/talmud";
 import { createMishnahRouter } from "./routes/mishnah";
 import { createYerushalmiRouter } from "./routes/yerushalmi";
@@ -166,6 +166,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.use(createSearchRouter());
   app.use(createFeedRouter());
   app.use(createScholarshipRouter());
+
+  // Crawler-only SEO enhancement (JSON-LD + pre-rendered body) consumed by the
+  // frontend's production server. Core meta tags are computed on the frontend
+  // via the shared getPageSEO; this only adds storage-backed enrichment.
+  app.get("/api/seo/enhance", async (req, res) => {
+    try {
+      const rawPath = typeof req.query["path"] === "string" ? req.query["path"] : "/";
+      const safePath = rawPath.startsWith("/") ? rawPath : `/${rawPath}`;
+      const { structuredData, bodyContent } = await renderSeoEnhancement(safePath);
+      res.json({ structuredData, bodyContent });
+    } catch (error) {
+      req.log.error({ err: error }, "Error in /api/seo/enhance");
+      res.status(500).json({ structuredData: null, bodyContent: "" });
+    }
+  });
 
   app.get("/api/sitemap", async (req, res) => {
     try {

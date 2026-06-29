@@ -1,2 +1,3 @@
+- [SEO crawler SSR](seo-crawler-ssr.md) — static-served SPA ships homepage meta on every route; chavrutai runs a small node server to inject per-page crawler meta. Internal enhance fetch must use a FIXED base URL (no host-header SSRF).
 - [BDB symbol/letter keys](bdb-symbol-keys.md) — single-char keys that are also script letters (e.g. ψ) need a citation-context guard in expandAbbreviations or they corrupt quoted Greek/Hebrew words.
 - [BDB tag splitter](bdb-tag-splitter.md) — BDB uses literal < and > as scholarly markers; expandAbbreviations must split on real tags only or abbrevs after a bare < silently never expand.

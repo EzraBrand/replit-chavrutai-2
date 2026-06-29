@@ -1057,4 +1057,24 @@ export function shouldNoIndex(url: string): boolean {
   return false;
 }
 
+// Computes the crawler-only enhancement payload (JSON-LD structured data and
+// pre-rendered body content) for a given URL path. The frontend's production
+// server calls this over HTTP (GET /api/seo/enhance) to enrich its own
+// index.html template for crawlers, keeping all Sefaria/storage-backed logic in
+// the api-server. Core meta tags are computed independently on the frontend via
+// the shared getPageSEO, so they survive even if this enhancement is unavailable.
+export async function renderSeoEnhancement(
+  originalUrl: string,
+): Promise<{ structuredData: object | null; bodyContent: string }> {
+  const baseUrl =
+    process.env.NODE_ENV === "production"
+      ? "https://chavrutai.com"
+      : "http://localhost:5000";
+  const urlObj = new URL(originalUrl, baseUrl);
+  const seoData = generateServerSideMetaTags(originalUrl);
+  const structuredData = generateServerSideStructuredData(urlObj.pathname, baseUrl);
+  const bodyContent = await generateCrawlerBodyContent(urlObj.pathname, seoData);
+  return { structuredData, bodyContent };
+}
+
 export { servePageWithMeta };

@@ -18,13 +18,22 @@ localPort = 23737
 run = "pnpm --filter @workspace/chavrutai run dev"
 
 [services.production]
-build = [ "pnpm", "--filter", "@workspace/chavrutai", "run", "build" ]
-publicDir = "artifacts/chavrutai/dist/public"
-serve = "static"
 
-[[services.production.rewrites]]
-from = "/*"
-to = "/index.html"
+[services.production.build]
+args = [ "pnpm", "--filter", "@workspace/chavrutai", "run", "build" ]
+
+[services.production.build.env]
+NODE_ENV = "production"
+BASE_PATH = "/"
+PORT = "23737"
+
+[services.production.run]
+args = [ "node", "--enable-source-maps", "artifacts/chavrutai/dist/index.mjs" ]
+
+[services.production.run.env]
+PORT = "23737"
+BASE_PATH = "/"
+NODE_ENV = "production"
 
 [services.env]
 PORT = "23737"

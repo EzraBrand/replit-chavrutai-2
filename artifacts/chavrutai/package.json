@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite --config vite.config.ts --host 0.0.0.0",
-    "build": "vite build --config vite.config.ts",
-    "serve": "vite preview --config vite.config.ts --host 0.0.0.0",
+    "build": "vite build --config vite.config.ts && node ./build.mjs",
+    "serve": "node --enable-source-maps ./dist/index.mjs",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "devDependencies": {
@@ -43,6 +43,7 @@
     "@replit/vite-plugin-runtime-error-modal": "catalog:",
     "@tailwindcss/typography": "^0.5.15",
     "@tanstack/react-query": "catalog:",
+    "@types/express": "^5.0.6",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
@@ -54,6 +55,7 @@
     "cmdk": "^1.1.1",
     "date-fns": "^3.6.0",
     "embla-carousel-react": "^8.6.0",
+    "esbuild": "0.27.3",
     "framer-motion": "catalog:",
     "input-otp": "^1.4.2",
     "lucide-react": "catalog:",
@@ -78,6 +80,7 @@
   "dependencies": {
     "@types/dompurify": "^3.2.0",
     "dompurify": "^3.4.11",
+    "express": "^5.2.1",
     "posthog-js": "^1.393.5",
     "react-markdown": "^10.1.0",
     "remark-gfm": "^4.0.1",
