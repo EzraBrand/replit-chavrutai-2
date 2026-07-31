@@ -47,7 +47,7 @@ export default function Privacy() {
 
           <h3 className="text-lg font-medium text-foreground mb-3">Information You Provide</h3>
           <ul className="list-disc list-inside space-y-2 mb-4 text-muted-foreground ml-4">
-            <li><strong>Contact Information:</strong> When you contact us via email (ezra@chavrutai.com), we collect your email address and any information you choose to provide in your message.</li>
+            <li><strong>Contact Information:</strong> When you contact us via email (ezra@bekiut.com), we collect your email address and any information you choose to provide in your message.</li>
           </ul>
 
           <h3 className="text-lg font-medium text-foreground mb-3">Information Collected Automatically</h3>
@@ -143,11 +143,11 @@ export default function Privacy() {
           <p className="text-muted-foreground">
             <strong>Email:</strong>{" "}
             <a
-              href="mailto:ezra@chavrutai.com"
+              href="mailto:ezra@bekiut.com"
               className="text-primary hover:text-primary/80 underline"
               data-testid="contact-email"
             >
-              ezra@chavrutai.com
+              ezra@bekiut.com
             </a>
           </p>
           <p className="text-muted-foreground mt-2">

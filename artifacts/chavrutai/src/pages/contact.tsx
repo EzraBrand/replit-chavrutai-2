@@ -50,11 +50,11 @@ export default function Contact() {
           You can reach us via email:
         </p>
         <a
-          href="mailto:ezra@chavrutai.com"
+          href="mailto:ezra@bekiut.com"
           className="text-primary hover:text-primary/80 font-medium text-lg"
           data-testid="link-email-contact"
         >
-          ezra@chavrutai.com
+          ezra@bekiut.com
         </a>
       </PageSection>
 

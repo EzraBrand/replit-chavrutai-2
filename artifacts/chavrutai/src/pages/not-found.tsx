@@ -31,11 +31,11 @@ export default function NotFound() {
           <p className="text-sm text-muted-foreground">
             If errors persist, contact{" "}
             <a
-              href="mailto:ezra@chavrutai.com"
+              href="mailto:ezra@bekiut.com"
               className="text-primary dark:text-[#5b9fc5] hover:underline"
               data-testid="link-contact-support"
             >
-              ezra@chavrutai.com
+              ezra@bekiut.com
             </a>
           </p>
         </div>

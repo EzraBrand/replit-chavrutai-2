@@ -696,10 +696,10 @@ export default function About() {
               <p className="text-muted-foreground leading-relaxed">
                 For questions, feedback, or to report an issue:{" "}
                 <a
-                  href="mailto:ezra@chavrutai.com"
+                  href="mailto:ezra@bekiut.com"
                   className="text-primary hover:underline"
                 >
-                  ezra@chavrutai.com
+                  ezra@bekiut.com
                 </a>
               </p>
             </PageSection>
