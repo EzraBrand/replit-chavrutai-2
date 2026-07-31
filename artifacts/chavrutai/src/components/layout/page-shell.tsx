@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { Link } from "wouter";
-import { HeaderSimple } from "@/components/layout/header-simple";
+import { HeaderSimple, type HeaderSimpleProps } from "@/components/layout/header-simple";
 import { Footer } from "@/components/footer";
 import { cn } from "@/lib/utils";
 
@@ -35,15 +35,36 @@ interface PageShellProps {
   testId?: string;
   /** Custom footer (e.g. <FooterPlaceholder /> while loading). Defaults to <Footer />. */
   footer?: ReactNode;
-  /** Extra classes for <main>. */
+  /**
+   * Extra classes for <main>. Merged with tailwind-merge, so width/padding
+   * overrides like "max-w-4xl" or "px-4 py-6" replace the defaults.
+   */
   mainClassName?: string;
+  /**
+   * Custom header node (e.g. a reader toolbar header). Defaults to
+   * <HeaderSimple {...headerProps} />.
+   */
+  header?: ReactNode;
+  /** Props forwarded to the default HeaderSimple (progress, rightExtra, maxWidth). */
+  headerProps?: HeaderSimpleProps;
+  /** Content rendered full-width between the header and <main> (e.g. sticky toolbars). */
+  beforeMain?: ReactNode;
 }
 
 /** Full-page shell: sticky header, 64rem main column, footer pinned to bottom. */
-export function PageShell({ children, testId, footer, mainClassName }: PageShellProps) {
+export function PageShell({
+  children,
+  testId,
+  footer,
+  mainClassName,
+  header,
+  headerProps,
+  beforeMain,
+}: PageShellProps) {
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground font-sans">
-      <HeaderSimple />
+      {header !== undefined ? header : <HeaderSimple {...headerProps} />}
+      {beforeMain}
       <main
         className={cn("max-w-content mx-auto px-6 flex-1 w-full", mainClassName)}
         data-testid={testId}
@@ -149,21 +170,37 @@ export function SectionHeading({
   children,
   className,
   as: Tag = "h2",
+  id,
+  testId,
 }: {
   children: ReactNode;
   className?: string;
   as?: "h2" | "h3";
+  id?: string;
+  testId?: string;
 }) {
-  return <Tag className={cn("font-georgia text-xl text-foreground", className)}>{children}</Tag>;
+  return (
+    <Tag id={id} data-testid={testId} className={cn("font-georgia text-xl text-foreground", className)}>
+      {children}
+    </Tag>
+  );
 }
 
 /** Content section separated by a hairline top border. */
 export function PageSection({
   children,
   className,
+  id,
+  testId,
 }: {
   children: ReactNode;
   className?: string;
+  id?: string;
+  testId?: string;
 }) {
-  return <section className={cn("py-8 border-t border-border", className)}>{children}</section>;
+  return (
+    <section id={id} data-testid={testId} className={cn("py-8 border-t border-border", className)}>
+      {children}
+    </section>
+  );
 }

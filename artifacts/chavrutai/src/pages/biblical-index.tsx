@@ -5,7 +5,6 @@ import { FooterPlaceholder } from "@/components/page-loading";
 import { useSEO } from "@/hooks/use-seo";
 import { getStaticSEO } from "@shared/seo-data";
 import { Skeleton } from "@/components/ui/skeleton";
-import { HeaderSimple } from "@/components/layout/header-simple";
 import { PageShell, PageHeader, PageSection, SectionHeading } from "@/components/layout";
 
 const categoryDescriptions = {
@@ -37,37 +36,26 @@ export default function BiblicalIndexPage() {
     queryFn: getBiblicalIndexMetadata,
   });
 
-  const renderHeader = () => (
-    <HeaderSimple />
-  );
-
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background text-foreground font-sans">
-        {renderHeader()}
-        <main className="max-w-content mx-auto px-6 py-12">
-          <Skeleton className="h-10 w-64 mb-4" />
-          <Skeleton className="h-6 w-96 mb-8" />
-          <div className="space-y-8">
-            <Skeleton className="h-64 w-full" />
-            <Skeleton className="h-64 w-full" />
-            <Skeleton className="h-64 w-full" />
-          </div>
-        </main>
-        <FooterPlaceholder />
-      </div>
+      <PageShell footer={<FooterPlaceholder />} mainClassName="py-12">
+        <Skeleton className="h-10 w-64 mb-4" />
+        <Skeleton className="h-6 w-96 mb-8" />
+        <div className="space-y-8">
+          <Skeleton className="h-64 w-full" />
+          <Skeleton className="h-64 w-full" />
+          <Skeleton className="h-64 w-full" />
+        </div>
+      </PageShell>
     );
   }
 
   if (!metadata) {
     return (
-      <div className="min-h-screen bg-background text-foreground font-sans">
-        {renderHeader()}
-        <main className="max-w-content mx-auto px-6 py-12">
-          <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-4">Error Loading Index</h1>
-          <p className="text-muted-foreground">Unable to load the biblical index metadata.</p>
-        </main>
-      </div>
+      <PageShell footer={null} mainClassName="py-12">
+        <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-4">Error Loading Index</h1>
+        <p className="text-muted-foreground">Unable to load the biblical index metadata.</p>
+      </PageShell>
     );
   }
 

@@ -1,12 +1,11 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { Link } from "wouter";
-import { Footer } from "@/components/footer";
+import { PageShell } from "@/components/layout/page-shell";
 import { useSEO } from "@/hooks/use-seo";
 import { getStaticSEO } from "@shared/seo-data";
 import { getTractateSlug } from "@shared/tractates";
 import { getBookBySlug } from "@shared/bible-books";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import { HeaderSimple } from "@/components/layout/header-simple";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -621,10 +620,7 @@ export default function TermIndexPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      {/* ── Header ── */}
-      <HeaderSimple />
-
+    <PageShell mainClassName="max-w-none px-0 flex flex-col">
       {/* ── Page title ── */}
       <div className="border-b border-border flex-shrink-0 bg-background">
         <div className="max-w-7xl mx-auto px-6 lg:px-10 py-4">
@@ -838,8 +834,6 @@ export default function TermIndexPage() {
           </DialogPrimitive.Content>
         </DialogPrimitive.Portal>
       </DialogPrimitive.Root>
-
-      <Footer />
-    </div>
+    </PageShell>
   );
 }

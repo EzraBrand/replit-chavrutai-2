@@ -1,7 +1,6 @@
 import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { FooterPlaceholder } from "@/components/page-loading";
-import { HeaderSimple } from "@/components/layout/header-simple";
 import { PageShell, PageHeader, PageSection } from "@/components/layout";
 import { useSEO } from "@/hooks/use-seo";
 import { getStaticSEO } from "@shared/seo-data";
@@ -43,13 +42,9 @@ export default function BibleContents() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background">
-        <HeaderSimple />
-        <div className="max-w-content mx-auto px-6 py-12">
-          <div className="text-center text-muted-foreground">Loading Bible books...</div>
-        </div>
-        <FooterPlaceholder />
-      </div>
+      <PageShell footer={<FooterPlaceholder />} mainClassName="py-12">
+        <div className="text-center text-muted-foreground">Loading Bible books...</div>
+      </PageShell>
     );
   }
 

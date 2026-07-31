@@ -9,7 +9,7 @@ import { PageNavigation } from "@/components/navigation/page-navigation";
 import { HamburgerMenu } from "@/components/navigation/hamburger-menu";
 import { CenteredBreadcrumbNav } from "@/components/navigation/centered-breadcrumb-nav";
 import { BreadcrumbNavigation, breadcrumbHelpers } from "@/components/navigation/breadcrumb-navigation";
-import { Footer } from "@/components/footer";
+import { PageShell } from "@/components/layout/page-shell";
 import { ExternalLinksFooter } from "@/components/external-links-footer";
 import { ReferencePanel } from "@/components/text/reference-panel";
 import { usePreferences } from "@/context/preferences-context";
@@ -131,28 +131,26 @@ export default function TractateView() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="sticky top-0 z-50 bg-background border-b border-border">
-        <div className="max-w-5xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between gap-4">
-            {/* Left Section: Hamburger Menu */}
-            <div className="flex items-center flex-shrink-0">
-              <HamburgerMenu onLocationChange={handleLocationChange} />
-            </div>
-            
-            {/* Center Section: Centered Breadcrumb Navigation */}
-            <div className="flex-1 flex items-center justify-center min-w-0">
-              <CenteredBreadcrumbNav location={talmudLocation} onLocationChange={handleLocationChange} />
-            </div>
-            
+    <PageShell
+      header={
+        <header className="sticky top-0 z-50 bg-background border-b border-border">
+          <div className="max-w-5xl mx-auto px-4 py-4">
+            <div className="flex items-center justify-between gap-4">
+              {/* Left Section: Hamburger Menu */}
+              <div className="flex items-center flex-shrink-0">
+                <HamburgerMenu onLocationChange={handleLocationChange} />
+              </div>
 
+              {/* Center Section: Centered Breadcrumb Navigation */}
+              <div className="flex-1 flex items-center justify-center min-w-0">
+                <CenteredBreadcrumbNav location={talmudLocation} onLocationChange={handleLocationChange} />
+              </div>
+            </div>
           </div>
-        </div>
-      </header>
-
-      {/* Main Content */}
-      <main className={`max-w-4xl mx-auto px-4 py-6 text-size-${preferences.textSize} hebrew-font-${preferences.hebrewFont} english-font-${preferences.englishFont} layout-${preferences.layout}`}>
+        </header>
+      }
+      mainClassName={`max-w-4xl px-4 py-6 text-size-${preferences.textSize} hebrew-font-${preferences.hebrewFont} english-font-${preferences.englishFont} layout-${preferences.layout}`}
+    >
 
         <h1 className="sr-only">{talmudLocation.tractate} {talmudLocation.folio}{talmudLocation.side} - Talmud Bavli</h1>
 
@@ -237,10 +235,6 @@ export default function TractateView() {
           folio={talmudLocation.folio}
           side={talmudLocation.side}
         />
-
-        {/* Footer */}
-        <Footer />
-      </main>
-    </div>
+    </PageShell>
   );
 }

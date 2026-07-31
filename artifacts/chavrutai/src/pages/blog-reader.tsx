@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { SharedLayout } from "@/components/layout";
+import { PageShell, PageHeader } from "@/components/layout/page-shell";
 import { useState, useEffect, useRef } from "react";
 import DOMPurify from "dompurify";
 import { useSEO } from "@/hooks/use-seo";
@@ -261,12 +261,8 @@ export default function BlogReader() {
   };
 
   return (
-    <SharedLayout variant="simple" mainMaxWidth="container">
-      <div className="max-w-content mx-auto px-6 font-sans">
-        <div className="pt-10 pb-8">
-            <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-2">
-              Talmud & Tech Blog
-            </h1>
+    <PageShell mainClassName="py-6">
+        <PageHeader title="Talmud & Tech Blog">
             <p className="text-muted-foreground">
               Latest posts from{" "}
               <a
@@ -278,7 +274,7 @@ export default function BlogReader() {
                 ezrabrand.com
               </a>
             </p>
-          </div>
+        </PageHeader>
 
           {isLoading && (
             <div className="space-y-6">
@@ -393,7 +389,6 @@ export default function BlogReader() {
               <p className="text-muted-foreground">No blog posts available</p>
             </div>
           )}
-      </div>
-    </SharedLayout>
+    </PageShell>
   );
 }

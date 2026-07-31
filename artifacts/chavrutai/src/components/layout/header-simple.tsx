@@ -7,7 +7,7 @@ import type { ReactNode } from "react";
  * muted text links on the right, hairline bottom border, 64rem column.
  */
 
-interface HeaderSimpleProps {
+export interface HeaderSimpleProps {
   maxWidth?: string;
   /** Optional extra content rendered to the right of the nav links (e.g. reader display settings). */
   rightExtra?: ReactNode;

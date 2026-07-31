@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { Link } from "wouter";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Footer } from "@/components/footer";
+import { PageShell, PageHeader } from "@/components/layout/page-shell";
 import { useSEO } from "@/hooks/use-seo";
 import { getJastrowSEO } from "@shared/seo-data";
 import { HEBREW_ALPHABET } from "@shared/hebrew-alphabet";
@@ -21,7 +21,6 @@ import {
   type AutosuggestSuggestion,
 } from "@/lib/dictionary-format";
 import { useLexiconIndex, searchHeadwords, findFuzzyMatches } from "@/lib/lexicon-index";
-import { HeaderSimple } from "@/components/layout/header-simple";
 
 export default function Jastrow() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -217,23 +216,15 @@ export default function Jastrow() {
   useDictionaryCopyHandler('main.max-w-content', [results]);
 
   return (
-    <div className="min-h-screen bg-background">
-      <style dangerouslySetInnerHTML={{ __html: dictionaryStyles }} />
+    <PageShell>
+        <style dangerouslySetInnerHTML={{ __html: dictionaryStyles }} />
 
-      <HeaderSimple />
-
-      <main className="max-w-content mx-auto px-6">
-        <div className="pt-10 pb-8">
-          <div
-            className="mb-3 h-[2px] w-10" style={{ backgroundColor: "var(--category-talmud-bavli)" }}
-            aria-hidden="true"
-          />
-          <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-2">Jastrow Talmudic Dictionary</h1>
+        <PageHeader category="talmud-bavli" title="Jastrow Talmudic Dictionary">
           <p className="text-muted-foreground">
             Marcus Jastrow — A Dictionary of the Targumim, the Talmud Babli and Yerushalmi, and the
             Midrashic Literature (1903)
           </p>
-        </div>
+        </PageHeader>
 
         <section className="py-8 border-t border-border">
           <button
@@ -487,9 +478,6 @@ export default function Jastrow() {
           )}
         </section>
         )}
-
-      </main>
-      <Footer />
-    </div>
+    </PageShell>
   );
 }

@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { Link } from "wouter";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Footer } from "@/components/footer";
+import { PageShell, PageHeader } from "@/components/layout/page-shell";
 import { useSEO } from "@/hooks/use-seo";
 import { getBDBSEO } from "@shared/seo-data";
 import { HEBREW_ALPHABET } from "@shared/hebrew-alphabet";
@@ -24,7 +24,6 @@ import {
   type AutosuggestSuggestion,
 } from "@/lib/dictionary-format";
 import { useLexiconIndex, searchHeadwords, findFuzzyMatches } from "@/lib/lexicon-index";
-import { HeaderSimple } from "@/components/layout/header-simple";
 
 export default function Bdb() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -492,24 +491,14 @@ export default function Bdb() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground font-sans">
-      <style dangerouslySetInnerHTML={{ __html: dictionaryStyles }} />
+    <PageShell mainClassName="max-w-4xl">
+        <style dangerouslySetInnerHTML={{ __html: dictionaryStyles }} />
 
-      <HeaderSimple />
-
-      <main className="max-w-4xl mx-auto px-6">
-        <div className="pt-10 pb-3">
-          <div
-            className="mb-3 h-[2px] w-10" style={{ backgroundColor: "var(--category-tanakh)" }}
-            aria-hidden="true"
-          />
-          <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-2">
-            BDB Hebrew Bible Dictionary
-          </h1>
+        <PageHeader category="tanakh" className="pt-10 pb-3" title="BDB Hebrew Bible Dictionary">
           <p className="text-sm text-muted-foreground">
             Brown, Driver, and Briggs — A Hebrew and English Lexicon of the Old Testament (1906)
           </p>
-        </div>
+        </PageHeader>
 
         <div className="mb-6">
           <button
@@ -946,8 +935,6 @@ export default function Bdb() {
           )}
         </div>
         )}
-      </main>
-      <Footer />
-    </div>
+    </PageShell>
   );
 }

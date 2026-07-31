@@ -11,12 +11,11 @@ import { formatEnglishText, processHebrewText } from "@/lib/text-processing";
 import { TRACTATE_LISTS } from "@shared/tractates";
 import { BlogPostSelector } from "@/components/sefaria/blog-post-selector";
 import { locationToSefariaUrl } from "@/lib/blog-post-utils";
-import { Footer } from "@/components/footer";
+import { PageShell, PageHeader } from "@/components/layout/page-shell";
 import { ChatPanel } from "@/components/sefaria/chat-panel";
 import type { ChatContext } from "@/hooks/use-chat";
 import { useSEO } from "@/hooks/use-seo";
 import { getStaticSEO } from "@shared/seo-data";
-import { HeaderSimple } from "@/components/layout/header-simple";
 
 const tractates = TRACTATE_LISTS["Talmud Bavli"];
 const pages = Array.from({ length: 180 }, (_, i) => i + 2).flatMap(num => [`${num}a`, `${num}b`]);
@@ -620,21 +619,12 @@ ${cleanHtml}
   } : undefined;
 
   return (
-    <div className="min-h-screen bg-background text-foreground font-sans">
-      {/* Centered Logo Header */}
-      <HeaderSimple />
-
-      <main className="max-w-content mx-auto px-6">
-        <div className="pt-10 pb-8">
-          <div
-            className="mb-3 h-[2px] w-10" style={{ backgroundColor: "var(--category-talmud-bavli)" }}
-            aria-hidden="true"
-          />
-          <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-2">Sugya Viewer</h1>
+    <PageShell>
+        <PageHeader category="talmud-bavli" title="Sugya Viewer">
           <p className="text-muted-foreground">
             View custom Talmud text ranges with bilingual Hebrew-English display
           </p>
-        </div>
+        </PageHeader>
 
         <section className="py-8 border-t border-border">
           <button
@@ -1044,9 +1034,6 @@ ${cleanHtml}
             </div>
           </section>
         )}
-      </main>
-      
-      <Footer />
-    </div>
+    </PageShell>
   );
 }

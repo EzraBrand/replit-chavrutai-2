@@ -8,7 +8,7 @@ import { BibleTextDisplay } from "@/components/bible/bible-text-display";
 import { BibleExternalLinksFooter } from "@/components/bible/bible-external-links-footer";
 import { HamburgerMenu } from "@/components/navigation/hamburger-menu";
 import { BreadcrumbNavigation, breadcrumbHelpers } from "@/components/navigation/breadcrumb-navigation";
-import { Footer } from "@/components/footer";
+import { PageShell } from "@/components/layout/page-shell";
 import { usePreferences } from "@/context/preferences-context";
 import { useSEO } from "@/hooks/use-seo";
 import { getBibleChapterSEO } from "@shared/seo-data";
@@ -135,9 +135,10 @@ export default function BibleChapterPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="sticky top-0 z-50 bg-background border-b border-border">
+    <PageShell
+      mainClassName={`max-w-3xl px-4 py-6 text-size-${preferences.textSize} hebrew-font-${preferences.hebrewFont} english-font-${preferences.englishFont} layout-${preferences.layout}`}
+      header={
+        <header className="sticky top-0 z-50 bg-background border-b border-border">
         <div className="max-w-5xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between gap-2">
             {/* Left Section: Hamburger Menu + Next Button */}
@@ -180,10 +181,8 @@ export default function BibleChapterPage() {
           </div>
         </div>
       </header>
-
-      {/* Main Content */}
-      <main className={`max-w-3xl mx-auto px-4 py-6 text-size-${preferences.textSize} hebrew-font-${preferences.hebrewFont} english-font-${preferences.englishFont} layout-${preferences.layout}`}>
-
+      }
+    >
         {/* Breadcrumb: Home > Bible > Book > Chapter N */}
         <BreadcrumbNavigation items={breadcrumbHelpers.bibleChapter(bookTitle, book || 'genesis', parsedChapter)} />
 
@@ -276,10 +275,6 @@ export default function BibleChapterPage() {
             </div>
           </div>
         )}
-
-        {/* Footer */}
-        <Footer />
-      </main>
-    </div>
+    </PageShell>
   );
 }

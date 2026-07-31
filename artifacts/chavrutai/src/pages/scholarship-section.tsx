@@ -6,14 +6,13 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import { Footer } from "@/components/footer";
+import { PageShell } from "@/components/layout/page-shell";
 import { useSEO } from "@/hooks/use-seo";
 import { apiRequest } from "@/lib/queryClient";
 import { isValidScholarshipWork } from "@shared/data/scholarship-works";
 import { usePreferences, type TextSize, type HebrewFont, type Theme } from "@/context/preferences-context";
 import { convertSefariaLinksToInternal } from "@/lib/dictionary-format";
 import NotFound from "@/pages/not-found";
-import { HeaderSimple } from "@/components/layout/header-simple";
 
 interface SectionData {
   title: string;
@@ -281,11 +280,11 @@ export default function ScholarshipSection() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* ── Header ── */}
-      <HeaderSimple
-        progress={readingProgress}
-        rightExtra={
+    <PageShell
+      mainClassName={`max-w-2xl xl:max-w-5xl px-4 py-10 text-size-${preferences.textSize} hebrew-font-${preferences.hebrewFont} scholarship-prose`}
+      headerProps={{
+        progress: readingProgress,
+        rightExtra: (
           <Sheet open={settingsOpen} onOpenChange={setSettingsOpen}>
             <SheetTrigger asChild>
               <Button
@@ -370,12 +369,9 @@ export default function ScholarshipSection() {
               </div>
             </SheetContent>
           </Sheet>
-        }
-      />
-
-      <main
-        className={`max-w-2xl xl:max-w-5xl mx-auto px-4 py-10 text-size-${preferences.textSize} hebrew-font-${preferences.hebrewFont} scholarship-prose`}
-      >
+        ),
+      }}
+    >
         {/* Breadcrumb */}
         <nav className="text-sm text-muted-foreground mb-8 max-w-2xl">
           <Link href="/" className="hover:text-foreground">Home</Link>
@@ -558,9 +554,6 @@ export default function ScholarshipSection() {
             </div>
           </>
         )}
-      </main>
-
-      <Footer />
 
       {showBackToTop && (
         <button
@@ -611,6 +604,6 @@ export default function ScholarshipSection() {
           />
         </div>
       )}
-    </div>
+    </PageShell>
   );
 }
