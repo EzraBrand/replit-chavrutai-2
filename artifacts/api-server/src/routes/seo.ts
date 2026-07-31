@@ -27,7 +27,7 @@ function escapeHtmlAttr(str: string): string {
 }
 
 const CHAVRUTAI_SAME_AS = [
-  "https://github.com/EzraBrand/chavrutai",
+  "https://github.com/EzraBrand/bekiut",
   "https://www.ezrabrand.com/",
   "https://x.com/ChavrutAI",
 ];

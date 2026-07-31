@@ -267,7 +267,7 @@ export const generateSEOData = {
             url: `${window.location.origin}/favicon-192x192.png`,
           },
           sameAs: [
-            "https://github.com/EzraBrand/chavrutai",
+            "https://github.com/EzraBrand/bekiut",
             "https://www.ezrabrand.com/",
             "https://x.com/ChavrutAI",
           ],
@@ -426,7 +426,7 @@ export const generateSEOData = {
         url: window.location.origin,
         foundingDate: "2025",
         sameAs: [
-          "https://github.com/EzraBrand/chavrutai",
+          "https://github.com/EzraBrand/bekiut",
           "https://www.ezrabrand.com/",
           "https://x.com/ChavrutAI",
         ],

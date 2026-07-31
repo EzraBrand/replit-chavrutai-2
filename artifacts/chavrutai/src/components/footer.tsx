@@ -209,7 +209,7 @@ export function Footer() {
                 Changelog
               </Link>
               <a 
-                href="https://github.com/EzraBrand/chavrutai"
+                href="https://github.com/EzraBrand/bekiut"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
