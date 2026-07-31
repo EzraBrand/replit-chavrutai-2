@@ -5,10 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Search, Copy, FileText, Code, ChevronDown, ChevronUp, RotateCcw } from "lucide-react";
 import { formatEnglishText, processHebrewText } from "@/lib/text-processing";
 import { TRACTATE_LISTS } from "@shared/tractates";
 import { BlogPostSelector } from "@/components/sefaria/blog-post-selector";
@@ -536,7 +534,7 @@ ${cleanHtml}
     return (
       <div className="space-y-8">
         {data.span && (
-          <div className="sticky top-0 bg-sepia-50 z-10 font-semibold text-lg border-b border-sepia-300 pb-2 mb-4 -mx-6 px-6 pt-2">
+          <div className="sticky top-0 bg-background z-10 font-semibold text-lg border-b border-border pb-2 mb-4 -mx-6 px-6 pt-2">
             {data.span}
           </div>
         )}
@@ -562,7 +560,7 @@ ${cleanHtml}
             <div key={i} className="space-y-4">
               <div
                 data-no-copy
-                className="text-xs font-mono text-sepia-500"
+                className="text-xs font-mono text-muted-foreground"
                 style={{ marginBottom: '4px' }}
               >
                 {sectionLabel}
@@ -622,32 +620,41 @@ ${cleanHtml}
   } : undefined;
 
   return (
-    <div className="min-h-screen bg-sepia-100">
+    <div className="min-h-screen bg-background text-foreground font-sans">
       {/* Centered Logo Header */}
       <HeaderSimple />
 
-      <div className="container mx-auto px-4 py-8 max-w-7xl">
-        <h1 className="text-2xl font-bold text-foreground mb-6">Sugya Viewer</h1>
-        <div className="mb-4">
+      <main className="max-w-content mx-auto px-6">
+        <div className="pt-10 pb-8">
+          <div
+            className="mb-3 h-[2px] w-10" style={{ backgroundColor: "var(--category-talmud-bavli)" }}
+            aria-hidden="true"
+          />
+          <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-2">Sugya Viewer</h1>
+          <p className="text-muted-foreground">
+            View custom Talmud text ranges with bilingual Hebrew-English display
+          </p>
+        </div>
+
+        <section className="py-8 border-t border-border">
           <button
             onClick={() => setShowAbout(v => !v)}
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
+            className="text-sm text-primary hover:text-foreground transition-colors"
           >
             {showAbout ? "▲" : "▼"} About This Tool
           </button>
 
           {showAbout && (
-            <Card className="mt-2 bg-sepia-50 border-sepia-200">
-              <CardContent className="pt-4 text-sm text-sepia-700 space-y-3">
+            <div className="mt-4 text-sm text-secondary-foreground space-y-3">
                 <p>
                   This page displays Talmud text by a user-specified range, as opposed to the main Talmud reader, which always displays a single Talmud page. 
                   You can specify a range using one of five options:
                 </p>
                 <ul className="list-disc list-inside space-y-1 ml-2">
-                  <li><strong>ChavrutAI Reference:</strong> Use slash-separated format, optionally with a section (e.g., <code className="text-xs bg-sepia-200 px-1 rounded">Shabbat/89b</code> or <code className="text-xs bg-sepia-200 px-1 rounded">Rosh_Hashanah/17a#11</code>)</li>
-                  <li><strong>ChavrutAI URL:</strong> Paste a ChavrutAI URL (e.g., <code className="text-xs bg-sepia-200 px-1 rounded">https://chavrutai.com/talmud/Rosh_Hashanah/17a#11</code>)</li>
-                  <li><strong>Sefaria Reference:</strong> Use dot-separated format (e.g., <code className="text-xs bg-sepia-200 px-1 rounded">Menachot.65a.4-66a.8</code>)</li>
-                  <li><strong>Sefaria URL:</strong> Paste a Sefaria URL (can span multiple pages, e.g., <code className="text-xs bg-sepia-200 px-1 rounded">https://www.sefaria.org/Berakhot.16b.18-17a.12</code>)</li>
+                  <li><strong>ChavrutAI Reference:</strong> Use slash-separated format, optionally with a section (e.g., <code className="text-xs bg-muted px-1 rounded">Shabbat/89b</code> or <code className="text-xs bg-muted px-1 rounded">Rosh_Hashanah/17a#11</code>)</li>
+                  <li><strong>ChavrutAI URL:</strong> Paste a ChavrutAI URL (e.g., <code className="text-xs bg-muted px-1 rounded">https://chavrutai.com/talmud/Rosh_Hashanah/17a#11</code>)</li>
+                  <li><strong>Sefaria Reference:</strong> Use dot-separated format (e.g., <code className="text-xs bg-muted px-1 rounded">Menachot.65a.4-66a.8</code>)</li>
+                  <li><strong>Sefaria URL:</strong> Paste a Sefaria URL (can span multiple pages, e.g., <code className="text-xs bg-muted px-1 rounded">https://www.sefaria.org/Berakhot.16b.18-17a.12</code>)</li>
                   <li><strong>Blog Post Selection:</strong> Choose from a dropdown list of blog post titles and ranges of specific sugyot to auto-fill the reference</li>
                 </ul>
                 <p>
@@ -656,16 +663,13 @@ ${cleanHtml}
                 <p>
                   Use the AI assistant (at the bottom on mobile, on the right side on desktop) to explore the text. The AI assistant will see the displayed Talmud text (Hebrew and English), and has access to 125 published Talmud & Tech blog posts.
                 </p>
-              </CardContent>
-            </Card>
+            </div>
           )}
-        </div>
+        </section>
 
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle>Display Talmud Text by Custom Range</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">
+        <section className="py-8 border-t border-border">
+          <h2 className="font-georgia text-xl mb-6">Display Talmud Text by Custom Range</h2>
+          <div className="space-y-6">
             {/* URL / Reference input */}
             <div className="space-y-2">
               <Label htmlFor="sefaria-url" className="text-sm font-semibold">
@@ -792,7 +796,7 @@ ${cleanHtml}
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
-                <div className="space-y-2 border border-sepia-200 rounded-md p-3">
+                <div className="space-y-2 border border-border rounded p-3">
                   <Label className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">From</Label>
                   <div className="grid grid-cols-2 gap-2">
                     <div className="space-y-1">
@@ -834,7 +838,7 @@ ${cleanHtml}
                   </div>
                 </div>
 
-                <div className="space-y-2 border border-sepia-200 rounded-md p-3">
+                <div className="space-y-2 border border-border rounded p-3">
                   <Label className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">To</Label>
                   <div className="grid grid-cols-2 gap-2">
                     <div className="space-y-1">
@@ -884,7 +888,6 @@ ${cleanHtml}
                   disabled={!rangeValid}
                   data-testid="button-fetch-range"
                 >
-                  <Search className="mr-2 h-4 w-4" />
                   Fetch Range
                 </Button>
                 {rangeValid ? (
@@ -903,15 +906,15 @@ ${cleanHtml}
             </div>
 
             {/* Blog post selector — collapsible */}
-            <div className="border border-border rounded-md">
+            <div className="border border-border rounded">
               <button
                 type="button"
-                className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold hover:bg-muted/50 transition-colors rounded-md"
+                className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold hover:bg-secondary transition-colors rounded"
                 onClick={() => setShowBlogPostSelector((v) => !v)}
                 data-testid="toggle-blogpost"
               >
                 <span>Blog Post Selection</span>
-                {showBlogPostSelector ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+                <span aria-hidden="true">{showBlogPostSelector ? "▲" : "▼"}</span>
               </button>
               {showBlogPostSelector && (
                 <div className="px-4 pb-4 pt-1">
@@ -935,7 +938,6 @@ ${cleanHtml}
                 className="w-full md:w-auto"
                 data-testid="button-fetch"
               >
-                <Search className="mr-2 h-4 w-4" />
                 Fetch Text
               </Button>
               {(fetchParams || url) && (
@@ -951,22 +953,19 @@ ${cleanHtml}
                   }}
                   className="w-full md:w-auto"
                 >
-                  <RotateCcw className="mr-2 h-4 w-4" />
                   Clear
                 </Button>
               )}
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </section>
 
         {isLoading && (
-          <Card>
-            <CardContent className="pt-6 space-y-4">
-              <Skeleton className="h-4 w-full" />
-              <Skeleton className="h-4 w-full" />
-              <Skeleton className="h-4 w-3/4" />
-            </CardContent>
-          </Card>
+          <section className="py-8 border-t border-border space-y-4">
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-3/4" />
+          </section>
         )}
 
         {error && (
@@ -984,56 +983,52 @@ ${cleanHtml}
         )}
 
         {data && !data.error && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Card>
-              <CardContent className="pt-6 space-y-4">
-                <div className="flex flex-wrap gap-2">
-                  <Button 
-                    onClick={handleSelectAll} 
-                    variant="outline"
+          <section className="py-8 border-t border-border grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="space-y-4">
+                <div className="flex flex-wrap gap-4 text-sm">
+                  <button
+                    onClick={handleSelectAll}
                     data-testid="button-select-all"
+                    className="text-primary hover:underline"
                   >
-                    <Copy className="mr-2 h-4 w-4" />
                     Select All Text (for copy/paste)
-                  </Button>
-                  
-                  <Button 
-                    onClick={handleExportMarkdown} 
-                    variant="outline"
+                  </button>
+
+                  <button
+                    onClick={handleExportMarkdown}
                     data-testid="button-export-md"
+                    className="text-primary hover:underline"
                   >
-                    <FileText className="mr-2 h-4 w-4" />
                     Export .md
-                  </Button>
-                  
-                  <Button 
-                    onClick={handleExportHtml} 
-                    variant="outline"
+                  </button>
+
+                  <button
+                    onClick={handleExportHtml}
                     data-testid="button-export-html"
+                    className="text-primary hover:underline"
                   >
-                    <Code className="mr-2 h-4 w-4" />
                     Export .html
-                  </Button>
+                  </button>
                 </div>
 
                 {data && !data.error && (
-                  <div className="flex items-center gap-3 p-4 bg-primary/10 border border-primary/25 rounded-lg">
+                  <div className="flex items-center gap-3 py-3 border-t border-border">
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-semibold text-foreground mb-1">Open in the main Talmud reader</p>
                       <p className="text-xs text-muted-foreground">Study this passage with the full ChavrutAI reader</p>
                     </div>
                     <a
                       href={`/talmud/${encodeURIComponent(data.tractate.toLowerCase())}/${data.page}${data.section ? `#section-${data.section}` : ''}`}
-                      className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-md text-sm font-semibold hover:bg-primary/90 transition-colors flex-shrink-0 underline underline-offset-2"
+                      className="flex-shrink-0 text-primary hover:underline text-sm font-medium"
                     >
-                      {data.tractate} {data.page}{data.section ? `:${data.section}` : ''}
+                      {data.tractate} {data.page}{data.section ? `:${data.section}` : ''} →
                     </a>
                   </div>
                 )}
-                
+
                 <div 
                   id="text-display-container"
-                  className="bg-sepia-50 border border-sepia-200 rounded-lg p-6" 
+                  className="bg-secondary border border-border rounded p-6" 
                   data-testid="text-display-container"
                   style={{ 
                     fontSize: '12pt',
@@ -1042,15 +1037,14 @@ ${cleanHtml}
                 >
                   {renderSections()}
                 </div>
-              </CardContent>
-            </Card>
+            </div>
 
             <div className="lg:sticky lg:top-4 lg:h-[calc(100vh-8rem)]">
               <ChatPanel context={chatContext} />
             </div>
-          </div>
+          </section>
         )}
-      </div>
+      </main>
       
       <Footer />
     </div>

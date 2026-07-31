@@ -1,5 +1,4 @@
 import { Link } from "wouter";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BreadcrumbNavigation, breadcrumbHelpers } from "@/components/navigation/breadcrumb-navigation";
 import { Footer } from "@/components/footer";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
@@ -285,49 +284,52 @@ export default function SuggestedPages() {
   useSEO(generateSEOData.suggestedPages());
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background text-foreground font-sans">
       {/* Header */}
       <HeaderSimple />
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 py-4">
+      <main className="max-w-content mx-auto px-6">
         {/* Breadcrumb Navigation */}
         <BreadcrumbNavigation items={breadcrumbHelpers.suggestedPages()} />
 
-        {/* Page Header */}
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-primary mb-2 text-center">
+        {/* Page title */}
+        <div className="pt-10 pb-8">
+          <div
+            className="mb-3 h-[2px] w-10" style={{ backgroundColor: "var(--category-talmud-bavli)" }}
+            aria-hidden="true"
+          />
+          <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-2">
             Famous Talmud Pages
           </h1>
-          <p className="text-lg text-muted-foreground text-center max-w-3xl mx-auto mb-3">
+          <p className="text-muted-foreground max-w-3xl">
             Start your Talmud journey with these essential teachings, famous stories, and foundational concepts. 
             Perfect introduction for new learners.
           </p>
         </div>
 
         {/* Suggested Pages Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-          {SUGGESTED_PAGES.map((page, index) => (
-            <Link 
-              key={index}
-              href={`/talmud/${encodeURIComponent(page.tractate.toLowerCase())}/${page.folio}`}
-            >
-              <Card className="hover:shadow-sm transition-shadow cursor-pointer border-border hover:border-primary/20 bg-card/50">
-                <div className="p-3">
-                  <div className="text-primary font-medium text-sm mb-1">
-                    {page.tractate} {page.folio}
-                  </div>
-                  <h3 className="text-sm font-semibold text-foreground mb-2 leading-tight">
-                    {page.title}
-                  </h3>
-                  <p className="text-xs text-muted-foreground leading-relaxed">
-                    {page.description}
-                  </p>
+        <section className="py-8 border-t border-border">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+            {SUGGESTED_PAGES.map((page, index) => (
+              <Link 
+                key={index}
+                href={`/talmud/${encodeURIComponent(page.tractate.toLowerCase())}/${page.folio}`}
+                className="block border border-border rounded bg-background p-3 hover:bg-secondary"
+              >
+                <div className="text-primary dark:text-[#5b9fc5] font-medium text-sm mb-1">
+                  {page.tractate} {page.folio}
                 </div>
-              </Card>
-            </Link>
-          ))}
-        </div>
+                <h3 className="text-sm font-semibold text-foreground mb-2 leading-tight">
+                  {page.title}
+                </h3>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  {page.description}
+                </p>
+              </Link>
+            ))}
+          </div>
+        </section>
 
       </main>
       

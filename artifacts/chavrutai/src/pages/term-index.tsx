@@ -3,7 +3,6 @@ import { Link } from "wouter";
 import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
 import { getStaticSEO } from "@shared/seo-data";
-import { ExternalLink } from "lucide-react";
 import { getTractateSlug } from "@shared/tractates";
 import { getBookBySlug } from "@shared/bible-books";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
@@ -202,12 +201,8 @@ function DetailPanel({ row, onClose }: { row: GlossaryRow; onClose: () => void }
               <span dir="rtl" className="text-lg font-semibold text-foreground" style={{ fontFamily: "'Assistant', sans-serif" }}>{row.hebrew_term}</span>
             )}
           </div>
-          <div className="flex flex-wrap gap-1 mt-1.5">
-            {row.__categories.map(c => (
-              <span key={c} className="text-xs border border-border rounded px-1.5 py-0.5 text-muted-foreground">
-                {CATEGORY_LABELS[c] ?? c}
-              </span>
-            ))}
+          <div className="mt-1.5 text-xs text-muted-foreground">
+            {row.__categories.map(c => CATEGORY_LABELS[c] ?? c).join(" · ")}
           </div>
         </div>
         <DialogPrimitive.Close asChild>
@@ -301,23 +296,20 @@ function DetailPanel({ row, onClose }: { row: GlossaryRow; onClose: () => void }
             <div className="flex flex-wrap gap-x-4 gap-y-1.5 text-sm">
               {row.__wikiEnUrl && (
                 <a href={row.__wikiEnUrl} target="_blank" rel="noopener noreferrer"
-                  className="text-blue-600 hover:underline inline-flex items-center gap-1">
+                  className="text-primary hover:underline">
                   Wikipedia (EN): {row.__wikiEnTitle}
-                  <ExternalLink className="w-3 h-3" />
                 </a>
               )}
               {row.__wikiHeUrl && (
                 <a href={row.__wikiHeUrl} target="_blank" rel="noopener noreferrer"
-                  className="text-blue-600 hover:underline inline-flex items-center gap-1">
+                  className="text-primary hover:underline">
                   ויקיפדיה (HE): {row.__wikiHeTitle}
-                  <ExternalLink className="w-3 h-3" />
                 </a>
               )}
               {row.__wikidataUrl && (
                 <a href={row.__wikidataUrl} target="_blank" rel="noopener noreferrer"
-                  className="text-blue-600 hover:underline inline-flex items-center gap-1">
+                  className="text-primary hover:underline">
                   Wikidata ({row.wikidata_id})
-                  <ExternalLink className="w-3 h-3" />
                 </a>
               )}
             </div>
@@ -354,7 +346,7 @@ function DetailPanel({ row, onClose }: { row: GlossaryRow; onClose: () => void }
               <Link
                 key={i}
                 href={getPassageLink(result)}
-                className="block border border-border rounded-md px-3 py-2.5 hover:bg-accent/50 transition-colors"
+                className="block border border-border rounded px-3 py-2.5 hover:bg-secondary"
               >
                 <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1">
                   {result.type === "talmud" ? "Talmud" : result.type === "bible" ? "Bible" : "Other"}
@@ -391,10 +383,10 @@ function TermCard({
   return (
     <div
       onClick={onClick}
-      className={`group border rounded-lg p-3.5 cursor-pointer transition-all ${
+      className={`group border rounded p-3.5 cursor-pointer ${
         isSelected
-          ? "border-foreground bg-muted/40 shadow-sm"
-          : "border-border bg-card hover:border-muted-foreground/40 hover:shadow-sm hover:bg-accent/40"
+          ? "border-foreground bg-secondary"
+          : "border-border bg-background hover:bg-secondary"
       }`}
     >
       {/* Term + Hebrew + Variants */}
@@ -413,14 +405,10 @@ function TermCard({
         )}
       </div>
 
-      {/* Category badge for All tab */}
+      {/* Category label for All tab */}
       {activeTab === "all" && row.__categories.length > 0 && (
-        <div className="mt-2 flex flex-wrap gap-1">
-          {row.__categories.slice(0, 2).map(c => (
-            <span key={c} className="text-xs border border-border/60 rounded px-1.5 py-0.5 text-muted-foreground/80">
-              {CATEGORY_LABELS[c] ?? c}
-            </span>
-          ))}
+        <div className="mt-2 text-xs text-muted-foreground">
+          {row.__categories.slice(0, 2).map(c => CATEGORY_LABELS[c] ?? c).join(" · ")}
         </div>
       )}
 
@@ -469,15 +457,15 @@ function TermCard({
           <div className="flex gap-3 flex-wrap">
             {row.__wikiEnUrl && (
               <a href={row.__wikiEnUrl} target="_blank" rel="noopener noreferrer"
-                className="text-xs text-blue-600 hover:underline inline-flex items-center gap-0.5"
+                className="text-xs text-primary hover:underline"
                 onClick={e => e.stopPropagation()}
-              >Wikipedia EN<ExternalLink className="w-3 h-3" /></a>
+              >Wikipedia EN</a>
             )}
             {row.__wikiHeUrl && (
               <a href={row.__wikiHeUrl} target="_blank" rel="noopener noreferrer"
-                className="text-xs text-blue-600 hover:underline inline-flex items-center gap-0.5"
+                className="text-xs text-primary hover:underline"
                 onClick={e => e.stopPropagation()}
-              >ויקיפדיה HE<ExternalLink className="w-3 h-3" /></a>
+              >ויקיפדיה HE</a>
             )}
           </div>
         </>
@@ -638,9 +626,9 @@ export default function TermIndexPage() {
       <HeaderSimple />
 
       {/* ── Page title ── */}
-      <div className="border-b border-border flex-shrink-0 bg-card">
+      <div className="border-b border-border flex-shrink-0 bg-background">
         <div className="max-w-7xl mx-auto px-6 lg:px-10 py-4">
-          <h1 className="text-xl font-semibold text-foreground">Index of Names, Places &amp; Key Terms in the Talmud</h1>
+          <h1 className="font-georgia text-3xl md:text-4xl text-foreground">Index of Names, Places &amp; Key Terms in the Talmud</h1>
           <button
             onClick={() => setShowInfo(v => !v)}
             className="mt-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
@@ -662,8 +650,8 @@ export default function TermIndexPage() {
               <p>
                 Biographical data (teachers, students, father, dates, affiliation) is sourced from{" "}
                 <a href="https://www.wikidata.org" target="_blank" rel="noopener noreferrer"
-                  className="text-primary hover:underline inline-flex items-center gap-0.5">
-                  Wikidata <ExternalLink className="w-3 h-3" />
+                  className="text-primary hover:underline">
+                  Wikidata
                 </a>{" "}
                 and is available for entries that have a corresponding Wikidata item (Q-ID). This data is
                 community-maintained and may not be complete or fully accurate for all figures.
@@ -677,10 +665,9 @@ export default function TermIndexPage() {
                   href="https://www.ezrabrand.com/p/introducing-a-new-talmudic-glossary"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-primary hover:underline inline-flex items-center gap-1 font-medium"
+                  className="text-primary hover:underline font-medium"
                 >
                   Read a writeup on how an initial version of this glossary was built
-                  <ExternalLink className="w-3 h-3" />
                 </a>
               </p>
             </div>
@@ -816,7 +803,7 @@ export default function TermIndexPage() {
                   </p>
                   <button
                     onClick={() => setDisplayCount(c => c + 20)}
-                    className="text-sm border border-border rounded-md px-4 py-1.5 text-foreground hover:bg-accent transition-colors"
+                    className="text-sm border border-border rounded px-4 py-1.5 text-foreground hover:bg-secondary"
                   >
                     Show 20 more
                     <span className="text-muted-foreground ml-1.5">({remaining.toLocaleString()} remaining)</span>

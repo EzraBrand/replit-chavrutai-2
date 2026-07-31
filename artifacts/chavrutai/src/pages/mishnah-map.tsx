@@ -1,9 +1,6 @@
 import { useState, useMemo } from "react";
 import { Link } from "wouter";
-import { Search, ExternalLink } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
@@ -324,208 +321,195 @@ export default function MishnahMapPage() {
   }, [organizedData, selectedSeder, searchQuery]);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background text-foreground font-sans">
       {/* Header */}
       <HeaderSimple />
 
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        {/* Page Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl md:text-5xl font-bold text-primary mb-4">
+      <main className="max-w-content mx-auto px-6">
+        {/* Page title */}
+        <div className="pt-10 pb-8">
+          <div
+            className="mb-3 h-[2px] w-10" style={{ backgroundColor: "var(--category-mishnah)" }}
+            aria-hidden="true"
+          />
+          <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-2">
             Mishnah-Talmud Mapping
           </h1>
-          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+          <p className="text-muted-foreground">
             Explore the connections between Mishnah passages and their corresponding discussions in the Talmud. 
             Click any Mishnah to navigate directly to the relevant section.
           </p>
         </div>
 
-        {/* Info Box */}
-        <Card className="mb-6 bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800">
-          <CardContent className="p-6">
-            <h3 className="font-semibold text-lg mb-2 text-blue-900 dark:text-blue-100">
-              About This Mapping
-            </h3>
-            <p className="text-sm text-blue-800 dark:text-blue-200 mb-2">
-              This mapping is based on data from <a 
-                href="https://github.com/Sefaria/Sefaria-Project/blob/master/data/Mishnah%20Map.csv" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="underline hover:text-blue-600 dark:hover:text-blue-300 inline-flex items-center gap-0.5"
-              >
-                Sefaria's Mishnah Map
-                <ExternalLink className="h-3 w-3" />
-              </a>.
-            </p>
-            <p className="text-sm text-blue-800 dark:text-blue-200 mb-2">
-              Browse Mishnah passages organized by Seder, tractate, and chapter. Each tile shows the Mishnah number and its location in the Talmud. Click any tile to view the Mishnah in the ChavrutAI Talmud page, or use the "Sefaria" link below each tile to see the Mishnah in <a 
-                href="https://www.sefaria.org.il/texts/Mishnah" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="underline hover:text-blue-600 dark:hover:text-blue-300 inline-flex items-center gap-0.5"
-              >Sefaria's Mishnah viewer<ExternalLink className="h-3 w-3" /></a>.
-            </p>
-            <p className="text-sm text-blue-800 dark:text-blue-200 mb-2">
-              Note the following gaps in chapter order between Mishnah and Talmud: Sanhedrin: 10 ↔ 11; Megillah: 3 ↔ 4; Menachot: 10 (Mishnah) → 6 (Talmud; thus, 6–9 in Talmud each shift one place later than in Mishnah)
-            </p>
-            <p className="text-sm text-blue-800 dark:text-blue-200">
-              For more information about this mapping table, see <a 
-                href="https://www.ezrabrand.com/p/introducing-chavrutais-mishnah-talmud" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="underline hover:text-blue-600 dark:hover:text-blue-300 inline-flex items-center gap-0.5"
-              >
-                "Introducing ChavrutAI's Mishnah-Talmud Mapping Table"
-                <ExternalLink className="h-3 w-3" />
-              </a> (Nov 23, 2025)
-            </p>
-          </CardContent>
-        </Card>
+        {/* About */}
+        <section className="py-8 border-t border-border">
+          <h2 className="font-georgia text-xl text-foreground mb-3">About This Mapping</h2>
+          <p className="text-sm text-secondary-foreground mb-2">
+            This mapping is based on data from <a 
+              href="https://github.com/Sefaria/Sefaria-Project/blob/master/data/Mishnah%20Map.csv" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-primary hover:underline"
+            >
+              Sefaria's Mishnah Map
+            </a>.
+          </p>
+          <p className="text-sm text-secondary-foreground mb-2">
+            Browse Mishnah passages organized by Seder, tractate, and chapter. Each tile shows the Mishnah number and its location in the Talmud. Click any tile to view the Mishnah in the ChavrutAI Talmud page, or use the "Sefaria" link below each tile to see the Mishnah in <a 
+              href="https://www.sefaria.org.il/texts/Mishnah" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-primary hover:underline"
+            >Sefaria's Mishnah viewer</a>.
+          </p>
+          <p className="text-sm text-secondary-foreground mb-2">
+            Note the following gaps in chapter order between Mishnah and Talmud: Sanhedrin: 10 ↔ 11; Megillah: 3 ↔ 4; Menachot: 10 (Mishnah) → 6 (Talmud; thus, 6–9 in Talmud each shift one place later than in Mishnah)
+          </p>
+          <p className="text-sm text-secondary-foreground">
+            For more information about this mapping table, see <a 
+              href="https://www.ezrabrand.com/p/introducing-chavrutais-mishnah-talmud" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-primary hover:underline"
+            >
+              "Introducing ChavrutAI's Mishnah-Talmud Mapping Table"
+            </a> (Nov 23, 2025)
+          </p>
+        </section>
 
         {/* Filters */}
-        <Card className="mb-6">
-          <CardContent className="p-6">
-            <div className="flex flex-col md:flex-row gap-4">
-              {/* Search Input */}
-              <div className="flex-1 relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  type="text"
-                  placeholder="Search by tractate, chapter, Mishnah, or page..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10"
-                  data-testid="input-search"
-                />
-              </div>
-
-              {/* Seder Filter */}
-              <div className="md:w-64">
-                <Select value={selectedSeder} onValueChange={setSelectedSeder}>
-                  <SelectTrigger data-testid="select-seder">
-                    <SelectValue placeholder="All Sedarim" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Sedarim</SelectItem>
-                    {Object.keys(SEDER_ORGANIZATION).map((seder) => (
-                      <SelectItem key={seder} value={seder}>
-                        {seder}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+        <section className="py-6 border-t border-border">
+          <div className="flex flex-col md:flex-row gap-4">
+            {/* Search Input */}
+            <div className="flex-1">
+              <Input
+                type="text"
+                placeholder="Search by tractate, chapter, Mishnah, or page..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                data-testid="input-search"
+              />
             </div>
-          </CardContent>
-        </Card>
+
+            {/* Seder Filter */}
+            <div className="md:w-64">
+              <Select value={selectedSeder} onValueChange={setSelectedSeder}>
+                <SelectTrigger data-testid="select-seder">
+                  <SelectValue placeholder="All Sedarim" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Sedarim</SelectItem>
+                  {Object.keys(SEDER_ORGANIZATION).map((seder) => (
+                    <SelectItem key={seder} value={seder}>
+                      {seder}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        </section>
 
         {/* Seder Sections */}
-        <div className="space-y-8">
+        <div>
           {Object.entries(filteredData).map(([sederName, sederData]) => {
             const sederInfo = SEDER_ORGANIZATION[sederName as keyof typeof SEDER_ORGANIZATION];
             
             return (
-              <div key={sederName} className="space-y-6">
+              <section key={sederName} className="py-8 border-t border-border">
                 {/* Seder Header */}
-                <div className="text-center border-b border-border pb-2">
-                  <h3 className="text-xl font-semibold text-primary">
-                    {sederName}
-                  </h3>
-                  <p className="text-base text-primary/70 font-hebrew">
+                <div className="mb-6 flex items-baseline justify-between gap-4">
+                  <div>
+                    <h2 className="font-georgia text-xl text-foreground">
+                      {sederName}
+                    </h2>
+                    <p className="text-sm text-muted-foreground">
+                      {sederInfo.description}
+                    </p>
+                  </div>
+                  <span className="text-sm text-muted-foreground font-hebrew" dir="rtl" lang="he">
                     {sederInfo.hebrew}
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    {sederInfo.description}
-                  </p>
+                  </span>
                 </div>
 
                 {/* Tractates */}
                 {sederData.tractates.map(tractate => (
-                  <div key={tractate.name} className="space-y-4">
+                  <div key={tractate.name} className="mb-8 last:mb-0">
                     {/* Tractate Header */}
-                    <div className="flex items-baseline gap-2 px-2">
-                      <h4 className="text-2xl font-bold text-primary">{tractate.name}</h4>
-                      <span className="text-lg text-primary/70 font-hebrew">
+                    <div className="flex items-baseline gap-2 mb-4">
+                      <h3 className="font-georgia text-lg text-foreground">{tractate.name}</h3>
+                      <span className="text-sm text-muted-foreground font-hebrew" dir="rtl" lang="he">
                         {TRACTATE_HEBREW_NAMES[tractate.name as keyof typeof TRACTATE_HEBREW_NAMES] || ''}
                       </span>
                     </div>
 
                     {/* Chapters */}
-                    <div className="grid grid-cols-1 gap-4 max-w-none sm:max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-3xl mx-auto">
+                    <div className="space-y-6">
                       {tractate.chapters.map(chapter => {
                         if (chapter.mishnahTiles.length === 0) return null;
                         
                         return (
-                          <Card
+                          <div
                             key={`${tractate.name}-${chapter.number}`}
-                            className="hover:shadow-lg transition-shadow duration-200"
                             data-testid={`card-chapter-${tractate.name}-${chapter.number}`}
                           >
-                            <CardContent className="p-6">
-                              <div className="mb-4">
-                                <h3 className="text-xl text-primary mb-2">
-                                  Chapter {chapter.number}
-                                </h3>
-                                {chapter.talmudOrderNote && (
-                                  <p className="text-xs text-amber-700 dark:text-amber-400 italic">
-                                    {chapter.talmudOrderNote}
-                                  </p>
-                                )}
-                              </div>
+                            <div className="mb-3">
+                              <h4 className="text-base font-medium text-foreground mb-1">
+                                Chapter {chapter.number}
+                              </h4>
+                              {chapter.talmudOrderNote && (
+                                <p className="text-xs text-muted-foreground italic">
+                                  {chapter.talmudOrderNote}
+                                </p>
+                              )}
+                            </div>
 
-                              {/* Mishnah tiles */}
-                              <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-2 justify-items-center">
-                                {chapter.mishnahTiles.map((tile, index) => (
-                                  <div 
-                                    key={`${tile.mishnahNumber}-${index}`}
-                                    className="flex flex-col items-center"
+                            {/* Mishnah tiles */}
+                            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2">
+                              {chapter.mishnahTiles.map((tile, index) => (
+                                <div 
+                                  key={`${tile.mishnahNumber}-${index}`}
+                                  className="flex flex-col items-center"
+                                >
+                                  <Link
+                                    href={tile.href}
+                                    data-testid={`link-mishnah-${tractate.name}-${chapter.number}-${tile.mishnahNumber}`}
+                                    className="w-full min-w-[4.5rem] flex flex-col items-center gap-0.5 border border-border rounded bg-background px-1.5 py-2 hover:bg-secondary overflow-hidden"
                                   >
-                                    <Link
-                                      href={tile.href}
-                                      data-testid={`link-mishnah-${tractate.name}-${chapter.number}-${tile.mishnahNumber}`}
-                                    >
-                                      <Button
-                                        variant="outline"
-                                        size="sm"
-                                        className="h-auto px-1.5 py-2 text-base font-normal w-full min-w-[4.5rem] hover:bg-primary hover:text-primary-foreground flex flex-col items-center gap-0.5 overflow-hidden"
-                                      >
-                                        <span className="font-semibold">{tile.mishnahNumber}</span>
-                                        <span className="text-[10px] text-muted-foreground text-center break-all leading-tight">{tile.talmudRange}</span>
-                                      </Button>
-                                    </Link>
-                                    <a
-                                      href={tile.sefariaUrl}
-                                      target="_blank"
-                                      rel="noopener noreferrer"
-                                      className="text-[10px] text-blue-600 hover:underline mt-0.5 flex items-center gap-0.5"
-                                      data-testid={`link-sefaria-${tractate.name}-${chapter.number}-${tile.mishnahNumber}`}
-                                    >
-                                      Sefaria
-                                      <ExternalLink className="h-2.5 w-2.5" />
-                                    </a>
-                                  </div>
-                                ))}
-                              </div>
-                            </CardContent>
-                          </Card>
+                                    <span className="text-base font-semibold text-primary">{tile.mishnahNumber}</span>
+                                    <span className="text-[10px] text-muted-foreground text-center break-all leading-tight">{tile.talmudRange}</span>
+                                  </Link>
+                                  <a
+                                    href={tile.sefariaUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-[10px] text-primary hover:underline mt-0.5"
+                                    data-testid={`link-sefaria-${tractate.name}-${chapter.number}-${tile.mishnahNumber}`}
+                                  >
+                                    Sefaria
+                                  </a>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
                         );
                       })}
                     </div>
                   </div>
                 ))}
-              </div>
+              </section>
             );
           })}
 
           {Object.keys(filteredData).length === 0 && (
-            <div className="text-center py-12">
-              <p className="text-lg text-muted-foreground">
+            <div className="text-center py-12 border-t border-border">
+              <p className="text-muted-foreground">
                 No Mishnah mappings found. Try adjusting your search or filter.
               </p>
             </div>
           )}
         </div>
-      </div>
+      </main>
 
       <Footer />
     </div>

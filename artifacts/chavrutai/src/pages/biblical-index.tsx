@@ -43,9 +43,9 @@ export default function BiblicalIndexPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background text-foreground font-sans">
         {renderHeader()}
-        <div className="container mx-auto px-4 py-8 max-w-6xl">
+        <main className="max-w-content mx-auto px-6 py-12">
           <Skeleton className="h-10 w-64 mb-4" />
           <Skeleton className="h-6 w-96 mb-8" />
           <div className="space-y-8">
@@ -53,7 +53,7 @@ export default function BiblicalIndexPage() {
             <Skeleton className="h-64 w-full" />
             <Skeleton className="h-64 w-full" />
           </div>
-        </div>
+        </main>
         <FooterPlaceholder />
       </div>
     );
@@ -61,12 +61,12 @@ export default function BiblicalIndexPage() {
 
   if (!metadata) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background text-foreground font-sans">
         {renderHeader()}
-        <div className="container mx-auto px-4 py-8 max-w-6xl">
-          <h1 className="text-2xl font-bold mb-4">Error Loading Index</h1>
-          <p>Unable to load the biblical index metadata.</p>
-        </div>
+        <main className="max-w-content mx-auto px-6 py-12">
+          <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-4">Error Loading Index</h1>
+          <p className="text-muted-foreground">Unable to load the biblical index metadata.</p>
+        </main>
       </div>
     );
   }
@@ -84,23 +84,28 @@ export default function BiblicalIndexPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background text-foreground font-sans">
       {renderHeader()}
-      <div className="container mx-auto px-4 py-8 max-w-6xl">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-4" data-testid="page-title">
+      <main className="max-w-content mx-auto px-6">
+        {/* Page title */}
+        <div className="pt-10 pb-8">
+          <div
+            className="mb-3 h-[2px] w-10" style={{ backgroundColor: "var(--category-tanakh)" }}
+            aria-hidden="true"
+          />
+          <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-2" data-testid="page-title">
             Biblical Citations in the Talmud
           </h1>
-          <p className="text-lg text-muted-foreground mb-2">
+          <p className="text-muted-foreground mb-2">
             A comprehensive digital index mapping biblical verses to their citations throughout the Babylonian Talmud
           </p>
-          <p className="text-base text-muted-foreground">
+          <p className="text-sm text-muted-foreground">
             For more about this, see{" "}
             <a 
               href="https://www.ezrabrand.com/p/biblical-citations-in-the-talmud" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline"
+              className="text-primary hover:underline"
               data-testid="link-article"
             >
               Biblical Citations in the Talmud: A New Digital Index and Concordance
@@ -109,54 +114,52 @@ export default function BiblicalIndexPage() {
           </p>
         </div>
 
-        <div className="mb-8 prose prose-sm dark:prose-invert max-w-none">
-          <h2>About This Index</h2>
-          <p>
+        {/* About */}
+        <section className="py-8 border-t border-border">
+          <h2 className="font-georgia text-xl text-foreground mb-3">About This Index</h2>
+          <p className="text-secondary-foreground mb-4">
             This digital index provides a comprehensive mapping of biblical citations found throughout 
             the Babylonian Talmud. Each entry includes the biblical verse, its location in the Talmud, 
             and the complete context surrounding the citation.
           </p>
-          
-          <h3>Features</h3>
-          <ul>
+          <h3 className="font-georgia text-lg text-foreground mb-2">Features</h3>
+          <ul className="list-disc list-inside space-y-1 text-secondary-foreground">
             <li>Direct hyperlinks to the original Talmudic passages on ChavrutAI</li>
             <li>Full contextual quotations for each citation</li>
             <li>Organized by biblical book and chapter</li>
             <li>Searchable and browseable interface</li>
           </ul>
-        </div>
+        </section>
 
-        <div className="space-y-8">
+        <div>
           {Object.entries(metadata.categories).map(([category, books]) => {
             return (
-              <div key={category} className="space-y-6">
-                <div className="border-b pb-3">
-                  <h2 className="text-3xl font-bold mb-2">
-                    {categoryDescriptions[category as keyof typeof categoryDescriptions]}
-                  </h2>
-                </div>
-                
-                <div className="grid grid-cols-1 gap-2">
+              <section key={category} className="py-8 border-t border-border">
+                <h2 className="font-georgia text-xl text-foreground mb-4">
+                  {categoryDescriptions[category as keyof typeof categoryDescriptions]}
+                </h2>
+
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-1">
                   {(books as string[])
                     .filter(book => book !== 'Song of Songs')
                     .map((book: string) => (
                     <Link
                       key={book}
                       href={`/biblical-index/book/${getBookUrl(book)}`}
-                      className="text-sm font-medium text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 hover:underline underline-offset-2 transition-colors py-2 px-3 rounded-md hover:bg-blue-50 dark:hover:bg-blue-950/20 border border-transparent"
+                      className="text-primary hover:underline py-1"
                       data-testid={`link-book-${getBookUrl(book)}`}
                     >
                       {getDisplayName(book)}
                     </Link>
                   ))}
                 </div>
-              </div>
+              </section>
             );
           })}
         </div>
-        
-        <Footer />
-      </div>
+      </main>
+
+      <Footer />
     </div>
   );
 }

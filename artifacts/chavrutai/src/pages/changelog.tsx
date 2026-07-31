@@ -28,31 +28,30 @@ export default function Changelog() {
       {/* Header */}
       <HeaderSimple />
 
-      <div className="container mx-auto px-4 py-6">
+      <main className="max-w-content mx-auto px-6">
         {/* Page Title */}
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-sepia-800 dark:text-sepia-200 mb-2">
+        <div className="pt-10 pb-8">
+          <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-2">
             Changelog
           </h1>
-        
-        <p className="text-sepia-600 dark:text-sepia-400 max-w-3xl">
-          Recent updates and improvements.
-        </p>
-      </div>
+          <p className="text-muted-foreground">
+            Recent updates and improvements.
+          </p>
+        </div>
 
-      {/* Changelog Content */}
-      <div className="bg-white dark:bg-sepia-900 rounded-lg shadow-lg p-6 max-w-4xl">
+        {/* Changelog Content */}
+        <div>
 
         {/* July 2026 */}
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold text-sepia-800 dark:text-sepia-200 mb-4 border-b border-sepia-200 dark:border-sepia-700 pb-2">
+        <div className="py-8 border-t border-border">
+          <h2 className="font-georgia text-xl text-foreground mb-4">
             July 2026
           </h2>
 
-          <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
+          <div className="space-y-4 text-muted-foreground">
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Unified Site Header Across All Pages (July 31)</h3>
+              <h3 className="font-medium text-foreground mb-2">Unified Site Header Across All Pages (July 31)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Replaced leftover copies of the old page header on over twenty pages (dictionaries, indexes, contents pages, scholarship, sitemap, contact, and more) with the single shared header in the new ParchmentScholar style.</li>
                 <li>Every page now shows the same navigation (Library, Search, About ChavrutAI), and future header improvements apply everywhere at once.</li>
@@ -61,7 +60,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Sitewide "ParchmentScholar" Rollout — Header, Footer & Contents Pages (July 31)</h3>
+              <h3 className="font-medium text-foreground mb-2">Sitewide "ParchmentScholar" Rollout — Header, Footer & Contents Pages (July 31)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Extended the new homepage design to the shared site header and footer: navy logo with text navigation links, a muted footer surface with text-only links, and a simplified flat theme picker.</li>
                 <li>Redesigned all five contents pages (Babylonian Talmud, Bible, Mishnah, Jerusalem Talmud, Mishneh Torah) with Georgia serif headings, each collection's signature color bar above the title, and flat near-square tractate/book cards.</li>
@@ -71,7 +70,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Homepage Redesign — "ParchmentScholar" (July 31)</h3>
+              <h3 className="font-medium text-foreground mb-2">Homepage Redesign — "ParchmentScholar" (July 31)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Redesigned the homepage with a clean, scholarly look: white background, Georgia serif headings, navy text links, and near-square corners.</li>
                 <li>Each of the five text collections (Babylonian Talmud, Tanakh, Mishnah, Jerusalem Talmud, Mishneh Torah) now has its own signature color, shown as a short underline bar above its title, with Hebrew names alongside the English.</li>
@@ -85,15 +84,15 @@ export default function Changelog() {
         </div>
 
         {/* June 2026 */}
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold text-sepia-800 dark:text-sepia-200 mb-4 border-b border-sepia-200 dark:border-sepia-700 pb-2">
+        <div className="py-8 border-t border-border">
+          <h2 className="font-georgia text-xl text-foreground mb-4">
             June 2026
           </h2>
 
-          <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
+          <div className="space-y-4 text-muted-foreground">
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: More Abbreviation Expansions (June 29)</h3>
+              <h3 className="font-medium text-foreground mb-2">BDB: More Abbreviation Expansions (June 29)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Grammar: <strong>plur.</strong> (plural), <strong>irreg.</strong> (irregular), <strong>indeclin.</strong> (indeclinable), <strong>affirm.</strong> (affirmative).</li>
                 <li>Vocabulary: <strong>contemp.</strong> (contemporary), <strong>corresp.</strong> (corresponding), <strong>subseq.</strong> (subsequent), <strong>purif.</strong> (purification), <strong>interpol.</strong> (interpolation), <strong>txt</strong> (text).</li>
@@ -105,21 +104,21 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Search Engine Optimization Fix (June 29)</h3>
+              <h3 className="font-medium text-foreground mb-2">Search Engine Optimization Fix (June 29)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Restored per-page titles, descriptions, social-share previews, and structured data for search engines and link previews. After the recent modernization, every page had been showing the homepage's information to crawlers; each page now serves its own.</li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Behind-the-Scenes: Codebase Modernization (June 27)</h3>
+              <h3 className="font-medium text-foreground mb-2">Behind-the-Scenes: Codebase Modernization (June 27)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Migrated the project to a modern pnpm-based architecture. This is an internal change with no effect on the site's features, but it makes future development faster and more reliable.</li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: More Abbreviation Expansions &amp; a "Derived From" Fix (June 27)</h3>
+              <h3 className="font-medium text-foreground mb-2">BDB: More Abbreviation Expansions &amp; a "Derived From" Fix (June 27)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Grammar: <strong>Hithpōʿl.</strong> (Hithpo'el), <strong>Pōʿl.</strong> (Po'el).</li>
                 <li>Vocabulary: <strong>kg.</strong> (king), <strong>b. c.</strong> (BCE), <strong>Mar.</strong> (March), <strong>cuneif.</strong> (cuneiform), <strong>inscr.</strong> (inscriptions).</li>
@@ -133,7 +132,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: More Abbreviation Expansions &amp; a Fix (June 2)</h3>
+              <h3 className="font-medium text-foreground mb-2">BDB: More Abbreviation Expansions &amp; a Fix (June 2)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Grammar / vocabulary: <strong>identif.</strong> (identified), <strong>OHeb</strong> (Old Heb).</li>
                 <li>Archaic English: <strong>goeth</strong> → goes.</li>
@@ -149,22 +148,22 @@ export default function Changelog() {
         </div>
 
         {/* May 2026 */}
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold text-sepia-800 dark:text-sepia-200 mb-4 border-b border-sepia-200 dark:border-sepia-700 pb-2">
+        <div className="py-8 border-t border-border">
+          <h2 className="font-georgia text-xl text-foreground mb-4">
             May 2026
           </h2>
 
-          <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
+          <div className="space-y-4 text-muted-foreground">
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: Abbreviation Matching Bug Fix (May 31)</h3>
+              <h3 className="font-medium text-foreground mb-2">BDB: Abbreviation Matching Bug Fix (May 31)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Fixed a word-boundary bug where short abbreviation keys could match inside a longer word when the surrounding letters were non-English. For example, <strong>Pe</strong> (Peʿal) was wrongly expanding inside the name <em>Peḳaḥ</em>, rendering it as <em>Pealḳaḥ</em>. Abbreviations now only expand when they form a complete token, correctly handling accented transliterations, Hebrew, and Greek text.</li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: More Abbreviation Expansions (May 31)</h3>
+              <h3 className="font-medium text-foreground mb-2">BDB: More Abbreviation Expansions (May 31)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Grammar: <strong>Hithpa.</strong> (Hithpa'el), <strong>Hithpo.</strong> (Hithpo'el), <strong>causat.</strong> (causative).</li>
                 <li>Vocabulary: <strong>conject.</strong> (conjecture), <strong>interpr.</strong> (interpreting), <strong>obsol.</strong> (obsolete), <strong>cap.</strong> (chapter).</li>
@@ -176,7 +175,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: More Abbreviation Expansions &amp; a Fix (May 30)</h3>
+              <h3 className="font-medium text-foreground mb-2">BDB: More Abbreviation Expansions &amp; a Fix (May 30)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Sources / editions: <strong>V. d. H</strong> (van der Hooght), <strong>Sora</strong> (Sura), <strong>Var. Lect.</strong> (Variae Lectiones), <strong>Jüd. Ztschr.</strong> (Jüdische Zeitschrift), <strong>ad loc.</strong> (at the place).</li>
                 <li>Fixed <strong>Norzi</strong> — now expands to <em>Yedidya Nortzi (Minḥat Shai)</em>, naming his masoretic work.</li>
@@ -187,7 +186,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: More Headwords Searchable (May 30)</h3>
+              <h3 className="font-medium text-foreground mb-2">BDB: More Headwords Searchable (May 30)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Three more BDB headwords that were missing from consonant search now appear in results: <strong className="font-hebrew">הַל</strong>, <strong className="font-hebrew">לָט</strong>, and <strong className="font-hebrew">לֹט</strong> (e.g. searching <span className="font-hebrew">לט</span> now returns both <span className="font-hebrew">לָט</span> and <span className="font-hebrew">לֹט</span>).</li>
                 <li>They also now appear in the browsable <strong>Headword Index</strong> under their respective letters.</li>
@@ -195,16 +194,16 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: More Abbreviation Expansions (May 30)</h3>
+              <h3 className="font-medium text-foreground mb-2">BDB: More Abbreviation Expansions (May 30)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Grammar: <strong>demonstr.</strong> (demonstrative), <strong>disj.</strong> (disjunctive), <strong>cohort.</strong> (cohortative), <strong>contin.</strong> (continuation), <strong>syll.</strong> (syllable), <strong>gutt.</strong> (guttural), <strong>predic.</strong> (predicate), <strong>Prep.</strong> (Preposition), <strong>daghesh</strong> (dagesh).</li>
                 <li>Vocabulary: <strong>combin.</strong> (combination), <strong>geograph.</strong> (geographical), <strong>individ.</strong> (individual), <strong>connexion</strong> (connection).</li>
-                <li>Sources / scholars: <strong>Od.</strong> (Odyssey), <strong>Hdt</strong> (Herodotus), <strong>Nat. Hist. Bib.</strong> (Natural History of the Bible), and <strong>Dr (Sm</strong> → Driver (Samuel) in the <a href="/bdb?q=%D7%95" className="text-blue-600 hover:underline">וְ</a> entry.</li>
+                <li>Sources / scholars: <strong>Od.</strong> (Odyssey), <strong>Hdt</strong> (Herodotus), <strong>Nat. Hist. Bib.</strong> (Natural History of the Bible), and <strong>Dr (Sm</strong> → Driver (Samuel) in the <a href="/bdb?q=%D7%95" className="text-primary hover:underline">וְ</a> entry.</li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: Grammatical Particles Now Searchable (May 30)</h3>
+              <h3 className="font-medium text-foreground mb-2">BDB: Grammatical Particles Now Searchable (May 30)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Seven core grammatical particles that were missing from BDB search now appear in results: <strong className="font-hebrew">לְ</strong> (to, for), <strong className="font-hebrew">מִן־</strong> (from), <strong className="font-hebrew">וְ</strong> (and), <strong className="font-hebrew">בְּ</strong> (in), <strong className="font-hebrew">כְּ</strong> (like, as), <strong className="font-hebrew">הֲ</strong> (interrogative), and <strong className="font-hebrew">פֶּן־</strong> (lest).</li>
                 <li>These short prepositions and prefixes exist in BDB but were invisible to the dictionary's consonant search; they're now merged in alongside regular results (e.g. searching <span className="font-hebrew">פן</span> returns both <span className="font-hebrew">פֶּן־</span> and <span className="font-hebrew">פִּנָּה</span>).</li>
@@ -213,16 +212,16 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Sugya Viewer: Range Selection via Dropdowns (May 25)</h3>
+              <h3 className="font-medium text-foreground mb-2">Sugya Viewer: Range Selection via Dropdowns (May 25)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added a <strong>Range Selection</strong> block on the Sugya Viewer page: pick a tractate, a starting page+section, and an ending page+section to build a multi-amud reference without needing to type a URL.</li>
                 <li>Range is limited to a single tractate and up to 10 amudim; inline validation shows when the selection is invalid or too large.</li>
-                <li>Generates the same shareable URL format as before (e.g. <code className="text-xs bg-sepia-200 px-1 rounded">/sugya-viewer?Berakhot.10a.26-10b.5</code>).</li>
+                <li>Generates the same shareable URL format as before (e.g. <code className="text-xs bg-secondary px-1 rounded">/sugya-viewer?Berakhot.10a.26-10b.5</code>).</li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: More Abbreviation Expansions (May 25)</h3>
+              <h3 className="font-medium text-foreground mb-2">BDB: More Abbreviation Expansions (May 25)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Grammar: <strong>superl.</strong> (superlative), <strong>Hithpōʿ.</strong> (Hithpo'el), <strong>metapl.</strong> (metaplasmic), <strong>reflex.</strong> (reflexive), <strong>Spec.</strong> (Specifically).</li>
                 <li>Textual operations: <strong>edds.</strong> (editions), <strong>transp.</strong> (transposes), <strong>leg.</strong> (to be read), <strong>evid.</strong> (evidence).</li>
@@ -234,7 +233,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: More Abbreviation Expansions (May 24)</h3>
+              <h3 className="font-medium text-foreground mb-2">BDB: More Abbreviation Expansions (May 24)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Grammar: <strong>personif.</strong> (personification), <strong>indecl.</strong> (indeclinable), <strong>vbb.</strong> (verbs), <strong>dicendi</strong> (of speaking), <strong>agendi</strong> (of action), <strong>double opt.</strong> (double optative), <strong>interrrog.</strong> (interrogative), <strong>Prob.</strong> (Probably); <strong>ag.</strong> (against); <strong>abbrev.</strong> (abbreviation).</li>
                 <li>Scholars / sources: <strong>Boch</strong> / <strong>Boch.</strong> (Bochart); <strong>Origen Hom</strong> → Origen Homilies; <strong>Tsepreghi (Diss. Lugd.</strong> → Csepreghi (Leiden dissertation); <strong>Kraetz.</strong> (Kraetzschmar); <strong>Lag (M.</strong> → Lagarde (Mittheilungen); <strong>Lb.</strong> (Lehrbuch); <strong>Targ.</strong> (Targum); <strong>Morg.</strong> (Morgenländische); <strong>Nota Rel. im Hebr.</strong> (Nota Relativi im Hebräischen); <strong>Am. J. Sem. Lang.</strong> (American Journal of Semitic Languages); <strong>Leben n. d. Tode</strong> (Leben nach dem Tode); <strong>Kosmol.</strong> (Kosmologie); <strong>Σ Θ</strong> (Symmachus &amp; Theodotion); <strong>ℌ</strong> (Hebrew Consonantal Text).</li>
@@ -243,7 +242,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: Additional Abbreviation Expansions</h3>
+              <h3 className="font-medium text-foreground mb-2">BDB: Additional Abbreviation Expansions</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added more grammatical and scholarly abbreviations: <strong>orthogr.</strong> (orthography), <strong>coh.</strong> (cohortative), <strong>immed.</strong> (immediately), <strong>rhetor.</strong> (rhetorical), <strong>narrat.</strong> (narrative), <strong>sacrif.</strong> (sacrificial), <strong>tabern.</strong> (tabernacle), <strong>artif.</strong> (artificial), <strong>disting.</strong> (distinguish), <strong>distinct.</strong> (distinction), <strong>betw.</strong> (between), and <strong>Syn.</strong> (Synonym).</li>
                 <li>Added more Bible book / proper-name abbreviations: <strong>Exod.</strong> (Exodus), <strong>Napht.</strong> (Naphtali), <strong>Est</strong> (Esther), <strong>La</strong> (Lamentations), and <strong>Hg</strong> (Haggai).</li>
@@ -252,10 +251,10 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: Frequency Counts as Readable Parentheticals</h3>
+              <h3 className="font-medium text-foreground mb-2">BDB: Frequency Counts as Readable Parentheticals</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>BDB tags every Hebrew lemma form with the number of times it occurs in the Hebrew Bible. Sefaria's source markup encodes these as tiny subscript numbers (e.g. <span dir="rtl">יְהוָֹה</span><sub>6518</sub>) which were hard to read inline. They now render as natural parentheticals — <em>(6518 times)</em> — so the count reads as part of the sentence. See e.g. <a href="/bdb?q=%D7%99%D7%94%D7%95%D7%94" className="text-blue-600 hover:underline">יהוה</a></li>
-                <li>Restored the leading <strong>c.</strong> ("circa") frequency marker at the start of entries like <a href="/bdb?q=%D7%99%D7%94%D7%95%D7%94" className="text-blue-600 hover:underline">יהוה</a> — BDB writes "c. 6823" for the total count, but Sefaria's API strips the "c." prefix. ChavrutAI now restores it so the entry begins "c. 6823 i.e. …" as in the original lexicon.</li>
+                <li>BDB tags every Hebrew lemma form with the number of times it occurs in the Hebrew Bible. Sefaria's source markup encodes these as tiny subscript numbers (e.g. <span dir="rtl">יְהוָֹה</span><sub>6518</sub>) which were hard to read inline. They now render as natural parentheticals — <em>(6518 times)</em> — so the count reads as part of the sentence. See e.g. <a href="/bdb?q=%D7%99%D7%94%D7%95%D7%94" className="text-primary hover:underline">יהוה</a></li>
+                <li>Restored the leading <strong>c.</strong> ("circa") frequency marker at the start of entries like <a href="/bdb?q=%D7%99%D7%94%D7%95%D7%94" className="text-primary hover:underline">יהוה</a> — BDB writes "c. 6823" for the total count, but Sefaria's API strips the "c." prefix. ChavrutAI now restores it so the entry begins "c. 6823 i.e. …" as in the original lexicon.</li>
                 <li>Added <strong>n.pr.dei</strong> (noun proper divine name) to the abbreviation expansions — the periodless form BDB uses inside the יהוה entry.</li>
                 <li>Fixed <strong>Lag<sup>Sym</sup></strong> — it now expands to <em>Lagarde (Symmicta)</em>, the specific Lagarde work BDB is citing. Previously the superscript pattern was being unpacked as "Lagarde (Symmachus)" because the inner "Sym" was matching the general Symmachus abbreviation.</li>
                 <li>Fixed <strong>Nes<sup>Eg</sup></strong> — patterns like <em>Nes<sup>Eg 67</sup></em> now expand to <em>E. Nestle (Eigennamen 67)</em> rather than leaving the bare "Eg" abbreviation unexpanded. Added <strong>Eg</strong> / <strong>Eg.</strong> → <em>Eigennamen</em> (Nestle's <em>Die israelitischen Eigennamen</em>) so the page number after the abbreviation no longer prevents expansion.</li>
@@ -264,7 +263,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: More Abbreviation Expansions (Bible Books, Scholarly Terms, Archaic English)</h3>
+              <h3 className="font-medium text-foreground mb-2">BDB: More Abbreviation Expansions (Bible Books, Scholarly Terms, Archaic English)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added more Bible book / source abbreviations: <strong>Mal</strong> (Malachi), <strong>Hos</strong> (Hosea), <strong>Ju</strong> / <strong>Ju.</strong> (Judges), <strong>Jon</strong> (Jonah), <strong>Lv.</strong> (Leviticus), <strong>Jos.</strong> (Joshua), <strong>Chr</strong> (Chronicles), <strong>Ec</strong> (Ecclesiastes), <strong>Rom</strong> (Romans), <strong>Lk</strong> (Luke), <strong>2 Pet</strong> (2 Peter), <strong>NT</strong> (New Testament), and the symbols <strong>ψψ</strong> (Psalms), <strong>WisdLt</strong> (Wisdom Literature), and <strong>S &amp; K</strong> (Samuel &amp; Kings)</li>
                 <li>Added scholarly / source references: <strong>Jos</strong> (Josephus), <strong>Aq</strong> (Aquila), <strong>Sym</strong> (Symmachus), <strong>BarHeb.</strong> (Bar Hebraeus), <strong>Rab.</strong> (Rabbis), and <strong>Ger.</strong> (German)</li>
@@ -275,24 +274,24 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">New Reference Pages: Jastrow Abbreviations &amp; Talmud Term Replacements</h3>
+              <h3 className="font-medium text-foreground mb-2">New Reference Pages: Jastrow Abbreviations &amp; Talmud Term Replacements</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>New page at <a href="/jastrow/abbreviations" className="text-blue-600 hover:underline">/jastrow/abbreviations</a> listing every abbreviation expanded inline by the Jastrow reader (~400 entries) — rabbinic source abbreviations, grammatical shorthand, Latin phrases, and scholar surnames. Linked from the "About this dictionary" panel on the Jastrow search page.</li>
-                <li>New page at <a href="/talmud/term-replacements" className="text-blue-600 hover:underline">/talmud/term-replacements</a> showing every inline terminology update ChavrutAI applies to the English translation of the Talmud, grouped by category (divine references, Talmudic terms, personal names, Hebrew calendar, ordinals, and more). Linked from the main About page in the "What text processing improvements are made?" section.</li>
+                <li>New page at <a href="/jastrow/abbreviations" className="text-primary hover:underline">/jastrow/abbreviations</a> listing every abbreviation expanded inline by the Jastrow reader (~400 entries) — rabbinic source abbreviations, grammatical shorthand, Latin phrases, and scholar surnames. Linked from the "About this dictionary" panel on the Jastrow search page.</li>
+                <li>New page at <a href="/talmud/term-replacements" className="text-primary hover:underline">/talmud/term-replacements</a> showing every inline terminology update ChavrutAI applies to the English translation of the Talmud, grouped by category (divine references, Talmudic terms, personal names, Hebrew calendar, ordinals, and more). Linked from the main About page in the "What text processing improvements are made?" section.</li>
                 <li>Both pages support a live filter and link out to Sefaria's digitized originals where applicable.</li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: Searchable Abbreviations Reference Page</h3>
+              <h3 className="font-medium text-foreground mb-2">BDB: Searchable Abbreviations Reference Page</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>New page at <a href="/bdb/abbreviations" className="text-blue-600 hover:underline">/bdb/abbreviations</a> listing every abbreviation expanded inline by the BDB reader (1,000+ entries) — scholar surnames, grammatical shorthand, Latin phrases, cognate-language tags, Bible book references, and BDB symbols. Filter by abbreviation or expansion, sort either column.</li>
+                <li>New page at <a href="/bdb/abbreviations" className="text-primary hover:underline">/bdb/abbreviations</a> listing every abbreviation expanded inline by the BDB reader (1,000+ entries) — scholar surnames, grammatical shorthand, Latin phrases, cognate-language tags, Bible book references, and BDB symbols. Filter by abbreviation or expansion, sort either column.</li>
                 <li>Linked from the "About this dictionary" panel on the BDB search page.</li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: Another Round of Abbreviation Expansions &amp; Fixes</h3>
+              <h3 className="font-medium text-foreground mb-2">BDB: Another Round of Abbreviation Expansions &amp; Fixes</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added grammar &amp; rhetoric terms: <strong>interj.</strong> (interjection), <strong>Interrog.</strong> (Interrogative), <strong>rhet.</strong> (rhetorical), <strong>anacol.</strong> (anacoluthon), <strong>aposiop.</strong> (aposiopesis), <strong>exclam.</strong> (exclamation), <strong>Indef.</strong> (Indefinite), <strong>hypoth.</strong> (hypothetical), <strong>constr.</strong> (construction), <strong>suff.</strong> (suffix), <strong>makk.</strong> (maqaf), <strong>paraph.</strong> (paraphrased), <strong>dittogr.</strong> (dittography), <strong>charact.</strong> (characteristic), <strong>correspond.</strong> (corresponding), <strong>transl.</strong> (translated), <strong>Synon.</strong> (Synonym), <strong>pres.</strong> (present), <strong>appy.</strong> (apparently), <strong>ultim.</strong> (ultimately), and the rhetorical Latin tags <strong>nonne?</strong> ("is it not?") and <strong>Num?</strong> ("can it be?")</li>
                 <li>Added more archaic English: <em>hadst → had</em>, <em>dost → do</em>, <em>wouldest → would</em>, <em>shouldst → should</em>, <em>perchance → perhaps</em></li>
@@ -304,79 +303,79 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: More Abbreviations Expanded — Latin, Archaic English, and Additional Scholars</h3>
+              <h3 className="font-medium text-foreground mb-2">BDB: More Abbreviations Expanded — Latin, Archaic English, and Additional Scholars</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>Expanded more Latin terms that pepper BDB entries: <strong>rei</strong> ("of the thing"), <strong>vel</strong> ("or"), <strong>sub</strong> / <strong>supra</strong> ("under (the entry)" / "above"), <strong>et</strong> ("and"), <strong>et al.</strong>, <strong>et seq.</strong>, and <strong>consec.</strong> ("vav-consecutive"). See e.g. <a href="/bdb?q=%D7%A9%D6%B8%D7%81%D7%90%D6%B7%D7%9C" className="text-blue-600 hover:underline">שָׁאַל</a></li>
+                <li>Expanded more Latin terms that pepper BDB entries: <strong>rei</strong> ("of the thing"), <strong>vel</strong> ("or"), <strong>sub</strong> / <strong>supra</strong> ("under (the entry)" / "above"), <strong>et</strong> ("and"), <strong>et al.</strong>, <strong>et seq.</strong>, and <strong>consec.</strong> ("vav-consecutive"). See e.g. <a href="/bdb?q=%D7%A9%D6%B8%D7%81%D7%90%D6%B7%D7%9C" className="text-primary hover:underline">שָׁאַל</a></li>
                 <li>Modernized common KJV-style archaisms: <em>thou/thee → you</em>, <em>thy/thine → your</em>, <em>ye → you</em>, <em>hast → have</em>, <em>hath → has</em>, <em>doth → does</em>, <em>saith → says</em>, <em>shew → show</em>, <em>shalt → shall</em>, <em>wilt → will</em>, <em>wert → were</em>, <em>ass → donkey</em>, and similar</li>
                 <li>Added more scholar / source abbreviations: <strong>Toy</strong> (C. H. Toy), <strong>van d. H.</strong> (van der Hooght), <strong>Frey</strong>, <strong>Dozy</strong>, <strong>RSLag</strong> (Lagarde, Reliquiae), <strong>RobGes</strong> (Gesenius via Robinson), and <strong>Safa</strong> / <strong>Safait.</strong> (Safaitic)</li>
-                <li>Fixed a silent bug where abbreviations like <strong>Thes</strong>, <strong>AV</strong>, <strong>VB</strong>, <strong>SS</strong> were skipped whenever the surrounding clause contained a literal <code>&gt;</code> character (which BDB uses as a "preferred over" marker). Affected dozens of entries — see e.g. <a href="/bdb?q=%D7%9C%D6%B8%D7%A7%D6%B7%D7%97" className="text-blue-600 hover:underline">לָקַח</a></li>
+                <li>Fixed a silent bug where abbreviations like <strong>Thes</strong>, <strong>AV</strong>, <strong>VB</strong>, <strong>SS</strong> were skipped whenever the surrounding clause contained a literal <code>&gt;</code> character (which BDB uses as a "preferred over" marker). Affected dozens of entries — see e.g. <a href="/bdb?q=%D7%9C%D6%B8%D7%A7%D6%B7%D7%97" className="text-primary hover:underline">לָקַח</a></li>
                 <li>Fixed <strong>Ephr.</strong> — now expands to <em>Ephraim</em> (was incorrectly "Ephrem")</li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: Collapsed Outline &amp; Clearer Section Headers</h3>
+              <h3 className="font-medium text-foreground mb-2">BDB: Collapsed Outline &amp; Clearer Section Headers</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>The entry outline now shows only the two shallowest levels by default — for a long entry like <a href="/bdb?q=%D7%94%D6%B8%D7%9C%D6%B7%D7%9A%D6%B0" className="text-blue-600 hover:underline">הָלַךְ</a> that's the verbal stem (<strong>Qal.</strong>) and the numbered senses (<strong>1.</strong>, <strong>2.</strong>, …). Deeper lettered sub-sections (<strong>a.</strong>, <strong>b.</strong>, …) and inline Greek sub-markers (<strong>α.</strong>, <strong>β.</strong>, …) collapse behind a <strong>Show nested items (N more)</strong> toggle. Applies to both the inline outline and the floating outline panel</li>
-                <li>Verbal-stem section headers in the entry body (<strong>Qal.</strong>, <strong>Niph.</strong>, <strong>Hiph.</strong>, <strong>Hithp.</strong>, …) now sit on their own line above the section text, with a horizontal divider and extra spacing above the section. Roman-numeral super-sections (<strong>I.</strong>, <strong>II.</strong>) get a lighter dashed separator. Long entries like <a href="/bdb?q=%D7%91%D6%B4%D6%BC%D7%90%D6%B8%D7%94" className="text-blue-600 hover:underline">בִּאָה</a> are now much easier to scan because each new conjugation reads as a real section break rather than a pill blending into prose</li>
+                <li>The entry outline now shows only the two shallowest levels by default — for a long entry like <a href="/bdb?q=%D7%94%D6%B8%D7%9C%D6%B7%D7%9A%D6%B0" className="text-primary hover:underline">הָלַךְ</a> that's the verbal stem (<strong>Qal.</strong>) and the numbered senses (<strong>1.</strong>, <strong>2.</strong>, …). Deeper lettered sub-sections (<strong>a.</strong>, <strong>b.</strong>, …) and inline Greek sub-markers (<strong>α.</strong>, <strong>β.</strong>, …) collapse behind a <strong>Show nested items (N more)</strong> toggle. Applies to both the inline outline and the floating outline panel</li>
+                <li>Verbal-stem section headers in the entry body (<strong>Qal.</strong>, <strong>Niph.</strong>, <strong>Hiph.</strong>, <strong>Hithp.</strong>, …) now sit on their own line above the section text, with a horizontal divider and extra spacing above the section. Roman-numeral super-sections (<strong>I.</strong>, <strong>II.</strong>) get a lighter dashed separator. Long entries like <a href="/bdb?q=%D7%91%D6%B4%D6%BC%D7%90%D6%B8%D7%94" className="text-primary hover:underline">בִּאָה</a> are now much easier to scan because each new conjugation reads as a real section break rather than a pill blending into prose</li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: Person/Number/Gender Abbreviations</h3>
+              <h3 className="font-medium text-foreground mb-2">BDB: Person/Number/Gender Abbreviations</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Person markers that BDB uses for verb conjugations — <strong>1 s.</strong>, <strong>2 s.</strong>, <strong>3 s.</strong>, <strong>1 pl.</strong>, <strong>2 pl.</strong>, <strong>3 pl.</strong>, plus their gendered variants <strong>3 fs.</strong>, <strong>3 ms.</strong>, <strong>3 mp.</strong>/<strong>3 mpl.</strong>, <strong>3 fp.</strong>/<strong>3 fpl.</strong>, and the spaced forms <strong>3 m. s.</strong>, <strong>3 f. pl.</strong>, etc. — now expand to readable labels like <em>3rd-person feminine singular</em> and <em>3rd-person masculine plural</em></li>
                 <li>Added <strong>c.</strong> → <em>with</em> (the Latin <em>cum</em>, used heavily in BDB syntax notes like "γ. c. preposition"). The expander is careful not to touch the lettered section label <strong>c.</strong> when it appears in bold as a sub-sense marker</li>
                 <li>The abbreviation <strong>loc.</strong> now expands to <em>location</em> (previously the more confusing "local, locality")</li>
-                <li>Fixed Greek sub-markers not showing up in the BDB outline for entries like <a href="/bdb?q=%D7%94%D6%B8%D7%9C%D6%B7%D7%9A%D6%B0" className="text-blue-600 hover:underline">הָלַךְ</a>. BDB uses two surface forms for these markers — <strong>α.</strong> with a period, and parenthesised <strong>(α)</strong> with no period — and the outline previously only recognised the period form. Now both forms appear as outline rows and the closing paren stays visible in the body text</li>
+                <li>Fixed Greek sub-markers not showing up in the BDB outline for entries like <a href="/bdb?q=%D7%94%D6%B8%D7%9C%D6%B7%D7%9A%D6%B0" className="text-primary hover:underline">הָלַךְ</a>. BDB uses two surface forms for these markers — <strong>α.</strong> with a period, and parenthesised <strong>(α)</strong> with no period — and the outline previously only recognised the period form. Now both forms appear as outline rows and the closing paren stays visible in the body text</li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: Outline Hamburger, Scroll Tracking &amp; Section-Header Polish</h3>
+              <h3 className="font-medium text-foreground mb-2">BDB: Outline Hamburger, Scroll Tracking &amp; Section-Header Polish</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>Added a hamburger menu fixed to the top-left of the viewport that opens a floating outline panel for the BDB entry you're currently reading. The button stays in place as you scroll so the outline remains one click away even deep inside long entries like <a href="/bdb?q=הָלַךְ" className="text-blue-600 hover:underline">הָלַךְ</a>, and the panel highlights the section you're currently in</li>
+                <li>Added a hamburger menu fixed to the top-left of the viewport that opens a floating outline panel for the BDB entry you're currently reading. The button stays in place as you scroll so the outline remains one click away even deep inside long entries like <a href="/bdb?q=הָלַךְ" className="text-primary hover:underline">הָלַךְ</a>, and the panel highlights the section you're currently in</li>
                 <li>Sense headers whose abbreviations get expanded into pills (e.g. <strong>Niph.</strong> → <em>Niphal</em>, <strong>Hithp.</strong> → <em>Hithpael</em>) now stay visually bold and body-sized, so they still read as clear section headers rather than collapsing into small monospace pills mid-prose</li>
                 <li>The <strong>Split by semicolons</strong> toggle is now on by default — most BDB entries are easier to scan with parallel clauses indented</li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: Hierarchical Entry Outline, Pill Wrapping &amp; Semicolon Splitting Fixes</h3>
+              <h3 className="font-medium text-foreground mb-2">BDB: Hierarchical Entry Outline, Pill Wrapping &amp; Semicolon Splitting Fixes</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>Added a hierarchical, hyperlinked outline at the top of multi-section BDB entries. Long entries like <a href="/bdb?q=הָלַךְ" className="text-blue-600 hover:underline">הָלַךְ</a> now show a nested jump list covering all five BDB structural levels — verbal stems (<strong>Qal</strong>, <strong>Niph.</strong>, <strong>Hithp.</strong>, <strong>Hiph.</strong>, …), Roman-numeral super-sections (<strong>I.</strong>, <strong>II.</strong>), numbered senses (<strong>1.</strong>, <strong>2.</strong>, …), lettered sub-sections (<strong>a.</strong>, <strong>b.</strong>, <strong>c.</strong>, …) and inline Greek-letter sub-sub-markers (<strong>α.</strong>, <strong>β.</strong>, <strong>γ.</strong>, <strong>δ.</strong>, …) that appear mid-sense for things like preposition-grouped usages. Each row shows a short italic gloss extracted from the entry text and smooth-scrolls to its section. Greek markers that repeat within a sense (BDB reuses α./β./γ. across sub-groups) each get their own unique anchor so you land on the right occurrence</li>
-                <li>Outline levels normalize to the shallowest level present, so a flat entry with only numbered senses (like <a href="/bdb?q=אָב" className="text-blue-600 hover:underline">אָב²</a>) renders flush-left while a deeply-structured entry indents stems / numbers / letters proportionally</li>
+                <li>Added a hierarchical, hyperlinked outline at the top of multi-section BDB entries. Long entries like <a href="/bdb?q=הָלַךְ" className="text-primary hover:underline">הָלַךְ</a> now show a nested jump list covering all five BDB structural levels — verbal stems (<strong>Qal</strong>, <strong>Niph.</strong>, <strong>Hithp.</strong>, <strong>Hiph.</strong>, …), Roman-numeral super-sections (<strong>I.</strong>, <strong>II.</strong>), numbered senses (<strong>1.</strong>, <strong>2.</strong>, …), lettered sub-sections (<strong>a.</strong>, <strong>b.</strong>, <strong>c.</strong>, …) and inline Greek-letter sub-sub-markers (<strong>α.</strong>, <strong>β.</strong>, <strong>γ.</strong>, <strong>δ.</strong>, …) that appear mid-sense for things like preposition-grouped usages. Each row shows a short italic gloss extracted from the entry text and smooth-scrolls to its section. Greek markers that repeat within a sense (BDB reuses α./β./γ. across sub-groups) each get their own unique anchor so you land on the right occurrence</li>
+                <li>Outline levels normalize to the shallowest level present, so a flat entry with only numbered senses (like <a href="/bdb?q=אָב" className="text-primary hover:underline">אָב²</a>) renders flush-left while a deeply-structured entry indents stems / numbers / letters proportionally</li>
                 <li>Fixed long abbreviation pills (e.g. <em>Corpus Inscriptionum Semiticarum</em>) that previously stretched the page horizontally — pills now wrap at spaces while keeping their rounded background on each line</li>
                 <li>Fixed a bug where <strong>Split by semicolons</strong> only divided paragraphs from the second one onward; the first paragraph of each entry is now also split at semicolons when the option is enabled</li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">About Page: Recognition Section</h3>
+              <h3 className="font-medium text-foreground mb-2">About Page: Recognition Section</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>Added a Recognition section to the About page listing ChavrutAI's inclusion in the <a href="https://developers.sefaria.org/docs/powered-by-sefaria" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Sefaria Powered-By directory</a> and the <a href="https://jewishai.me/table.html" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">JewishAI Internet Index</a></li>
+                <li>Added a Recognition section to the About page listing ChavrutAI's inclusion in the <a href="https://developers.sefaria.org/docs/powered-by-sefaria" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Sefaria Powered-By directory</a> and the <a href="https://jewishai.me/table.html" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">JewishAI Internet Index</a></li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: Numbered &amp; Lettered Section Labels</h3>
+              <h3 className="font-medium text-foreground mb-2">BDB: Numbered &amp; Lettered Section Labels</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>Fixed a bug where numbered and lettered section labels — <strong>1.</strong>, <strong>2.</strong>, <strong>a.</strong>, <strong>b.</strong>, <strong>c.</strong>, etc. — were silently dropped from BDB entries. The root cause was that our parser was reading a <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">number</code> field that does not exist in BDB Dictionary data; the correct field is <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">num</code>. Labels now appear in bold at the start of each sub-section</li>
-                <li>Fixed a secondary bug where the letter <strong>c.</strong> (used as a section label, e.g. <em>c. †Genesis 15:13</em>) was being incorrectly expanded to "with" by the abbreviation expander. The standalone <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">c.</code> mapping has been removed; compound forms like <em>c. acc.</em> ("with accusative") are unaffected</li>
+                <li>Fixed a bug where numbered and lettered section labels — <strong>1.</strong>, <strong>2.</strong>, <strong>a.</strong>, <strong>b.</strong>, <strong>c.</strong>, etc. — were silently dropped from BDB entries. The root cause was that our parser was reading a <code className="text-xs bg-secondary px-1 rounded">number</code> field that does not exist in BDB Dictionary data; the correct field is <code className="text-xs bg-secondary px-1 rounded">num</code>. Labels now appear in bold at the start of each sub-section</li>
+                <li>Fixed a secondary bug where the letter <strong>c.</strong> (used as a section label, e.g. <em>c. †Genesis 15:13</em>) was being incorrectly expanded to "with" by the abbreviation expander. The standalone <code className="text-xs bg-secondary px-1 rounded">c.</code> mapping has been removed; compound forms like <em>c. acc.</em> ("with accusative") are unaffected</li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB: Verbal Stem Labels &amp; Semicolon Splitting</h3>
+              <h3 className="font-medium text-foreground mb-2">BDB: Verbal Stem Labels &amp; Semicolon Splitting</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>Fixed a bug where verbal stem section headers — <strong>Qal</strong>, <strong>Niph.</strong>, <strong>Pi.</strong>, <strong>Hithp.</strong>, <strong>Hiph.</strong>, etc. — were silently dropped from BDB entries. The root cause was that BDB Dictionary entries carry these labels in a <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">form</code> field rather than the <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">grammar.verbal_stem</code> field our parser was reading; the fix reads both, and the label now appears in bold before the first conjugation in each stem section</li>
+                <li>Fixed a bug where verbal stem section headers — <strong>Qal</strong>, <strong>Niph.</strong>, <strong>Pi.</strong>, <strong>Hithp.</strong>, <strong>Hiph.</strong>, etc. — were silently dropped from BDB entries. The root cause was that BDB Dictionary entries carry these labels in a <code className="text-xs bg-secondary px-1 rounded">form</code> field rather than the <code className="text-xs bg-secondary px-1 rounded">grammar.verbal_stem</code> field our parser was reading; the fix reads both, and the label now appears in bold before the first conjugation in each stem section</li>
                 <li>Added an opt-in <strong>Split by semicolons</strong> toggle on the BDB page (off by default). When enabled, each em-dash paragraph is further divided at semicolons: the first clause sits flush, and each following clause is indented with a left border — making it easier to scan entries with many parallel sub-definitions. Semicolons are preserved in the text</li>
                 <li>Em-dash paragraph breaks remain the primary visual divider (full-width horizontal rule with generous spacing); semicolon breaks are deliberately lighter (thin left border, small indent) so the two levels of structure stay visually distinct</li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">New Works: J.N. Epstein's Introductions to Classical Rabbinic Literature</h3>
+              <h3 className="font-medium text-foreground mb-2">New Works: J.N. Epstein's Introductions to Classical Rabbinic Literature</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added two major works by Jacob Nahum Epstein, accessible under Study Tools: <strong>Introductions to Tanaitic Literature</strong> (Mishnah, Tosefta, and Halakhic Midrashim) and <strong>Introductions to Amoraic Literature</strong> (Babylonian Talmud)</li>
                 <li>Each work is presented as a paginated reader with full Hebrew text, section navigation, and footnotes displayed inline as margin notes on desktop or a collapsible panel on mobile</li>
@@ -386,58 +385,58 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">BDB &amp; Jastrow: Sefaria-Aligned Abbreviations, Ethiopic Transliteration &amp; Pill Styling</h3>
+              <h3 className="font-medium text-foreground mb-2">BDB &amp; Jastrow: Sefaria-Aligned Abbreviations, Ethiopic Transliteration &amp; Pill Styling</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>BDB scholar / source abbreviations now follow Sefaria's digitized BDB Abbreviations table — added 90+ missing entries (<strong>Nö → Nöldeke</strong>, <strong>Wellh → Wellhausen</strong>, <strong>Ew → Ewald</strong>, <strong>KAT2/KAT3 → Schrader, Keilinschriften</strong>, <strong>NHWB → Levy, Neuhebr. Wörterbuch</strong>, A/B/L codices, RV/AV, etc.) and corrected <strong>loc. → "local, locality"</strong> (was "locative") and <strong>MI → "Mesha Inscription"</strong> (was "Moabite Inscription")</li>
                 <li>Each expanded abbreviation is now rendered as a small monospace pill, so consecutive expansions like "Wellhausen Nöldeke" read as two distinct authority tags instead of a single confusing phrase. Applies to both BDB and Jastrow</li>
                 <li>Added <strong>Ethiopic (Ge'ez) → Latin transliteration</strong> alongside the existing Greek, Arabic (DIN 31635), and Syriac → Hebrew annotators. Each Ethiopic syllable now renders inline with its scholarly transliteration in brackets</li>
-                <li>Fixed crawler-side meta tags for entry pages like <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/bdb?q=...</code> and <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/jastrow?q=...</code>: a stale path resolution was causing search-engine bots to receive the homepage title and description for every dictionary search</li>
+                <li>Fixed crawler-side meta tags for entry pages like <code className="text-xs bg-secondary px-1 rounded">/bdb?q=...</code> and <code className="text-xs bg-secondary px-1 rounded">/jastrow?q=...</code>: a stale path resolution was causing search-engine bots to receive the homepage title and description for every dictionary search</li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Dictionary Cleanup: Faster Cross-References &amp; Sharper Letter Browsing</h3>
+              <h3 className="font-medium text-foreground mb-2">Dictionary Cleanup: Faster Cross-References &amp; Sharper Letter Browsing</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Clicking an internal cross-reference inside a Jastrow or BDB entry (e.g. <em>v. אבא</em>) now navigates instantly without a full page reload — the new search runs in place and back/forward through your history works as expected</li>
                 <li>The "Browse by Letter" buttons now go straight to the full headword index for that letter, in one click</li>
                 <li>The headword index now only lists entries that actually resolve to a real definition — about 3,800 BDB "ghost" headwords advertised by Sefaria's API but with no retrievable entry have been pruned, so every word you click on the letter pages leads somewhere</li>
-                <li>Behind the scenes: removed dead server endpoints, consolidated the Hebrew alphabet definition, and moved dictionary data files into <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">shared/</code> so both readers stay in sync</li>
+                <li>Behind the scenes: removed dead server endpoints, consolidated the Hebrew alphabet definition, and moved dictionary data files into <code className="text-xs bg-secondary px-1 rounded">shared/</code> so both readers stay in sync</li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">New: BDB Hebrew Bible Dictionary &amp; Reorganized Dictionary URLs</h3>
+              <h3 className="font-medium text-foreground mb-2">New: BDB Hebrew Bible Dictionary &amp; Reorganized Dictionary URLs</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>Added a <strong>Brown-Driver-Briggs (BDB) Hebrew Bible Dictionary</strong> reader at <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/bdb</code> — search by Hebrew root, browse by letter, autosuggest, and clickable Bible citations</li>
+                <li>Added a <strong>Brown-Driver-Briggs (BDB) Hebrew Bible Dictionary</strong> reader at <code className="text-xs bg-secondary px-1 rounded">/bdb</code> — search by Hebrew root, browse by letter, autosuggest, and clickable Bible citations</li>
                 <li>BDB Bible references like "Nu 21:30" now display as their full form ("Numbers 21:30") and link directly to the corresponding chapter in the ChavrutAI Bible reader</li>
                 <li>BDB cross-references between entries (e.g. <em>II. אבה</em>) stay inside the BDB reader — no jumping out to Sefaria</li>
                 <li>Curated abbreviation expansion for BDB grammatical &amp; source-critical terms (Pf., Impf., cstr., LXX, Aram., etc.)</li>
-                <li>The Jastrow Dictionary moved from <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/dictionary</code> to <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/jastrow</code>; old URLs (including bookmarks like <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/dictionary?q=כתב</code>) automatically redirect</li>
+                <li>The Jastrow Dictionary moved from <code className="text-xs bg-secondary px-1 rounded">/dictionary</code> to <code className="text-xs bg-secondary px-1 rounded">/jastrow</code>; old URLs (including bookmarks like <code className="text-xs bg-secondary px-1 rounded">/dictionary?q=כתב</code>) automatically redirect</li>
               </ul>
             </div>
           </div>
         </div>
 
         {/* April 2026 */}
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold text-sepia-800 dark:text-sepia-200 mb-4 border-b border-sepia-200 dark:border-sepia-700 pb-2">
+        <div className="py-8 border-t border-border">
+          <h2 className="font-georgia text-xl text-foreground mb-4">
             April 2026
           </h2>
 
-          <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
+          <div className="space-y-4 text-muted-foreground">
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Yerushalmi: Reader Layout & English Text Refinements</h3>
+              <h3 className="font-medium text-foreground mb-2">Yerushalmi: Reader Layout & English Text Refinements</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Hebrew and English columns now use a balanced <strong>50/50 split</strong> (matching Mishnah, Bible, and Rambam) instead of the narrower Bavli-style 65/35 layout</li>
                 <li>English text now also splits into a new line on <strong>commas</strong> (in addition to periods, semicolons, and colons), mirroring the way the Hebrew is broken up and making the parallel columns line up more closely</li>
-                <li>Smart handling of abbreviations: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">, etc.</code> / <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">, i.e.</code> / <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">, e.g.</code> stay attached to the preceding clause, and the line splits <em>after</em> the abbreviation instead</li>
-                <li>Comma-splitting is HTML-aware (won't break inside tag attributes) and skips numeric commas like <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">1,000</code></li>
+                <li>Smart handling of abbreviations: <code className="text-xs bg-secondary px-1 rounded">, etc.</code> / <code className="text-xs bg-secondary px-1 rounded">, i.e.</code> / <code className="text-xs bg-secondary px-1 rounded">, e.g.</code> stay attached to the preceding clause, and the line splits <em>after</em> the abbreviation instead</li>
+                <li>Comma-splitting is HTML-aware (won't break inside tag attributes) and skips numeric commas like <code className="text-xs bg-secondary px-1 rounded">1,000</code></li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Talmud English: New Term Replacements</h3>
+              <h3 className="font-medium text-foreground mb-2">Talmud English: New Term Replacements</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Name normalizations: <strong>Nethanael → Netanel</strong>, <strong>Abuya → Avuya</strong>, <strong>Qappara → Kappara</strong></li>
                 <li>Rabbi names brought in line with the existing Hebrew-style transliterations: <strong>R' Joshua → R' Yehoshua</strong>, <strong>R' Jacob → R' Ya'akov</strong>, <strong>R' Jonah → R' Yonah</strong></li>
@@ -446,48 +445,48 @@ export default function Changelog() {
                 <li><strong>the Eternal → God</strong></li>
                 <li><strong>my teacher, → my teacher!</strong> (vocative)</li>
                 <li><strong>Hagiographs → Writings</strong> (the third division of the Hebrew Bible)</li>
-                <li>Dialogue tags now end in a colon instead of a comma, signaling that quoted speech follows: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">He said,</code> → <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">He said:</code> (also <em>He said to him</em>, <em>He asked / told / answered him</em>, and <em>For example</em>)</li>
+                <li>Dialogue tags now end in a colon instead of a comma, signaling that quoted speech follows: <code className="text-xs bg-secondary px-1 rounded">He said,</code> → <code className="text-xs bg-secondary px-1 rounded">He said:</code> (also <em>He said to him</em>, <em>He asked / told / answered him</em>, and <em>For example</em>)</li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Yerushalmi Hebrew: Phrase-Level Punctuation Cues</h3>
+              <h3 className="font-medium text-foreground mb-2">Yerushalmi Hebrew: Phrase-Level Punctuation Cues</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Common dialogue and discourse phrases now use clearer punctuation in the Hebrew column, mirroring how the Mishnah Hebrew is already styled</li>
-                <li>Period → colon for speech and quotation introducers: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">אמר.</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">אמר ליה.</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">אמר לו.</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">אמרו לו.</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">ואמרו לו.</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">אמר לון.</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">אמרין ליה.</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">אמרין.</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">ויש אומרים.</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">דבר אחר.</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">ולא כן כתיב.</code></li>
-                <li>Period → colon for additional speech / teaching markers, including variants with an optional ו / ד / ה prefix (e.g. <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">תני.</code> / <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">ותני.</code> / <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">דתני.</code> / <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">התני.</code>): <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">תני.</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">תנינן.</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">בעי.</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">בעא.</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">תימר.</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">אומר.</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">אומרים.</code></li>
-                <li>Period → colon for fixed introductory phrases: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">כמאן דמר.</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">מאן דמר.</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">אין תימר.</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">אלא כן אנן קיימין.</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">וכתוב.</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">מן הדא.</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">הדא אמרה.</code></li>
-                <li>Period → colon for multi-word attributions where a rabbi name (1–6 words, both רבי and רב) sits between fixed markers: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">אמר רבי [x].</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">תני רבי [x].</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">תנא רבי [x].</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">דרש רבי [x].</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">רבי [x] אומר.</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">רבי [x] בעי.</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">רבי [x] בשם [x].</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">רבי [x] בשם [x] בשם [x].</code></li>
-                <li>Period → question mark for rhetorical openers: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">מה עבד.</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">מה טעם.</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">ומה פליגין.</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">מהו.</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">למה.</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">מאי כדון.</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">מיי כדון.</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">מה אנן קיימין.</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">מה יעשה.</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">היך עבידא.</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">מני אמרו לו.</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">מנו אמרו לו.</code></li>
-                <li>Period → exclamation for the vocative: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">רבי.</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">רבותיי.</code></li>
+                <li>Period → colon for speech and quotation introducers: <code className="text-xs bg-secondary px-1 rounded">אמר.</code>, <code className="text-xs bg-secondary px-1 rounded">אמר ליה.</code>, <code className="text-xs bg-secondary px-1 rounded">אמר לו.</code>, <code className="text-xs bg-secondary px-1 rounded">אמרו לו.</code>, <code className="text-xs bg-secondary px-1 rounded">ואמרו לו.</code>, <code className="text-xs bg-secondary px-1 rounded">אמר לון.</code>, <code className="text-xs bg-secondary px-1 rounded">אמרין ליה.</code>, <code className="text-xs bg-secondary px-1 rounded">אמרין.</code>, <code className="text-xs bg-secondary px-1 rounded">ויש אומרים.</code>, <code className="text-xs bg-secondary px-1 rounded">דבר אחר.</code>, <code className="text-xs bg-secondary px-1 rounded">ולא כן כתיב.</code></li>
+                <li>Period → colon for additional speech / teaching markers, including variants with an optional ו / ד / ה prefix (e.g. <code className="text-xs bg-secondary px-1 rounded">תני.</code> / <code className="text-xs bg-secondary px-1 rounded">ותני.</code> / <code className="text-xs bg-secondary px-1 rounded">דתני.</code> / <code className="text-xs bg-secondary px-1 rounded">התני.</code>): <code className="text-xs bg-secondary px-1 rounded">תני.</code>, <code className="text-xs bg-secondary px-1 rounded">תנינן.</code>, <code className="text-xs bg-secondary px-1 rounded">בעי.</code>, <code className="text-xs bg-secondary px-1 rounded">בעא.</code>, <code className="text-xs bg-secondary px-1 rounded">תימר.</code>, <code className="text-xs bg-secondary px-1 rounded">אומר.</code>, <code className="text-xs bg-secondary px-1 rounded">אומרים.</code></li>
+                <li>Period → colon for fixed introductory phrases: <code className="text-xs bg-secondary px-1 rounded">כמאן דמר.</code>, <code className="text-xs bg-secondary px-1 rounded">מאן דמר.</code>, <code className="text-xs bg-secondary px-1 rounded">אין תימר.</code>, <code className="text-xs bg-secondary px-1 rounded">אלא כן אנן קיימין.</code>, <code className="text-xs bg-secondary px-1 rounded">וכתוב.</code>, <code className="text-xs bg-secondary px-1 rounded">מן הדא.</code>, <code className="text-xs bg-secondary px-1 rounded">הדא אמרה.</code></li>
+                <li>Period → colon for multi-word attributions where a rabbi name (1–6 words, both רבי and רב) sits between fixed markers: <code className="text-xs bg-secondary px-1 rounded">אמר רבי [x].</code>, <code className="text-xs bg-secondary px-1 rounded">תני רבי [x].</code>, <code className="text-xs bg-secondary px-1 rounded">תנא רבי [x].</code>, <code className="text-xs bg-secondary px-1 rounded">דרש רבי [x].</code>, <code className="text-xs bg-secondary px-1 rounded">רבי [x] אומר.</code>, <code className="text-xs bg-secondary px-1 rounded">רבי [x] בעי.</code>, <code className="text-xs bg-secondary px-1 rounded">רבי [x] בשם [x].</code>, <code className="text-xs bg-secondary px-1 rounded">רבי [x] בשם [x] בשם [x].</code></li>
+                <li>Period → question mark for rhetorical openers: <code className="text-xs bg-secondary px-1 rounded">מה עבד.</code>, <code className="text-xs bg-secondary px-1 rounded">מה טעם.</code>, <code className="text-xs bg-secondary px-1 rounded">ומה פליגין.</code>, <code className="text-xs bg-secondary px-1 rounded">מהו.</code>, <code className="text-xs bg-secondary px-1 rounded">למה.</code>, <code className="text-xs bg-secondary px-1 rounded">מאי כדון.</code>, <code className="text-xs bg-secondary px-1 rounded">מיי כדון.</code>, <code className="text-xs bg-secondary px-1 rounded">מה אנן קיימין.</code>, <code className="text-xs bg-secondary px-1 rounded">מה יעשה.</code>, <code className="text-xs bg-secondary px-1 rounded">היך עבידא.</code>, <code className="text-xs bg-secondary px-1 rounded">מני אמרו לו.</code>, <code className="text-xs bg-secondary px-1 rounded">מנו אמרו לו.</code></li>
+                <li>Period → exclamation for the vocative: <code className="text-xs bg-secondary px-1 rounded">רבי.</code>, <code className="text-xs bg-secondary px-1 rounded">רבותיי.</code></li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Yerushalmi: Hide Mishnayot Without Gemara</h3>
+              <h3 className="font-medium text-foreground mb-2">Yerushalmi: Hide Mishnayot Without Gemara</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Identified <strong>49 mishnayot</strong> across the Yerushalmi that have no Talmudic discussion and removed them from the site</li>
                 <li>Affected sections: all of <strong>Shabbat chapters 21–24</strong>, all of <strong>Makkot chapter 3</strong>, <strong>Niddah 4:2 onward</strong>, <strong>Ketubot 4:5</strong>, and ten scattered Yevamot halakhot (2:5, 4:5, 4:6, 4:14, 5:5, 5:7, 7:2, 8:4, 9:6, 9:7)</li>
                 <li>Prev/Next navigation now skips these halakhot and jumps directly to the next valid one — across chapter and (where relevant) tractate boundaries</li>
                 <li>Tractate page hides missing halakhot from the chapter pill grid; chapters that have no Yerushalmi text at all show "No Yerushalmi text for this chapter (Mishnah only)" and the chapter title is no longer a link</li>
-                <li>Old chapter URLs for fully-missing chapters (e.g. <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/yerushalmi/Shabbat/21</code>) now 301-redirect to the tractate page instead of a dead halakhah</li>
-                <li>Sitemap, structured data (JSON-LD), and crawler HTML no longer include these missing halakhot; direct visits return a Not Found page with <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">noindex</code></li>
+                <li>Old chapter URLs for fully-missing chapters (e.g. <code className="text-xs bg-secondary px-1 rounded">/yerushalmi/Shabbat/21</code>) now 301-redirect to the tractate page instead of a dead halakhah</li>
+                <li>Sitemap, structured data (JSON-LD), and crawler HTML no longer include these missing halakhot; direct visits return a Not Found page with <code className="text-xs bg-secondary px-1 rounded">noindex</code></li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Yerushalmi: Wikisource Spelling Fix for Niddah</h3>
+              <h3 className="font-medium text-foreground mb-2">Yerushalmi: Wikisource Spelling Fix for Niddah</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>The Wikisource link for tractate Niddah now uses the spelling <strong>נידה</strong> (with yud) that Wikisource uses in its page titles, instead of the <strong>נדה</strong> spelling we display elsewhere on the site</li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Yerushalmi: Per-Halakhah Pages</h3>
+              <h3 className="font-medium text-foreground mb-2">Yerushalmi: Per-Halakhah Pages</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Jerusalem Talmud pages are now scoped to a single <strong>halakhah</strong> instead of an entire chapter, matching how the text is studied and cited</li>
-                <li>New URL format: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/yerushalmi/Chagigah/2.1</code> (chapter.halakhah); section anchors are now segment numbers like <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">#3</code></li>
-                <li>Old chapter URLs (e.g. <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/yerushalmi/Chagigah/2</code>) <strong>301-redirect</strong> to the first halakhah; legacy <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">#H-S</code> hashes are translated client-side to the right page and segment</li>
+                <li>New URL format: <code className="text-xs bg-secondary px-1 rounded">/yerushalmi/Chagigah/2.1</code> (chapter.halakhah); section anchors are now segment numbers like <code className="text-xs bg-secondary px-1 rounded">#3</code></li>
+                <li>Old chapter URLs (e.g. <code className="text-xs bg-secondary px-1 rounded">/yerushalmi/Chagigah/2</code>) <strong>301-redirect</strong> to the first halakhah; legacy <code className="text-xs bg-secondary px-1 rounded">#H-S</code> hashes are translated client-side to the right page and segment</li>
                 <li>Header shows "Chapter 2 · Halakhah 1"; breadcrumbs include both Chapter and Halakhah levels</li>
                 <li>Prev/Next walk halakhah-by-halakhah and cross chapter boundaries (e.g. 2:7 → 3:1)</li>
                 <li>Sitemap and structured data updated to emit per-halakhah URLs</li>
@@ -495,7 +494,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Mishnah Headers & Citations in Talmud Bavli</h3>
+              <h3 className="font-medium text-foreground mb-2">Mishnah Headers & Citations in Talmud Bavli</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Mishnah and Gemara markers (מתני׳ / גמ׳ in Hebrew, Mishnah / Talmud in English) are now styled as distinct section headers with a larger serif font, darker color, and a subtle underline</li>
                 <li>Each Mishnah section in the Talmud now shows a citation identifying the specific Mishnah reference — e.g., "Mishnah (Berakhot 1:2)" instead of just "Mishnah"</li>
@@ -505,7 +504,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Jastrow Dictionary: Mishnah-in-Bavli Internal Links</h3>
+              <h3 className="font-medium text-foreground mb-2">Jastrow Dictionary: Mishnah-in-Bavli Internal Links</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Mishnah references for tractates covered by the Talmud Bavli now link internally to the relevant Talmud page and section, using the Mishnah-to-Talmud mapping — e.g., Mishnah Rosh Hashanah 1:3 links to /talmud/Rosh_Hashanah/18a#15</li>
                 <li>Removed the "Ab." abbreviation mapping (too many false positives)</li>
@@ -513,7 +512,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Tractate Naming: Taharot → Tahorot</h3>
+              <h3 className="font-medium text-foreground mb-2">Tractate Naming: Taharot → Tahorot</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Canonical tractate name updated from "Taharot" to "Tahorot" to match Sefaria's spelling</li>
                 <li>Old "Taharot" URLs redirect automatically</li>
@@ -521,7 +520,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Jastrow Dictionary: Internal Links & Bullet Points</h3>
+              <h3 className="font-medium text-foreground mb-2">Jastrow Dictionary: Internal Links & Bullet Points</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Talmud Bavli, Yerushalmi, Mishnah, and Bible references in dictionary entries now link directly to the corresponding ChavrutAI pages instead of Sefaria</li>
                 <li>Each dictionary entry headword is now hyperlinked to its source page on Sefaria</li>
@@ -532,7 +531,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Mishneh Torah: Introduction (Hakdamah)</h3>
+              <h3 className="font-medium text-foreground mb-2">Mishneh Torah: Introduction (Hakdamah)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added Maimonides' Introduction (Transmission of the Oral Law) as a fully integrated text in the Rambam reader</li>
                 <li>Added List of Positive Commandments (248 mitzvot) and List of Negative Commandments (370 mitzvot)</li>
@@ -541,7 +540,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Backend: Route Module Refactoring</h3>
+              <h3 className="font-medium text-foreground mb-2">Backend: Route Module Refactoring</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Refactored the server routing layer from a single 3,000-line file into 10 focused, domain-specific modules for improved maintainability</li>
                 <li>Organized routes by domain: Talmud, Mishnah, Yerushalmi, Rambam, Bible, Dictionary, Chat, Search, Feed, and SEO/Crawler</li>
@@ -550,7 +549,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Home Page: Updated Subtitle & Card Layout</h3>
+              <h3 className="font-medium text-foreground mb-2">Home Page: Updated Subtitle & Card Layout</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Updated subtitle to reflect all five available works: <em>Babylonian Talmud, Jerusalem Talmud, Mishnah, Mishneh Torah, and Tanakh</em> — replacing the previous text that only mentioned Talmud and Hebrew Bible</li>
                 <li>Redesigned the text selection section with a featured layout: Babylonian Talmud displayed as a prominent full-height card on the left, with the remaining four works in a 2×2 grid on the right</li>
@@ -560,39 +559,39 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Mishneh Torah (Rambam) Reader</h3>
+              <h3 className="font-medium text-foreground mb-2">Mishneh Torah (Rambam) Reader</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>Added a full <strong>Mishneh Torah (Rambam) reader</strong> at <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/rambam</code> — all 14 books and 83 Books ('Hilchot') with bilingual Hebrew-English text (Touger translation via Sefaria)</li>
+                <li>Added a full <strong>Mishneh Torah (Rambam) reader</strong> at <code className="text-xs bg-secondary px-1 rounded">/rambam</code> — all 14 books and 83 Books ('Hilchot') with bilingual Hebrew-English text (Touger translation via Sefaria)</li>
                 <li>Three-level navigation: contents page (all 83 Books ('Hilchot') organized by book), chapter list, and chapter reader with halacha-by-halacha bilingual display</li>
                 <li>Footnotes from the Touger translation are extracted, displayed as numbered blue superscripts, and expandable inline — identical to the Yerushalmi reader's footnote UX</li>
                 <li>External links at halacha level: <strong>Sefaria</strong> and <strong>Al HaTorah</strong>; chapter-level footer links to Sefaria, Al HaTorah, and <strong>Hebrew Wikisource</strong></li>
                 <li>50-50 bilingual column layout matching the Mishnah reader; text columns flex-stretch to fill height with no empty space at the bottom</li>
                 <li>Traditional trailing colon (׃) at end of each halacha replaced with a period, matching Mishnah reader conventions</li>
                 <li>Full SEO coverage: unique meta titles, Open Graph tags, structured data, and server-side crawler content for all three route patterns</li>
-                <li>Sitemap at <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/sitemap-rambam.xml</code> covering all 83 Books ('Hilchot') and their chapters; <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">robots.txt</code> updated with <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Allow: /rambam/</code></li>
+                <li>Sitemap at <code className="text-xs bg-secondary px-1 rounded">/sitemap-rambam.xml</code> covering all 83 Books ('Hilchot') and their chapters; <code className="text-xs bg-secondary px-1 rounded">robots.txt</code> updated with <code className="text-xs bg-secondary px-1 rounded">Allow: /rambam/</code></li>
                 <li>Added to home page card grid, footer navigation, and sitemap page</li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Mishnah: Al HaTorah External Link Fixes</h3>
+              <h3 className="font-medium text-foreground mb-2">Mishnah: Al HaTorah External Link Fixes</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>Fixed Al HaTorah tractate names for 4 Mishnah tractates where Al HaTorah uses different transliterations than Sefaria, causing "This page does not exist" errors: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Taharot</code> → <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Tahorot</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Kelim</code> → <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Keilim</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Eduyot</code> → <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Eiduyot</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Chullin</code> → <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Chulin</code></li>
+                <li>Fixed Al HaTorah tractate names for 4 Mishnah tractates where Al HaTorah uses different transliterations than Sefaria, causing "This page does not exist" errors: <code className="text-xs bg-secondary px-1 rounded">Taharot</code> → <code className="text-xs bg-secondary px-1 rounded">Tahorot</code>, <code className="text-xs bg-secondary px-1 rounded">Kelim</code> → <code className="text-xs bg-secondary px-1 rounded">Keilim</code>, <code className="text-xs bg-secondary px-1 rounded">Eduyot</code> → <code className="text-xs bg-secondary px-1 rounded">Eiduyot</code>, <code className="text-xs bg-secondary px-1 rounded">Chullin</code> → <code className="text-xs bg-secondary px-1 rounded">Chulin</code></li>
               </ul>
             </div>
           </div>
         </div>
 
         {/* March 2026 */}
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold text-sepia-800 dark:text-sepia-200 mb-4 border-b border-sepia-200 dark:border-sepia-700 pb-2">
+        <div className="py-8 border-t border-border">
+          <h2 className="font-georgia text-xl text-foreground mb-4">
             March 2026
           </h2>
 
-          <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
+          <div className="space-y-4 text-muted-foreground">
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Dynamic Page Titles &amp; SEO Fix</h3>
+              <h3 className="font-medium text-foreground mb-2">Dynamic Page Titles &amp; SEO Fix</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Fixed a structural bug where page meta titles would fall back to the generic homepage title whenever query parameters were present (e.g. dictionary letter browsing, search queries)</li>
                 <li>Dictionary page now shows dynamic, context-aware titles — browsing letter ק shows "Jastrow Dictionary - Letter ק", searching shows the search term in the title</li>
@@ -601,7 +600,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Number Conversion: Algorithmic Parser</h3>
+              <h3 className="font-medium text-foreground mb-2">Number Conversion: Algorithmic Parser</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Replaced a static lookup table of ~230 hard-coded number phrases with an algorithmic English cardinal number parser — fixing a bug where compound numbers like "a hundred and twenty three" were incorrectly split into "120 3" instead of "123"</li>
                 <li>All compound forms now convert correctly, including hundreds + units ("seven hundred and forty five" → 745), census-style numbers ("two thousand three hundred and twenty two" → 2,322), and large numbers ("five thousand eight hundred and eighty-eight" → 5,888)</li>
@@ -612,9 +611,9 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Jastrow Dictionary: Shareable URLs & Text Improvements</h3>
+              <h3 className="font-medium text-foreground mb-2">Jastrow Dictionary: Shareable URLs & Text Improvements</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>Dictionary searches and letter browsing now update the URL (e.g. <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/jastrow?q=כתב</code>), so you can share or bookmark specific lookups</li>
+                <li>Dictionary searches and letter browsing now update the URL (e.g. <code className="text-xs bg-secondary px-1 rounded">/jastrow?q=כתב</code>), so you can share or bookmark specific lookups</li>
                 <li>Long definitions now split into new lines where a period is followed by a hyperlinked reference (e.g. between "it). Bava" or "ten. Berakhot")</li>
                 <li>Superscript letters used in Yerushalmi citations (ᵃ, ᵇ, ᶜ, ᵈ) are now converted to standard-size letters for readability</li>
                 <li>Binyan (verb-form) abbreviations now display with full transliterations and colons (e.g. Af. becomes Af'el:, Pa. becomes Pa'el:)</li>
@@ -622,10 +621,10 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Mishnah & Yerushalmi: External Links (Al HaTorah, Wikisource)</h3>
+              <h3 className="font-medium text-foreground mb-2">Mishnah & Yerushalmi: External Links (Al HaTorah, Wikisource)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li><strong>Mishnah reader</strong> now includes <strong>Al HaTorah</strong> and <strong>Hebrew Wikisource</strong> links at both the section level (next to each mishnah) and the page footer, in addition to the existing Sefaria links</li>
-                <li>Section-level links point to the specific mishnah on each site (e.g. <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">mishna.alhatorah.org/Full/Maaser_Sheni/5.9</code>)</li>
+                <li>Section-level links point to the specific mishnah on each site (e.g. <code className="text-xs bg-secondary px-1 rounded">mishna.alhatorah.org/Full/Maaser_Sheni/5.9</code>)</li>
                 <li>Page-level footer links point to the full chapter on Sefaria, Al HaTorah, and Hebrew Wikisource</li>
                 <li><strong>Yerushalmi reader</strong> now includes an <strong>External Links</strong> footer at the bottom of each chapter page with links to <strong>Sefaria</strong> and <strong>Hebrew Wikisource</strong></li>
                 <li>Wikisource links use Hebrew gematria for chapter and mishnah numbers (e.g. <span dir="rtl">משנה מעשר שני ה ט</span>, <span dir="rtl">ירושלמי ראש השנה ד</span>)</li>
@@ -633,7 +632,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Talmud Bavli Chapter Names — Audit & Corrections</h3>
+              <h3 className="font-medium text-foreground mb-2">Talmud Bavli Chapter Names — Audit & Corrections</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Fixed <strong>Hebrew chapter names</strong> across multiple tractates: corrected כל הצללים → כל הצלמים (Avodah Zarah 3), expanded abbreviations (ר׳ ישמעאל → רבי ישמעאל), completed truncated names (השוכר → השוכר את הפועל), and fixed spelling (תפלת → תפילת, אלו קשרים, ואלו הן הלוקין)</li>
                 <li>Fixed <strong>English transliterations</strong> in Menachot chapters: Minchot → Menachot to match standard transliteration of מנחות</li>
@@ -642,55 +641,55 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Jerusalem Talmud (Yerushalmi) Reader</h3>
+              <h3 className="font-medium text-foreground mb-2">Jerusalem Talmud (Yerushalmi) Reader</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>New <strong>Jerusalem Talmud reader</strong> covering all <strong>39 tractates</strong> across the four sedarim: Zeraim, Moed, Nashim, and Nezikin</li>
                 <li>Three-level navigation: contents page by seder → tractate page with chapter list → parallel Hebrew-English chapter reader</li>
                 <li>Hebrew text sourced from Sefaria; English translation: <strong>Heinrich W. Guggenheimer</strong> scholarly edition</li>
                 <li>Side-by-side 50/50 layout matching the Mishnah reader, with halakhah-level section numbering</li>
                 <li><strong>Collapsible footnotes panel</strong> — Guggenheimer's scholarly notes appear as a full-width row below both columns, collapsed by default with a "Notes (N)" toggle; footnote markers remain as superscripts in the text</li>
-                <li>Per-halakhah <strong>"Sefaria" link</strong> using the correct 4-part <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Tractate.Chapter.1.Halakhah</code> URL format on <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">sefaria.org.il</code></li>
+                <li>Per-halakhah <strong>"Sefaria" link</strong> using the correct 4-part <code className="text-xs bg-secondary px-1 rounded">Tractate.Chapter.1.Halakhah</code> URL format on <code className="text-xs bg-secondary px-1 rounded">sefaria.org.il</code></li>
                 <li>"View on Sefaria" link at the bottom of each chapter page</li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Yerushalmi: Text Processing (Guggenheimer Edition)</h3>
+              <h3 className="font-medium text-foreground mb-2">Yerushalmi: Text Processing (Guggenheimer Edition)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
-                <li><strong>Colon splitting</strong> — English text is split into separate lines on <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">: </code> (except when preceded by a digit, to preserve verse references like 1:1)</li>
-                <li><strong>Bible book abbreviations expanded</strong> — 35 mappings covering the full Tanakh: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Gen.</code> → Genesis, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Lev.</code> → Leviticus, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Deut.</code> → Deuteronomy, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Ps.</code> → Psalms, etc. Expansion removes the period, preventing false line splits at abbreviations</li>
-                <li><strong>Italic-wrapped abbreviation fix</strong> — Sefaria wraps abbreviations in <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">&lt;i&gt;Deut&lt;/i&gt;.</code> tags that prevented matching; the wrapper is now stripped before term replacement</li>
-                <li><strong>Newline-inside-anchor fix</strong> — Sefaria sometimes embeds <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">\n</code> inside Bible citation anchor tags (e.g. <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">&lt;i&gt;Deut&lt;/i&gt;.\n24:1</code>); these are normalized to spaces before splitting</li>
-                <li><strong>Punctuation fixes</strong> — <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">?.</code> → <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">?</code> (removes redundant period after question marks)</li>
-                <li><strong>Term normalizations</strong> applied to both main text and footnotes: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Rebbi → R'</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Qiddušin → Kiddushin</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Zeïra → Ze'ira</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Joḥanan → Yoḥanan</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Tosephta → Tosefta</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Babli → Bavli</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Yebamot → Yevamot</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Jehudah → Yehuda</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Simeon → Shimon</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">v. → verse</code></li>
+                <li><strong>Colon splitting</strong> — English text is split into separate lines on <code className="text-xs bg-secondary px-1 rounded">: </code> (except when preceded by a digit, to preserve verse references like 1:1)</li>
+                <li><strong>Bible book abbreviations expanded</strong> — 35 mappings covering the full Tanakh: <code className="text-xs bg-secondary px-1 rounded">Gen.</code> → Genesis, <code className="text-xs bg-secondary px-1 rounded">Lev.</code> → Leviticus, <code className="text-xs bg-secondary px-1 rounded">Deut.</code> → Deuteronomy, <code className="text-xs bg-secondary px-1 rounded">Ps.</code> → Psalms, etc. Expansion removes the period, preventing false line splits at abbreviations</li>
+                <li><strong>Italic-wrapped abbreviation fix</strong> — Sefaria wraps abbreviations in <code className="text-xs bg-secondary px-1 rounded">&lt;i&gt;Deut&lt;/i&gt;.</code> tags that prevented matching; the wrapper is now stripped before term replacement</li>
+                <li><strong>Newline-inside-anchor fix</strong> — Sefaria sometimes embeds <code className="text-xs bg-secondary px-1 rounded">\n</code> inside Bible citation anchor tags (e.g. <code className="text-xs bg-secondary px-1 rounded">&lt;i&gt;Deut&lt;/i&gt;.\n24:1</code>); these are normalized to spaces before splitting</li>
+                <li><strong>Punctuation fixes</strong> — <code className="text-xs bg-secondary px-1 rounded">?.</code> → <code className="text-xs bg-secondary px-1 rounded">?</code> (removes redundant period after question marks)</li>
+                <li><strong>Term normalizations</strong> applied to both main text and footnotes: <code className="text-xs bg-secondary px-1 rounded">Rebbi → R'</code>, <code className="text-xs bg-secondary px-1 rounded">Qiddušin → Kiddushin</code>, <code className="text-xs bg-secondary px-1 rounded">Zeïra → Ze'ira</code>, <code className="text-xs bg-secondary px-1 rounded">Joḥanan → Yoḥanan</code>, <code className="text-xs bg-secondary px-1 rounded">Tosephta → Tosefta</code>, <code className="text-xs bg-secondary px-1 rounded">Babli → Bavli</code>, <code className="text-xs bg-secondary px-1 rounded">Yebamot → Yevamot</code>, <code className="text-xs bg-secondary px-1 rounded">Jehudah → Yehuda</code>, <code className="text-xs bg-secondary px-1 rounded">Simeon → Shimon</code>, <code className="text-xs bg-secondary px-1 rounded">v. → verse</code></li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Yerushalmi: Internal Link Conversion (Sefaria → ChavrutAI)</h3>
+              <h3 className="font-medium text-foreground mb-2">Yerushalmi: Internal Link Conversion (Sefaria → ChavrutAI)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Sefaria-style relative hrefs in both main text and footnotes are automatically rewritten to ChavrutAI internal links</li>
-                <li><strong>Yerushalmi</strong>: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/Jerusalem_Talmud_Kiddushin.4.2.4</code> → <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/yerushalmi/Kiddushin/4.2#4</code></li>
-                <li><strong>Bavli</strong>: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/Berakhot.21a</code> → <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/talmud/Berakhot/21a</code></li>
-                <li><strong>Bible</strong>: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/Deuteronomy.24.1</code> → <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/bible/Deuteronomy/24#1</code> (verse as hash anchor)</li>
-                <li><strong>All other links</strong> (Rashi, Tosefta, Midrash, etc.) → converted to absolute <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">https://www.sefaria.org.il/...</code> links</li>
+                <li><strong>Yerushalmi</strong>: <code className="text-xs bg-secondary px-1 rounded">/Jerusalem_Talmud_Kiddushin.4.2.4</code> → <code className="text-xs bg-secondary px-1 rounded">/yerushalmi/Kiddushin/4.2#4</code></li>
+                <li><strong>Bavli</strong>: <code className="text-xs bg-secondary px-1 rounded">/Berakhot.21a</code> → <code className="text-xs bg-secondary px-1 rounded">/talmud/Berakhot/21a</code></li>
+                <li><strong>Bible</strong>: <code className="text-xs bg-secondary px-1 rounded">/Deuteronomy.24.1</code> → <code className="text-xs bg-secondary px-1 rounded">/bible/Deuteronomy/24#1</code> (verse as hash anchor)</li>
+                <li><strong>All other links</strong> (Rashi, Tosefta, Midrash, etc.) → converted to absolute <code className="text-xs bg-secondary px-1 rounded">https://www.sefaria.org.il/...</code> links</li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Yerushalmi: SEO & Discovery</h3>
+              <h3 className="font-medium text-foreground mb-2">Yerushalmi: SEO & Discovery</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Home page updated to a <strong>4-column grid</strong>: Babylonian Talmud, Mishnah, Jerusalem Talmud, Tanakh</li>
                 <li>Dedicated <strong>Yerushalmi XML sitemap</strong> covering all tractates and chapter pages, registered in the sitemap index</li>
-                <li>Jerusalem Talmud links added to the <Link href="/sitemap" className="text-blue-600 hover:underline">/sitemap</Link> page</li>
-                <li><code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Allow: /yerushalmi/</code> added to <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">robots.txt</code></li>
+                <li>Jerusalem Talmud links added to the <Link href="/sitemap" className="text-primary hover:underline">/sitemap</Link> page</li>
+                <li><code className="text-xs bg-secondary px-1 rounded">Allow: /yerushalmi/</code> added to <code className="text-xs bg-secondary px-1 rounded">robots.txt</code></li>
                 <li>Yerushalmi route matchers added to the server-side crawler body content generator</li>
                 <li>Full SEO metadata (title, description, canonical URL) on all three page levels</li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Mishnah Reader: Balanced Section Heights & Compact Spacing</h3>
+              <h3 className="font-medium text-foreground mb-2">Mishnah Reader: Balanced Section Heights & Compact Spacing</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Hebrew and English text blocks now expand to match whichever is taller, eliminating empty whitespace at the bottom of shorter columns</li>
                 <li>Slightly reduced English paragraph spacing for a more compact reading experience</li>
@@ -698,17 +697,17 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">SEO: Mishnah Sitemap, Structured Data & Search Noindex</h3>
+              <h3 className="font-medium text-foreground mb-2">SEO: Mishnah Sitemap, Structured Data & Search Noindex</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>Created a dedicated <strong>Mishnah XML sitemap</strong> (<code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/sitemap-mishnah.xml</code>) covering all 26 tractates and ~250 chapter pages, registered in the sitemap index</li>
-                <li>Added <strong>server-side structured data</strong> (JSON-LD) for Bible and Mishnah pages — Bible books use <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Book</code> schema, Bible chapters and Mishnah chapters use <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Article</code> schema with <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">BreadcrumbList</code>, and index pages use <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">CollectionPage</code></li>
-                <li>Added missing pages to <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">sitemap-main.xml</code>: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/mishnah</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/mishnah-map</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/search</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/sugya-viewer</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/sitemap</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/external-links</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/contact</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/privacy</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/changelog</code></li>
-                <li>Search result pages with query parameters (<code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">?q=...</code> or <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">?type=...</code>) now return <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">noindex, follow</code> to prevent thin/duplicate search result pages from being indexed</li>
+                <li>Created a dedicated <strong>Mishnah XML sitemap</strong> (<code className="text-xs bg-secondary px-1 rounded">/sitemap-mishnah.xml</code>) covering all 26 tractates and ~250 chapter pages, registered in the sitemap index</li>
+                <li>Added <strong>server-side structured data</strong> (JSON-LD) for Bible and Mishnah pages — Bible books use <code className="text-xs bg-secondary px-1 rounded">Book</code> schema, Bible chapters and Mishnah chapters use <code className="text-xs bg-secondary px-1 rounded">Article</code> schema with <code className="text-xs bg-secondary px-1 rounded">BreadcrumbList</code>, and index pages use <code className="text-xs bg-secondary px-1 rounded">CollectionPage</code></li>
+                <li>Added missing pages to <code className="text-xs bg-secondary px-1 rounded">sitemap-main.xml</code>: <code className="text-xs bg-secondary px-1 rounded">/mishnah</code>, <code className="text-xs bg-secondary px-1 rounded">/mishnah-map</code>, <code className="text-xs bg-secondary px-1 rounded">/search</code>, <code className="text-xs bg-secondary px-1 rounded">/sugya-viewer</code>, <code className="text-xs bg-secondary px-1 rounded">/sitemap</code>, <code className="text-xs bg-secondary px-1 rounded">/external-links</code>, <code className="text-xs bg-secondary px-1 rounded">/contact</code>, <code className="text-xs bg-secondary px-1 rounded">/privacy</code>, <code className="text-xs bg-secondary px-1 rounded">/changelog</code></li>
+                <li>Search result pages with query parameters (<code className="text-xs bg-secondary px-1 rounded">?q=...</code> or <code className="text-xs bg-secondary px-1 rounded">?type=...</code>) now return <code className="text-xs bg-secondary px-1 rounded">noindex, follow</code> to prevent thin/duplicate search result pages from being indexed</li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Mishnah Hebrew Text: Question Mark Punctuation</h3>
+              <h3 className="font-medium text-foreground mb-2">Mishnah Hebrew Text: Question Mark Punctuation</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added punctuation mappings so Hebrew question phrases now correctly end with a question mark instead of a comma or period:</li>
                 <li><span dir="rtl">איזהו X,</span> → <span dir="rtl">איזהו X?</span></li>
@@ -720,7 +719,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Mishnah Hebrew Text Processing: Expanded Comma-to-Colon Rules</h3>
+              <h3 className="font-medium text-foreground mb-2">Mishnah Hebrew Text Processing: Expanded Comma-to-Colon Rules</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added new comma-to-colon conversion rules for Mishnah Hebrew text, replacing trailing commas with colons on speech and enumeration markers:</li>
                 <li><span dir="rtl">ואלו הן,</span> → <span dir="rtl">ואלו הן:</span></li>
@@ -735,24 +734,24 @@ export default function Changelog() {
                 <li><span dir="rtl">אמרו להם [words],</span> → <span dir="rtl">אמרו להם [words]:</span> (general pattern for any words following אמרו להם)</li>
                 <li><span dir="rtl">כיצד.</span> → <span dir="rtl">כיצד?</span> (period to question mark — "how?")</li>
                 <li><span dir="rtl">אימתי,</span> → <span dir="rtl">אימתי?</span> (comma to question mark — "when?")</li>
-                <li>Fixed Mishnah English: punctuation immediately followed by an uppercase letter (e.g. <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Shammai:A</code>) now correctly splits into separate lines</li>
-                <li>Mishnah English: protected abbreviations <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">b.</code> and <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">ibid.</code> from being split at the period (e.g. "Dosa b. Harkinas" stays on one line)</li>
-                <li>Mishnah English name transliterations: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Akiba → Akiva</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Zadok → Tzadok</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Eleazar → Elazar</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Beth Hillel → Beit Hillel</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Beth Shammai → Beit Shammai</code></li>
+                <li>Fixed Mishnah English: punctuation immediately followed by an uppercase letter (e.g. <code className="text-xs bg-secondary px-1 rounded">Shammai:A</code>) now correctly splits into separate lines</li>
+                <li>Mishnah English: protected abbreviations <code className="text-xs bg-secondary px-1 rounded">b.</code> and <code className="text-xs bg-secondary px-1 rounded">ibid.</code> from being split at the period (e.g. "Dosa b. Harkinas" stays on one line)</li>
+                <li>Mishnah English name transliterations: <code className="text-xs bg-secondary px-1 rounded">Akiba → Akiva</code>, <code className="text-xs bg-secondary px-1 rounded">Zadok → Tzadok</code>, <code className="text-xs bg-secondary px-1 rounded">Eleazar → Elazar</code>, <code className="text-xs bg-secondary px-1 rounded">Beth Hillel → Beit Hillel</code>, <code className="text-xs bg-secondary px-1 rounded">Beth Shammai → Beit Shammai</code></li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Text Processing: Additional Fraction & Number Mappings</h3>
+              <h3 className="font-medium text-foreground mb-2">Text Processing: Additional Fraction & Number Mappings</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>Added fraction: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">one-thirtieth → 1/30th</code></li>
-                <li>Added fraction: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">one twenty-fourth → 1/24th</code></li>
-                <li>Added fraction: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">one forty-eighth → 1/48th</code></li>
-                <li>Added mixed number: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">twenty-two and a half → 22½</code></li>
+                <li>Added fraction: <code className="text-xs bg-secondary px-1 rounded">one-thirtieth → 1/30th</code></li>
+                <li>Added fraction: <code className="text-xs bg-secondary px-1 rounded">one twenty-fourth → 1/24th</code></li>
+                <li>Added fraction: <code className="text-xs bg-secondary px-1 rounded">one forty-eighth → 1/48th</code></li>
+                <li>Added mixed number: <code className="text-xs bg-secondary px-1 rounded">twenty-two and a half → 22½</code></li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Mishnah Reader</h3>
+              <h3 className="font-medium text-foreground mb-2">Mishnah Reader</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>New <strong>Mishnah reader</strong> covering <strong>26 tractates</strong> not included in the Babylonian Talmud, organized by Seder</li>
                 <li>Bilingual <strong>Hebrew-English</strong> chapter reader with 50/50 side-by-side layout, matching the Bible reader style</li>
@@ -765,7 +764,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Reference Panel on Talmud Pages</h3>
+              <h3 className="font-medium text-foreground mb-2">Reference Panel on Talmud Pages</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>New <strong>collapsible Reference Panel</strong> below the Talmud text with two tabs</li>
                 <li><strong>Bible Verses</strong> tab (default): automatically detects Bible citations in the text and fetches full Hebrew and English verse text from Sefaria, with a link to the ChavrutAI Bible Reader</li>
@@ -775,18 +774,18 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Bible Citation Linking in Talmud Pages</h3>
+              <h3 className="font-medium text-foreground mb-2">Bible Citation Linking in Talmud Pages</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Bible references in the English (Steinsaltz) translation are now <strong>automatically detected and hyperlinked</strong> to the corresponding ChavrutAI Bible page</li>
                 <li>Supports all 24 books of the Tanach, including multi-word names (e.g. Song of Songs, I Samuel)</li>
-                <li>Clicking a citation like <strong>Deuteronomy 6:7</strong> navigates directly to <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/bible/Deuteronomy/6#7</code></li>
+                <li>Clicking a citation like <strong>Deuteronomy 6:7</strong> navigates directly to <code className="text-xs bg-secondary px-1 rounded">/bible/Deuteronomy/6#7</code></li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Sugya Viewer: ChavrutAI References, UX Improvements & Chat Layout Fix</h3>
+              <h3 className="font-medium text-foreground mb-2">Sugya Viewer: ChavrutAI References, UX Improvements & Chat Layout Fix</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>Input field now accepts <strong>ChavrutAI-style references</strong> (e.g. <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">Shabbat/89b</code>) and full <strong>ChavrutAI URLs</strong> (e.g. <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">https://chavrutai.com/talmud/Rosh_Hashanah/17a#11</code>), including section-level targeting via <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">#</code> fragment</li>
+                <li>Input field now accepts <strong>ChavrutAI-style references</strong> (e.g. <code className="text-xs bg-secondary px-1 rounded">Shabbat/89b</code>) and full <strong>ChavrutAI URLs</strong> (e.g. <code className="text-xs bg-secondary px-1 rounded">https://chavrutai.com/talmud/Rosh_Hashanah/17a#11</code>), including section-level targeting via <code className="text-xs bg-secondary px-1 rounded">#</code> fragment</li>
                 <li>Renamed input label to <strong>"ChavrutAI / Sefaria Reference or URL"</strong> to reflect the expanded input options</li>
                 <li>Pressing <strong>Enter</strong> in the reference input field now submits the form (same as clicking "Fetch Text")</li>
                 <li>Added a <strong>Clear button</strong> to reset the input, dropdowns, displayed text, and browser URL after a fetch</li>
@@ -797,59 +796,59 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Text Processing: Expanded Fraction & Number Mappings</h3>
+              <h3 className="font-medium text-foreground mb-2">Text Processing: Expanded Fraction & Number Mappings</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>Added improper fraction: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">five-fourths → 5/4ths</code></li>
-                <li>Added fraction: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">three-eighths → 3/8ths</code></li>
-                <li>Added fraction: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">seven-twentieths → 7/20ths</code></li>
-                <li>Added fraction: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">A quarter → 1/4th</code></li>
-                <li>Added mixed numbers: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">three-and-one-third → 3⅓</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">thirty-three and one-third → 33⅓</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">ninety-three and one-third → 93⅓</code></li>
-                <li>Added mixed number variants: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">one and one-half → 1½</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">One and one half → 1½</code></li>
-                <li>Added numeral conversions: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">one hundred → 100</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">one hundred dinars → 100 dinars</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">one hundred thirty → 130</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">two hundred ten → 210</code></li>
-                <li>Added archaic number form: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">five and twenty → 25</code></li>
-                <li>Added ordinal without article: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">fifth year → 5th year</code></li>
-                <li>Added hyphenated half variants: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">six-and-a-half → 6½</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">nine-and-a-half → 9½</code></li>
-                <li>Added compound half: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">twenty-nine and a half → 29½</code></li>
-                <li>Added unit with fraction: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">hour-and-a-quarter → 1¼ hours</code></li>
+                <li>Added improper fraction: <code className="text-xs bg-secondary px-1 rounded">five-fourths → 5/4ths</code></li>
+                <li>Added fraction: <code className="text-xs bg-secondary px-1 rounded">three-eighths → 3/8ths</code></li>
+                <li>Added fraction: <code className="text-xs bg-secondary px-1 rounded">seven-twentieths → 7/20ths</code></li>
+                <li>Added fraction: <code className="text-xs bg-secondary px-1 rounded">A quarter → 1/4th</code></li>
+                <li>Added mixed numbers: <code className="text-xs bg-secondary px-1 rounded">three-and-one-third → 3⅓</code>, <code className="text-xs bg-secondary px-1 rounded">thirty-three and one-third → 33⅓</code>, <code className="text-xs bg-secondary px-1 rounded">ninety-three and one-third → 93⅓</code></li>
+                <li>Added mixed number variants: <code className="text-xs bg-secondary px-1 rounded">one and one-half → 1½</code>, <code className="text-xs bg-secondary px-1 rounded">One and one half → 1½</code></li>
+                <li>Added numeral conversions: <code className="text-xs bg-secondary px-1 rounded">one hundred → 100</code>, <code className="text-xs bg-secondary px-1 rounded">one hundred dinars → 100 dinars</code>, <code className="text-xs bg-secondary px-1 rounded">one hundred thirty → 130</code>, <code className="text-xs bg-secondary px-1 rounded">two hundred ten → 210</code></li>
+                <li>Added archaic number form: <code className="text-xs bg-secondary px-1 rounded">five and twenty → 25</code></li>
+                <li>Added ordinal without article: <code className="text-xs bg-secondary px-1 rounded">fifth year → 5th year</code></li>
+                <li>Added hyphenated half variants: <code className="text-xs bg-secondary px-1 rounded">six-and-a-half → 6½</code>, <code className="text-xs bg-secondary px-1 rounded">nine-and-a-half → 9½</code></li>
+                <li>Added compound half: <code className="text-xs bg-secondary px-1 rounded">twenty-nine and a half → 29½</code></li>
+                <li>Added unit with fraction: <code className="text-xs bg-secondary px-1 rounded">hour-and-a-quarter → 1¼ hours</code></li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Term Index: Full Redesign — Tabbed Cards Layout</h3>
+              <h3 className="font-medium text-foreground mb-2">Term Index: Full Redesign — Tabbed Cards Layout</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>Completely redesigned the <Link href="/term-index" className="text-blue-600 hover:underline">/term-index</Link> page from a wide, horizontally-scrolling table into a tabbed cards layout with a click-to-expand detail panel</li>
+                <li>Completely redesigned the <Link href="/term-index" className="text-primary hover:underline">/term-index</Link> page from a wide, horizontally-scrolling table into a tabbed cards layout with a click-to-expand detail panel</li>
                 <li><strong>Category tabs</strong> — terms are organized into seven tabs: All, Names, Places, Biblical Names, Concepts, Nations, and Biblical Places. Each tab shows a live count; an "X of Y shown" counter appears on the right side of the tab bar.</li>
                 <li><strong>Detail panel</strong> — clicking any card opens a side panel with: Hebrew text, variant names, category badges, biographical data (teacher, student, father, affiliation, birth/death dates and places), Wikipedia EN &amp; HE links, Wikidata link (with Q-ID), and up to 10 live corpus passage excerpts fetched from the search API</li>
-                <li><strong>Corpus passage links</strong> — each passage in the detail panel links directly to the specific folio and section (e.g. <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/talmud/berakhot/3b#section-26</code>), using the same routing logic as the search results page</li>
-                <li><strong>Glossary data moved to JSON</strong> — the CSV was converted to a compact columnar JSON format (<code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">shared/data/glossary_v4.json</code>, 485 KB) served via a new <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">GET /api/glossary</code> endpoint, replacing the old inline CSV fetch</li>
+                <li><strong>Corpus passage links</strong> — each passage in the detail panel links directly to the specific folio and section (e.g. <code className="text-xs bg-secondary px-1 rounded">/talmud/berakhot/3b#section-26</code>), using the same routing logic as the search results page</li>
+                <li><strong>Glossary data moved to JSON</strong> — the CSV was converted to a compact columnar JSON format (<code className="text-xs bg-secondary px-1 rounded">shared/data/glossary_v4.json</code>, 485 KB) served via a new <code className="text-xs bg-secondary px-1 rounded">GET /api/glossary</code> endpoint, replacing the old inline CSV fetch</li>
                 <li><strong>Progressive pagination</strong> — cards are displayed 30 at a time with a "Show 30 more (N remaining)" button, preventing the browser from rendering thousands of DOM nodes at once</li>
                 <li><strong>Search &amp; sort</strong> — search bar with a clear (×) button; sort by count high-to-low, count low-to-high, A–Z, or Z–A; all filter changes (tab, search, sort) reset the display count and are debounced at 250 ms</li>
                 <li><strong>Keyboard support</strong> — pressing Escape closes the detail panel</li>
                 <li><strong>Hebrew text</strong> — uses the same default Hebrew font as the Talmud reader (Assistant), displayed prominently alongside the English term in both cards and the detail panel</li>
-                <li><strong>SEO</strong> — fully custom title, meta description, keywords, Open Graph, canonical URL, and Schema.org Dataset structured data with <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">license: MIT</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">isAccessibleForFree: true</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">inLanguage: ["en","he"]</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">temporalCoverage</code>, and a <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">DataDownload</code> distribution pointing to the JSON endpoint</li>
+                <li><strong>SEO</strong> — fully custom title, meta description, keywords, Open Graph, canonical URL, and Schema.org Dataset structured data with <code className="text-xs bg-secondary px-1 rounded">license: MIT</code>, <code className="text-xs bg-secondary px-1 rounded">isAccessibleForFree: true</code>, <code className="text-xs bg-secondary px-1 rounded">inLanguage: ["en","he"]</code>, <code className="text-xs bg-secondary px-1 rounded">temporalCoverage</code>, and a <code className="text-xs bg-secondary px-1 rounded">DataDownload</code> distribution pointing to the JSON endpoint</li>
                 <li>The existing ChavrutAI header (logo + icon) and footer are preserved; the page includes a collapsible "About this index" section with a work-in-progress disclaimer, data source notes, and a link to the methodology writeup</li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Search: Accurate Result Count for Small Result Sets</h3>
+              <h3 className="font-medium text-foreground mb-2">Search: Accurate Result Count for Small Result Sets</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Fixed a bug where the search result count was displayed as too low (e.g. "1 results" when 2 results were shown). The count is now always accurate for small result sets, rather than using a rough estimate based on halving the raw Elasticsearch hit count.</li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Sugya Viewer: Unified Input &amp; Sefaria-Style URLs</h3>
+              <h3 className="font-medium text-foreground mb-2">Sugya Viewer: Unified Input &amp; Sefaria-Style URLs</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li><strong>Unified input:</strong> "Dropdown Selection" and "Sefaria URL" are now always visible at the same time. Changing a dropdown (tractate, page, or section) automatically updates the reference field above it.</li>
-                <li><strong>Sefaria-style URL parameters:</strong> The page URL now uses a clean format matching Sefaria (e.g. <code className="text-xs bg-sepia-100 dark:bg-sepia-800 px-1 rounded">/sugya-viewer?Menachot.65a.4-66a.8</code>) instead of the previous verbose format. Old-style links continue to work.</li>
+                <li><strong>Sefaria-style URL parameters:</strong> The page URL now uses a clean format matching Sefaria (e.g. <code className="text-xs bg-secondary px-1 rounded">/sugya-viewer?Menachot.65a.4-66a.8</code>) instead of the previous verbose format. Old-style links continue to work.</li>
                 <li><strong>"Open in the main Talmud reader"</strong> banner is now a prominent highlighted panel, making it easy to jump to the ChavrutAI reader for the displayed passage.</li>
                 <li><strong>Blog Post Selection</strong> moved to a collapsible section to reduce visual clutter.</li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Talmud Chapter Data Audit &amp; Corrections (6 Tractates)</h3>
+              <h3 className="font-medium text-foreground mb-2">Talmud Chapter Data Audit &amp; Corrections (6 Tractates)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Ran a full audit comparing Talmud chapter boundary data against the Mishnah-to-Talmud mapping, identifying incorrect chapter names and/or folio ranges in 6 tractates:</li>
                 <li><strong>Zevachim</strong> — all 14 chapters were replaced: previous entries had entirely wrong names (מנחות-style names) and incorrect ranges. Corrected with the proper names (כל הזבחים, כל הזבחים שקבלו דמן, כל הפסולין, בית שמאי, איזהו מקומן, קדשי קדשים, חטאת העוף, כל הזבחים, המזבח מקדש, כל התדיר, דם חטאת, טבול יום, השוחט והמעלה, פרת חטאת) and folio boundaries.</li>
@@ -863,10 +862,10 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Mishnah Map: Chapter Numbering Fixes for Menachot, Megillah &amp; Sanhedrin</h3>
+              <h3 className="font-medium text-foreground mb-2">Mishnah Map: Chapter Numbering Fixes for Menachot, Megillah &amp; Sanhedrin</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li><strong>Menachot chapter data corrected</strong> — Talmud chapter data for Menachot was missing Chapter 2 ("HaKometz et HaMinchah", 13a–17a), causing chapters 2–13 to each display the wrong name and wrong folio range (each appeared one chapter earlier than it should). All 13 chapters now have correct numbers, names, and folio ranges.</li>
-                <li><strong>Mishnah Map now respects Mishnah chapter ordering</strong> — The <Link href="/mishnah-map" className="text-blue-600 hover:underline">Mishnah Map</Link> page previously used Talmud chapter ordering for tractates where Mishnah and Talmud chapter order diverge. Chapters are now always displayed in Mishnah chapter order (1, 2, 3…), which is the expected ordering for a Mishnah reference tool.</li>
+                <li><strong>Mishnah Map now respects Mishnah chapter ordering</strong> — The <Link href="/mishnah-map" className="text-primary hover:underline">Mishnah Map</Link> page previously used Talmud chapter ordering for tractates where Mishnah and Talmud chapter order diverge. Chapters are now always displayed in Mishnah chapter order (1, 2, 3…), which is the expected ordering for a Mishnah reference tool.</li>
                 <li><strong>Inline notes for Talmud order differences</strong> — Where the Talmud reads chapters in a different order than the Mishnah, a brief note appears on the affected chapter card:
                   <ul className="list-disc list-inside ml-6 mt-1 space-y-1">
                     <li><em>Menachot Ch 6–10:</em> Mishnah chapter 10 appears as Talmud chapter 6 (at 63b); Mishnah chapters 6–9 each shift one position later in the Talmud.</li>
@@ -878,18 +877,18 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Mishnah-Talmud Mapping: Display &amp; Documentation Improvements</h3>
+              <h3 className="font-medium text-foreground mb-2">Mishnah-Talmud Mapping: Display &amp; Documentation Improvements</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>Fixed repetitive chapter headers on the <Link href="/mishnah-map" className="text-blue-600 hover:underline">/mishnah-map</Link> page — section headers now display simply as "Chapter 1" instead of the redundant "Chapter 1: Chapter 1 (פרק 1)"</li>
+                <li>Fixed repetitive chapter headers on the <Link href="/mishnah-map" className="text-primary hover:underline">/mishnah-map</Link> page — section headers now display simply as "Chapter 1" instead of the redundant "Chapter 1: Chapter 1 (פרק 1)"</li>
                 <li>Added a note to the "About This Mapping" section documenting known gaps in chapter order between Mishnah and Talmud: Sanhedrin (10 ↔ 11), Megillah (3 ↔ 4), and Menachot (chapter 10 in Mishnah corresponds to chapter 6 in Talmud, with chapters 6–9 in the Talmud each shifting one place later than in the Mishnah)</li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">New Page: <Link href="/term-index" className="text-blue-600 hover:underline">Talmud Term Index</Link></h3>
+              <h3 className="font-medium text-foreground mb-2">New Page: <Link href="/term-index" className="text-primary hover:underline">Talmud Term Index</Link></h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>Added a new reference page at <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/term-index</code> — a sortable, filterable glossary of personal names, place names, and key terms drawn from the Babylonian Talmud</li>
-                <li>Data sourced from the <a href="https://github.com/EzraBrand/talmud-nlp-indexer" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">talmud-nlp-indexer</a> project; see the companion post <a href="https://www.ezrabrand.com/p/introducing-a-new-talmudic-glossary" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Introducing a New Talmudic Glossary</a> (Feb 22, 2026) for background</li>
+                <li>Added a new reference page at <code className="text-xs bg-secondary px-1 rounded">/term-index</code> — a sortable, filterable glossary of personal names, place names, and key terms drawn from the Babylonian Talmud</li>
+                <li>Data sourced from the <a href="https://github.com/EzraBrand/talmud-nlp-indexer" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">talmud-nlp-indexer</a> project; see the companion post <a href="https://www.ezrabrand.com/p/introducing-a-new-talmudic-glossary" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Introducing a New Talmudic Glossary</a> (Feb 22, 2026) for background</li>
                 <li>Table columns: Term, Category, Variants, Corpus Count, Wikipedia EN/HE, Hebrew Term, Wikidata ID, and biographical fields (father, teacher, affiliation, students, birth/death dates and places) sourced from Wikidata</li>
                 <li>All columns are sortable by clicking the header; the Term and # columns are frozen (sticky) when scrolling horizontally</li>
                 <li>Search filters across Term, Variants, and Wikipedia EN; a separate category dropdown narrows by term type (names, places, concepts, etc.)</li>
@@ -899,19 +898,19 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Term Index: Performance Optimizations</h3>
+              <h3 className="font-medium text-foreground mb-2">Term Index: Performance Optimizations</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
-                <li><strong>Virtual scrolling</strong> — the table now renders only the rows currently visible in the viewport (using <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">@tanstack/react-virtual</code>), regardless of how many rows match the current filter; scrolling through thousands of entries is now smooth and memory-efficient</li>
+                <li><strong>Virtual scrolling</strong> — the table now renders only the rows currently visible in the viewport (using <code className="text-xs bg-secondary px-1 rounded">@tanstack/react-virtual</code>), regardless of how many rows match the current filter; scrolling through thousands of entries is now smooth and memory-efficient</li>
                 <li><strong>Search debounce</strong> — filtering and sorting no longer fire on every keystroke; a 250 ms debounce ensures the computation only runs once the user pauses typing, keeping the UI responsive while searching</li>
-                <li><strong>CSV caching</strong> — the glossary CSV is stored in <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">sessionStorage</code> after the first fetch, so revisiting the page within the same browser session loads data instantly with no network round-trip; the HTTP fetch also now respects the browser cache (<code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">cache: "default"</code>) between sessions</li>
+                <li><strong>CSV caching</strong> — the glossary CSV is stored in <code className="text-xs bg-secondary px-1 rounded">sessionStorage</code> after the first fetch, so revisiting the page within the same browser session loads data instantly with no network round-trip; the HTTP fetch also now respects the browser cache (<code className="text-xs bg-secondary px-1 rounded">cache: "default"</code>) between sessions</li>
                 <li><strong>Pre-processed cell data</strong> — expensive per-cell operations (splitting variant lists, extracting Wikipedia titles from URLs, parsing corpus count integers) are now computed once at load time and stored on each row, rather than recomputed on every render</li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Chapter Navigation: Deep Links &amp; Inline Chapter Headers</h3>
+              <h3 className="font-medium text-foreground mb-2">Chapter Navigation: Deep Links &amp; Inline Chapter Headers</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>The chapter breadcrumb on Talmud folio pages now deep-links directly to the section where the chapter begins — e.g., clicking "Chapter 2: BaMeh Madlikin" navigates to <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/talmud/Shabbat/20b#section-5</code> rather than just the top of the page</li>
+                <li>The chapter breadcrumb on Talmud folio pages now deep-links directly to the section where the chapter begins — e.g., clicking "Chapter 2: BaMeh Madlikin" navigates to <code className="text-xs bg-secondary px-1 rounded">/talmud/Shabbat/20b#section-5</code> rather than just the top of the page</li>
                 <li>Uses the same Mishnah-to-Talmud mapping data already used by the tractate table of contents, ensuring consistency across the app</li>
                 <li>A chapter name header now appears inline in the text, directly above the section where a new chapter begins — e.g., "Chapter 2: BaMeh Madlikin (במה מדליקין)" is displayed as a highlighted banner before the opening Mishnah of that chapter</li>
                 <li>Fixed Berakhot chapter Hebrew names: all nine chapters previously showed generic ordinals (פרק א, פרק ב…) instead of their traditional names; corrected to מאימתי, היה קורא, מי שמתו, תפלת השחר, אין עומדין, כיצד מברכין, שלשה שאכלו, אלו דברים, הרואה</li>
@@ -920,95 +919,95 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">SEO: MIT License Added to Structured Data &amp; Footer</h3>
+              <h3 className="font-medium text-foreground mb-2">SEO: MIT License Added to Structured Data &amp; Footer</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>Fixed a Google Search Console warning on the <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/biblical-index</code> Dataset — added the missing <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">license</code> field (<code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">https://opensource.org/licenses/MIT</code>) to both the client-side and server-side JSON-LD structured data</li>
+                <li>Fixed a Google Search Console warning on the <code className="text-xs bg-secondary px-1 rounded">/biblical-index</code> Dataset — added the missing <code className="text-xs bg-secondary px-1 rounded">license</code> field (<code className="text-xs bg-secondary px-1 rounded">https://opensource.org/licenses/MIT</code>) to both the client-side and server-side JSON-LD structured data</li>
                 <li>Added "MIT License" link to the site footer (About &amp; Legal column), linking to the canonical OSI license page — standard open-source practice</li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Bible Translation Switched to Koren Jerusalem Bible</h3>
+              <h3 className="font-medium text-foreground mb-2">Bible Translation Switched to Koren Jerusalem Bible</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Replaced JPS 1985 with the <strong>Koren Jerusalem Bible</strong> as the English translation for all Bible chapters</li>
                 <li>Koren is more literal than JPS 1985 — for example, it renders שבתות שבע as "seven complete sabbaths" (vs. JPS's "seven weeks") in Leviticus 23:15, preserving the Hebrew more closely</li>
-                <li>Fixed a pre-existing bug: the Sefaria v3 API was silently ignoring the <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">versionTitle</code> parameter and serving the 2023 Gender-Sensitive JPS instead of JPS 1985 — the app was claiming one translation but displaying another</li>
-                <li>Switched to Sefaria's v1 API with the <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">ven</code> parameter, which correctly respects the requested version</li>
-                <li>Added Koren-specific text normalization: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">ż/Ż → tz/Tz</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">ĥ → ḥ</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">᾽ → '</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">῾ → ' (mid-word) or removed (beginning-of-word)</code>, divine name phrases ("O Lord → O YHWH"), number words ("twenty five → 25"), and archaic English ("thy → your", "thou/thee → you", "shouldst → should", "hast → have")</li>
+                <li>Fixed a pre-existing bug: the Sefaria v3 API was silently ignoring the <code className="text-xs bg-secondary px-1 rounded">versionTitle</code> parameter and serving the 2023 Gender-Sensitive JPS instead of JPS 1985 — the app was claiming one translation but displaying another</li>
+                <li>Switched to Sefaria's v1 API with the <code className="text-xs bg-secondary px-1 rounded">ven</code> parameter, which correctly respects the requested version</li>
+                <li>Added Koren-specific text normalization: <code className="text-xs bg-secondary px-1 rounded">ż/Ż → tz/Tz</code>, <code className="text-xs bg-secondary px-1 rounded">ĥ → ḥ</code>, <code className="text-xs bg-secondary px-1 rounded">᾽ → '</code>, <code className="text-xs bg-secondary px-1 rounded">῾ → ' (mid-word) or removed (beginning-of-word)</code>, divine name phrases ("O Lord → O YHWH"), number words ("twenty five → 25"), and archaic English ("thy → your", "thou/thee → you", "shouldst → should", "hast → have")</li>
                 <li>Updated search to index Koren results for Bible passages</li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Sugya Viewer: Shareable Range URLs</h3>
+              <h3 className="font-medium text-foreground mb-2">Sugya Viewer: Shareable Range URLs</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>Clicking "Fetch Text" in the Sugya Viewer now updates the browser URL with parameters that encode exactly what was fetched — similar to how Sefaria encodes ranges like <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">sefaria.org.il/Rosh_Hashanah.2a.7-2b.2</code></li>
-                <li>Dropdown Selection produces URLs like <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/sugya-viewer?method=dropdown&tractate=Berakhot&page=2a</code> (with an optional <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">&section=3</code> when a specific section is chosen)</li>
-                <li>Sefaria URL input produces URLs like <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/sugya-viewer?method=url&ref=Rosh_Hashanah.2a.7-2b.2</code></li>
+                <li>Clicking "Fetch Text" in the Sugya Viewer now updates the browser URL with parameters that encode exactly what was fetched — similar to how Sefaria encodes ranges like <code className="text-xs bg-secondary px-1 rounded">sefaria.org.il/Rosh_Hashanah.2a.7-2b.2</code></li>
+                <li>Dropdown Selection produces URLs like <code className="text-xs bg-secondary px-1 rounded">/sugya-viewer?method=dropdown&tractate=Berakhot&page=2a</code> (with an optional <code className="text-xs bg-secondary px-1 rounded">&section=3</code> when a specific section is chosen)</li>
+                <li>Sefaria URL input produces URLs like <code className="text-xs bg-secondary px-1 rounded">/sugya-viewer?method=url&ref=Rosh_Hashanah.2a.7-2b.2</code></li>
                 <li>Blog Post Selection also updates the URL with the resolved Sefaria reference, so that result is equally shareable</li>
                 <li>Opening a shared link auto-populates the form and immediately fetches the text — no extra clicks needed</li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Cleaner URLs for Talmud & Bible Pages</h3>
+              <h3 className="font-medium text-foreground mb-2">Cleaner URLs for Talmud & Bible Pages</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>Talmud and Bible URLs now use proper casing and underscores instead of lowercase with hyphens — e.g., <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/talmud/Rosh_Hashanah/2a</code> and <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/bible/Song_of_Songs/1</code></li>
-                <li>Old-format URLs (e.g., <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/talmud/rosh-hashanah/2a</code>, <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/bible/ii-samuel</code>) automatically redirect to the new format</li>
-                <li>URL-encoded spaces (e.g., <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">rosh%20hashanah</code>) also redirect correctly</li>
+                <li>Talmud and Bible URLs now use proper casing and underscores instead of lowercase with hyphens — e.g., <code className="text-xs bg-secondary px-1 rounded">/talmud/Rosh_Hashanah/2a</code> and <code className="text-xs bg-secondary px-1 rounded">/bible/Song_of_Songs/1</code></li>
+                <li>Old-format URLs (e.g., <code className="text-xs bg-secondary px-1 rounded">/talmud/rosh-hashanah/2a</code>, <code className="text-xs bg-secondary px-1 rounded">/bible/ii-samuel</code>) automatically redirect to the new format</li>
+                <li>URL-encoded spaces (e.g., <code className="text-xs bg-secondary px-1 rounded">rosh%20hashanah</code>) also redirect correctly</li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">SEO: Structured Data & Breadcrumb Navigation</h3>
+              <h3 className="font-medium text-foreground mb-2">SEO: Structured Data & Breadcrumb Navigation</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>Fixed JSON-LD structured data on Talmud folio and tractate pages — the <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">@graph</code> was present but empty; all nodes (Article, Organization, BreadcrumbList) are now correctly populated</li>
-                <li>Upgraded all inner-page JSON-LD to use the <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">@graph</code> format so that <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">author</code> and <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">publisher</code> references resolve within the same document (previously they pointed to an Organization node defined only on the homepage)</li>
-                <li>Added <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">BreadcrumbList</code> schema to JSON-LD on folio pages (Home &gt; Talmud &gt; Tractate &gt; Folio) and tractate pages (Home &gt; Talmud &gt; Tractate) — enables rich breadcrumb snippets in Google search results</li>
+                <li>Fixed JSON-LD structured data on Talmud folio and tractate pages — the <code className="text-xs bg-secondary px-1 rounded">@graph</code> was present but empty; all nodes (Article, Organization, BreadcrumbList) are now correctly populated</li>
+                <li>Upgraded all inner-page JSON-LD to use the <code className="text-xs bg-secondary px-1 rounded">@graph</code> format so that <code className="text-xs bg-secondary px-1 rounded">author</code> and <code className="text-xs bg-secondary px-1 rounded">publisher</code> references resolve within the same document (previously they pointed to an Organization node defined only on the homepage)</li>
+                <li>Added <code className="text-xs bg-secondary px-1 rounded">BreadcrumbList</code> schema to JSON-LD on folio pages (Home &gt; Talmud &gt; Tractate &gt; Folio) and tractate pages (Home &gt; Talmud &gt; Tractate) — enables rich breadcrumb snippets in Google search results</li>
                 <li>Added visible breadcrumb navigation to Talmud folio pages, tractate contents pages, Bible book pages, and Bible chapter pages</li>
                 <li>Removed redundant "Back to Contents" button from tractate pages — the "Talmud" breadcrumb link serves the same purpose</li>
-                <li>Added <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">H1</code> heading to the Dictionary page (previously missing, hurting topical relevance for that page)</li>
-                <li>Added <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">rel="nofollow"</code> to all Sefaria and Al HaTorah external links on folio pages — prevents outbound link equity from flowing to third-party sites</li>
+                <li>Added <code className="text-xs bg-secondary px-1 rounded">H1</code> heading to the Dictionary page (previously missing, hurting topical relevance for that page)</li>
+                <li>Added <code className="text-xs bg-secondary px-1 rounded">rel="nofollow"</code> to all Sefaria and Al HaTorah external links on folio pages — prevents outbound link equity from flowing to third-party sites</li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Shorter Section Anchor URLs</h3>
+              <h3 className="font-medium text-foreground mb-2">Shorter Section Anchor URLs</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>Section anchors in Talmud page URLs are now shorter: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">#5</code> instead of <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">#section-5</code></li>
+                <li>Section anchors in Talmud page URLs are now shorter: <code className="text-xs bg-secondary px-1 rounded">#5</code> instead of <code className="text-xs bg-secondary px-1 rounded">#section-5</code></li>
                 <li>The copy-link button and "Jump to section" links now generate the new shorter format</li>
-                <li>Old-style URLs (e.g., <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/talmud/nedarim/37b#section-5</code>) automatically redirect to the new format in the browser without breaking navigation</li>
+                <li>Old-style URLs (e.g., <code className="text-xs bg-secondary px-1 rounded">/talmud/nedarim/37b#section-5</code>) automatically redirect to the new format in the browser without breaking navigation</li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Shorter Verse Anchor URLs</h3>
+              <h3 className="font-medium text-foreground mb-2">Shorter Verse Anchor URLs</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>Verse anchors in Bible page URLs are now shorter: <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">#16</code> instead of <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">#verse-16</code></li>
+                <li>Verse anchors in Bible page URLs are now shorter: <code className="text-xs bg-secondary px-1 rounded">#16</code> instead of <code className="text-xs bg-secondary px-1 rounded">#verse-16</code></li>
                 <li>The copy-link button and "Jump to verse" links now generate the new shorter format</li>
-                <li>Old-style URLs (e.g., <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/bible/leviticus/6#verse-16</code>) automatically redirect to the new format in the browser without breaking navigation</li>
+                <li>Old-style URLs (e.g., <code className="text-xs bg-secondary px-1 rounded">/bible/leviticus/6#verse-16</code>) automatically redirect to the new format in the browser without breaking navigation</li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Sugya Viewer: Link to ChavrutAI Talmud Reader</h3>
+              <h3 className="font-medium text-foreground mb-2">Sugya Viewer: Link to ChavrutAI Talmud Reader</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>When viewing results in the <a href="/sugya-viewer" className="underline hover:text-sepia-900 dark:hover:text-sepia-100">Sugya Viewer</a> via "Dropdown Selection" or "Sefaria URL" input methods, a link now appears to open the corresponding page directly in the ChavrutAI Talmud reader</li>
-                <li>The link points to the starting tractate and page (e.g., <code className="text-xs bg-sepia-200 dark:bg-sepia-700 px-1 rounded">/talmud/berakhot/16b#5</code>), scrolling to the exact section if one was specified</li>
+                <li>When viewing results in the <a href="/sugya-viewer" className="text-primary hover:underline">Sugya Viewer</a> via "Dropdown Selection" or "Sefaria URL" input methods, a link now appears to open the corresponding page directly in the ChavrutAI Talmud reader</li>
+                <li>The link points to the starting tractate and page (e.g., <code className="text-xs bg-secondary px-1 rounded">/talmud/berakhot/16b#5</code>), scrolling to the exact section if one was specified</li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">X/Twitter Account & Footer Link</h3>
+              <h3 className="font-medium text-foreground mb-2">X/Twitter Account & Footer Link</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>Launched the official <a href="https://x.com/ChavrutAI" target="_blank" rel="noopener noreferrer" className="underline hover:text-sepia-900 dark:hover:text-sepia-100">@ChavrutAI</a> X/Twitter account</li>
+                <li>Launched the official <a href="https://x.com/ChavrutAI" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">@ChavrutAI</a> X/Twitter account</li>
                 <li>Added a "Follow on X" link with the X logo to the footer</li>
                 <li>Added the X/Twitter profile to the site's structured data (SEO <code>sameAs</code>)</li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Section & Verse Navigation</h3>
+              <h3 className="font-medium text-foreground mb-2">Section & Verse Navigation</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added a "Jump to section:" / "Jump to verse:" row of numbered buttons at the top of every Talmud and Bible page — click any number to scroll directly to that section or verse</li>
                 <li>Added a copy-link icon next to each section and verse header — clicking it copies a direct URL (e.g., <code>/talmud/berakhot/2a#5</code>) to the clipboard, with a brief "Copied!" confirmation</li>
@@ -1017,7 +1016,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Improved Social Sharing Previews (WhatsApp, etc.)</h3>
+              <h3 className="font-medium text-foreground mb-2">Improved Social Sharing Previews (WhatsApp, etc.)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Page-specific titles and descriptions now appear correctly when sharing links in WhatsApp, iMessage, and other messaging apps — previously all pages showed the same generic homepage preview</li>
                 <li>Search page now shows "Search the Talmud & Bible" as the preview title; when sharing a search with a query (e.g., <code>/search?q=Asa&type=talmud</code>), the preview reflects the specific search term and content type</li>
@@ -1026,7 +1025,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">GitHub Repo & Structured Data Updates</h3>
+              <h3 className="font-medium text-foreground mb-2">GitHub Repo & Structured Data Updates</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Updated footer GitHub link to reflect renamed repository (<code>EzraBrand/chavrutai</code>)</li>
                 <li>Updated Organization schema markup <code>sameAs</code> to include the GitHub repository and ezrabrand.com</li>
@@ -1036,14 +1035,14 @@ export default function Changelog() {
         </div>
 
         {/* February 2026 */}
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold text-sepia-800 dark:text-sepia-200 mb-4 border-b border-sepia-200 dark:border-sepia-700 pb-2">
+        <div className="py-8 border-t border-border">
+          <h2 className="font-georgia text-xl text-foreground mb-4">
             February 2026
           </h2>
           
-          <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
+          <div className="space-y-4 text-muted-foreground">
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Search: Exact Match & Advanced Filters</h3>
+              <h3 className="font-medium text-foreground mb-2">Search: Exact Match & Advanced Filters</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added "Exact match" checkbox: requires words to appear precisely as typed and in order (e.g., "Rabbi Abba" will no longer match "R' Ḥiyya bar Abba")</li>
                 <li>Added "Advanced filters" panel with two inputs: "Exclude if preceded by" and "Exclude if followed by" — removes results where another phrase appears before or after your search term in the passage</li>
@@ -1055,7 +1054,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Search Autosuggest Fix</h3>
+              <h3 className="font-medium text-foreground mb-2">Search Autosuggest Fix</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Fixed autosuggest dropdown appearing on search results pages when opened via URL (e.g., /search?q=rabbinic)</li>
                 <li>Suggestions now only appear while actively typing a new query, not on page load or after submitting a search</li>
@@ -1064,7 +1063,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Performance Optimization</h3>
+              <h3 className="font-medium text-foreground mb-2">Performance Optimization</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Talmud pages now load instantly — chapter data is fetched on demand instead of loading all 37 tractates at once</li>
                 <li>Toggling term highlighting no longer freezes the page; regex matching is pre-compiled and results are cached</li>
@@ -1074,7 +1073,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Theme & Display Updates</h3>
+              <h3 className="font-medium text-foreground mb-2">Theme & Display Updates</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Changed default theme from "Paper" to "White" for new visitors</li>
                 <li>High Contrast theme is now always light-based (white background, black text) regardless of OS dark mode setting</li>
@@ -1082,7 +1081,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Name Recognition Fix</h3>
+              <h3 className="font-medium text-foreground mb-2">Name Recognition Fix</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Fixed gazetteer not recognizing names with special transliteration characters (e.g., Ḥizkiyya, Ḥulfana)</li>
                 <li>Updated word boundary matching to support full Unicode, so all transliterated names are now properly labeled</li>
@@ -1090,7 +1089,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Asset & Image Fixes</h3>
+              <h3 className="font-medium text-foreground mb-2">Asset & Image Fixes</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Restored missing header logo (hebrew-book-icon) and Sefaria "Powered by" badge</li>
                 <li>Moved image assets to main public directory for reliability across rollbacks</li>
@@ -1099,7 +1098,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">SEO Structured Data & Meta Tags</h3>
+              <h3 className="font-medium text-foreground mb-2">SEO Structured Data & Meta Tags</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Fixed duplicate title on Contents page (was sharing homepage title)</li>
                 <li>Added SEO meta tags to pages that were missing them: Sugya Viewer, Blog Reader, External Links, 404</li>
@@ -1111,7 +1110,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">SEO & Accessibility Audit Fixes</h3>
+              <h3 className="font-medium text-foreground mb-2">SEO & Accessibility Audit Fixes</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added H1 heading tags to Talmud folio pages and Sugya Viewer (previously missing, hurting topical relevance)</li>
                 <li>Trimmed folio page meta descriptions from 180 to ~121 characters to prevent Google truncation</li>
@@ -1129,7 +1128,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">AI Chatbot Improvements</h3>
+              <h3 className="font-medium text-foreground mb-2">AI Chatbot Improvements</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Chatbot responses are now more direct and specific, avoiding vague filler phrases</li>
                 <li>Removed meta-commentary from responses (e.g., "further exploration might be needed")</li>
@@ -1139,7 +1138,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">About Page FAQs</h3>
+              <h3 className="font-medium text-foreground mb-2">About Page FAQs</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added expandable FAQ section covering common questions</li>
                 <li>Topics include: free access, translation sources, text processing, customization options</li>
@@ -1149,7 +1148,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Sefaria Link & Text Fixes</h3>
+              <h3 className="font-medium text-foreground mb-2">Sefaria Link & Text Fixes</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Fixed external Sefaria URLs for two-word tractates (e.g., Bava Metzia): space encoding changed from <code>%20</code> to <code>_</code></li>
                 <li>Fixed term replacement not working when Sefaria API splits hyphenated terms across HTML bold tags (e.g., "sky-blue" → "tekhelet" now works in Menachot 35b.4)</li>
@@ -1157,7 +1156,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Text Processing Improvements</h3>
+              <h3 className="font-medium text-foreground mb-2">Text Processing Improvements</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Fixed English text incorrectly splitting in the middle of punctuation clusters like ?'" (e.g., Berakhot 7b.1 now keeps ?'" together on one line)</li>
                 <li>Hebrew text no longer splits after quotation marks (״), keeping quoted words inline</li>
@@ -1177,7 +1176,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Sugya Viewer Export Options</h3>
+              <h3 className="font-medium text-foreground mb-2">Sugya Viewer Export Options</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added export buttons for Markdown (.md) and HTML (.html) formats</li>
                 <li>HTML export retains rich formatting (bold, italics, RTL direction)</li>
@@ -1189,14 +1188,14 @@ export default function Changelog() {
         </div>
 
         {/* January 2026 */}
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold text-sepia-800 dark:text-sepia-200 mb-4 border-b border-sepia-200 dark:border-sepia-700 pb-2">
+        <div className="py-8 border-t border-border">
+          <h2 className="font-georgia text-xl text-foreground mb-4">
             January 2026
           </h2>
           
-          <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
+          <div className="space-y-4 text-muted-foreground">
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">SEO Canonical URL Fix</h3>
+              <h3 className="font-medium text-foreground mb-2">SEO Canonical URL Fix</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Fixed Google indexing issues caused by duplicate content between deprecated /tractate/ and canonical /talmud/ URLs</li>
                 <li>Updated robots.txt to block deprecated URL patterns and consolidate crawling to canonical URLs</li>
@@ -1205,7 +1204,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">URL Structure Improvements</h3>
+              <h3 className="font-medium text-foreground mb-2">URL Structure Improvements</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Changed Talmud page URLs from /tractate/ to /talmud/ for consistency (e.g., /talmud/berakhot/2a)</li>
                 <li>Old bookmarked /tractate/ URLs automatically redirect to new /talmud/ URLs</li>
@@ -1214,7 +1213,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Sefaria Compatibility Fix</h3>
+              <h3 className="font-medium text-foreground mb-2">Sefaria Compatibility Fix</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Fixed tractate name discrepancy with Sefaria: "Beitza" → "Beitzah" and "Arachin" → "Arakhin"</li>
                 <li>Restored broken Sefaria links on Mishnah Map page for these tractates</li>
@@ -1223,7 +1222,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Jastrow Dictionary Improvements</h3>
+              <h3 className="font-medium text-foreground mb-2">Jastrow Dictionary Improvements</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Fixed sense numbering display (1, 2, 3...) that was being cut off from dictionary entries</li>
                 <li>Added origin metadata display showing language origins (Biblical Hebrew, Aramaic) and cross-references</li>
@@ -1232,7 +1231,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Blog Reader on About Page</h3>
+              <h3 className="font-medium text-foreground mb-2">Blog Reader on About Page</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Replaced "Latest Posts" widget with expandable blog post reader showing full content</li>
                 <li>Added Hebrew RTL text support with automatic detection</li>
@@ -1244,7 +1243,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Text Processing Improvements</h3>
+              <h3 className="font-medium text-foreground mb-2">Text Processing Improvements</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added animal term mappings: "domesticated animals" → "livestock", "non-domesticated" → "wild"</li>
                 <li>Added 72 number text to numeral conversions (e.g., "forty million" → "40,000,000")</li>
@@ -1258,14 +1257,14 @@ export default function Changelog() {
         </div>
 
         {/* December 2025 */}
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold text-sepia-800 dark:text-sepia-200 mb-4 border-b border-sepia-200 dark:border-sepia-700 pb-2">
+        <div className="py-8 border-t border-border">
+          <h2 className="font-georgia text-xl text-foreground mb-4">
             December 2025
           </h2>
           
-          <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
+          <div className="space-y-4 text-muted-foreground">
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Improved Name Recognition</h3>
+              <h3 className="font-medium text-foreground mb-2">Improved Name Recognition</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Fixed text splitting to keep genealogical phrases like "R' Elazar, son of R' Shimon" on one line</li>
                 <li>Compound names with "son of" now highlight as single entries instead of separate name fragments</li>
@@ -1273,7 +1272,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">SEO-Friendly URL Update</h3>
+              <h3 className="font-medium text-foreground mb-2">SEO-Friendly URL Update</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Changed Talmud contents URL from /contents to /talmud for better SEO</li>
                 <li>All tractate pages now use /talmud/:tractate instead of /contents/:tractate</li>
@@ -1283,7 +1282,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">New Homepage</h3>
+              <h3 className="font-medium text-foreground mb-2">New Homepage</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Redesigned homepage as a minimalist directory showcasing all platform features</li>
                 <li>Primary sections for Talmud and Tanakh with equal prominence</li>
@@ -1296,7 +1295,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Jastrow Dictionary Fix</h3>
+              <h3 className="font-medium text-foreground mb-2">Jastrow Dictionary Fix</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Fixed entries being cut off for words with multiple verb forms (e.g., Hiphil/Hif.)</li>
                 <li>Nested grammatical forms now display with proper labels showing verb stem and conjugation</li>
@@ -1304,7 +1303,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Navigation Fixes</h3>
+              <h3 className="font-medium text-foreground mb-2">Navigation Fixes</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Fixed empty page issue: tractates ending on 'a' side no longer show invalid 'b' pages</li>
                 <li>Added support for Tamid's unique page range (25b-33b instead of standard 2a start)</li>
@@ -1315,7 +1314,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Full-Text Search</h3>
+              <h3 className="font-medium text-foreground mb-2">Full-Text Search</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>New search page for searching across Talmud and Bible texts in Hebrew and English</li>
                 <li>Filter buttons to show All, Talmud only, or Bible only results</li>
@@ -1327,7 +1326,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">External Links on Talmud Pages</h3>
+              <h3 className="font-medium text-foreground mb-2">External Links on Talmud Pages</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added external links footer to each Talmud page with links to Sefaria, Al HaTorah, Wikisource, and Daf Yomi</li>
                 <li>Added section-level external links next to each section header for direct cross-referencing</li>
@@ -1336,7 +1335,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">External Links on Bible Pages</h3>
+              <h3 className="font-medium text-foreground mb-2">External Links on Bible Pages</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added verse-level external links (Sefaria, Al HaTorah, Wikisource) next to each verse header</li>
                 <li>Added chapter-level external links footer to each Bible chapter page</li>
@@ -1345,7 +1344,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">UI Simplification</h3>
+              <h3 className="font-medium text-foreground mb-2">UI Simplification</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added link to the article "Biblical Citations in the Talmud: A New Digital Index and Concordance" on the Biblical Index page</li>
                 <li>Removed "Study Options" navigation cards from Contents page for cleaner layout</li>
@@ -1354,7 +1353,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Consistent Header Navigation</h3>
+              <h3 className="font-medium text-foreground mb-2">Consistent Header Navigation</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added centered logo header to all secondary pages for consistent navigation</li>
                 <li>Logo links directly to homepage from Dictionary, About, Sitemap, Contact, Privacy, and more</li>
@@ -1364,7 +1363,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">External Links Page</h3>
+              <h3 className="font-medium text-foreground mb-2">External Links Page</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added internal testing page for generating links to external Talmud resources</li>
                 <li>URL generators for Sefaria, Al HaTorah, Wikisource Hebrew, and Daf Yomi</li>
@@ -1374,7 +1373,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Theme and Font Options</h3>
+              <h3 className="font-medium text-foreground mb-2">Theme and Font Options</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added three theme options: Sepia (warm parchment), White (clean standard), Dark (moderate)</li>
                 <li>Added English font selection with four options: Inter (default), Roboto, Source Sans 3, Open Sans</li>
@@ -1384,7 +1383,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">About Page</h3>
+              <h3 className="font-medium text-foreground mb-2">About Page</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Comprehensive rewrite with clear overview for new visitors</li>
                 <li>Added sections for available texts, navigation, customization, and special features</li>
@@ -1392,7 +1391,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Performance Optimizations</h3>
+              <h3 className="font-medium text-foreground mb-2">Performance Optimizations</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Implemented code splitting with lazy loading for 18 routes</li>
                 <li>Migrated static assets to public folder for faster direct serving</li>
@@ -1405,7 +1404,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Loading Experience</h3>
+              <h3 className="font-medium text-foreground mb-2">Loading Experience</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added skeleton loading component for smoother page transitions</li>
                 <li>Implemented React Query caching for Biblical index pages</li>
@@ -1417,14 +1416,14 @@ export default function Changelog() {
         </div>
 
         {/* November 2025 */}
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold text-sepia-800 dark:text-sepia-200 mb-4 border-b border-sepia-200 dark:border-sepia-700 pb-2">
+        <div className="py-8 border-t border-border">
+          <h2 className="font-georgia text-xl text-foreground mb-4">
             November 2025
           </h2>
           
-          <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
+          <div className="space-y-4 text-muted-foreground">
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">New Features</h3>
+              <h3 className="font-medium text-foreground mb-2">New Features</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Launched Sugya Viewer for studying custom text ranges</li>
                 <li>Added AI chatbot for text study assistance</li>
@@ -1433,7 +1432,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Text Processing Improvements</h3>
+              <h3 className="font-medium text-foreground mb-2">Text Processing Improvements</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Fixed period + end quote splitting (e.g., Cush." now stays together)</li>
                 <li>Fixed comma + end quote splitting (e.g., exposition," keeps quotes attached)</li>
@@ -1447,14 +1446,14 @@ export default function Changelog() {
         </div>
 
         {/* September 2025 */}
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold text-sepia-800 dark:text-sepia-200 mb-4 border-b border-sepia-200 dark:border-sepia-700 pb-2">
+        <div className="py-8 border-t border-border">
+          <h2 className="font-georgia text-xl text-foreground mb-4">
             September 2025
           </h2>
           
-          <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
+          <div className="space-y-4 text-muted-foreground">
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">New Features</h3>
+              <h3 className="font-medium text-foreground mb-2">New Features</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added detailed chapter outlines for in-depth topic analysis</li>
                 <li>Created human-readable sitemap page for easier navigation</li>
@@ -1463,7 +1462,7 @@ export default function Changelog() {
             </div>
             
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Design Improvements</h3>
+              <h3 className="font-medium text-foreground mb-2">Design Improvements</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Enhanced folio button sizing and spacing for better readability</li>
                 <li>Improved desktop layout with optimized margins</li>
@@ -1472,7 +1471,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">User Experience</h3>
+              <h3 className="font-medium text-foreground mb-2">User Experience</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added external link indicators in footer</li>
                 <li>Included GitHub repository link for transparency</li>
@@ -1483,14 +1482,14 @@ export default function Changelog() {
         </div>
 
         {/* August 2025 */}
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold text-sepia-800 dark:text-sepia-200 mb-4 border-b border-sepia-200 dark:border-sepia-700 pb-2">
+        <div className="py-8 border-t border-border">
+          <h2 className="font-georgia text-xl text-foreground mb-4">
             August 2025
           </h2>
           
-          <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
+          <div className="space-y-4 text-muted-foreground">
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Core Features</h3>
+              <h3 className="font-medium text-foreground mb-2">Core Features</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Launched comprehensive Talmud study interface</li>
                 <li>Integrated all 37 tractates of Babylonian Talmud</li>
@@ -1500,7 +1499,7 @@ export default function Changelog() {
             </div>
             
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Navigation System</h3>
+              <h3 className="font-medium text-foreground mb-2">Navigation System</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Built hierarchical navigation by Seder (traditional order)</li>
                 <li>Created intuitive folio-based page navigation</li>
@@ -1510,7 +1509,7 @@ export default function Changelog() {
             </div>
 
             <div>
-              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Study Tools</h3>
+              <h3 className="font-medium text-foreground mb-2">Study Tools</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Integrated Hebrew term highlighting with 5,385+ terms</li>
                 <li>Added customizable text size and Hebrew font options</li>
@@ -1522,12 +1521,12 @@ export default function Changelog() {
         </div>
 
         {/* Footer note */}
-        <div className="text-center text-sm text-sepia-500 dark:text-sepia-400 pt-6 border-t border-sepia-200 dark:border-sepia-700">
+        <div className="text-sm text-muted-foreground py-8 border-t border-border">
           <p>ChavrutAI is continuously improved to enhance Talmud study experience.</p>
         </div>
 
-      </div>
-      </div>
+        </div>
+      </main>
 
       <Footer />
     </div>

@@ -1,8 +1,8 @@
 import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
-import { SharedLayout } from "@/components/layout";
+import { Footer } from "@/components/footer";
+import { HeaderSimple } from "@/components/layout/header-simple";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
-import { ExternalLink, Rss, Calendar, User, ChevronDown, ChevronUp } from "lucide-react";
 import { DafYomiWidget } from "@/components/DafYomiWidget";
 import {
   Accordion,
@@ -296,20 +296,24 @@ export default function About() {
   }, []);
 
   return (
-    <SharedLayout variant="simple" mainMaxWidth="container">
-      <div className="max-w-4xl mx-auto">
-        <div className="bg-card rounded-lg shadow-sm border border-border p-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">
+    <div className="min-h-screen bg-background text-foreground font-sans">
+      <HeaderSimple />
+
+      <main className="max-w-content mx-auto px-6">
+        {/* Page title */}
+        <div className="pt-10 pb-8">
+          <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-2">
             About ChavrutAI
           </h1>
-          <p className="text-lg text-muted-foreground mb-8">
+          <p className="text-muted-foreground">
             A free platform for studying classical Jewish texts in Hebrew and
             English
           </p>
+        </div>
 
-          <div className="space-y-10">
-            <section>
-              <h2 className="text-xl font-semibold text-foreground mb-4">
+        <div>
+            <section className="py-8 border-t border-border">
+              <h2 className="font-georgia text-xl text-foreground mb-4">
                 What is ChavrutAI?
               </h2>
               <p className="text-muted-foreground leading-relaxed mb-4">
@@ -325,12 +329,17 @@ export default function About() {
               </p>
             </section>
 
-            <section>
-              <h2 className="text-xl font-semibold text-foreground mb-4">
+            <section className="py-8 border-t border-border">
+              <h2 className="font-georgia text-xl text-foreground mb-4">
                 Available Texts
               </h2>
               <div className="grid md:grid-cols-2 gap-4">
-                <div className="bg-secondary/30 rounded-lg p-4">
+                <div className="border border-border rounded p-4">
+                  <div
+                    className="mb-3 h-[2px] w-10"
+                    style={{ backgroundColor: "var(--category-talmud-bavli)" }}
+                    aria-hidden="true"
+                  />
                   <h3 className="font-medium text-foreground mb-2">
                     Babylonian Talmud
                   </h3>
@@ -339,13 +348,18 @@ export default function About() {
                   </p>
                   <Link
                     href="/talmud"
-                    className="text-blue-600 hover:text-blue-800 underline text-sm font-medium"
+                    className="text-primary hover:underline text-sm font-medium"
                     data-testid="link-talmud-contents"
                   >
                     Browse Talmud
                   </Link>
                 </div>
-                <div className="bg-secondary/30 rounded-lg p-4">
+                <div className="border border-border rounded p-4">
+                  <div
+                    className="mb-3 h-[2px] w-10"
+                    style={{ backgroundColor: "var(--category-talmud-yerushalmi)" }}
+                    aria-hidden="true"
+                  />
                   <h3 className="font-medium text-foreground mb-2">
                     Jerusalem Talmud
                   </h3>
@@ -354,12 +368,17 @@ export default function About() {
                   </p>
                   <Link
                     href="/yerushalmi"
-                    className="text-blue-600 hover:text-blue-800 underline text-sm font-medium"
+                    className="text-primary hover:underline text-sm font-medium"
                   >
                     Browse Yerushalmi
                   </Link>
                 </div>
-                <div className="bg-secondary/30 rounded-lg p-4">
+                <div className="border border-border rounded p-4">
+                  <div
+                    className="mb-3 h-[2px] w-10"
+                    style={{ backgroundColor: "var(--category-mishnah)" }}
+                    aria-hidden="true"
+                  />
                   <h3 className="font-medium text-foreground mb-2">
                     Mishnah
                   </h3>
@@ -368,12 +387,17 @@ export default function About() {
                   </p>
                   <Link
                     href="/mishnah"
-                    className="text-blue-600 hover:text-blue-800 underline text-sm font-medium"
+                    className="text-primary hover:underline text-sm font-medium"
                   >
                     Browse Mishnah
                   </Link>
                 </div>
-                <div className="bg-secondary/30 rounded-lg p-4">
+                <div className="border border-border rounded p-4">
+                  <div
+                    className="mb-3 h-[2px] w-10"
+                    style={{ backgroundColor: "var(--category-mishneh-torah)" }}
+                    aria-hidden="true"
+                  />
                   <h3 className="font-medium text-foreground mb-2">
                     Mishneh Torah
                   </h3>
@@ -382,12 +406,17 @@ export default function About() {
                   </p>
                   <Link
                     href="/rambam"
-                    className="text-blue-600 hover:text-blue-800 underline text-sm font-medium"
+                    className="text-primary hover:underline text-sm font-medium"
                   >
                     Browse Mishneh Torah
                   </Link>
                 </div>
-                <div className="bg-secondary/30 rounded-lg p-4">
+                <div className="border border-border rounded p-4">
+                  <div
+                    className="mb-3 h-[2px] w-10"
+                    style={{ backgroundColor: "var(--category-tanakh)" }}
+                    aria-hidden="true"
+                  />
                   <h3 className="font-medium text-foreground mb-2">
                     Tanakh (Hebrew Bible)
                   </h3>
@@ -396,7 +425,7 @@ export default function About() {
                   </p>
                   <Link
                     href="/bible"
-                    className="text-blue-600 hover:text-blue-800 underline text-sm font-medium"
+                    className="text-primary hover:underline text-sm font-medium"
                     data-testid="link-tanakh-contents"
                   >
                     Browse Tanakh
@@ -405,8 +434,8 @@ export default function About() {
               </div>
             </section>
 
-            <section>
-              <h2 className="text-xl font-semibold text-foreground mb-4">
+            <section className="py-8 border-t border-border">
+              <h2 className="font-georgia text-xl text-foreground mb-4">
                 Frequently Asked Questions
               </h2>
               <Accordion type="single" collapsible className="w-full" data-testid="faq-accordion">
@@ -457,7 +486,7 @@ export default function About() {
                     bringing readers closer to the original Hebrew terminology.{" "}
                     <Link
                       href="/talmud/term-replacements"
-                      className="underline hover:text-foreground transition-colors"
+                      className="text-primary hover:underline"
                       data-testid="link-term-replacements"
                     >
                       Browse the full list of term replacements →
@@ -484,7 +513,7 @@ export default function About() {
                   </AccordionTrigger>
                   <AccordionContent className="text-muted-foreground">
                     The AI features are still in beta. You can try the beta version on the{" "}
-                    <Link href="/sugya-viewer" className="text-blue-600 hover:text-blue-800 underline">
+                    <Link href="/sugya-viewer" className="text-primary hover:underline">
                       Sugya Viewer page
                     </Link>
                     . After you select a page (or range), the AI chat option will appear there.
@@ -526,7 +555,7 @@ export default function About() {
                       href="https://www.ezrabrand.com/p/beyond-the-mystique-correcting-common"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-600 hover:text-blue-800 underline"
+                      className="text-primary hover:underline"
                     >
                       Beyond the Mystique: Correcting Common Misconceptions About the Talmud, and Pathways to Accessibility
                     </a>
@@ -543,7 +572,7 @@ export default function About() {
                       href="https://www.ezrabrand.com/p/pt1-trending-talmud-top-queries-popular"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-600 hover:text-blue-800 underline"
+                      className="text-primary hover:underline"
                     >
                       Trending Talmud: Top Queries, Popular Posts, and Plain Readings of Controversial Talmudic Passages
                     </a>
@@ -552,8 +581,8 @@ export default function About() {
               </Accordion>
             </section>
 
-            <section>
-              <h2 className="text-xl font-semibold text-foreground mb-4">
+            <section className="py-8 border-t border-border">
+              <h2 className="font-georgia text-xl text-foreground mb-4">
                 Featured Articles from My 'Talmud & Tech' Blog About Building ChavrutAI
               </h2>
               <div className="space-y-3">
@@ -561,7 +590,7 @@ export default function About() {
                   href="https://www.ezrabrand.com/p/chavrutais-talmud-translation-processing"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block bg-secondary/30 hover:bg-secondary/50 rounded-lg p-4 transition-colors"
+                  className="block border border-border rounded p-4 hover:bg-secondary"
                   data-testid="article-translation-processing"
                 >
                   <div className="flex items-start justify-between gap-2">
@@ -573,14 +602,13 @@ export default function About() {
                         Dec 29, 2025
                       </p>
                     </div>
-                    <ExternalLink className="w-4 h-4 text-muted-foreground flex-shrink-0 mt-0.5" />
                   </div>
                 </a>
                 <a
                   href="https://www.ezrabrand.com/p/chavrutais-new-homepage-a-fresh-entry"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block bg-secondary/30 hover:bg-secondary/50 rounded-lg p-4 transition-colors"
+                  className="block border border-border rounded p-4 hover:bg-secondary"
                   data-testid="article-new-homepage"
                 >
                   <div className="flex items-start justify-between gap-2">
@@ -592,14 +620,13 @@ export default function About() {
                         Dec 28, 2025
                       </p>
                     </div>
-                    <ExternalLink className="w-4 h-4 text-muted-foreground flex-shrink-0 mt-0.5" />
                   </div>
                 </a>
                 <a
                   href="https://www.ezrabrand.com/p/chavrutai-talmud-web-app-launch-review"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block bg-secondary/30 hover:bg-secondary/50 rounded-lg p-4 transition-colors"
+                  className="block border border-border rounded p-4 hover:bg-secondary"
                   data-testid="article-launch-review"
                 >
                   <div className="flex items-start justify-between gap-2">
@@ -611,14 +638,13 @@ export default function About() {
                         Aug 05, 2025
                       </p>
                     </div>
-                    <ExternalLink className="w-4 h-4 text-muted-foreground flex-shrink-0 mt-0.5" />
                   </div>
                 </a>
               </div>
             </section>
 
-            <section className="pt-6 border-t border-border">
-              <h2 className="text-xl font-semibold text-foreground mb-4">
+            <section className="py-8 border-t border-border">
+              <h2 className="font-georgia text-xl text-foreground mb-4">
                 Recognition
               </h2>
               <div className="space-y-3">
@@ -626,7 +652,7 @@ export default function About() {
                   href="https://developers.sefaria.org/docs/powered-by-sefaria"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block bg-secondary/30 hover:bg-secondary/50 rounded-lg p-4 transition-colors"
+                  className="block border border-border rounded p-4 hover:bg-secondary"
                 >
                   <div className="flex items-start justify-between gap-2">
                     <div>
@@ -637,14 +663,13 @@ export default function About() {
                         Featured in Sefaria's curated list of projects and applications built using the Sefaria API and text data.
                       </p>
                     </div>
-                    <ExternalLink className="w-4 h-4 text-muted-foreground flex-shrink-0 mt-0.5" />
                   </div>
                 </a>
                 <a
                   href="https://jewishai.me/table.html"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block bg-secondary/30 hover:bg-secondary/50 rounded-lg p-4 transition-colors"
+                  className="block border border-border rounded p-4 hover:bg-secondary"
                 >
                   <div className="flex items-start justify-between gap-2">
                     <div>
@@ -655,21 +680,20 @@ export default function About() {
                         Listed in the AI and Judaism Resource Library's Internet Index, which aggregates tools, scholarship, and discussions at the intersection of Jewish tradition and modern artificial intelligence.
                       </p>
                     </div>
-                    <ExternalLink className="w-4 h-4 text-muted-foreground flex-shrink-0 mt-0.5" />
                   </div>
                 </a>
               </div>
             </section>
 
-            <section className="pt-6 border-t border-border">
-              <h2 className="text-xl font-semibold text-foreground mb-4">
+            <section className="py-8 border-t border-border">
+              <h2 className="font-georgia text-xl text-foreground mb-4">
                 About This Project
               </h2>
               <p className="text-muted-foreground leading-relaxed mb-4">
                 ChavrutAI is a project of{" "}
                 <a
                   href="https://www.ezrabrand.com/"
-                  className="text-blue-600 hover:text-blue-800 underline"
+                  className="text-primary hover:underline"
                 >
                   Talmud & Tech
                 </a>
@@ -680,22 +704,22 @@ export default function About() {
                 For questions, feedback, or to report an issue:{" "}
                 <a
                   href="mailto:ezra@chavrutai.com"
-                  className="text-blue-600 hover:text-blue-800 underline"
+                  className="text-primary hover:underline"
                 >
                   ezra@chavrutai.com
                 </a>
               </p>
             </section>
 
-            <section className="pt-6 border-t border-border">
-              <h2 className="text-xl font-semibold text-foreground mb-4">
+            <section className="py-8 border-t border-border">
+              <h2 className="font-georgia text-xl text-foreground mb-4">
                 Stay Updated
               </h2>
               <p className="text-muted-foreground leading-relaxed mb-6">
                 Subscribe to the{" "}
                 <a
                   href="https://www.ezrabrand.com/"
-                  className="text-blue-600 hover:text-blue-800 underline"
+                  className="text-primary hover:underline"
                 >
                   Talmud & Tech
                 </a>{" "}
@@ -715,8 +739,7 @@ export default function About() {
               </div>
 
               <div className="mt-8">
-                <h3 className="text-lg font-medium text-foreground mb-4 flex items-center gap-2">
-                  <Rss className="w-5 h-5 text-orange-500" />
+                <h3 className="text-lg font-medium text-foreground mb-4">
                   Latest Posts
                 </h3>
                 {rssLoading ? (
@@ -724,7 +747,7 @@ export default function About() {
                     {[1, 2, 3].map((i) => (
                       <div
                         key={i}
-                        className="animate-pulse bg-secondary/50 rounded-lg p-4"
+                        className="animate-pulse border border-border rounded p-4"
                       >
                         <div className="h-4 bg-secondary rounded w-3/4 mb-2"></div>
                         <div className="h-3 bg-secondary rounded w-1/4"></div>
@@ -740,11 +763,11 @@ export default function About() {
                       return (
                         <div
                           key={index}
-                          className="bg-secondary/30 rounded-lg border border-border overflow-hidden"
+                          className="border border-border rounded overflow-hidden"
                           data-testid={`rss-item-${index}`}
                         >
                           <div
-                            className="flex items-center justify-between p-4 cursor-pointer hover:bg-secondary/50 transition-colors"
+                            className="flex items-center justify-between p-4 cursor-pointer hover:bg-secondary"
                             onClick={() => togglePost(index)}
                           >
                             <div className="flex items-center gap-3 flex-1 min-w-0">
@@ -756,13 +779,11 @@ export default function About() {
                                   {item.title}
                                 </h4>
                                 <div className="flex items-center gap-3 mt-1 text-xs text-muted-foreground">
-                                  <span className="flex items-center gap-1">
-                                    <Calendar className="w-3 h-3" />
+                                  <span>
                                     {formatDate(item.pubDate)}
                                   </span>
                                   {item.author && (
-                                    <span className="flex items-center gap-1">
-                                      <User className="w-3 h-3" />
+                                    <span>
                                       {item.author}
                                     </span>
                                   )}
@@ -774,17 +795,15 @@ export default function About() {
                                 href={item.link}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="p-1.5 hover:bg-secondary rounded transition-colors"
+                                className="text-primary hover:underline text-xs"
                                 onClick={(e) => e.stopPropagation()}
                                 title="Open original post"
                               >
-                                <ExternalLink className="w-4 h-4 text-muted-foreground" />
+                                Open
                               </a>
-                              {isExpanded ? (
-                                <ChevronUp className="w-5 h-5 text-muted-foreground" />
-                              ) : (
-                                <ChevronDown className="w-5 h-5 text-muted-foreground" />
-                              )}
+                              <span className="text-muted-foreground text-xs" aria-hidden="true">
+                                {isExpanded ? "−" : "+"}
+                              </span>
                             </div>
                           </div>
                           
@@ -804,7 +823,7 @@ export default function About() {
                                       e.stopPropagation();
                                       toggleContentExpansion(index);
                                     }}
-                                    className="text-blue-600 hover:text-blue-800 text-sm font-medium underline"
+                                    className="text-primary hover:underline text-sm font-medium"
                                   >
                                     Load more of the post...
                                   </button>
@@ -817,7 +836,7 @@ export default function About() {
                                       e.stopPropagation();
                                       toggleContentExpansion(index);
                                     }}
-                                    className="text-blue-600 hover:text-blue-800 text-sm font-medium underline"
+                                    className="text-primary hover:underline text-sm font-medium"
                                   >
                                     Show less...
                                   </button>
@@ -832,7 +851,7 @@ export default function About() {
                       <div className="text-center pt-2">
                         <button
                           onClick={loadMorePosts}
-                          className="text-blue-600 hover:text-blue-800 text-sm font-medium underline"
+                          className="text-primary hover:underline text-sm font-medium"
                         >
                           Load more posts...
                         </button>
@@ -847,12 +866,13 @@ export default function About() {
               </div>
             </section>
 
-            <section className="pt-6 border-t border-border">
+            <section className="py-8 border-t border-border">
               <DafYomiWidget />
             </section>
-          </div>
         </div>
-      </div>
-    </SharedLayout>
+      </main>
+
+      <Footer />
+    </div>
   );
 }

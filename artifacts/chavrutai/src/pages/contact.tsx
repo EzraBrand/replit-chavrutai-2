@@ -2,7 +2,6 @@ import { Link } from "wouter";
 import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
 import { getStaticSEO } from "@shared/seo-data";
-import { Mail } from "lucide-react";
 import { HeaderSimple } from "@/components/layout/header-simple";
 
 export default function Contact() {
@@ -27,68 +26,64 @@ export default function Contact() {
 
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background text-foreground font-sans">
       {/* Centered Logo Header */}
       <HeaderSimple />
 
-      <div className="container mx-auto px-4 py-8">
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-card rounded-lg shadow-sm border border-border p-8">
-            <h1 className="text-3xl font-bold text-foreground mb-6">Contact ChavrutAI</h1>
-            
-            <div className="prose prose-sepia max-w-none">
-              <section className="mb-8">
-                <h2 className="text-xl font-semibold text-foreground mb-4">We'd Love to Hear From You</h2>
-                <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                  ChavrutAI is constantly evolving to better serve the Jewish learning community. Your feedback, suggestions, and corrections help us improve the platform for everyone.
-                </p>
-                
-                <p className="text-muted-foreground leading-relaxed mb-6">
-                  <strong>Any feedback is appreciated!</strong> Whether you've found an error, have ideas for new features, or simply want to share your experience using ChavrutAI.
-                </p>
-              </section>
-
-
-              {/* Direct Email Contact */}
-              <section className="mb-8">
-                <h2 className="text-xl font-semibold text-foreground mb-4">Direct Email Contact</h2>
-                <div className="bg-muted/50 rounded-lg p-6 border border-border">
-                  <p className="text-muted-foreground leading-relaxed mb-4">
-                    You can reach us via email:
-                  </p>
-                  <a 
-                    href="mailto:ezra@chavrutai.com"
-                    className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium text-lg transition-colors duration-200"
-                    data-testid="link-email-contact"
-                  >
-                    <Mail size={20} />
-                    ezra@chavrutai.com
-                  </a>
-                </div>
-              </section>
-
-              {/* About the Project */}
-              <section>
-                <h2 className="text-xl font-semibold text-foreground mb-4">About This Project</h2>
-                <p className="text-muted-foreground leading-relaxed">
-                  ChavrutAI is a project of{" "}
-                  <a 
-                    href="https://www.ezrabrand.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-primary hover:text-primary/80 underline transition-colors duration-200"
-                    data-testid="link-talmud-tech-about"
-                  >
-                    "Talmud & Tech"
-                  </a>
-                  , dedicated to bringing Jewish learning into the digital age. We use authentic text data from Sefaria to ensure accuracy and reliability.
-                </p>
-              </section>
-            </div>
-          </div>
+      <main className="max-w-content mx-auto px-6">
+        {/* Page title */}
+        <div className="pt-10 pb-8">
+          <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-2">Contact ChavrutAI</h1>
+          <p className="text-muted-foreground">
+            We'd love to hear from you — feedback, suggestions, and corrections all welcome.
+          </p>
         </div>
-      </div>
-      
+
+        <section className="py-8 border-t border-border">
+          <h2 className="font-georgia text-xl text-foreground mb-4">We'd Love to Hear From You</h2>
+          <p className="text-lg text-muted-foreground leading-relaxed mb-6">
+            ChavrutAI is constantly evolving to better serve the Jewish learning community. Your feedback, suggestions, and corrections help us improve the platform for everyone.
+          </p>
+
+          <p className="text-muted-foreground leading-relaxed">
+            <strong>Any feedback is appreciated!</strong> Whether you've found an error, have ideas for new features, or simply want to share your experience using ChavrutAI.
+          </p>
+        </section>
+
+        {/* Direct Email Contact */}
+        <section className="py-8 border-t border-border">
+          <h2 className="font-georgia text-xl text-foreground mb-4">Direct Email Contact</h2>
+          <p className="text-muted-foreground leading-relaxed mb-4">
+            You can reach us via email:
+          </p>
+          <a
+            href="mailto:ezra@chavrutai.com"
+            className="text-primary hover:text-primary/80 font-medium text-lg"
+            data-testid="link-email-contact"
+          >
+            ezra@chavrutai.com
+          </a>
+        </section>
+
+        {/* About the Project */}
+        <section className="py-8 border-t border-border">
+          <h2 className="font-georgia text-xl text-foreground mb-4">About This Project</h2>
+          <p className="text-muted-foreground leading-relaxed">
+            ChavrutAI is a project of{" "}
+            <a
+              href="https://www.ezrabrand.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary hover:text-primary/80 underline"
+              data-testid="link-talmud-tech-about"
+            >
+              "Talmud & Tech"
+            </a>
+            , dedicated to bringing Jewish learning into the digital age. We use authentic text data from Sefaria to ensure accuracy and reliability.
+          </p>
+        </section>
+      </main>
+
       <Footer />
     </div>
   );

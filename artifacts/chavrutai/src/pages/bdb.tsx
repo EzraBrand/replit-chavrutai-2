@@ -2,8 +2,6 @@ import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { Link } from "wouter";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Search, Loader2, ExternalLink, X, Menu } from "lucide-react";
 import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
 import { getBDBSEO } from "@shared/seo-data";
@@ -494,19 +492,25 @@ export default function Bdb() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background text-foreground font-sans">
       <style dangerouslySetInnerHTML={{ __html: dictionaryStyles }} />
 
       <HeaderSimple />
 
-      <main className="max-w-4xl mx-auto p-6">
-        <h1 className="text-3xl font-bold text-primary mb-2">
-          BDB Hebrew Bible Dictionary
-          <span className="ml-2 text-base font-medium text-muted-foreground align-middle" data-testid="badge-beta">(beta)</span>
-        </h1>
-        <p className="text-sm text-muted-foreground mb-3">
-          Brown, Driver, and Briggs — A Hebrew and English Lexicon of the Old Testament (1906)
-        </p>
+      <main className="max-w-4xl mx-auto px-6">
+        <div className="pt-10 pb-3">
+          <div
+            className="mb-3 h-[2px] w-10" style={{ backgroundColor: "var(--category-tanakh)" }}
+            aria-hidden="true"
+          />
+          <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-2">
+            BDB Hebrew Bible Dictionary
+            <span className="ml-2 text-base font-medium text-muted-foreground align-middle" data-testid="badge-beta">(beta)</span>
+          </h1>
+          <p className="text-sm text-muted-foreground">
+            Brown, Driver, and Briggs — A Hebrew and English Lexicon of the Old Testament (1906)
+          </p>
+        </div>
 
         <div className="mb-6">
           <button
@@ -520,8 +524,8 @@ export default function Bdb() {
           </button>
 
           {showAbout && (
-            <Card className="mt-2 bg-secondary/40 border-border" data-testid="about-panel">
-              <CardContent className="pt-4 text-sm text-foreground space-y-3">
+            <div className="mt-2 border-t border-border" data-testid="about-panel">
+              <div className="pt-4 text-sm text-foreground space-y-3">
                 <p>
                   <strong>BDB</strong> is shorthand for Francis Brown, S. R. Driver, and Charles
                   Briggs's <em>A Hebrew and English Lexicon of the Old Testament</em> (Oxford, 1906),
@@ -572,34 +576,33 @@ export default function Bdb() {
                     original abbreviated text.
                   </li>
                 </ul>
-                <p className="text-xs text-muted-foreground mt-2">
+                <p className="text-xs mt-2">
                   <a
                     href="/bdb/abbreviations"
-                    className="underline hover:text-foreground transition-colors"
+                    className="text-primary hover:underline"
                     data-testid="link-abbreviations"
                   >
                     Browse the full abbreviations reference →
                   </a>
                 </p>
-                <p className="text-xs text-muted-foreground mt-2">
+                <p className="text-xs mt-2">
                   <a
                     href="https://www.ezrabrand.com/p/chavrutai-modernized-bdb-bible"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="underline hover:text-foreground transition-colors"
+                    className="text-primary hover:underline"
                   >
                     Read more about this feature →
                   </a>
                 </p>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           )}
         </div>
 
         <div className="mb-8">
           <div className="flex gap-3 mb-6">
             <div className="relative flex-1" ref={searchInputRef}>
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground z-10" />
               <Input
                 type="search"
                 placeholder="Search Hebrew"
@@ -609,7 +612,7 @@ export default function Bdb() {
                 onFocus={() => {
                   if (suggestions.length > 0) setShowSuggestions(true);
                 }}
-                className="pl-10 pr-9 font-hebrew"
+                className="pr-9 font-hebrew"
                 data-testid="input-search"
                 disabled={isLoading}
               />
@@ -622,20 +625,20 @@ export default function Bdb() {
                     setShowSuggestions(false);
                     (searchInputRef.current?.querySelector('input[type="search"]') as HTMLInputElement)?.focus();
                   }}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground z-10"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground z-10 text-lg leading-none"
                   aria-label="Clear search"
                 >
-                  <X className="h-4 w-4" />
+                  ×
                 </button>
               )}
 
               {showSuggestions && suggestions.length > 0 && (
-                <div className="absolute top-full left-0 right-0 mt-1 bg-card border border-border rounded-md shadow-lg z-50 max-h-60 overflow-y-auto">
+                <div className="absolute top-full left-0 right-0 mt-1 bg-card border border-border rounded shadow-lg z-50 max-h-60 overflow-y-auto">
                   {suggestions.map((suggestion, index) => (
                     <div
                       key={index}
                       data-testid={`suggestion-${index}`}
-                      className="px-4 py-3 hover:bg-accent cursor-pointer border-b last:border-b-0 flex justify-between items-center"
+                      className="px-4 py-3 hover:bg-secondary cursor-pointer border-b last:border-b-0 flex justify-between items-center"
                       onClick={() => handleSuggestionClick(suggestion)}
                     >
                       <span className="font-hebrew text-lg" dir="rtl">{suggestion.voweled}</span>
@@ -648,13 +651,13 @@ export default function Bdb() {
               )}
             </div>
             <Button onClick={handleSearch} data-testid="button-search" disabled={isLoading || !searchQuery.trim()}>
-              {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Search"}
+              {isLoading ? "Searching…" : "Search"}
             </Button>
           </div>
         </div>
 
-        <div className="mb-8">
-          <h2 className="text-lg font-semibold mb-4">Browse by Letter</h2>
+        <div className="mb-8 border-t border-border pt-8">
+          <h2 className="font-georgia text-xl text-foreground mb-4">Browse by Letter</h2>
           <div className="grid grid-cols-8 sm:grid-cols-12 gap-2">
             {HEBREW_ALPHABET.map((letter) => {
               const count = lexiconIndex?.perLetterCounts[letter];
@@ -663,7 +666,7 @@ export default function Bdb() {
                   key={letter}
                   href={`/bdb/headwords/${encodeURIComponent(letter)}`}
                   data-testid={`button-letter-${letter}`}
-                  className="h-12 inline-flex flex-col items-center justify-center gap-0 rounded-md border border-border text-lg font-hebrew transition-colors hover:bg-accent"
+                  className="h-12 inline-flex flex-col items-center justify-center gap-0 rounded border border-border text-lg font-hebrew hover:bg-secondary"
                 >
                   <span className="leading-none">{letter}</span>
                   {count !== undefined && (
@@ -678,9 +681,9 @@ export default function Bdb() {
         </div>
 
         {(isLoading || lastSearchedQuery) && (
-        <div>
+        <div className="border-t border-border pt-8">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold">Dictionary Entries</h2>
+            <h2 className="font-georgia text-xl text-foreground">Dictionary Entries</h2>
             <label className="flex items-center gap-2 text-sm text-muted-foreground cursor-pointer select-none">
               <input
                 type="checkbox"
@@ -694,34 +697,31 @@ export default function Bdb() {
 
           {isLoading ? (
             <div className="flex justify-center items-center py-8">
-              <Loader2 className="h-6 w-6 animate-spin mr-2" />
               <span className="text-muted-foreground">Loading entries...</span>
             </div>
           ) : results.length === 0 ? (
-            <Card>
-              <CardContent className="p-8 text-center">
-                <p className="text-muted-foreground">No entries found. Try a different search term or browse by letter.</p>
-                {didYouMean.length > 0 && (
-                  <div className="mt-6 max-w-md mx-auto">
-                    <p className="text-sm text-muted-foreground mb-2">Did you mean:</p>
-                    <div className="flex flex-wrap justify-center gap-2">
-                      {didYouMean.map((m, i) => (
-                        <button
-                          key={i}
-                          type="button"
-                          onClick={() => { setSearchQuery(m.voweled); handleSearch(m.voweled); }}
-                          className="font-hebrew text-base px-3 py-1 rounded-md border border-border hover:bg-accent text-blue-600 dark:text-blue-400"
-                          data-testid={`fuzzy-${i}`}
-                          dir="rtl"
-                        >
-                          {m.voweled}
-                        </button>
-                      ))}
-                    </div>
+            <div className="border border-border rounded p-8 text-center">
+              <p className="text-muted-foreground">No entries found. Try a different search term or browse by letter.</p>
+              {didYouMean.length > 0 && (
+                <div className="mt-6 max-w-md mx-auto">
+                  <p className="text-sm text-muted-foreground mb-2">Did you mean:</p>
+                  <div className="flex flex-wrap justify-center gap-2">
+                    {didYouMean.map((m, i) => (
+                      <button
+                        key={i}
+                        type="button"
+                        onClick={() => { setSearchQuery(m.voweled); handleSearch(m.voweled); }}
+                        className="font-hebrew text-base px-3 py-1 rounded border border-border hover:bg-secondary text-primary"
+                        data-testid={`fuzzy-${i}`}
+                        dir="rtl"
+                      >
+                        {m.voweled}
+                      </button>
+                    ))}
                   </div>
-                )}
-              </CardContent>
-            </Card>
+                </div>
+              )}
+            </div>
           ) : (
             <div className="space-y-4">
               {results.map((entry, index) => {
@@ -746,11 +746,10 @@ export default function Bdb() {
                         href={`https://www.sefaria.org.il/BDB%2C_${encodeURIComponent(entry.headword)}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 hover:underline inline-flex items-center gap-1.5"
+                        className="text-primary hover:underline"
                         title="View this entry on Sefaria"
                       >
                         {entry.headword}
-                        <ExternalLink className="h-3.5 w-3.5 opacity-70" />
                       </a>
                     </h3>
                     <div className="text-foreground flex-1 prose prose-sm max-w-none min-w-0">
@@ -779,7 +778,7 @@ export default function Bdb() {
                                       history.replaceState(null, '', `#${item.anchorId}`);
                                     }
                                   }}
-                                  className={`hover:underline ${isActive ? 'text-foreground font-semibold' : 'text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300'}`}
+                                  className={`hover:underline ${isActive ? 'text-foreground font-semibold' : 'text-primary'}`}
                                 >
                                   <span className={`tabular-nums ${item.rawLevel <= 1 ? 'font-semibold' : ''}`}>
                                     {/^[a-z]\.?$/.test(item.marker) ? item.marker : item.marker.replace(/\.$/, '') + '.'}
@@ -794,7 +793,7 @@ export default function Bdb() {
                             <button
                               type="button"
                               onClick={() => setOutlineExpanded(prev => ({ ...prev, [entryKey]: !isOutlineExpanded }))}
-                              className="mt-1 text-xs text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 hover:underline"
+                              className="mt-1 text-xs text-primary hover:underline"
                               data-testid={`outline-toggle-${entryKey}`}
                               aria-expanded={isOutlineExpanded}
                               aria-controls={`outline-${entryKey}`}
@@ -859,10 +858,10 @@ export default function Bdb() {
                             ref={outlineCloseRef}
                             type="button"
                             onClick={() => setOpenOutlineEntry(null)}
-                            className="p-1 rounded hover:bg-accent text-muted-foreground hover:text-foreground"
+                            className="p-1 rounded hover:bg-secondary text-muted-foreground hover:text-foreground text-lg leading-none"
                             aria-label="Close outline"
                           >
-                            <X className="h-4 w-4" />
+                            ×
                           </button>
                         </div>
                         <ol className="list-none p-2 m-0 space-y-0.5 text-sm">
@@ -884,7 +883,7 @@ export default function Bdb() {
                                       history.replaceState(null, '', `#${item.anchorId}`);
                                     }
                                   }}
-                                  className={`block rounded px-1.5 py-0.5 hover:bg-accent ${isActive ? 'bg-accent text-foreground font-semibold' : 'text-muted-foreground'}`}
+                                  className={`block rounded px-1.5 py-0.5 hover:bg-secondary ${isActive ? 'bg-secondary text-foreground font-semibold' : 'text-muted-foreground'}`}
                                   aria-current={isActive ? 'location' : undefined}
                                 >
                                   <span className="tabular-nums">
@@ -901,7 +900,7 @@ export default function Bdb() {
                             <button
                               type="button"
                               onClick={() => setOutlineExpanded(prev => ({ ...prev, [entryKey]: !isOutlineExpanded }))}
-                              className="text-xs text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 hover:underline"
+                              className="text-xs text-primary hover:underline"
                               data-testid={`outline-panel-toggle-${entryKey}`}
                               aria-expanded={isOutlineExpanded}
                               aria-controls={`outline-panel-${entryKey}`}
@@ -934,13 +933,13 @@ export default function Bdb() {
                       if (!isOpen) outlineTriggerRef.current = e.currentTarget;
                       setOpenOutlineEntry(isOpen ? null : targetKey);
                     }}
-                    className="fixed top-20 left-4 z-40 p-2 rounded-md bg-card border border-border shadow-md hover:bg-accent text-muted-foreground hover:text-foreground transition-colors"
+                    className="fixed top-20 left-4 z-40 px-2 py-1.5 rounded bg-card border border-border shadow-md hover:bg-secondary text-muted-foreground hover:text-foreground transition-colors text-lg leading-none"
                     title="Show outline"
                     aria-label="Show outline"
                     aria-expanded={isOpen}
                     data-testid={`outline-toggle-floating`}
                   >
-                    <Menu className="h-5 w-5" />
+                    ☰
                   </button>
                 );
               })()}

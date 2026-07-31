@@ -3,9 +3,6 @@ import { useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-
-import { Search, Loader2, BookOpen, ScrollText, ChevronLeft, ChevronRight, ExternalLink, ChevronDown, ChevronUp } from "lucide-react";
 import { SharedLayout } from "@/components/layout";
 import { useSEO } from "@/hooks/use-seo";
 import { getStaticSEO } from "@shared/seo-data";
@@ -246,14 +243,14 @@ export default function SearchPage() {
     );
   };
 
-  const getTypeIcon = (type: SearchResult["type"]) => {
+  const getTypeBarColor = (type: SearchResult["type"]) => {
     switch (type) {
       case "talmud":
-        return <ScrollText className="w-4 h-4 text-amber-600" />;
+        return "var(--category-talmud-bavli)";
       case "bible":
-        return <BookOpen className="w-4 h-4 text-blue-600" />;
+        return "var(--category-tanakh)";
       default:
-        return <BookOpen className="w-4 h-4 text-gray-600" />;
+        return "var(--border)";
     }
   };
 
@@ -283,8 +280,8 @@ export default function SearchPage() {
       `}</style>
 
       <div className="space-y-6">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">Search Texts</h1>
+        <div className="pt-10 pb-2">
+          <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-2">Search Texts</h1>
           <p className="text-muted-foreground">Search the Talmud and Bible in Hebrew and English</p>
         </div>
 
@@ -304,19 +301,18 @@ export default function SearchPage() {
                   if (isUserTyping && suggestions.length > 0) setShowSuggestions(true);
                 }}
                 onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-                className="pr-10 text-lg py-6"
+                className="text-lg py-6"
                 data-testid="input-search"
               />
-              <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
 
               {showSuggestions && suggestions.length > 0 && (
-                <div className="absolute z-50 w-full mt-1 bg-popover border border-border rounded-md shadow-lg max-h-60 overflow-auto">
+                <div className="absolute z-50 w-full mt-1 bg-popover border border-border rounded max-h-60 overflow-auto">
                   {suggestions.map((suggestion, index) => (
                     <button
                       key={index}
                       type="button"
                       onClick={() => handleSuggestionClick(suggestion)}
-                      className="w-full px-4 py-2 text-left hover:bg-accent transition-colors text-sm"
+                      className="w-full px-4 py-2 text-left hover:bg-secondary transition-colors text-sm"
                       data-testid={`suggestion-${index}`}
                     >
                       {suggestion}
@@ -331,7 +327,7 @@ export default function SearchPage() {
               disabled={!searchQuery.trim() || isLoading}
               data-testid="button-search"
             >
-              {isLoading ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : "Search"}
+              {isLoading ? "Searching…" : "Search"}
             </Button>
           </div>
 
@@ -356,19 +352,14 @@ export default function SearchPage() {
             <button
               type="button"
               onClick={() => setShowAdvanced((v) => !v)}
-              className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
+              className="flex items-center gap-1 text-sm text-primary hover:text-foreground transition-colors"
               data-testid="button-toggle-advanced"
             >
-              {showAdvanced ? (
-                <ChevronUp className="w-3.5 h-3.5" />
-              ) : (
-                <ChevronDown className="w-3.5 h-3.5" />
-              )}
-              Advanced filters
+              {showAdvanced ? "▲" : "▼"} Advanced filters
             </button>
 
             {showAdvanced && (
-              <div className="mt-3 p-4 border border-border rounded-md bg-muted/30 space-y-3">
+              <div className="mt-3 p-4 border border-border rounded bg-secondary space-y-3">
                 <p className="text-xs text-muted-foreground">
                   Exclude results where another phrase appears before or after your search term in the passage.
                 </p>
@@ -408,42 +399,40 @@ export default function SearchPage() {
         </form>
 
         {submittedQuery && (
-          <div className="flex items-center justify-center gap-2">
-            <span className="text-sm text-muted-foreground mr-2">Filter:</span>
-            <Button
-              variant={typeFilter === "all" ? "default" : "outline"}
-              size="sm"
+          <div className="flex items-center gap-4 text-sm">
+            <span className="text-muted-foreground">Filter:</span>
+            <button
+              type="button"
               onClick={() => handleTypeChange("all")}
               data-testid="filter-all"
+              className={typeFilter === "all" ? "text-foreground font-medium" : "text-primary hover:underline"}
             >
               All
-            </Button>
-            <Button
-              variant={typeFilter === "talmud" ? "default" : "outline"}
-              size="sm"
+            </button>
+            <button
+              type="button"
               onClick={() => handleTypeChange("talmud")}
               data-testid="filter-talmud"
+              className={typeFilter === "talmud" ? "text-foreground font-medium" : "text-primary hover:underline"}
             >
-              <ScrollText className="w-4 h-4 mr-1" />
               Talmud
-            </Button>
-            <Button
-              variant={typeFilter === "bible" ? "default" : "outline"}
-              size="sm"
+            </button>
+            <button
+              type="button"
               onClick={() => handleTypeChange("bible")}
               data-testid="filter-bible"
+              className={typeFilter === "bible" ? "text-foreground font-medium" : "text-primary hover:underline"}
             >
-              <BookOpen className="w-4 h-4 mr-1" />
               Bible
-            </Button>
+            </button>
           </div>
         )}
 
         {/* How to use section - shown when no search is active */}
         {!submittedQuery && !isLoading && (
-          <Card className="bg-muted/50" data-testid="section-how-to-search">
-            <CardContent className="py-6">
-              <h2 className="text-lg font-semibold text-foreground mb-4">How to Search</h2>
+          <section className="pt-8 border-t border-border" data-testid="section-how-to-search">
+            <div className="py-2">
+              <h2 className="font-georgia text-xl text-foreground mb-4">How to Search</h2>
               <div className="space-y-4 text-sm text-muted-foreground">
                 <div>
                   <h3 className="font-medium text-foreground mb-1">What you can search</h3>
@@ -509,31 +498,28 @@ export default function SearchPage() {
                       href="https://www.ezrabrand.com/p/introducing-chavrutais-search-full"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-600 hover:underline inline-flex items-center gap-1"
+                      className="text-primary hover:underline"
                       data-testid="link-search-blog-post"
                     >
-                      Introducing ChavrutAI's Search: Full-Text Search of Bible and Talmud{" "}
-                      <ExternalLink className="w-3 h-3" />
+                      Introducing ChavrutAI's Search: Full-Text Search of Bible and Talmud →
                     </a>
                     " (Dec 23, 2025)
                   </p>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </section>
         )}
 
         {error && (
-          <Card className="border-destructive">
-            <CardContent className="py-4 text-destructive">
-              Failed to search. Please try again.
-            </CardContent>
-          </Card>
+          <div className="border border-destructive rounded py-4 px-4 text-destructive">
+            Failed to search. Please try again.
+          </div>
         )}
 
         {isLoading && (
           <div className="flex justify-center py-12">
-            <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
+            <span className="text-muted-foreground">Searching…</span>
           </div>
         )}
 
@@ -543,8 +529,8 @@ export default function SearchPage() {
               <span>
                 {filteredResults.total.toLocaleString()} results for "{filteredResults.query}"
                 {exactMatch && (
-                  <span className="ml-2 px-1.5 py-0.5 rounded bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-200 text-xs font-medium">
-                    exact
+                  <span className="ml-2 text-xs text-muted-foreground">
+                    (exact)
                   </span>
                 )}
                 {excludedCount > 0 && (
@@ -561,11 +547,9 @@ export default function SearchPage() {
             </div>
 
             {filteredResults.results.length === 0 ? (
-              <Card>
-                <CardContent className="py-8 text-center text-muted-foreground">
-                  No results found for "{filteredResults.query}". Try a different search term.
-                </CardContent>
-              </Card>
+              <div className="border-t border-border py-8 text-center text-muted-foreground">
+                No results found for "{filteredResults.query}". Try a different search term.
+              </div>
             ) : (
               <div className="space-y-3">
                 {filteredResults.results.map((result, index) => {
@@ -594,78 +578,77 @@ export default function SearchPage() {
                   };
 
                   return (
-                    <Card
+                    <div
                       key={index}
-                      className={`transition-colors ${chavrutaiLink ? "hover:bg-accent/50 cursor-pointer" : ""}`}
+                      className={`border border-border rounded p-4 transition-colors ${chavrutaiLink ? "hover:bg-secondary cursor-pointer" : ""}`}
                       onClick={handleResultClick}
                       data-testid={`result-${index}`}
                     >
-                      <CardContent className="py-4">
-                        <div className="flex items-start gap-3">
-                          <div className="flex-shrink-0 mt-1">{getTypeIcon(result.type)}</div>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2 mb-1 flex-wrap">
-                              <span className="text-xs px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground">
-                                {getTypeLabel(result.type)}
-                              </span>
-                              <span className="font-medium text-foreground">{result.ref}</span>
-                            </div>
-                            {renderHighlightedText(result)}
+                      <div className="flex items-start gap-3">
+                        <div className="flex-1 min-w-0">
+                          <div
+                            className="mb-1.5 h-[2px] w-10"
+                            style={{ backgroundColor: getTypeBarColor(result.type) }}
+                            aria-hidden="true"
+                          />
+                          <div className="flex items-baseline gap-2 mb-1 flex-wrap">
+                            <span className="text-xs text-muted-foreground uppercase tracking-wide">
+                              {getTypeLabel(result.type)}
+                            </span>
+                            <span className="font-medium text-foreground">{result.ref}</span>
                           </div>
-                          {chavrutaiLink && (
-                            <div className="flex-shrink-0 self-center flex items-center gap-1">
-                              <button
-                                onClick={handleOpenNewTab}
-                                className="p-1 rounded hover:bg-accent transition-colors"
-                                title="Open in new tab"
-                                data-testid={`button-open-new-tab-${index}`}
-                              >
-                                <ExternalLink className="w-4 h-4 text-muted-foreground hover:text-foreground" />
-                              </button>
-                              <ChevronRight className="w-5 h-5 text-muted-foreground" />
-                            </div>
-                          )}
+                          {renderHighlightedText(result)}
                         </div>
-                      </CardContent>
-                    </Card>
+                        {chavrutaiLink && (
+                          <div className="flex-shrink-0 self-center flex items-center gap-2">
+                            <button
+                              onClick={handleOpenNewTab}
+                              className="p-1 rounded hover:bg-secondary transition-colors text-sm text-primary"
+                              title="Open in new tab"
+                              data-testid={`button-open-new-tab-${index}`}
+                            >
+                              ↗
+                            </button>
+                            <span className="text-muted-foreground" aria-hidden="true">›</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
                   );
                 })}
               </div>
             )}
 
             {filteredResults.totalPages > 1 && (
-              <div className="flex items-center justify-center gap-2 pt-4">
-                <Button
-                  variant="outline"
-                  size="sm"
+              <div className="flex items-center justify-center gap-4 pt-4 text-sm">
+                <button
+                  type="button"
                   onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                   disabled={currentPage <= 1}
                   data-testid="button-prev-page"
+                  className="text-primary hover:underline disabled:text-muted-foreground disabled:no-underline disabled:cursor-not-allowed"
                 >
-                  <ChevronLeft className="w-4 h-4 mr-1" />
-                  Previous
-                </Button>
-                <span className="px-4 text-sm text-muted-foreground">
+                  ‹ Previous
+                </button>
+                <span className="px-4 text-muted-foreground">
                   Page {currentPage} of {filteredResults.totalPages}
                 </span>
-                <Button
-                  variant="outline"
-                  size="sm"
+                <button
+                  type="button"
                   onClick={() => setCurrentPage((p) => Math.min(filteredResults.totalPages, p + 1))}
                   disabled={currentPage >= filteredResults.totalPages}
                   data-testid="button-next-page"
+                  className="text-primary hover:underline disabled:text-muted-foreground disabled:no-underline disabled:cursor-not-allowed"
                 >
-                  Next
-                  <ChevronRight className="w-4 h-4 ml-1" />
-                </Button>
+                  Next ›
+                </button>
               </div>
             )}
           </div>
         )}
 
         {!submittedQuery && !isLoading && (
-          <div className="text-center py-12 text-muted-foreground">
-            <Search className="w-12 h-12 mx-auto mb-4 opacity-50" />
+          <div className="text-center py-12 text-muted-foreground border-t border-border">
             <p className="text-lg mb-2">Start your search</p>
             <p className="text-sm">Enter a word or phrase to search across the Talmud and Bible</p>
           </div>

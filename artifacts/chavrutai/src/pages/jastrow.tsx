@@ -2,8 +2,6 @@ import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { Link } from "wouter";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Search, Loader2, ExternalLink, X } from "lucide-react";
 import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
 import { getJastrowSEO } from "@shared/seo-data";
@@ -216,7 +214,7 @@ export default function Jastrow() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  useDictionaryCopyHandler('main.max-w-4xl', [results]);
+  useDictionaryCopyHandler('main.max-w-content', [results]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -224,18 +222,24 @@ export default function Jastrow() {
 
       <HeaderSimple />
 
-      <main className="max-w-4xl mx-auto p-6">
-        <h1 className="text-3xl font-bold text-primary mb-2">Jastrow Talmudic Dictionary</h1>
-        <p className="text-muted-foreground mb-3">
-          Marcus Jastrow — A Dictionary of the Targumim, the Talmud Babli and Yerushalmi, and the
-          Midrashic Literature (1903)
-        </p>
+      <main className="max-w-content mx-auto px-6">
+        <div className="pt-10 pb-8">
+          <div
+            className="mb-3 h-[2px] w-10" style={{ backgroundColor: "var(--category-talmud-bavli)" }}
+            aria-hidden="true"
+          />
+          <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-2">Jastrow Talmudic Dictionary</h1>
+          <p className="text-muted-foreground">
+            Marcus Jastrow — A Dictionary of the Targumim, the Talmud Babli and Yerushalmi, and the
+            Midrashic Literature (1903)
+          </p>
+        </div>
 
-        <div className="mb-6">
+        <section className="py-8 border-t border-border">
           <button
             type="button"
             onClick={() => setShowAbout((v) => !v)}
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
+            className="text-sm text-primary hover:text-foreground transition-colors"
             data-testid="button-about-toggle"
             aria-expanded={showAbout}
           >
@@ -243,8 +247,7 @@ export default function Jastrow() {
           </button>
 
           {showAbout && (
-            <Card className="mt-2 bg-secondary/40 border-border" data-testid="about-panel">
-              <CardContent className="pt-4 text-sm text-foreground space-y-3">
+            <div className="mt-4 text-sm text-foreground space-y-3" data-testid="about-panel">
                 <p>
                   <strong>Jastrow</strong> is shorthand for Marcus Jastrow's{" "}
                   <em>
@@ -311,24 +314,21 @@ export default function Jastrow() {
                     href="https://www.ezrabrand.com/p/jastrows-talmud-dictionary-a-modernized"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-600 hover:text-blue-800 hover:underline inline-flex items-center gap-1"
+                    className="text-primary hover:underline"
                     data-testid="link-about-blogpost"
                   >
                     Jastrow's Talmud Dictionary: A Modernized and Enhanced Digital Presentation at
-                    ChavrutAI
-                    <ExternalLink className="h-3 w-3" />
+                    ChavrutAI →
                   </a>{" "}
                   <span className="text-muted-foreground">(Sep 28, 2025)</span>
                 </p>
-              </CardContent>
-            </Card>
+              </div>
           )}
-        </div>
+        </section>
 
-        <div className="mb-8">
-          <div className="flex gap-3 mb-6">
+        <section className="py-8 border-t border-border">
+          <div className="flex gap-3">
             <div className="relative flex-1" ref={searchInputRef}>
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground z-10" />
               <Input
                 type="search"
                 placeholder="Search Hebrew/Aramaic"
@@ -338,7 +338,7 @@ export default function Jastrow() {
                 onFocus={() => {
                   if (suggestions.length > 0) setShowSuggestions(true);
                 }}
-                className="pl-10 pr-9 font-hebrew"
+                className="pr-9 font-hebrew"
                 data-testid="input-search"
                 disabled={isLoading}
               />
@@ -354,17 +354,17 @@ export default function Jastrow() {
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground z-10"
                   aria-label="Clear search"
                 >
-                  <X className="h-4 w-4" />
+                  ✕
                 </button>
               )}
 
               {showSuggestions && suggestions.length > 0 && (
-                <div className="absolute top-full left-0 right-0 mt-1 bg-card border border-border rounded-md shadow-lg z-50 max-h-60 overflow-y-auto">
+                <div className="absolute top-full left-0 right-0 mt-1 bg-card border border-border rounded z-50 max-h-60 overflow-y-auto">
                   {suggestions.map((suggestion, index) => (
                     <div
                       key={index}
                       data-testid={`suggestion-${index}`}
-                      className="px-4 py-3 hover:bg-accent cursor-pointer border-b last:border-b-0 flex justify-between items-center"
+                      className="px-4 py-3 hover:bg-secondary cursor-pointer border-b last:border-b-0 flex justify-between items-center"
                       onClick={() => handleSuggestionClick(suggestion)}
                     >
                       <span className="font-hebrew text-lg" dir="rtl">{suggestion.voweled}</span>
@@ -377,13 +377,13 @@ export default function Jastrow() {
               )}
             </div>
             <Button onClick={handleSearch} data-testid="button-search" disabled={isLoading || !searchQuery.trim()}>
-              {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Search"}
+              {isLoading ? "Searching…" : "Search"}
             </Button>
           </div>
-        </div>
+        </section>
 
-        <div className="mb-8">
-          <h2 className="text-lg font-semibold mb-4">Browse by Letter</h2>
+        <section className="py-8 border-t border-border">
+          <h2 className="font-georgia text-xl mb-4">Browse by Letter</h2>
           <div className="grid grid-cols-8 sm:grid-cols-12 gap-2">
             {HEBREW_ALPHABET.map((letter) => {
               const count = lexiconIndex?.perLetterCounts[letter];
@@ -392,7 +392,7 @@ export default function Jastrow() {
                   key={letter}
                   href={`/jastrow/headwords/${encodeURIComponent(letter)}`}
                   data-testid={`button-letter-${letter}`}
-                  className="h-12 inline-flex flex-col items-center justify-center gap-0 rounded-md border border-border text-lg font-hebrew transition-colors hover:bg-accent"
+                  className="h-12 inline-flex flex-col items-center justify-center gap-0 rounded border border-border text-lg font-hebrew transition-colors hover:bg-secondary"
                 >
                   <span className="leading-none">{letter}</span>
                   {count !== undefined && (
@@ -404,20 +404,18 @@ export default function Jastrow() {
               );
             })}
           </div>
-        </div>
+        </section>
 
         {(isLoading || lastSearchedQuery) && (
-        <div>
-          <h2 className="text-lg font-semibold mb-4">Dictionary Entries</h2>
+        <section className="py-8 border-t border-border">
+          <h2 className="font-georgia text-xl mb-4">Dictionary Entries</h2>
 
           {isLoading ? (
             <div className="flex justify-center items-center py-8">
-              <Loader2 className="h-6 w-6 animate-spin mr-2" />
               <span className="text-muted-foreground">Loading entries...</span>
             </div>
           ) : results.length === 0 ? (
-            <Card>
-              <CardContent className="p-8 text-center">
+            <div className="p-8 text-center">
                 <p className="text-muted-foreground">No entries found. Try a different search term or browse by letter.</p>
                 {didYouMean.length > 0 && (
                   <div className="mt-6 max-w-md mx-auto">
@@ -428,7 +426,7 @@ export default function Jastrow() {
                           key={i}
                           type="button"
                           onClick={() => { setSearchQuery(m.voweled); handleSearch(m.voweled); }}
-                          className="font-hebrew text-base px-3 py-1 rounded-md border border-border hover:bg-accent text-blue-600 dark:text-blue-400"
+                          className="font-hebrew text-base px-3 py-1 rounded border border-border hover:bg-secondary text-primary"
                           data-testid={`fuzzy-${i}`}
                           dir="rtl"
                         >
@@ -438,8 +436,7 @@ export default function Jastrow() {
                     </div>
                   </div>
                 )}
-              </CardContent>
-            </Card>
+            </div>
           ) : (
             <div className="space-y-4">
               {results.map((entry, index) => {
@@ -461,11 +458,10 @@ export default function Jastrow() {
                           href={`https://www.sefaria.org.il/Jastrow%2C_${encodeURIComponent(entry.headword)}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 hover:underline inline-flex items-center gap-1.5"
+                          className="text-primary hover:underline"
                           title="View this entry on Sefaria"
                         >
                           {entry.headword}
-                          <ExternalLink className="h-3.5 w-3.5 opacity-70" />
                         </a>
                       </h3>
                       <div className="text-foreground flex-1 prose prose-sm max-w-none">
@@ -489,7 +485,7 @@ export default function Jastrow() {
               })}
             </div>
           )}
-        </div>
+        </section>
         )}
 
       </main>

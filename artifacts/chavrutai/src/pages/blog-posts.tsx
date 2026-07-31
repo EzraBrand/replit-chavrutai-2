@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { BookOpen, Search } from "lucide-react";
 import { Link } from "wouter";
 import { BlogPostsTable } from "@/components/blog-posts/blog-posts-table";
 import { Footer } from "@/components/footer";
@@ -47,28 +46,25 @@ export default function BlogPostsPage() {
 
   if (loading) {
     return (
-      <div className="max-w-7xl mx-auto px-6 py-8">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-sepia-600 dark:text-sepia-400">Loading blog posts...</p>
-        </div>
+      <div className="max-w-content mx-auto px-6 py-12">
+        <div className="text-center text-muted-foreground">Loading blog posts...</div>
       </div>
     );
   }
 
   if (!blogPosts) {
     return (
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="max-w-content mx-auto px-6 py-12">
         <div className="text-center">
-          <h2 className="text-2xl text-sepia-800 dark:text-sepia-200 mb-4">
+          <h2 className="font-georgia text-2xl text-foreground mb-4">
             Blog Posts Not Available
           </h2>
-          <p className="text-sepia-600 dark:text-sepia-400 mb-6">
+          <p className="text-muted-foreground mb-6">
             The blog posts data could not be loaded at this time.
           </p>
           <Link 
             href="/"
-            className="text-blue-600 dark:text-blue-400 hover:underline"
+            className="text-primary dark:text-[#5b9fc5] hover:underline"
           >
             ← Return to Home
           </Link>
@@ -96,84 +92,83 @@ export default function BlogPostsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background text-foreground font-sans">
       {/* Header */}
       <HeaderSimple />
 
-      <div className="max-w-7xl mx-auto px-6 py-6">
-        {/* Page Title */}
-        <div className="mb-6">
-          <div className="flex items-center gap-3 mb-2">
-            <BookOpen className="h-6 w-6 text-sepia-600 dark:text-sepia-400" />
-            <h1 className="text-3xl text-sepia-800 dark:text-sepia-200">
-              "Talmud & Tech" Blog Posts by Talmud Location
-            </h1>
-          </div>
-        
-        <p className="text-sepia-600 dark:text-sepia-400 max-w-4xl mb-6">
-          Blog posts analyzing Talmudic passages, organized by tractate and page location. 
-          Click on titles to go to the full articles at the "Talmud & Tech" Blog, 
-          or use location links to jump to the corresponding text in ChavrutAI.
-        </p>
+      <main className="max-w-content mx-auto px-6">
+        {/* Page title */}
+        <div className="pt-10 pb-8">
+          <div
+            className="mb-3 h-[2px] w-10" style={{ backgroundColor: "var(--category-talmud-bavli)" }}
+            aria-hidden="true"
+          />
+          <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-2">
+            "Talmud &amp; Tech" Blog Posts by Talmud Location
+          </h1>
+          <p className="text-muted-foreground max-w-4xl">
+            Blog posts analyzing Talmudic passages, organized by tractate and page location. 
+            Click on titles to go to the full articles at the "Talmud &amp; Tech" Blog, 
+            or use location links to jump to the corresponding text in ChavrutAI.
+          </p>
+        </div>
 
         {/* Search and Filter Controls */}
-        <div className="flex flex-col md:flex-row gap-4 mb-6">
-          <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-sepia-400 h-4 w-4" />
-            <input
-              type="text"
-              placeholder="Search blog posts, keywords, or tractates..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-sepia-300 dark:border-sepia-600 rounded-md bg-white dark:bg-sepia-800 text-sepia-900 dark:text-sepia-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              data-testid="input-search"
-            />
+        <section className="py-8 border-t border-border">
+          <div className="flex flex-col md:flex-row gap-4 mb-6">
+            <div className="flex-1">
+              <input
+                type="text"
+                placeholder="Search blog posts, keywords, or tractates..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full px-4 py-2 border border-input rounded bg-background text-foreground focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
+                data-testid="input-search"
+              />
+            </div>
+            <select
+              value={selectedTractate}
+              onChange={(e) => setSelectedTractate(e.target.value)}
+              className="px-4 py-2 border border-input rounded bg-background text-foreground focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
+              data-testid="select-tractate"
+            >
+              <option value="all">All Tractates ({blogPosts.totalPosts})</option>
+              {uniqueTractates.map(tractate => {
+                const count = blogPosts.entries.filter(entry => entry.tractate === tractate).length;
+                const displayName = tractate.replace(/_/g, ' ');
+                return (
+                  <option key={tractate} value={tractate}>
+                    {displayName} ({count})
+                  </option>
+                );
+              })}
+            </select>
           </div>
-          <select
-            value={selectedTractate}
-            onChange={(e) => setSelectedTractate(e.target.value)}
-            className="px-4 py-2 border border-sepia-300 dark:border-sepia-600 rounded-md bg-white dark:bg-sepia-800 text-sepia-900 dark:text-sepia-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            data-testid="select-tractate"
-          >
-            <option value="all">All Tractates ({blogPosts.totalPosts})</option>
-            {uniqueTractates.map(tractate => {
-              const count = blogPosts.entries.filter(entry => entry.tractate === tractate).length;
-              const displayName = tractate.replace(/_/g, ' ');
-              return (
-                <option key={tractate} value={tractate}>
-                  {displayName} ({count})
-                </option>
-              );
-            })}
-          </select>
-        </div>
 
-        {/* Results Summary */}
-        {(searchTerm || selectedTractate !== 'all') && (
-          <div className="mb-4 text-sm text-sepia-600 dark:text-sepia-400">
-            Showing {filteredPosts.entries.length} of {blogPosts.totalPosts} blog posts
-            {searchTerm && ` matching "${searchTerm}"`}
-            {selectedTractate !== 'all' && ` in ${selectedTractate.replace(/_/g, ' ')}`}
-          </div>
-        )}
-        </div>
+          {/* Results Summary */}
+          {(searchTerm || selectedTractate !== 'all') && (
+            <div className="mb-4 text-sm text-muted-foreground">
+              Showing {filteredPosts.entries.length} of {blogPosts.totalPosts} blog posts
+              {searchTerm && ` matching "${searchTerm}"`}
+              {selectedTractate !== 'all' && ` in ${selectedTractate.replace(/_/g, ' ')}`}
+            </div>
+          )}
 
-        {/* Blog Posts Table */}
-        <div className="bg-white dark:bg-sepia-900 rounded-lg shadow-lg p-6">
+          {/* Blog Posts Table */}
           <div className="mb-4">
-            <h2 className="text-xl text-sepia-800 dark:text-sepia-200 mb-2">
+            <h2 className="font-georgia text-xl text-foreground mb-2">
               Blog Posts Collection
             </h2>
-            <div className="text-sm text-sepia-600 dark:text-sepia-400">
+            <div className="text-sm text-muted-foreground">
               {filteredPosts.entries.length} posts displayed • Organized by traditional tractate order
             </div>
           </div>
-          
+
           {filteredPosts.entries.length > 0 ? (
             <BlogPostsTable blogPosts={filteredPosts} />
           ) : (
             <div className="text-center py-8">
-              <p className="text-sepia-600 dark:text-sepia-400 mb-4">
+              <p className="text-muted-foreground mb-4">
                 No blog posts found matching your search criteria.
               </p>
               <button
@@ -181,15 +176,15 @@ export default function BlogPostsPage() {
                   setSearchTerm('');
                   setSelectedTractate('all');
                 }}
-                className="text-blue-600 dark:text-blue-400 hover:underline"
+                className="text-primary dark:text-[#5b9fc5] hover:underline"
                 data-testid="button-clear-filters"
               >
                 Clear filters
               </button>
             </div>
           )}
-        </div>
-      </div>
+        </section>
+      </main>
       
       <Footer />
     </div>
