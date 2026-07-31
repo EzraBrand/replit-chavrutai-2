@@ -136,6 +136,18 @@ export default function Home() {
       </header>
 
       <main className="max-w-content mx-auto px-6">
+        {/* Rebrand notice */}
+        <div
+          className="mt-6 rounded border border-border bg-secondary/50 px-4 py-2.5 text-center text-sm text-muted-foreground"
+          data-testid="rebrand-notice"
+        >
+          ChavrutAI is now <strong className="text-foreground">Bekiut</strong> — same
+          site, new name and home at bekiut.com.{" "}
+          <Link href="/about" className="text-primary hover:underline">
+            Learn more
+          </Link>
+        </div>
+
         {/* Hero */}
         <section className="pt-16 pb-12 text-center" data-testid="hero-section">
           <h1 className="font-georgia text-4xl md:text-5xl text-foreground mb-4">
