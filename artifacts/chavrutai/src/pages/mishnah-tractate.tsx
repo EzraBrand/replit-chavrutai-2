@@ -2,7 +2,7 @@ import { useRoute, Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Footer } from "@/components/footer";
+import { PageShell } from "@/components/layout/page-shell";
 import { useSEO } from "@/hooks/use-seo";
 import { getStaticSEO, getMishnahTractateSEO } from "@shared/seo-data";
 import { BreadcrumbNavigation } from "@/components/navigation/breadcrumb-navigation";
@@ -15,7 +15,6 @@ import {
 } from "@shared/tractates";
 import NotFound from "@/pages/not-found";
 import { apiRequest } from "@/lib/queryClient";
-import { HeaderSimple } from "@/components/layout/header-simple";
 
 interface TractateInfoData {
   tractate: string;
@@ -59,10 +58,7 @@ export default function MishnahTractate() {
   const hebrewName = MISHNAH_ONLY_HEBREW_NAMES[tractateDisplayName] || tractateDisplayName;
 
   return (
-    <div className="min-h-screen bg-background">
-      <HeaderSimple />
-
-      <div className="max-w-6xl mx-auto px-4 py-8">
+    <PageShell mainClassName="max-w-6xl px-4 py-8">
         <BreadcrumbNavigation
           items={[
             { label: "Mishnah", href: "/mishnah" },
@@ -134,9 +130,6 @@ export default function MishnahTractate() {
             );
           })}
         </div>
-      </div>
-
-      <Footer />
-    </div>
+    </PageShell>
   );
 }

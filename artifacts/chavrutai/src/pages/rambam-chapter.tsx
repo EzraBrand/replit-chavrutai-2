@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { AlertCircle, ChevronLeft, ChevronRight, ExternalLink as ExternalLinkIcon, Link as LinkIcon, Check } from "lucide-react";
 import { HamburgerMenu } from "@/components/navigation/hamburger-menu";
 import { BreadcrumbNavigation } from "@/components/navigation/breadcrumb-navigation";
-import { Footer } from "@/components/footer";
+import { PageShell } from "@/components/layout/page-shell";
 import { usePreferences } from "@/context/preferences-context";
 import { useSEO } from "@/hooks/use-seo";
 import { processRambamHebrewText, processRambamEnglishText, linkBibleCitations, replaceTerms } from "@/lib/text-processing";
@@ -361,8 +361,10 @@ export default function RambamChapter() {
   const getHebrewFontClass = () => `hebrew-font-${preferences.hebrewFont}`;
 
   return (
-    <div className="min-h-screen bg-background">
-      <header className="sticky top-0 z-50 bg-background border-b border-border">
+    <PageShell
+      mainClassName={`max-w-4xl px-4 py-6 text-size-${preferences.textSize} hebrew-font-${preferences.hebrewFont} english-font-${preferences.englishFont} layout-${preferences.layout}`}
+      header={
+        <header className="sticky top-0 z-50 bg-background border-b border-border">
         <div className="max-w-5xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between gap-4">
             <div className="flex items-center flex-shrink-0">
@@ -410,8 +412,8 @@ export default function RambamChapter() {
           </div>
         </div>
       </header>
-
-      <main className={`max-w-4xl mx-auto px-4 py-6 text-size-${preferences.textSize} hebrew-font-${preferences.hebrewFont} english-font-${preferences.englishFont} layout-${preferences.layout}`}>
+      }
+    >
         <h1 className="sr-only">Mishneh Torah {info.displayName}{isIntroduction ? '' : ` Chapter ${chapterNum}`}</h1>
 
         <BreadcrumbNavigation
@@ -663,9 +665,6 @@ export default function RambamChapter() {
             </div>
           </div>
         )}
-      </main>
-
-      <Footer />
-    </div>
+    </PageShell>
   );
 }

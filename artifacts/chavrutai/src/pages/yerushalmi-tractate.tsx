@@ -2,7 +2,7 @@ import { useRoute, Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Footer } from "@/components/footer";
+import { PageShell } from "@/components/layout/page-shell";
 import { useSEO } from "@/hooks/use-seo";
 import { getStaticSEO, getYerushalmiTractateSEO } from "@shared/seo-data";
 import { BreadcrumbNavigation } from "@/components/navigation/breadcrumb-navigation";
@@ -18,7 +18,6 @@ import {
   findFirstValidHalakhahInChapter,
 } from "@shared/yerushalmi-missing";
 import NotFound from "@/pages/not-found";
-import { HeaderSimple } from "@/components/layout/header-simple";
 
 
 export default function YerushalmiTractate() {
@@ -54,10 +53,7 @@ export default function YerushalmiTractate() {
   const shapes: number[][] = shapeData?.shapes ?? [];
 
   return (
-    <div className="min-h-screen bg-background">
-      <HeaderSimple />
-
-      <div className="max-w-6xl mx-auto px-4 py-8">
+    <PageShell mainClassName="max-w-6xl px-4 py-8">
         <BreadcrumbNavigation
           items={[
             { label: "Jerusalem Talmud", href: "/yerushalmi" },
@@ -130,9 +126,6 @@ export default function YerushalmiTractate() {
             );
           })}
         </div>
-      </div>
-
-      <Footer />
-    </div>
+    </PageShell>
   );
 }

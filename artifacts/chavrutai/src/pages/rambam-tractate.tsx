@@ -3,14 +3,13 @@ import { useRoute, Link, useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Footer } from "@/components/footer";
+import { PageShell } from "@/components/layout/page-shell";
 import { useSEO } from "@/hooks/use-seo";
 import { BreadcrumbNavigation } from "@/components/navigation/breadcrumb-navigation";
 import { getRambamHilchotInfo, isValidRambamHilchot } from "@shared/rambam-data";
 import { getStaticSEO, getRambamHilchotSEO } from "@shared/seo-data";
 import NotFound from "@/pages/not-found";
 import { apiRequest } from "@/lib/queryClient";
-import { HeaderSimple } from "@/components/layout/header-simple";
 
 interface RambamInfoData {
   hilchot: string;
@@ -56,10 +55,7 @@ export default function RambamTractate() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <HeaderSimple />
-
-      <div className="max-w-6xl mx-auto px-4 py-8">
+    <PageShell mainClassName="max-w-6xl px-4 py-8">
         <BreadcrumbNavigation
           items={[
             { label: "Mishneh Torah", href: "/rambam" },
@@ -133,9 +129,6 @@ export default function RambamTractate() {
             );
           })}
         </div>
-      </div>
-
-      <Footer />
-    </div>
+    </PageShell>
   );
 }

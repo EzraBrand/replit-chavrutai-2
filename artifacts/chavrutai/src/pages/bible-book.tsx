@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ChevronLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Footer } from "@/components/footer";
+import { PageShell } from "@/components/layout/page-shell";
 import { useSEO } from "@/hooks/use-seo";
 import { getBibleBookSEO } from "@shared/seo-data";
 import { BreadcrumbNavigation, breadcrumbHelpers } from "@/components/navigation/breadcrumb-navigation";
@@ -65,9 +65,10 @@ export default function BibleBookPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
+    <PageShell
+      mainClassName="max-w-4xl px-4 py-8"
+      header={
+        <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
         <div className="max-w-5xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <Link href="/bible">
@@ -88,8 +89,8 @@ export default function BibleBookPage() {
           </div>
         </div>
       </header>
-
-      <div className="max-w-4xl mx-auto px-4 py-8">
+      }
+    >
         {/* Breadcrumb: Home > Bible > Book */}
         <BreadcrumbNavigation items={breadcrumbHelpers.bibleBook(bookTitle, book)} />
 
@@ -137,9 +138,6 @@ export default function BibleBookPage() {
             </CardContent>
           </Card>
         </div>
-      </div>
-
-      <Footer />
-    </div>
+    </PageShell>
   );
 }

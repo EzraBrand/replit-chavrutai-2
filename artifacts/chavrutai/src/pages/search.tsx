@@ -3,7 +3,7 @@ import { useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { SharedLayout, PageHeader, SectionHeading } from "@/components/layout";
+import { PageShell, PageHeader, SectionHeading } from "@/components/layout";
 import { useSEO } from "@/hooks/use-seo";
 import { getStaticSEO } from "@shared/seo-data";
 import { SEARCH_SUGGESTIONS } from "@/data/search-suggestions";
@@ -266,7 +266,7 @@ export default function SearchPage() {
   };
 
   return (
-    <SharedLayout variant="simple" mainMaxWidth="max-w-4xl">
+    <PageShell mainClassName="max-w-4xl px-4 py-6">
       <style>{`
         mark {
           background-color: #fef08a;
@@ -653,6 +653,6 @@ export default function SearchPage() {
           </div>
         )}
       </div>
-    </SharedLayout>
+    </PageShell>
   );
 }

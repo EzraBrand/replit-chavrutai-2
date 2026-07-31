@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useChapterData } from "@/lib/chapter-data";
 import { generateFolioButtons } from "@/lib/folio-utils";
-import { Footer } from "@/components/footer";
+import { PageShell } from "@/components/layout/page-shell";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
 import { BreadcrumbNavigation, breadcrumbHelpers } from "@/components/navigation/breadcrumb-navigation";
 import {
@@ -16,7 +16,6 @@ import {
 import { getMaxFolio } from "@shared/talmud-navigation";
 import { getMishnahSection } from "@shared/mishnah-map";
 import NotFound from "@/pages/not-found";
-import { HeaderSimple } from "@/components/layout/header-simple";
 
 export default function TractateContents() {
   const [match, params] = useRoute("/talmud/:tractate");
@@ -46,11 +45,7 @@ export default function TractateContents() {
     ] || tractate;
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <HeaderSimple />
-
-      <div className="max-w-6xl mx-auto px-4 py-8">
+    <PageShell mainClassName="max-w-6xl px-4 py-8">
         {/* Breadcrumb: Home > Talmud > Tractate */}
         <BreadcrumbNavigation items={breadcrumbHelpers.tractateContents(tractateDisplayName)} />
 
@@ -121,9 +116,6 @@ export default function TractateContents() {
             );
           })}
         </div>
-      </div>
-
-      <Footer />
-    </div>
+    </PageShell>
   );
 }
