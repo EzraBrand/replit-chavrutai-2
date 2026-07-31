@@ -99,7 +99,7 @@ export default function SefariaFetchPage() {
   const convertChavrutaiRef = (input: string): string => {
     let working = input.trim();
 
-    const urlMatch = working.match(/^https?:\/\/(?:www\.)?chavrutai\.com\/talmud\/([^#?]+?)(?:#(\d+))?$/);
+    const urlMatch = working.match(/^https?:\/\/(?:www\.)?(?:bekiut|chavrutai)\.com\/talmud\/([^#?]+?)(?:#(\d+))?$/);
     if (urlMatch) {
       const pathParts = urlMatch[1].split('/');
       const tractate = pathParts.slice(0, -1).join('_').replace(/_/g, ' ');
@@ -642,7 +642,7 @@ ${cleanHtml}
                 </p>
                 <ul className="list-disc list-inside space-y-1 ml-2">
                   <li><strong>Bekiut Reference:</strong> Use slash-separated format, optionally with a section (e.g., <code className="text-xs bg-muted px-1 rounded">Shabbat/89b</code> or <code className="text-xs bg-muted px-1 rounded">Rosh_Hashanah/17a#11</code>)</li>
-                  <li><strong>Bekiut URL:</strong> Paste a Bekiut URL (e.g., <code className="text-xs bg-muted px-1 rounded">https://chavrutai.com/talmud/Rosh_Hashanah/17a#11</code>)</li>
+                  <li><strong>Bekiut URL:</strong> Paste a Bekiut URL (e.g., <code className="text-xs bg-muted px-1 rounded">https://bekiut.com/talmud/Rosh_Hashanah/17a#11</code>)</li>
                   <li><strong>Sefaria Reference:</strong> Use dot-separated format (e.g., <code className="text-xs bg-muted px-1 rounded">Menachot.65a.4-66a.8</code>)</li>
                   <li><strong>Sefaria URL:</strong> Paste a Sefaria URL (can span multiple pages, e.g., <code className="text-xs bg-muted px-1 rounded">https://www.sefaria.org/Berakhot.16b.18-17a.12</code>)</li>
                   <li><strong>Blog Post Selection:</strong> Choose from a dropdown list of blog post titles and ranges of specific sugyot to auto-fill the reference</li>
@@ -667,7 +667,7 @@ ${cleanHtml}
               </Label>
               <Input
                 id="sefaria-url"
-                placeholder="e.g., Shabbat/89b, Rosh_Hashanah/17a#11, or https://chavrutai.com/talmud/..."
+                placeholder="e.g., Shabbat/89b, Rosh_Hashanah/17a#11, or https://bekiut.com/talmud/..."
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
                 onKeyDown={(e) => { if (e.key === 'Enter') handleFetch(); }}

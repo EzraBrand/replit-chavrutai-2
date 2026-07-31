@@ -29,7 +29,7 @@ User-agent: Bingbot
 Crawl-delay: 2
 
 # Sitemap
-Sitemap: https://chavrutai.com/sitemap.xml
+Sitemap: https://bekiut.com/sitemap.xml
 
 # SEO Strategy:
 # - /tractate/ URLs are deprecated and 301 redirect to /talmud/

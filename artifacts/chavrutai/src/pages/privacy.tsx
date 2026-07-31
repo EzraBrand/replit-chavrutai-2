@@ -35,7 +35,7 @@ export default function Privacy() {
       <PageSection>
         <SectionHeading className="mb-4">Overview</SectionHeading>
         <p className="text-muted-foreground leading-relaxed mb-4">
-            Bekiut ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard information when you use our free Talmud study platform at chavrutai.com (the "Service").
+            Bekiut ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard information when you use our free Talmud study platform at bekiut.com (the "Service").
           </p>
           <p className="text-muted-foreground leading-relaxed">
             Bekiut is a free educational platform designed to make Talmud study accessible through digital technology. We are committed to maintaining your privacy while providing the best possible learning experience.
@@ -97,7 +97,7 @@ export default function Privacy() {
         <SectionHeading className="mb-4">Your Rights and Choices</SectionHeading>
           <ul className="list-disc list-inside space-y-2 mb-4 text-muted-foreground ml-4">
             <li><strong>Analytics Opt-Out:</strong> You can opt out of Google Analytics tracking by using browser extensions or disabling JavaScript.</li>
-            <li><strong>Local Storage:</strong> You can clear your study preferences by clearing your browser's local storage for chavrutai.com.</li>
+            <li><strong>Local Storage:</strong> You can clear your study preferences by clearing your browser's local storage for bekiut.com.</li>
             <li><strong>Contact Us:</strong> You may contact us to request information about data we may have collected about you.</li>
           </ul>
       </PageSection>
@@ -153,11 +153,11 @@ export default function Privacy() {
           <p className="text-muted-foreground mt-2">
             <strong>Website:</strong>{" "}
             <a
-              href="https://chavrutai.com"
+              href="https://bekiut.com"
               className="text-primary hover:text-primary/80 underline"
               data-testid="website-link"
             >
-              https://chavrutai.com
+              https://bekiut.com
             </a>
           </p>
       </PageSection>

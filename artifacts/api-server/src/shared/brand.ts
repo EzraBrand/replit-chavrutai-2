@@ -5,9 +5,8 @@
 
 export const BRAND_NAME = "Bekiut";
 
-// Canonical production base URL (no trailing slash). Still the current domain;
-// the Bekiut domains are not yet registered/pointed.
-export const CANONICAL_BASE_URL = "https://chavrutai.com";
+// Canonical production base URL (no trailing slash).
+export const CANONICAL_BASE_URL = "https://bekiut.com";
 
 // Social handle is unchanged for now (renaming the X account is out of scope).
 export const TWITTER_HANDLE = "@ChavrutAI";
