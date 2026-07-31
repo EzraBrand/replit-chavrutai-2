@@ -505,7 +505,6 @@ export default function Bdb() {
           />
           <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-2">
             BDB Hebrew Bible Dictionary
-            <span className="ml-2 text-base font-medium text-muted-foreground align-middle" data-testid="badge-beta">(beta)</span>
           </h1>
           <p className="text-sm text-muted-foreground">
             Brown, Driver, and Briggs — A Hebrew and English Lexicon of the Old Testament (1906)

@@ -1,21 +1,98 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ExternalLink, ArrowRight } from "lucide-react";
 import { Footer } from "@/components/footer";
+import { HeaderSimple } from "@/components/layout/header-simple";
 import { useSEO } from "@/hooks/use-seo";
 import { TRACTATE_LISTS, TRACTATE_HEBREW_NAMES, normalizeDisplayTractateName, isValidTractate, getTractateSlug } from "@shared/tractates";
 import { getMaxFolio, getStartFolio, getStartSide } from "@shared/talmud-navigation";
-import { 
-  getAllExternalLinks, 
-  getSectionLinks, 
+import {
+  getAllExternalLinks,
+  getSectionLinks,
   getPageLinks,
-  type TalmudReference, 
-  type ExternalLink as ExternalLinkType 
+  type TalmudReference,
+  type ExternalLink as ExternalLinkType
 } from "@/lib/external-links";
+
+const RELATED_ARTICLES: { href: string; label: string; source?: string; testId: string }[] = [
+  {
+    href: "https://www.ezrabrand.com/p/chavrutai-talmud-web-app-launch-review",
+    label: "ChavrutAI Talmud Web App Launch: Review and Comparison with Similar Platforms",
+    testId: "link-chavrutai-review",
+  },
+  {
+    href: "https://seforimblog.com/2023/06/from-print-to-pixel-digital-editions-of-the-talmud-bavli/",
+    label: "From Print to Pixel: Digital Editions of the Talmud Bavli",
+    source: "Seforim Blog",
+    testId: "link-pixel-article",
+  },
+  {
+    href: "https://www.academia.edu/83334340/Guide_to_Online_Resources_for_Scholarly_Jewish_Study_and_Research_2023",
+    label: "Guide to Online Resources for Scholarly Jewish Study and Research - 2023",
+    source: "Academia.edu",
+    testId: "link-academia-guide",
+  },
+  {
+    href: "https://www.ezrabrand.com/p/evaluating-al-hatorahs-digital-repository",
+    label: "Evaluating Al HaTorah's Digital Repository",
+    testId: "link-alhatorah-review",
+  },
+  {
+    href: "https://www.ezrabrand.com/p/more-on-the-formatting-of-the-talmud",
+    label: "More on the Formatting of the Talmud",
+    testId: "link-comparison-blogpost",
+  },
+  {
+    href: "https://www.ezrabrand.com/p/helpful-formatting-of-the-talmud",
+    label: "Helpful Formatting of the Talmud: Ohr Somayach's 'Talmud Navigator'",
+    testId: "link-helpful-formatting",
+  },
+];
+
+function LinkRow({
+  name,
+  description,
+  url,
+  href,
+  sameTab,
+  testId,
+}: {
+  name: string;
+  description?: string;
+  url: string;
+  href: string;
+  sameTab?: boolean;
+  testId: string;
+}) {
+  return (
+    <div className="flex items-center justify-between py-3 border-t border-border hover:bg-secondary px-2 -mx-2">
+      <div>
+        <div className="font-medium flex items-center gap-2">
+          {name}
+          <span className="text-xs text-muted-foreground">
+            {sameTab ? "same tab" : "new tab"}
+          </span>
+        </div>
+        {description && (
+          <div className="text-sm text-muted-foreground">{description}</div>
+        )}
+        <div className="text-xs text-muted-foreground mt-1 font-mono break-all max-w-md">
+          {url}
+        </div>
+      </div>
+      <a
+        href={href}
+        {...(sameTab ? {} : { target: "_blank", rel: "noopener noreferrer" })}
+        className="text-primary dark:text-[#5b9fc5] hover:underline flex-shrink-0 ml-4 text-sm"
+        data-testid={testId}
+      >
+        Open →
+      </a>
+    </div>
+  );
+}
 
 function ExternalLinksPage() {
   useSEO({
@@ -73,7 +150,7 @@ function ExternalLinksPage() {
     const newStartFolio = getStartFolio(tractate);
     const newStartSide = getStartSide(tractate);
     const newMaxFolio = getMaxFolio(tractate);
-    
+
     // If current folio is out of range, reset to start
     if (folio < newStartFolio || folio > newMaxFolio) {
       setFolio(newStartFolio);
@@ -105,306 +182,170 @@ function ExternalLinksPage() {
   const pageLinks = getPageLinks({ tractate, folio, side, section });
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">
+    <div className="min-h-screen bg-background text-foreground font-sans">
+      <HeaderSimple />
+
+      <main className="max-w-content mx-auto px-6">
+        <div className="pt-10 pb-8">
+          <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-4">
             Links to Talmud Pages, by Platform
           </h1>
-        </div>
-
-        <Card className="mb-6">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-lg">
-              About
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="text-sm text-muted-foreground space-y-2">
+          <div className="text-sm text-muted-foreground space-y-2">
             <p>
-              This page provides links to the same Talmud pages and sections across different websites. 
-              Select a tractate, folio, and side below, then use the provided links to view that page 
+              This page provides links to the same Talmud pages and sections across different websites.
+              Select a tractate, folio, and side below, then use the provided links to view that page
               on any of the following websites: ChavrutAI, Sefaria, Al HaTorah, Wikisource, or 'Daf Yomi' (tzurat hadaf).
             </p>
             <p>
-              Optionally add a section number to get links that point directly to a specific paragraph. 
+              Optionally add a section number to get links that point directly to a specific paragraph.
               ChavrutAI links open in the same tab; all other links open in a new tab.
             </p>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
-        <Card className="mb-6">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-lg">
-              Related Articles
-            </CardTitle>
-            <CardDescription>
-              Blog posts and articles about digital Talmud resources:
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ul className="list-disc list-inside space-y-2 text-sm">
-              <li>
-                <a 
-                  href="https://www.ezrabrand.com/p/chavrutai-talmud-web-app-launch-review"
+        <section className="py-8 border-t border-border">
+          <h2 className="font-georgia text-xl text-foreground mb-1">Related Articles</h2>
+          <p className="text-sm text-muted-foreground mb-4">
+            Blog posts and articles about digital Talmud resources:
+          </p>
+          <ul className="space-y-2 text-sm">
+            {RELATED_ARTICLES.map((a) => (
+              <li key={a.testId}>
+                <a
+                  href={a.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-600 dark:text-blue-400 hover:underline"
-                  data-testid="link-chavrutai-review"
+                  className="text-primary dark:text-[#5b9fc5] hover:underline"
+                  data-testid={a.testId}
                 >
-                  ChavrutAI Talmud Web App Launch: Review and Comparison with Similar Platforms
+                  {a.label}
                 </a>
+                {a.source && <span className="text-muted-foreground"> ({a.source})</span>}
               </li>
-              <li>
-                <a 
-                  href="https://seforimblog.com/2023/06/from-print-to-pixel-digital-editions-of-the-talmud-bavli/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 dark:text-blue-400 hover:underline"
-                  data-testid="link-pixel-article"
-                >
-                  From Print to Pixel: Digital Editions of the Talmud Bavli
-                </a>
-                {" "}(Seforim Blog)
-              </li>
-              <li>
-                <a 
-                  href="https://www.academia.edu/83334340/Guide_to_Online_Resources_for_Scholarly_Jewish_Study_and_Research_2023"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 dark:text-blue-400 hover:underline"
-                  data-testid="link-academia-guide"
-                >
-                  Guide to Online Resources for Scholarly Jewish Study and Research - 2023
-                </a>
-                {" "}(Academia.edu)
-              </li>
-              <li>
-                <a 
-                  href="https://www.ezrabrand.com/p/evaluating-al-hatorahs-digital-repository"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 dark:text-blue-400 hover:underline"
-                  data-testid="link-alhatorah-review"
-                >
-                  Evaluating Al HaTorah's Digital Repository
-                </a>
-              </li>
-              <li>
-                <a 
-                  href="https://www.ezrabrand.com/p/more-on-the-formatting-of-the-talmud"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 dark:text-blue-400 hover:underline"
-                  data-testid="link-comparison-blogpost"
-                >
-                  More on the Formatting of the Talmud
-                </a>
-              </li>
-              <li>
-                <a 
-                  href="https://www.ezrabrand.com/p/helpful-formatting-of-the-talmud"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 dark:text-blue-400 hover:underline"
-                  data-testid="link-helpful-formatting"
-                >
-                  Helpful Formatting of the Talmud: Ohr Somayach's 'Talmud Navigator'
-                </a>
-              </li>
-            </ul>
-          </CardContent>
-        </Card>
+            ))}
+          </ul>
+        </section>
 
-        <Card className="mb-6">
-          <CardHeader>
-            <CardTitle>Selection</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="col-span-2">
-                <Label htmlFor="tractate">Tractate</Label>
-                <Select value={tractate} onValueChange={setTractate}>
-                  <SelectTrigger id="tractate" data-testid="select-tractate">
-                    <SelectValue placeholder="Select tractate" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {TRACTATE_LISTS["Talmud Bavli"].map((t) => (
-                      <SelectItem key={t} value={t}>
-                        {t} ({TRACTATE_HEBREW_NAMES[t as keyof typeof TRACTATE_HEBREW_NAMES] || ''})
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div>
-                <Label htmlFor="folio">Folio</Label>
-                <Input
-                  id="folio"
-                  type="number"
-                  min={startFolio}
-                  max={maxFolio}
-                  value={folio}
-                  onChange={(e) => setFolio(Math.max(startFolio, Math.min(maxFolio, parseInt(e.target.value) || startFolio)))}
-                  data-testid="input-folio"
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="side">Side</Label>
-                <Select value={side} onValueChange={(v) => setSide(v as 'a' | 'b')}>
-                  <SelectTrigger id="side" data-testid="select-side">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="a">a (א)</SelectItem>
-                    <SelectItem value="b">b (ב)</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="col-span-2 md:col-span-1">
-                <Label htmlFor="section">Section (optional)</Label>
-                <Input
-                  id="section"
-                  type="number"
-                  min={1}
-                  placeholder="e.g., 14"
-                  value={sectionInput}
-                  onChange={(e) => handleSectionChange(e.target.value)}
-                  data-testid="input-section"
-                />
-              </div>
+        <section className="py-8 border-t border-border">
+          <h2 className="font-georgia text-xl text-foreground mb-4">Selection</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="col-span-2">
+              <Label htmlFor="tractate">Tractate</Label>
+              <Select value={tractate} onValueChange={setTractate}>
+                <SelectTrigger id="tractate" className="rounded" data-testid="select-tractate">
+                  <SelectValue placeholder="Select tractate" />
+                </SelectTrigger>
+                <SelectContent>
+                  {TRACTATE_LISTS["Talmud Bavli"].map((t) => (
+                    <SelectItem key={t} value={t}>
+                      {t} ({TRACTATE_HEBREW_NAMES[t as keyof typeof TRACTATE_HEBREW_NAMES] || ''})
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
-          </CardContent>
-        </Card>
+
+            <div>
+              <Label htmlFor="folio">Folio</Label>
+              <Input
+                id="folio"
+                type="number"
+                min={startFolio}
+                max={maxFolio}
+                value={folio}
+                onChange={(e) => setFolio(Math.max(startFolio, Math.min(maxFolio, parseInt(e.target.value) || startFolio)))}
+                className="rounded"
+                data-testid="input-folio"
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="side">Side</Label>
+              <Select value={side} onValueChange={(v) => setSide(v as 'a' | 'b')}>
+                <SelectTrigger id="side" className="rounded" data-testid="select-side">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="a">a (א)</SelectItem>
+                  <SelectItem value="b">b (ב)</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="col-span-2 md:col-span-1">
+              <Label htmlFor="section">Section (optional)</Label>
+              <Input
+                id="section"
+                type="number"
+                min={1}
+                placeholder="e.g., 14"
+                value={sectionInput}
+                onChange={(e) => handleSectionChange(e.target.value)}
+                className="rounded"
+                data-testid="input-section"
+              />
+            </div>
+          </div>
+        </section>
 
         {section !== undefined && (
-          <Card className="mb-6">
-            <CardHeader>
-              <CardTitle>
-                Section-Level Links
-              </CardTitle>
-              <CardDescription>
-                Links that point to the specific section ({currentRef})
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg border-l-4 border-primary">
-                  <div>
-                    <div className="font-medium flex items-center gap-2">
-                      ChavrutAI
-                      <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded">same tab</span>
-                    </div>
-                    <div className="text-sm text-muted-foreground">ChavrutAI Talmud Reader - section anchor</div>
-                    <div className="text-xs text-muted-foreground mt-1 font-mono break-all max-w-md">
-                      /talmud/{getTractateSlug(tractate)}/{folio}{side}#section-{section}
-                    </div>
-                  </div>
-                  <a
-                    href={`/talmud/${getTractateSlug(tractate)}/${folio}${side}#section-${section}`}
-                    className="flex items-center gap-1 text-primary hover:underline flex-shrink-0 ml-4"
-                    data-testid="link-section-chavrutai"
-                  >
-                    <ArrowRight className="w-4 h-4" />
-                    Open
-                  </a>
-                </div>
-                {sectionLinks.map((link, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
-                    <div>
-                      <div className="font-medium flex items-center gap-2">
-                        {link.name}
-                        <span className="text-xs bg-muted text-muted-foreground px-2 py-0.5 rounded">new tab</span>
-                      </div>
-                      {link.description && (
-                        <div className="text-sm text-muted-foreground">{link.description}</div>
-                      )}
-                      <div className="text-xs text-muted-foreground mt-1 font-mono break-all max-w-md">
-                        {link.url}
-                      </div>
-                    </div>
-                    <a
-                      href={link.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-1 text-primary hover:underline flex-shrink-0 ml-4"
-                      data-testid={`link-section-${link.name.toLowerCase().replace(/\s/g, '-')}`}
-                    >
-                      <ExternalLink className="w-4 h-4" />
-                      Open
-                    </a>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        )}
-
-        <Card>
-          <CardHeader>
-            <CardTitle>
-              Page-Level Links
-            </CardTitle>
-            <CardDescription>
-              Links that point to the full page ({tractate} {folio}{side})
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg border-l-4 border-primary">
-                <div>
-                  <div className="font-medium flex items-center gap-2">
-                    ChavrutAI
-                    <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded">same tab</span>
-                  </div>
-                  <div className="text-sm text-muted-foreground">ChavrutAI Talmud Reader</div>
-                  <div className="text-xs text-muted-foreground mt-1 font-mono break-all max-w-md">
-                    /talmud/{getTractateSlug(tractate)}/{folio}{side}
-                  </div>
-                </div>
-                <a
-                  href={`/talmud/${getTractateSlug(tractate)}/${folio}${side}`}
-                  className="flex items-center gap-1 text-primary hover:underline flex-shrink-0 ml-4"
-                  data-testid="link-page-chavrutai"
-                >
-                  <ArrowRight className="w-4 h-4" />
-                  Open
-                </a>
-              </div>
-              {pageLinks.map((link, index) => (
-                <div key={index} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
-                  <div>
-                    <div className="font-medium flex items-center gap-2">
-                      {link.name}
-                      <span className="text-xs bg-muted text-muted-foreground px-2 py-0.5 rounded">new tab</span>
-                    </div>
-                    {link.description && (
-                      <div className="text-sm text-muted-foreground">{link.description}</div>
-                    )}
-                    <div className="text-xs text-muted-foreground mt-1 font-mono break-all max-w-md">
-                      {link.url}
-                    </div>
-                  </div>
-                  <a
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1 text-primary hover:underline flex-shrink-0 ml-4"
-                    data-testid={`link-page-${link.name.toLowerCase().replace(/\s/g, '-')}`}
-                  >
-                    <ExternalLink className="w-4 h-4" />
-                    Open
-                  </a>
-                </div>
+          <section className="py-8 border-t border-border">
+            <h2 className="font-georgia text-xl text-foreground mb-1">Section-Level Links</h2>
+            <p className="text-sm text-muted-foreground mb-4">
+              Links that point to the specific section ({currentRef})
+            </p>
+            <div>
+              <LinkRow
+                name="ChavrutAI"
+                description="ChavrutAI Talmud Reader - section anchor"
+                url={`/talmud/${getTractateSlug(tractate)}/${folio}${side}#section-${section}`}
+                href={`/talmud/${getTractateSlug(tractate)}/${folio}${side}#section-${section}`}
+                sameTab
+                testId="link-section-chavrutai"
+              />
+              {sectionLinks.map((link, index) => (
+                <LinkRow
+                  key={index}
+                  name={link.name}
+                  description={link.description}
+                  url={link.url}
+                  href={link.url}
+                  testId={`link-section-${link.name.toLowerCase().replace(/\s/g, '-')}`}
+                />
               ))}
             </div>
-          </CardContent>
-        </Card>
+          </section>
+        )}
 
-        <Footer />
-      </div>
+        <section className="py-8 border-t border-border">
+          <h2 className="font-georgia text-xl text-foreground mb-1">Page-Level Links</h2>
+          <p className="text-sm text-muted-foreground mb-4">
+            Links that point to the full page ({tractate} {folio}{side})
+          </p>
+          <div>
+            <LinkRow
+              name="ChavrutAI"
+              description="ChavrutAI Talmud Reader"
+              url={`/talmud/${getTractateSlug(tractate)}/${folio}${side}`}
+              href={`/talmud/${getTractateSlug(tractate)}/${folio}${side}`}
+              sameTab
+              testId="link-page-chavrutai"
+            />
+            {pageLinks.map((link, index) => (
+              <LinkRow
+                key={index}
+                name={link.name}
+                description={link.description}
+                url={link.url}
+                href={link.url}
+                testId={`link-page-${link.name.toLowerCase().replace(/\s/g, '-')}`}
+              />
+            ))}
+          </div>
+        </section>
+      </main>
+
+      <Footer />
     </div>
   );
 }

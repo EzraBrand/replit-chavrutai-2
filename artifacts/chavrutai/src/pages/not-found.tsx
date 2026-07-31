@@ -1,8 +1,7 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { AlertCircle, Home, Mail } from "lucide-react";
 import { Link } from "wouter";
 import { useSEO } from "@/hooks/use-seo";
+import { HeaderSimple } from "@/components/layout/header-simple";
+import { Footer } from "@/components/footer";
 
 export default function NotFound() {
   useSEO({
@@ -11,42 +10,43 @@ export default function NotFound() {
     noindex: true,
   });
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-gray-50 dark:bg-gray-900">
-      <Card className="w-full max-w-md mx-4">
-        <CardContent className="pt-6 space-y-6">
-          <div className="text-center">
-            <AlertCircle className="h-16 w-16 text-red-500 mx-auto mb-4" />
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-              404 Page Not Found
-            </h1>
-            <p className="text-gray-600 dark:text-gray-400">
-              The page you're looking for doesn't exist or has been moved.
+    <div className="min-h-screen flex flex-col bg-background text-foreground font-sans">
+      <HeaderSimple />
+
+      <main className="max-w-content mx-auto px-6 flex-1 w-full">
+        <div className="pt-16 pb-12 max-w-xl">
+          <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-3">
+            404 — Page Not Found
+          </h1>
+          <p className="text-muted-foreground mb-8">
+            The page you're looking for doesn't exist or has been moved.
+          </p>
+
+          <div className="border-t border-border pt-6 space-y-3">
+            <p>
+              <Link
+                href="/"
+                className="text-primary dark:text-[#5b9fc5] hover:underline"
+                data-testid="link-home"
+              >
+                Return to the homepage →
+              </Link>
+            </p>
+            <p className="text-sm text-muted-foreground">
+              If errors persist, contact{" "}
+              <a
+                href="mailto:ezra@chavrutai.com"
+                className="text-primary dark:text-[#5b9fc5] hover:underline"
+                data-testid="link-contact-support"
+              >
+                ezra@chavrutai.com
+              </a>
             </p>
           </div>
+        </div>
+      </main>
 
-          <div className="space-y-3">
-            <Link href="/" data-testid="link-home">
-              <Button className="w-full" variant="default">
-                <Home className="h-4 w-4 mr-2" />
-                Return to Table of Contents
-              </Button>
-            </Link>
-            
-            <div className="text-center">
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                If errors persist, contact{" "}
-                <a 
-                  href="mailto:ezra@chavrutai.com"
-                  className="text-primary hover:underline font-medium"
-                  data-testid="link-contact-support"
-                >
-                  ezra@chavrutai.com
-                </a>
-              </p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      <Footer />
     </div>
   );
 }

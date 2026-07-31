@@ -1,10 +1,10 @@
 import { useMemo, useState } from "react";
 import { Link } from "wouter";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent } from "@/components/ui/card";
 import { useSEO } from "@/hooks/use-seo";
 import { getStaticSEO } from "@shared/seo-data";
 import { Footer } from "@/components/footer";
+import { HeaderSimple } from "@/components/layout/header-simple";
 import termReplacements from "@shared/data/term-replacements.json";
 
 interface CategoryData {
@@ -87,102 +87,103 @@ export default function TalmudTermReplacements() {
   );
 
   return (
-    <div className="min-h-screen flex flex-col">
-    <main
-      className="max-w-4xl mx-auto px-4 py-8 flex-1 w-full"
-      data-testid="talmud-term-replacements-page"
-    >
-      <nav className="text-sm text-muted-foreground mb-4" aria-label="Breadcrumb">
-        <Link href="/about" className="hover:text-foreground underline">
-          About
-        </Link>
-        <span className="mx-2">/</span>
-        <span>Talmud Term Replacements</span>
-      </nav>
+    <div className="min-h-screen flex flex-col bg-background text-foreground font-sans">
+      <HeaderSimple />
+      <main
+        className="max-w-content mx-auto px-6 flex-1 w-full"
+        data-testid="talmud-term-replacements-page"
+      >
+        <div className="pt-10 pb-8">
+          <nav className="text-sm text-muted-foreground mb-4" aria-label="Breadcrumb">
+            <Link href="/about" className="hover:text-foreground">
+              About
+            </Link>
+            <span className="mx-2">›</span>
+            <span className="text-foreground">Talmud Term Replacements</span>
+          </nav>
 
-      <h1 className="text-2xl font-semibold mb-2">Talmud Term Replacements</h1>
-      <p className="text-sm text-muted-foreground mb-6">
-        The full list of inline terminology updates ChavrutAI applies to the
-        English translation of the Talmud. {rows.length.toLocaleString()}{" "}
-        replacements across {categories.length} categories. These are targeted
-        improvements designed to make the text more accessible and accurate —
-        archaic terms become contemporary ones (e.g. <em>phylacteries</em> →{" "}
-        <em>tefillin</em>), lengthy circumlocutions are simplified (e.g.{" "}
-        <em>The Holy One, Blessed be He</em> → <em>God</em>), and personal
-        names use modern Hebrew spellings (e.g. <em>Jehudah</em> →{" "}
-        <em>Yehuda</em>).
-      </p>
+          <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-2">
+            Talmud Term Replacements
+          </h1>
+          <p className="text-sm text-muted-foreground">
+            The full list of inline terminology updates ChavrutAI applies to the
+            English translation of the Talmud. {rows.length.toLocaleString()}{" "}
+            replacements across {categories.length} categories. These are targeted
+            improvements designed to make the text more accessible and accurate —
+            archaic terms become contemporary ones (e.g. <em>phylacteries</em> →{" "}
+            <em>tefillin</em>), lengthy circumlocutions are simplified (e.g.{" "}
+            <em>The Holy One, Blessed be He</em> → <em>God</em>), and personal
+            names use modern Hebrew spellings (e.g. <em>Jehudah</em> →{" "}
+            <em>Yehuda</em>).
+          </p>
+        </div>
 
-      <div className="mb-6">
-        <Input
-          type="search"
-          placeholder="Filter replacements…"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          data-testid="input-filter"
-          className="max-w-md"
-        />
-        <p className="text-xs text-muted-foreground mt-2">
-          Showing {filteredTotal.toLocaleString()} of{" "}
-          {totalCount.toLocaleString()}
-        </p>
-      </div>
+        <div className="border-t border-border pt-6 mb-8">
+          <Input
+            type="search"
+            placeholder="Filter replacements…"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            data-testid="input-filter"
+            className="max-w-md rounded"
+          />
+          <p className="text-xs text-muted-foreground mt-2">
+            Showing {filteredTotal.toLocaleString()} of{" "}
+            {totalCount.toLocaleString()}
+          </p>
+        </div>
 
-      <div className="space-y-6">
-        {filteredCategories.map((cat) => (
-          <section key={cat.key} data-testid={`category-${cat.key}`}>
-            <h2 className="text-lg font-semibold text-foreground mb-1">
-              {cat.label}{" "}
-              <span className="text-sm font-normal text-muted-foreground">
-                ({cat.rows.length.toLocaleString()})
-              </span>
-            </h2>
-            {cat.description && (
-              <p className="text-sm text-muted-foreground mb-3">
-                {cat.description}
-              </p>
-            )}
-            <Card className="border-border">
-              <CardContent className="p-0">
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
-                    <thead className="bg-secondary/40 text-left">
-                      <tr>
-                        <th className="px-4 py-2 font-medium w-1/2">
-                          Original
-                        </th>
-                        <th className="px-4 py-2 font-medium">
-                          Replacement
-                        </th>
+        <div className="pb-12">
+          {filteredCategories.map((cat) => (
+            <section
+              key={cat.key}
+              className="py-6 border-t border-border"
+              data-testid={`category-${cat.key}`}
+            >
+              <h2 className="font-georgia text-xl text-foreground mb-1">
+                {cat.label}{" "}
+                <span className="text-sm font-normal text-muted-foreground font-sans">
+                  ({cat.rows.length.toLocaleString()})
+                </span>
+              </h2>
+              {cat.description && (
+                <p className="text-sm text-muted-foreground mb-3">
+                  {cat.description}
+                </p>
+              )}
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead className="text-left">
+                    <tr>
+                      <th className="px-4 py-2 font-medium w-1/2">Original</th>
+                      <th className="px-4 py-2 font-medium">Replacement</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {cat.rows.map((row, i) => (
+                      <tr
+                        key={`${cat.key}-${i}`}
+                        className="border-t border-border hover:bg-secondary"
+                        data-testid={`row-${cat.key}-${i}`}
+                      >
+                        <td className="px-4 py-2 align-top whitespace-pre-wrap">
+                          {row.from}
+                        </td>
+                        <td className="px-4 py-2 align-top whitespace-pre-wrap">
+                          {row.to}
+                        </td>
                       </tr>
-                    </thead>
-                    <tbody>
-                      {cat.rows.map((row, i) => (
-                        <tr
-                          key={`${cat.key}-${i}`}
-                          className="border-t border-border hover:bg-secondary/20"
-                          data-testid={`row-${cat.key}-${i}`}
-                        >
-                          <td className="px-4 py-2 align-top whitespace-pre-wrap">
-                            {row.from}
-                          </td>
-                          <td className="px-4 py-2 align-top whitespace-pre-wrap">
-                            {row.to}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </CardContent>
-            </Card>
-          </section>
-        ))}
-        {filteredCategories.length === 0 && (
-          <p className="text-center text-muted-foreground py-8">No matches.</p>
-        )}
-      </div>
-    </main>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          ))}
+          {filteredCategories.length === 0 && (
+            <p className="text-center text-muted-foreground py-8">No matches.</p>
+          )}
+        </div>
+      </main>
       <Footer />
     </div>
   );

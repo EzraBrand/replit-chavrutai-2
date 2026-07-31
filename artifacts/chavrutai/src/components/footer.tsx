@@ -141,7 +141,7 @@ export function Footer() {
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
                 data-testid="footer-link-bdb"
               >
-                BDB Hebrew Bible Dictionary (beta)
+                BDB Hebrew Bible Dictionary
               </Link>
               <Link 
                 href="/term-index"

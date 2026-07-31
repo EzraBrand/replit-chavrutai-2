@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
-import { Loader2, ExternalLink } from "lucide-react";
 import bdbMappings from "@shared/data/lexicon-mappings/bdb.json";
 import {
   dictionaryStyles,
@@ -106,32 +105,31 @@ export default function BdbPrefixTest() {
   const entries = data?.entries ?? [];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background text-foreground font-sans">
       <style dangerouslySetInnerHTML={{ __html: dictionaryStyles }} />
 
-      <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/bdb" className="text-xl font-semibold text-primary font-roboto hover:opacity-80">
+      <header className="sticky top-0 z-50 bg-background border-b border-border">
+        <div className="max-w-content mx-auto px-6 py-4 flex items-center justify-between">
+          <Link href="/bdb" className="text-xl font-semibold text-primary hover:opacity-80">
             ChavrutAI · BDB
           </Link>
           <span className="text-sm text-muted-foreground">Prefix entry probe (internal)</span>
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto p-6">
-        <h1 className="text-3xl font-bold text-primary mb-2">
-          BDB Single-Letter &amp; Prefix Entries
-        </h1>
-        <p className="text-sm text-muted-foreground mb-6">
-          {entries.length} entries (two-letter headwords + prefixes/prepositions + single-letter
-          descriptions) that the live search misses. Click any headword to look it up.
-        </p>
+      <main className="max-w-content mx-auto px-6">
+        <div className="pt-10 pb-8">
+          <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-2">
+            BDB Single-Letter &amp; Prefix Entries
+          </h1>
+          <p className="text-sm text-muted-foreground">
+            {entries.length} entries (two-letter headwords + prefixes/prepositions + single-letter
+            descriptions) that the live search misses. Click any headword to look it up.
+          </p>
+        </div>
 
         {isLoading && (
-          <div className="flex items-center gap-2 text-muted-foreground py-12">
-            <Loader2 className="h-5 w-5 animate-spin" />
-            Loading…
-          </div>
+          <div className="text-muted-foreground py-12">Loading…</div>
         )}
 
         {isError && (
@@ -143,8 +141,8 @@ export default function BdbPrefixTest() {
             const groupEntries = entries.filter((e) => e.type === key);
             if (groupEntries.length === 0) return null;
             return (
-              <section key={key} className="mb-8">
-                <h2 className="text-lg font-semibold text-primary mb-3">
+              <section key={key} className="py-6 border-t border-border">
+                <h2 className="font-georgia text-xl text-foreground mb-3">
                   {label}{" "}
                   <span className="text-sm font-normal text-muted-foreground">
                     ({groupEntries.length})
@@ -162,10 +160,8 @@ export default function BdbPrefixTest() {
                           e.preventDefault();
                           setSelected(entry);
                         }}
-                        className={`font-hebrew text-base hover:underline ${
-                          selected?.form === entry.form
-                            ? "text-blue-800 dark:text-blue-300 font-bold"
-                            : "text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+                        className={`font-hebrew text-base hover:underline text-primary dark:text-[#5b9fc5] ${
+                          selected?.form === entry.form ? "font-bold" : ""
                         }`}
                         data-testid={`headword-${entry.form}`}
                       >
@@ -202,23 +198,19 @@ function EntryView({ meta }: { meta: ProbeEntryMeta }) {
 
   return (
     <article className="border-t border-border pt-6" data-testid={`entry-${meta.form}`}>
-      <h2 className="text-3xl font-bold font-hebrew mb-4" dir="rtl">
+      <h2 className="text-3xl font-hebrew mb-4" dir="rtl">
         <a
           href={`https://www.sefaria.org.il/BDB%2C_${encodeURIComponent(meta.form)}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 hover:underline inline-flex items-center gap-1.5"
+          className="text-primary dark:text-[#5b9fc5] hover:underline"
           title="View this entry on Sefaria"
         >
           {meta.headword}
-          <ExternalLink className="h-4 w-4 opacity-70" />
         </a>
       </h2>
       {isLoading && (
-        <div className="flex items-center gap-2 text-muted-foreground py-2 text-sm">
-          <Loader2 className="h-4 w-4 animate-spin" />
-          Loading entry…
-        </div>
+        <div className="text-muted-foreground py-2 text-sm">Loading entry…</div>
       )}
       {entry && (
         <div

@@ -13,7 +13,6 @@ import { isValidScholarshipWork } from "@shared/data/scholarship-works";
 import { usePreferences, type TextSize, type HebrewFont, type Theme } from "@/context/preferences-context";
 import { convertSefariaLinksToInternal } from "@/lib/dictionary-format";
 import NotFound from "@/pages/not-found";
-import { Type, ArrowUp, ChevronLeft, ChevronRight, X, ExternalLink } from "lucide-react";
 import { HeaderSimple } from "@/components/layout/header-simple";
 
 interface SectionData {
@@ -292,9 +291,8 @@ export default function ScholarshipSection() {
               <Button
                 variant="outline"
                 size="sm"
-                className="gap-1.5 border-primary/40 text-primary hover:bg-primary/5 font-medium"
+                className="gap-1.5 rounded border-primary/40 text-primary hover:bg-secondary font-medium"
               >
-                <Type className="w-4 h-4" />
                 Display
               </Button>
             </SheetTrigger>
@@ -380,11 +378,11 @@ export default function ScholarshipSection() {
       >
         {/* Breadcrumb */}
         <nav className="text-sm text-muted-foreground mb-8 max-w-2xl">
-          <Link href="/" className="hover:text-primary transition-colors">Home</Link>
+          <Link href="/" className="hover:text-foreground">Home</Link>
           <span className="mx-2">›</span>
-          <Link href="/scholarship" className="hover:text-primary transition-colors">Modern Scholarship</Link>
+          <Link href="/scholarship" className="hover:text-foreground">Modern Scholarship</Link>
           <span className="mx-2">›</span>
-          <Link href={`/scholarship/${workSlug}`} className="hover:text-primary transition-colors">
+          <Link href={`/scholarship/${workSlug}`} className="hover:text-foreground">
             {workTitle}
           </Link>
           {data && (
@@ -420,7 +418,7 @@ export default function ScholarshipSection() {
           <>
             {/* Section heading */}
             <div className="mb-8 max-w-2xl">
-              <h1 className="font-bold text-foreground mb-1 leading-snug underline underline-offset-4" style={{ direction: "rtl", textAlign: "right", fontSize: "1.35rem" }}>
+              <h1 className="font-georgia text-foreground mb-1 leading-snug underline underline-offset-4" style={{ direction: "rtl", textAlign: "right", fontSize: "1.35rem" }}>
                 {data.heTitle}
               </h1>
             </div>
@@ -522,12 +520,12 @@ export default function ScholarshipSection() {
                   className="text-sm text-primary hover:underline flex items-center gap-1"
                   onClick={() => setLocation(`/scholarship/${workSlug}/${data.nextSection!.slug}`)}
                 >
-                  <ChevronLeft className="w-4 h-4 flex-shrink-0" />
+                  <span aria-hidden="true" className="flex-shrink-0">‹</span>
                   {data.nextSection.title}
                 </button>
               ) : (
                 <Link href={`/scholarship/${workSlug}`} className="text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-1">
-                  <ChevronLeft className="w-4 h-4 flex-shrink-0" />
+                  <span aria-hidden="true" className="flex-shrink-0">‹</span>
                   Table of Contents
                 </Link>
               )}
@@ -539,8 +537,7 @@ export default function ScholarshipSection() {
                   rel="noopener noreferrer"
                   className="text-xs text-muted-foreground/60 hover:text-primary transition-colors flex-shrink-0 flex items-center gap-1"
                 >
-                  View at Sefaria
-                  <ExternalLink className="w-3 h-3" />
+                  View at Sefaria →
                 </a>
               )}
 
@@ -550,12 +547,12 @@ export default function ScholarshipSection() {
                   onClick={() => setLocation(`/scholarship/${workSlug}/${data.prevSection!.slug}`)}
                 >
                   {data.prevSection.title}
-                  <ChevronRight className="w-4 h-4 flex-shrink-0" />
+                  <span aria-hidden="true" className="flex-shrink-0">›</span>
                 </button>
               ) : (
                 <Link href={`/scholarship/${workSlug}`} className="text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-1">
                   Table of Contents
-                  <ChevronRight className="w-4 h-4 flex-shrink-0" />
+                  <span aria-hidden="true" className="flex-shrink-0">›</span>
                 </Link>
               )}
             </div>
@@ -568,10 +565,10 @@ export default function ScholarshipSection() {
       {showBackToTop && (
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="fixed bottom-8 right-6 z-50 bg-primary text-primary-foreground rounded-full p-3 shadow-lg hover:opacity-90 transition-opacity"
+          className="fixed bottom-8 right-6 z-50 bg-primary text-primary-foreground rounded-full w-11 h-11 flex items-center justify-center text-lg hover:opacity-90 transition-opacity"
           aria-label="Back to top"
         >
-          <ArrowUp className="w-5 h-5" />
+          ↑
         </button>
       )}
 
@@ -579,7 +576,7 @@ export default function ScholarshipSection() {
       {activePopover && (
         <div
           ref={popoverRef}
-          className={`fn-popover fixed z-[200] bg-card border border-border rounded-xl shadow-2xl p-4 scholarship-footnotes hebrew-font-${preferences.hebrewFont}`}
+          className={`fn-popover fixed z-[200] bg-card border border-border rounded p-4 scholarship-footnotes hebrew-font-${preferences.hebrewFont}`}
           style={{
             top: activePopover.top,
             left: activePopover.left,
@@ -604,7 +601,7 @@ export default function ScholarshipSection() {
               className="text-muted-foreground/50 hover:text-foreground transition-colors flex-shrink-0 -mt-0.5"
               aria-label="Close note"
             >
-              <X className="w-3.5 h-3.5" />
+              ×
             </button>
           </div>
           <div

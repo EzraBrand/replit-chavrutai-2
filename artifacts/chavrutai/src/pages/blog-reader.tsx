@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import { SharedLayout } from "@/components/layout";
-import { ExternalLink, Calendar, User, ChevronDown, ChevronUp } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import DOMPurify from "dompurify";
 import { useSEO } from "@/hooks/use-seo";
@@ -263,19 +262,18 @@ export default function BlogReader() {
 
   return (
     <SharedLayout variant="simple" mainMaxWidth="container">
-      <div className="max-w-4xl mx-auto">
-        <div className="bg-card rounded-lg shadow-sm border border-border p-8">
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold text-foreground mb-2">
+      <div className="max-w-content mx-auto px-6 font-sans">
+        <div className="pt-10 pb-8">
+            <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-2">
               Talmud & Tech Blog
             </h1>
-            <p className="text-lg text-muted-foreground">
+            <p className="text-muted-foreground">
               Latest posts from{" "}
               <a
                 href="https://www.ezrabrand.com/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-600 hover:text-blue-800 underline"
+                className="text-primary dark:text-[#5b9fc5] hover:underline"
               >
                 ezrabrand.com
               </a>
@@ -287,7 +285,7 @@ export default function BlogReader() {
               {[1, 2, 3].map((i) => (
                 <div
                   key={i}
-                  className="animate-pulse border border-border rounded-lg p-6"
+                  className="animate-pulse border-t border-border py-6"
                 >
                   <div className="h-6 bg-secondary rounded w-3/4 mb-4"></div>
                   <div className="h-4 bg-secondary rounded w-1/4 mb-4"></div>
@@ -308,7 +306,7 @@ export default function BlogReader() {
                 href="https://www.ezrabrand.com/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-600 hover:text-blue-800 underline"
+                className="text-primary dark:text-[#5b9fc5] hover:underline"
               >
                 Visit the blog directly
               </a>
@@ -316,69 +314,59 @@ export default function BlogReader() {
           )}
 
           {rssFeed?.items && rssFeed.items.length > 0 && (
-            <div className="space-y-6">
+            <div>
               {rssFeed.items.map((post, index) => (
                 <article
                   key={index}
-                  className="border border-border rounded-lg overflow-hidden"
+                  className="border-t border-border"
                 >
                   <button
                     onClick={() => togglePost(index)}
-                    className="w-full text-left p-6 bg-secondary/30 hover:bg-secondary/50 transition-colors"
+                    className="w-full text-left py-6 px-2 -mx-2 hover:bg-secondary"
                   >
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1">
-                        <h2 className="text-xl font-semibold text-foreground mb-2">
+                        <h2 className="font-georgia text-xl text-foreground mb-2">
                           {post.title}
                         </h2>
                         <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-                          <span className="flex items-center gap-1">
-                            <Calendar className="w-4 h-4" />
-                            {formatDate(post.pubDate)}
-                          </span>
-                          {post.author && (
-                            <span className="flex items-center gap-1">
-                              <User className="w-4 h-4" />
-                              {post.author}
-                            </span>
-                          )}
+                          <span>{formatDate(post.pubDate)}</span>
+                          {post.author && <span>{post.author}</span>}
                         </div>
                       </div>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-3 flex-shrink-0">
                         <a
                           href={post.link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="p-2 hover:bg-secondary rounded-md"
+                          className="text-sm text-primary dark:text-[#5b9fc5] hover:underline"
                           onClick={(e) => e.stopPropagation()}
                           title="Open in new tab"
                         >
-                          <ExternalLink className="w-5 h-5 text-muted-foreground" />
+                          Open ↗
                         </a>
-                        {expandedPosts.has(index) ? (
-                          <ChevronUp className="w-5 h-5 text-muted-foreground" />
-                        ) : (
-                          <ChevronDown className="w-5 h-5 text-muted-foreground" />
-                        )}
+                        <span className="text-muted-foreground" aria-hidden="true">
+                          {expandedPosts.has(index) ? "▴" : "▾"}
+                        </span>
                       </div>
                     </div>
                   </button>
 
                   {expandedPosts.has(index) && (
-                    <div className="p-6 border-t border-border">
+                    <div className="py-6 border-t border-border">
                       <div
                         ref={setContentRef(index)}
                         className="prose prose-sm dark:prose-invert max-w-none
                           prose-headings:text-foreground prose-headings:font-semibold
                           prose-p:text-muted-foreground prose-p:leading-relaxed
-                          prose-a:text-blue-600 hover:prose-a:text-blue-800 prose-a:underline
+                          prose-a:text-primary prose-a:underline
                           prose-strong:text-foreground
                           prose-blockquote:border-l-primary prose-blockquote:text-muted-foreground
                           prose-blockquote:not-italic prose-blockquote:font-normal
                           [&_blockquote_p:first-of-type]:before:content-none
                           [&_blockquote_p:last-of-type]:after:content-none
                           prose-li:text-muted-foreground
-                          prose-img:rounded-lg prose-img:max-w-full prose-img:h-auto"
+                          prose-img:rounded prose-img:max-w-full prose-img:h-auto"
                         dangerouslySetInnerHTML={{
                           __html: sanitizeHtml(post.content),
                         }}
@@ -388,10 +376,9 @@ export default function BlogReader() {
                           href={post.link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 font-medium"
+                          className="text-primary dark:text-[#5b9fc5] hover:underline font-medium"
                         >
-                          Read on ezrabrand.com
-                          <ExternalLink className="w-4 h-4" />
+                          Read on ezrabrand.com →
                         </a>
                       </div>
                     </div>
@@ -406,7 +393,6 @@ export default function BlogReader() {
               <p className="text-muted-foreground">No blog posts available</p>
             </div>
           )}
-        </div>
       </div>
     </SharedLayout>
   );

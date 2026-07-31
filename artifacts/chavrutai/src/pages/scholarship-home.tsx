@@ -28,43 +28,47 @@ export default function ScholarshipHome() {
   });
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background text-foreground font-sans">
       <HeaderSimple />
 
-      <main className="max-w-3xl mx-auto px-4 py-10">
-        <div className="mb-10">
-          <nav className="text-sm text-muted-foreground mb-4">
-            <Link href="/" className="hover:text-primary transition-colors">Home</Link>
+      <main className="max-w-content mx-auto px-6">
+        <div className="pt-10 pb-8">
+          <nav className="text-sm text-muted-foreground mb-4" aria-label="Breadcrumb">
+            <Link href="/" className="hover:text-foreground">Home</Link>
             <span className="mx-2">›</span>
             <span className="text-foreground">J.N. Epstein's Introductions</span>
           </nav>
-          <h1 className="text-3xl font-bold text-foreground mb-2">J.N. Epstein's Introductions</h1>
-          <p className="text-muted-foreground leading-relaxed">
+          <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-2">
+            J.N. Epstein's Introductions
+          </h1>
+          <p className="text-muted-foreground">
             Epstein's academic introductions to the Mishnah, Tosefta, Halakhic Midrashim, and Babylonian Talmud.
           </p>
         </div>
 
         {isLoading && (
-          <div className="space-y-4">
+          <div className="space-y-4 pb-12">
             {[1, 2].map((i) => (
-              <div key={i} className="h-32 bg-muted animate-pulse rounded-lg" />
+              <div key={i} className="h-32 bg-muted animate-pulse rounded" />
             ))}
           </div>
         )}
 
         {works && (
-          <div className="space-y-4">
+          <div className="pb-12">
             {works.map((work) => (
               <Link key={work.slug} href={`/scholarship/${work.slug}`}>
-                <div className="border border-border rounded-lg p-6 hover:shadow-md hover:border-primary/40 transition-all duration-200 cursor-pointer bg-card">
+                <div className="border-t border-border py-6 px-2 -mx-2 hover:bg-secondary cursor-pointer">
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1 min-w-0">
-                      <h2 className="text-lg font-semibold text-foreground mb-1 leading-tight">
+                      <h2 className="font-georgia text-xl text-foreground mb-1 leading-tight">
                         {work.title}
                       </h2>
                       <div
-                        className="text-base text-muted-foreground mb-3 font-serif"
-                        style={{ direction: "rtl", textAlign: "right" }}
+                        className="text-base text-muted-foreground mb-3 font-hebrew"
+                        dir="rtl"
+                        style={{ textAlign: "right" }}
+                        lang="he"
                       >
                         {work.heTitle}
                       </div>
@@ -73,7 +77,9 @@ export default function ScholarshipHome() {
                       </p>
                       <span className="text-xs text-muted-foreground">{work.author}</span>
                     </div>
-                    <span className="text-sm text-primary flex-shrink-0 mt-1">Browse →</span>
+                    <span className="text-sm text-primary dark:text-[#5b9fc5] flex-shrink-0 mt-1">
+                      Browse →
+                    </span>
                   </div>
                 </div>
               </Link>

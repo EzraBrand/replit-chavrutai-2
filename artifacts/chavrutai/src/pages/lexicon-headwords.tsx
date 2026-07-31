@@ -2,7 +2,6 @@ import { useMemo } from "react";
 import { Link, Redirect } from "wouter";
 import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
-import { ArrowLeft, ChevronRight } from "lucide-react";
 import { HEBREW_ALPHABET, isHebrewLetter } from "@shared/hebrew-alphabet";
 import { HeaderSimple } from "@/components/layout/header-simple";
 import {
@@ -93,45 +92,46 @@ export default function LexiconHeadwords({ lexiconKey, letter }: Props) {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background text-foreground font-sans">
       <HeaderSimple />
 
-      <main className="max-w-5xl mx-auto p-6">
-        <nav className="text-sm text-muted-foreground mb-4 flex items-center gap-2 flex-wrap">
-          <Link href={meta.routePrefix} className="hover:text-foreground inline-flex items-center gap-1" data-testid="link-back-reader">
-            <ArrowLeft className="h-3.5 w-3.5" />
-            {meta.shortName}
-          </Link>
-          <ChevronRight className="h-3.5 w-3.5" />
-          <Link href={`${meta.routePrefix}/headwords`} className="hover:text-foreground" data-testid="link-headword-index">
-            Headword Index
-          </Link>
-          {activeLetter && (
-            <>
-              <ChevronRight className="h-3.5 w-3.5" />
-              <span className="font-hebrew text-base text-foreground">{activeLetter}</span>
-            </>
-          )}
-        </nav>
+      <main className="max-w-content mx-auto px-6">
+        <div className="pt-10 pb-8">
+          <nav className="text-sm text-muted-foreground mb-4 flex items-center gap-2 flex-wrap" aria-label="Breadcrumb">
+            <Link href={meta.routePrefix} className="hover:text-foreground" data-testid="link-back-reader">
+              {meta.shortName}
+            </Link>
+            <span>›</span>
+            <Link href={`${meta.routePrefix}/headwords`} className="hover:text-foreground" data-testid="link-headword-index">
+              Headword Index
+            </Link>
+            {activeLetter && (
+              <>
+                <span>›</span>
+                <span className="font-hebrew text-base text-foreground">{activeLetter}</span>
+              </>
+            )}
+          </nav>
 
-        <h1 className="text-3xl font-bold text-primary mb-2">
-          {activeLetter
-            ? `${meta.shortName} Headwords — `
-            : `${meta.longName} — Headword Index`}
-          {activeLetter && (
-            <span className="font-hebrew text-3xl">{activeLetter}</span>
+          <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-2">
+            {activeLetter
+              ? `${meta.shortName} Headwords — `
+              : `${meta.longName} — Headword Index`}
+            {activeLetter && (
+              <span className="font-hebrew text-3xl">{activeLetter}</span>
+            )}
+          </h1>
+          <p className="text-sm text-muted-foreground">
+            {activeLetter
+              ? `${letterHeadwords.length.toLocaleString()} entries starting with ${activeLetter}. Click any headword to look it up.`
+              : `Complete A-to-Z directory of all ${totalCount.toLocaleString()} ${meta.shortName} entries. Pick a letter to browse.`}
+          </p>
+          {!activeLetter && (
+            <p className="text-xs text-muted-foreground mt-2">{meta.byline}</p>
           )}
-        </h1>
-        <p className="text-sm text-muted-foreground mb-6">
-          {activeLetter
-            ? `${letterHeadwords.length.toLocaleString()} entries starting with ${activeLetter}. Click any headword to look it up.`
-            : `Complete A-to-Z directory of all ${totalCount.toLocaleString()} ${meta.shortName} entries. Pick a letter to browse.`}
-        </p>
-        {!activeLetter && (
-          <p className="text-xs text-muted-foreground mb-6">{meta.byline}</p>
-        )}
+        </div>
 
-        <div className="mb-8">
+        <div className="border-t border-border pt-6 mb-8">
           <div className="grid grid-cols-8 sm:grid-cols-11 gap-2">
             {HEBREW_ALPHABET.map((L) => {
               const count = index?.perLetterCounts[L];
@@ -141,10 +141,10 @@ export default function LexiconHeadwords({ lexiconKey, letter }: Props) {
                   key={L}
                   href={`${meta.routePrefix}/headwords/${encodeURIComponent(L)}`}
                   data-testid={`letter-link-${L}`}
-                  className={`h-12 inline-flex flex-col items-center justify-center gap-0 rounded-md border text-lg font-hebrew transition-colors ${
+                  className={`h-12 inline-flex flex-col items-center justify-center gap-0 rounded border text-lg font-hebrew ${
                     isActive
                       ? "bg-primary text-primary-foreground border-primary"
-                      : "border-border hover:bg-accent"
+                      : "border-border hover:bg-secondary"
                   }`}
                 >
                   <span className="leading-none">{L}</span>
@@ -160,7 +160,7 @@ export default function LexiconHeadwords({ lexiconKey, letter }: Props) {
         </div>
 
         {activeLetter && (
-          <div>
+          <div className="pb-12">
             {!index ? (
               <p className="text-sm text-muted-foreground">Loading headwords…</p>
             ) : letterHeadwords.length === 0 ? (
@@ -174,7 +174,7 @@ export default function LexiconHeadwords({ lexiconKey, letter }: Props) {
                   <li key={`${hw}-${i}`} className="mb-1">
                     <Link
                       href={`${meta.routePrefix}?q=${encodeURIComponent(hw)}`}
-                      className="font-hebrew text-base text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 hover:underline"
+                      className="font-hebrew text-base text-primary dark:text-[#5b9fc5] hover:underline"
                       data-testid={`headword-${i}`}
                     >
                       {hw}
@@ -187,8 +187,8 @@ export default function LexiconHeadwords({ lexiconKey, letter }: Props) {
         )}
 
         {!activeLetter && index && (
-          <div className="mt-8">
-            <h2 className="text-lg font-semibold mb-2">About this index</h2>
+          <div className="border-t border-border pt-6 pb-12">
+            <h2 className="font-georgia text-xl text-foreground mb-2">About this index</h2>
             <p className="text-sm text-muted-foreground">
               Every headword in this index links directly into the {meta.shortName} reader.
               Headwords are sourced from Sefaria's lexicon API and refreshed periodically;

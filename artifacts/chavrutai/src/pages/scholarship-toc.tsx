@@ -1,7 +1,5 @@
 import { Link, useRoute } from "wouter";
 import { useQuery } from "@tanstack/react-query";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
 import { apiRequest } from "@/lib/queryClient";
@@ -64,14 +62,14 @@ export default function ScholarshipToc() {
   if (!match || !isValidScholarshipWork(workSlug)) return <NotFound />;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background text-foreground font-sans">
       <HeaderSimple />
 
-      <main className="max-w-3xl mx-auto px-4 py-10">
-        <nav className="text-sm text-muted-foreground mb-6">
-          <Link href="/" className="hover:text-primary transition-colors">Home</Link>
+      <main className="max-w-content mx-auto px-6">
+        <nav className="text-sm text-muted-foreground pt-10 mb-6" aria-label="Breadcrumb">
+          <Link href="/" className="hover:text-foreground">Home</Link>
           <span className="mx-2">›</span>
-          <Link href="/scholarship" className="hover:text-primary transition-colors">Modern Scholarship</Link>
+          <Link href="/scholarship" className="hover:text-foreground">Modern Scholarship</Link>
           {data && (
             <>
               <span className="mx-2">›</span>
@@ -81,38 +79,41 @@ export default function ScholarshipToc() {
         </nav>
 
         {isLoading && (
-          <div className="space-y-4">
+          <div className="space-y-4 pb-12">
             <div className="h-8 w-3/4 bg-muted animate-pulse rounded" />
             <div className="h-5 w-1/3 bg-muted animate-pulse rounded" />
             <div className="h-4 w-full bg-muted animate-pulse rounded mt-6" />
             <div className="h-4 w-5/6 bg-muted animate-pulse rounded" />
             <div className="mt-8 space-y-3">
               {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="h-14 bg-muted animate-pulse rounded-lg" />
+                <div key={i} className="h-14 bg-muted animate-pulse rounded" />
               ))}
             </div>
           </div>
         )}
 
         {error && (
-          <Alert variant="destructive" className="mb-6">
-            <AlertDescription className="flex items-center justify-between">
-              <span>Failed to load table of contents.</span>
-              <Button variant="outline" size="sm" onClick={() => refetch()}>
-                Retry
-              </Button>
-            </AlertDescription>
-          </Alert>
+          <div className="border border-border rounded p-4 mb-6 flex items-center justify-between text-sm">
+            <span className="text-destructive">Failed to load table of contents.</span>
+            <button
+              onClick={() => refetch()}
+              className="text-primary dark:text-[#5b9fc5] hover:underline"
+            >
+              Retry
+            </button>
+          </div>
         )}
 
         {data && (
-          <>
+          <div className="pb-12">
             {/* Work header */}
             <div className="mb-8">
-              <h1 className="text-2xl font-bold text-foreground mb-2 leading-tight">{data.title}</h1>
+              <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-2 leading-tight">{data.title}</h1>
               <div
-                className="text-xl text-muted-foreground font-serif mb-3"
-                style={{ direction: "rtl", textAlign: "right" }}
+                className="text-xl text-muted-foreground font-hebrew mb-3"
+                dir="rtl"
+                style={{ textAlign: "right" }}
+                lang="he"
               >
                 {data.heTitle}
               </div>
@@ -121,7 +122,7 @@ export default function ScholarshipToc() {
             </div>
 
             <div className="border-t border-border pt-8">
-              <h2 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-5">
+              <h2 className="font-georgia text-xl text-foreground mb-5">
                 Table of Contents
               </h2>
 
@@ -138,8 +139,9 @@ export default function ScholarshipToc() {
                     <div className="px-1 pb-2">
                       <div className="text-sm font-semibold text-foreground">{book.title}</div>
                       <div
-                        className="text-xs text-muted-foreground font-serif mt-0.5"
-                        style={{ direction: "rtl" }}
+                        className="text-xs text-muted-foreground font-hebrew mt-0.5"
+                        dir="rtl"
+                        lang="he"
                       >
                         {book.heTitle}
                       </div>
@@ -160,7 +162,7 @@ export default function ScholarshipToc() {
                 ))}
               </div>
             </div>
-          </>
+          </div>
         )}
       </main>
 
@@ -180,24 +182,25 @@ function SectionRow({
 }) {
   return (
     <Link href={`/scholarship/${workSlug}/${section.slug}`}>
-      <div className="flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-secondary/60 hover:shadow-sm transition-all duration-150 cursor-pointer group">
+      <div className="flex items-center justify-between px-3 py-2.5 rounded hover:bg-secondary cursor-pointer group">
         <div className="flex items-center gap-3 min-w-0">
           {index !== undefined && (
-            <span className="text-xs text-gray-300 w-5 text-right flex-shrink-0 select-none">
+            <span className="text-xs text-muted-foreground/50 w-5 text-right flex-shrink-0 select-none">
               {index}
             </span>
           )}
           <div className="min-w-0">
             <div className="text-sm text-foreground">{section.title}</div>
             <div
-              className="text-xs text-muted-foreground font-serif mt-0.5"
-              style={{ direction: "rtl" }}
+              className="text-xs text-muted-foreground font-hebrew mt-0.5"
+              dir="rtl"
+              lang="he"
             >
               {section.heTitle}
             </div>
           </div>
         </div>
-        <span className="text-xs text-muted-foreground/40 group-hover:text-primary ml-4 flex-shrink-0 transition-colors">
+        <span className="text-xs text-muted-foreground/40 group-hover:text-primary ml-4 flex-shrink-0">
           →
         </span>
       </div>
