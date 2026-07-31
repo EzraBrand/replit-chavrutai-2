@@ -7,6 +7,7 @@ import { ExternalLink } from "lucide-react";
 import { getTractateSlug } from "@shared/tractates";
 import { getBookBySlug } from "@shared/bible-books";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
+import { HeaderSimple } from "@/components/layout/header-simple";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -634,21 +635,7 @@ export default function TermIndexPage() {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* ── Header ── */}
-      <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm flex-shrink-0">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-center">
-            <Link
-              href="/"
-              className="flex items-center space-x-2 flex-shrink-0 hover:opacity-80 transition-opacity duration-200"
-            >
-              <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden">
-                <img src="/hebrew-book-icon.png" alt="ChavrutAI Logo" className="w-10 h-10 object-cover" />
-              </div>
-              <div className="text-xl font-semibold text-primary font-roboto">ChavrutAI</div>
-            </Link>
-          </div>
-        </div>
-      </header>
+      <HeaderSimple />
 
       {/* ── Page title ── */}
       <div className="border-b border-border flex-shrink-0 bg-card">

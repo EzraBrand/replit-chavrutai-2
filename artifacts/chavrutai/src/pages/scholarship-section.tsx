@@ -14,6 +14,7 @@ import { usePreferences, type TextSize, type HebrewFont, type Theme } from "@/co
 import { convertSefariaLinksToInternal } from "@/lib/dictionary-format";
 import NotFound from "@/pages/not-found";
 import { Type, ArrowUp, ChevronLeft, ChevronRight, X, ExternalLink } from "lucide-react";
+import { HeaderSimple } from "@/components/layout/header-simple";
 
 interface SectionData {
   title: string;
@@ -283,116 +284,96 @@ export default function ScholarshipSection() {
   return (
     <div className="min-h-screen bg-background">
       {/* ── Header ── */}
-      <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
-        <div className="max-w-5xl mx-auto px-4 py-3 relative">
-          <div className="flex items-center">
-            <div className="w-32 flex-shrink-0" />
-            <div className="flex-1 flex justify-center">
-              <Link
-                href="/"
-                className="flex items-center space-x-2 hover:opacity-80 transition-opacity duration-200"
+      <HeaderSimple
+        progress={readingProgress}
+        rightExtra={
+          <Sheet open={settingsOpen} onOpenChange={setSettingsOpen}>
+            <SheetTrigger asChild>
+              <Button
+                variant="outline"
+                size="sm"
+                className="gap-1.5 border-primary/40 text-primary hover:bg-primary/5 font-medium"
               >
-                <div className="w-9 h-9 rounded-full flex items-center justify-center overflow-hidden">
-                  <img src="/hebrew-book-icon.png" alt="ChavrutAI Logo" className="w-9 h-9 object-cover" />
-                </div>
-                <div className="text-lg font-semibold text-primary font-roboto">ChavrutAI</div>
-              </Link>
-            </div>
-            <div className="w-32 flex-shrink-0 flex justify-end">
-              <Sheet open={settingsOpen} onOpenChange={setSettingsOpen}>
-                <SheetTrigger asChild>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="gap-1.5 border-primary/40 text-primary hover:bg-primary/5 font-medium"
-                  >
-                    <Type className="w-4 h-4" />
-                    Display
-                  </Button>
-                </SheetTrigger>
-                <SheetContent side="right" className="w-72">
-                  <SheetHeader>
-                    <SheetTitle className="text-left">Display Settings</SheetTitle>
-                  </SheetHeader>
-                  <div className="pt-6 space-y-6">
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium text-foreground">Theme</label>
-                      <div className="grid grid-cols-2 gap-2">
-                        {THEME_OPTIONS.map((o) => (
-                          <button
-                            key={o.value}
-                            onClick={() => setTheme(o.value)}
-                            className={`text-sm px-3 py-2 rounded border transition-colors ${
-                              preferences.theme === o.value
-                                ? "border-primary bg-primary/10 text-primary font-medium"
-                                : "border-border hover:border-primary/50 text-foreground"
-                            }`}
-                          >
-                            {o.label}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                    <Separator />
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium text-foreground">Text Size</label>
-                      <Select value={preferences.textSize} onValueChange={(v) => setTextSize(v as TextSize)}>
-                        <SelectTrigger className="w-full">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {TEXT_SIZE_OPTIONS.map((o) => (
-                            <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <Separator />
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between">
-                        <label className="text-sm font-medium text-foreground">Line Spacing</label>
-                        <span className="text-sm text-muted-foreground tabular-nums">{lineHeight.toFixed(1)}×</span>
-                      </div>
-                      <input
-                        type="range"
-                        min={1.4}
-                        max={2.8}
-                        step={0.2}
-                        value={lineHeight}
-                        onChange={(e) => setLineHeight(parseFloat(e.target.value))}
-                        className="w-full accent-primary cursor-pointer"
-                      />
-                      <div className="flex justify-between text-xs text-muted-foreground">
-                        <span>Tight</span>
-                        <span>Loose</span>
-                      </div>
-                    </div>
-                    <Separator />
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium text-foreground">Hebrew Font</label>
-                      <Select value={preferences.hebrewFont} onValueChange={(v) => setHebrewFont(v as HebrewFont)}>
-                        <SelectTrigger className="w-full">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {HEBREW_FONT_OPTIONS.map((o) => (
-                            <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
+                <Type className="w-4 h-4" />
+                Display
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-72">
+              <SheetHeader>
+                <SheetTitle className="text-left">Display Settings</SheetTitle>
+              </SheetHeader>
+              <div className="pt-6 space-y-6">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-foreground">Theme</label>
+                  <div className="grid grid-cols-2 gap-2">
+                    {THEME_OPTIONS.map((o) => (
+                      <button
+                        key={o.value}
+                        onClick={() => setTheme(o.value)}
+                        className={`text-sm px-3 py-2 rounded border transition-colors ${
+                          preferences.theme === o.value
+                            ? "border-primary bg-primary/10 text-primary font-medium"
+                            : "border-border hover:border-primary/50 text-foreground"
+                        }`}
+                      >
+                        {o.label}
+                      </button>
+                    ))}
                   </div>
-                </SheetContent>
-              </Sheet>
-            </div>
-          </div>
-        </div>
-        {/* Reading progress bar */}
-        <div
-          className="absolute bottom-0 left-0 h-0.5 bg-primary transition-[width] duration-75"
-          style={{ width: `${readingProgress}%` }}
-        />
-      </header>
+                </div>
+                <Separator />
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-foreground">Text Size</label>
+                  <Select value={preferences.textSize} onValueChange={(v) => setTextSize(v as TextSize)}>
+                    <SelectTrigger className="w-full">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {TEXT_SIZE_OPTIONS.map((o) => (
+                        <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <Separator />
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <label className="text-sm font-medium text-foreground">Line Spacing</label>
+                    <span className="text-sm text-muted-foreground tabular-nums">{lineHeight.toFixed(1)}×</span>
+                  </div>
+                  <input
+                    type="range"
+                    min={1.4}
+                    max={2.8}
+                    step={0.2}
+                    value={lineHeight}
+                    onChange={(e) => setLineHeight(parseFloat(e.target.value))}
+                    className="w-full accent-primary cursor-pointer"
+                  />
+                  <div className="flex justify-between text-xs text-muted-foreground">
+                    <span>Tight</span>
+                    <span>Loose</span>
+                  </div>
+                </div>
+                <Separator />
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-foreground">Hebrew Font</label>
+                  <Select value={preferences.hebrewFont} onValueChange={(v) => setHebrewFont(v as HebrewFont)}>
+                    <SelectTrigger className="w-full">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {HEBREW_FONT_OPTIONS.map((o) => (
+                        <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+            </SheetContent>
+          </Sheet>
+        }
+      />
 
       <main
         className={`max-w-2xl xl:max-w-5xl mx-auto px-4 py-10 text-size-${preferences.textSize} hebrew-font-${preferences.hebrewFont} scholarship-prose`}

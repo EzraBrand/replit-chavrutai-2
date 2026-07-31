@@ -17,6 +17,7 @@ import { getStaticSEO } from "@shared/seo-data";
 import { getTractateSlug, TRACTATE_HEBREW_NAMES, SEDER_TRACTATES, normalizeDisplayTractateName } from "@shared/tractates";
 import { MISHNAH_MAP_DATA, type MishnahMapping } from "@shared/mishnah-map";
 import { getMishnahChapterDataByTractate, getMishnahTalmudMapping, useChapterDataVersion, type ChapterInfo } from "@/lib/chapter-data";
+import { HeaderSimple } from "@/components/layout/header-simple";
 
 const SEDER_ORGANIZATION = {
   "Seder Zeraim": {
@@ -325,26 +326,7 @@ export default function MishnahMapPage() {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-center">
-            <Link 
-              href="/"
-              className="flex items-center space-x-2 flex-shrink-0 hover:opacity-80 transition-opacity duration-200"
-              data-testid="header-logo-link"
-            >
-              <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden">
-                <img 
-                  src="/hebrew-book-icon.png" 
-                  alt="ChavrutAI Logo" 
-                  className="w-10 h-10 object-cover"
-                />
-              </div>
-              <div className="text-xl font-semibold text-primary font-roboto">ChavrutAI</div>
-            </Link>
-          </div>
-        </div>
-      </header>
+      <HeaderSimple />
 
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Page Header */}

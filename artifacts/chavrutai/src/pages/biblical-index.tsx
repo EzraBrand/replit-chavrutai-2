@@ -6,6 +6,7 @@ import { FooterPlaceholder } from "@/components/page-loading";
 import { useSEO } from "@/hooks/use-seo";
 import { getStaticSEO } from "@shared/seo-data";
 import { Skeleton } from "@/components/ui/skeleton";
+import { HeaderSimple } from "@/components/layout/header-simple";
 
 const categoryDescriptions = {
   torah: "Torah (The Five Books of Moses)",
@@ -37,26 +38,7 @@ export default function BiblicalIndexPage() {
   });
 
   const renderHeader = () => (
-    <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm mb-8">
-      <div className="max-w-7xl mx-auto px-4 py-4">
-        <div className="flex items-center justify-center">
-          <a 
-            href="/"
-            className="flex items-center space-x-2 flex-shrink-0 hover:opacity-80 transition-opacity duration-200"
-            data-testid="header-logo-link"
-          >
-            <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden">
-              <img 
-                src="/hebrew-book-icon.png" 
-                alt="ChavrutAI Logo" 
-                className="w-10 h-10 object-cover"
-              />
-            </div>
-            <div className="text-xl font-semibold text-primary font-roboto">ChavrutAI</div>
-          </a>
-        </div>
-      </div>
-    </header>
+    <HeaderSimple />
   );
 
   if (isLoading) {

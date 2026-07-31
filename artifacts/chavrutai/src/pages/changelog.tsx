@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { useSEO } from "@/hooks/use-seo";
 import { getStaticSEO } from "@shared/seo-data";
 import { Footer } from "@/components/footer";
+import { HeaderSimple } from "@/components/layout/header-simple";
 
 export default function Changelog() {
   // SEO optimization
@@ -25,26 +26,7 @@ export default function Changelog() {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-center">
-            <Link 
-              href="/"
-              className="flex items-center space-x-2 flex-shrink-0 hover:opacity-80 transition-opacity duration-200"
-              data-testid="header-logo-link"
-            >
-              <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden">
-                <img 
-                  src="/hebrew-book-icon.png" 
-                  alt="ChavrutAI Logo" 
-                  className="w-10 h-10 object-cover"
-                />
-              </div>
-              <div className="text-xl font-semibold text-primary font-roboto">ChavrutAI</div>
-            </Link>
-          </div>
-        </div>
-      </header>
+      <HeaderSimple />
 
       <div className="container mx-auto px-4 py-6">
         {/* Page Title */}
@@ -68,6 +50,15 @@ export default function Changelog() {
           </h2>
 
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
+
+            <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Unified Site Header Across All Pages (July 31)</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Replaced leftover copies of the old page header on over twenty pages (dictionaries, indexes, contents pages, scholarship, sitemap, contact, and more) with the single shared header in the new ParchmentScholar style.</li>
+                <li>Every page now shows the same navigation (Library, Search, About ChavrutAI), and future header improvements apply everywhere at once.</li>
+                <li>The scholarship reader keeps its Display settings (theme, text size, line spacing, Hebrew font) and reading-progress bar, now integrated into the shared header.</li>
+              </ul>
+            </div>
 
             <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Sitewide "ParchmentScholar" Rollout — Header, Footer & Contents Pages (July 31)</h3>

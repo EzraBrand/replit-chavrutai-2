@@ -4,6 +4,7 @@ import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
 import { ArrowLeft, ChevronRight } from "lucide-react";
 import { HEBREW_ALPHABET, isHebrewLetter } from "@shared/hebrew-alphabet";
+import { HeaderSimple } from "@/components/layout/header-simple";
 import {
   useLexiconIndex,
   normalizeHebrew,
@@ -93,28 +94,7 @@ export default function LexiconHeadwords({ lexiconKey, letter }: Props) {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-center">
-            <Link
-              href="/"
-              className="flex items-center space-x-2 flex-shrink-0 hover:opacity-80 transition-opacity duration-200"
-              data-testid="header-logo-link"
-            >
-              <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden">
-                <img
-                  src="/hebrew-book-icon.png"
-                  alt="ChavrutAI Logo"
-                  className="w-10 h-10 object-cover"
-                />
-              </div>
-              <div className="text-xl font-semibold text-primary font-roboto">
-                ChavrutAI
-              </div>
-            </Link>
-          </div>
-        </div>
-      </header>
+      <HeaderSimple />
 
       <main className="max-w-5xl mx-auto p-6">
         <nav className="text-sm text-muted-foreground mb-4 flex items-center gap-2 flex-wrap">

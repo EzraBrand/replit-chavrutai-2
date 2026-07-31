@@ -10,6 +10,7 @@ import { getRambamHilchotInfo, isValidRambamHilchot } from "@shared/rambam-data"
 import { getStaticSEO, getRambamHilchotSEO } from "@shared/seo-data";
 import NotFound from "@/pages/not-found";
 import { apiRequest } from "@/lib/queryClient";
+import { HeaderSimple } from "@/components/layout/header-simple";
 
 interface RambamInfoData {
   hilchot: string;
@@ -56,18 +57,7 @@ export default function RambamTractate() {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-center">
-            <Link href="/" className="flex items-center space-x-2 flex-shrink-0 hover:opacity-80 transition-opacity duration-200">
-              <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden">
-                <img src="/hebrew-book-icon.png" alt="ChavrutAI Logo" className="w-10 h-10 object-cover" />
-              </div>
-              <div className="text-xl font-semibold text-primary font-roboto">ChavrutAI</div>
-            </Link>
-          </div>
-        </div>
-      </header>
+      <HeaderSimple />
 
       <div className="max-w-6xl mx-auto px-4 py-8">
         <BreadcrumbNavigation

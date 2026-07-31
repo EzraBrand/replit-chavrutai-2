@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BreadcrumbNavigation, breadcrumbHelpers } from "@/components/navigation/breadcrumb-navigation";
 import { Footer } from "@/components/footer";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
+import { HeaderSimple } from "@/components/layout/header-simple";
 
 // Suggested pages for exploration - famous and significant folios
 const SUGGESTED_PAGES = [
@@ -286,21 +287,7 @@ export default function SuggestedPages() {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-center">
-            {/* Logo */}
-            <Link href="/" className="flex items-center space-x-3">
-              <img 
-                src="/hebrew-book-icon.png" 
-                alt="ChavrutAI" 
-                className="h-8 w-8 object-contain"
-              />
-              <div className="text-xl font-bold text-foreground">ChavrutAI</div>
-            </Link>
-          </div>
-        </div>
-      </header>
+      <HeaderSimple />
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 py-4">
