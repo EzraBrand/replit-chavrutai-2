@@ -1,10 +1,11 @@
+import { CANONICAL_BASE_URL } from '../shared/brand';
 import { Request, Response } from 'express';
 import { TRACTATE_LISTS, getTractateSlug } from '../shared/tractates';
 
 export function generateMainSitemap(req: Request, res: Response) {
   // Use production URL for deployed site
   const baseUrl = process.env.NODE_ENV === 'production' 
-    ? 'https://chavrutai.com' 
+    ? CANONICAL_BASE_URL 
     : req.protocol + '://' + req.get('host');
   
   const currentDate = new Date().toISOString().split('T')[0];

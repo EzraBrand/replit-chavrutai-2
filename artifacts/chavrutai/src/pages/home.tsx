@@ -6,7 +6,7 @@ import { useSEO, generateSEOData } from "@/hooks/use-seo";
 import { Footer } from "@/components/footer";
 
 /*
- * ChavrutAI homepage — "ParchmentScholar" design.
+ * Bekiut homepage — "ParchmentScholar" design.
  * Sefaria-inspired: white background, Georgia serif headings only,
  * no icons (except the nav book SVG), text links instead of buttons
  * (except the Search button), near-square corners, 64rem content width.
@@ -117,20 +117,20 @@ export default function Home() {
           >
             <img
               src="/hebrew-book-icon.png"
-              alt="ChavrutAI logo"
+              alt="Bekiut logo"
               className="w-8 h-8 object-cover"
               width={32}
               height={32}
             />
             <span className="text-xl font-semibold text-primary dark:text-[#5b9fc5]">
-              ChavrutAI
+              Bekiut
             </span>
           </Link>
           <nav className="flex items-center gap-4 sm:gap-6 text-sm text-muted-foreground">
             <a href="#library" className="hover:text-foreground" data-testid="nav-link-library">Library</a>
             <Link href="/search" className="hover:text-foreground" data-testid="nav-link-search">Search</Link>
             <a href="#tools" className="hover:text-foreground" data-testid="nav-link-tools">Tools</a>
-            <Link href="/about" className="hover:text-foreground" data-testid="nav-link-about">About ChavrutAI</Link>
+            <Link href="/about" className="hover:text-foreground" data-testid="nav-link-about">About Bekiut</Link>
           </nav>
         </div>
       </header>

@@ -49,7 +49,7 @@ export default function Jastrow() {
       operatingSystem: "Web",
       publisher: {
         "@type": "Organization",
-        name: "ChavrutAI",
+        name: "Bekiut",
         url: window.location.origin,
       },
       about: {
@@ -263,7 +263,7 @@ export default function Jastrow() {
                   </li>
                   <li>
                     <strong>Citations as live links.</strong> Bible references and Talmud passages
-                    link directly to the corresponding chapter or page in the ChavrutAI Bible and
+                    link directly to the corresponding chapter or page in the Bekiut Bible and
                     Talmud readers.
                   </li>
                   <li>
@@ -309,7 +309,7 @@ export default function Jastrow() {
                     data-testid="link-about-blogpost"
                   >
                     Jastrow's Talmud Dictionary: A Modernized and Enhanced Digital Presentation at
-                    ChavrutAI →
+                    Bekiut →
                   </a>{" "}
                   <span className="text-muted-foreground">(Sep 28, 2025)</span>
                 </p>

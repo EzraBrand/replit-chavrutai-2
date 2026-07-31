@@ -88,7 +88,7 @@ export default function MishnahMapPage() {
       url: `${window.location.origin}/mishnah-map`,
       creator: {
         "@type": "Organization",
-        name: "ChavrutAI",
+        name: "Bekiut",
         url: window.location.origin,
       },
       about: {
@@ -343,7 +343,7 @@ export default function MishnahMapPage() {
             </a>.
           </p>
           <p className="text-sm text-secondary-foreground mb-2">
-            Browse Mishnah passages organized by Seder, tractate, and chapter. Each tile shows the Mishnah number and its location in the Talmud. Click any tile to view the Mishnah in the ChavrutAI Talmud page, or use the "Sefaria" link below each tile to see the Mishnah in <a 
+            Browse Mishnah passages organized by Seder, tractate, and chapter. Each tile shows the Mishnah number and its location in the Talmud. Click any tile to view the Mishnah in the Bekiut Talmud page, or use the "Sefaria" link below each tile to see the Mishnah in <a 
               href="https://www.sefaria.org.il/texts/Mishnah" 
               target="_blank" 
               rel="noopener noreferrer"
@@ -360,7 +360,7 @@ export default function MishnahMapPage() {
               rel="noopener noreferrer"
               className="text-primary hover:underline"
             >
-              "Introducing ChavrutAI's Mishnah-Talmud Mapping Table"
+              "Introducing Bekiut's Mishnah-Talmud Mapping Table"
             </a> (Nov 23, 2025)
           </p>
       </PageSection>

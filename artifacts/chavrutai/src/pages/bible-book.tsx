@@ -44,7 +44,7 @@ export default function BibleBookPage() {
       url: `${baseUrl}/bible/${book}`,
       publisher: {
         "@type": "Organization",
-        name: "ChavrutAI",
+        name: "Bekiut",
         url: baseUrl,
       },
       about: {
@@ -83,7 +83,7 @@ export default function BibleBookPage() {
               </Button>
             </Link>
 
-            <h1 className="text-xl font-semibold text-primary">ChavrutAI</h1>
+            <h1 className="text-xl font-semibold text-primary">Bekiut</h1>
 
             <div className="w-24" /> {/* Spacer */}
           </div>

@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 
 /*
  * Shared site header — ParchmentScholar design (see DESIGN.md).
- * Matches the homepage nav: logo + "ChavrutAI" in navy on the left,
+ * Matches the homepage nav: logo + "Bekiut" in navy on the left,
  * muted text links on the right, hairline bottom border, 64rem column.
  */
 
@@ -26,19 +26,19 @@ export function HeaderSimple({ maxWidth = "max-w-content", rightExtra, progress 
         >
           <img
             src="/hebrew-book-icon.png"
-            alt="ChavrutAI logo"
+            alt="Bekiut logo"
             className="w-8 h-8 object-cover"
             width={32}
             height={32}
           />
           <span className="text-xl font-semibold text-primary dark:text-[#5b9fc5]">
-            ChavrutAI
+            Bekiut
           </span>
         </Link>
         <nav className="flex items-center gap-4 sm:gap-6 text-sm text-muted-foreground">
           <Link href="/" className="hover:text-foreground" data-testid="nav-link-library">Library</Link>
           <Link href="/search" className="hover:text-foreground" data-testid="nav-link-search">Search</Link>
-          <Link href="/about" className="hover:text-foreground hidden sm:inline" data-testid="nav-link-about">About ChavrutAI</Link>
+          <Link href="/about" className="hover:text-foreground hidden sm:inline" data-testid="nav-link-about">About Bekiut</Link>
           {rightExtra}
         </nav>
       </div>

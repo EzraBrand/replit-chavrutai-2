@@ -47,12 +47,12 @@ export default function ScholarshipToc() {
   useSEO(
     data
       ? {
-          title: `${data.title} | ChavrutAI`,
+          title: `${data.title} | Bekiut`,
           description: data.description,
           canonical: `${window.location.origin}/scholarship/${workSlug}`,
         }
       : {
-          title: "Modern Scholarship | ChavrutAI",
+          title: "Modern Scholarship | Bekiut",
           description: "Academic scholarship on classical Jewish texts.",
           canonical: `${window.location.origin}/scholarship/${workSlug}`,
         }

@@ -1,4 +1,4 @@
-// Service Worker for ChavrutAI Talmud Study App
+// Service Worker for Bekiut Talmud Study App
 // Uses Workbox CDN to avoid build configuration changes
 
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/6.6.0/workbox-sw.js');

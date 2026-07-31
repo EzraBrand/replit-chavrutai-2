@@ -1,4 +1,4 @@
-// Example implementations for specific event tracking in ChavrutAI
+// Example implementations for specific event tracking in Bekiut
 
 import { trackEvent } from './analytics';
 
@@ -6,7 +6,7 @@ import { trackEvent } from './analytics';
  * Analytics Event Categories and Examples
  * 
  * This file demonstrates how to implement specific event tracking
- * for various user interactions in the ChavrutAI application
+ * for various user interactions in the Bekiut application
  */
 
 // 1. NAVIGATION EVENTS

@@ -95,7 +95,7 @@ export default function SearchPage() {
     structuredData: {
       "@context": "https://schema.org",
       "@type": "WebSite",
-      name: "ChavrutAI Search",
+      name: "Bekiut Search",
       url: `${window.location.origin}/search`,
       potentialAction: {
         "@type": "SearchAction",
@@ -104,7 +104,7 @@ export default function SearchPage() {
       },
       publisher: {
         "@type": "Organization",
-        name: "ChavrutAI",
+        name: "Bekiut",
         url: window.location.origin,
       },
     },
@@ -487,7 +487,7 @@ export default function SearchPage() {
                       Each result shows the source reference and matching text with your search term
                       highlighted
                     </li>
-                    <li>Click on any result to go directly to that section or verse in ChavrutAI</li>
+                    <li>Click on any result to go directly to that section or verse in Bekiut</li>
                   </ul>
                 </div>
                 <div className="pt-2 border-t border-border mt-4">
@@ -500,7 +500,7 @@ export default function SearchPage() {
                       className="text-primary hover:underline"
                       data-testid="link-search-blog-post"
                     >
-                      Introducing ChavrutAI's Search: Full-Text Search of Bible and Talmud →
+                      Introducing Bekiut's Search: Full-Text Search of Bible and Talmud →
                     </a>
                     " (Dec 23, 2025)
                   </p>

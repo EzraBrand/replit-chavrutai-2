@@ -493,7 +493,7 @@ export default function TermIndexPage() {
   useSEO({
     ...getStaticSEO("/term-index", window.location.origin)!,
     ogUrl: `${window.location.origin}/term-index`,
-    keywords: "Talmud glossary, Talmudic names, rabbinic names, Babylonian Talmud terms, Aramaic glossary, Hebrew glossary, Talmud place names, Talmud concepts, Amoraim, Tannaim, Wikidata Talmud, ChavrutAI",
+    keywords: "Talmud glossary, Talmudic names, rabbinic names, Babylonian Talmud terms, Aramaic glossary, Hebrew glossary, Talmud place names, Talmud concepts, Amoraim, Tannaim, Wikidata Talmud, Bekiut",
     structuredData: {
       "@context": "https://schema.org",
       "@type": "Dataset",
@@ -512,7 +512,7 @@ export default function TermIndexPage() {
       },
       publisher: {
         "@type": "Organization",
-        name: "ChavrutAI",
+        name: "Bekiut",
         url: window.location.origin,
       },
       about: {
@@ -654,7 +654,7 @@ export default function TermIndexPage() {
               </p>
               <p>
                 Corpus occurrence counts reflect how often each term appears in the full Steinsaltz English
-                translation as indexed in the ChavrutAI search corpus.
+                translation as indexed in the Bekiut search corpus.
               </p>
               <p>
                 <a

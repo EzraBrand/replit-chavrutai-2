@@ -12,12 +12,12 @@ export default function Privacy() {
     structuredData: {
       "@context": "https://schema.org",
       "@type": "WebPage",
-      name: "Privacy Policy - ChavrutAI",
-      description: "Privacy policy for ChavrutAI digital Talmud study platform",
+      name: "Privacy Policy - Bekiut",
+      description: "Privacy policy for Bekiut digital Talmud study platform",
       url: `${baseUrl}/privacy`,
       publisher: {
         "@type": "Organization",
-        name: "ChavrutAI",
+        name: "Bekiut",
         url: baseUrl,
       },
     },
@@ -35,10 +35,10 @@ export default function Privacy() {
       <PageSection>
         <SectionHeading className="mb-4">Overview</SectionHeading>
         <p className="text-muted-foreground leading-relaxed mb-4">
-            ChavrutAI ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard information when you use our free Talmud study platform at chavrutai.com (the "Service").
+            Bekiut ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard information when you use our free Talmud study platform at chavrutai.com (the "Service").
           </p>
           <p className="text-muted-foreground leading-relaxed">
-            ChavrutAI is a free educational platform designed to make Talmud study accessible through digital technology. We are committed to maintaining your privacy while providing the best possible learning experience.
+            Bekiut is a free educational platform designed to make Talmud study accessible through digital technology. We are committed to maintaining your privacy while providing the best possible learning experience.
           </p>
       </PageSection>
 
@@ -87,7 +87,7 @@ export default function Privacy() {
         <SectionHeading className="mb-4">Data Storage and Security</SectionHeading>
           <ul className="list-disc list-inside space-y-2 mb-4 text-muted-foreground ml-4">
             <li><strong>Local Storage:</strong> Study preferences (text size, font, display settings) are stored locally on your device and do not leave your browser.</li>
-            <li><strong>No Account Required:</strong> ChavrutAI does not require user accounts or personal information to access Talmud content.</li>
+            <li><strong>No Account Required:</strong> Bekiut does not require user accounts or personal information to access Talmud content.</li>
             <li><strong>Security Measures:</strong> We implement appropriate technical measures to protect information from unauthorized access, alteration, or destruction.</li>
             <li><strong>Data Retention:</strong> Analytics data is retained according to Google Analytics' default retention policies. Contact information is retained only as long as necessary for communication purposes.</li>
           </ul>
@@ -116,14 +116,14 @@ export default function Privacy() {
       <PageSection>
         <SectionHeading className="mb-4">Children's Privacy</SectionHeading>
           <p className="text-muted-foreground leading-relaxed">
-            ChavrutAI is an educational platform suitable for all ages. We do not knowingly collect personal information from children under 13. If you believe we have collected information from a child under 13, please contact us immediately.
+            Bekiut is an educational platform suitable for all ages. We do not knowingly collect personal information from children under 13. If you believe we have collected information from a child under 13, please contact us immediately.
           </p>
       </PageSection>
 
       <PageSection>
         <SectionHeading className="mb-4">International Users</SectionHeading>
           <p className="text-muted-foreground leading-relaxed">
-            ChavrutAI is operated from the United States. If you are accessing our service from outside the United States, please be aware that information may be transferred to, stored, and processed in the United States where our servers are located.
+            Bekiut is operated from the United States. If you are accessing our service from outside the United States, please be aware that information may be transferred to, stored, and processed in the United States where our servers are located.
           </p>
       </PageSection>
 

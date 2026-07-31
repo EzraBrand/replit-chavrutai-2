@@ -1,4 +1,4 @@
-# ChavrutAI Design Language — "ParchmentScholar"
+# Bekiut Design Language — "ParchmentScholar"
 
 The approved sitewide design direction, first implemented on the homepage
 (`src/pages/home.tsx`). Use this document as the reference when revamping
@@ -64,7 +64,7 @@ An approved dark-mode palette exists in
 1. No rounded cards — use the near-square radius.
 2. No shadows or hover-lift effects; hover is a flat `#f3f4f6` surface.
 3. No icon libraries (Lucide, react-icons) on redesigned pages — the only
-   graphic is the ChavrutAI book logo in the nav.
+   graphic is the Bekiut book logo in the nav.
 4. No loaded display fonts (e.g. Playfair Display); Georgia is system.
 5. Text links, not buttons — the only button is the navy Search button.
 6. Category colors always appear as the 2px underline bar, used consistently.
@@ -72,7 +72,7 @@ An approved dark-mode palette exists in
 
 ## Page anatomy (homepage as the pattern)
 
-1. **Nav** — logo + "ChavrutAI" in navy left; muted text links right.
+1. **Nav** — logo + "Bekiut" in navy left; muted text links right.
 2. **Page title** — Georgia heading, optional one-line muted subtitle.
 3. **Content sections** — divided by hairline borders; Georgia section
    headings; two- or three-column grids of flat white cards or plain

@@ -22,7 +22,7 @@ export default function BibleContents() {
       url: `${baseUrl}/bible`,
       publisher: {
         "@type": "Organization",
-        name: "ChavrutAI",
+        name: "Bekiut",
         url: baseUrl,
       },
       about: {
@@ -115,7 +115,7 @@ export default function BibleContents() {
             className="text-primary dark:text-[#5b9fc5] hover:underline"
             data-testid="link-bible-intro-article"
           >
-            Introducing the ChavrutAI Bible Reader ↗
+            Introducing the Bekiut Bible Reader ↗
           </a>
           {" "}(Nov 09, 2025)
         </p>

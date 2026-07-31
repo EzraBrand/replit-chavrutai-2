@@ -74,9 +74,9 @@ export async function sendChatbotAlert(params: ChatbotAlertParams): Promise<void
       return;
     }
     
-    const subject = `ChavrutAI Chatbot Query: ${params.talmudRange}`;
+    const subject = `Bekiut Chatbot Query: ${params.talmudRange}`;
     const body = `
-A user has queried the ChavrutAI chatbot!
+A user has queried the Bekiut chatbot!
 
 📅 Time: ${params.timestamp.toLocaleString('en-US', { timeZone: 'America/New_York' })} ET
 
@@ -94,7 +94,7 @@ ${params.aiResponse}
 ${params.fullPrompt}
 
 ---
-This is an automated notification from ChavrutAI's Sugya Viewer.
+This is an automated notification from Bekiut's Sugya Viewer.
     `.trim();
 
     // Create the email in RFC 2822 format with proper headers

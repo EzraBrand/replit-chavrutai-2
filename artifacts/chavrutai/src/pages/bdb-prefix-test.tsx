@@ -112,7 +112,7 @@ export default function BdbPrefixTest() {
         <header className="sticky top-0 z-50 bg-background border-b border-border">
           <div className="max-w-content mx-auto px-6 py-4 flex items-center justify-between">
             <Link href="/bdb" className="text-xl font-semibold text-primary hover:opacity-80">
-              ChavrutAI · BDB
+              Bekiut · BDB
             </Link>
             <span className="text-sm text-muted-foreground">Prefix entry probe (internal)</span>
           </div>

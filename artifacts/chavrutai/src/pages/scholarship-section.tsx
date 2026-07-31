@@ -118,7 +118,7 @@ function parseFootnotes(html: string, paraIndex: number): ProcessedParagraph {
   }
 }
 
-/** Rewrite Sefaria hrefs → internal ChavrutAI routes; add target/rel to remaining external links. */
+/** Rewrite Sefaria hrefs → internal Bekiut routes; add target/rel to remaining external links. */
 function processLinks(html: string): string {
   let result = convertSefariaLinksToInternal(html);
   result = result.replace(
@@ -226,12 +226,12 @@ export default function ScholarshipSection() {
   useSEO(
     data
       ? {
-          title: `${data.title} — ${workSlug === "introductions-tanaitic" ? "Introductions to Tanaitic Literature" : "Introductions to Amoraic Literature"} | ChavrutAI`,
-          description: `Read ${data.title} from the modern scholarship collection on ChavrutAI.`,
+          title: `${data.title} — ${workSlug === "introductions-tanaitic" ? "Introductions to Tanaitic Literature" : "Introductions to Amoraic Literature"} | Bekiut`,
+          description: `Read ${data.title} from the modern scholarship collection on Bekiut.`,
           canonical: `${window.location.origin}/scholarship/${workSlug}/${sectionSlug}`,
         }
       : {
-          title: "Modern Scholarship | ChavrutAI",
+          title: "Modern Scholarship | Bekiut",
           description: "Academic scholarship on classical Jewish texts.",
           canonical: `${window.location.origin}/scholarship/${workSlug}/${sectionSlug}`,
         }
@@ -250,7 +250,7 @@ export default function ScholarshipSection() {
     if (!anchor) return;
     const href = anchor.getAttribute("href");
     if (!href) return;
-    // Internal ChavrutAI route
+    // Internal Bekiut route
     if (href.startsWith("/") && !href.startsWith("//")) {
       e.preventDefault();
       setLocation(href);

@@ -68,7 +68,7 @@ export default function BdbAbbreviations() {
           title="BDB Abbreviations"
         >
           <p className="text-sm text-muted-foreground mb-3">
-            The full list of abbreviations expanded inline by the ChavrutAI BDB
+            The full list of abbreviations expanded inline by the Bekiut BDB
             reader. {rows.length.toLocaleString()} entries. These mappings cover
             scholar surnames, grammatical shorthand, Latin logic phrases, cognate
             languages, biblical book references, and BDB-specific symbols.

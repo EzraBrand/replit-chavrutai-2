@@ -149,7 +149,7 @@ export function useSEO(seoData: SEOData) {
       "property",
     );
     updateMeta("og:type", seoData.ogType || "website", "property");
-    updateMeta("og:site_name", "ChavrutAI", "property");
+    updateMeta("og:site_name", "Bekiut", "property");
     updateMeta("og:locale", "en_US", "property");
     updateMeta("og:locale:alternate", "he_IL", "property");
     updateMeta(
@@ -191,7 +191,7 @@ export function useSEO(seoData: SEOData) {
 export const generateSEOData = {
   folioPage: (tractate: string, folio: number, side: "a" | "b"): SEOData => ({
     ...getTalmudFolioSEO(getTractateSlug(tractate), `${folio}${side}`, window.location.origin),
-    keywords: `Talmud, ${tractate}, folio ${folio}${side}, Jewish texts, Hebrew, Aramaic, study, ChavrutAI, Babylonian Talmud`,
+    keywords: `Talmud, ${tractate}, folio ${folio}${side}, Jewish texts, Hebrew, Aramaic, study, Bekiut, Babylonian Talmud`,
     ogType: "article",
     ogUrl: `${window.location.origin}/talmud/${getTractateSlug(tractate)}/${folio}${side}`,
     noindex: false,
@@ -204,12 +204,12 @@ export const generateSEOData = {
       dateModified: new Date().toISOString(),
       author: {
         "@type": "Organization",
-        name: "ChavrutAI",
+        name: "Bekiut",
         url: window.location.origin,
       },
       publisher: {
         "@type": "Organization",
-        name: "ChavrutAI",
+        name: "Bekiut",
         url: window.location.origin,
         logo: {
           "@type": "ImageObject",
@@ -235,7 +235,7 @@ export const generateSEOData = {
   homePage: (): SEOData => ({
     ...getStaticSEO("/", window.location.origin)!,
     keywords:
-      "Talmud online, study Talmud free, Babylonian Talmud Hebrew English, digital Talmud study, Jewish learning, ChavrutAI",
+      "Talmud online, study Talmud free, Babylonian Talmud Hebrew English, digital Talmud study, Jewish learning, Bekiut",
     ogUrl: `${window.location.origin}/`,
     structuredData: {
       "@context": "https://schema.org",
@@ -243,7 +243,7 @@ export const generateSEOData = {
         {
           "@type": "WebSite",
           "@id": `${window.location.origin}/#website`,
-          name: "ChavrutAI",
+          name: "Bekiut",
           description:
             "Digital platform for studying Jewish texts with modern technology",
           url: window.location.origin,
@@ -259,7 +259,7 @@ export const generateSEOData = {
         {
           "@type": "Organization",
           "@id": `${window.location.origin}/#organization`,
-          name: "ChavrutAI",
+          name: "Bekiut",
           url: window.location.origin,
           foundingDate: "2025",
           logo: {
@@ -305,7 +305,7 @@ export const generateSEOData = {
             },
             {
               "@type": "SiteNavigationElement",
-              name: "About ChavrutAI",
+              name: "About Bekiut",
               description: "Learn about our platform and features",
               url: `${window.location.origin}/about`,
             },
@@ -330,26 +330,26 @@ export const generateSEOData = {
           mainEntity: [
             {
               "@type": "Question",
-              name: "What is ChavrutAI?",
+              name: "What is Bekiut?",
               acceptedAnswer: {
                 "@type": "Answer",
-                text: "ChavrutAI is a free digital platform for studying the Babylonian Talmud with Hebrew-English bilingual text display and modern navigation tools.",
+                text: "Bekiut is a free digital platform for studying the Babylonian Talmud with Hebrew-English bilingual text display and modern navigation tools.",
               },
             },
             {
               "@type": "Question",
-              name: "Is ChavrutAI free to use?",
+              name: "Is Bekiut free to use?",
               acceptedAnswer: {
                 "@type": "Answer",
-                text: "Yes, ChavrutAI is completely free to use for all learners. Access all 37 tractates of the Babylonian Talmud at no cost.",
+                text: "Yes, Bekiut is completely free to use for all learners. Access all 37 tractates of the Babylonian Talmud at no cost.",
               },
             },
             {
               "@type": "Question",
-              name: "What languages does ChavrutAI support?",
+              name: "What languages does Bekiut support?",
               acceptedAnswer: {
                 "@type": "Answer",
-                text: "ChavrutAI displays text in Hebrew, Aramaic, and English, making it accessible to learners at all levels.",
+                text: "Bekiut displays text in Hebrew, Aramaic, and English, making it accessible to learners at all levels.",
               },
             },
           ],
@@ -371,7 +371,7 @@ export const generateSEOData = {
       url: `${window.location.origin}/talmud`,
       publisher: {
         "@type": "Organization",
-        name: "ChavrutAI",
+        name: "Bekiut",
         url: window.location.origin,
       },
       about: {
@@ -396,7 +396,7 @@ export const generateSEOData = {
       url: `${window.location.origin}/talmud/${getTractateSlug(tractate)}`,
       publisher: {
         "@type": "Organization",
-        name: "ChavrutAI",
+        name: "Bekiut",
         url: window.location.origin,
       },
       isPartOf: {
@@ -412,15 +412,15 @@ export const generateSEOData = {
   aboutPage: (): SEOData => ({
     ...getStaticSEO("/about", window.location.origin)!,
     keywords:
-      "ChavrutAI about, free Talmud platform, digital Jewish learning, bilingual Talmud study, Jewish education technology",
+      "Bekiut about, free Talmud platform, digital Jewish learning, bilingual Talmud study, Jewish education technology",
     structuredData: {
       "@context": "https://schema.org",
       "@type": "AboutPage",
-      name: "About ChavrutAI",
-      description: "Information about ChavrutAI digital Talmud study platform",
+      name: "About Bekiut",
+      description: "Information about Bekiut digital Talmud study platform",
       mainEntity: {
         "@type": "Organization",
-        name: "ChavrutAI",
+        name: "Bekiut",
         description:
           "Digital platform for studying Jewish texts with modern technology",
         url: window.location.origin,
@@ -453,7 +453,7 @@ export const generateSEOData = {
       },
       publisher: {
         "@type": "Organization",
-        name: "ChavrutAI",
+        name: "Bekiut",
         url: window.location.origin,
       },
     },

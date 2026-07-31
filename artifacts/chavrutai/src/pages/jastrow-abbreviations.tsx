@@ -68,7 +68,7 @@ export default function JastrowAbbreviations() {
           title="Jastrow Abbreviations"
         >
           <p className="text-sm text-muted-foreground mb-3">
-            The full list of abbreviations expanded inline by the ChavrutAI Jastrow
+            The full list of abbreviations expanded inline by the Bekiut Jastrow
             reader. {rows.length.toLocaleString()} entries. These mappings cover
             rabbinic source abbreviations (tractates, midrashic works), grammatical
             shorthand, Latin logic phrases, and scholar surnames.

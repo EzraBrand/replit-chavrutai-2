@@ -1,3 +1,4 @@
+import { CANONICAL_BASE_URL } from '../shared/brand';
 import { Request, Response } from 'express';
 import fs from 'fs';
 import path from 'path';
@@ -14,7 +15,7 @@ try {
 
 export function generateYerushalmiSitemap(req: Request, res: Response) {
   const baseUrl = process.env.NODE_ENV === 'production'
-    ? 'https://chavrutai.com'
+    ? CANONICAL_BASE_URL
     : req.protocol + '://' + req.get('host');
 
   const currentDate = new Date().toISOString().split('T')[0];

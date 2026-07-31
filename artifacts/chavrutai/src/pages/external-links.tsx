@@ -18,7 +18,7 @@ import {
 const RELATED_ARTICLES: { href: string; label: string; source?: string; testId: string }[] = [
   {
     href: "https://www.ezrabrand.com/p/chavrutai-talmud-web-app-launch-review",
-    label: "ChavrutAI Talmud Web App Launch: Review and Comparison with Similar Platforms",
+    label: "Bekiut Talmud Web App Launch: Review and Comparison with Similar Platforms",
     testId: "link-chavrutai-review",
   },
   {
@@ -95,7 +95,7 @@ function LinkRow({
 
 function ExternalLinksPage() {
   useSEO({
-    title: "External Links - Talmud Cross-References | ChavrutAI",
+    title: "External Links - Talmud Cross-References | Bekiut",
     description: "Find external links to Talmud pages on Sefaria, Al HaTorah, Wikisource, and Daf Yomi resources. Cross-reference any tractate, page, and section.",
     canonical: `${window.location.origin}/external-links`,
     robots: "index, follow",
@@ -187,11 +187,11 @@ function ExternalLinksPage() {
           <p>
             This page provides links to the same Talmud pages and sections across different websites.
             Select a tractate, folio, and side below, then use the provided links to view that page
-            on any of the following websites: ChavrutAI, Sefaria, Al HaTorah, Wikisource, or 'Daf Yomi' (tzurat hadaf).
+            on any of the following websites: Bekiut, Sefaria, Al HaTorah, Wikisource, or 'Daf Yomi' (tzurat hadaf).
           </p>
           <p>
             Optionally add a section number to get links that point directly to a specific paragraph.
-            ChavrutAI links open in the same tab; all other links open in a new tab.
+            Bekiut links open in the same tab; all other links open in a new tab.
           </p>
         </div>
       </PageHeader>
@@ -289,8 +289,8 @@ function ExternalLinksPage() {
             </p>
             <div>
               <LinkRow
-                name="ChavrutAI"
-                description="ChavrutAI Talmud Reader - section anchor"
+                name="Bekiut"
+                description="Bekiut Talmud Reader - section anchor"
                 url={`/talmud/${getTractateSlug(tractate)}/${folio}${side}#section-${section}`}
                 href={`/talmud/${getTractateSlug(tractate)}/${folio}${side}#section-${section}`}
                 sameTab
@@ -317,8 +317,8 @@ function ExternalLinksPage() {
           </p>
           <div>
             <LinkRow
-              name="ChavrutAI"
-              description="ChavrutAI Talmud Reader"
+              name="Bekiut"
+              description="Bekiut Talmud Reader"
               url={`/talmud/${getTractateSlug(tractate)}/${folio}${side}`}
               href={`/talmud/${getTractateSlug(tractate)}/${folio}${side}`}
               sameTab

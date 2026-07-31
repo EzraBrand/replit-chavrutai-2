@@ -86,12 +86,12 @@ export default function TractateOutlinePage() {
       url: `${window.location.origin}/outline/${outline.tractate.toLowerCase()}/${outline.chapter}`,
       author: {
         "@type": "Organization",
-        name: "ChavrutAI",
+        name: "Bekiut",
         url: window.location.origin,
       },
       publisher: {
         "@type": "Organization",
-        name: "ChavrutAI",
+        name: "Bekiut",
         url: window.location.origin,
         logo: {
           "@type": "ImageObject",

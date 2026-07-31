@@ -245,7 +245,7 @@ export function Footer() {
             {/* Branding */}
             <div className="text-center">
               <p className="text-sm text-muted-foreground">
-                ChavrutAI © {new Date().getFullYear()} by{" "}
+                Bekiut © {new Date().getFullYear()} by{" "}
                 <a 
                   href="https://www.ezrabrand.com/"
                   target="_blank"

@@ -1,3 +1,4 @@
+import { CANONICAL_BASE_URL as PROD_BASE_URL } from "../shared/brand";
 import express from "express";
 import fs from "node:fs";
 import path from "node:path";
@@ -23,7 +24,7 @@ if (Number.isNaN(port) || port <= 0) {
 // crawler-facing canonical and og:url values point at the production domain.
 const CANONICAL_BASE_URL =
   process.env.NODE_ENV === "production"
-    ? "https://chavrutai.com"
+    ? PROD_BASE_URL
     : `http://localhost:${port}`;
 
 // Fixed destination for the internal SEO-enhancement call. We deliberately do
@@ -34,7 +35,7 @@ const CANONICAL_BASE_URL =
 const ENHANCE_BASE_URL =
   process.env.SEO_ENHANCE_BASE_URL ||
   (process.env.NODE_ENV === "production"
-    ? "https://chavrutai.com"
+    ? PROD_BASE_URL
     : "http://localhost:80");
 
 const ASSET_EXTENSION_RE =

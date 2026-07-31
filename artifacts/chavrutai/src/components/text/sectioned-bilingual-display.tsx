@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useCallback, useState, useTransition } from "react";
+import { SITE_URL } from "@/lib/utils";
 import { ExternalLink as ExternalLinkIcon, Link as LinkIcon, Check } from "lucide-react";
 import { formatEnglishText, processHebrewText, processEnglishText, linkBibleCitations } from "@/lib/text-processing";
 import { usePreferences } from "@/context/preferences-context";
@@ -382,7 +383,7 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
         links.forEach(link => {
           const href = link.getAttribute('href');
           if (href) {
-            link.setAttribute('href', `https://chavrutai.com${href}`);
+            link.setAttribute('href', `${SITE_URL}${href}`);
           }
         });
       };

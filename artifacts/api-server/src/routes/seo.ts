@@ -1,3 +1,4 @@
+import { CANONICAL_BASE_URL } from '../shared/brand';
 import express from "express";
 import fs from "fs";
 import path from "path";
@@ -37,7 +38,7 @@ function generateServerSideStructuredData(url: string, baseUrl: string): object 
   const organizationNode = {
     "@type": "Organization",
     "@id": `${origin}/#organization`,
-    name: "ChavrutAI",
+    name: "Bekiut",
     url: origin,
     foundingDate: "2025",
     description: "Free digital platform for studying the Babylonian Talmud with Hebrew-English bilingual text and modern study tools.",
@@ -55,7 +56,7 @@ function generateServerSideStructuredData(url: string, baseUrl: string): object 
         {
           "@type": "WebSite",
           "@id": `${origin}/#website`,
-          name: "ChavrutAI",
+          name: "Bekiut",
           description: "Free digital platform for studying the Babylonian Talmud with Hebrew-English bilingual text and modern study tools.",
           url: origin,
           potentialAction: {
@@ -77,8 +78,8 @@ function generateServerSideStructuredData(url: string, baseUrl: string): object 
         {
           "@type": "AboutPage",
           "@id": `${origin}/about`,
-          name: "About ChavrutAI",
-          description: "Information about ChavrutAI digital Talmud study platform",
+          name: "About Bekiut",
+          description: "Information about Bekiut digital Talmud study platform",
           url: `${origin}/about`,
           publisher: { "@id": `${origin}/#organization` },
         },
@@ -122,7 +123,7 @@ function generateServerSideStructuredData(url: string, baseUrl: string): object 
           "@type": "CollectionPage",
           "@id": `${origin}/talmud/${tractate}`,
           name: `${tractateTitle} — Babylonian Talmud`,
-          description: `Study ${tractateTitle} tractate chapter by chapter with Hebrew-English text on ChavrutAI.`,
+          description: `Study ${tractateTitle} tractate chapter by chapter with Hebrew-English text on Bekiut.`,
           url: `${origin}/talmud/${tractate}`,
           breadcrumb: {
             "@type": "BreadcrumbList",
@@ -150,7 +151,7 @@ function generateServerSideStructuredData(url: string, baseUrl: string): object 
       license: "https://opensource.org/licenses/MIT",
       creator: {
         "@type": "Organization",
-        name: "ChavrutAI",
+        name: "Bekiut",
         url: origin,
       },
     };
@@ -538,7 +539,7 @@ function generateServerSideStructuredData(url: string, baseUrl: string): object 
           "@type": "Article",
           "@id": `${origin}/talmud/${tractate}/${folio}`,
           headline: `${tractateTitle} ${folioDisplay} — Talmud Bavli`,
-          description: `Study ${tractateTitle} folio ${folioDisplay} from the Babylonian Talmud with parallel Hebrew-English text on ChavrutAI.`,
+          description: `Study ${tractateTitle} folio ${folioDisplay} from the Babylonian Talmud with parallel Hebrew-English text on Bekiut.`,
           url: `${origin}/talmud/${tractate}/${folio}`,
           author: { "@id": `${origin}/#organization` },
           publisher: { "@id": `${origin}/#organization` },
@@ -566,7 +567,7 @@ function generateServerSideStructuredData(url: string, baseUrl: string): object 
 }
 
 function generateServerSideMetaTags(url: string): { title: string; description: string; ogTitle: string; ogDescription: string; canonical: string; robots: string } {
-  const baseUrl = process.env.NODE_ENV === 'production' ? 'https://chavrutai.com' : 'http://localhost:5000';
+  const baseUrl = process.env.NODE_ENV === 'production' ? CANONICAL_BASE_URL : 'http://localhost:5000';
   const urlObj = new URL(url, baseUrl);
   return getPageSEO(urlObj.pathname, urlObj.searchParams, baseUrl);
 }
@@ -579,7 +580,7 @@ function escapeHtml(str: string): string {
 }
 
 async function generateCrawlerBodyContent(urlPath: string, seoData: { title: string; description: string }): Promise<string> {
-  const baseUrl = process.env.NODE_ENV === 'production' ? 'https://chavrutai.com' : 'http://localhost:5000';
+  const baseUrl = process.env.NODE_ENV === 'production' ? CANONICAL_BASE_URL : 'http://localhost:5000';
 
   function safeSlug(slug: string): string {
     return encodeURIComponent(slug).replace(/%2F/g, '/');
@@ -591,7 +592,7 @@ async function generateCrawlerBodyContent(urlPath: string, seoData: { title: str
   let nav = '';
 
   if (urlPath === '/') {
-    heading = 'ChavrutAI — Study Talmud Online';
+    heading = 'Bekiut — Study Talmud Online';
     body = `<p>${escapeHtml(seoData.description)}</p>`;
     nav = `<nav aria-label="Main navigation"><h2>Explore</h2><ul>` +
       `<li><a href="/talmud">Browse All Tractates</a></li>` +
@@ -925,7 +926,7 @@ async function generateCrawlerBodyContent(urlPath: string, seoData: { title: str
     }
     nav += `</nav>`;
   } else {
-    heading = seoData.title.replace(/ \| ChavrutAI$/, '').replace(/ - ChavrutAI$/, '');
+    heading = seoData.title.replace(/ \| Bekiut$/, '').replace(/ - Bekiut$/, '');
     breadcrumbs = `<nav aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; ${escapeHtml(heading)}</nav>`;
     body = `<p>${escapeHtml(seoData.description)}</p>`;
   }
@@ -935,7 +936,7 @@ async function generateCrawlerBodyContent(urlPath: string, seoData: { title: str
     `<h1>${escapeHtml(heading)}</h1>` +
     body +
     nav +
-    `<footer><p><a href="${escapeHtml(baseUrl)}">ChavrutAI</a> — Free online Talmud and Bible study platform</p></footer>` +
+    `<footer><p><a href="${escapeHtml(baseUrl)}">Bekiut</a> — Free online Talmud and Bible study platform</p></footer>` +
     `</div>`;
 }
 
@@ -1026,7 +1027,7 @@ async function servePageWithMeta(req: express.Request, res: express.Response, ne
       );
     }
 
-    const baseUrl = process.env.NODE_ENV === 'production' ? 'https://chavrutai.com' : 'http://localhost:5000';
+    const baseUrl = process.env.NODE_ENV === 'production' ? CANONICAL_BASE_URL : 'http://localhost:5000';
     const structuredData = generateServerSideStructuredData(req.path, baseUrl);
     if (structuredData) {
       const jsonLdScript = `  <script type="application/ld+json">\n${JSON.stringify(structuredData, null, 2)}\n  </script>\n  </head>`;
@@ -1068,7 +1069,7 @@ export async function renderSeoEnhancement(
 ): Promise<{ structuredData: object | null; bodyContent: string }> {
   const baseUrl =
     process.env.NODE_ENV === "production"
-      ? "https://chavrutai.com"
+      ? CANONICAL_BASE_URL
       : "http://localhost:5000";
   const urlObj = new URL(originalUrl, baseUrl);
   const seoData = generateServerSideMetaTags(originalUrl);

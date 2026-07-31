@@ -70,7 +70,7 @@ function applyRtlToHebrewElements(container: HTMLElement) {
 
 export default function BlogReader() {
   useSEO({
-    title: "Talmud & Tech Blog - Read Articles | ChavrutAI",
+    title: "Talmud & Tech Blog - Read Articles | Bekiut",
     description: "Read the latest articles from the Talmud & Tech blog exploring intersections of Talmudic study and modern technology.",
     canonical: `${window.location.origin}/blog-reader`,
     robots: "index, follow",

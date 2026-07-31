@@ -50,7 +50,7 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
               <div className="w-8 h-8 rounded-full flex items-center justify-center overflow-hidden flex-shrink-0">
                 <img 
                   src="/hebrew-book-icon.png" 
-                  alt="ChavrutAI Logo" 
+                  alt="Bekiut Logo" 
                   className="w-8 h-8 object-cover"
                 />
               </div>

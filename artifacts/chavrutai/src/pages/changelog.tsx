@@ -7,16 +7,16 @@ export default function Changelog() {
   // SEO optimization
   useSEO({
     ...getStaticSEO("/changelog", window.location.origin)!,
-    keywords: 'ChavrutAI changelog, Talmud app updates, Jewish learning platform updates',
+    keywords: 'Bekiut changelog, Talmud app updates, Jewish learning platform updates',
     structuredData: {
       "@context": "https://schema.org",
       "@type": "WebPage",
-      name: "ChavrutAI Changelog",
-      description: "Recent updates and improvements to ChavrutAI digital Talmud study platform",
+      name: "Bekiut Changelog",
+      description: "Recent updates and improvements to Bekiut digital Talmud study platform",
       url: `${window.location.origin}/changelog`,
       publisher: {
         "@type": "Organization",
-        name: "ChavrutAI",
+        name: "Bekiut",
         url: window.location.origin,
       },
     },
@@ -41,6 +41,16 @@ export default function Changelog() {
           </SectionHeading>
 
           <div className="space-y-4 text-muted-foreground">
+
+            <div>
+              <h3 className="font-medium text-foreground mb-2">Rebrand: ChavrutAI is now Bekiut (July 31)</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>The site has a new name — <strong>Bekiut</strong> — reflecting its focus on broad, structured coverage of the classical Jewish library. Everything else works exactly as before.</li>
+                <li>New wordmark and "ב" monogram logo in the existing parchment-and-navy palette, including new favicons, home-screen icons, and social-media preview image.</li>
+                <li>Page titles, descriptions, and social sharing cards now use the Bekiut name throughout.</li>
+                <li>The site remains at chavrutai.com for now; earlier changelog entries keep the original name as a historical record.</li>
+              </ul>
+            </div>
 
             <div>
               <h3 className="font-medium text-foreground mb-2">Unified Site Header Across All Pages (July 31)</h3>

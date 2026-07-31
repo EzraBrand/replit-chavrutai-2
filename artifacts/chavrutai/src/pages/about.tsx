@@ -297,7 +297,7 @@ export default function About() {
   return (
     <PageShell>
       {/* Page title */}
-      <PageHeader title="About ChavrutAI">
+      <PageHeader title="About Bekiut">
         <p className="text-muted-foreground">
           A free platform for studying classical Jewish texts in Hebrew and
           English
@@ -307,17 +307,17 @@ export default function About() {
       <div>
             <PageSection>
               <SectionHeading className="mb-4">
-                What is ChavrutAI?
+                What is Bekiut?
               </SectionHeading>
               <p className="text-muted-foreground leading-relaxed mb-4">
-                ChavrutAI is a free website for studying classical Jewish texts.
+                Bekiut is a free website for studying classical Jewish texts.
                 It provides bilingual Hebrew-English access to the Babylonian
                 Talmud, Jerusalem Talmud, Mishnah, Mishneh Torah, and Tanakh —
                 making these works accessible to learners at all levels.
               </p>
               <p className="text-muted-foreground leading-relaxed">
                 Whether you're new to Talmud study or an experienced learner,
-                ChavrutAI provides a clean, distraction-free reading experience
+                Bekiut provides a clean, distraction-free reading experience
                 alongside reference tools, dictionaries, and study aids.
               </p>
             </PageSection>
@@ -434,10 +434,10 @@ export default function About() {
               <Accordion type="single" collapsible className="w-full" data-testid="faq-accordion">
                 <AccordionItem value="free">
                   <AccordionTrigger className="text-left">
-                    Is ChavrutAI free?
+                    Is Bekiut free?
                   </AccordionTrigger>
                   <AccordionContent className="text-muted-foreground">
-                    Yes, ChavrutAI is completely free to use. There are no subscriptions, 
+                    Yes, Bekiut is completely free to use. There are no subscriptions, 
                     paywalls, or hidden costs. All texts and features are accessible to everyone.
                   </AccordionContent>
                 </AccordionItem>
@@ -449,16 +449,16 @@ export default function About() {
                   <AccordionContent className="text-muted-foreground">
                     The English translations are sourced from the Sefaria library, which uses 
                     Rabbi Adin Steinsaltz's acclaimed translation of the Babylonian Talmud 
-                    and various translations for the Tanakh. ChavrutAI is not affiliated with Sefaria.
+                    and various translations for the Tanakh. Bekiut is not affiliated with Sefaria.
                   </AccordionContent>
                 </AccordionItem>
 
                 <AccordionItem value="different">
                   <AccordionTrigger className="text-left">
-                    How is ChavrutAI different from other Talmud sites?
+                    How is Bekiut different from other Talmud sites?
                   </AccordionTrigger>
                   <AccordionContent className="text-muted-foreground">
-                    ChavrutAI focuses on providing a clean, distraction-free reading experience 
+                    Bekiut focuses on providing a clean, distraction-free reading experience 
                     with thoughtful text processing. It applies targeted improvements to make 
                     the original text and its translations more accessible while preserving accuracy. Features include 
                     splitting into new lines by clause, term highlighting, customizable fonts and themes, and study tools like 
@@ -471,7 +471,7 @@ export default function About() {
                     What text processing improvements are made?
                   </AccordionTrigger>
                   <AccordionContent className="text-muted-foreground">
-                    ChavrutAI applies carefully targeted terminology updates to make the text 
+                    Bekiut applies carefully targeted terminology updates to make the text 
                     more accessible and accurate. For example, archaic terms like "phylacteries" become 
                     "tefillin," lengthy phrases like "The Holy One, Blessed be He" become 
                     simply "God," and euphemistic language is simplified to match the 
@@ -576,7 +576,7 @@ export default function About() {
 
             <PageSection>
               <SectionHeading className="mb-4">
-                Featured Articles from My 'Talmud & Tech' Blog About Building ChavrutAI
+                Featured Articles from My 'Talmud & Tech' Blog About Building Bekiut
               </SectionHeading>
               <div className="space-y-3">
                 <a
@@ -589,7 +589,7 @@ export default function About() {
                   <div className="flex items-start justify-between gap-2">
                     <div>
                       <h3 className="font-medium text-foreground text-sm leading-snug">
-                        ChavrutAI's Talmud Translation Processing Approach
+                        Bekiut's Talmud Translation Processing Approach
                       </h3>
                       <p className="text-xs text-muted-foreground mt-1">
                         Dec 29, 2025
@@ -607,7 +607,7 @@ export default function About() {
                   <div className="flex items-start justify-between gap-2">
                     <div>
                       <h3 className="font-medium text-foreground text-sm leading-snug">
-                        ChavrutAI's New Homepage: A Fresh Entry Point for the Study of Classical Jewish Texts
+                        Bekiut's New Homepage: A Fresh Entry Point for the Study of Classical Jewish Texts
                       </h3>
                       <p className="text-xs text-muted-foreground mt-1">
                         Dec 28, 2025
@@ -625,7 +625,7 @@ export default function About() {
                   <div className="flex items-start justify-between gap-2">
                     <div>
                       <h3 className="font-medium text-foreground text-sm leading-snug">
-                        ChavrutAI Talmud Web App Launch: Review and Comparison with Similar Platforms
+                        Bekiut Talmud Web App Launch: Review and Comparison with Similar Platforms
                       </h3>
                       <p className="text-xs text-muted-foreground mt-1">
                         Aug 05, 2025
@@ -683,14 +683,14 @@ export default function About() {
                 About This Project
               </SectionHeading>
               <p className="text-muted-foreground leading-relaxed mb-4">
-                ChavrutAI is a project of{" "}
+                Bekiut is a project of{" "}
                 <a
                   href="https://www.ezrabrand.com/"
                   className="text-primary hover:underline"
                 >
                   Talmud & Tech
                 </a>
-                . Text content is sourced from the Sefaria library (ChavrutAI is
+                . Text content is sourced from the Sefaria library (Bekiut is
                 not affiliated with Sefaria).
               </p>
               <p className="text-muted-foreground leading-relaxed">
@@ -716,7 +716,7 @@ export default function About() {
                 >
                   Talmud & Tech
                 </a>{" "}
-                blog for updates on ChavrutAI and analyses of Talmud and other
+                blog for updates on Bekiut and analyses of Talmud and other
                 Jewish classical texts:
               </p>
               <div className="flex justify-center">

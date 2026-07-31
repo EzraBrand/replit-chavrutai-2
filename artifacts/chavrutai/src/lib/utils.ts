@@ -5,7 +5,9 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export const SITE_URL = 'https://chavrutai.com';
+import { CANONICAL_BASE_URL } from "@shared/brand";
+
+export const SITE_URL = CANONICAL_BASE_URL;
 
 export function getBaseUrl(): string {
   if (typeof window !== 'undefined') {

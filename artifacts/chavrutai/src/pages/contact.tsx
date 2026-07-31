@@ -7,16 +7,16 @@ export default function Contact() {
   // Set up SEO
   useSEO({
     ...getStaticSEO("/contact", window.location.origin)!,
-    keywords: "contact, feedback, suggestions, corrections, ChavrutAI, Talmud study, support",
+    keywords: "contact, feedback, suggestions, corrections, Bekiut, Talmud study, support",
     structuredData: {
       "@context": "https://schema.org",
       "@type": "ContactPage",
-      name: "Contact ChavrutAI",
-      description: "Contact ChavrutAI with feedback, suggestions, and corrections",
+      name: "Contact Bekiut",
+      description: "Contact Bekiut with feedback, suggestions, and corrections",
       url: `${window.location.origin}/contact`,
       publisher: {
         "@type": "Organization",
-        name: "ChavrutAI",
+        name: "Bekiut",
         url: window.location.origin,
       },
     },
@@ -26,7 +26,7 @@ export default function Contact() {
   return (
     <PageShell>
       {/* Page title */}
-      <PageHeader title="Contact ChavrutAI">
+      <PageHeader title="Contact Bekiut">
         <p className="text-muted-foreground">
           We'd love to hear from you — feedback, suggestions, and corrections all welcome.
         </p>
@@ -35,11 +35,11 @@ export default function Contact() {
       <PageSection>
         <SectionHeading className="mb-4">We'd Love to Hear From You</SectionHeading>
         <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-          ChavrutAI is constantly evolving to better serve the Jewish learning community. Your feedback, suggestions, and corrections help us improve the platform for everyone.
+          Bekiut is constantly evolving to better serve the Jewish learning community. Your feedback, suggestions, and corrections help us improve the platform for everyone.
         </p>
 
         <p className="text-muted-foreground leading-relaxed">
-          <strong>Any feedback is appreciated!</strong> Whether you've found an error, have ideas for new features, or simply want to share your experience using ChavrutAI.
+          <strong>Any feedback is appreciated!</strong> Whether you've found an error, have ideas for new features, or simply want to share your experience using Bekiut.
         </p>
       </PageSection>
 
@@ -62,7 +62,7 @@ export default function Contact() {
       <PageSection>
         <SectionHeading className="mb-4">About This Project</SectionHeading>
         <p className="text-muted-foreground leading-relaxed">
-          ChavrutAI is a project of{" "}
+          Bekiut is a project of{" "}
           <a
             href="https://www.ezrabrand.com/"
             target="_blank"

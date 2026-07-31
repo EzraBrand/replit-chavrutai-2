@@ -37,7 +37,7 @@ export default function BlogPostsPage() {
       url: `${window.location.origin}/blog-posts`,
       publisher: {
         "@type": "Organization",
-        name: "ChavrutAI",
+        name: "Bekiut",
         url: window.location.origin,
       },
     },
@@ -97,7 +97,7 @@ export default function BlogPostsPage() {
         <p className="text-muted-foreground max-w-4xl">
           Blog posts analyzing Talmudic passages, organized by tractate and page location. 
           Click on titles to go to the full articles at the "Talmud &amp; Tech" Blog, 
-          or use location links to jump to the corresponding text in ChavrutAI.
+          or use location links to jump to the corresponding text in Bekiut.
         </p>
       </PageHeader>
 

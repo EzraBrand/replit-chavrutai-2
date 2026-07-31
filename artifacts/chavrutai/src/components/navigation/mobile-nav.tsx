@@ -106,7 +106,7 @@ export function MobileNav({ location, onLocationChange }: MobileNavProps) {
       
       <SheetContent side="left" className="w-80 bg-background">
         <SheetHeader>
-          <SheetTitle className="text-primary">ChavrutAI</SheetTitle>
+          <SheetTitle className="text-primary">Bekiut</SheetTitle>
           <SheetDescription className="sr-only">Navigation and tractate selection</SheetDescription>
         </SheetHeader>
         

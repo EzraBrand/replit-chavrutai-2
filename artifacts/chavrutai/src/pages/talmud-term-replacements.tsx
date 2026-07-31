@@ -94,7 +94,7 @@ export default function TalmudTermReplacements() {
           title="Talmud Term Replacements"
         >
           <p className="text-sm text-muted-foreground">
-            The full list of inline terminology updates ChavrutAI applies to the
+            The full list of inline terminology updates Bekiut applies to the
             English translation of the Talmud. {rows.length.toLocaleString()}{" "}
             replacements across {categories.length} categories. These are targeted
             improvements designed to make the text more accessible and accurate —

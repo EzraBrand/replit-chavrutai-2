@@ -66,12 +66,12 @@ export default function BibleChapterPage() {
       inLanguage: ["he", "en"],
       author: {
         "@type": "Organization",
-        name: "ChavrutAI",
+        name: "Bekiut",
         url: baseUrl,
       },
       publisher: {
         "@type": "Organization",
-        name: "ChavrutAI",
+        name: "Bekiut",
         url: baseUrl,
         logo: {
           "@type": "ImageObject",

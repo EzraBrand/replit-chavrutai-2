@@ -34,7 +34,7 @@ export default function BiblicalBookPage() {
 
   // Set up SEO
   useSEO({
-    title: bookName ? `${formatBookName(bookName)} - Biblical Citations in Talmud | ChavrutAI` : "Biblical Citations | ChavrutAI",
+    title: bookName ? `${formatBookName(bookName)} - Biblical Citations in Talmud | Bekiut` : "Biblical Citations | Bekiut",
     description: bookName ? `Find all Talmudic citations of ${formatBookName(bookName)}. Comprehensive index mapping biblical verses to their references in the Babylonian Talmud.` : "Biblical citations index",
     canonical: `${window.location.origin}/biblical-index/book/${bookName || ''}`,
     robots: "index, follow",
@@ -51,7 +51,7 @@ export default function BiblicalBookPage() {
       },
       creator: {
         "@type": "Organization",
-        name: "ChavrutAI",
+        name: "Bekiut",
         url: window.location.origin,
       },
     } : undefined,

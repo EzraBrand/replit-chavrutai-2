@@ -25,7 +25,7 @@ export default function BiblicalIndexPage() {
       license: "https://opensource.org/licenses/MIT",
       creator: {
         "@type": "Organization",
-        name: "ChavrutAI",
+        name: "Bekiut",
         url: window.location.origin,
       },
     },
@@ -107,7 +107,7 @@ export default function BiblicalIndexPage() {
         </p>
         <h3 className="font-georgia text-lg text-foreground mb-2">Features</h3>
         <ul className="list-disc list-inside space-y-1 text-secondary-foreground">
-          <li>Direct hyperlinks to the original Talmudic passages on ChavrutAI</li>
+          <li>Direct hyperlinks to the original Talmudic passages on Bekiut</li>
           <li>Full contextual quotations for each citation</li>
           <li>Organized by biblical book and chapter</li>
           <li>Searchable and browseable interface</li>

@@ -43,12 +43,12 @@ export default function Sitemap() {
     structuredData: {
       "@context": "https://schema.org",
       "@type": "CollectionPage",
-      name: "ChavrutAI Site Map",
+      name: "Bekiut Site Map",
       description: "Complete navigation guide to all 37 Talmud tractates organized by traditional Seder structure",
       url: `${baseUrl}/sitemap`,
       publisher: {
         "@type": "Organization",
-        name: "ChavrutAI",
+        name: "Bekiut",
         url: baseUrl,
       },
     },
@@ -79,7 +79,7 @@ export default function Sitemap() {
   return (
     <PageShell>
       {/* Page title */}
-      <PageHeader category="talmud-bavli" title="ChavrutAI Site Map">
+      <PageHeader category="talmud-bavli" title="Bekiut Site Map">
         <p className="text-muted-foreground mb-6">
           Navigate all {summary.totalPages.toLocaleString()} pages across {summary.totalTractates} tractates 
           of the Babylonian Talmud, organized by traditional Seder structure

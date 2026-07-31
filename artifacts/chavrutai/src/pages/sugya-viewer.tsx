@@ -45,7 +45,7 @@ export default function SefariaFetchPage() {
       operatingSystem: "Web",
       publisher: {
         "@type": "Organization",
-        name: "ChavrutAI",
+        name: "Bekiut",
         url: window.location.origin,
       },
     },
@@ -641,8 +641,8 @@ ${cleanHtml}
                   You can specify a range using one of five options:
                 </p>
                 <ul className="list-disc list-inside space-y-1 ml-2">
-                  <li><strong>ChavrutAI Reference:</strong> Use slash-separated format, optionally with a section (e.g., <code className="text-xs bg-muted px-1 rounded">Shabbat/89b</code> or <code className="text-xs bg-muted px-1 rounded">Rosh_Hashanah/17a#11</code>)</li>
-                  <li><strong>ChavrutAI URL:</strong> Paste a ChavrutAI URL (e.g., <code className="text-xs bg-muted px-1 rounded">https://chavrutai.com/talmud/Rosh_Hashanah/17a#11</code>)</li>
+                  <li><strong>Bekiut Reference:</strong> Use slash-separated format, optionally with a section (e.g., <code className="text-xs bg-muted px-1 rounded">Shabbat/89b</code> or <code className="text-xs bg-muted px-1 rounded">Rosh_Hashanah/17a#11</code>)</li>
+                  <li><strong>Bekiut URL:</strong> Paste a Bekiut URL (e.g., <code className="text-xs bg-muted px-1 rounded">https://chavrutai.com/talmud/Rosh_Hashanah/17a#11</code>)</li>
                   <li><strong>Sefaria Reference:</strong> Use dot-separated format (e.g., <code className="text-xs bg-muted px-1 rounded">Menachot.65a.4-66a.8</code>)</li>
                   <li><strong>Sefaria URL:</strong> Paste a Sefaria URL (can span multiple pages, e.g., <code className="text-xs bg-muted px-1 rounded">https://www.sefaria.org/Berakhot.16b.18-17a.12</code>)</li>
                   <li><strong>Blog Post Selection:</strong> Choose from a dropdown list of blog post titles and ranges of specific sugyot to auto-fill the reference</li>
@@ -663,7 +663,7 @@ ${cleanHtml}
             {/* URL / Reference input */}
             <div className="space-y-2">
               <Label htmlFor="sefaria-url" className="text-sm font-semibold">
-                ChavrutAI / Sefaria Reference or URL
+                Bekiut / Sefaria Reference or URL
               </Label>
               <Input
                 id="sefaria-url"
@@ -675,7 +675,7 @@ ${cleanHtml}
                 className="text-base"
               />
               <p className="text-xs text-muted-foreground">
-                Paste a ChavrutAI or Sefaria URL, or type a reference directly (e.g. <code className="bg-muted px-1 rounded">Shabbat/89b</code> or <code className="bg-muted px-1 rounded">Rosh_Hashanah/17a#11</code>). Ranges spanning multiple pages are also supported.
+                Paste a Bekiut or Sefaria URL, or type a reference directly (e.g. <code className="bg-muted px-1 rounded">Shabbat/89b</code> or <code className="bg-muted px-1 rounded">Rosh_Hashanah/17a#11</code>). Ranges spanning multiple pages are also supported.
               </p>
             </div>
 
@@ -1005,7 +1005,7 @@ ${cleanHtml}
                   <div className="flex items-center gap-3 py-3 border-t border-border">
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-semibold text-foreground mb-1">Open in the main Talmud reader</p>
-                      <p className="text-xs text-muted-foreground">Study this passage with the full ChavrutAI reader</p>
+                      <p className="text-xs text-muted-foreground">Study this passage with the full Bekiut reader</p>
                     </div>
                     <a
                       href={`/talmud/${encodeURIComponent(data.tractate.toLowerCase())}/${data.page}${data.section ? `#section-${data.section}` : ''}`}

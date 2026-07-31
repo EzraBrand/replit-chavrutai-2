@@ -20,25 +20,25 @@ export type SEOResult = SEOEntry & { canonical: string };
 
 const STATIC_MAP: Record<string, SEOEntry> = {
   "/": {
-    title: "Study Talmud Online - Free Digital Platform | ChavrutAI",
+    title: "Study Talmud Online - Free Digital Platform | Bekiut",
     description:
-      "ChavrutAI \u2014 study the Babylonian Talmud online, free. All 37 tractates with Hebrew-English text, chapter navigation, and modern study tools.",
-    ogTitle: "ChavrutAI - Study Talmud Online Free",
+      "Bekiut \u2014 study the Babylonian Talmud online, free. All 37 tractates with Hebrew-English text, chapter navigation, and modern study tools.",
+    ogTitle: "Bekiut - Study Talmud Online Free",
     ogDescription:
-      "ChavrutAI \u2014 study the Babylonian Talmud online, free. All 37 tractates with Hebrew-English text, chapter navigation, and modern study tools.",
+      "Bekiut \u2014 study the Babylonian Talmud online, free. All 37 tractates with Hebrew-English text, chapter navigation, and modern study tools.",
     robots: "index, follow",
   },
   "/talmud": {
-    title: "Talmud Bavli \u2014 All 37 Tractates | ChavrutAI",
+    title: "Talmud Bavli \u2014 All 37 Tractates | Bekiut",
     description:
       "Study the Babylonian Talmud online, free. Browse all 37 tractates organized by Seder with Hebrew-English text, chapter navigation, and modern study tools.",
     ogTitle: "Talmud Bavli \u2014 All 37 Tractates",
     ogDescription:
-      "Browse all 37 tractates of the Babylonian Talmud with Hebrew-English text, chapter navigation, and modern study tools on ChavrutAI.",
+      "Browse all 37 tractates of the Babylonian Talmud with Hebrew-English text, chapter navigation, and modern study tools on Bekiut.",
     robots: "index, follow",
   },
   "/bible": {
-    title: "Bible (Tanach) - Hebrew & English | ChavrutAI",
+    title: "Bible (Tanach) - Hebrew & English | Bekiut",
     description:
       "Read the complete Hebrew Bible (Tanach) with Koren Jerusalem Bible English translation. Access all 24 books of the Torah, Nevi'im, and Ketuvim with parallel Hebrew-English text.",
     ogTitle: "Bible (Tanach) - Hebrew & English",
@@ -47,54 +47,54 @@ const STATIC_MAP: Record<string, SEOEntry> = {
     robots: "index, follow",
   },
   "/mishnah": {
-    title: "Mishnah - Hebrew & English | ChavrutAI",
+    title: "Mishnah - Hebrew & English | Bekiut",
     description:
       "Study the Mishnah online with bilingual Hebrew-English text. Browse 26 tractates not covered by the Babylonian Talmud, organized by Seder.",
-    ogTitle: "Mishnah - Hebrew & English | ChavrutAI",
+    ogTitle: "Mishnah - Hebrew & English | Bekiut",
     ogDescription:
-      "Study the Mishnah online with bilingual Hebrew-English text on ChavrutAI.",
+      "Study the Mishnah online with bilingual Hebrew-English text on Bekiut.",
     robots: "index, follow",
   },
   "/yerushalmi": {
-    title: "Jerusalem Talmud (Yerushalmi) - Hebrew & English | ChavrutAI",
+    title: "Jerusalem Talmud (Yerushalmi) - Hebrew & English | Bekiut",
     description:
       "Study the Jerusalem Talmud (Talmud Yerushalmi) online with bilingual Hebrew-English text. 39 tractates with the Guggenheimer English translation, organized by Seder.",
     ogTitle:
-      "Jerusalem Talmud (Yerushalmi) - Hebrew & English | ChavrutAI",
+      "Jerusalem Talmud (Yerushalmi) - Hebrew & English | Bekiut",
     ogDescription:
-      "Study the Jerusalem Talmud online with bilingual Hebrew-English text (Guggenheimer translation) on ChavrutAI.",
+      "Study the Jerusalem Talmud online with bilingual Hebrew-English text (Guggenheimer translation) on Bekiut.",
     robots: "index, follow",
   },
   "/scholarship": {
-    title: "Modern Scholarship on Jewish Texts | ChavrutAI",
+    title: "Modern Scholarship on Jewish Texts | Bekiut",
     description:
       "Academic introductions and critical studies of classical Jewish texts. Read Epstein's Introductions to Tanaitic and Amoraic Literature in the original Hebrew.",
-    ogTitle: "Modern Scholarship on Jewish Texts | ChavrutAI",
+    ogTitle: "Modern Scholarship on Jewish Texts | Bekiut",
     ogDescription:
       "Read modern academic scholarship on classical Jewish texts, including Epstein's landmark introductions to Tanaitic and Amoraic literature.",
     robots: "index, follow",
   },
   "/rambam": {
-    title: "Mishneh Torah (Rambam) - Complete Text | ChavrutAI",
+    title: "Mishneh Torah (Rambam) - Complete Text | Bekiut",
     description:
       "Study the Mishneh Torah (Rambam) online with bilingual Hebrew-English text. All 83 Hilchot across 14 books, with the Touger English translation via Sefaria.",
-    ogTitle: "Mishneh Torah (Rambam) - Complete Text | ChavrutAI",
+    ogTitle: "Mishneh Torah (Rambam) - Complete Text | Bekiut",
     ogDescription:
-      "Study the Mishneh Torah (Rambam) with bilingual Hebrew-English text on ChavrutAI.",
+      "Study the Mishneh Torah (Rambam) with bilingual Hebrew-English text on Bekiut.",
     robots: "index, follow",
   },
   "/sugya-viewer": {
-    title: "Sugya Viewer - Custom Talmud Range | ChavrutAI",
+    title: "Sugya Viewer - Custom Talmud Range | Bekiut",
     description:
       "Read any continuous passage (sugya) across the Babylonian Talmud by selecting a custom range of folios. Ideal for in-depth study of extended discussions.",
-    ogTitle: "Sugya Viewer - Custom Talmud Range | ChavrutAI",
+    ogTitle: "Sugya Viewer - Custom Talmud Range | Bekiut",
     ogDescription:
-      "Read any continuous Talmud passage by selecting a custom range of folios on ChavrutAI.",
+      "Read any continuous Talmud passage by selecting a custom range of folios on Bekiut.",
     robots: "index, follow",
   },
   "/suggested-pages": {
     title:
-      "Famous Talmud Pages - Essential Teachings & Stories | ChavrutAI",
+      "Famous Talmud Pages - Essential Teachings & Stories | Bekiut",
     description:
       "Start with the most famous Talmud pages including Hillel's wisdom, Hannah's prayer, and other essential teachings. Perfect introduction for new learners.",
     ogTitle: "Famous Talmud Pages - Essential Teachings & Stories",
@@ -103,7 +103,7 @@ const STATIC_MAP: Record<string, SEOEntry> = {
     robots: "index, follow",
   },
   "/biblical-index": {
-    title: "Biblical Citations in the Talmud - Complete Index | ChavrutAI",
+    title: "Biblical Citations in the Talmud - Complete Index | Bekiut",
     description:
       "Comprehensive digital index mapping biblical verses to their citations throughout the Babylonian Talmud. Search Torah, Prophets, and Writings references with direct links to Talmudic passages.",
     ogTitle: "Biblical Citations in the Talmud - Complete Index",
@@ -112,18 +112,18 @@ const STATIC_MAP: Record<string, SEOEntry> = {
     robots: "index, follow",
   },
   "/mishnah-map": {
-    title: "Mishnah-Talmud Mapping | ChavrutAI",
+    title: "Mishnah-Talmud Mapping | Bekiut",
     description:
       "Explore the relationship between Mishnah sections and their corresponding Talmudic discussions. Navigate from any Mishnah passage directly to the Gemara that analyzes it.",
-    ogTitle: "Mishnah-Talmud Mapping | ChavrutAI",
+    ogTitle: "Mishnah-Talmud Mapping | Bekiut",
     ogDescription:
-      "Navigate from any Mishnah passage directly to the Gemara that analyzes it on ChavrutAI.",
+      "Navigate from any Mishnah passage directly to the Gemara that analyzes it on Bekiut.",
     robots: "index, follow",
   },
   "/blog-posts": {
-    title: "Talmud & Tech Blog Posts by Talmud Location | ChavrutAI",
+    title: "Talmud & Tech Blog Posts by Talmud Location | Bekiut",
     description:
-      'Blog posts analyzing Talmudic passages, organized by tractate and page location. Click on titles to go to the full articles at the Talmud & Tech Blog, or use location links to jump to the corresponding text in ChavrutAI.',
+      'Blog posts analyzing Talmudic passages, organized by tractate and page location. Click on titles to go to the full articles at the Talmud & Tech Blog, or use location links to jump to the corresponding text in Bekiut.',
     ogTitle: "Talmud & Tech Blog Posts by Talmud Location",
     ogDescription:
       "Blog posts analyzing Talmudic passages, organized by tractate and page location.",
@@ -131,7 +131,7 @@ const STATIC_MAP: Record<string, SEOEntry> = {
   },
   "/jastrow": {
     title:
-      "Modernized Jastrow Talmud Dictionary of Hebrew & Aramaic | ChavrutAI",
+      "Modernized Jastrow Talmud Dictionary of Hebrew & Aramaic | Bekiut",
     description:
       "Search the comprehensive Jastrow Dictionary of Talmudic Hebrew and Aramaic. Modernized presentation with expanded abbreviations, enhanced readability, and direct term lookup.",
     ogTitle: "Modernized Jastrow Talmud Dictionary of Hebrew & Aramaic",
@@ -140,71 +140,71 @@ const STATIC_MAP: Record<string, SEOEntry> = {
     robots: "index, follow",
   },
   "/bdb": {
-    title: "BDB (Brown-Driver-Briggs) Hebrew Bible Dictionary | ChavrutAI",
+    title: "BDB (Brown-Driver-Briggs) Hebrew Bible Dictionary | Bekiut",
     description:
-      "Search the Brown-Driver-Briggs (BDB) Hebrew Bible Dictionary. Modernized presentation with expanded abbreviations and direct links to biblical citations on ChavrutAI.",
+      "Search the Brown-Driver-Briggs (BDB) Hebrew Bible Dictionary. Modernized presentation with expanded abbreviations and direct links to biblical citations on Bekiut.",
     ogTitle: "BDB (Brown-Driver-Briggs) Hebrew Bible Dictionary",
     ogDescription:
       "Search the classic Brown-Driver-Briggs Hebrew Bible Dictionary with modernized presentation and direct biblical-citation links.",
     robots: "index, follow",
   },
   "/jastrow/abbreviations": {
-    title: "Jastrow Abbreviations Reference | ChavrutAI",
+    title: "Jastrow Abbreviations Reference | Bekiut",
     description:
-      "Complete list of Jastrow Dictionary abbreviations expanded inline by the ChavrutAI Jastrow reader: rabbinic source abbreviations, grammatical shorthand, Latin logic phrases, and scholar surnames.",
+      "Complete list of Jastrow Dictionary abbreviations expanded inline by the Bekiut Jastrow reader: rabbinic source abbreviations, grammatical shorthand, Latin logic phrases, and scholar surnames.",
     ogTitle: "Jastrow Abbreviations Reference",
     ogDescription:
-      "Searchable table of every abbreviation expanded inline by the ChavrutAI Jastrow reader.",
+      "Searchable table of every abbreviation expanded inline by the Bekiut Jastrow reader.",
     robots: "index, follow",
   },
   "/talmud/term-replacements": {
-    title: "Talmud Term Replacements Reference | ChavrutAI",
+    title: "Talmud Term Replacements Reference | Bekiut",
     description:
-      "Complete list of inline terminology updates ChavrutAI applies to the English translation of the Talmud — archaic terms, divine epithets, personal names, Hebrew calendar dates, and more.",
+      "Complete list of inline terminology updates Bekiut applies to the English translation of the Talmud — archaic terms, divine epithets, personal names, Hebrew calendar dates, and more.",
     ogTitle: "Talmud Term Replacements Reference",
     ogDescription:
-      "Searchable, categorized table of every terminology update applied to the Talmud's English translation in ChavrutAI.",
+      "Searchable, categorized table of every terminology update applied to the Talmud's English translation in Bekiut.",
     robots: "index, follow",
   },
   "/bdb/abbreviations": {
-    title: "BDB Abbreviations Reference | ChavrutAI",
+    title: "BDB Abbreviations Reference | Bekiut",
     description:
-      "Complete list of Brown-Driver-Briggs (BDB) abbreviations expanded inline by the ChavrutAI BDB reader: scholar surnames, grammatical shorthand, Latin logic phrases, cognate-language tags, biblical book references, and BDB-specific symbols.",
+      "Complete list of Brown-Driver-Briggs (BDB) abbreviations expanded inline by the Bekiut BDB reader: scholar surnames, grammatical shorthand, Latin logic phrases, cognate-language tags, biblical book references, and BDB-specific symbols.",
     ogTitle: "BDB Abbreviations Reference",
     ogDescription:
-      "Searchable table of every abbreviation expanded inline by the ChavrutAI BDB reader.",
+      "Searchable table of every abbreviation expanded inline by the Bekiut BDB reader.",
     robots: "index, follow",
   },
   "/term-index": {
-    title: "Talmud Term Index - Names, Places & Key Terms | ChavrutAI",
+    title: "Talmud Term Index - Names, Places & Key Terms | Bekiut",
     description:
       "Glossary of personal names, place names, and key terms in the Babylonian Talmud. Includes corpus counts, Wikipedia links, Hebrew terms, and biographical data.",
-    ogTitle: "Talmud Term Index - Names, Places & Key Terms | ChavrutAI",
+    ogTitle: "Talmud Term Index - Names, Places & Key Terms | Bekiut",
     ogDescription:
       "Glossary of personal names, place names, and key terms in the Babylonian Talmud with corpus counts, Wikipedia links, and biographical data.",
     robots: "index, follow",
   },
   "/search": {
-    title: "Search the Talmud & Bible \u2013 Hebrew & English | ChavrutAI",
+    title: "Search the Talmud & Bible \u2013 Hebrew & English | Bekiut",
     description:
       "Search through the Babylonian Talmud and Hebrew Bible in Hebrew and English. Find any passage, word, or topic across thousands of pages.",
     ogTitle: "Search Talmud & Bible",
     ogDescription:
-      "Search through the Babylonian Talmud and Hebrew Bible in Hebrew and English on ChavrutAI.",
+      "Search through the Babylonian Talmud and Hebrew Bible in Hebrew and English on Bekiut.",
     robots: "index, follow",
   },
   "/about": {
     title:
-      "About ChavrutAI - Free Digital Talmud Learning Platform | ChavrutAI",
+      "About Bekiut - Free Digital Talmud Learning Platform | Bekiut",
     description:
-      "Discover how ChavrutAI makes Jewish texts accessible with modern technology. Learn about our free bilingual Talmud study platform designed for learners at all levels.",
-    ogTitle: "About ChavrutAI - Free Digital Talmud Learning Platform",
+      "Discover how Bekiut makes Jewish texts accessible with modern technology. Learn about our free bilingual Talmud study platform designed for learners at all levels.",
+    ogTitle: "About Bekiut - Free Digital Talmud Learning Platform",
     ogDescription:
-      "Discover how ChavrutAI makes Jewish texts accessible with modern technology. Learn about our free bilingual Talmud study platform designed for learners at all levels.",
+      "Discover how Bekiut makes Jewish texts accessible with modern technology. Learn about our free bilingual Talmud study platform designed for learners at all levels.",
     robots: "index, follow",
   },
   "/sitemap": {
-    title: "Site Map - Talmud Navigation Guide | ChavrutAI",
+    title: "Site Map - Talmud Navigation Guide | Bekiut",
     description:
       "Complete navigation guide to all 37 Talmud tractates organized by traditional Seder structure. Find any page across 5,400+ folios in the Babylonian Talmud.",
     ogTitle: "Site Map - Talmud Navigation Guide",
@@ -213,30 +213,30 @@ const STATIC_MAP: Record<string, SEOEntry> = {
     robots: "index, follow",
   },
   "/contact": {
-    title: "Contact | ChavrutAI",
+    title: "Contact | Bekiut",
     description:
-      "Contact ChavrutAI with feedback, suggestions, and corrections. We appreciate all input to improve our digital Talmud study platform.",
-    ogTitle: "Contact ChavrutAI",
+      "Contact Bekiut with feedback, suggestions, and corrections. We appreciate all input to improve our digital Talmud study platform.",
+    ogTitle: "Contact Bekiut",
     ogDescription:
-      "Contact ChavrutAI with feedback, suggestions, and corrections.",
+      "Contact Bekiut with feedback, suggestions, and corrections.",
     robots: "index, follow",
   },
   "/privacy": {
     title:
-      "Privacy Policy - ChavrutAI Talmud Study Platform | ChavrutAI",
+      "Privacy Policy - Bekiut Talmud Study Platform | Bekiut",
     description:
-      "Privacy policy for ChavrutAI - learn how we handle your data when using our free Talmud study platform.",
-    ogTitle: "Privacy Policy - ChavrutAI Talmud Study Platform",
+      "Privacy policy for Bekiut - learn how we handle your data when using our free Talmud study platform.",
+    ogTitle: "Privacy Policy - Bekiut Talmud Study Platform",
     ogDescription:
-      "Privacy policy for ChavrutAI - learn how we handle your data when using our free Talmud study platform.",
+      "Privacy policy for Bekiut - learn how we handle your data when using our free Talmud study platform.",
     robots: "index, follow",
   },
   "/changelog": {
-    title: "Changelog | ChavrutAI",
+    title: "Changelog | Bekiut",
     description:
-      "Recent updates and improvements to ChavrutAI. Track new features, design enhancements, and user experience improvements for Talmud study.",
-    ogTitle: "Changelog - ChavrutAI Updates",
-    ogDescription: "Recent updates and improvements to ChavrutAI.",
+      "Recent updates and improvements to Bekiut. Track new features, design enhancements, and user experience improvements for Talmud study.",
+    ogTitle: "Changelog - Bekiut Updates",
+    ogDescription: "Recent updates and improvements to Bekiut.",
     robots: "index, follow",
   },
 };
@@ -261,7 +261,7 @@ export function getTalmudTractateSEO(
 ): SEOResult {
   const tractateTitle = normalizeDisplayTractateName(tractate);
   return {
-    title: `${tractateTitle} Talmud - Complete Chapter Guide | ChavrutAI`,
+    title: `${tractateTitle} Talmud - Complete Chapter Guide | Bekiut`,
     description: `Study ${tractateTitle} tractate chapter by chapter with Hebrew-English text, detailed folio navigation, and traditional commentary access. Free online Talmud learning.`,
     ogTitle: `${tractateTitle} Talmud - Complete Study Guide`,
     ogDescription: `Study ${tractateTitle} tractate chapter by chapter with Hebrew-English text, detailed folio navigation, and traditional commentary access.`,
@@ -278,7 +278,7 @@ export function getTalmudFolioSEO(
   const tractateTitle = normalizeDisplayTractateName(tractate);
   const folioUpper = folio.toUpperCase();
   return {
-    title: `${tractateTitle} ${folioUpper} \u2013 Hebrew & English Talmud | ChavrutAI`,
+    title: `${tractateTitle} ${folioUpper} \u2013 Hebrew & English Talmud | Bekiut`,
     description: `Study ${tractateTitle} folio ${folioUpper} with parallel Hebrew-English text, traditional commentary, and modern study tools. Free access to Babylonian Talmud online.`,
     ogTitle: `${tractateTitle} ${folioUpper} \u2013 Talmud Study Page`,
     ogDescription: `Study ${tractateTitle} folio ${folioUpper} with parallel Hebrew-English text, traditional commentary, and modern study tools.`,
@@ -294,10 +294,10 @@ export function getBibleBookSEO(
   const book = getBookBySlug(bookSlug);
   const bookTitle = book ? book.name : bookSlug.replace(/_/g, " ");
   return {
-    title: `${bookTitle} - Hebrew & English Bible | ChavrutAI`,
-    description: `Read all chapters of ${bookTitle} with parallel Hebrew-English text and the Koren Jerusalem Bible translation. Free online Bible study on ChavrutAI.`,
+    title: `${bookTitle} - Hebrew & English Bible | Bekiut`,
+    description: `Read all chapters of ${bookTitle} with parallel Hebrew-English text and the Koren Jerusalem Bible translation. Free online Bible study on Bekiut.`,
     ogTitle: `${bookTitle} - Hebrew & English Bible`,
-    ogDescription: `Read ${bookTitle} with parallel Hebrew-English text and the Koren Jerusalem Bible translation on ChavrutAI.`,
+    ogDescription: `Read ${bookTitle} with parallel Hebrew-English text and the Koren Jerusalem Bible translation on Bekiut.`,
     canonical: `${baseUrl}/bible/${bookSlug}`,
     robots: "index, follow",
   };
@@ -311,10 +311,10 @@ export function getBibleChapterSEO(
   const book = getBookBySlug(bookSlug);
   const bookTitle = book ? book.name : bookSlug.replace(/_/g, " ");
   return {
-    title: `${bookTitle} Chapter ${chapter} - Hebrew & English Bible | ChavrutAI`,
-    description: `Read ${bookTitle} Chapter ${chapter} with parallel Hebrew-English text and the Koren Jerusalem Bible translation. Free online Bible study on ChavrutAI.`,
+    title: `${bookTitle} Chapter ${chapter} - Hebrew & English Bible | Bekiut`,
+    description: `Read ${bookTitle} Chapter ${chapter} with parallel Hebrew-English text and the Koren Jerusalem Bible translation. Free online Bible study on Bekiut.`,
     ogTitle: `${bookTitle} ${chapter} - Hebrew & English Bible`,
-    ogDescription: `Read ${bookTitle} Chapter ${chapter} with parallel Hebrew-English text and the Koren Jerusalem Bible translation on ChavrutAI.`,
+    ogDescription: `Read ${bookTitle} Chapter ${chapter} with parallel Hebrew-English text and the Koren Jerusalem Bible translation on Bekiut.`,
     canonical: `${baseUrl}/bible/${bookSlug}/${chapter}`,
     robots: "index, follow",
   };
@@ -327,10 +327,10 @@ export function getMishnahTractateSEO(
   const info = getMishnahTractateInfo(tractateSlug);
   const tractateName = info ? info.name : tractateSlug.replace(/_/g, " ");
   return {
-    title: `Mishnah ${tractateName} - Hebrew & English | ChavrutAI`,
-    description: `Study Mishnah ${tractateName} chapter by chapter with bilingual Hebrew-English text. Free online on ChavrutAI.`,
+    title: `Mishnah ${tractateName} - Hebrew & English | Bekiut`,
+    description: `Study Mishnah ${tractateName} chapter by chapter with bilingual Hebrew-English text. Free online on Bekiut.`,
     ogTitle: `Mishnah ${tractateName} - Hebrew & English`,
-    ogDescription: `Study Mishnah ${tractateName} with Hebrew-English text on ChavrutAI.`,
+    ogDescription: `Study Mishnah ${tractateName} with Hebrew-English text on Bekiut.`,
     canonical: `${baseUrl}/mishnah/${tractateSlug}`,
     robots: "index, follow",
   };
@@ -344,10 +344,10 @@ export function getMishnahChapterSEO(
   const info = getMishnahTractateInfo(tractateSlug);
   const tractateName = info ? info.name : tractateSlug.replace(/_/g, " ");
   return {
-    title: `Mishnah ${tractateName} Chapter ${chapter} - Hebrew & English | ChavrutAI`,
-    description: `Study Mishnah ${tractateName} Chapter ${chapter} with parallel Hebrew-English text. Free online Mishnah study on ChavrutAI.`,
+    title: `Mishnah ${tractateName} Chapter ${chapter} - Hebrew & English | Bekiut`,
+    description: `Study Mishnah ${tractateName} Chapter ${chapter} with parallel Hebrew-English text. Free online Mishnah study on Bekiut.`,
     ogTitle: `Mishnah ${tractateName} ${chapter} - Hebrew & English`,
-    ogDescription: `Read Mishnah ${tractateName} Chapter ${chapter} with parallel Hebrew-English text on ChavrutAI.`,
+    ogDescription: `Read Mishnah ${tractateName} Chapter ${chapter} with parallel Hebrew-English text on Bekiut.`,
     canonical: `${baseUrl}/mishnah/${tractateSlug}/${chapter}`,
     robots: "index, follow",
   };
@@ -360,10 +360,10 @@ export function getYerushalmiTractateSEO(
   const info = getYerushalmiTractateInfo(tractateSlug);
   const tractateName = info ? info.name : tractateSlug.replace(/_/g, " ");
   return {
-    title: `Jerusalem Talmud ${tractateName} - Hebrew & English | ChavrutAI`,
-    description: `Study Jerusalem Talmud ${tractateName} chapter by chapter with bilingual Hebrew-English text (Guggenheimer translation). Free online on ChavrutAI.`,
+    title: `Jerusalem Talmud ${tractateName} - Hebrew & English | Bekiut`,
+    description: `Study Jerusalem Talmud ${tractateName} chapter by chapter with bilingual Hebrew-English text (Guggenheimer translation). Free online on Bekiut.`,
     ogTitle: `Jerusalem Talmud ${tractateName} - Hebrew & English`,
-    ogDescription: `Study Jerusalem Talmud ${tractateName} with Hebrew-English text on ChavrutAI.`,
+    ogDescription: `Study Jerusalem Talmud ${tractateName} with Hebrew-English text on Bekiut.`,
     canonical: `${baseUrl}/yerushalmi/${tractateSlug}`,
     robots: "index, follow",
   };
@@ -379,10 +379,10 @@ export function getYerushalmiHalachahSEO(
   const info = getYerushalmiTractateInfo(tractateSlug);
   const tractateName = info ? info.name : tractateSlug.replace(/_/g, " ");
   return {
-    title: `Jerusalem Talmud ${tractateName} ${chapter}:${halakhah} - Hebrew & English | ChavrutAI`,
-    description: `Study Jerusalem Talmud ${tractateName} Chapter ${chapter} Halakhah ${halakhah} with parallel Hebrew-English text (Guggenheimer translation). Free online on ChavrutAI.`,
+    title: `Jerusalem Talmud ${tractateName} ${chapter}:${halakhah} - Hebrew & English | Bekiut`,
+    description: `Study Jerusalem Talmud ${tractateName} Chapter ${chapter} Halakhah ${halakhah} with parallel Hebrew-English text (Guggenheimer translation). Free online on Bekiut.`,
     ogTitle: `Jerusalem Talmud ${tractateName} ${chapter}:${halakhah} - Hebrew & English`,
-    ogDescription: `Read Jerusalem Talmud ${tractateName} Chapter ${chapter} Halakhah ${halakhah} with Hebrew-English text (Guggenheimer) on ChavrutAI.`,
+    ogDescription: `Read Jerusalem Talmud ${tractateName} Chapter ${chapter} Halakhah ${halakhah} with Hebrew-English text (Guggenheimer) on Bekiut.`,
     canonical: `${baseUrl}/yerushalmi/${tractateSlug}/${chapter}.${halakhah}`,
     robots: isMissing ? "noindex, follow" : "index, follow",
   };
@@ -395,10 +395,10 @@ export function getRambamHilchotSEO(
   const info = getRambamHilchotInfo(hilchotSlug);
   const hilchotName = info ? info.displayName : hilchotSlug.replace(/_/g, " ");
   return {
-    title: `${hilchotName} - Mishneh Torah | ChavrutAI`,
-    description: `Study Hilchot ${hilchotName} chapter by chapter with bilingual Hebrew-English text (Touger translation). Free online on ChavrutAI.`,
+    title: `${hilchotName} - Mishneh Torah | Bekiut`,
+    description: `Study Hilchot ${hilchotName} chapter by chapter with bilingual Hebrew-English text (Touger translation). Free online on Bekiut.`,
     ogTitle: `${hilchotName} - Mishneh Torah`,
-    ogDescription: `Study Hilchot ${hilchotName} with Hebrew-English text (Touger) on ChavrutAI.`,
+    ogDescription: `Study Hilchot ${hilchotName} with Hebrew-English text (Touger) on Bekiut.`,
     canonical: `${baseUrl}/rambam/${hilchotSlug}`,
     robots: "index, follow",
   };
@@ -412,10 +412,10 @@ export function getRambamChapterSEO(
   const info = getRambamHilchotInfo(hilchotSlug);
   const hilchotName = info ? info.displayName : hilchotSlug.replace(/_/g, " ");
   return {
-    title: `${hilchotName} Chapter ${chapter} - Mishneh Torah | ChavrutAI`,
-    description: `Study Hilchot ${hilchotName} Chapter ${chapter} with parallel Hebrew-English text (Touger translation). Free online on ChavrutAI.`,
+    title: `${hilchotName} Chapter ${chapter} - Mishneh Torah | Bekiut`,
+    description: `Study Hilchot ${hilchotName} Chapter ${chapter} with parallel Hebrew-English text (Touger translation). Free online on Bekiut.`,
     ogTitle: `${hilchotName} Chapter ${chapter} - Mishneh Torah`,
-    ogDescription: `Read Hilchot ${hilchotName} Chapter ${chapter} with Hebrew-English text on ChavrutAI.`,
+    ogDescription: `Read Hilchot ${hilchotName} Chapter ${chapter} with Hebrew-English text on Bekiut.`,
     canonical: `${baseUrl}/rambam/${hilchotSlug}/${chapter}`,
     robots: "index, follow",
   };
@@ -428,7 +428,7 @@ export function getJastrowSEO(
 ): SEOResult {
   if (letter) {
     return {
-      title: `Jastrow Dictionary - Letter ${letter} | ChavrutAI`,
+      title: `Jastrow Dictionary - Letter ${letter} | Bekiut`,
       description: `Browse Jastrow Dictionary entries starting with ${letter}. Comprehensive Talmudic Hebrew and Aramaic dictionary with modernized presentation.`,
       ogTitle: `Jastrow Dictionary - Letter ${letter}`,
       ogDescription: `Browse Jastrow Dictionary entries starting with ${letter}. Talmudic Hebrew and Aramaic with modernized presentation.`,
@@ -438,7 +438,7 @@ export function getJastrowSEO(
   }
   if (query) {
     return {
-      title: `"${query}" - Jastrow Dictionary | ChavrutAI`,
+      title: `"${query}" - Jastrow Dictionary | Bekiut`,
       description: `Jastrow Dictionary results for "${query}". Comprehensive Talmudic Hebrew and Aramaic dictionary with modernized presentation.`,
       ogTitle: `"${query}" - Jastrow Dictionary`,
       ogDescription: `Jastrow Dictionary results for "${query}". Talmudic Hebrew and Aramaic with modernized presentation.`,
@@ -456,7 +456,7 @@ export function getBDBSEO(
 ): SEOResult {
   if (letter) {
     return {
-      title: `BDB Hebrew Bible Dictionary - Letter ${letter} | ChavrutAI`,
+      title: `BDB Hebrew Bible Dictionary - Letter ${letter} | Bekiut`,
       description: `Browse Brown-Driver-Briggs (BDB) Hebrew Bible Dictionary entries starting with ${letter}. Classic biblical Hebrew lexicon with modernized presentation.`,
       ogTitle: `BDB Hebrew Bible Dictionary - Letter ${letter}`,
       ogDescription: `Browse Brown-Driver-Briggs (BDB) Hebrew Bible Dictionary entries starting with ${letter}.`,
@@ -466,7 +466,7 @@ export function getBDBSEO(
   }
   if (query) {
     return {
-      title: `"${query}" - BDB Hebrew Bible Dictionary | ChavrutAI`,
+      title: `"${query}" - BDB Hebrew Bible Dictionary | Bekiut`,
       description: `BDB Hebrew Bible Dictionary results for "${query}". Brown-Driver-Briggs biblical Hebrew lexicon with modernized presentation.`,
       ogTitle: `"${query}" - BDB Hebrew Bible Dictionary`,
       ogDescription: `BDB Hebrew Bible Dictionary results for "${query}".`,
@@ -490,10 +490,10 @@ export function getSearchSEO(
           ? "Talmud"
           : "Talmud & Bible";
     return {
-      title: `Search results for "${query}" in ${typeLabel} | ChavrutAI`,
-      description: `Search results for "${query}" in the ${typeLabel}. Find passages, explore Hebrew and English text, and study with ChavrutAI.`,
+      title: `Search results for "${query}" in ${typeLabel} | Bekiut`,
+      description: `Search results for "${query}" in the ${typeLabel}. Find passages, explore Hebrew and English text, and study with Bekiut.`,
       ogTitle: `Search: "${query}" \u2013 ${typeLabel}`,
-      ogDescription: `Search results for "${query}" in the ${typeLabel} on ChavrutAI.`,
+      ogDescription: `Search results for "${query}" in the ${typeLabel} on Bekiut.`,
       canonical: `${baseUrl}/search`,
       robots: "noindex, follow",
     };

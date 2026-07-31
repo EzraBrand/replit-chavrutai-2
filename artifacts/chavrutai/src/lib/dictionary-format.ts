@@ -3,6 +3,7 @@ import { TRACTATE_LISTS, MISHNAH_ONLY_TRACTATES } from "@shared/tractates";
 import { ALL_BIBLE_BOOKS } from "@shared/bible-books";
 import { getMishnahTalmudLocation } from "@shared/mishnah-map";
 import { annotateAllTransliterations } from "@shared/transliteration";
+import { SITE_URL } from "@/lib/utils";
 
 // Re-export for backwards-compatibility with existing imports.
 // New code should import from `@shared/hebrew-alphabet` directly.
@@ -278,7 +279,7 @@ const JASTROW_INTERNAL_LINK_RE = /href="\/Jastrow,_([^"#?]+)"/g;
 const JASTROW_INTERNAL_LINK_ABS_RE = /href="https?:\/\/(?:www\.)?sefaria\.org(?:\.il)?\/Jastrow(?:,|%2C)_([^"#?]+)"/g;
 
 // Strip any trailing ".1", ".2", etc. sense-suffix from a Jastrow URL slug;
-// ChavrutAI's /jastrow?q= takes the bare headword and resolves senses itself.
+// Bekiut's /jastrow?q= takes the bare headword and resolves senses itself.
 function stripJastrowSenseSuffix(slug: string): string {
   return slug.replace(/\.\d+$/, '');
 }
@@ -375,7 +376,7 @@ export function convertBdbInternalLinks(html: string): string {
 // Mirror of convertBdbInternalLinks for Jastrow's raw cross-reference form
 // (/Jastrow,_X). The Sefaria-absolute form is handled inside
 // convertSefariaLinksToInternal. Sense suffixes (.1, .2, …) are stripped since
-// ChavrutAI's /jastrow?q= resolves the headword and shows all senses.
+// Bekiut's /jastrow?q= resolves the headword and shows all senses.
 export function convertJastrowInternalLinks(html: string): string {
   let result = html;
   JASTROW_INTERNAL_LINK_RE.lastIndex = 0;
@@ -731,7 +732,7 @@ export function useDictionaryCopyHandler(containerSelector: string, deps: any[])
       links.forEach(link => {
         const href = link.getAttribute('href');
         if (href && href.startsWith('/')) {
-          link.setAttribute('href', `https://chavrutai.com${href}`);
+          link.setAttribute('href', `${SITE_URL}${href}`);
         }
       });
 

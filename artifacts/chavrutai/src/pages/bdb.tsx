@@ -58,7 +58,7 @@ export default function Bdb() {
       operatingSystem: "Web",
       publisher: {
         "@type": "Organization",
-        name: "ChavrutAI",
+        name: "Bekiut",
         url: window.location.origin,
       },
       about: {
@@ -538,7 +538,7 @@ export default function Bdb() {
                     <strong>Bible citations as live links.</strong> BDB's compact references like{" "}
                     <em>Nu 21:30</em> or <em>Je 7:18</em> are expanded to <em>Numbers 21:30</em> /{" "}
                     <em>Jeremiah 7:18</em> and link directly to the corresponding chapter in the
-                    ChavrutAI Bible reader.
+                    Bekiut Bible reader.
                   </li>
                   <li>
                     <strong>Superscript and footnote markers inlined.</strong> BDB's tiny{" "}

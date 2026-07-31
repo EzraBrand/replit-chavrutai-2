@@ -66,12 +66,12 @@ export default function LexiconHeadwords({ lexiconKey, letter }: Props) {
   const totalCount = index?.total ?? 0;
 
   const seoTitle = activeLetter
-    ? `${meta.shortName} Headwords starting with ${activeLetter} | ChavrutAI`
-    : `${meta.longName} — Complete Headword Index | ChavrutAI`;
+    ? `${meta.shortName} Headwords starting with ${activeLetter} | Bekiut`
+    : `${meta.longName} — Complete Headword Index | Bekiut`;
 
   const seoDescription = activeLetter
     ? `Browse all ${meta.shortName} dictionary headwords starting with the Hebrew letter ${activeLetter}. ${letterHeadwords.length} entries with direct lookup links.`
-    : `Complete A-to-Z headword index for the ${meta.longName}. Browse all ${totalCount.toLocaleString()} entries by Hebrew letter on ChavrutAI.`;
+    : `Complete A-to-Z headword index for the ${meta.longName}. Browse all ${totalCount.toLocaleString()} entries by Hebrew letter on Bekiut.`;
 
   const canonical = activeLetter
     ? `${typeof window !== "undefined" ? window.location.origin : ""}${meta.routePrefix}/headwords/${encodeURIComponent(activeLetter)}`
@@ -80,7 +80,7 @@ export default function LexiconHeadwords({ lexiconKey, letter }: Props) {
   useSEO({
     title: seoTitle,
     description: seoDescription,
-    ogTitle: seoTitle.replace(" | ChavrutAI", ""),
+    ogTitle: seoTitle.replace(" | Bekiut", ""),
     ogDescription: seoDescription,
     canonical,
     robots: "index, follow",

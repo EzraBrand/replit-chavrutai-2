@@ -87,14 +87,14 @@ export default function RambamChapter() {
   useSEO({
     title: info && !isNaN(chapterNum)
       ? isIntroSEO
-        ? `${info.displayName} - Mishneh Torah | ChavrutAI`
-        : `${info.displayName} Chapter ${chapterNum} - Mishneh Torah | ChavrutAI`
-      : "Mishneh Torah | ChavrutAI",
+        ? `${info.displayName} - Mishneh Torah | Bekiut`
+        : `${info.displayName} Chapter ${chapterNum} - Mishneh Torah | Bekiut`
+      : "Mishneh Torah | Bekiut",
     description: info && !isNaN(chapterNum)
       ? isIntroSEO
-        ? `Read Maimonides' Introduction (Hakdamah) to the Mishneh Torah — the chain of Torah transmission from Sinai. Bilingual Hebrew-English text on ChavrutAI.`
-        : `Study Hilchot ${info.displayName} Chapter ${chapterNum} with parallel Hebrew-English text (Touger translation). Free on ChavrutAI.`
-      : "Study the Mishneh Torah with Hebrew-English text on ChavrutAI.",
+        ? `Read Maimonides' Introduction (Hakdamah) to the Mishneh Torah — the chain of Torah transmission from Sinai. Bilingual Hebrew-English text on Bekiut.`
+        : `Study Hilchot ${info.displayName} Chapter ${chapterNum} with parallel Hebrew-English text (Touger translation). Free on Bekiut.`
+      : "Study the Mishneh Torah with Hebrew-English text on Bekiut.",
     canonical: info && !isNaN(chapterNum)
       ? `${window.location.origin}/rambam/${info.slug}/${chapterNum}`
       : `${window.location.origin}/rambam`,

@@ -27,7 +27,7 @@ export const structuredDataGenerators = {
   organization: () => ({
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "ChavrutAI",
+    "name": "Bekiut",
     "description": "Digital platform for studying Jewish texts with modern technology",
     "url": window.location.origin,
     "logo": `${window.location.origin}/favicon-192x192.png`,

@@ -4,8 +4,8 @@ import { PageShell } from "@/components/layout";
 
 export default function NotFound() {
   useSEO({
-    title: "Page Not Found - ChavrutAI",
-    description: "The page you're looking for doesn't exist or has been moved. Return to ChavrutAI to continue studying Talmud and Jewish texts.",
+    title: "Page Not Found - Bekiut",
+    description: "The page you're looking for doesn't exist or has been moved. Return to Bekiut to continue studying Talmud and Jewish texts.",
     noindex: true,
   });
   return (

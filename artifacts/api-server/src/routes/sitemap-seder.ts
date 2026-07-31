@@ -1,3 +1,4 @@
+import { CANONICAL_BASE_URL } from '../shared/brand';
 import { Request, Response } from 'express';
 import { SEDER_TRACTATES, getTractateSlug, type SederName } from '../shared/tractates';
 
@@ -17,7 +18,7 @@ export function generateSederSitemap(sederName: SederName) {
   return (req: Request, res: Response) => {
     // Use production URL for deployed site
     const baseUrl = process.env.NODE_ENV === 'production' 
-      ? 'https://chavrutai.com' 
+      ? CANONICAL_BASE_URL 
       : req.protocol + '://' + req.get('host');
     
     const tractates = SEDER_TRACTATES[sederName];
