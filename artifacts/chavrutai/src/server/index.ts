@@ -168,6 +168,28 @@ async function fetchEnhancement(pathAndQuery: string): Promise<SeoEnhancement | 
 
 const app = express();
 
+// Domain canonicalization: permanently redirect legacy/alias domains to the
+// canonical bekiut.com. We compare against an explicit allowlist of known
+// legacy hosts (never redirect unknown hosts, so dev/preview domains and
+// direct health checks are unaffected). The Host header is only compared,
+// never used to build the redirect target's domain.
+const LEGACY_HOSTS = new Set([
+  "chavrutai.com",
+  "www.chavrutai.com",
+  "www.bekiut.com",
+  "bekiut.net",
+  "www.bekiut.net",
+  "bekiut.org",
+  "www.bekiut.org",
+]);
+app.use((req, res, next) => {
+  const host = (req.headers.host || "").toLowerCase().split(":")[0];
+  if (LEGACY_HOSTS.has(host)) {
+    return res.redirect(301, `${PROD_BASE_URL}${req.originalUrl}`);
+  }
+  next();
+});
+
 // Crawler interceptor: serve per-page meta/JSON-LD/body for bots only. Human
 // visitors fall through to static assets + the SPA shell unchanged.
 app.use(async (req, res, next) => {
