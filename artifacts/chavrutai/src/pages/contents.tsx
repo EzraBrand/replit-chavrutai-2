@@ -1,8 +1,8 @@
 import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
-import { Card } from "@/components/ui/card";
 import { Footer } from "@/components/footer";
 import { FooterPlaceholder } from "@/components/page-loading";
+import { HeaderSimple } from "@/components/layout/header-simple";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
 import { sefariaAPI } from "@/lib/sefaria";
 import { TRACTATE_HEBREW_NAMES } from "@shared/tractates";
@@ -42,8 +42,6 @@ const SEDER_ORGANIZATION = {
   }
 };
 
-
-
 export default function Contents() {
   // Set up SEO
   useSEO(generateSEOData.contentsPage());
@@ -56,31 +54,9 @@ export default function Contents() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background">
-        {/* Header */}
-        <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
-          <div className="max-w-7xl mx-auto px-4 py-4">
-            <div className="flex items-center justify-center">
-              {/* Logo */}
-              <Link 
-                href="/"
-                className="flex items-center space-x-2 flex-shrink-0 hover:opacity-80 transition-opacity duration-200"
-                data-testid="header-logo-link"
-              >
-                <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden">
-                  <img 
-                    src="/hebrew-book-icon.png" 
-                    alt="ChavrutAI Logo" 
-                    className="w-10 h-10 object-cover"
-                  />
-                </div>
-                <div className="text-xl font-semibold text-primary font-roboto">ChavrutAI</div>
-              </Link>
-            </div>
-          </div>
-        </header>
-        
-        <div className="max-w-6xl mx-auto px-4 py-8">
-          <div className="text-center">Loading...</div>
+        <HeaderSimple />
+        <div className="max-w-content mx-auto px-6 py-12">
+          <div className="text-center text-muted-foreground">Loading...</div>
         </div>
         <FooterPlaceholder />
       </div>
@@ -90,40 +66,24 @@ export default function Contents() {
   const availableTractates = tractatesData || [];
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
-        <div className="max-w-5xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-center">
-            {/* Logo */}
-            <Link 
-              href="/"
-              className="flex items-center space-x-2 flex-shrink-0 hover:opacity-80 transition-opacity duration-200"
-              data-testid="header-logo-link"
-            >
-              <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden">
-                <img 
-                  src="/hebrew-book-icon.png" 
-                  alt="ChavrutAI Logo" 
-                  className="w-10 h-10 object-cover"
-                />
-              </div>
-              <div className="text-xl font-semibold text-primary font-roboto">ChavrutAI</div>
-            </Link>
-          </div>
-        </div>
-      </header>
+    <div className="min-h-screen bg-background text-foreground font-sans">
+      <HeaderSimple />
 
-      <div className="max-w-4xl mx-auto px-4 py-4">
-        {/* Header */}
-        <div className="text-center mb-4">
-          <h1 className="text-3xl font-bold text-primary mb-1">Study Talmud Online</h1>
-          <h2 className="text-xl text-primary/80 mb-2">תלמוד בבלי - Babylonian Talmud</h2>
-          <p className="text-base text-muted-foreground">Complete digital collection of all 37 tractates with Hebrew-English text display</p>
+      <main className="max-w-content mx-auto px-6">
+        {/* Page title */}
+        <div className="pt-10 pb-8">
+          <div
+            className="mb-3 h-[2px] w-10" style={{ backgroundColor: "var(--category-talmud-bavli)" }}
+            aria-hidden="true"
+          />
+          <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-2">Study Talmud Online</h1>
+          <p className="text-muted-foreground">
+            <span dir="rtl" lang="he">תלמוד בבלי</span> — all 37 tractates of the Babylonian Talmud with bilingual Hebrew-English text
+          </p>
         </div>
 
         {/* Seder Sections */}
-        <div className="space-y-4">
+        <div>
           {Object.entries(SEDER_ORGANIZATION).map(([sederName, sederData]) => {
             // Filter tractates that are available in our data
             const availableSederTractates = sederData.tractates.filter(
@@ -133,18 +93,18 @@ export default function Contents() {
             if (availableSederTractates.length === 0) return null;
 
             return (
-              <div key={sederName} className="space-y-2">
+              <section key={sederName} className="py-8 border-t border-border">
                 {/* Seder Header */}
-                <div className="text-center border-b border-border pb-2">
-                  <h3 className="text-xl font-semibold text-primary">
-                    {sederName}
-                  </h3>
-                  <p className="text-base text-primary/70 font-hebrew">
+                <div className="mb-4 flex items-baseline justify-between gap-4">
+                  <div>
+                    <h2 className="font-georgia text-xl text-foreground">
+                      {sederName}
+                    </h2>
+                    <p className="text-sm text-muted-foreground">{sederData.description}</p>
+                  </div>
+                  <span className="text-sm text-muted-foreground font-hebrew" dir="rtl" lang="he">
                     {sederData.hebrew}
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    {sederData.description}
-                  </p>
+                  </span>
                 </div>
 
                 {/* Tractates Grid */}
@@ -154,23 +114,20 @@ export default function Contents() {
                       key={tractate} 
                       href={`/talmud/${encodeURIComponent(tractate.toLowerCase())}`}
                       onClick={() => trackEvent('select_tractate', 'navigation', tractate)}
+                      className="block border border-border rounded bg-background p-3 hover:bg-secondary"
                     >
-                      <Card className="hover:shadow-sm transition-shadow cursor-pointer border-border hover:border-primary/20 bg-card/50">
-                        <div className="p-3">
-                          <div className="text-primary font-medium text-base">{tractate}</div>
-                          <div className="text-sm text-primary/70 font-hebrew">
-                            {TRACTATE_HEBREW_NAMES[tractate as keyof typeof TRACTATE_HEBREW_NAMES] || tractate}
-                          </div>
-                        </div>
-                      </Card>
+                      <div className="text-primary dark:text-[#5b9fc5] font-medium text-base">{tractate}</div>
+                      <div className="text-sm text-muted-foreground font-hebrew" dir="rtl" lang="he">
+                        {TRACTATE_HEBREW_NAMES[tractate as keyof typeof TRACTATE_HEBREW_NAMES] || tractate}
+                      </div>
                     </Link>
                   ))}
                 </div>
-              </div>
+              </section>
             );
           })}
         </div>
-      </div>
+      </main>
       
       <Footer />
     </div>

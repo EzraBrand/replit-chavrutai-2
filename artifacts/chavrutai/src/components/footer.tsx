@@ -1,8 +1,19 @@
 import { Link } from "wouter";
-import { ExternalLink, Moon, Sun, FileText, Contrast, Globe } from "lucide-react";
-import { SiX, SiGithub } from "react-icons/si";
 import { usePreferences, type Theme } from "@/context/preferences-context";
 import { trackEvent } from "@/lib/analytics";
+
+/*
+ * Shared site footer — ParchmentScholar design (see DESIGN.md).
+ * Muted surface, hairline top border, text links only (no icons),
+ * near-square corners, 64rem content column.
+ */
+
+const THEMES: { value: Theme; label: string; testid: string }[] = [
+  { value: "paper", label: "Paper", testid: "button-theme-paper" },
+  { value: "white", label: "White", testid: "button-theme-white" },
+  { value: "dark", label: "Dark", testid: "button-theme-dark" },
+  { value: "high-contrast", label: "High Contrast", testid: "button-theme-high-contrast" },
+];
 
 export function Footer() {
   const { preferences, setTheme } = usePreferences();
@@ -13,59 +24,25 @@ export function Footer() {
   };
 
   return (
-    <footer className="border-t border-border bg-card mt-12 min-h-[280px]">
-      <div className="container mx-auto px-4 py-10">
+    <footer className="border-t border-border bg-muted mt-12 min-h-[280px]">
+      <div className="max-w-content mx-auto px-6 py-10">
         {/* Theme Picker */}
-        <div className="flex justify-center mb-8">
-          <div className="inline-flex items-center gap-1 p-1 bg-secondary rounded-lg" data-testid="footer-theme-picker">
-            <button
-              onClick={() => handleThemeChange('paper')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm transition-colors ${
-                preferences.theme === 'paper'
-                  ? 'bg-background text-foreground shadow-sm'
-                  : 'text-muted-foreground hover:text-foreground'
-              }`}
-              data-testid="button-theme-paper"
-            >
-              <FileText className="w-4 h-4" />
-              Paper
-            </button>
-            <button
-              onClick={() => handleThemeChange('white')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm transition-colors ${
-                preferences.theme === 'white'
-                  ? 'bg-background text-foreground shadow-sm'
-                  : 'text-muted-foreground hover:text-foreground'
-              }`}
-              data-testid="button-theme-white"
-            >
-              <Sun className="w-4 h-4" />
-              White
-            </button>
-            <button
-              onClick={() => handleThemeChange('dark')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm transition-colors ${
-                preferences.theme === 'dark'
-                  ? 'bg-background text-foreground shadow-sm'
-                  : 'text-muted-foreground hover:text-foreground'
-              }`}
-              data-testid="button-theme-dark"
-            >
-              <Moon className="w-4 h-4" />
-              Dark
-            </button>
-            <button
-              onClick={() => handleThemeChange('high-contrast')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm transition-colors ${
-                preferences.theme === 'high-contrast'
-                  ? 'bg-background text-foreground shadow-sm'
-                  : 'text-muted-foreground hover:text-foreground'
-              }`}
-              data-testid="button-theme-high-contrast"
-            >
-              <Contrast className="w-4 h-4" />
-              High Contrast
-            </button>
+        <div className="flex justify-center mb-10">
+          <div className="inline-flex items-center border border-border rounded overflow-hidden" data-testid="footer-theme-picker">
+            {THEMES.map((t, i) => (
+              <button
+                key={t.value}
+                onClick={() => handleThemeChange(t.value)}
+                className={`px-3 py-1.5 text-sm transition-colors ${i > 0 ? 'border-l border-border' : ''} ${
+                  preferences.theme === t.value
+                    ? 'bg-background text-foreground font-medium'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-secondary'
+                }`}
+                data-testid={t.testid}
+              >
+                {t.label}
+              </button>
+            ))}
           </div>
         </div>
 
@@ -73,7 +50,7 @@ export function Footer() {
         <div className="grid grid-cols-[1fr_1.4fr_1fr] gap-4 sm:gap-8 max-w-3xl mx-auto mb-8">
           {/* Column 1: Library */}
           <div>
-            <h3 className="text-sm font-semibold text-foreground mb-4">Library</h3>
+            <h3 className="font-georgia text-base text-foreground mb-4">Library</h3>
             <nav className="flex flex-col gap-3">
               <Link
                 href="/talmud"
@@ -115,7 +92,7 @@ export function Footer() {
 
           {/* Column 2: Study Resources */}
           <div>
-            <h3 className="text-sm font-semibold text-foreground mb-4">Study Resources</h3>
+            <h3 className="font-georgia text-base text-foreground mb-4">Study Resources</h3>
             <nav className="flex flex-col gap-3">
               <Link 
                 href="/sugya-viewer"
@@ -183,9 +160,9 @@ export function Footer() {
             </nav>
           </div>
 
-          {/* Column 2: About & Legal */}
+          {/* Column 3: About & Legal */}
           <div>
-            <h3 className="text-sm font-semibold text-foreground mb-4">About & Legal</h3>
+            <h3 className="font-georgia text-base text-foreground mb-4">About & Legal</h3>
             <nav className="flex flex-col gap-3">
               <Link 
                 href="/about"
@@ -219,11 +196,10 @@ export function Footer() {
                 href="https://opensource.org/licenses/MIT"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 inline-flex items-center gap-1.5"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
                 data-testid="footer-link-mit-license"
               >
-                MIT License
-                <ExternalLink size={13} />
+                MIT License ↗
               </a>
               <Link 
                 href="/changelog"
@@ -236,34 +212,28 @@ export function Footer() {
                 href="https://github.com/EzraBrand/chavrutai"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 inline-flex items-center gap-1.5"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
                 data-testid="footer-link-github"
               >
-                <SiGithub size={13} />
-                GitHub
-                <ExternalLink size={13} />
+                GitHub ↗
               </a>
               <a
                 href="https://x.com/ChavrutAI"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 inline-flex items-center gap-1.5"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
                 data-testid="footer-link-twitter"
               >
-                <SiX size={13} />
-                Follow on X
-                <ExternalLink size={13} />
+                Follow on X ↗
               </a>
               <a
                 href="https://www.ezrabrand.com/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 inline-flex items-center gap-1.5"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
                 data-testid="footer-link-talmud-tech-nav"
               >
-                <Globe size={13} />
-                Talmud & Tech
-                <ExternalLink size={13} />
+                Talmud & Tech ↗
               </a>
             </nav>
           </div>
@@ -280,11 +250,10 @@ export function Footer() {
                   href="https://www.ezrabrand.com/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-foreground hover:text-primary transition-colors duration-200 inline-flex items-center gap-1"
+                  className="text-foreground hover:text-primary transition-colors duration-200"
                   data-testid="footer-link-talmud-tech"
                 >
-                  Talmud & Tech
-                  <ExternalLink size={12} />
+                  Talmud & Tech ↗
                 </a>
               </p>
             </div>

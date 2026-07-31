@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link } from "wouter";
-import { Card } from "@/components/ui/card";
 import { Footer } from "@/components/footer";
+import { HeaderSimple } from "@/components/layout/header-simple";
 import { useSEO } from "@/hooks/use-seo";
 import { BreadcrumbNavigation } from "@/components/navigation/breadcrumb-navigation";
 import { RAMBAM_BOOKS, RAMBAM_PREFATORY } from "@shared/rambam-data";
 import { getStaticSEO } from "@shared/seo-data";
-import { ChevronDown, ChevronRight } from "lucide-react";
 
 export default function RambamContents() {
   const [prefaceOpen, setPrefaceOpen] = useState(false);
@@ -26,121 +25,110 @@ export default function RambamContents() {
   useSEO(getStaticSEO("/rambam", window.location.origin)!);
 
   return (
-    <div className="min-h-screen bg-background">
-      <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
-        <div className="max-w-5xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-center">
-            <Link
-              href="/"
-              className="flex items-center space-x-2 flex-shrink-0 hover:opacity-80 transition-opacity duration-200"
-            >
-              <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden">
-                <img src="/hebrew-book-icon.png" alt="ChavrutAI Logo" className="w-10 h-10 object-cover" />
-              </div>
-              <div className="text-xl font-semibold text-primary font-roboto">ChavrutAI</div>
-            </Link>
-          </div>
+    <div className="min-h-screen bg-background text-foreground font-sans">
+      <HeaderSimple />
+
+      <main className="max-w-content mx-auto px-6">
+        <div className="pt-6">
+          <BreadcrumbNavigation
+            items={[
+              { label: "Mishneh Torah" },
+            ]}
+          />
         </div>
-      </header>
 
-      <div className="max-w-4xl mx-auto px-4 py-4">
-        <BreadcrumbNavigation
-          items={[
-            { label: "Mishneh Torah" },
-          ]}
-        />
-
-        <div className="text-center mb-4">
-          <h1 className="text-3xl font-bold text-primary mb-1">Study Mishneh Torah Online</h1>
-          <h2 className="text-xl text-primary/80 mb-2 font-hebrew">משנה תורה - Mishneh Torah</h2>
-          <p className="text-xs text-muted-foreground mt-2">
-            English translation by Rabbi Eliyahu Touger (Moznaim) via{' '}
-            <a href="https://www.sefaria.org" target="_blank" rel="noopener noreferrer" className="underline hover:text-primary">Sefaria</a>.
+        {/* Page title */}
+        <div className="pt-4 pb-8">
+          <div className="mb-3 h-[2px] w-10" style={{ backgroundColor: "var(--category-mishneh-torah)" }} aria-hidden="true" />
+          <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-2">Study Mishneh Torah Online</h1>
+          <p className="text-muted-foreground">
+            <span dir="rtl" lang="he">משנה תורה</span> — the Rambam's code of Jewish law with bilingual Hebrew-English text
           </p>
-        </div>
+          <p className="text-sm text-muted-foreground mt-3">
+            English translation by Rabbi Eliyahu Touger (Moznaim) via{' '}
+            <a href="https://www.sefaria.org" target="_blank" rel="noopener noreferrer" className="text-primary dark:text-[#5b9fc5] hover:underline">Sefaria</a>.
+          </p>
 
-        <div className="mb-4 flex justify-center">
-          <div className="text-xs text-muted-foreground max-w-lg w-full">
+          <div className="mt-3 text-sm text-muted-foreground">
             <button
               onClick={() => setPrefaceOpen(!prefaceOpen)}
-              className="flex items-center gap-1 hover:text-foreground transition-colors w-full text-left"
+              className="hover:text-foreground transition-colors text-left"
             >
-              {prefaceOpen ? <ChevronDown className="w-3 h-3 flex-shrink-0" /> : <ChevronRight className="w-3 h-3 flex-shrink-0" />}
-              <span>Additional prefatory material not included here</span>
+              {prefaceOpen ? '▾' : '▸'} Additional prefatory material not included here
             </button>
             {prefaceOpen && (
-              <div className="mt-2 pl-4 space-y-1 text-muted-foreground">
-                <p>The <a href="https://www.sefaria.org/Mishneh_Torah,_Overview_of_Mishneh_Torah_Contents" target="_blank" rel="noopener noreferrer" className="underline hover:text-primary">Overview of Contents</a> (the mitzvot covered in each section) can be found on Sefaria.</p>
+              <div className="mt-2 pl-4 space-y-1">
+                <p>The <a href="https://www.sefaria.org/Mishneh_Torah,_Overview_of_Mishneh_Torah_Contents" target="_blank" rel="noopener noreferrer" className="text-primary dark:text-[#5b9fc5] hover:underline">Overview of Contents</a> (the mitzvot covered in each section) can be found on Sefaria.</p>
               </div>
             )}
           </div>
-        </div>
 
-        <div className="mb-4">
-          <p className="text-center text-xs text-muted-foreground mb-2">Jump to Sefer:</p>
-          <div className="flex flex-wrap gap-2 justify-center py-2">
-            {RAMBAM_BOOKS.map((book) => (
-              <a
-                key={book.name}
-                href={`#${book.name.toLowerCase().replace(/\s+/g, '-')}`}
-                className="inline-flex items-center justify-center min-h-[2.25rem] px-3 py-1 rounded text-sm font-medium bg-secondary text-secondary-foreground hover:bg-secondary/70 transition-colors"
-              >
-                {book.name.replace(/^Sefer\s+/, '')}
-              </a>
-            ))}
-          </div>
-        </div>
-
-        <div className="space-y-4">
-          <div id="introduction" className="space-y-2">
-            <div className="text-center border-b border-border pb-2">
-              <h3 className="text-xl font-semibold text-primary">Introduction</h3>
-              <p className="text-base text-primary/70 font-hebrew">הקדמה</p>
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-              {RAMBAM_PREFATORY.map((item) => (
-                <Link key={item.slug} href={`/rambam/${item.slug}/1`}>
-                  <Card className="hover:shadow-sm transition-shadow cursor-pointer border-border hover:border-primary/20 bg-card/50">
-                    <div className="p-3">
-                      <div className="text-primary font-medium text-sm leading-snug">{item.displayName}</div>
-                      <div className="text-sm text-primary/70 font-hebrew mt-0.5">
-                        {item.hebrewName}
-                      </div>
-                    </div>
-                  </Card>
-                </Link>
+          <div className="mt-4">
+            <p className="text-sm text-muted-foreground mb-2">Jump to Sefer:</p>
+            <div className="flex flex-wrap gap-x-4 gap-y-1.5">
+              {RAMBAM_BOOKS.map((book) => (
+                <a
+                  key={book.name}
+                  href={`#${book.name.toLowerCase().replace(/\s+/g, '-')}`}
+                  className="text-sm text-primary dark:text-[#5b9fc5] hover:underline"
+                >
+                  {book.name.replace(/^Sefer\s+/, '')}
+                </a>
               ))}
             </div>
           </div>
+        </div>
+
+        <div>
+          <section id="introduction" className="py-8 border-t border-border">
+            <div className="mb-4 flex items-baseline justify-between gap-4">
+              <h2 className="font-georgia text-xl text-foreground">Introduction</h2>
+              <span className="text-sm text-muted-foreground font-hebrew" dir="rtl" lang="he">הקדמה</span>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+              {RAMBAM_PREFATORY.map((item) => (
+                <Link
+                  key={item.slug}
+                  href={`/rambam/${item.slug}/1`}
+                  className="block border border-border rounded bg-background p-3 hover:bg-secondary"
+                >
+                  <div className="text-primary dark:text-[#5b9fc5] font-medium text-sm leading-snug">{item.displayName}</div>
+                  <div className="text-sm text-muted-foreground font-hebrew mt-0.5" dir="rtl" lang="he">
+                    {item.hebrewName}
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
 
           {RAMBAM_BOOKS.map((book) => (
-            <div key={book.name} id={book.name.toLowerCase().replace(/\s+/g, '-')} className="space-y-2">
-              <div className="text-center border-b border-border pb-2">
-                <h3 className="text-xl font-semibold text-primary">{book.name}</h3>
-                <p className="text-base text-primary/70 font-hebrew">{book.hebrewName}</p>
+            <section key={book.name} id={book.name.toLowerCase().replace(/\s+/g, '-')} className="py-8 border-t border-border">
+              <div className="mb-4 flex items-baseline justify-between gap-4">
+                <h2 className="font-georgia text-xl text-foreground">{book.name}</h2>
+                <span className="text-sm text-muted-foreground font-hebrew" dir="rtl" lang="he">{book.hebrewName}</span>
               </div>
 
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
                 {book.hilchot.map((hilchot) => (
-                  <Link key={hilchot.slug} href={`/rambam/${hilchot.slug}`}>
-                    <Card className="hover:shadow-sm transition-shadow cursor-pointer border-border hover:border-primary/20 bg-card/50">
-                      <div className="p-3">
-                        <div className="text-primary font-medium text-sm leading-snug">{hilchot.displayName}</div>
-                        <div className="text-sm text-primary/70 font-hebrew mt-0.5">
-                          {hilchot.hebrewName}
-                        </div>
-                        <div className="text-xs text-muted-foreground mt-1">
-                          {hilchot.chapters} chapters
-                        </div>
-                      </div>
-                    </Card>
+                  <Link
+                    key={hilchot.slug}
+                    href={`/rambam/${hilchot.slug}`}
+                    className="block border border-border rounded bg-background p-3 hover:bg-secondary"
+                  >
+                    <div className="text-primary dark:text-[#5b9fc5] font-medium text-sm leading-snug">{hilchot.displayName}</div>
+                    <div className="text-sm text-muted-foreground font-hebrew mt-0.5" dir="rtl" lang="he">
+                      {hilchot.hebrewName}
+                    </div>
+                    <div className="text-xs text-muted-foreground mt-1">
+                      {hilchot.chapters} chapters
+                    </div>
                   </Link>
                 ))}
               </div>
-            </div>
+            </section>
           ))}
         </div>
-      </div>
+      </main>
 
       <Footer />
     </div>

@@ -70,6 +70,16 @@ export default function Changelog() {
           <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
 
             <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Sitewide "ParchmentScholar" Rollout — Header, Footer & Contents Pages (July 31)</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Extended the new homepage design to the shared site header and footer: navy logo with text navigation links, a muted footer surface with text-only links, and a simplified flat theme picker.</li>
+                <li>Redesigned all five contents pages (Babylonian Talmud, Bible, Mishnah, Jerusalem Talmud, Mishneh Torah) with Georgia serif headings, each collection's signature color bar above the title, and flat near-square tractate/book cards.</li>
+                <li>Section headers are now left-aligned with hairline dividers and Hebrew names alongside the English, replacing the older centered, card-heavy layout.</li>
+                <li>Collection color bars adapt automatically to dark mode.</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Homepage Redesign — "ParchmentScholar" (July 31)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Redesigned the homepage with a clean, scholarly look: white background, Georgia serif headings, navy text links, and near-square corners.</li>
