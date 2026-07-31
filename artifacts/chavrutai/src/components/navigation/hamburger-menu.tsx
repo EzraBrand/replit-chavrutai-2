@@ -1,4 +1,4 @@
-import { Menu, Type, Columns, Highlighter } from "lucide-react";
+import { Menu } from "lucide-react";
 import { useState } from "react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
@@ -45,7 +45,7 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
                 trackEvent('navigate_menu', 'navigation', 'home');
                 setOpen(false);
               }}
-              className="flex items-center gap-3 w-full text-left px-4 py-3 rounded-lg hover:bg-secondary transition-colors duration-100 text-foreground font-medium text-lg"
+              className="flex items-center gap-3 w-full text-left px-4 py-3 rounded-sm hover:bg-secondary transition-colors duration-100 text-foreground font-georgia text-lg"
             >
               <div className="w-8 h-8 rounded-full flex items-center justify-center overflow-hidden flex-shrink-0">
                 <img 
@@ -66,7 +66,7 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
                 trackEvent('navigate_menu', 'navigation', 'talmud');
                 setOpen(false);
               }}
-              className="block w-full text-left px-4 py-2 rounded-lg hover:bg-secondary transition-colors duration-100 text-foreground text-sm"
+              className="block w-full text-left px-4 py-2 rounded-sm hover:bg-secondary transition-colors duration-100 text-foreground text-sm"
             >
               Talmud Bavli
             </Link>
@@ -76,7 +76,7 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
                 trackEvent('navigate_menu', 'navigation', 'mishnah');
                 setOpen(false);
               }}
-              className="block w-full text-left px-4 py-2 rounded-lg hover:bg-secondary transition-colors duration-100 text-foreground text-sm"
+              className="block w-full text-left px-4 py-2 rounded-sm hover:bg-secondary transition-colors duration-100 text-foreground text-sm"
             >
               Mishnah
             </Link>
@@ -86,7 +86,7 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
                 trackEvent('navigate_menu', 'navigation', 'yerushalmi');
                 setOpen(false);
               }}
-              className="block w-full text-left px-4 py-2 rounded-lg hover:bg-secondary transition-colors duration-100 text-foreground text-sm"
+              className="block w-full text-left px-4 py-2 rounded-sm hover:bg-secondary transition-colors duration-100 text-foreground text-sm"
             >
               Jerusalem Talmud
             </Link>
@@ -96,7 +96,7 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
                 trackEvent('navigate_menu', 'navigation', 'bible');
                 setOpen(false);
               }}
-              className="block w-full text-left px-4 py-2 rounded-lg hover:bg-secondary transition-colors duration-100 text-foreground text-sm"
+              className="block w-full text-left px-4 py-2 rounded-sm hover:bg-secondary transition-colors duration-100 text-foreground text-sm"
             >
               Tanakh
             </Link>
@@ -106,12 +106,11 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
           <div className="border-t border-border pt-4 mt-4 space-y-4">
             {/* Preferences Section */}
             <div className="space-y-3">
-              <h4 className="text-sm font-medium text-foreground/80 px-4">Preferences</h4>
+              <h4 className="text-sm font-georgia text-foreground/80 px-4">Preferences</h4>
               
               {/* Text Size */}
               <div className="px-4">
-                <div className="flex items-center gap-2 mb-2">
-                  <Type className="w-4 h-4 text-foreground/60" />
+                <div className="mb-2">
                   <span className="text-sm text-foreground/80">Text Size</span>
                 </div>
                 <Select value={preferences.textSize} onValueChange={(value: TextSize) => {
@@ -133,8 +132,7 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
               
               {/* Hebrew Font */}
               <div className="px-4">
-                <div className="flex items-center gap-2 mb-2">
-                  <Type className="w-4 h-4 text-foreground/60" />
+                <div className="mb-2">
                   <span className="text-sm text-foreground/80">Hebrew Font</span>
                 </div>
                 <Select value={preferences.hebrewFont} onValueChange={(value: HebrewFont) => {
@@ -195,8 +193,7 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
 
               {/* English Font */}
               <div className="px-4">
-                <div className="flex items-center gap-2 mb-2">
-                  <Type className="w-4 h-4 text-foreground/60" />
+                <div className="mb-2">
                   <span className="text-sm text-foreground/80">English Font</span>
                 </div>
                 <Select value={preferences.englishFont} onValueChange={(value: EnglishFont) => {
@@ -237,8 +234,7 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
               
               {/* Layout */}
               <div className="px-4">
-                <div className="flex items-center gap-2 mb-2">
-                  <Columns className="w-4 h-4 text-foreground/60" />
+                <div className="mb-2">
                   <span className="text-sm text-foreground/80">Layout</span>
                 </div>
                 <Select value={preferences.layout} onValueChange={(value: Layout) => {
@@ -258,10 +254,7 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
               {/* Term Highlighting */}
               <div className="px-4">
                 <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center gap-2">
-                    <Highlighter className="w-4 h-4 text-foreground/60" />
-                    <span className="text-sm text-foreground/80">Term Highlighting</span>
-                  </div>
+                  <span className="text-sm text-foreground/80">Term Highlighting</span>
                   <Switch
                     checked={preferences.highlighting.enabled}
                     onCheckedChange={(enabled) => {
@@ -334,7 +327,7 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
             <Link 
               href="/about"
               onClick={() => setOpen(false)}
-              className="block w-full text-left px-4 py-3 rounded-lg hover:bg-secondary transition-colors duration-100 text-foreground"
+              className="block w-full text-left px-4 py-3 rounded-sm hover:bg-secondary transition-colors duration-100 text-foreground"
             >
               About
             </Link>

@@ -269,14 +269,14 @@ export function BibleTextDisplay({ text }: BibleTextDisplayProps) {
   // Safety check for verses array
   if (!text.verses || !Array.isArray(text.verses)) {
     return (
-      <div className="bg-card rounded-lg shadow-sm border border-border p-6">
+      <div className="bg-card rounded-sm border border-border p-6">
         <p className="text-muted-foreground">Loading verses...</p>
       </div>
     );
   }
 
   return (
-    <div className="bg-card rounded-lg shadow-sm border border-border p-6" data-testid="bible-text-display">
+    <div className="bg-card rounded-sm border border-border p-6" data-testid="bible-text-display">
       <div className="space-y-8">
         {text.verses.map((verse) => {
           // Skip empty verses
@@ -296,7 +296,7 @@ export function BibleTextDisplay({ text }: BibleTextDisplayProps) {
                 const verseLinks = getBibleVerseLinks(verseRef);
                 return (
                   <div className="flex items-center justify-center gap-2 mb-4 flex-wrap" data-testid={`verse-header-${verse.verseNumber}`}>
-                    <span className="bg-secondary text-secondary-foreground px-3 py-1 rounded-full text-sm font-semibold">
+                    <span className="bg-secondary text-secondary-foreground px-3 py-1 rounded-sm border border-border text-sm font-georgia">
                       verse {verse.verseNumber}
                     </span>
                     <button

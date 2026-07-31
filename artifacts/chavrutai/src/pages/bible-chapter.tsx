@@ -137,7 +137,7 @@ export default function BibleChapterPage() {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
+      <header className="sticky top-0 z-50 bg-background border-b border-border">
         <div className="max-w-5xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between gap-2">
             {/* Left Section: Hamburger Menu + Next Button */}
@@ -158,7 +158,7 @@ export default function BibleChapterPage() {
 
             {/* Center Section: Title */}
             <div className="flex-1 flex items-center justify-center min-w-0">
-              <h1 className="text-xl font-semibold truncate" data-testid="text-chapter-title">
+              <h1 className="text-xl font-georgia truncate" data-testid="text-chapter-title">
                 {bookTitle} {parsedChapter}
               </h1>
             </div>
@@ -226,7 +226,7 @@ export default function BibleChapterPage() {
                   <a
                     key={verse.verseNumber}
                     href={`#${verse.verseNumber}`}
-                    className="inline-flex items-center justify-center min-w-[2.25rem] h-9 px-2 rounded text-sm font-medium bg-secondary text-secondary-foreground hover:bg-secondary/70 transition-colors"
+                    className="inline-flex items-center justify-center min-w-[2.25rem] h-9 px-2 rounded-sm border border-border text-sm text-foreground hover:bg-secondary transition-colors"
                     title={`Go to verse ${verse.verseNumber}`}
                   >
                     {verse.verseNumber}

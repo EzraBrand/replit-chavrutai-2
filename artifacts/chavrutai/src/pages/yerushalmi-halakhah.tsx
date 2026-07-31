@@ -317,7 +317,7 @@ export default function YerushalmiHalakhah() {
   }, [textData]);
 
   useEffect(() => {
-    const container = document.querySelector('.bg-card.rounded-lg.shadow-sm.border.border-border.p-6');
+    const container = document.querySelector('.bg-card.rounded-sm.border.border-border.p-6');
     if (!container) return;
 
     const handleCopy = (e: ClipboardEvent) => {
@@ -475,7 +475,7 @@ export default function YerushalmiHalakhah() {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
+      <header className="sticky top-0 z-50 bg-background border-b border-border">
         <div className="max-w-5xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between gap-4">
             <div className="flex items-center flex-shrink-0">
@@ -495,7 +495,7 @@ export default function YerushalmiHalakhah() {
 
             <div className="flex-1 flex items-center justify-center min-w-0">
               <div className="text-center">
-                <Link href={`/yerushalmi/${tractateSlug}`} className="text-sm font-semibold text-primary hover:underline">
+                <Link href={`/yerushalmi/${tractateSlug}`} className="text-sm font-georgia font-semibold text-primary hover:underline">
                   {tractateDisplayName}
                 </Link>
                 <div className="text-xs text-muted-foreground">
@@ -562,7 +562,7 @@ export default function YerushalmiHalakhah() {
                     <a
                       key={s}
                       href={`#${s}`}
-                      className="inline-flex items-center justify-center min-w-[2.25rem] h-9 px-2 rounded text-sm font-medium bg-secondary text-secondary-foreground hover:bg-secondary/70 transition-colors"
+                      className="inline-flex items-center justify-center min-w-[2.25rem] h-9 px-2 rounded-sm border border-border text-sm text-foreground hover:bg-secondary transition-colors"
                       title={`Jump to section ${s}`}
                     >
                       {s}
@@ -572,7 +572,7 @@ export default function YerushalmiHalakhah() {
               </>
             )}
 
-            <div className="bg-card rounded-lg shadow-sm border border-border p-6">
+            <div className="bg-card rounded-sm border border-border p-6">
               <div
                 onClick={(e) => {
                   const target = e.target as HTMLElement;
@@ -606,7 +606,7 @@ export default function YerushalmiHalakhah() {
                         className="border-b border-border/50 pb-6 last:border-b-0 last:pb-0 scroll-mt-24"
                       >
                         <div className="flex items-center justify-center gap-3 mb-4">
-                          <span className="bg-secondary text-secondary-foreground px-3 py-1 rounded-full text-sm font-semibold font-mono">
+                          <span className="bg-secondary text-secondary-foreground px-3 py-1 rounded-sm border border-border text-sm font-georgia">
                             section {s}
                           </span>
                           <button

@@ -5,7 +5,7 @@
 
 
 :root {
-  --radius: 0.5rem;
+  --radius: 0.25rem; /* ParchmentScholar: near-square corners */
   
   /* Sepia color palette */
   --sepia-50: hsl(40, 30%, 98%);
@@ -78,7 +78,7 @@
   --ring: hsl(222, 47%, 20%);
 }
 
-/* Dark Theme (moderate, similar to GitHub/Replit) */
+/* Dark Theme (approved ParchmentScholar dark palette) */
 .dark {
   /* Brighter category bar colors for dark surfaces */
   --category-talmud-bavli: #6b9dac;
@@ -87,25 +87,25 @@
   --category-talmud-yerushalmi: #8a7aaa;
   --category-mishneh-torah: #aa8a5a;
 
-  --background: hsl(220, 13%, 18%);
-  --foreground: hsl(210, 20%, 90%);
-  --muted: hsl(220, 14%, 25%);
-  --muted-foreground: hsl(215, 16%, 61%);
-  --popover: hsl(220, 13%, 20%);
-  --popover-foreground: hsl(210, 20%, 90%);
-  --card: hsl(220, 13%, 20%);
-  --card-foreground: hsl(210, 20%, 90%);
-  --border: hsl(220, 13%, 30%);
-  --input: hsl(220, 14%, 25%);
-  --primary: hsl(203, 30%, 26%);
-  --primary-foreground: hsl(210, 20%, 98%);
-  --secondary: hsl(220, 14%, 25%);
-  --secondary-foreground: hsl(210, 20%, 90%);
-  --accent: hsl(220, 14%, 28%);
-  --accent-foreground: hsl(210, 20%, 90%);
-  --destructive: hsl(0, 62%, 55%);
-  --destructive-foreground: hsl(210, 20%, 98%);
-  --ring: hsl(210, 20%, 70%);
+  --background: #0f1a26;
+  --foreground: #f0f4f8;
+  --muted: #1a2d3f;
+  --muted-foreground: #8fa3b8;
+  --popover: #16273a;
+  --popover-foreground: #f0f4f8;
+  --card: #16273a;
+  --card-foreground: #f0f4f8;
+  --border: #2d4157;
+  --input: #2d4157;
+  --primary: #5b9fc5;
+  --primary-foreground: #0f1a26;
+  --secondary: #1a2d3f;
+  --secondary-foreground: #cbd5e1;
+  --accent: #1f3348;
+  --accent-foreground: #f0f4f8;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --ring: #5b9fc5;
 }
 
 /* High Contrast Theme (WCAG AAA compliant - light-based maximum accessibility) */

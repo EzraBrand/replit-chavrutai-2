@@ -302,7 +302,7 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
 
   // Copy-paste handler to preserve formatting and ensure Hebrew comes before English
   useEffect(() => {
-    const container = document.querySelector('.bg-card.rounded-lg.shadow-sm.border.border-border.p-6');
+    const container = document.querySelector('.bg-card.rounded-sm.border.border-border.p-6');
     if (!container) return;
 
     const handleCopy = (e: ClipboardEvent) => {
@@ -514,7 +514,7 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
   }, [text]);
   
   return (
-    <div className="bg-card rounded-lg shadow-sm border border-border p-6">
+    <div className="bg-card rounded-sm border border-border p-6">
       <div className="space-y-8">
         {processedSections.map((section, index) => {
           if (!section) return null;
@@ -558,7 +558,7 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
                 
                 return (
                   <div className="flex items-center justify-center gap-3 mb-4">
-                    <span className="bg-secondary text-secondary-foreground px-3 py-1 rounded-full text-sm font-semibold">
+                    <span className="bg-secondary text-secondary-foreground px-3 py-1 rounded-sm border border-border text-sm font-georgia">
                       section {index + 1}
                     </span>
                     <button
@@ -638,7 +638,7 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
         {text.nextPageFirstSection && (
           <div className="border-t-2 border-border pt-6 mt-6">
             <div className="flex items-center justify-center mb-4">
-              <div className="bg-muted text-muted-foreground px-3 py-1 rounded-full text-sm font-medium flex items-center gap-1">
+              <div className="bg-muted text-muted-foreground px-3 py-1 rounded-sm border border-border text-sm flex items-center gap-1">
                 continued on next page...
               </div>
             </div>

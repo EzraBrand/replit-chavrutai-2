@@ -201,7 +201,7 @@ export default function RambamChapter() {
   }, [textData]);
 
   useEffect(() => {
-    const container = document.querySelector('.bg-card.rounded-lg.shadow-sm.border.border-border.p-6');
+    const container = document.querySelector('.bg-card.rounded-sm.border.border-border.p-6');
     if (!container) return;
 
     const handleCopy = (e: ClipboardEvent) => {
@@ -362,7 +362,7 @@ export default function RambamChapter() {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
+      <header className="sticky top-0 z-50 bg-background border-b border-border">
         <div className="max-w-5xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between gap-4">
             <div className="flex items-center flex-shrink-0">
@@ -384,7 +384,7 @@ export default function RambamChapter() {
               <div className="text-center">
                 <Link
                   href={isIntroduction ? `/rambam` : `/rambam/${info.slug}`}
-                  className={`font-semibold text-primary hover:underline ${info.displayName.split(' ').length > 3 ? 'text-xs' : 'text-sm'}`}
+                  className={`font-georgia font-semibold text-primary hover:underline ${info.displayName.split(' ').length > 3 ? 'text-xs' : 'text-sm'}`}
                 >
                   {info.displayName}
                 </Link>
@@ -456,7 +456,7 @@ export default function RambamChapter() {
                     <a
                       key={i + 1}
                       href={`#${i + 1}`}
-                      className="inline-flex items-center justify-center min-w-[2.25rem] h-9 px-2 rounded text-sm font-medium bg-secondary text-secondary-foreground hover:bg-secondary/70 transition-colors"
+                      className="inline-flex items-center justify-center min-w-[2.25rem] h-9 px-2 rounded-sm border border-border text-sm text-foreground hover:bg-secondary transition-colors"
                       title={`Go to ${sectionLabel} ${i + 1}`}
                     >
                       {i + 1}
@@ -466,7 +466,7 @@ export default function RambamChapter() {
               </>
             )}
 
-            <div className="bg-card rounded-lg shadow-sm border border-border p-6">
+            <div className="bg-card rounded-sm border border-border p-6">
               <div
                 onClick={(e) => {
                   const target = e.target as HTMLElement;
@@ -498,7 +498,7 @@ export default function RambamChapter() {
                         className="border-b border-border/50 pb-6 last:border-b-0 last:pb-0 scroll-mt-24"
                       >
                         <div className="flex items-center justify-center gap-3 mb-4 flex-wrap">
-                          <span className="bg-secondary text-secondary-foreground px-3 py-1 rounded-full text-sm font-semibold">
+                          <span className="bg-secondary text-secondary-foreground px-3 py-1 rounded-sm border border-border text-sm font-georgia">
                             {sectionLabel} {index + 1}
                           </span>
                           <button

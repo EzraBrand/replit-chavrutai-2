@@ -133,7 +133,7 @@ export default function TractateView() {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
+      <header className="sticky top-0 z-50 bg-background border-b border-border">
         <div className="max-w-5xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between gap-4">
             {/* Left Section: Hamburger Menu */}
@@ -203,7 +203,7 @@ export default function TractateView() {
                     <a
                       key={i + 1}
                       href={`#${i + 1}`}
-                      className="inline-flex items-center justify-center min-w-[2.25rem] h-9 px-2 rounded text-sm font-medium bg-secondary text-secondary-foreground hover:bg-secondary/70 transition-colors"
+                      className="inline-flex items-center justify-center min-w-[2.25rem] h-9 px-2 rounded-sm border border-border text-sm text-foreground hover:bg-secondary transition-colors"
                       title={`Go to section ${i + 1}`}
                     >
                       {i + 1}

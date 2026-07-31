@@ -88,5 +88,11 @@ An approved dark-mode palette exists in
 3. Convert pages in order of traffic: the five contents pages (Talmud,
    Bible, Mishnah, Yerushalmi, Rambam) → reader pages → tools pages →
    utility pages (about, changelog, contact…).
-4. Settle the dark-mode question (see the approved dark palette) before
-   converting reader pages, since readers are used heavily in dark/sepia.
+4. ~~Settle the dark-mode question~~ **Settled:** the approved dark palette
+   from `attached_assets/chavrutai-tokens_1785474686438.css` is now applied
+   to the `.dark` theme block in `src/index.css` (with a slightly brighter
+   muted-foreground for readable captions on the navy background). The
+   `paper` theme remains the warm/sepia option and already fits
+   ParchmentScholar; `white` and `high-contrast` are unchanged. Reader
+   pages have been converted (flat headers, hairline borders, near-square
+   corners, Georgia headings, no shadows).

@@ -15,7 +15,7 @@ export function HeaderNavigation({
 }: HeaderNavigationProps) {
   return (
     <header 
-      className="sticky top-0 z-50 bg-card border-b border-border shadow-sm"
+      className="sticky top-0 z-50 bg-background border-b border-border"
       role="banner"
     >
       <div className={`${maxWidth} mx-auto px-4 py-4`}>
