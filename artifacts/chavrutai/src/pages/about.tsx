@@ -1,7 +1,6 @@
 import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
-import { Footer } from "@/components/footer";
-import { HeaderSimple } from "@/components/layout/header-simple";
+import { PageShell, PageHeader, PageSection, SectionHeading } from "@/components/layout";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
 import { DafYomiWidget } from "@/components/DafYomiWidget";
 import {
@@ -296,26 +295,20 @@ export default function About() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background text-foreground font-sans">
-      <HeaderSimple />
+    <PageShell>
+      {/* Page title */}
+      <PageHeader title="About ChavrutAI">
+        <p className="text-muted-foreground">
+          A free platform for studying classical Jewish texts in Hebrew and
+          English
+        </p>
+      </PageHeader>
 
-      <main className="max-w-content mx-auto px-6">
-        {/* Page title */}
-        <div className="pt-10 pb-8">
-          <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-2">
-            About ChavrutAI
-          </h1>
-          <p className="text-muted-foreground">
-            A free platform for studying classical Jewish texts in Hebrew and
-            English
-          </p>
-        </div>
-
-        <div>
-            <section className="py-8 border-t border-border">
-              <h2 className="font-georgia text-xl text-foreground mb-4">
+      <div>
+            <PageSection>
+              <SectionHeading className="mb-4">
                 What is ChavrutAI?
-              </h2>
+              </SectionHeading>
               <p className="text-muted-foreground leading-relaxed mb-4">
                 ChavrutAI is a free website for studying classical Jewish texts.
                 It provides bilingual Hebrew-English access to the Babylonian
@@ -327,12 +320,12 @@ export default function About() {
                 ChavrutAI provides a clean, distraction-free reading experience
                 alongside reference tools, dictionaries, and study aids.
               </p>
-            </section>
+            </PageSection>
 
-            <section className="py-8 border-t border-border">
-              <h2 className="font-georgia text-xl text-foreground mb-4">
+            <PageSection>
+              <SectionHeading className="mb-4">
                 Available Texts
-              </h2>
+              </SectionHeading>
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="border border-border rounded p-4">
                   <div
@@ -432,12 +425,12 @@ export default function About() {
                   </Link>
                 </div>
               </div>
-            </section>
+            </PageSection>
 
-            <section className="py-8 border-t border-border">
-              <h2 className="font-georgia text-xl text-foreground mb-4">
+            <PageSection>
+              <SectionHeading className="mb-4">
                 Frequently Asked Questions
-              </h2>
+              </SectionHeading>
               <Accordion type="single" collapsible className="w-full" data-testid="faq-accordion">
                 <AccordionItem value="free">
                   <AccordionTrigger className="text-left">
@@ -579,12 +572,12 @@ export default function About() {
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
-            </section>
+            </PageSection>
 
-            <section className="py-8 border-t border-border">
-              <h2 className="font-georgia text-xl text-foreground mb-4">
+            <PageSection>
+              <SectionHeading className="mb-4">
                 Featured Articles from My 'Talmud & Tech' Blog About Building ChavrutAI
-              </h2>
+              </SectionHeading>
               <div className="space-y-3">
                 <a
                   href="https://www.ezrabrand.com/p/chavrutais-talmud-translation-processing"
@@ -641,12 +634,12 @@ export default function About() {
                   </div>
                 </a>
               </div>
-            </section>
+            </PageSection>
 
-            <section className="py-8 border-t border-border">
-              <h2 className="font-georgia text-xl text-foreground mb-4">
+            <PageSection>
+              <SectionHeading className="mb-4">
                 Recognition
-              </h2>
+              </SectionHeading>
               <div className="space-y-3">
                 <a
                   href="https://developers.sefaria.org/docs/powered-by-sefaria"
@@ -683,12 +676,12 @@ export default function About() {
                   </div>
                 </a>
               </div>
-            </section>
+            </PageSection>
 
-            <section className="py-8 border-t border-border">
-              <h2 className="font-georgia text-xl text-foreground mb-4">
+            <PageSection>
+              <SectionHeading className="mb-4">
                 About This Project
-              </h2>
+              </SectionHeading>
               <p className="text-muted-foreground leading-relaxed mb-4">
                 ChavrutAI is a project of{" "}
                 <a
@@ -709,12 +702,12 @@ export default function About() {
                   ezra@chavrutai.com
                 </a>
               </p>
-            </section>
+            </PageSection>
 
-            <section className="py-8 border-t border-border">
-              <h2 className="font-georgia text-xl text-foreground mb-4">
+            <PageSection>
+              <SectionHeading className="mb-4">
                 Stay Updated
-              </h2>
+              </SectionHeading>
               <p className="text-muted-foreground leading-relaxed mb-6">
                 Subscribe to the{" "}
                 <a
@@ -864,15 +857,12 @@ export default function About() {
                   </p>
                 )}
               </div>
-            </section>
+            </PageSection>
 
-            <section className="py-8 border-t border-border">
+            <PageSection>
               <DafYomiWidget />
-            </section>
+            </PageSection>
         </div>
-      </main>
-
-      <Footer />
-    </div>
+    </PageShell>
   );
 }

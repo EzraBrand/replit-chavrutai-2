@@ -1,10 +1,8 @@
 import { useMemo, useState } from "react";
-import { Link } from "wouter";
 import { Input } from "@/components/ui/input";
 import { useSEO } from "@/hooks/use-seo";
 import { getStaticSEO } from "@shared/seo-data";
-import { Footer } from "@/components/footer";
-import { HeaderSimple } from "@/components/layout/header-simple";
+import { PageShell, PageHeader } from "@/components/layout";
 import bdbMappings from "@shared/data/lexicon-mappings/bdb.json";
 
 type SortKey = "abbr" | "expansion";
@@ -61,24 +59,14 @@ export default function BdbAbbreviations() {
     sortKey === key ? (sortAsc ? " ▲" : " ▼") : "";
 
   return (
-    <div className="min-h-screen flex flex-col bg-background text-foreground font-sans">
-      <HeaderSimple />
-      <main
-        className="max-w-content mx-auto px-6 flex-1 w-full"
-        data-testid="bdb-abbreviations-page"
-      >
-        <div className="pt-10 pb-8">
-          <nav className="text-sm text-muted-foreground mb-4" aria-label="Breadcrumb">
-            <Link href="/bdb" className="hover:text-foreground">
-              BDB Dictionary
-            </Link>
-            <span className="mx-2">›</span>
-            <span className="text-foreground">Abbreviations</span>
-          </nav>
-
-          <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-2">
-            BDB Abbreviations
-          </h1>
+    <PageShell testId="bdb-abbreviations-page">
+        <PageHeader
+          breadcrumbs={[
+            { label: "BDB Dictionary", href: "/bdb" },
+            { label: "Abbreviations" },
+          ]}
+          title="BDB Abbreviations"
+        >
           <p className="text-sm text-muted-foreground mb-3">
             The full list of abbreviations expanded inline by the ChavrutAI BDB
             reader. {rows.length.toLocaleString()} entries. These mappings cover
@@ -97,7 +85,7 @@ export default function BdbAbbreviations() {
               BDB's own abbreviations list (digitized by Sefaria) →
             </a>
           </p>
-        </div>
+        </PageHeader>
 
         <div className="border-t border-border pt-6 mb-4">
           <Input
@@ -166,8 +154,6 @@ export default function BdbAbbreviations() {
             </tbody>
           </table>
         </div>
-      </main>
-      <Footer />
-    </div>
+    </PageShell>
   );
 }

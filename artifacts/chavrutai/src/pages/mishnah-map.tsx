@@ -8,13 +8,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
 import { getStaticSEO } from "@shared/seo-data";
 import { getTractateSlug, TRACTATE_HEBREW_NAMES, SEDER_TRACTATES, normalizeDisplayTractateName } from "@shared/tractates";
 import { MISHNAH_MAP_DATA, type MishnahMapping } from "@shared/mishnah-map";
 import { getMishnahChapterDataByTractate, getMishnahTalmudMapping, useChapterDataVersion, type ChapterInfo } from "@/lib/chapter-data";
-import { HeaderSimple } from "@/components/layout/header-simple";
+import { PageShell, PageHeader, PageSection, SectionHeading } from "@/components/layout";
 
 const SEDER_ORGANIZATION = {
   "Seder Zeraim": {
@@ -321,29 +320,18 @@ export default function MishnahMapPage() {
   }, [organizedData, selectedSeder, searchQuery]);
 
   return (
-    <div className="min-h-screen bg-background text-foreground font-sans">
-      {/* Header */}
-      <HeaderSimple />
+    <PageShell>
+      {/* Page title */}
+      <PageHeader category="mishnah" title="Mishnah-Talmud Mapping">
+        <p className="text-muted-foreground">
+          Explore the connections between Mishnah passages and their corresponding discussions in the Talmud. 
+          Click any Mishnah to navigate directly to the relevant section.
+        </p>
+      </PageHeader>
 
-      <main className="max-w-content mx-auto px-6">
-        {/* Page title */}
-        <div className="pt-10 pb-8">
-          <div
-            className="mb-3 h-[2px] w-10" style={{ backgroundColor: "var(--category-mishnah)" }}
-            aria-hidden="true"
-          />
-          <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-2">
-            Mishnah-Talmud Mapping
-          </h1>
-          <p className="text-muted-foreground">
-            Explore the connections between Mishnah passages and their corresponding discussions in the Talmud. 
-            Click any Mishnah to navigate directly to the relevant section.
-          </p>
-        </div>
-
-        {/* About */}
-        <section className="py-8 border-t border-border">
-          <h2 className="font-georgia text-xl text-foreground mb-3">About This Mapping</h2>
+      {/* About */}
+      <PageSection>
+        <SectionHeading className="mb-3">About This Mapping</SectionHeading>
           <p className="text-sm text-secondary-foreground mb-2">
             This mapping is based on data from <a 
               href="https://github.com/Sefaria/Sefaria-Project/blob/master/data/Mishnah%20Map.csv" 
@@ -375,7 +363,7 @@ export default function MishnahMapPage() {
               "Introducing ChavrutAI's Mishnah-Talmud Mapping Table"
             </a> (Nov 23, 2025)
           </p>
-        </section>
+      </PageSection>
 
         {/* Filters */}
         <section className="py-6 border-t border-border">
@@ -509,9 +497,6 @@ export default function MishnahMapPage() {
             </div>
           )}
         </div>
-      </main>
-
-      <Footer />
-    </div>
+    </PageShell>
   );
 }

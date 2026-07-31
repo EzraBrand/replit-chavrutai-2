@@ -1,9 +1,8 @@
 import { useMemo } from "react";
 import { Link, Redirect } from "wouter";
-import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
 import { HEBREW_ALPHABET, isHebrewLetter } from "@shared/hebrew-alphabet";
-import { HeaderSimple } from "@/components/layout/header-simple";
+import { PageShell, SectionHeading } from "@/components/layout";
 import {
   useLexiconIndex,
   normalizeHebrew,
@@ -92,10 +91,7 @@ export default function LexiconHeadwords({ lexiconKey, letter }: Props) {
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground font-sans">
-      <HeaderSimple />
-
-      <main className="max-w-content mx-auto px-6">
+    <PageShell>
         <div className="pt-10 pb-8">
           <nav className="text-sm text-muted-foreground mb-4 flex items-center gap-2 flex-wrap" aria-label="Breadcrumb">
             <Link href={meta.routePrefix} className="hover:text-foreground" data-testid="link-back-reader">
@@ -188,7 +184,7 @@ export default function LexiconHeadwords({ lexiconKey, letter }: Props) {
 
         {!activeLetter && index && (
           <div className="border-t border-border pt-6 pb-12">
-            <h2 className="font-georgia text-xl text-foreground mb-2">About this index</h2>
+            <SectionHeading className="mb-2">About this index</SectionHeading>
             <p className="text-sm text-muted-foreground">
               Every headword in this index links directly into the {meta.shortName} reader.
               Headwords are sourced from Sefaria's lexicon API and refreshed periodically;
@@ -196,8 +192,6 @@ export default function LexiconHeadwords({ lexiconKey, letter }: Props) {
             </p>
           </div>
         )}
-      </main>
-      <Footer />
-    </div>
+    </PageShell>
   );
 }

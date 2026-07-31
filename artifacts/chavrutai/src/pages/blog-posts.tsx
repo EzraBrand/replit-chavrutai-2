@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Link } from "wouter";
 import { BlogPostsTable } from "@/components/blog-posts/blog-posts-table";
-import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
 import { getStaticSEO } from "@shared/seo-data";
 import { getBlogPostsData } from "@/lib/outline-data";
 import type { BlogPosts } from '@shared/schema';
-import { HeaderSimple } from "@/components/layout/header-simple";
+import { PageShell, PageHeader, PageSection, SectionHeading } from "@/components/layout";
 
 export default function BlogPostsPage() {
   const [blogPosts, setBlogPosts] = useState<BlogPosts | null>(null);
@@ -92,30 +91,19 @@ export default function BlogPostsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground font-sans">
-      {/* Header */}
-      <HeaderSimple />
+    <PageShell>
+      {/* Page title */}
+      <PageHeader category="talmud-bavli" title={`"Talmud & Tech" Blog Posts by Talmud Location`}>
+        <p className="text-muted-foreground max-w-4xl">
+          Blog posts analyzing Talmudic passages, organized by tractate and page location. 
+          Click on titles to go to the full articles at the "Talmud &amp; Tech" Blog, 
+          or use location links to jump to the corresponding text in ChavrutAI.
+        </p>
+      </PageHeader>
 
-      <main className="max-w-content mx-auto px-6">
-        {/* Page title */}
-        <div className="pt-10 pb-8">
-          <div
-            className="mb-3 h-[2px] w-10" style={{ backgroundColor: "var(--category-talmud-bavli)" }}
-            aria-hidden="true"
-          />
-          <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-2">
-            "Talmud &amp; Tech" Blog Posts by Talmud Location
-          </h1>
-          <p className="text-muted-foreground max-w-4xl">
-            Blog posts analyzing Talmudic passages, organized by tractate and page location. 
-            Click on titles to go to the full articles at the "Talmud &amp; Tech" Blog, 
-            or use location links to jump to the corresponding text in ChavrutAI.
-          </p>
-        </div>
-
-        {/* Search and Filter Controls */}
-        <section className="py-8 border-t border-border">
-          <div className="flex flex-col md:flex-row gap-4 mb-6">
+      {/* Search and Filter Controls */}
+      <PageSection>
+        <div className="flex flex-col md:flex-row gap-4 mb-6">
             <div className="flex-1">
               <input
                 type="text"
@@ -156,9 +144,9 @@ export default function BlogPostsPage() {
 
           {/* Blog Posts Table */}
           <div className="mb-4">
-            <h2 className="font-georgia text-xl text-foreground mb-2">
+            <SectionHeading className="mb-2">
               Blog Posts Collection
-            </h2>
+            </SectionHeading>
             <div className="text-sm text-muted-foreground">
               {filteredPosts.entries.length} posts displayed • Organized by traditional tractate order
             </div>
@@ -183,10 +171,7 @@ export default function BlogPostsPage() {
               </button>
             </div>
           )}
-        </section>
-      </main>
-      
-      <Footer />
-    </div>
+      </PageSection>
+    </PageShell>
   );
 }

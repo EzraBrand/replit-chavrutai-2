@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "wouter";
-import { Footer } from "@/components/footer";
-import { HeaderSimple } from "@/components/layout/header-simple";
+import { PageShell, PageHeader, SectionHeading } from "@/components/layout";
 import { useSEO } from "@/hooks/use-seo";
 import { BreadcrumbNavigation } from "@/components/navigation/breadcrumb-navigation";
 import { RAMBAM_BOOKS, RAMBAM_PREFATORY } from "@shared/rambam-data";
@@ -25,66 +24,65 @@ export default function RambamContents() {
   useSEO(getStaticSEO("/rambam", window.location.origin)!);
 
   return (
-    <div className="min-h-screen bg-background text-foreground font-sans">
-      <HeaderSimple />
+    <PageShell>
+      <div className="pt-6">
+        <BreadcrumbNavigation
+          items={[
+            { label: "Mishneh Torah" },
+          ]}
+        />
+      </div>
 
-      <main className="max-w-content mx-auto px-6">
-        <div className="pt-6">
-          <BreadcrumbNavigation
-            items={[
-              { label: "Mishneh Torah" },
-            ]}
-          />
+      {/* Page title */}
+      <PageHeader
+        category="mishneh-torah"
+        title="Study Mishneh Torah Online"
+        className="pt-4 pb-8"
+      >
+        <p className="text-muted-foreground">
+          <span dir="rtl" lang="he">משנה תורה</span> — the Rambam's code of Jewish law with bilingual Hebrew-English text
+        </p>
+        <p className="text-sm text-muted-foreground mt-3">
+          English translation by Rabbi Eliyahu Touger (Moznaim) via{' '}
+          <a href="https://www.sefaria.org" target="_blank" rel="noopener noreferrer" className="text-primary dark:text-[#5b9fc5] hover:underline">Sefaria</a>.
+        </p>
+
+        <div className="mt-3 text-sm text-muted-foreground">
+          <button
+            onClick={() => setPrefaceOpen(!prefaceOpen)}
+            className="hover:text-foreground transition-colors text-left"
+          >
+            {prefaceOpen ? '▾' : '▸'} Additional prefatory material not included here
+          </button>
+          {prefaceOpen && (
+            <div className="mt-2 pl-4 space-y-1">
+              <p>The <a href="https://www.sefaria.org/Mishneh_Torah,_Overview_of_Mishneh_Torah_Contents" target="_blank" rel="noopener noreferrer" className="text-primary dark:text-[#5b9fc5] hover:underline">Overview of Contents</a> (the mitzvot covered in each section) can be found on Sefaria.</p>
+            </div>
+          )}
         </div>
 
-        {/* Page title */}
-        <div className="pt-4 pb-8">
-          <div className="mb-3 h-[2px] w-10" style={{ backgroundColor: "var(--category-mishneh-torah)" }} aria-hidden="true" />
-          <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-2">Study Mishneh Torah Online</h1>
-          <p className="text-muted-foreground">
-            <span dir="rtl" lang="he">משנה תורה</span> — the Rambam's code of Jewish law with bilingual Hebrew-English text
-          </p>
-          <p className="text-sm text-muted-foreground mt-3">
-            English translation by Rabbi Eliyahu Touger (Moznaim) via{' '}
-            <a href="https://www.sefaria.org" target="_blank" rel="noopener noreferrer" className="text-primary dark:text-[#5b9fc5] hover:underline">Sefaria</a>.
-          </p>
-
-          <div className="mt-3 text-sm text-muted-foreground">
-            <button
-              onClick={() => setPrefaceOpen(!prefaceOpen)}
-              className="hover:text-foreground transition-colors text-left"
-            >
-              {prefaceOpen ? '▾' : '▸'} Additional prefatory material not included here
-            </button>
-            {prefaceOpen && (
-              <div className="mt-2 pl-4 space-y-1">
-                <p>The <a href="https://www.sefaria.org/Mishneh_Torah,_Overview_of_Mishneh_Torah_Contents" target="_blank" rel="noopener noreferrer" className="text-primary dark:text-[#5b9fc5] hover:underline">Overview of Contents</a> (the mitzvot covered in each section) can be found on Sefaria.</p>
-              </div>
-            )}
-          </div>
-
-          <div className="mt-4">
-            <p className="text-sm text-muted-foreground mb-2">Jump to Sefer:</p>
-            <div className="flex flex-wrap gap-x-4 gap-y-1.5">
-              {RAMBAM_BOOKS.map((book) => (
-                <a
-                  key={book.name}
-                  href={`#${book.name.toLowerCase().replace(/\s+/g, '-')}`}
-                  className="text-sm text-primary dark:text-[#5b9fc5] hover:underline"
-                >
-                  {book.name.replace(/^Sefer\s+/, '')}
-                </a>
-              ))}
-            </div>
+        <div className="mt-4">
+          <p className="text-sm text-muted-foreground mb-2">Jump to Sefer:</p>
+          <div className="flex flex-wrap gap-x-4 gap-y-1.5">
+            {RAMBAM_BOOKS.map((book) => (
+              <a
+                key={book.name}
+                href={`#${book.name.toLowerCase().replace(/\s+/g, '-')}`}
+                className="text-sm text-primary dark:text-[#5b9fc5] hover:underline"
+              >
+                {book.name.replace(/^Sefer\s+/, '')}
+              </a>
+            ))}
           </div>
         </div>
+      </PageHeader>
 
-        <div>
-          <section id="introduction" className="py-8 border-t border-border">
-            <div className="mb-4 flex items-baseline justify-between gap-4">
-              <h2 className="font-georgia text-xl text-foreground">Introduction</h2>
-              <span className="text-sm text-muted-foreground font-hebrew" dir="rtl" lang="he">הקדמה</span>
-            </div>
+      <div>
+        <section id="introduction" className="py-8 border-t border-border">
+          <div className="mb-4 flex items-baseline justify-between gap-4">
+            <SectionHeading>Introduction</SectionHeading>
+            <span className="text-sm text-muted-foreground font-hebrew" dir="rtl" lang="he">הקדמה</span>
+          </div>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
               {RAMBAM_PREFATORY.map((item) => (
                 <Link
@@ -104,7 +102,7 @@ export default function RambamContents() {
           {RAMBAM_BOOKS.map((book) => (
             <section key={book.name} id={book.name.toLowerCase().replace(/\s+/g, '-')} className="py-8 border-t border-border">
               <div className="mb-4 flex items-baseline justify-between gap-4">
-                <h2 className="font-georgia text-xl text-foreground">{book.name}</h2>
+                <SectionHeading>{book.name}</SectionHeading>
                 <span className="text-sm text-muted-foreground font-hebrew" dir="rtl" lang="he">{book.hebrewName}</span>
               </div>
 
@@ -128,9 +126,6 @@ export default function RambamContents() {
             </section>
           ))}
         </div>
-      </main>
-
-      <Footer />
-    </div>
+    </PageShell>
   );
 }

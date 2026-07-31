@@ -1,8 +1,8 @@
 import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
-import { Footer } from "@/components/footer";
 import { FooterPlaceholder } from "@/components/page-loading";
 import { HeaderSimple } from "@/components/layout/header-simple";
+import { PageShell, PageHeader, PageSection, SectionHeading } from "@/components/layout";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
 import { sefariaAPI } from "@/lib/sefaria";
 import { TRACTATE_HEBREW_NAMES } from "@shared/tractates";
@@ -66,70 +66,62 @@ export default function Contents() {
   const availableTractates = tractatesData || [];
 
   return (
-    <div className="min-h-screen bg-background text-foreground font-sans">
-      <HeaderSimple />
+    <PageShell>
+      {/* Page title */}
+      <PageHeader
+        category="talmud-bavli"
+        title="Study Talmud Online"
+      >
+        <p className="text-muted-foreground">
+          <span dir="rtl" lang="he">תלמוד בבלי</span> — all 37 tractates of the Babylonian Talmud with bilingual Hebrew-English text
+        </p>
+      </PageHeader>
 
-      <main className="max-w-content mx-auto px-6">
-        {/* Page title */}
-        <div className="pt-10 pb-8">
-          <div
-            className="mb-3 h-[2px] w-10" style={{ backgroundColor: "var(--category-talmud-bavli)" }}
-            aria-hidden="true"
-          />
-          <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-2">Study Talmud Online</h1>
-          <p className="text-muted-foreground">
-            <span dir="rtl" lang="he">תלמוד בבלי</span> — all 37 tractates of the Babylonian Talmud with bilingual Hebrew-English text
-          </p>
-        </div>
+      {/* Seder Sections */}
+      <div>
+        {Object.entries(SEDER_ORGANIZATION).map(([sederName, sederData]) => {
+          // Filter tractates that are available in our data
+          const availableSederTractates = sederData.tractates.filter(
+            tractate => availableTractates.includes(tractate)
+          );
 
-        {/* Seder Sections */}
-        <div>
-          {Object.entries(SEDER_ORGANIZATION).map(([sederName, sederData]) => {
-            // Filter tractates that are available in our data
-            const availableSederTractates = sederData.tractates.filter(
-              tractate => availableTractates.includes(tractate)
-            );
+          if (availableSederTractates.length === 0) return null;
 
-            if (availableSederTractates.length === 0) return null;
-
-            return (
-              <section key={sederName} className="py-8 border-t border-border">
-                {/* Seder Header */}
-                <div className="mb-4 flex items-baseline justify-between gap-4">
-                  <div>
-                    <h2 className="font-georgia text-xl text-foreground">
-                      {sederName}
-                    </h2>
-                    <p className="text-sm text-muted-foreground">{sederData.description}</p>
-                  </div>
-                  <span className="text-sm text-muted-foreground font-hebrew" dir="rtl" lang="he">
-                    {sederData.hebrew}
-                  </span>
+          return (
+            <PageSection key={sederName}>
+              {/* Seder Header */}
+              <div className="mb-4 flex items-baseline justify-between gap-4">
+                <div>
+                  <SectionHeading>
+                    {sederName}
+                  </SectionHeading>
+                  <p className="text-sm text-muted-foreground">{sederData.description}</p>
                 </div>
+                <span className="text-sm text-muted-foreground font-hebrew" dir="rtl" lang="he">
+                  {sederData.hebrew}
+                </span>
+              </div>
 
-                {/* Tractates Grid */}
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-                  {availableSederTractates.map((tractate) => (
-                    <Link 
-                      key={tractate} 
-                      href={`/talmud/${encodeURIComponent(tractate.toLowerCase())}`}
-                      onClick={() => trackEvent('select_tractate', 'navigation', tractate)}
-                      className="block border border-border rounded bg-background p-3 hover:bg-secondary"
-                    >
-                      <div className="text-primary dark:text-[#5b9fc5] font-medium text-base">{tractate}</div>
-                      <div className="text-sm text-muted-foreground font-hebrew" dir="rtl" lang="he">
-                        {TRACTATE_HEBREW_NAMES[tractate as keyof typeof TRACTATE_HEBREW_NAMES] || tractate}
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              </section>
-            );
-          })}
-        </div>
-      </main>
-      
-      <Footer />
-    </div>
+              {/* Tractates Grid */}
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+                {availableSederTractates.map((tractate) => (
+                  <Link 
+                    key={tractate} 
+                    href={`/talmud/${encodeURIComponent(tractate.toLowerCase())}`}
+                    onClick={() => trackEvent('select_tractate', 'navigation', tractate)}
+                    className="block border border-border rounded bg-background p-3 hover:bg-secondary"
+                  >
+                    <div className="text-primary dark:text-[#5b9fc5] font-medium text-base">{tractate}</div>
+                    <div className="text-sm text-muted-foreground font-hebrew" dir="rtl" lang="he">
+                      {TRACTATE_HEBREW_NAMES[tractate as keyof typeof TRACTATE_HEBREW_NAMES] || tractate}
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </PageSection>
+          );
+        })}
+      </div>
+    </PageShell>
   );
 }

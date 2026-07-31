@@ -1,10 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
-import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
 import { getStaticSEO } from "@shared/seo-data";
 import { getBaseUrl } from "@/lib/utils";
-import { HeaderSimple } from "@/components/layout/header-simple";
+import { PageShell, PageHeader, PageSection, SectionHeading } from "@/components/layout";
 
 interface TractateData {
   name: string;
@@ -61,52 +60,33 @@ export default function Sitemap() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background text-foreground font-sans">
-        <HeaderSimple />
-        <div className="max-w-content mx-auto px-6 py-12">
-          <div className="text-center text-muted-foreground">Loading sitemap...</div>
-        </div>
-        <Footer />
-      </div>
+      <PageShell mainClassName="py-12">
+        <div className="text-center text-muted-foreground">Loading sitemap...</div>
+      </PageShell>
     );
   }
 
   if (!sitemapData) {
     return (
-      <div className="min-h-screen bg-background text-foreground font-sans">
-        <HeaderSimple />
-        <div className="max-w-content mx-auto px-6 py-12">
-          <div className="text-center text-muted-foreground">Error loading sitemap data</div>
-        </div>
-        <Footer />
-      </div>
+      <PageShell mainClassName="py-12">
+        <div className="text-center text-muted-foreground">Error loading sitemap data</div>
+      </PageShell>
     );
   }
 
   const { sedarim, summary } = sitemapData;
 
   return (
-    <div className="min-h-screen bg-background text-foreground font-sans">
-      {/* Centered Logo Header */}
-      <HeaderSimple />
+    <PageShell>
+      {/* Page title */}
+      <PageHeader category="talmud-bavli" title="ChavrutAI Site Map">
+        <p className="text-muted-foreground mb-6">
+          Navigate all {summary.totalPages.toLocaleString()} pages across {summary.totalTractates} tractates 
+          of the Babylonian Talmud, organized by traditional Seder structure
+        </p>
 
-      <main className="max-w-content mx-auto px-6">
-        {/* Page title */}
-        <div className="pt-10 pb-8">
-          <div
-            className="mb-3 h-[2px] w-10" style={{ backgroundColor: "var(--category-talmud-bavli)" }}
-            aria-hidden="true"
-          />
-          <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-2">
-            ChavrutAI Site Map
-          </h1>
-          <p className="text-muted-foreground mb-6">
-            Navigate all {summary.totalPages.toLocaleString()} pages across {summary.totalTractates} tractates 
-            of the Babylonian Talmud, organized by traditional Seder structure
-          </p>
-
-          {/* Summary Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+        {/* Summary Stats */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
             <div className="border border-border rounded bg-background p-4">
               <div className="text-2xl font-georgia text-foreground">{summary.totalSedarim}</div>
               <div className="text-sm text-muted-foreground">Sedarim (Orders)</div>
@@ -123,14 +103,14 @@ export default function Sitemap() {
               <div className="text-2xl font-georgia text-foreground">{summary.totalPages.toLocaleString()}</div>
               <div className="text-sm text-muted-foreground">Pages</div>
             </div>
-          </div>
         </div>
+      </PageHeader>
 
-        {/* Navigation Shortcuts */}
-        <section className="py-8 border-t border-border">
-          <h2 className="font-georgia text-xl text-foreground mb-4">
-            Main Pages
-          </h2>
+      {/* Navigation Shortcuts */}
+      <PageSection>
+        <SectionHeading className="mb-4">
+          Main Pages
+        </SectionHeading>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
             <Link href="/" className="block border border-border rounded bg-background p-2 text-primary dark:text-[#5b9fc5] hover:bg-secondary">
               Home
@@ -172,11 +152,11 @@ export default function Sitemap() {
               About
             </Link>
           </div>
-        </section>
+      </PageSection>
 
-        {/* Sedarim (Orders) */}
-        <section className="py-8 border-t border-border">
-          <h2 className="font-georgia text-2xl text-foreground mb-6">
+      {/* Sedarim (Orders) */}
+      <PageSection>
+        <h2 className="font-georgia text-2xl text-foreground mb-6">
             Talmud Tractates by Seder (Traditional Orders)
           </h2>
 
@@ -245,11 +225,11 @@ export default function Sitemap() {
               </div>
             ))}
           </div>
-        </section>
+      </PageSection>
 
-        {/* XML Sitemap Links for Developers */}
-        <section className="py-8 border-t border-border">
-          <h3 className="font-georgia text-lg text-foreground mb-4">
+      {/* XML Sitemap Links for Developers */}
+      <PageSection>
+        <h3 className="font-georgia text-lg text-foreground mb-4">
             XML Sitemaps (for Search Engines)
           </h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm">
@@ -277,10 +257,7 @@ export default function Sitemap() {
               </a>
             ))}
           </div>
-        </section>
-      </main>
-
-      <Footer />
-    </div>
+      </PageSection>
+    </PageShell>
   );
 }

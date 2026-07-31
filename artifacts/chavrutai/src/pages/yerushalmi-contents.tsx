@@ -1,6 +1,5 @@
 import { Link } from "wouter";
-import { Footer } from "@/components/footer";
-import { HeaderSimple } from "@/components/layout/header-simple";
+import { PageShell, PageHeader, PageSection, SectionHeading } from "@/components/layout";
 import { useSEO } from "@/hooks/use-seo";
 import { BreadcrumbNavigation } from "@/components/navigation/breadcrumb-navigation";
 import {
@@ -28,40 +27,39 @@ export default function YerushalmiContents() {
   useSEO(getStaticSEO("/yerushalmi", window.location.origin)!);
 
   return (
-    <div className="min-h-screen bg-background text-foreground font-sans">
-      <HeaderSimple />
+    <PageShell>
+      <div className="pt-6">
+        <BreadcrumbNavigation
+          items={[
+            { label: "Jerusalem Talmud" },
+          ]}
+        />
+      </div>
 
-      <main className="max-w-content mx-auto px-6">
-        <div className="pt-6">
-          <BreadcrumbNavigation
-            items={[
-              { label: "Jerusalem Talmud" },
-            ]}
-          />
-        </div>
+      {/* Page title */}
+      <PageHeader
+        category="talmud-yerushalmi"
+        title="Study Jerusalem Talmud Online"
+        className="pt-4 pb-8"
+      >
+        <p className="text-muted-foreground">
+          <span dir="rtl" lang="he">תלמוד ירושלמי</span> — 39 tractates across four Sedarim, with bilingual Hebrew-English text
+        </p>
+        <p className="text-sm text-muted-foreground mt-3">
+          English translation by Heinrich W. Guggenheimer (ed. Guggenheimer) via{' '}
+          <a href="https://www.sefaria.org" target="_blank" rel="noopener noreferrer" className="text-primary dark:text-[#5b9fc5] hover:underline">Sefaria</a>.
+        </p>
+      </PageHeader>
 
-        {/* Page title */}
-        <div className="pt-4 pb-8">
-          <div className="mb-3 h-[2px] w-10" style={{ backgroundColor: "var(--category-talmud-yerushalmi)" }} aria-hidden="true" />
-          <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-2">Study Jerusalem Talmud Online</h1>
-          <p className="text-muted-foreground">
-            <span dir="rtl" lang="he">תלמוד ירושלמי</span> — 39 tractates across four Sedarim, with bilingual Hebrew-English text
-          </p>
-          <p className="text-sm text-muted-foreground mt-3">
-            English translation by Heinrich W. Guggenheimer (ed. Guggenheimer) via{' '}
-            <a href="https://www.sefaria.org" target="_blank" rel="noopener noreferrer" className="text-primary dark:text-[#5b9fc5] hover:underline">Sefaria</a>.
-          </p>
-        </div>
-
-        <div>
+      <div>
           {Object.entries(YERUSHALMI_TRACTATES).map(([seder, tractates]) => {
             const info = SEDER_INFO[seder];
             const displayName = SEDER_DISPLAY_NAMES[seder];
             return (
-              <section key={seder} className="py-8 border-t border-border">
+              <PageSection key={seder}>
                 <div className="mb-4 flex items-baseline justify-between gap-4">
                   <div>
-                    <h2 className="font-georgia text-xl text-foreground">{displayName}</h2>
+                    <SectionHeading>{displayName}</SectionHeading>
                     <p className="text-sm text-muted-foreground">{info.description}</p>
                   </div>
                   <span className="text-sm text-muted-foreground font-hebrew" dir="rtl" lang="he">
@@ -86,13 +84,10 @@ export default function YerushalmiContents() {
                     </Link>
                   ))}
                 </div>
-              </section>
+              </PageSection>
             );
           })}
         </div>
-      </main>
-
-      <Footer />
-    </div>
+    </PageShell>
   );
 }

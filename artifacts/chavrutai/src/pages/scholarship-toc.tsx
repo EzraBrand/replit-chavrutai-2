@@ -1,11 +1,10 @@
 import { Link, useRoute } from "wouter";
 import { useQuery } from "@tanstack/react-query";
-import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
 import { apiRequest } from "@/lib/queryClient";
 import { isValidScholarshipWork } from "@shared/data/scholarship-works";
 import NotFound from "@/pages/not-found";
-import { HeaderSimple } from "@/components/layout/header-simple";
+import { PageShell, Breadcrumbs, SectionHeading, type BreadcrumbItem } from "@/components/layout";
 
 interface ScholarshipSection {
   key: string;
@@ -61,22 +60,15 @@ export default function ScholarshipToc() {
 
   if (!match || !isValidScholarshipWork(workSlug)) return <NotFound />;
 
-  return (
-    <div className="min-h-screen bg-background text-foreground font-sans">
-      <HeaderSimple />
+  const breadcrumbs: BreadcrumbItem[] = [
+    { label: "Home", href: "/" },
+    { label: "Modern Scholarship", href: "/scholarship" },
+    ...(data ? [{ label: data.title }] : []),
+  ];
 
-      <main className="max-w-content mx-auto px-6">
-        <nav className="text-sm text-muted-foreground pt-10 mb-6" aria-label="Breadcrumb">
-          <Link href="/" className="hover:text-foreground">Home</Link>
-          <span className="mx-2">›</span>
-          <Link href="/scholarship" className="hover:text-foreground">Modern Scholarship</Link>
-          {data && (
-            <>
-              <span className="mx-2">›</span>
-              <span className="text-foreground">{data.title}</span>
-            </>
-          )}
-        </nav>
+  return (
+    <PageShell>
+        <Breadcrumbs items={breadcrumbs} className="pt-10 mb-6" />
 
         {isLoading && (
           <div className="space-y-4 pb-12">
@@ -122,9 +114,9 @@ export default function ScholarshipToc() {
             </div>
 
             <div className="border-t border-border pt-8">
-              <h2 className="font-georgia text-xl text-foreground mb-5">
+              <SectionHeading className="mb-5">
                 Table of Contents
-              </h2>
+              </SectionHeading>
 
               <div className="space-y-1">
                 {/* Top-level standalone sections */}
@@ -164,10 +156,7 @@ export default function ScholarshipToc() {
             </div>
           </div>
         )}
-      </main>
-
-      <Footer />
-    </div>
+    </PageShell>
   );
 }
 

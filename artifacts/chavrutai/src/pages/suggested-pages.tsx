@@ -1,8 +1,7 @@
 import { Link } from "wouter";
 import { BreadcrumbNavigation, breadcrumbHelpers } from "@/components/navigation/breadcrumb-navigation";
-import { Footer } from "@/components/footer";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
-import { HeaderSimple } from "@/components/layout/header-simple";
+import { PageShell, PageHeader, PageSection } from "@/components/layout";
 
 // Suggested pages for exploration - famous and significant folios
 const SUGGESTED_PAGES = [
@@ -284,33 +283,21 @@ export default function SuggestedPages() {
   useSEO(generateSEOData.suggestedPages());
 
   return (
-    <div className="min-h-screen bg-background text-foreground font-sans">
-      {/* Header */}
-      <HeaderSimple />
+    <PageShell>
+      {/* Breadcrumb Navigation */}
+      <BreadcrumbNavigation items={breadcrumbHelpers.suggestedPages()} />
 
-      {/* Main Content */}
-      <main className="max-w-content mx-auto px-6">
-        {/* Breadcrumb Navigation */}
-        <BreadcrumbNavigation items={breadcrumbHelpers.suggestedPages()} />
+      {/* Page title */}
+      <PageHeader category="talmud-bavli" title="Famous Talmud Pages">
+        <p className="text-muted-foreground max-w-3xl">
+          Start your Talmud journey with these essential teachings, famous stories, and foundational concepts. 
+          Perfect introduction for new learners.
+        </p>
+      </PageHeader>
 
-        {/* Page title */}
-        <div className="pt-10 pb-8">
-          <div
-            className="mb-3 h-[2px] w-10" style={{ backgroundColor: "var(--category-talmud-bavli)" }}
-            aria-hidden="true"
-          />
-          <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-2">
-            Famous Talmud Pages
-          </h1>
-          <p className="text-muted-foreground max-w-3xl">
-            Start your Talmud journey with these essential teachings, famous stories, and foundational concepts. 
-            Perfect introduction for new learners.
-          </p>
-        </div>
-
-        {/* Suggested Pages Grid */}
-        <section className="py-8 border-t border-border">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+      {/* Suggested Pages Grid */}
+      <PageSection>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
             {SUGGESTED_PAGES.map((page, index) => (
               <Link 
                 key={index}
@@ -329,11 +316,8 @@ export default function SuggestedPages() {
               </Link>
             ))}
           </div>
-        </section>
+      </PageSection>
 
-      </main>
-      
-      <Footer />
-    </div>
+    </PageShell>
   );
 }

@@ -3,7 +3,7 @@ import { useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { SharedLayout } from "@/components/layout";
+import { SharedLayout, PageHeader, SectionHeading } from "@/components/layout";
 import { useSEO } from "@/hooks/use-seo";
 import { getStaticSEO } from "@shared/seo-data";
 import { SEARCH_SUGGESTIONS } from "@/data/search-suggestions";
@@ -280,10 +280,9 @@ export default function SearchPage() {
       `}</style>
 
       <div className="space-y-6">
-        <div className="pt-10 pb-2">
-          <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-2">Search Texts</h1>
+        <PageHeader className="pt-10 pb-2" title="Search Texts">
           <p className="text-muted-foreground">Search the Talmud and Bible in Hebrew and English</p>
-        </div>
+        </PageHeader>
 
         <form onSubmit={handleSearch} className="space-y-3">
           <div className="flex gap-2">
@@ -432,7 +431,7 @@ export default function SearchPage() {
         {!submittedQuery && !isLoading && (
           <section className="pt-8 border-t border-border" data-testid="section-how-to-search">
             <div className="py-2">
-              <h2 className="font-georgia text-xl text-foreground mb-4">How to Search</h2>
+              <SectionHeading className="mb-4">How to Search</SectionHeading>
               <div className="space-y-4 text-sm text-muted-foreground">
                 <div>
                   <h3 className="font-medium text-foreground mb-1">What you can search</h3>

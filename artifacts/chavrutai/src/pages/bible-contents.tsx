@@ -1,8 +1,8 @@
 import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
-import { Footer } from "@/components/footer";
 import { FooterPlaceholder } from "@/components/page-loading";
 import { HeaderSimple } from "@/components/layout/header-simple";
+import { PageShell, PageHeader, PageSection } from "@/components/layout";
 import { useSEO } from "@/hooks/use-seo";
 import { getStaticSEO } from "@shared/seo-data";
 import { bibleAPI } from "@/lib/bible-api";
@@ -82,7 +82,7 @@ export default function BibleContents() {
     books: BibleBook[],
     testid: string,
   ) => (
-    <section className="py-8 border-t border-border">
+    <PageSection>
       <div className="mb-4 flex items-baseline justify-between gap-4">
         <div>
           <h2 className="font-georgia text-xl text-foreground" data-testid={testid}>
@@ -97,44 +97,38 @@ export default function BibleContents() {
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
         {books.map(renderBookCard)}
       </div>
-    </section>
+    </PageSection>
   );
 
   return (
-    <div className="min-h-screen bg-background text-foreground font-sans">
-      <HeaderSimple />
+    <PageShell>
+      {/* Page title */}
+      <PageHeader
+        category="tanakh"
+        title="Bible (Tanach)"
+        titleTestId="text-page-title"
+      >
+        <p className="text-muted-foreground">
+          Hebrew Bible with Koren Jerusalem Bible English Translation
+        </p>
+        <p className="text-sm text-muted-foreground mt-3">
+          To find out more about this, see:{" "}
+          <a 
+            href="https://www.ezrabrand.com/p/introducing-the-chavrutai-bible-reader"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary dark:text-[#5b9fc5] hover:underline"
+            data-testid="link-bible-intro-article"
+          >
+            Introducing the ChavrutAI Bible Reader ↗
+          </a>
+          {" "}(Nov 09, 2025)
+        </p>
+      </PageHeader>
 
-      <main className="max-w-content mx-auto px-6">
-        {/* Page title */}
-        <div className="pt-10 pb-8">
-          <div className="mb-3 h-[2px] w-10" style={{ backgroundColor: "var(--category-tanakh)" }} aria-hidden="true" />
-          <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-2" data-testid="text-page-title">
-            Bible (Tanach)
-          </h1>
-          <p className="text-muted-foreground">
-            Hebrew Bible with Koren Jerusalem Bible English Translation
-          </p>
-          <p className="text-sm text-muted-foreground mt-3">
-            To find out more about this, see:{" "}
-            <a 
-              href="https://www.ezrabrand.com/p/introducing-the-chavrutai-bible-reader"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-primary dark:text-[#5b9fc5] hover:underline"
-              data-testid="link-bible-intro-article"
-            >
-              Introducing the ChavrutAI Bible Reader ↗
-            </a>
-            {" "}(Nov 09, 2025)
-          </p>
-        </div>
-
-        {renderSection("Torah", "תורה", "The Five Books of Moses", torah, "text-section-torah")}
-        {renderSection("Nevi'im", "נביאים", "The Prophets", neviim, "text-section-neviim")}
-        {renderSection("Ketuvim", "כתובים", "The Writings", ketuvim, "text-section-ketuvim")}
-      </main>
-
-      <Footer />
-    </div>
+      {renderSection("Torah", "תורה", "The Five Books of Moses", torah, "text-section-torah")}
+      {renderSection("Nevi'im", "נביאים", "The Prophets", neviim, "text-section-neviim")}
+      {renderSection("Ketuvim", "כתובים", "The Writings", ketuvim, "text-section-ketuvim")}
+    </PageShell>
   );
 }

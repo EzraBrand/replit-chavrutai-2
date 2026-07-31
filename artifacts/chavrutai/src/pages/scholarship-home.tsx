@@ -1,10 +1,9 @@
 import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
-import { Footer } from "@/components/footer";
 import { useSEO } from "@/hooks/use-seo";
 import { getStaticSEO } from "@shared/seo-data";
 import { apiRequest } from "@/lib/queryClient";
-import { HeaderSimple } from "@/components/layout/header-simple";
+import { PageShell, PageHeader } from "@/components/layout";
 
 interface WorkEntry {
   slug: string;
@@ -28,23 +27,18 @@ export default function ScholarshipHome() {
   });
 
   return (
-    <div className="min-h-screen bg-background text-foreground font-sans">
-      <HeaderSimple />
-
-      <main className="max-w-content mx-auto px-6">
-        <div className="pt-10 pb-8">
-          <nav className="text-sm text-muted-foreground mb-4" aria-label="Breadcrumb">
-            <Link href="/" className="hover:text-foreground">Home</Link>
-            <span className="mx-2">›</span>
-            <span className="text-foreground">J.N. Epstein's Introductions</span>
-          </nav>
-          <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-2">
-            J.N. Epstein's Introductions
-          </h1>
+    <PageShell>
+        <PageHeader
+          breadcrumbs={[
+            { label: "Home", href: "/" },
+            { label: "J.N. Epstein's Introductions" },
+          ]}
+          title="J.N. Epstein's Introductions"
+        >
           <p className="text-muted-foreground">
             Epstein's academic introductions to the Mishnah, Tosefta, Halakhic Midrashim, and Babylonian Talmud.
           </p>
-        </div>
+        </PageHeader>
 
         {isLoading && (
           <div className="space-y-4 pb-12">
@@ -86,9 +80,6 @@ export default function ScholarshipHome() {
             ))}
           </div>
         )}
-      </main>
-
-      <Footer />
-    </div>
+    </PageShell>
   );
 }

@@ -1,10 +1,8 @@
 import { useMemo, useState } from "react";
-import { Link } from "wouter";
 import { Input } from "@/components/ui/input";
 import { useSEO } from "@/hooks/use-seo";
 import { getStaticSEO } from "@shared/seo-data";
-import { Footer } from "@/components/footer";
-import { HeaderSimple } from "@/components/layout/header-simple";
+import { PageShell, PageHeader, SectionHeading } from "@/components/layout";
 import termReplacements from "@shared/data/term-replacements.json";
 
 interface CategoryData {
@@ -87,24 +85,14 @@ export default function TalmudTermReplacements() {
   );
 
   return (
-    <div className="min-h-screen flex flex-col bg-background text-foreground font-sans">
-      <HeaderSimple />
-      <main
-        className="max-w-content mx-auto px-6 flex-1 w-full"
-        data-testid="talmud-term-replacements-page"
-      >
-        <div className="pt-10 pb-8">
-          <nav className="text-sm text-muted-foreground mb-4" aria-label="Breadcrumb">
-            <Link href="/about" className="hover:text-foreground">
-              About
-            </Link>
-            <span className="mx-2">›</span>
-            <span className="text-foreground">Talmud Term Replacements</span>
-          </nav>
-
-          <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-2">
-            Talmud Term Replacements
-          </h1>
+    <PageShell testId="talmud-term-replacements-page">
+        <PageHeader
+          breadcrumbs={[
+            { label: "About", href: "/about" },
+            { label: "Talmud Term Replacements" },
+          ]}
+          title="Talmud Term Replacements"
+        >
           <p className="text-sm text-muted-foreground">
             The full list of inline terminology updates ChavrutAI applies to the
             English translation of the Talmud. {rows.length.toLocaleString()}{" "}
@@ -116,7 +104,7 @@ export default function TalmudTermReplacements() {
             names use modern Hebrew spellings (e.g. <em>Jehudah</em> →{" "}
             <em>Yehuda</em>).
           </p>
-        </div>
+        </PageHeader>
 
         <div className="border-t border-border pt-6 mb-8">
           <Input
@@ -140,12 +128,12 @@ export default function TalmudTermReplacements() {
               className="py-6 border-t border-border"
               data-testid={`category-${cat.key}`}
             >
-              <h2 className="font-georgia text-xl text-foreground mb-1">
+              <SectionHeading className="mb-1">
                 {cat.label}{" "}
                 <span className="text-sm font-normal text-muted-foreground font-sans">
                   ({cat.rows.length.toLocaleString()})
                 </span>
-              </h2>
+              </SectionHeading>
               {cat.description && (
                 <p className="text-sm text-muted-foreground mb-3">
                   {cat.description}
@@ -183,8 +171,6 @@ export default function TalmudTermReplacements() {
             <p className="text-center text-muted-foreground py-8">No matches.</p>
           )}
         </div>
-      </main>
-      <Footer />
-    </div>
+    </PageShell>
   );
 }

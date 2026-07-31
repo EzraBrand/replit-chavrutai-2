@@ -1,8 +1,7 @@
 import { Link } from "wouter";
 import { useSEO } from "@/hooks/use-seo";
 import { getStaticSEO } from "@shared/seo-data";
-import { Footer } from "@/components/footer";
-import { HeaderSimple } from "@/components/layout/header-simple";
+import { PageShell, PageHeader, SectionHeading } from "@/components/layout";
 
 export default function Changelog() {
   // SEO optimization
@@ -24,29 +23,22 @@ export default function Changelog() {
   });
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <HeaderSimple />
+    <PageShell>
+      {/* Page Title */}
+      <PageHeader title="Changelog">
+        <p className="text-muted-foreground">
+          Recent updates and improvements.
+        </p>
+      </PageHeader>
 
-      <main className="max-w-content mx-auto px-6">
-        {/* Page Title */}
-        <div className="pt-10 pb-8">
-          <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-2">
-            Changelog
-          </h1>
-          <p className="text-muted-foreground">
-            Recent updates and improvements.
-          </p>
-        </div>
-
-        {/* Changelog Content */}
-        <div>
+      {/* Changelog Content */}
+      <div>
 
         {/* July 2026 */}
         <div className="py-8 border-t border-border">
-          <h2 className="font-georgia text-xl text-foreground mb-4">
+          <SectionHeading className="mb-4">
             July 2026
-          </h2>
+          </SectionHeading>
 
           <div className="space-y-4 text-muted-foreground">
 
@@ -85,9 +77,9 @@ export default function Changelog() {
 
         {/* June 2026 */}
         <div className="py-8 border-t border-border">
-          <h2 className="font-georgia text-xl text-foreground mb-4">
+          <SectionHeading className="mb-4">
             June 2026
-          </h2>
+          </SectionHeading>
 
           <div className="space-y-4 text-muted-foreground">
 
@@ -149,9 +141,9 @@ export default function Changelog() {
 
         {/* May 2026 */}
         <div className="py-8 border-t border-border">
-          <h2 className="font-georgia text-xl text-foreground mb-4">
+          <SectionHeading className="mb-4">
             May 2026
-          </h2>
+          </SectionHeading>
 
           <div className="space-y-4 text-muted-foreground">
 
@@ -419,9 +411,9 @@ export default function Changelog() {
 
         {/* April 2026 */}
         <div className="py-8 border-t border-border">
-          <h2 className="font-georgia text-xl text-foreground mb-4">
+          <SectionHeading className="mb-4">
             April 2026
-          </h2>
+          </SectionHeading>
 
           <div className="space-y-4 text-muted-foreground">
 
@@ -584,9 +576,9 @@ export default function Changelog() {
 
         {/* March 2026 */}
         <div className="py-8 border-t border-border">
-          <h2 className="font-georgia text-xl text-foreground mb-4">
+          <SectionHeading className="mb-4">
             March 2026
-          </h2>
+          </SectionHeading>
 
           <div className="space-y-4 text-muted-foreground">
 
@@ -1036,9 +1028,9 @@ export default function Changelog() {
 
         {/* February 2026 */}
         <div className="py-8 border-t border-border">
-          <h2 className="font-georgia text-xl text-foreground mb-4">
+          <SectionHeading className="mb-4">
             February 2026
-          </h2>
+          </SectionHeading>
           
           <div className="space-y-4 text-muted-foreground">
             <div>
@@ -1189,9 +1181,9 @@ export default function Changelog() {
 
         {/* January 2026 */}
         <div className="py-8 border-t border-border">
-          <h2 className="font-georgia text-xl text-foreground mb-4">
+          <SectionHeading className="mb-4">
             January 2026
-          </h2>
+          </SectionHeading>
           
           <div className="space-y-4 text-muted-foreground">
             <div>
@@ -1258,9 +1250,9 @@ export default function Changelog() {
 
         {/* December 2025 */}
         <div className="py-8 border-t border-border">
-          <h2 className="font-georgia text-xl text-foreground mb-4">
+          <SectionHeading className="mb-4">
             December 2025
-          </h2>
+          </SectionHeading>
           
           <div className="space-y-4 text-muted-foreground">
             <div>
@@ -1417,9 +1409,9 @@ export default function Changelog() {
 
         {/* November 2025 */}
         <div className="py-8 border-t border-border">
-          <h2 className="font-georgia text-xl text-foreground mb-4">
+          <SectionHeading className="mb-4">
             November 2025
-          </h2>
+          </SectionHeading>
           
           <div className="space-y-4 text-muted-foreground">
             <div>
@@ -1447,9 +1439,9 @@ export default function Changelog() {
 
         {/* September 2025 */}
         <div className="py-8 border-t border-border">
-          <h2 className="font-georgia text-xl text-foreground mb-4">
+          <SectionHeading className="mb-4">
             September 2025
-          </h2>
+          </SectionHeading>
           
           <div className="space-y-4 text-muted-foreground">
             <div>
@@ -1483,9 +1475,9 @@ export default function Changelog() {
 
         {/* August 2025 */}
         <div className="py-8 border-t border-border">
-          <h2 className="font-georgia text-xl text-foreground mb-4">
+          <SectionHeading className="mb-4">
             August 2025
-          </h2>
+          </SectionHeading>
           
           <div className="space-y-4 text-muted-foreground">
             <div>
@@ -1526,9 +1518,6 @@ export default function Changelog() {
         </div>
 
         </div>
-      </main>
-
-      <Footer />
-    </div>
+    </PageShell>
   );
 }

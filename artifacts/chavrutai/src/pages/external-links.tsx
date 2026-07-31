@@ -3,8 +3,7 @@ import { useLocation } from "wouter";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Footer } from "@/components/footer";
-import { HeaderSimple } from "@/components/layout/header-simple";
+import { PageShell, PageHeader, PageSection, SectionHeading } from "@/components/layout";
 import { useSEO } from "@/hooks/use-seo";
 import { TRACTATE_LISTS, TRACTATE_HEBREW_NAMES, normalizeDisplayTractateName, isValidTractate, getTractateSlug } from "@shared/tractates";
 import { getMaxFolio, getStartFolio, getStartSide } from "@shared/talmud-navigation";
@@ -182,30 +181,24 @@ function ExternalLinksPage() {
   const pageLinks = getPageLinks({ tractate, folio, side, section });
 
   return (
-    <div className="min-h-screen bg-background text-foreground font-sans">
-      <HeaderSimple />
-
-      <main className="max-w-content mx-auto px-6">
-        <div className="pt-10 pb-8">
-          <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-4">
-            Links to Talmud Pages, by Platform
-          </h1>
-          <div className="text-sm text-muted-foreground space-y-2">
-            <p>
-              This page provides links to the same Talmud pages and sections across different websites.
-              Select a tractate, folio, and side below, then use the provided links to view that page
-              on any of the following websites: ChavrutAI, Sefaria, Al HaTorah, Wikisource, or 'Daf Yomi' (tzurat hadaf).
-            </p>
-            <p>
-              Optionally add a section number to get links that point directly to a specific paragraph.
-              ChavrutAI links open in the same tab; all other links open in a new tab.
-            </p>
-          </div>
+    <PageShell>
+      <PageHeader title="Links to Talmud Pages, by Platform" titleClassName="mb-4">
+        <div className="text-sm text-muted-foreground space-y-2">
+          <p>
+            This page provides links to the same Talmud pages and sections across different websites.
+            Select a tractate, folio, and side below, then use the provided links to view that page
+            on any of the following websites: ChavrutAI, Sefaria, Al HaTorah, Wikisource, or 'Daf Yomi' (tzurat hadaf).
+          </p>
+          <p>
+            Optionally add a section number to get links that point directly to a specific paragraph.
+            ChavrutAI links open in the same tab; all other links open in a new tab.
+          </p>
         </div>
+      </PageHeader>
 
-        <section className="py-8 border-t border-border">
-          <h2 className="font-georgia text-xl text-foreground mb-1">Related Articles</h2>
-          <p className="text-sm text-muted-foreground mb-4">
+      <PageSection>
+        <SectionHeading className="mb-1">Related Articles</SectionHeading>
+        <p className="text-sm text-muted-foreground mb-4">
             Blog posts and articles about digital Talmud resources:
           </p>
           <ul className="space-y-2 text-sm">
@@ -224,10 +217,10 @@ function ExternalLinksPage() {
               </li>
             ))}
           </ul>
-        </section>
+      </PageSection>
 
-        <section className="py-8 border-t border-border">
-          <h2 className="font-georgia text-xl text-foreground mb-4">Selection</h2>
+      <PageSection>
+        <SectionHeading className="mb-4">Selection</SectionHeading>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="col-span-2">
               <Label htmlFor="tractate">Tractate</Label>
@@ -286,11 +279,11 @@ function ExternalLinksPage() {
               />
             </div>
           </div>
-        </section>
+      </PageSection>
 
-        {section !== undefined && (
-          <section className="py-8 border-t border-border">
-            <h2 className="font-georgia text-xl text-foreground mb-1">Section-Level Links</h2>
+      {section !== undefined && (
+        <PageSection>
+          <SectionHeading className="mb-1">Section-Level Links</SectionHeading>
             <p className="text-sm text-muted-foreground mb-4">
               Links that point to the specific section ({currentRef})
             </p>
@@ -314,11 +307,11 @@ function ExternalLinksPage() {
                 />
               ))}
             </div>
-          </section>
-        )}
+        </PageSection>
+      )}
 
-        <section className="py-8 border-t border-border">
-          <h2 className="font-georgia text-xl text-foreground mb-1">Page-Level Links</h2>
+      <PageSection>
+        <SectionHeading className="mb-1">Page-Level Links</SectionHeading>
           <p className="text-sm text-muted-foreground mb-4">
             Links that point to the full page ({tractate} {folio}{side})
           </p>
@@ -342,11 +335,8 @@ function ExternalLinksPage() {
               />
             ))}
           </div>
-        </section>
-      </main>
-
-      <Footer />
-    </div>
+      </PageSection>
+    </PageShell>
   );
 }
 

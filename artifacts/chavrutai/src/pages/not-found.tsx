@@ -1,7 +1,6 @@
 import { Link } from "wouter";
 import { useSEO } from "@/hooks/use-seo";
-import { HeaderSimple } from "@/components/layout/header-simple";
-import { Footer } from "@/components/footer";
+import { PageShell } from "@/components/layout";
 
 export default function NotFound() {
   useSEO({
@@ -10,43 +9,37 @@ export default function NotFound() {
     noindex: true,
   });
   return (
-    <div className="min-h-screen flex flex-col bg-background text-foreground font-sans">
-      <HeaderSimple />
+    <PageShell>
+      <div className="pt-16 pb-12 max-w-xl">
+        <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-3">
+          404 — Page Not Found
+        </h1>
+        <p className="text-muted-foreground mb-8">
+          The page you're looking for doesn't exist or has been moved.
+        </p>
 
-      <main className="max-w-content mx-auto px-6 flex-1 w-full">
-        <div className="pt-16 pb-12 max-w-xl">
-          <h1 className="font-georgia text-3xl md:text-4xl text-foreground mb-3">
-            404 — Page Not Found
-          </h1>
-          <p className="text-muted-foreground mb-8">
-            The page you're looking for doesn't exist or has been moved.
+        <div className="border-t border-border pt-6 space-y-3">
+          <p>
+            <Link
+              href="/"
+              className="text-primary dark:text-[#5b9fc5] hover:underline"
+              data-testid="link-home"
+            >
+              Return to the homepage →
+            </Link>
           </p>
-
-          <div className="border-t border-border pt-6 space-y-3">
-            <p>
-              <Link
-                href="/"
-                className="text-primary dark:text-[#5b9fc5] hover:underline"
-                data-testid="link-home"
-              >
-                Return to the homepage →
-              </Link>
-            </p>
-            <p className="text-sm text-muted-foreground">
-              If errors persist, contact{" "}
-              <a
-                href="mailto:ezra@chavrutai.com"
-                className="text-primary dark:text-[#5b9fc5] hover:underline"
-                data-testid="link-contact-support"
-              >
-                ezra@chavrutai.com
-              </a>
-            </p>
-          </div>
+          <p className="text-sm text-muted-foreground">
+            If errors persist, contact{" "}
+            <a
+              href="mailto:ezra@chavrutai.com"
+              className="text-primary dark:text-[#5b9fc5] hover:underline"
+              data-testid="link-contact-support"
+            >
+              ezra@chavrutai.com
+            </a>
+          </p>
         </div>
-      </main>
-
-      <Footer />
-    </div>
+      </div>
+    </PageShell>
   );
 }
