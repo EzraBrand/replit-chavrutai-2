@@ -109,7 +109,7 @@ export default function Home() {
     <div className="min-h-screen bg-background text-foreground font-sans">
       {/* Nav */}
       <header className="border-b border-border bg-background">
-        <div className="max-w-content mx-auto px-6 py-4 flex items-center justify-between">
+        <div className="max-w-content mx-auto px-6 py-4 flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
           <Link
             href="/"
             className="flex items-center gap-2"
@@ -126,7 +126,7 @@ export default function Home() {
               ChavrutAI
             </span>
           </Link>
-          <nav className="flex items-center gap-6 text-sm text-muted-foreground">
+          <nav className="flex items-center gap-4 sm:gap-6 text-sm text-muted-foreground">
             <a href="#library" className="hover:text-foreground" data-testid="nav-link-library">Library</a>
             <Link href="/search" className="hover:text-foreground" data-testid="nav-link-search">Search</Link>
             <a href="#tools" className="hover:text-foreground" data-testid="nav-link-tools">Tools</a>
