@@ -275,7 +275,7 @@ export function Footer() {
             {/* Branding */}
             <div className="text-center">
               <p className="text-sm text-muted-foreground">
-                ChavrutAI © 2025 by{" "}
+                ChavrutAI © {new Date().getFullYear()} by{" "}
                 <a 
                   href="https://www.ezrabrand.com/"
                   target="_blank"

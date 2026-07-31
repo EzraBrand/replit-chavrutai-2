@@ -1,221 +1,279 @@
-import { Link } from "wouter";
-import { Footer } from "@/components/footer";
-import { DafYomiWidget } from "@/components/DafYomiWidget";
-import { QuickSearch } from "@/components/QuickSearch";
+import { useState } from "react";
+import { Link, useLocation } from "wouter";
+import { useQuery } from "@tanstack/react-query";
+import { getTractateSlug } from "@shared/tractates";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Footer } from "@/components/footer";
+
+/*
+ * ChavrutAI homepage — "ParchmentScholar" design.
+ * Sefaria-inspired: white background, Georgia serif headings only,
+ * no icons (except the nav book SVG), text links instead of buttons
+ * (except the Search button), near-square corners, 64rem content width.
+ * Colors use the sitewide theme variables so Paper / White / Dark /
+ * High Contrast themes all apply; category bar colors have their own
+ * CSS variables with dark-mode overrides (see index.css).
+ */
+
+const CORPORA = [
+  {
+    title: "Babylonian Talmud",
+    hebrew: "תלמוד בבלי",
+    href: "/talmud",
+    color: "var(--category-talmud-bavli)",
+    featured: true,
+    description:
+      "All 37 tractates with over 5,400 pages. Navigate by Seder, tractate, chapter, or individual folio page with full bilingual Hebrew-English text.",
+    testid: "link-browse-talmud",
+  },
+  {
+    title: "Tanakh (Hebrew Bible)",
+    hebrew: "תנ״ך",
+    href: "/bible",
+    color: "var(--category-tanakh)",
+    description:
+      "Torah, Prophets, and Writings. Each book includes Hebrew text with English translation.",
+    testid: "link-browse-tanakh",
+  },
+  {
+    title: "Mishnah",
+    hebrew: "משנה",
+    href: "/mishnah",
+    color: "var(--category-mishnah)",
+    description:
+      "All 63 tractates organized by the six Sedarim with bilingual Hebrew-English text.",
+    testid: "link-browse-mishnah",
+  },
+  {
+    title: "Jerusalem Talmud",
+    hebrew: "תלמוד ירושלמי",
+    href: "/yerushalmi",
+    color: "var(--category-talmud-yerushalmi)",
+    description: "39 tractates with bilingual Hebrew-English text organized by Seder.",
+    testid: "link-browse-yerushalmi",
+  },
+  {
+    title: "Mishneh Torah",
+    hebrew: "משנה תורה",
+    href: "/rambam",
+    color: "var(--category-mishneh-torah)",
+    description:
+      "All 83 Books of the Rambam's code of Jewish law with bilingual Hebrew-English text.",
+    testid: "link-browse-rambam",
+  },
+];
+
+const TOOLS = [
+  { title: "Sugya Viewer", href: "/sugya-viewer", description: "Study custom Talmud text ranges", testid: "link-tool-sugya-viewer" },
+  { title: "Biblical Index", href: "/biblical-index", description: "Find where biblical verses are cited in the Talmud", testid: "link-tool-biblical-index" },
+  { title: "Mishnah Map", href: "/mishnah-map", description: "Locate Mishnah passages in the Talmud", testid: "link-tool-mishnah-map" },
+  { title: "Jastrow Dictionary", href: "/jastrow", description: "Talmudic Hebrew & Aramaic", testid: "link-tool-jastrow" },
+  { title: "BDB Bible Dictionary", href: "/bdb", description: "Brown-Driver-Briggs Hebrew lexicon", testid: "link-tool-bdb" },
+  { title: "J.N. Epstein's Introductions", href: "/scholarship", description: "Academic introductions to Talmudic literature", testid: "link-tool-scholarship" },
+  { title: "Talmud Term Index", href: "/term-index", description: "Browse recurring Talmudic terms", testid: "link-tool-term-index" },
+];
+
+interface DafYomiData {
+  titleEn: string;
+  ref: string;
+}
+
+function parseDafYomiRef(ref: string): { tractate: string; folio: string } | null {
+  const match = ref.match(/^([A-Za-z\s]+)\s+(\d+)([ab])?$/);
+  if (match) {
+    return {
+      tractate: getTractateSlug(match[1].trim()),
+      folio: `${match[2]}${match[3] || "a"}`,
+    };
+  }
+  return null;
+}
 
 export default function Home() {
   useSEO(generateSEOData.homePage());
+  const [query, setQuery] = useState("");
+  const [, navigate] = useLocation();
+
+  const { data: dafYomi } = useQuery<DafYomiData>({ queryKey: ["/api/daf-yomi"] });
+  const parsedDaf = dafYomi ? parseDafYomiRef(dafYomi.ref) : null;
+  const dafLink = parsedDaf ? `/talmud/${parsedDaf.tractate}/${parsedDaf.folio}` : "/talmud";
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (query.trim()) {
+      navigate(`/search?q=${encodeURIComponent(query.trim())}`);
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-background">
-      <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
-        <div className="max-w-5xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-center">
-            <Link 
-              href="/"
-              className="flex items-center space-x-2 flex-shrink-0 hover:opacity-80 transition-opacity duration-200"
-              data-testid="header-logo-link"
-            >
-              <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden">
-                <img 
-                  src="/hebrew-book-icon.png" 
-                  alt="ChavrutAI Logo" 
-                  className="w-10 h-10 object-cover"
-                />
-              </div>
-              <div className="text-xl font-semibold text-primary font-roboto">ChavrutAI</div>
-            </Link>
-          </div>
+    <div className="min-h-screen bg-background text-foreground font-sans">
+      {/* Nav */}
+      <header className="border-b border-border bg-background">
+        <div className="max-w-content mx-auto px-6 py-4 flex items-center justify-between">
+          <Link
+            href="/"
+            className="flex items-center gap-2"
+            data-testid="header-logo-link"
+          >
+            <img
+              src="/hebrew-book-icon.png"
+              alt="ChavrutAI logo"
+              className="w-8 h-8 object-cover"
+              width={32}
+              height={32}
+            />
+            <span className="text-xl font-semibold text-primary dark:text-[#5b9fc5]">
+              ChavrutAI
+            </span>
+          </Link>
+          <nav className="flex items-center gap-6 text-sm text-muted-foreground">
+            <a href="#library" className="hover:text-foreground" data-testid="nav-link-library">Library</a>
+            <Link href="/search" className="hover:text-foreground" data-testid="nav-link-search">Search</Link>
+            <a href="#tools" className="hover:text-foreground" data-testid="nav-link-tools">Tools</a>
+            <Link href="/about" className="hover:text-foreground" data-testid="nav-link-about">About ChavrutAI</Link>
+          </nav>
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-4 py-8">
-        <section className="text-center mb-10" data-testid="hero-section">
-          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-3">
+      <main className="max-w-content mx-auto px-6">
+        {/* Hero */}
+        <section className="pt-16 pb-12 text-center" data-testid="hero-section">
+          <h1 className="font-georgia text-4xl md:text-5xl text-foreground mb-4">
             Study Classical Jewish Texts
           </h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Explore the Babylonian Talmud, Jerusalem Talmud, Mishnah, Mishneh Torah, and Tanakh with bilingual Hebrew-English text
+          <p className="text-muted-foreground mb-8">
+            The Talmud, Tanakh, Mishnah, and more — with bilingual Hebrew-English text
           </p>
+          <form
+            onSubmit={handleSearch}
+            className="flex max-w-xl mx-auto"
+            data-testid="hero-search-form"
+          >
+            <input
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search the Talmud, Tanakh, and more…"
+              className="flex-1 border border-input rounded-l px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground bg-background focus:outline-none focus:border-ring"
+              data-testid="hero-search-input"
+            />
+            <button
+              type="submit"
+              className="px-5 py-2.5 text-sm font-medium rounded-r bg-primary text-primary-foreground"
+              data-testid="hero-search-button"
+            >
+              Search
+            </button>
+          </form>
         </section>
 
-        <section className="flex flex-col md:flex-row gap-6 mb-10" data-testid="primary-texts-section">
-          {/* Featured: Babylonian Talmud */}
-          <div className="md:w-[38%] flex-shrink-0">
-            <Card className="hover:shadow-lg transition-shadow duration-200 h-full bg-primary text-primary-foreground border-primary">
-              <CardContent className="p-7 flex flex-col h-full">
-                <span className="text-xs font-semibold uppercase tracking-wider opacity-70 mb-3">Featured</span>
-                <h2 className="text-2xl font-bold mb-4 leading-tight">Babylonian Talmud</h2>
-                <p className="text-sm opacity-80 mb-6 flex-1 leading-relaxed">
-                  All 37 tractates with over 5,400 pages. Navigate by Seder, tractate, chapter, or individual folio page with full bilingual Hebrew-English text.
-                </p>
-                <Link href="/talmud">
-                  <Button variant="secondary" className="w-full font-semibold" data-testid="button-browse-talmud">
-                    Browse Talmud
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* 2×2 grid: Tanakh, Mishnah / Yerushalmi, Rambam */}
-          <div className="flex-1 grid grid-cols-2 gap-4">
-            <Card className="hover:shadow-lg transition-shadow duration-200 h-full">
-              <CardContent className="p-5 flex flex-col h-full">
-                <h2 className="text-base font-semibold text-foreground mb-2 leading-tight">Tanakh (Hebrew Bible)</h2>
-                <p className="text-muted-foreground text-sm mb-4 flex-1 leading-relaxed">
-                  Torah, Prophets, and Writings. Each book includes Hebrew text with English translation.
-                </p>
-                <Link href="/bible">
-                  <Button variant="default" size="sm" className="w-full" data-testid="button-browse-tanakh">
-                    Browse Tanakh
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
-
-            <Card className="hover:shadow-lg transition-shadow duration-200 h-full">
-              <CardContent className="p-5 flex flex-col h-full">
-                <h2 className="text-base font-semibold text-foreground mb-2 leading-tight">Mishnah</h2>
-                <p className="text-muted-foreground text-sm mb-4 flex-1 leading-relaxed">
-                  All 63 tractates organized by the six Sedarim with bilingual Hebrew-English text.
-                </p>
-                <Link href="/mishnah">
-                  <Button variant="default" size="sm" className="w-full" data-testid="button-browse-mishnah">
-                    Browse Mishnah
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
-
-            <Card className="hover:shadow-lg transition-shadow duration-200 h-full">
-              <CardContent className="p-5 flex flex-col h-full">
-                <h2 className="text-base font-semibold text-foreground mb-2 leading-tight">Jerusalem Talmud</h2>
-                <p className="text-muted-foreground text-sm mb-4 flex-1 leading-relaxed">
-                  39 tractates with bilingual Hebrew-English text organized by Seder.
-                </p>
-                <Link href="/yerushalmi">
-                  <Button variant="default" size="sm" className="w-full" data-testid="button-browse-yerushalmi">
-                    Browse Yerushalmi
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
-
-            <Card className="hover:shadow-lg transition-shadow duration-200 h-full">
-              <CardContent className="p-5 flex flex-col h-full">
-                <h2 className="text-base font-semibold text-foreground mb-2 leading-tight">Mishneh Torah</h2>
-                <p className="text-muted-foreground text-sm mb-4 flex-1 leading-relaxed">
-                  All 83 Books of the Rambam's code of Jewish law with bilingual Hebrew-English text.
-                </p>
-                <Link href="/rambam">
-                  <Button variant="default" size="sm" className="w-full tracking-tight" data-testid="button-browse-rambam">
-                    Browse Mishneh Torah
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
-          </div>
-        </section>
-
-        <section className="grid md:grid-cols-3 gap-4 mb-10" data-testid="quick-actions-section">
-          <Card className="hover:shadow-lg transition-shadow duration-200">
-            <CardContent className="p-4 flex flex-col h-full">
-              <h3 className="font-semibold text-foreground mb-3">Search Texts</h3>
-              <div className="flex-1">
-                <QuickSearch />
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="hover:shadow-lg transition-shadow duration-200">
-            <CardContent className="p-4 flex flex-col h-full">
-              <h3 className="font-semibold text-foreground mb-2">Famous Talmud Pages</h3>
-              <p className="text-muted-foreground text-sm mb-3 flex-1">Discover well-known passages</p>
-              <Link href="/suggested-pages" className="block">
-                <Button variant="outline" className="w-full" data-testid="button-suggested-pages">
-                  Explore
-                </Button>
+        {/* Browse the Library */}
+        <section id="library" className="py-12 border-t border-border" data-testid="library-section">
+          <h2 className="font-georgia text-2xl mb-8">Browse the Library</h2>
+          <div className="grid md:grid-cols-2 gap-4">
+            {CORPORA.map((c) => (
+              <Link
+                key={c.href}
+                href={c.href}
+                className="block border border-border rounded bg-card p-6 hover:bg-secondary"
+                data-testid={c.testid}
+              >
+                <div
+                  className="mb-3"
+                  style={{ width: "2.5rem", height: "2px", backgroundColor: c.color }}
+                  aria-hidden="true"
+                />
+                <div className="flex items-baseline justify-between gap-4">
+                  <h3 className="font-georgia text-lg text-foreground">{c.title}</h3>
+                  <span className="text-sm text-muted-foreground" dir="rtl" lang="he">
+                    {c.hebrew}
+                  </span>
+                </div>
+                {c.featured && (
+                  <div
+                    className="text-xs font-semibold uppercase tracking-wider mt-1"
+                    style={{ color: c.color }}
+                  >
+                    Featured
+                  </div>
+                )}
+                <p className="text-sm text-muted-foreground mt-2 leading-relaxed">{c.description}</p>
               </Link>
-            </CardContent>
-          </Card>
-
-          <DafYomiWidget className="h-full" compact />
-        </section>
-
-        <section className="mb-10" data-testid="tools-section">
-          <h2 className="text-xl font-semibold text-foreground mb-4">Study Tools</h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {/* Row 1 */}
-            <Link href="/sugya-viewer" className="block">
-              <Card className="h-full hover:shadow-lg transition-shadow duration-200 cursor-pointer">
-                <CardContent className="p-4">
-                  <h3 className="font-medium text-foreground mb-2">Sugya Viewer</h3>
-                  <p className="text-sm text-muted-foreground">Study custom Talmud text ranges</p>
-                </CardContent>
-              </Card>
-            </Link>
-
-            <Link href="/biblical-index" className="block">
-              <Card className="h-full hover:shadow-lg transition-shadow duration-200 cursor-pointer">
-                <CardContent className="p-4">
-                  <h3 className="font-medium text-foreground mb-2">Biblical Index</h3>
-                  <p className="text-sm text-muted-foreground">Find where biblical verses are cited in the Talmud</p>
-                </CardContent>
-              </Card>
-            </Link>
-
-            <Link href="/mishnah-map" className="block">
-              <Card className="h-full hover:shadow-lg transition-shadow duration-200 cursor-pointer">
-                <CardContent className="p-4">
-                  <h3 className="font-medium text-foreground mb-2">Mishnah Map</h3>
-                  <p className="text-sm text-muted-foreground">Locate Mishnah passages in the Talmud</p>
-                </CardContent>
-              </Card>
-            </Link>
-
-            {/* Row 2 */}
-            <Link href="/jastrow" className="block">
-              <Card className="h-full hover:shadow-lg transition-shadow duration-200 cursor-pointer">
-                <CardContent className="p-4">
-                  <h3 className="font-medium text-foreground mb-2">Jastrow Dictionary</h3>
-                  <p className="text-sm text-muted-foreground">Talmudic Hebrew &amp; Aramaic</p>
-                </CardContent>
-              </Card>
-            </Link>
-
-            <Link href="/bdb" className="block">
-              <Card className="h-full hover:shadow-lg transition-shadow duration-200 cursor-pointer">
-                <CardContent className="p-4">
-                  <h3 className="font-medium text-foreground mb-2">BDB Bible Dictionary</h3>
-                  <p className="text-sm text-muted-foreground">Brown-Driver-Briggs Hebrew lexicon</p>
-                </CardContent>
-              </Card>
-            </Link>
-
-            <Link href="/scholarship" className="block">
-              <Card className="h-full hover:shadow-lg transition-shadow duration-200 cursor-pointer">
-                <CardContent className="p-4">
-                  <h3 className="font-medium text-foreground mb-2">J.N. Epstein's Introductions</h3>
-                  <p className="text-sm text-muted-foreground">Academic introductions to Talmudic literature</p>
-                </CardContent>
-              </Card>
-            </Link>
+            ))}
           </div>
         </section>
 
-        <section className="text-center mb-10" data-testid="about-section">
-          <Link href="/about" className="inline-flex items-center gap-1 text-primary hover:underline font-medium underline underline-offset-2" data-testid="link-about">
-            About ChavrutAI →
-          </Link>
-          <p className="text-muted-foreground text-sm mt-1">Learn more about this project</p>
+        {/* Quick access */}
+        <section className="py-12 border-t border-border" data-testid="quick-access-section">
+          <div className="grid md:grid-cols-3 md:divide-x md:divide-border">
+            <div className="md:pr-8 py-4 md:py-0">
+              <h3 className="font-georgia text-lg mb-2">Daf Yomi</h3>
+              <p className="text-sm text-muted-foreground mb-3">
+                {dafYomi?.titleEn
+                  ? `Today's page: ${dafYomi.titleEn}.`
+                  : "Join the worldwide daily page of Talmud study."}
+              </p>
+              <Link
+                href={dafLink}
+                className="text-sm hover:underline text-primary dark:text-[#5b9fc5]"
+                data-testid="link-daf-yomi"
+              >
+                Today's daf ›
+              </Link>
+            </div>
+            <div className="md:px-8 py-4 md:py-0 border-t border-border md:border-t-0">
+              <h3 className="font-georgia text-lg mb-2">Famous Pages</h3>
+              <p className="text-sm text-muted-foreground mb-3">
+                Discover well-known passages of the Talmud.
+              </p>
+              <Link
+                href="/suggested-pages"
+                className="text-sm hover:underline text-primary dark:text-[#5b9fc5]"
+                data-testid="link-famous-pages"
+              >
+                Explore famous pages ›
+              </Link>
+            </div>
+            <div className="md:pl-8 py-4 md:py-0 border-t border-border md:border-t-0">
+              <h3 className="font-georgia text-lg mb-2">Search Texts</h3>
+              <p className="text-sm text-muted-foreground mb-3">
+                Full-text search across the Talmud and Tanakh.
+              </p>
+              <Link
+                href="/search"
+                className="text-sm hover:underline text-primary dark:text-[#5b9fc5]"
+                data-testid="link-search-texts"
+              >
+                Search texts ›
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* Study Tools */}
+        <section id="tools" className="py-12 border-t border-border" data-testid="tools-section">
+          <h2 className="font-georgia text-2xl mb-8">Study Tools</h2>
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-x-8 gap-y-6">
+            {TOOLS.map((t) => (
+              <div key={t.href}>
+                <Link
+                  href={t.href}
+                  className="text-sm font-medium hover:underline text-primary dark:text-[#5b9fc5]"
+                  data-testid={t.testid}
+                >
+                  {t.title}
+                </Link>
+                <p className="text-sm text-muted-foreground mt-1">{t.description}</p>
+              </div>
+            ))}
+          </div>
         </section>
       </main>
 
-      <Footer />
+      {/* Sitewide footer */}
+      <div className="mt-8 [&>footer]:mt-0">
+        <Footer />
+      </div>
     </div>
   );
 }

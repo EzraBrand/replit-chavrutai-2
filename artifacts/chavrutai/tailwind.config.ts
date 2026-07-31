@@ -41,6 +41,12 @@ export default {
           DEFAULT: "var(--destructive)",
           foreground: "var(--destructive-foreground)",
         },
+        /* ParchmentScholar text-category palette (fixed hex, homepage) */
+        "talmud-bavli": "#4b7a8a",
+        tanakh: "#5a7a4a",
+        mishnah: "#7a5a4a",
+        "talmud-yerushalmi": "#6a5a8a",
+        "mishneh-torah": "#8a6a3a",
         border: "var(--border)",
         input: "var(--input)",
         ring: "var(--ring)",
@@ -87,6 +93,10 @@ export default {
       fontFamily: {
         'roboto': ['Roboto', 'sans-serif'],
         'playfair': ['Playfair Display', 'serif'],
+        'georgia': ['Georgia', 'serif'],
+      },
+      maxWidth: {
+        content: "64rem",
       },
     },
   },

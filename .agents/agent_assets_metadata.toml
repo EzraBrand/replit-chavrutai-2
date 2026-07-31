@@ -1,8 +1,3 @@
 uploads = []
 generated = []
-
-[[outputs]]
-id = "IidxH4lFleOHUjYRK0tUs"
-uri = "file://MIGRATION_STATUS.md"
-type = "text"
-title = "ChavrutAI Migration — Status & Decision Brief"
+outputs = []

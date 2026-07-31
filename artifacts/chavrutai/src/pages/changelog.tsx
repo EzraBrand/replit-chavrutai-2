@@ -61,6 +61,28 @@ export default function Changelog() {
       {/* Changelog Content */}
       <div className="bg-white dark:bg-sepia-900 rounded-lg shadow-lg p-6 max-w-4xl">
 
+        {/* July 2026 */}
+        <div className="mb-8">
+          <h2 className="text-xl font-semibold text-sepia-800 dark:text-sepia-200 mb-4 border-b border-sepia-200 dark:border-sepia-700 pb-2">
+            July 2026
+          </h2>
+
+          <div className="space-y-4 text-sepia-700 dark:text-sepia-300">
+
+            <div>
+              <h3 className="font-medium text-sepia-800 dark:text-sepia-200 mb-2">Homepage Redesign — "ParchmentScholar" (July 31)</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Redesigned the homepage with a clean, scholarly look: white background, Georgia serif headings, navy text links, and near-square corners.</li>
+                <li>Each of the five text collections (Babylonian Talmud, Tanakh, Mishnah, Jerusalem Talmud, Mishneh Torah) now has its own signature color, shown as a short underline bar above its title, with Hebrew names alongside the English.</li>
+                <li>New hero section with a prominent search bar, a quick-access row (today's Daf Yomi, Famous Pages, Search), and a simplified Study Tools section of plain text links.</li>
+                <li>Removed heavy cards, shadows, and icon clutter for a lighter, faster page; the footer copyright year now updates automatically.</li>
+                <li>Documented the new design language in the codebase so the rest of the site can adopt the same uniform style.</li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+
         {/* June 2026 */}
         <div className="mb-8">
           <h2 className="text-xl font-semibold text-sepia-800 dark:text-sepia-200 mb-4 border-b border-sepia-200 dark:border-sepia-700 pb-2">

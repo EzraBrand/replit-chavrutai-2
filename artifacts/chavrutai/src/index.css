@@ -19,6 +19,13 @@
   --sepia-800: hsl(8, 10%, 22%);
   --sepia-900: hsl(5, 8%, 15%);
   
+  /* ParchmentScholar text-category bar colors */
+  --category-talmud-bavli: #4b7a8a;
+  --category-tanakh: #5a7a4a;
+  --category-mishnah: #7a5a4a;
+  --category-talmud-yerushalmi: #6a5a8a;
+  --category-mishneh-torah: #8a6a3a;
+
   /* Talmud-specific colors */
   --talmud-brown: hsl(20, 60%, 35%);
   --talmud-lightbrown: hsl(25, 55%, 45%);
@@ -73,6 +80,13 @@
 
 /* Dark Theme (moderate, similar to GitHub/Replit) */
 .dark {
+  /* Brighter category bar colors for dark surfaces */
+  --category-talmud-bavli: #6b9dac;
+  --category-tanakh: #7a9a6a;
+  --category-mishnah: #9a7a6a;
+  --category-talmud-yerushalmi: #8a7aaa;
+  --category-mishneh-torah: #aa8a5a;
+
   --background: hsl(220, 13%, 18%);
   --foreground: hsl(210, 20%, 90%);
   --muted: hsl(220, 14%, 25%);
