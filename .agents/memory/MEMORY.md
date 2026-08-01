@@ -3,4 +3,5 @@
 - [BDB tag splitter](bdb-tag-splitter.md) — BDB uses literal < and > as scholarly markers; expandAbbreviations must split on real tags only or abbrevs after a bare < silently never expand.
 - [Validation vs Run button](validation-runbutton.md) — registering a validation command can rewrite .replit's Project run-button workflow to only run the check; verify Run still starts the app services.
 - [BDB space-before-sup](bdb-sup-space.md) — `X <sup>` (space) made convertSupTagsToParens emit a double space, silently breaking single-space contextual keys like "Dl (Par"; now normalized.
+- [Sitemap proxy routing](sitemap-proxy.md) — shared proxy keeps the /api prefix; api-server root routes are unreachable from the domain, so root XML/crawler paths need /api aliases + web-server proxy (express in prod, Vite middleware in dev).
 - [Favicon glyph portability](favicon-glyph-portability.md) — icon/favicon SVGs must be self-contained (outline text to paths); named font families silently fall back off-machine.

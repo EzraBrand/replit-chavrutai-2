@@ -1,4 +1,4 @@
-import express, { type Express } from "express";
+import express, { type Express, type Request, type Response } from "express";
 import { createServer, type Server } from "http";
 import path from "path";
 import { getTractateSlug } from "@workspace/shared-data/tractates";
@@ -242,21 +242,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/sitemap.xml', generateSitemapIndex);
-  app.get('/sitemap-main.xml', generateMainSitemap);
-  app.get('/sitemap-bible.xml', async (req, res) => {
-    const { generateBibleSitemap } = await import('./routes/sitemap-bible');
-    generateBibleSitemap(req, res);
-  });
-  app.get('/sitemap-seder-zeraim.xml', generateSederSitemap('zeraim'));
-  app.get('/sitemap-seder-moed.xml', generateSederSitemap('moed'));
-  app.get('/sitemap-seder-nashim.xml', generateSederSitemap('nashim'));
-  app.get('/sitemap-seder-nezikin.xml', generateSederSitemap('nezikin'));
-  app.get('/sitemap-seder-kodashim.xml', generateSederSitemap('kodashim'));
-  app.get('/sitemap-seder-tohorot.xml', generateSederSitemap('tohorot'));
-  app.get('/sitemap-mishnah.xml', generateMishnahSitemap);
-  app.get('/sitemap-yerushalmi.xml', generateYerushalmiSitemap);
-  app.get('/sitemap-rambam.xml', generateRambamSitemap);
+  // Sitemap generators. Registered both at the root path (legacy/direct access)
+  // and under the /api prefix, because the shared proxy forwards requests to
+  // this server with the /api prefix intact. The chavrutai web server proxies
+  // root-domain /sitemap*.xml requests to the /api-prefixed versions.
+  const sitemapRoutes: Record<string, (req: Request, res: Response) => void> = {
+    '/sitemap.xml': generateSitemapIndex,
+    '/sitemap-main.xml': generateMainSitemap,
+    '/sitemap-bible.xml': async (req, res) => {
+      const { generateBibleSitemap } = await import('./routes/sitemap-bible');
+      generateBibleSitemap(req, res);
+    },
+    '/sitemap-seder-zeraim.xml': generateSederSitemap('zeraim'),
+    '/sitemap-seder-moed.xml': generateSederSitemap('moed'),
+    '/sitemap-seder-nashim.xml': generateSederSitemap('nashim'),
+    '/sitemap-seder-nezikin.xml': generateSederSitemap('nezikin'),
+    '/sitemap-seder-kodashim.xml': generateSederSitemap('kodashim'),
+    '/sitemap-seder-tohorot.xml': generateSederSitemap('tohorot'),
+    '/sitemap-mishnah.xml': generateMishnahSitemap,
+    '/sitemap-yerushalmi.xml': generateYerushalmiSitemap,
+    '/sitemap-rambam.xml': generateRambamSitemap,
+  };
+  for (const [route, handler] of Object.entries(sitemapRoutes)) {
+    app.get(route, handler);
+    app.get(`/api${route}`, handler);
+  }
 
   app.get("/api/glossary", async (_req, res) => {
     const glossary = (await import("@workspace/shared-data/data/glossary_v4.json")).default;

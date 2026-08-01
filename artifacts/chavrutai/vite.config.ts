@@ -25,10 +25,44 @@ if (!basePath) {
   );
 }
 
+// Dev-only sitemap proxy. In production the express server (src/server/index.ts)
+// proxies /sitemap*.xml to the api-server; in dev Vite serves the app, so this
+// middleware provides the same behavior. Fixed base URL (local shared proxy) —
+// never derived from inbound Host headers.
+const SITEMAP_PATH_RE = /^\/sitemap(-[a-z-]+)?\.xml$/;
+const sitemapDevProxy = () => ({
+  name: "sitemap-dev-proxy",
+  configureServer(server: import("vite").ViteDevServer) {
+    server.middlewares.use(async (req, res, next) => {
+      const urlPath = (req.url || "").split("?")[0];
+      if (req.method !== "GET" || !SITEMAP_PATH_RE.test(urlPath)) return next();
+      try {
+        const resp = await fetch(`http://localhost:80/api${urlPath}`, {
+          headers: { "user-agent": "chavrutai-sitemap-proxy" },
+        });
+        if (!resp.ok) {
+          res.statusCode = 503;
+          res.setHeader("Content-Type", "text/plain");
+          res.end("Sitemap temporarily unavailable");
+          return;
+        }
+        res.statusCode = 200;
+        res.setHeader("Content-Type", "application/xml");
+        res.end(await resp.text());
+      } catch {
+        res.statusCode = 503;
+        res.setHeader("Content-Type", "text/plain");
+        res.end("Sitemap temporarily unavailable");
+      }
+    });
+  },
+});
+
 export default defineConfig({
   base: basePath,
   plugins: [
     react(),
+    sitemapDevProxy(),
     runtimeErrorOverlay(),
     ...(process.env.NODE_ENV !== "production" &&
     process.env.REPL_ID !== undefined

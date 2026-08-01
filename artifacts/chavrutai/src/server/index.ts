@@ -190,6 +190,37 @@ app.use((req, res, next) => {
   next();
 });
 
+// Sitemap proxy: the sitemap generators live on the api-server, which the
+// shared proxy exposes under the /api prefix. Serve /sitemap.xml and every
+// /sitemap-*.xml at the root domain by fetching the /api-prefixed route over
+// the same FIXED base URL used for SEO enhancement (never derived from inbound
+// Host headers). On failure return 503 — never the SPA HTML shell — so
+// crawlers can't index an HTML page as a sitemap.
+const SITEMAP_PATH_RE = /^\/sitemap(-[a-z-]+)?\.xml$/;
+app.get(SITEMAP_PATH_RE, async (req, res) => {
+  try {
+    const target = `${ENHANCE_BASE_URL}/api${req.path}`;
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10000);
+    try {
+      const resp = await fetch(target, {
+        signal: controller.signal,
+        headers: { "user-agent": "chavrutai-sitemap-proxy" },
+      });
+      if (!resp.ok) {
+        res.status(503).type("text/plain").send("Sitemap temporarily unavailable");
+        return;
+      }
+      const xml = await resp.text();
+      res.status(200).set("Content-Type", "application/xml").send(xml);
+    } finally {
+      clearTimeout(timeout);
+    }
+  } catch {
+    res.status(503).type("text/plain").send("Sitemap temporarily unavailable");
+  }
+});
+
 // Crawler interceptor: serve per-page meta/JSON-LD/body for bots only. Human
 // visitors fall through to static assets + the SPA shell unchanged.
 app.use(async (req, res, next) => {
