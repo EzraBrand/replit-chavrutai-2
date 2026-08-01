@@ -37,6 +37,8 @@ Order of operations in `processBibleEnglish()`: ordinals → then cardinals.
 
 **IMPORTANT — duplicated config:** this JSON exists in BOTH `artifacts/chavrutai/src/shared/data/` (client) and `artifacts/api-server/src/shared/data/` (server). The API server runs `processEnglishText` on Talmud English before the client ever sees it, so a rule added only to the chavrutai copy will NOT fix production output — the server mangles the text first and the client rule no longer matches. Always add term-replacement rules to both files.
 
+An automated drift check enforces this: `node scripts/check-shared-drift.mjs` (also registered as the `shared-drift` validation step) fails if `text-processing.ts`, `number-parser.ts`, `term-replacements-schema.ts`, or `data/term-replacements.json` differ between the two artifacts. Run it after any change to these files.
+
 Runs via `replaceTerms()`. Handles special cases:
 - `ordinals_fractional`: "one-third" → "1/3rd", "two-fifths" → "2/5ths"
 - `time_ordinals`: "the fifth day" → "the 5th day", "the tenth month" → "the 10th month"

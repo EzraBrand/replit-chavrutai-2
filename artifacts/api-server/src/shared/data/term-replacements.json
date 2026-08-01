@@ -192,6 +192,8 @@
         "blue eye shadow": "kohl",
         "blue shadow": "kohl",
         "eye shadow": "kohl",
+        "Temple candelabrum": "Temple menorah",
+        "shewbread": "showbread",
         "bathroom": "latrine",
         "bathrooms": "latrines",
         "lavatory": "latrine"
@@ -204,7 +206,8 @@
         "Shabbat eve": "Friday",
         "the eve of Shabbat": "Friday",
         "the Day of Atonement": "Yom Kippur",
-        "Day of Atonement": "Yom Kippur"
+        "Day of Atonement": "Yom Kippur",
+        "the New Moon": "Rosh Chodesh"
       }
     },
     "time_hebrew_dates": {
