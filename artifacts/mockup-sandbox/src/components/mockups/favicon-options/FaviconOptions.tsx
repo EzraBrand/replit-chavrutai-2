@@ -1,6 +1,8 @@
 // Favicon design options for Bekiut — each shown at 96px, 32px, and 16px
 // plus a simulated browser tab, so legibility at tiny sizes is visible.
 
+import type * as React from "react";
+
 const NAVY = "#1b4a6e";
 const CREAM = "#f7f1e8";
 const GOLD = "#c9a35c";
@@ -10,7 +12,7 @@ type Variant = {
   id: string;
   name: string;
   note: string;
-  svg: (size: number) => JSX.Element;
+  svg: (size: number) => React.JSX.Element;
 };
 
 const variants: Variant[] = [
