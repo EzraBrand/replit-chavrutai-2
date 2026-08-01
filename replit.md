@@ -16,7 +16,7 @@ Scholarly, quiet, typography-first — no decorative icons, no bright colors, no
 
 ## Recent Major Changes (mid-2026)
 
-Four big changes landed in quick succession; see `PROJECT-REVIEW-2026-08.md` for the full health review:
+Four big changes landed in quick succession; see `docs/reviews/PROJECT-REVIEW-2026-08.md` (local only, gitignored) for the full health review:
 - **pnpm monorepo migration** — shared code now lives in `lib/*` packages (`@workspace/text-processing`, `@workspace/shared-data`); no more duplicated modules between web and API server.
 - **Rebrand: ChavrutAI → Bekiut** — canonical domain is bekiut.com; chavrutai.com 301-redirects. Twitter handle stays @ChavrutAI intentionally.
 - **ParchmentScholar redesign** — all pages use the shared `PageShell` layout.

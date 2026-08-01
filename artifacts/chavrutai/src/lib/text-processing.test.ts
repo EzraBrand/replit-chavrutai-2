@@ -278,7 +278,7 @@ describe('English Text Processing', () => {
     // KNOWN-FAILING (pre-existing): plain-text colons are intentionally not a
     // split point in splitEnglishText (only bolded/cross-tag colons split), so
     // 'It is stated:' stays on one line. Marked it.fails so a NEW failure in
-    // this area is still visible. See PROJECT-REVIEW-2026-08.md.
+    // this area is still visible. See docs/reviews/PROJECT-REVIEW-2026-08.md.
     it.fails('should handle nested quotes', () => {
       const input = 'It is stated: "And he said, \'My Lord, God, by what shall I know?\'"';
       const result = splitEnglishText(input);
