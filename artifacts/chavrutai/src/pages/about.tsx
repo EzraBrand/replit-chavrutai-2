@@ -589,7 +589,7 @@ export default function About() {
                   <div className="flex items-start justify-between gap-2">
                     <div>
                       <h3 className="font-medium text-foreground text-sm leading-snug">
-                        Bekiut's Talmud Translation Processing Approach
+                        ChavrutAI's Talmud Translation Processing Approach
                       </h3>
                       <p className="text-xs text-muted-foreground mt-1">
                         Dec 29, 2025
@@ -607,7 +607,7 @@ export default function About() {
                   <div className="flex items-start justify-between gap-2">
                     <div>
                       <h3 className="font-medium text-foreground text-sm leading-snug">
-                        Bekiut's New Homepage: A Fresh Entry Point for the Study of Classical Jewish Texts
+                        ChavrutAI's New Homepage: A Fresh Entry Point for the Study of Classical Jewish Texts
                       </h3>
                       <p className="text-xs text-muted-foreground mt-1">
                         Dec 28, 2025
@@ -625,7 +625,7 @@ export default function About() {
                   <div className="flex items-start justify-between gap-2">
                     <div>
                       <h3 className="font-medium text-foreground text-sm leading-snug">
-                        Bekiut Talmud Web App Launch: Review and Comparison with Similar Platforms
+                        ChavrutAI Talmud Web App Launch: Review and Comparison with Similar Platforms
                       </h3>
                       <p className="text-xs text-muted-foreground mt-1">
                         Aug 05, 2025

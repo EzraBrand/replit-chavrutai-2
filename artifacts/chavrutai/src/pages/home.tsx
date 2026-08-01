@@ -116,7 +116,7 @@ export default function Home() {
             data-testid="header-logo-link"
           >
             <img
-              src="/hebrew-book-icon.png"
+              src="/favicon-192x192.png"
               alt="Bekiut logo"
               className="w-8 h-8 object-cover"
               width={32}

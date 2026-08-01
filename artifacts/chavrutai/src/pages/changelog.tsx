@@ -43,6 +43,14 @@ export default function Changelog() {
           <div className="space-y-4 text-muted-foreground">
 
             <div>
+              <h3 className="font-medium text-foreground mb-2">Header Logo Updated to Bekiut Icon (August 1)</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>The site header and mobile menu now show the new Bekiut "ב" monogram instead of the old ChavrutAI book icon.</li>
+                <li>Restored the original ChavrutAI names in the blog-article titles on the About page — they refer to published posts and are kept as a historical record.</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-foreground mb-2">Number Display Fix: "Ten Thousands" (August 1)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Fixed plural myriads (Hebrew <strong>רבבות</strong>) displaying incorrectly in English Talmud text: "ten thousands" now renders as "10,000s" instead of "10 thousands", and "two ten-thousands" as "two 10,000s" instead of "12-thousands" (e.g. Yevamot 63b–64a).</li>
