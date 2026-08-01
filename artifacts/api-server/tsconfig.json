@@ -5,12 +5,16 @@
     "tsBuildInfoFile": ".tsbuildinfo",
     "outDir": "dist",
     "rootDir": "src",
-    "types": ["node"]
+    "types": ["node"],
+    "resolveJsonModule": true
   },
   "include": ["src"],
   "references": [
     {
       "path": "../../lib/db"
+    },
+    {
+      "path": "../../lib/text-processing"
     },
     {
       "path": "../../lib/api-zod"

@@ -9,7 +9,7 @@ description: Add, modify, or debug number-word-to-digit conversion rules. Use wh
 
 Number-word-to-digit conversion happens in multiple layers depending on text type.
 
-### Layer 1: Algorithmic Cardinal Parser — `shared/number-parser.ts`
+### Layer 1: Algorithmic Cardinal Parser — `lib/text-processing/src/number-parser.ts`
 
 Converts contiguous English number-word sequences to digits:
 - `parseNumbers(text)` — main entry point, replaces all number-word sequences in text
@@ -33,11 +33,9 @@ Coverage:
 
 Order of operations in `processBibleEnglish()`: ordinals → then cardinals.
 
-### Layer 3: Static Term Replacements — `shared/data/term-replacements.json`
+### Layer 3: Static Term Replacements — `lib/text-processing/src/data/term-replacements.json`
 
-**IMPORTANT — duplicated config:** this JSON exists in BOTH `artifacts/chavrutai/src/shared/data/` (client) and `artifacts/api-server/src/shared/data/` (server). The API server runs `processEnglishText` on Talmud English before the client ever sees it, so a rule added only to the chavrutai copy will NOT fix production output — the server mangles the text first and the client rule no longer matches. Always add term-replacement rules to both files.
-
-An automated drift check enforces this: `node scripts/check-shared-drift.mjs` (also registered as the `shared-drift` validation step) fails if `text-processing.ts`, `number-parser.ts`, `term-replacements-schema.ts`, or `data/term-replacements.json` differ between the two artifacts. Run it after any change to these files.
+**Single shared package:** `text-processing.ts`, `number-parser.ts`, `term-replacements-schema.ts`, and `data/term-replacements.json` live in ONE place: `lib/text-processing/src/` (workspace package `@workspace/text-processing`), imported by both the chavrutai client and the api-server. Edit the files there once — there are no duplicated copies anymore, and the old drift-check script/validation has been removed.
 
 Runs via `replaceTerms()`. Handles special cases:
 - `ordinals_fractional`: "one-third" → "1/3rd", "two-fifths" → "2/5ths"
@@ -48,7 +46,7 @@ Runs via `replaceTerms()`. Handles special cases:
 ## Where Each Text Type Gets Processed
 
 ### Talmud / Mishnah / Yerushalmi
-- `shared/text-processing.ts` → `replaceTerms()` (term replacements + ordinals) → `parseNumbers()` (cardinals)
+- `lib/text-processing/src/text-processing.ts` → `replaceTerms()` (term replacements + ordinals) → `parseNumbers()` (cardinals)
 - Both layers apply in sequence
 
 ### Bible
@@ -88,13 +86,13 @@ Update `convertOrdinals()` in `server/lib/bible-text-processing.ts`:
 - New standalone ordinal → add to `STANDALONE_ORDINAL_MAP`
 
 ### For Talmud/Mishnah ordinals or fractions:
-Add to the appropriate section in `shared/data/term-replacements.json`:
+Add to the appropriate section in `lib/text-processing/src/data/term-replacements.json`:
 - `ordinals_fractional` for fractions (one-third, two-fifths)
 - `time_ordinals` for time-context ordinals (the fifth day → the 5th day)
 - `ordinals_basic` for standalone ordinals (third → 3rd)
 
 ### For cardinal number issues:
-Fix in `shared/number-parser.ts`:
+Fix in `lib/text-processing/src/number-parser.ts`:
 - Missing word → add to `UNIT_MAP` or `MAGNITUDE_MAP`
 - False positive → add to `STANDALONE_EXCLUSIONS`
 - Connector issue → update `CONNECTOR` regex
@@ -107,7 +105,7 @@ Term replacement rules must not be so broad they match ordinal/prose contexts. T
 
 For simple term-replacement additions (adding entries to `term-replacements.json`), testing is usually unnecessary — just validate the JSON is well-formed:
 ```bash
-python3 -c "import json; json.load(open('shared/data/term-replacements.json')); print('Valid JSON')"
+python3 -c "import json; json.load(open('lib/text-processing/src/data/term-replacements.json')); print('Valid JSON')"
 ```
 Then restart the app. The change will take effect on the rendered page.
 

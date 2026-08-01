@@ -15,7 +15,7 @@ import {
   containsHebrew,
   normalizeApiText,
   processHebrewTextCore
-} from '@shared/text-processing';
+} from '@workspace/text-processing';
 import { ALL_BIBLE_BOOKS } from '@shared/bible-books';
 
 // Re-export all shared text processing functions

@@ -178,6 +178,9 @@ importers:
       '@workspace/db':
         specifier: workspace:*
         version: link:../../lib/db
+      '@workspace/text-processing':
+        specifier: workspace:*
+        version: link:../../lib/text-processing
       cookie-parser:
         specifier: ^1.4.7
         version: 1.4.7
@@ -375,6 +378,9 @@ importers:
       '@workspace/api-client-react':
         specifier: workspace:*
         version: link:../../lib/api-client-react
+      '@workspace/text-processing':
+        specifier: workspace:*
+        version: link:../../lib/text-processing
       autoprefixer:
         specifier: ^10.5.2
         version: 10.5.2(postcss@8.5.15)
@@ -452,54 +458,6 @@ importers:
         version: 7.3.5(@types/node@25.9.4)(jiti@2.7.0)(lightningcss@1.32.0)(tsx@4.22.4)(yaml@2.9.0)
       wouter:
         specifier: ^3.3.5
-        version: 3.10.0(react@19.1.0)
-      zod:
-        specifier: 'catalog:'
-        version: 3.25.76
-
-  artifacts/chavrutai-overview:
-    devDependencies:
-      '@replit/vite-plugin-cartographer':
-        specifier: 'catalog:'
-        version: 0.5.21
-      '@replit/vite-plugin-dev-banner':
-        specifier: 'catalog:'
-        version: 0.1.2
-      '@replit/vite-plugin-runtime-error-modal':
-        specifier: 'catalog:'
-        version: 0.0.6
-      '@tailwindcss/vite':
-        specifier: 'catalog:'
-        version: 4.3.1(vite@7.3.5(@types/node@25.9.4)(jiti@2.7.0)(lightningcss@1.32.0)(tsx@4.22.4)(yaml@2.9.0))
-      '@types/node':
-        specifier: 'catalog:'
-        version: 25.9.4
-      '@types/react':
-        specifier: 'catalog:'
-        version: 19.2.17
-      '@types/react-dom':
-        specifier: 'catalog:'
-        version: 19.2.3(@types/react@19.2.17)
-      '@vitejs/plugin-react':
-        specifier: 'catalog:'
-        version: 5.2.0(vite@7.3.5(@types/node@25.9.4)(jiti@2.7.0)(lightningcss@1.32.0)(tsx@4.22.4)(yaml@2.9.0))
-      react:
-        specifier: 'catalog:'
-        version: 19.1.0
-      react-dom:
-        specifier: 'catalog:'
-        version: 19.1.0(react@19.1.0)
-      tailwindcss:
-        specifier: 'catalog:'
-        version: 4.3.1
-      tsx:
-        specifier: 'catalog:'
-        version: 4.22.4
-      vite:
-        specifier: 'catalog:'
-        version: 7.3.5(@types/node@25.9.4)(jiti@2.7.0)(lightningcss@1.32.0)(tsx@4.22.4)(yaml@2.9.0)
-      wouter:
-        specifier: 'catalog:'
         version: 3.10.0(react@19.1.0)
       zod:
         specifier: 'catalog:'
@@ -730,6 +688,12 @@ importers:
       drizzle-kit:
         specifier: ^0.31.10
         version: 0.31.10
+
+  lib/text-processing:
+    dependencies:
+      zod:
+        specifier: 'catalog:'
+        version: 3.25.76
 
   scripts:
     devDependencies:

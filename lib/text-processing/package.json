@@ -1,0 +1,15 @@
+{
+  "name": "@workspace/text-processing",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/text-processing.ts",
+    "./number-parser": "./src/number-parser.ts",
+    "./term-replacements-schema": "./src/term-replacements-schema.ts",
+    "./data/term-replacements.json": "./src/data/term-replacements.json"
+  },
+  "dependencies": {
+    "zod": "catalog:"
+  }
+}

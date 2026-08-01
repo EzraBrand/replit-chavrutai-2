@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { getRambamHilchotInfo, RAMBAM_INTRODUCTION } from "../shared/rambam-data";
-import { processHebrewTextCore as processHebrewText } from "../shared/text-processing";
+import { processHebrewTextCore as processHebrewText } from "@workspace/text-processing";
 
 const sefariaAPIBaseURL = "https://www.sefaria.org/api";
 

@@ -75,7 +75,8 @@
     "vaul": "^1.1.2",
     "vite": "catalog:",
     "wouter": "^3.3.5",
-    "zod": "catalog:"
+    "zod": "catalog:",
+    "@workspace/text-processing": "workspace:*"
   },
   "dependencies": {
     "@types/dompurify": "^3.2.0",

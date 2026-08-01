@@ -2,7 +2,7 @@ import { Router } from "express";
 import fs from "fs";
 import path from "path";
 import { getYerushalmiTractateInfo, YERUSHALMI_TRACTATES } from "../shared/yerushalmi-data";
-import { processHebrewTextCore as processHebrewText, processEnglishText } from "../shared/text-processing";
+import { processHebrewTextCore as processHebrewText, processEnglishText } from "@workspace/text-processing";
 import { isYerushalmiHalakhahMissing } from "../shared/yerushalmi-missing";
 
 const sefariaAPIBaseURL = "https://www.sefaria.org/api";

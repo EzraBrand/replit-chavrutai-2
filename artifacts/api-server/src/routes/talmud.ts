@@ -2,7 +2,7 @@ import { Router } from "express";
 import { z } from "zod/v4";
 import { storage } from "../storage";
 import { normalizeSefariaTractateName, isValidTractate } from "../shared/tractates";
-import { processHebrewTextCore as processHebrewText, processEnglishText } from "../shared/text-processing";
+import { processHebrewTextCore as processHebrewText, processEnglishText } from "@workspace/text-processing";
 
 const sefariaAPIBaseURL = "https://www.sefaria.org/api";
 

@@ -3,7 +3,7 @@
  * Handles Hebrew cantillation splitting and English formatting for Bible texts
  */
 
-import { parseNumbers } from '../shared/number-parser';
+import { parseNumbers } from '@workspace/text-processing/number-parser';
 
 const TENS_MAP: Record<string, number> = {
   ten: 10, eleven: 11, twelf: 12, thirteen: 13, fourteen: 14,

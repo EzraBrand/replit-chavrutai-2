@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { useSEO } from "@/hooks/use-seo";
 import { getStaticSEO } from "@shared/seo-data";
 import { PageShell, PageHeader, SectionHeading } from "@/components/layout";
-import termReplacements from "@shared/data/term-replacements.json";
+import termReplacements from "@workspace/text-processing/data/term-replacements.json";
 
 interface CategoryData {
   description: string;
