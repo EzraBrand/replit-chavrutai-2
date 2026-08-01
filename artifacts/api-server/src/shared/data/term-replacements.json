@@ -507,6 +507,15 @@
         "two fingers": "2 fingers",
         "Two fingers": "2 fingers"
       }
+    },
+    "number_myriads": {
+      "description": "Plural myriads (ten thousands / rivevot) — must be consumed before the cardinal parser turns 'ten' into '10'",
+      "terms": {
+        "ten thousands": "10,000s",
+        "ten-thousands": "10,000s",
+        "Ten thousands": "10,000s",
+        "Ten-thousands": "10,000s"
+      }
     }
   }
 }

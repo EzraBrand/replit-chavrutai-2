@@ -34,6 +34,24 @@ export default function Changelog() {
       {/* Changelog Content */}
       <div>
 
+        {/* August 2026 */}
+        <div className="py-8 border-t border-border">
+          <SectionHeading className="mb-4">
+            August 2026
+          </SectionHeading>
+
+          <div className="space-y-4 text-muted-foreground">
+
+            <div>
+              <h3 className="font-medium text-foreground mb-2">Number Display Fix: "Ten Thousands" (August 1)</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Fixed plural myriads (Hebrew <strong>רבבות</strong>) displaying incorrectly in English Talmud text: "ten thousands" now renders as "10,000s" instead of "10 thousands", and "two ten-thousands" as "two 10,000s" instead of "12-thousands" (e.g. Yevamot 63b–64a).</li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+
         {/* July 2026 */}
         <div className="py-8 border-t border-border">
           <SectionHeading className="mb-4">
