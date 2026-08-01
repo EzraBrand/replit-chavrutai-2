@@ -1,5 +1,4 @@
 export { HeaderSimple } from "./header-simple";
-export { HeaderNavigation } from "./header-navigation";
 export {
   PageShell,
   PageHeader,
