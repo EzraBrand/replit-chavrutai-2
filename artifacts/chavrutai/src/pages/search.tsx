@@ -5,12 +5,12 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { PageShell, PageHeader, SectionHeading } from "@/components/layout";
 import { useSEO } from "@/hooks/use-seo";
-import { getStaticSEO } from "@shared/seo-data";
+import { getStaticSEO } from "@workspace/shared-data/seo-data";
 import { SEARCH_SUGGESTIONS } from "@/data/search-suggestions";
 import { removeNikud, containsHebrew } from "@/lib/text-processing";
-import type { TextSearchResponse, SearchResult } from "@shared/schema";
-import { getTractateSlug } from "@shared/tractates";
-import { getBookBySlug } from "@shared/bible-books";
+import type { TextSearchResponse, SearchResult } from "@workspace/shared-data/schema";
+import { getTractateSlug } from "@workspace/shared-data/tractates";
+import { getBookBySlug } from "@workspace/shared-data/bible-books";
 
 function getUrlParams() {
   const p = new URLSearchParams(window.location.search);

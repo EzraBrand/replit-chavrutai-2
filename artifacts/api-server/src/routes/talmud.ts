@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { z } from "zod/v4";
 import { storage } from "../storage";
-import { normalizeSefariaTractateName, isValidTractate } from "../shared/tractates";
+import { normalizeSefariaTractateName, isValidTractate } from "@workspace/shared-data/tractates";
 import { processHebrewTextCore as processHebrewText, processEnglishText } from "@workspace/text-processing";
 
 const sefariaAPIBaseURL = "https://www.sefaria.org/api";
@@ -30,7 +30,7 @@ export function createTalmudRouter(): Router {
         return;
       }
       
-      const { isValidPage } = await import('../shared/talmud-navigation');
+      const { isValidPage } = await import('@workspace/shared-data/talmud-navigation');
       if (!isValidPage(tractate, folio, side as 'a' | 'b')) {
         res.status(404).json({ error: `Page does not exist: ${tractate} ${folio}${side}` });
         return;
@@ -119,7 +119,7 @@ export function createTalmudRouter(): Router {
   router.get("/api/tractates", async (req, res) => {
     try {
       const { work } = tractateListSchema.parse(req.query);
-      const { TRACTATE_LISTS } = await import('../shared/tractates');
+      const { TRACTATE_LISTS } = await import('@workspace/shared-data/tractates');
       
       res.json({ tractates: TRACTATE_LISTS[work as keyof typeof TRACTATE_LISTS] || [] });
     } catch (error) {
@@ -131,7 +131,7 @@ export function createTalmudRouter(): Router {
     try {
       const { tractate } = z.object({ tractate: z.string() }).parse(req.query);
       
-      const { TRACTATE_FOLIO_RANGES } = await import('../shared/tractates');
+      const { TRACTATE_FOLIO_RANGES } = await import('@workspace/shared-data/tractates');
       
       const maxFolio = TRACTATE_FOLIO_RANGES[tractate as keyof typeof TRACTATE_FOLIO_RANGES] || 150;
       

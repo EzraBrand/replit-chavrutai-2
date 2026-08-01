@@ -11,13 +11,13 @@ import { BreadcrumbNavigation, breadcrumbHelpers } from "@/components/navigation
 import { PageShell } from "@/components/layout/page-shell";
 import { usePreferences } from "@/context/preferences-context";
 import { useSEO } from "@/hooks/use-seo";
-import { getBibleChapterSEO } from "@shared/seo-data";
+import { getBibleChapterSEO } from "@workspace/shared-data/seo-data";
 import type { BibleLocation } from "@/types/bible";
 import type { TalmudLocation } from "@/types/talmud";
 import { bibleAPI } from "@/lib/bible-api";
 import { getBaseUrl } from "@/lib/utils";
 import NotFound from "@/pages/not-found";
-import { getTractateSlug } from "@shared/tractates";
+import { getTractateSlug } from "@workspace/shared-data/tractates";
 
 export default function BibleChapterPage() {
   const { book, chapter } = useParams<{ book: string; chapter: string }>();

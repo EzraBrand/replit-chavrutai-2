@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { SCHOLARSHIP_WORKS, getScholarshipWork } from "../shared/data/scholarship-works";
+import { SCHOLARSHIP_WORKS, getScholarshipWork } from "@workspace/shared-data/data/scholarship-works";
 import { removeNikud } from "@workspace/text-processing";
 
 const SEFARIA_BASE = "https://www.sefaria.org/api";

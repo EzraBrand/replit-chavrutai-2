@@ -3,7 +3,7 @@
  */
 
 import { blogPostsOutline } from '@/lib/outline-data';
-import type { BlogPostEntry } from '@shared/schema';
+import type { BlogPostEntry } from '@workspace/shared-data/schema';
 
 /**
  * Get all blog posts

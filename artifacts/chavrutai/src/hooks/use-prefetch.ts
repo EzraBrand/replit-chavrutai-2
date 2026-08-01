@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { sefariaAPI } from "@/lib/sefaria";
 import type { TalmudLocation } from "@/types/talmud";
-import { getNextPage, getPreviousPage, type TalmudPage } from "@shared/talmud-navigation";
+import { getNextPage, getPreviousPage, type TalmudPage } from "@workspace/shared-data/talmud-navigation";
 
 function getNextLocation(location: TalmudLocation): TalmudLocation | null {
   const currentPage: TalmudPage = {

@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { PageShell, PageHeader } from "@/components/layout/page-shell";
 import { useSEO } from "@/hooks/use-seo";
-import { getJastrowSEO } from "@shared/seo-data";
+import { getJastrowSEO } from "@workspace/shared-data/seo-data";
 import { HEBREW_ALPHABET } from "@shared/hebrew-alphabet";
 import jastrowMappings from "@shared/data/lexicon-mappings/jastrow.json";
 import {

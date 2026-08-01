@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { useSEO } from "@/hooks/use-seo";
-import { getStaticSEO } from "@shared/seo-data";
+import { getStaticSEO } from "@workspace/shared-data/seo-data";
 import { PageShell, PageHeader, SectionHeading } from "@/components/layout";
 import termReplacements from "@workspace/text-processing/data/term-replacements.json";
 

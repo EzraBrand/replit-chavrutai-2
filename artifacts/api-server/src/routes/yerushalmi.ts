@@ -1,19 +1,12 @@
 import { Router } from "express";
-import fs from "fs";
-import path from "path";
-import { getYerushalmiTractateInfo, YERUSHALMI_TRACTATES } from "../shared/yerushalmi-data";
+import yerushalmiShapes from "@workspace/shared-data/data/yerushalmi-shapes.json";
+import { getYerushalmiTractateInfo, YERUSHALMI_TRACTATES } from "@workspace/shared-data/yerushalmi-data";
 import { processHebrewTextCore as processHebrewText, processEnglishText } from "@workspace/text-processing";
-import { isYerushalmiHalakhahMissing } from "../shared/yerushalmi-missing";
+import { isYerushalmiHalakhahMissing } from "@workspace/shared-data/yerushalmi-missing";
 
 const sefariaAPIBaseURL = "https://www.sefaria.org/api";
 
-let yerushalmiShapesData: Record<string, number[][]> = {};
-try {
-  const shapesPath = path.join(import.meta.dirname, "..", "src/shared/data/yerushalmi-shapes.json");
-  yerushalmiShapesData = JSON.parse(fs.readFileSync(shapesPath, "utf-8"));
-} catch (e) {
-  console.error("Failed to load yerushalmi-shapes.json:", e);
-}
+const yerushalmiShapesData: Record<string, number[][]> = yerushalmiShapes;
 
 export function createYerushalmiRouter(): Router {
   const router = Router();

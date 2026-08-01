@@ -6,8 +6,8 @@ import {
   MISHNAH_ONLY_TRACTATES,
   MISHNAH_ONLY_HEBREW_NAMES,
   getMishnahTractateSlug,
-} from "@shared/tractates";
-import { getStaticSEO } from "@shared/seo-data";
+} from "@workspace/shared-data/tractates";
+import { getStaticSEO } from "@workspace/shared-data/seo-data";
 
 const SEDER_INFO: Record<string, { hebrew: string; description: string }> = {
   zeraim: { hebrew: "סדר זרעים", description: "Agriculture and blessings" },

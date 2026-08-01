@@ -1,6 +1,6 @@
-import { CANONICAL_BASE_URL } from '../shared/brand';
+import { CANONICAL_BASE_URL } from '@workspace/shared-data/brand';
 import { Request, Response } from 'express';
-import { RAMBAM_BOOKS } from '../shared/rambam-data';
+import { RAMBAM_BOOKS } from '@workspace/shared-data/rambam-data';
 
 export function generateRambamSitemap(req: Request, res: Response) {
   const baseUrl = process.env.NODE_ENV === 'production'

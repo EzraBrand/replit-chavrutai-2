@@ -9,8 +9,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useSEO } from "@/hooks/use-seo";
-import { getStaticSEO } from "@shared/seo-data";
-import { getTractateSlug, TRACTATE_HEBREW_NAMES, SEDER_TRACTATES, normalizeDisplayTractateName } from "@shared/tractates";
+import { getStaticSEO } from "@workspace/shared-data/seo-data";
+import { getTractateSlug, TRACTATE_HEBREW_NAMES, SEDER_TRACTATES, normalizeDisplayTractateName } from "@workspace/shared-data/tractates";
 import { MISHNAH_MAP_DATA, type MishnahMapping } from "@shared/mishnah-map";
 import { getMishnahChapterDataByTractate, getMishnahTalmudMapping, useChapterDataVersion, type ChapterInfo } from "@/lib/chapter-data";
 import { PageShell, PageHeader, PageSection, SectionHeading } from "@/components/layout";

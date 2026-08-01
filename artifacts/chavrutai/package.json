@@ -76,7 +76,8 @@
     "vite": "catalog:",
     "wouter": "^3.3.5",
     "zod": "catalog:",
-    "@workspace/text-processing": "workspace:*"
+    "@workspace/text-processing": "workspace:*",
+    "@workspace/shared-data": "workspace:*"
   },
   "dependencies": {
     "@types/dompurify": "^3.2.0",

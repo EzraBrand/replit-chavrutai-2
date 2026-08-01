@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getTractateSlug } from "@shared/tractates";
+import { getTractateSlug } from "@workspace/shared-data/tractates";
 import { getMishnahSection } from "@shared/mishnah-map";
 
 export interface ChapterInfo {

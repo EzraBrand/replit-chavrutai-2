@@ -1,5 +1,5 @@
 import { numberToHebrewGematria } from "@/lib/external-links";
-import { getRambamHilchotInfo } from "@shared/rambam-data";
+import { getRambamHilchotInfo } from "@workspace/shared-data/rambam-data";
 
 export interface RambamExternalLink {
   name: string;

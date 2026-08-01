@@ -12,7 +12,7 @@ import {
   getPostCountByTractate 
 } from "@/lib/blog-post-search";
 import { formatLocationDisplay } from "@/lib/blog-post-utils";
-import type { BlogPostEntry } from "@shared/schema";
+import type { BlogPostEntry } from "@workspace/shared-data/schema";
 
 interface BlogPostSelectorProps {
   onSelectPost: (location: string, blogUrl: string) => void;

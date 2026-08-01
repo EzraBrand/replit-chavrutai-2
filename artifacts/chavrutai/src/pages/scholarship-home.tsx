@@ -1,7 +1,7 @@
 import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { useSEO } from "@/hooks/use-seo";
-import { getStaticSEO } from "@shared/seo-data";
+import { getStaticSEO } from "@workspace/shared-data/seo-data";
 import { apiRequest } from "@/lib/queryClient";
 import { PageShell, PageHeader } from "@/components/layout";
 

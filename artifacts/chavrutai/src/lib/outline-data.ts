@@ -1,4 +1,4 @@
-import type { ChapterOutline, BlogPosts } from '@shared/schema';
+import type { ChapterOutline, BlogPosts } from '@workspace/shared-data/schema';
 import sanhedrinOutlineData from '../../../../talmud-data/outlines/sanhedrin-10.json';
 import blogPostsData from '../../../../talmud-data/outlines/blog-posts.json';
 

@@ -1,4 +1,4 @@
-import { TRACTATE_HEBREW_NAMES, MISHNAH_ONLY_HEBREW_NAMES } from "@shared/tractates";
+import { TRACTATE_HEBREW_NAMES, MISHNAH_ONLY_HEBREW_NAMES } from "@workspace/shared-data/tractates";
 import { numberToHebrewGematria } from "@/lib/external-links";
 
 export interface MishnahExternalLink {

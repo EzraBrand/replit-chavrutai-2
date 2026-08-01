@@ -12,8 +12,8 @@ import {
   normalizeDisplayTractateName,
   isValidTractate,
   getTractateSlug,
-} from "@shared/tractates";
-import { getMaxFolio } from "@shared/talmud-navigation";
+} from "@workspace/shared-data/tractates";
+import { getMaxFolio } from "@workspace/shared-data/talmud-navigation";
 import { getMishnahSection } from "@shared/mishnah-map";
 import NotFound from "@/pages/not-found";
 

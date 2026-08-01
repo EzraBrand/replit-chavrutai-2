@@ -2,7 +2,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { TalmudLocation } from "@/types/talmud";
 import { useFindChapterForFolio } from "@/lib/chapter-data";
-import { getNextPage, getPreviousPage, formatPage, type TalmudPage } from "@shared/talmud-navigation";
+import { getNextPage, getPreviousPage, formatPage, type TalmudPage } from "@workspace/shared-data/talmud-navigation";
 
 interface CenteredBreadcrumbNavProps {
   location: TalmudLocation;

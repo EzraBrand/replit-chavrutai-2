@@ -1,5 +1,5 @@
 import { useSEO } from "@/hooks/use-seo";
-import { getStaticSEO } from "@shared/seo-data";
+import { getStaticSEO } from "@workspace/shared-data/seo-data";
 import { PageShell, PageHeader, PageSection, SectionHeading } from "@/components/layout";
 
 export default function Contact() {

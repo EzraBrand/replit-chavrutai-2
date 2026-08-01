@@ -2,9 +2,9 @@ import { useState, useEffect, useMemo, useCallback } from "react";
 import { Link } from "wouter";
 import { PageShell } from "@/components/layout/page-shell";
 import { useSEO } from "@/hooks/use-seo";
-import { getStaticSEO } from "@shared/seo-data";
-import { getTractateSlug } from "@shared/tractates";
-import { getBookBySlug } from "@shared/bible-books";
+import { getStaticSEO } from "@workspace/shared-data/seo-data";
+import { getTractateSlug } from "@workspace/shared-data/tractates";
+import { getBookBySlug } from "@workspace/shared-data/bible-books";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 
 // ── Types ─────────────────────────────────────────────────────────────────────

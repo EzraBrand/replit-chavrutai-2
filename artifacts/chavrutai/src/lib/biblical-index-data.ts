@@ -1,4 +1,4 @@
-import type { BiblicalBook } from '@shared/schema';
+import type { BiblicalBook } from '@workspace/shared-data/schema';
 
 interface IndexMetadata {
   categories: {

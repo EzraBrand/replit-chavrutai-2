@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getMishnahTractateInfo, MISHNAH_ONLY_TRACTATES } from "../shared/tractates";
+import { getMishnahTractateInfo, MISHNAH_ONLY_TRACTATES } from "@workspace/shared-data/tractates";
 import { processHebrewTextCore as processHebrewText, processEnglishText } from "@workspace/text-processing";
 
 const sefariaAPIBaseURL = "https://www.sefaria.org/api";

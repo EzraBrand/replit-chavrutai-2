@@ -1,4 +1,4 @@
-import type { BlogPosts } from '@shared/schema';
+import type { BlogPosts } from '@workspace/shared-data/schema';
 
 interface BlogPostsTableProps {
   blogPosts: BlogPosts;

@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { PageShell } from "@/components/layout/page-shell";
 import { useSEO } from "@/hooks/use-seo";
-import { getStaticSEO, getMishnahTractateSEO } from "@shared/seo-data";
+import { getStaticSEO, getMishnahTractateSEO } from "@workspace/shared-data/seo-data";
 import { BreadcrumbNavigation } from "@/components/navigation/breadcrumb-navigation";
 import {
   MISHNAH_ONLY_HEBREW_NAMES,
@@ -12,7 +12,7 @@ import {
   isValidMishnahTractate,
   getMishnahTractateInfo,
   getMishnahTractateSlug,
-} from "@shared/tractates";
+} from "@workspace/shared-data/tractates";
 import NotFound from "@/pages/not-found";
 import { apiRequest } from "@/lib/queryClient";
 

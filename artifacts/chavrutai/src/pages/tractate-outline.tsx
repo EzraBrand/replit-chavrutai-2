@@ -5,7 +5,7 @@ import { OutlineTable } from "@/components/outline/outline-table";
 import { Footer } from "@/components/footer";
 import { sanhedrin10Outline } from "@/lib/outline-data";
 import { useSEO } from "@/hooks/use-seo";
-import type { ChapterOutline } from '@shared/schema';
+import type { ChapterOutline } from '@workspace/shared-data/schema';
 
 // For now, we'll use static data. Later this can be fetched from an API
 const getOutlineData = (tractate: string, chapter: string): ChapterOutline | null => {

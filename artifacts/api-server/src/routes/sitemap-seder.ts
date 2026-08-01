@@ -1,6 +1,6 @@
-import { CANONICAL_BASE_URL } from '../shared/brand';
+import { CANONICAL_BASE_URL } from '@workspace/shared-data/brand';
 import { Request, Response } from 'express';
-import { SEDER_TRACTATES, getTractateSlug, type SederName } from '../shared/tractates';
+import { SEDER_TRACTATES, getTractateSlug, type SederName } from '@workspace/shared-data/tractates';
 
 // Helper function to identify significant folios
 function isSignificantFolio(tractate: string, folio: string): boolean {

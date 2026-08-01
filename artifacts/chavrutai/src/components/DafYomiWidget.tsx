@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { getTractateSlug } from "@shared/tractates";
+import { getTractateSlug } from "@workspace/shared-data/tractates";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";

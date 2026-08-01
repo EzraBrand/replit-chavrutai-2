@@ -1,6 +1,6 @@
-import { CANONICAL_BASE_URL } from '../shared/brand';
+import { CANONICAL_BASE_URL } from '@workspace/shared-data/brand';
 import { Request, Response } from 'express';
-import { TRACTATE_LISTS, getTractateSlug } from '../shared/tractates';
+import { TRACTATE_LISTS, getTractateSlug } from '@workspace/shared-data/tractates';
 
 export function generateMainSitemap(req: Request, res: Response) {
   // Use production URL for deployed site

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { PageShell } from "@/components/layout/page-shell";
 import { useSEO } from "@/hooks/use-seo";
-import { getBibleBookSEO } from "@shared/seo-data";
+import { getBibleBookSEO } from "@workspace/shared-data/seo-data";
 import { BreadcrumbNavigation, breadcrumbHelpers } from "@/components/navigation/breadcrumb-navigation";
 import { bibleAPI } from "@/lib/bible-api";
 import { getBaseUrl } from "@/lib/utils";

@@ -6,10 +6,10 @@ export function createBibleRouter(): Router {
 
   router.get("/api/bible/text", async (req, res) => {
     try {
-      const { BibleQuerySchema } = await import('../shared/schema');
+      const { BibleQuerySchema } = await import('@workspace/shared-data/schema');
       const { book, chapter } = BibleQuerySchema.parse(req.query);
       
-      const { getBookBySlug, normalizeSefariaBookName } = await import('../shared/bible-books');
+      const { getBookBySlug, normalizeSefariaBookName } = await import('@workspace/shared-data/bible-books');
       const { processHebrewVerse, processEnglishVerse } = await import('../lib/bible-text-processing');
       
       const bookInfo = getBookBySlug(book);
@@ -79,7 +79,7 @@ export function createBibleRouter(): Router {
 
   router.get("/api/bible/books", async (req, res) => {
     try {
-      const { ALL_BIBLE_BOOKS, BIBLE_SECTIONS } = await import('../shared/bible-books');
+      const { ALL_BIBLE_BOOKS, BIBLE_SECTIONS } = await import('@workspace/shared-data/bible-books');
       
       res.json({
         books: ALL_BIBLE_BOOKS,
@@ -94,7 +94,7 @@ export function createBibleRouter(): Router {
   router.get("/api/bible/chapters", async (req, res) => {
     try {
       const { book } = z.object({ book: z.string() }).parse(req.query);
-      const { getBookBySlug } = await import('../shared/bible-books');
+      const { getBookBySlug } = await import('@workspace/shared-data/bible-books');
       
       const bookInfo = getBookBySlug(book);
       if (!bookInfo) {

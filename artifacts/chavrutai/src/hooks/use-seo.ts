@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import { getTractateSlug } from "@shared/tractates";
-import { getStaticSEO, getTalmudTractateSEO, getTalmudFolioSEO } from "@shared/seo-data";
+import { getTractateSlug } from "@workspace/shared-data/tractates";
+import { getStaticSEO, getTalmudTractateSEO, getTalmudFolioSEO } from "@workspace/shared-data/seo-data";
 
 declare global {
   interface Window {

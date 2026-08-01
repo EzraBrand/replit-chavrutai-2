@@ -8,14 +8,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { formatEnglishText, processHebrewText } from "@/lib/text-processing";
-import { TRACTATE_LISTS } from "@shared/tractates";
+import { TRACTATE_LISTS } from "@workspace/shared-data/tractates";
 import { BlogPostSelector } from "@/components/sefaria/blog-post-selector";
 import { locationToSefariaUrl } from "@/lib/blog-post-utils";
 import { PageShell, PageHeader } from "@/components/layout/page-shell";
 import { ChatPanel } from "@/components/sefaria/chat-panel";
 import type { ChatContext } from "@/hooks/use-chat";
 import { useSEO } from "@/hooks/use-seo";
-import { getStaticSEO } from "@shared/seo-data";
+import { getStaticSEO } from "@workspace/shared-data/seo-data";
 
 const tractates = TRACTATE_LISTS["Talmud Bavli"];
 const pages = Array.from({ length: 180 }, (_, i) => i + 2).flatMap(num => [`${num}a`, `${num}b`]);

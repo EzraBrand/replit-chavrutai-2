@@ -5,8 +5,8 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { PageShell, PageHeader, PageSection, SectionHeading } from "@/components/layout";
 import { useSEO } from "@/hooks/use-seo";
-import { TRACTATE_LISTS, TRACTATE_HEBREW_NAMES, normalizeDisplayTractateName, isValidTractate, getTractateSlug } from "@shared/tractates";
-import { getMaxFolio, getStartFolio, getStartSide } from "@shared/talmud-navigation";
+import { TRACTATE_LISTS, TRACTATE_HEBREW_NAMES, normalizeDisplayTractateName, isValidTractate, getTractateSlug } from "@workspace/shared-data/tractates";
+import { getMaxFolio, getStartFolio, getStartSide } from "@workspace/shared-data/talmud-navigation";
 import {
   getAllExternalLinks,
   getSectionLinks,

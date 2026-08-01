@@ -1,4 +1,4 @@
-import { getBookBySlug } from "@shared/bible-books";
+import { getBookBySlug } from "@workspace/shared-data/bible-books";
 import { numberToHebrewGematria } from "@/lib/external-links";
 
 export interface BibleReference {

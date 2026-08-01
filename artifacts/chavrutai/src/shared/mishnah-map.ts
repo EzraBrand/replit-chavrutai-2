@@ -9,7 +9,7 @@
  */
 
 import mishnahMapData from './data/mishnah-map.json';
-import { SEDER_TRACTATES } from './tractates';
+import { SEDER_TRACTATES } from '@workspace/shared-data/tractates';
 
 export interface MishnahMapping {
   book: string;

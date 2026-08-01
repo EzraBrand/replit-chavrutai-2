@@ -1,4 +1,4 @@
-import { YERUSHALMI_HEBREW_NAMES } from "@shared/yerushalmi-data";
+import { YERUSHALMI_HEBREW_NAMES } from "@workspace/shared-data/yerushalmi-data";
 import { numberToHebrewGematria } from "@/lib/external-links";
 
 export interface YerushalmiExternalLink {

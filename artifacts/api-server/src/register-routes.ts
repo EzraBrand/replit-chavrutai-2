@@ -1,9 +1,9 @@
 import express, { type Express } from "express";
 import { createServer, type Server } from "http";
 import path from "path";
-import { getTractateSlug } from "./shared/tractates";
-import { isYerushalmiHalakhahMissing } from "./shared/yerushalmi-missing";
-import { getYerushalmiTractateInfo } from "./shared/yerushalmi-data";
+import { getTractateSlug } from "@workspace/shared-data/tractates";
+import { isYerushalmiHalakhahMissing } from "@workspace/shared-data/yerushalmi-missing";
+import { getYerushalmiTractateInfo } from "@workspace/shared-data/yerushalmi-data";
 import { generateSitemapIndex } from "./routes/sitemap-index";
 import { generateMainSitemap } from "./routes/sitemap-main";
 import { generateSederSitemap } from "./routes/sitemap-seder";
@@ -184,7 +184,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/sitemap", async (req, res) => {
     try {
-      const { SEDER_TRACTATES } = await import('./shared/tractates');
+      const { SEDER_TRACTATES } = await import('@workspace/shared-data/tractates');
 
       const sederInfo = {
         zeraim: { name: 'Zeraim', description: 'Order of Seeds - Agricultural laws and blessings' },
@@ -258,10 +258,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/sitemap-yerushalmi.xml', generateYerushalmiSitemap);
   app.get('/sitemap-rambam.xml', generateRambamSitemap);
 
-  app.get("/api/glossary", (_req, res) => {
-    const filePath = path.join(import.meta.dirname, "..", "src/shared/data/glossary_v4.json");
+  app.get("/api/glossary", async (_req, res) => {
+    const glossary = (await import("@workspace/shared-data/data/glossary_v4.json")).default;
     res.setHeader("Cache-Control", "no-cache");
-    res.sendFile(filePath);
+    res.json(glossary);
   });
 
   const httpServer = createServer(app);

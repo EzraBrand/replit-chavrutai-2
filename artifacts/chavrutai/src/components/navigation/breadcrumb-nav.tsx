@@ -6,7 +6,7 @@ import type { TalmudLocation, Chapter, Work } from "@/types/talmud";
 import { WORKS } from "@/types/talmud";
 import { useQuery } from "@tanstack/react-query";
 import { sefariaAPI } from "@/lib/sefaria";
-import { getMaxFolio, getLastSide, getStartFolio, getStartSide } from "@shared/talmud-navigation";
+import { getMaxFolio, getLastSide, getStartFolio, getStartSide } from "@workspace/shared-data/talmud-navigation";
 
 interface BreadcrumbNavProps {
   location: TalmudLocation;

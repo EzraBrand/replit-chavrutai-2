@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getBiblicalIndexMetadata } from "@/lib/biblical-index-data";
 import { FooterPlaceholder } from "@/components/page-loading";
 import { useSEO } from "@/hooks/use-seo";
-import { getStaticSEO } from "@shared/seo-data";
+import { getStaticSEO } from "@workspace/shared-data/seo-data";
 import { Skeleton } from "@/components/ui/skeleton";
 import { PageShell, PageHeader, PageSection, SectionHeading } from "@/components/layout";
 

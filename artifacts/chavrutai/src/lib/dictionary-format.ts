@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import { TRACTATE_LISTS, MISHNAH_ONLY_TRACTATES } from "@shared/tractates";
-import { ALL_BIBLE_BOOKS } from "@shared/bible-books";
+import { TRACTATE_LISTS, MISHNAH_ONLY_TRACTATES } from "@workspace/shared-data/tractates";
+import { ALL_BIBLE_BOOKS } from "@workspace/shared-data/bible-books";
 import { getMishnahTalmudLocation } from "@shared/mishnah-map";
 import { annotateAllTransliterations } from "@shared/transliteration";
 import { SITE_URL } from "@/lib/utils";

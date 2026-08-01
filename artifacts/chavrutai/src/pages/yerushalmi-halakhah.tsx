@@ -9,7 +9,7 @@ import { BreadcrumbNavigation } from "@/components/navigation/breadcrumb-navigat
 import { PageShell } from "@/components/layout/page-shell";
 import { usePreferences } from "@/context/preferences-context";
 import { useSEO } from "@/hooks/use-seo";
-import { getStaticSEO, getYerushalmiHalachahSEO } from "@shared/seo-data";
+import { getStaticSEO, getYerushalmiHalachahSEO } from "@workspace/shared-data/seo-data";
 import { processYerushalmiHebrewText, processEnglishText, linkBibleCitations, replaceTerms } from "@/lib/text-processing";
 import { useGazetteerData, TextHighlighter, type HighlightCategory } from "@/lib/gazetteer";
 import {
@@ -19,7 +19,7 @@ import {
   getYerushalmiTractateSlug,
   YERUSHALMI_HEBREW_NAMES,
   parseChapterHalakhah,
-} from "@shared/yerushalmi-data";
+} from "@workspace/shared-data/yerushalmi-data";
 import type { TalmudLocation } from "@/types/talmud";
 import NotFound from "@/pages/not-found";
 import { apiRequest } from "@/lib/queryClient";
@@ -28,7 +28,7 @@ import {
   isYerushalmiHalakhahMissing,
   findNextValidYerushalmiHalakhah,
   findPrevValidYerushalmiHalakhah,
-} from "@shared/yerushalmi-missing";
+} from "@workspace/shared-data/yerushalmi-missing";
 
 interface YerushalmiHalakhahData {
   tractate: string;

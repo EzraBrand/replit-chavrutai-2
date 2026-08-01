@@ -1,21 +1,21 @@
-import { CANONICAL_BASE_URL } from '../shared/brand';
+import { CANONICAL_BASE_URL } from '@workspace/shared-data/brand';
 import express from "express";
 import fs from "fs";
 import path from "path";
 import { storage } from "../storage";
-import { normalizeSefariaTractateName, normalizeDisplayTractateName, getTractateSlug } from "../shared/tractates";
-import { getMishnahTractateInfo } from "../shared/tractates";
-import { getYerushalmiTractateInfo } from "../shared/yerushalmi-data";
+import { normalizeSefariaTractateName, normalizeDisplayTractateName, getTractateSlug } from "@workspace/shared-data/tractates";
+import { getMishnahTractateInfo } from "@workspace/shared-data/tractates";
+import { getYerushalmiTractateInfo } from "@workspace/shared-data/yerushalmi-data";
 import {
   isYerushalmiHalakhahMissing,
   isYerushalmiChapterEmpty,
   findFirstValidHalakhahInChapter,
   findPrevValidYerushalmiHalakhah,
   findNextValidYerushalmiHalakhah,
-} from "../shared/yerushalmi-missing";
-import { getRambamHilchotInfo, RAMBAM_BOOKS } from "../shared/rambam-data";
-import { getBookBySlug } from "../shared/bible-books";
-import { getPageSEO } from "../shared/seo-data";
+} from "@workspace/shared-data/yerushalmi-missing";
+import { getRambamHilchotInfo, RAMBAM_BOOKS } from "@workspace/shared-data/rambam-data";
+import { getBookBySlug } from "@workspace/shared-data/bible-books";
+import { getPageSEO } from "@workspace/shared-data/seo-data";
 
 function escapeHtmlAttr(str: string): string {
   return str
@@ -615,7 +615,7 @@ async function generateCrawlerBodyContent(urlPath: string, seoData: { title: str
       kodashim: 'Seder Kodashim (Holy Things)',
       tohorot: 'Seder Tohorot (Purities)'
     };
-    const { SEDER_TRACTATES } = await import('../shared/tractates');
+    const { SEDER_TRACTATES } = await import('@workspace/shared-data/tractates');
     nav = '';
     for (const [seder, tractates] of Object.entries(SEDER_TRACTATES)) {
       nav += `<h3>${sederNames[seder] || seder}</h3><ul>`;
@@ -629,7 +629,7 @@ async function generateCrawlerBodyContent(urlPath: string, seoData: { title: str
     const tractateSlug = urlPath.split('/')[2];
     const tractateTitle = normalizeDisplayTractateName(tractateSlug);
     const safeTractatePath = safeSlug(tractateSlug);
-    const { SEDER_TRACTATES } = await import('../shared/tractates');
+    const { SEDER_TRACTATES } = await import('@workspace/shared-data/tractates');
     const info = Object.values(SEDER_TRACTATES).flat().find(
       t => getTractateSlug(t.name) === tractateSlug
     );
@@ -680,7 +680,7 @@ async function generateCrawlerBodyContent(urlPath: string, seoData: { title: str
       }
     } catch {}
 
-    const { SEDER_TRACTATES } = await import('../shared/tractates');
+    const { SEDER_TRACTATES } = await import('@workspace/shared-data/tractates');
     const tractateInfo = Object.values(SEDER_TRACTATES).flat().find(
       t => getTractateSlug(t.name) === tractateSlug
     );
@@ -727,7 +727,7 @@ async function generateCrawlerBodyContent(urlPath: string, seoData: { title: str
     heading = 'Hebrew Bible (Tanach)';
     breadcrumbs = `<nav aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; Bible</nav>`;
     body = `<p>${escapeHtml(seoData.description)}</p>`;
-    const { TORAH_BOOKS, NEVIIM_BOOKS, KETUVIM_BOOKS } = await import('../shared/bible-books');
+    const { TORAH_BOOKS, NEVIIM_BOOKS, KETUVIM_BOOKS } = await import('@workspace/shared-data/bible-books');
     const sections: [string, any[]][] = [['Torah', TORAH_BOOKS], ["Nevi'im (Prophets)", NEVIIM_BOOKS], ['Ketuvim (Writings)', KETUVIM_BOOKS]];
     nav = '';
     for (const [label, books] of sections) {
@@ -838,7 +838,7 @@ async function generateCrawlerBodyContent(urlPath: string, seoData: { title: str
     heading = 'Jerusalem Talmud (Talmud Yerushalmi) — All Tractates';
     breadcrumbs = `<nav aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; Jerusalem Talmud</nav>`;
     body = `<p>${escapeHtml(seoData.description)}</p>`;
-    const { YERUSHALMI_TRACTATES, YERUSHALMI_HEBREW_NAMES } = await import('../shared/yerushalmi-data');
+    const { YERUSHALMI_TRACTATES, YERUSHALMI_HEBREW_NAMES } = await import('@workspace/shared-data/yerushalmi-data');
     const sederLabels: Record<string, string> = {
       zeraim: 'Seder Zeraim (Seeds)',
       moed: 'Seder Moed (Festivals)',
@@ -857,7 +857,7 @@ async function generateCrawlerBodyContent(urlPath: string, seoData: { title: str
     }
   } else if (urlPath.match(/^\/yerushalmi\/[^/]+$/)) {
     const tractateSlug = urlPath.split('/')[2];
-    const { getYerushalmiTractateInfo } = await import('../shared/yerushalmi-data');
+    const { getYerushalmiTractateInfo } = await import('@workspace/shared-data/yerushalmi-data');
     const info = getYerushalmiTractateInfo(tractateSlug);
     const tractateTitle = info ? info.name : tractateSlug.replace(/_/g, ' ');
     const safeTractate = safeSlug(tractateSlug);
@@ -867,10 +867,7 @@ async function generateCrawlerBodyContent(urlPath: string, seoData: { title: str
     if (info) {
       let chapterShapes: number[][] = [];
       try {
-        const fs = await import('fs');
-        const path = await import('path');
-        const shapesPath = path.join(import.meta.dirname, '..', 'src/shared/data/yerushalmi-shapes.json');
-        const shapes: Record<string, number[][]> = JSON.parse(fs.readFileSync(shapesPath, 'utf-8'));
+        const shapes: Record<string, number[][]> = (await import('@workspace/shared-data/data/yerushalmi-shapes.json')).default;
         chapterShapes = shapes[info.sefaria] ?? [];
       } catch {}
       nav = `<h3>Chapters</h3><ul>`;
@@ -887,7 +884,7 @@ async function generateCrawlerBodyContent(urlPath: string, seoData: { title: str
     const [chapterStr, halakhahStr] = parts[3].split('.');
     const chapterNum = parseInt(chapterStr);
     const halakhahNum = parseInt(halakhahStr);
-    const { getYerushalmiTractateInfo } = await import('../shared/yerushalmi-data');
+    const { getYerushalmiTractateInfo } = await import('@workspace/shared-data/yerushalmi-data');
     const info = getYerushalmiTractateInfo(tractateSlug);
     const tractateTitle = info ? info.name : tractateSlug.replace(/_/g, ' ');
     const safeTractate = safeSlug(tractateSlug);
@@ -895,10 +892,7 @@ async function generateCrawlerBodyContent(urlPath: string, seoData: { title: str
     // Read shape data to know halakhot per chapter (for cross-chapter nav)
     let tractateShapes: number[][] = [];
     try {
-      const fs = await import('fs');
-      const path = await import('path');
-      const shapesPath = path.join(import.meta.dirname, '..', 'src/shared/data/yerushalmi-shapes.json');
-      const shapes: Record<string, number[][]> = JSON.parse(fs.readFileSync(shapesPath, 'utf-8'));
+      const shapes: Record<string, number[][]> = (await import('@workspace/shared-data/data/yerushalmi-shapes.json')).default;
       if (info) tractateShapes = shapes[info.sefaria] ?? [];
     } catch {}
 

@@ -6,8 +6,8 @@ import { Button } from "@/components/ui/button";
 import { PageShell } from "@/components/layout/page-shell";
 import { useSEO } from "@/hooks/use-seo";
 import { BreadcrumbNavigation } from "@/components/navigation/breadcrumb-navigation";
-import { getRambamHilchotInfo, isValidRambamHilchot } from "@shared/rambam-data";
-import { getStaticSEO, getRambamHilchotSEO } from "@shared/seo-data";
+import { getRambamHilchotInfo, isValidRambamHilchot } from "@workspace/shared-data/rambam-data";
+import { getStaticSEO, getRambamHilchotSEO } from "@workspace/shared-data/seo-data";
 import NotFound from "@/pages/not-found";
 import { apiRequest } from "@/lib/queryClient";
 

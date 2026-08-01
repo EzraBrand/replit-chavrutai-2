@@ -11,7 +11,7 @@ import { usePreferences } from "@/context/preferences-context";
 import { useSEO } from "@/hooks/use-seo";
 import { processRambamHebrewText, processRambamEnglishText, linkBibleCitations, replaceTerms } from "@/lib/text-processing";
 import { useGazetteerData, TextHighlighter, type HighlightCategory } from "@/lib/gazetteer";
-import { getRambamHilchotInfo, isValidRambamHilchot } from "@shared/rambam-data";
+import { getRambamHilchotInfo, isValidRambamHilchot } from "@workspace/shared-data/rambam-data";
 import type { TalmudLocation } from "@/types/talmud";
 import NotFound from "@/pages/not-found";
 import { apiRequest } from "@/lib/queryClient";

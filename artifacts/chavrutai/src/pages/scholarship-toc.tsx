@@ -2,7 +2,7 @@ import { Link, useRoute } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { useSEO } from "@/hooks/use-seo";
 import { apiRequest } from "@/lib/queryClient";
-import { isValidScholarshipWork } from "@shared/data/scholarship-works";
+import { isValidScholarshipWork } from "@workspace/shared-data/data/scholarship-works";
 import NotFound from "@/pages/not-found";
 import { PageShell, Breadcrumbs, SectionHeading, type BreadcrumbItem } from "@/components/layout";
 

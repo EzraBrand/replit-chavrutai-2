@@ -5,7 +5,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-import { CANONICAL_BASE_URL } from "@shared/brand";
+import { CANONICAL_BASE_URL } from "@workspace/shared-data/brand";
 
 export const SITE_URL = CANONICAL_BASE_URL;
 

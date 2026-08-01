@@ -1,6 +1,6 @@
 import { type User, type InsertUser, type Text, type InsertText, type Bookmark, type InsertBookmark, type DictionaryEntry, type SearchRequest } from "@workspace/db";
 import { randomUUID } from "crypto";
-import bdbSupplementalData from "./shared/data/bdb-supplemental-entries.json";
+import bdbSupplementalData from "@workspace/shared-data/data/bdb-supplemental-entries.json";
 
 // Reduce a Hebrew form to its bare consonant "skeleton" so user queries (typed
 // without vowels/maqaf) can be matched against voweled supplemental headwords:

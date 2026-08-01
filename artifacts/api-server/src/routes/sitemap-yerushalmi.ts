@@ -1,17 +1,10 @@
-import { CANONICAL_BASE_URL } from '../shared/brand';
+import { CANONICAL_BASE_URL } from '@workspace/shared-data/brand';
 import { Request, Response } from 'express';
-import fs from 'fs';
-import path from 'path';
-import { YERUSHALMI_TRACTATES, getYerushalmiTractateSlug } from '../shared/yerushalmi-data';
-import { isYerushalmiHalakhahMissing } from '../shared/yerushalmi-missing';
+import yerushalmiShapes from '@workspace/shared-data/data/yerushalmi-shapes.json';
+import { YERUSHALMI_TRACTATES, getYerushalmiTractateSlug } from '@workspace/shared-data/yerushalmi-data';
+import { isYerushalmiHalakhahMissing } from '@workspace/shared-data/yerushalmi-missing';
 
-let yerushalmiShapesData: Record<string, number[][]> = {};
-try {
-  const shapesPath = path.join(import.meta.dirname, '..', 'src/shared/data/yerushalmi-shapes.json');
-  yerushalmiShapesData = JSON.parse(fs.readFileSync(shapesPath, 'utf-8'));
-} catch (e) {
-  console.error('sitemap-yerushalmi: failed to load shapes:', e);
-}
+const yerushalmiShapesData: Record<string, number[][]> = yerushalmiShapes;
 
 export function generateYerushalmiSitemap(req: Request, res: Response) {
   const baseUrl = process.env.NODE_ENV === 'production'

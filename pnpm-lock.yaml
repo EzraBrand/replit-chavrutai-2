@@ -178,6 +178,9 @@ importers:
       '@workspace/db':
         specifier: workspace:*
         version: link:../../lib/db
+      '@workspace/shared-data':
+        specifier: workspace:*
+        version: link:../../lib/shared-data
       '@workspace/text-processing':
         specifier: workspace:*
         version: link:../../lib/text-processing
@@ -378,6 +381,9 @@ importers:
       '@workspace/api-client-react':
         specifier: workspace:*
         version: link:../../lib/api-client-react
+      '@workspace/shared-data':
+        specifier: workspace:*
+        version: link:../../lib/shared-data
       '@workspace/text-processing':
         specifier: workspace:*
         version: link:../../lib/text-processing
@@ -688,6 +694,12 @@ importers:
       drizzle-kit:
         specifier: ^0.31.10
         version: 0.31.10
+
+  lib/shared-data:
+    dependencies:
+      zod:
+        specifier: 'catalog:'
+        version: 3.25.76
 
   lib/text-processing:
     dependencies:

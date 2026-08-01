@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { ChevronUp, ChevronDown } from "lucide-react";
-import { ALL_BIBLE_BOOKS } from "@shared/bible-books";
+import { ALL_BIBLE_BOOKS } from "@workspace/shared-data/bible-books";
 import { useGazetteerData, TextHighlighter, type HighlightCategory } from "@/lib/gazetteer";
 import { usePreferences } from "@/context/preferences-context";
 

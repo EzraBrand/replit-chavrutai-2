@@ -1,6 +1,6 @@
-import { CANONICAL_BASE_URL } from '../shared/brand';
+import { CANONICAL_BASE_URL } from '@workspace/shared-data/brand';
 import { Request, Response } from 'express';
-import { MISHNAH_ONLY_TRACTATES, getMishnahTractateSlug } from '../shared/tractates';
+import { MISHNAH_ONLY_TRACTATES, getMishnahTractateSlug } from '@workspace/shared-data/tractates';
 
 export function generateMishnahSitemap(req: Request, res: Response) {
   const baseUrl = process.env.NODE_ENV === 'production' 

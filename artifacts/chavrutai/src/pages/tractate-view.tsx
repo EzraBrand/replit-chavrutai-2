@@ -18,8 +18,8 @@ import { usePrefetchAdjacentPages } from "@/hooks/use-prefetch";
 import { preloadChapterData } from "@/lib/chapter-data";
 import type { TalmudLocation } from "@/types/talmud";
 import { sefariaAPI } from "@/lib/sefaria";
-import { normalizeDisplayTractateName, isValidTractate, getTractateSlug } from "@shared/tractates";
-import { isValidPage } from "@shared/talmud-navigation";
+import { normalizeDisplayTractateName, isValidTractate, getTractateSlug } from "@workspace/shared-data/tractates";
+import { isValidPage } from "@workspace/shared-data/talmud-navigation";
 import NotFound from "@/pages/not-found";
 
 export default function TractateView() {

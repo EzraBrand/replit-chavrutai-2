@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { PageShell } from "@/components/layout/page-shell";
 import { useSEO } from "@/hooks/use-seo";
-import { getStaticSEO, getYerushalmiTractateSEO } from "@shared/seo-data";
+import { getStaticSEO, getYerushalmiTractateSEO } from "@workspace/shared-data/seo-data";
 import { BreadcrumbNavigation } from "@/components/navigation/breadcrumb-navigation";
 import {
   YERUSHALMI_HEBREW_NAMES,
@@ -12,11 +12,11 @@ import {
   isValidYerushalmiTractate,
   getYerushalmiTractateInfo,
   getYerushalmiTractateSlug,
-} from "@shared/yerushalmi-data";
+} from "@workspace/shared-data/yerushalmi-data";
 import {
   isYerushalmiHalakhahMissing,
   findFirstValidHalakhahInChapter,
-} from "@shared/yerushalmi-missing";
+} from "@workspace/shared-data/yerushalmi-missing";
 import NotFound from "@/pages/not-found";
 
 

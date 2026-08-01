@@ -1,9 +1,9 @@
-import { CANONICAL_BASE_URL as PROD_BASE_URL } from "../shared/brand";
+import { CANONICAL_BASE_URL as PROD_BASE_URL } from "@workspace/shared-data/brand";
 import express from "express";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { getPageSEO } from "../shared/seo-data";
+import { getPageSEO } from "@workspace/shared-data/seo-data";
 
 // After esbuild bundling, this file is emitted to dist/index.mjs and the Vite
 // build output lives alongside it at dist/public.

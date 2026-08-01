@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
-import { getTractateSlug } from "@shared/tractates";
+import { getTractateSlug } from "@workspace/shared-data/tractates";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
 import { Footer } from "@/components/footer";
 

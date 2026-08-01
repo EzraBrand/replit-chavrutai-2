@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import { Link } from "wouter";
 import { BlogPostsTable } from "@/components/blog-posts/blog-posts-table";
 import { useSEO } from "@/hooks/use-seo";
-import { getStaticSEO } from "@shared/seo-data";
+import { getStaticSEO } from "@workspace/shared-data/seo-data";
 import { getBlogPostsData } from "@/lib/outline-data";
-import type { BlogPosts } from '@shared/schema';
+import type { BlogPosts } from '@workspace/shared-data/schema';
 import { PageShell, PageHeader, PageSection, SectionHeading } from "@/components/layout";
 
 export default function BlogPostsPage() {

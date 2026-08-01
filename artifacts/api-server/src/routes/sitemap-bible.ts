@@ -1,4 +1,4 @@
-import { CANONICAL_BASE_URL } from '../shared/brand';
+import { CANONICAL_BASE_URL } from '@workspace/shared-data/brand';
 import { Request, Response } from 'express';
 
 export function generateBibleSitemap(req: Request, res: Response) {

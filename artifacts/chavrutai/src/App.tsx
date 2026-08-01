@@ -9,8 +9,8 @@ import { PageLoading } from "@/components/page-loading";
 import { initAnalytics, isOptedOut } from "@/lib/analytics";
 import { useAnalytics } from "@/hooks/use-analytics";
 import { preloadChapterData } from "@/lib/chapter-data";
-import { getTractateSlug, isValidTractate } from "@shared/tractates";
-import { getBookBySlug } from "@shared/bible-books";
+import { getTractateSlug, isValidTractate } from "@workspace/shared-data/tractates";
+import { getBookBySlug } from "@workspace/shared-data/bible-books";
 
 const Contents = lazy(() => import("@/pages/contents"));
 const About = lazy(() => import("@/pages/about"));

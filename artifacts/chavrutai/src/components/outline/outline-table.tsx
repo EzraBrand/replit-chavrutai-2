@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import type { ChapterOutline } from '@shared/schema';
+import type { ChapterOutline } from '@workspace/shared-data/schema';
 
 interface OutlineTableProps {
   outline: ChapterOutline;

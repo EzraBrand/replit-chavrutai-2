@@ -6,8 +6,8 @@ import {
   YERUSHALMI_TRACTATES,
   YERUSHALMI_HEBREW_NAMES,
   getYerushalmiTractateSlug,
-} from "@shared/yerushalmi-data";
-import { getStaticSEO } from "@shared/seo-data";
+} from "@workspace/shared-data/yerushalmi-data";
+import { getStaticSEO } from "@workspace/shared-data/seo-data";
 
 const SEDER_INFO: Record<string, { hebrew: string; description: string }> = {
   zeraim: { hebrew: "סדר זרעים", description: "Agriculture and blessings" },

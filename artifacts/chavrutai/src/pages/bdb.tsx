@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { PageShell, PageHeader } from "@/components/layout/page-shell";
 import { useSEO } from "@/hooks/use-seo";
-import { getBDBSEO } from "@shared/seo-data";
+import { getBDBSEO } from "@workspace/shared-data/seo-data";
 import { HEBREW_ALPHABET } from "@shared/hebrew-alphabet";
 import bdbMappings from "@shared/data/lexicon-mappings/bdb.json";
 import {

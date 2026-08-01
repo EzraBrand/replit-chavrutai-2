@@ -9,7 +9,7 @@ import { Separator } from "@/components/ui/separator";
 import { PageShell } from "@/components/layout/page-shell";
 import { useSEO } from "@/hooks/use-seo";
 import { apiRequest } from "@/lib/queryClient";
-import { isValidScholarshipWork } from "@shared/data/scholarship-works";
+import { isValidScholarshipWork } from "@workspace/shared-data/data/scholarship-works";
 import { usePreferences, type TextSize, type HebrewFont, type Theme } from "@/context/preferences-context";
 import { convertSefariaLinksToInternal } from "@/lib/dictionary-format";
 import NotFound from "@/pages/not-found";

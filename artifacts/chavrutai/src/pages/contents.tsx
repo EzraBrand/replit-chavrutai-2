@@ -4,7 +4,7 @@ import { FooterPlaceholder } from "@/components/page-loading";
 import { PageShell, PageHeader, PageSection, SectionHeading } from "@/components/layout";
 import { useSEO, generateSEOData } from "@/hooks/use-seo";
 import { sefariaAPI } from "@/lib/sefaria";
-import { TRACTATE_HEBREW_NAMES } from "@shared/tractates";
+import { TRACTATE_HEBREW_NAMES } from "@workspace/shared-data/tractates";
 import { trackEvent } from "@/lib/analytics";
 
 // Seder organization with Hebrew names

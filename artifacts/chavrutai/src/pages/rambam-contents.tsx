@@ -3,8 +3,8 @@ import { Link } from "wouter";
 import { PageShell, PageHeader, SectionHeading } from "@/components/layout";
 import { useSEO } from "@/hooks/use-seo";
 import { BreadcrumbNavigation } from "@/components/navigation/breadcrumb-navigation";
-import { RAMBAM_BOOKS, RAMBAM_PREFATORY } from "@shared/rambam-data";
-import { getStaticSEO } from "@shared/seo-data";
+import { RAMBAM_BOOKS, RAMBAM_PREFATORY } from "@workspace/shared-data/rambam-data";
+import { getStaticSEO } from "@workspace/shared-data/seo-data";
 
 export default function RambamContents() {
   const [prefaceOpen, setPrefaceOpen] = useState(false);
