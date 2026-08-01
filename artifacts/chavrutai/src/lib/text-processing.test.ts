@@ -493,6 +493,22 @@ describe('Term Replacement', () => {
       expect(replaceTerms('The Gemara says')).toContain('Talmud');
     });
 
+    it('should replace Temple candelabrum with Temple menorah', () => {
+      expect(replaceTerms('lit the Temple candelabrum daily')).toContain('Temple menorah');
+    });
+
+    it('should replace shewbread with showbread', () => {
+      expect(replaceTerms('the shewbread was arranged')).toContain('showbread');
+    });
+
+    it('should replace the New Moon with Rosh Chodesh', () => {
+      expect(replaceTerms('the offering of the New Moon')).toContain('Rosh Chodesh');
+    });
+
+    it('should replace The New Moon at sentence start with Rosh Chodesh', () => {
+      expect(replaceTerms('The New Moon was sanctified')).toContain('Rosh Chodesh');
+    });
+
     it('should replace Rabbi with R\'', () => {
       expect(replaceTerms('Rabbi Akiva')).toContain('R\' Akiva');
     });
