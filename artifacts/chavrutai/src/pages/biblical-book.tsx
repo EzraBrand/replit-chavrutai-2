@@ -44,10 +44,12 @@ export default function BiblicalBookPage() {
       name: `${formatBookName(bookName)} - Biblical Citations in the Talmud`,
       description: `Index of all Talmudic citations of ${formatBookName(bookName)}`,
       url: `${window.location.origin}/biblical-index/book/${bookName}`,
+      license: "https://opensource.org/licenses/MIT",
       isPartOf: {
         "@type": "Dataset",
         name: "Biblical Citations in the Talmud",
         url: `${window.location.origin}/biblical-index`,
+        license: "https://opensource.org/licenses/MIT",
       },
       creator: {
         "@type": "Organization",

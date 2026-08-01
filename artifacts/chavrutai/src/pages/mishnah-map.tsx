@@ -86,6 +86,7 @@ export default function MishnahMapPage() {
       name: "Mishnah-Talmud Mapping",
       description: "Comprehensive mapping of Mishnah passages to their corresponding discussions in the Babylonian Talmud",
       url: `${window.location.origin}/mishnah-map`,
+      license: "https://opensource.org/licenses/MIT",
       creator: {
         "@type": "Organization",
         name: "Bekiut",
