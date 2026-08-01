@@ -66,7 +66,7 @@ export default function Changelog() {
                 <li>The site has a new name — <strong>Bekiut</strong> — reflecting its focus on broad, structured coverage of the classical Jewish library. Everything else works exactly as before.</li>
                 <li>New wordmark and "ב" monogram logo in the existing parchment-and-navy palette, including new favicons, home-screen icons, and social-media preview image.</li>
                 <li>Page titles, descriptions, and social sharing cards now use the Bekiut name throughout.</li>
-                <li>The site remains at chavrutai.com for now; earlier changelog entries keep the original name as a historical record.</li>
+                <li>Earlier changelog entries keep the original name as a historical record.</li>
               </ul>
             </div>
 
