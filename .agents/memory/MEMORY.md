@@ -6,3 +6,4 @@
 - [Sitemap proxy routing](sitemap-proxy.md) — shared proxy keeps the /api prefix; api-server root routes are unreachable from the domain, so root XML/crawler paths need /api aliases + web-server proxy (express in prod, Vite middleware in dev).
 - [Favicon glyph portability](favicon-glyph-portability.md) — icon/favicon SVGs must be self-contained (outline text to paths); named font families silently fall back off-machine.
 - [Route 404 validation](route-404-validation.md) — servers 404 any path not recognized by shared isKnownAppPath; every new SPA route must be added there or production returns 404.
+- [Crawler route registration](crawler-route-registration.md) — crawler HTML branches do nothing for direct bot hits unless the path is also registered with servePageWithMeta in the api-server.

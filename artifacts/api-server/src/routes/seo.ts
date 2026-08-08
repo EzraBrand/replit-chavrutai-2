@@ -580,6 +580,62 @@ function escapeHtml(str: string): string {
     .replace(/"/g, '&quot;');
 }
 
+// 22 Hebrew consonants used by the dictionary headword browsers (final forms excluded).
+const HEBREW_ALPHABET = ['א','ב','ג','ד','ה','ו','ז','ח','ט','י','כ','ל','מ','נ','ס','ע','פ','צ','ק','ר','ש','ת'] as const;
+
+const LEXICON_CRAWLER_META: Record<'jastrow' | 'bdb', { title: string; shortName: string; blurb: string }> = {
+  jastrow: {
+    title: "Jastrow's Dictionary of the Talmud",
+    shortName: 'Jastrow Dictionary',
+    blurb: "Marcus Jastrow's Dictionary of the Targumim, Talmud Bavli, Talmud Yerushalmi, and Midrashic Literature is the standard English-language dictionary of Talmudic Aramaic and Rabbinic Hebrew, covering over 30,000 headwords with definitions, etymologies, and citations to classical sources.",
+  },
+  bdb: {
+    title: 'Brown-Driver-Briggs Hebrew Lexicon (BDB)',
+    shortName: 'BDB Dictionary',
+    blurb: 'The Brown-Driver-Briggs Hebrew and English Lexicon is the classic scholarly dictionary of Biblical Hebrew and Aramaic, organized by Hebrew root, with detailed definitions, grammatical analysis, and citations to the Hebrew Bible.',
+  },
+};
+
+function buildHebrewLetterNav(basePath: string, label: string): string {
+  let nav = `<nav aria-label="${escapeHtmlAttr(label)}"><h2>${escapeHtml(label)}</h2><ul>`;
+  for (const letter of HEBREW_ALPHABET) {
+    nav += `<li><a href="${basePath}/${encodeURIComponent(letter)}">${letter}</a></li>`;
+  }
+  return nav + `</ul></nav>`;
+}
+
+// Book list for the biblical citations index. The source JSON ships with the
+// SPA's static assets; resolve it the same way as the SPA index.html template
+// (source tree in dev, bundled public/ dir in production). Cached after first
+// successful read; failures degrade to an empty list (crawler content is
+// best-effort enrichment).
+let biblicalIndexBooksCache: Array<{ filename: string; displayName: string }> | null = null;
+async function loadBiblicalIndexBooks(): Promise<Array<{ filename: string; displayName: string }>> {
+  if (biblicalIndexBooksCache) return biblicalIndexBooksCache;
+  const rel = ['public', 'data', 'biblical-index', 'index.json'];
+  const candidates = [
+    // Production: SPA build output bundled next to the server bundle.
+    path.resolve(import.meta.dirname, ...rel),
+    // Dev, running from src/routes/ via tsx.
+    path.resolve(import.meta.dirname, '..', '..', '..', 'chavrutai', ...rel),
+    // Dev, running the esbuild bundle from dist/.
+    path.resolve(import.meta.dirname, '..', '..', 'chavrutai', ...rel),
+  ];
+  for (const candidate of candidates) {
+    try {
+      const raw = await fs.promises.readFile(candidate, 'utf-8');
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed?.books)) {
+        biblicalIndexBooksCache = parsed.books.filter(
+          (b: any) => typeof b?.displayName === 'string' && b.displayName.length > 0
+        );
+        return biblicalIndexBooksCache!;
+      }
+    } catch {}
+  }
+  return [];
+}
+
 async function generateCrawlerBodyContent(urlPath: string, seoData: { title: string; description: string }): Promise<string> {
   const baseUrl = process.env.NODE_ENV === 'production' ? CANONICAL_BASE_URL : 'http://localhost:5000';
 
@@ -920,6 +976,124 @@ async function generateCrawlerBodyContent(urlPath: string, seoData: { title: str
       }
     }
     nav += `</nav>`;
+  } else if (urlPath === '/jastrow' || urlPath === '/bdb') {
+    const key = urlPath.slice(1) as 'jastrow' | 'bdb';
+    const meta = LEXICON_CRAWLER_META[key];
+    heading = meta.title;
+    breadcrumbs = `<nav aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; ${escapeHtml(meta.shortName)}</nav>`;
+    body = `<p>${escapeHtml(seoData.description)}</p><p>${escapeHtml(meta.blurb)}</p>`;
+    nav = `<nav aria-label="Dictionary sections"><h2>Explore the Dictionary</h2><ul>` +
+      `<li><a href="/${key}/headwords">Browse All Headwords by Letter</a></li>` +
+      `<li><a href="/${key}/abbreviations">Abbreviations Used in ${escapeHtml(meta.shortName)}</a></li>` +
+      `</ul></nav>` +
+      buildHebrewLetterNav(`/${key}/headwords`, 'Browse headwords by first letter') +
+      `<nav aria-label="Related resources"><h2>Related Resources</h2><ul>` +
+      (key === 'jastrow'
+        ? `<li><a href="/bdb">BDB Hebrew Bible Dictionary</a></li><li><a href="/talmud">Babylonian Talmud</a></li>`
+        : `<li><a href="/jastrow">Jastrow Talmud Dictionary</a></li><li><a href="/bible">Hebrew Bible (Tanach)</a></li>`) +
+      `<li><a href="/term-index">Talmud Term Index</a></li>` +
+      `</ul></nav>`;
+  } else if (urlPath === '/jastrow/headwords' || urlPath === '/bdb/headwords') {
+    const key = urlPath.split('/')[1] as 'jastrow' | 'bdb';
+    const meta = LEXICON_CRAWLER_META[key];
+    heading = `${meta.shortName} Headword Browser`;
+    breadcrumbs = `<nav aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; <a href="/${key}">${escapeHtml(meta.shortName)}</a> &rsaquo; Headwords</nav>`;
+    body = `<p>${escapeHtml(seoData.description)}</p><p>Browse every headword in ${escapeHtml(meta.title)}, organized alphabetically by Hebrew letter. Select a letter below to see all dictionary entries beginning with that letter.</p>`;
+    nav = buildHebrewLetterNav(`/${key}/headwords`, 'Headwords by letter');
+  } else if (urlPath.match(/^\/(?:jastrow|bdb)\/headwords\/[^/]+$/)) {
+    const parts = urlPath.split('/');
+    const key = parts[1] as 'jastrow' | 'bdb';
+    const letter = decodeURIComponent(parts[3]);
+    const meta = LEXICON_CRAWLER_META[key];
+    heading = `${meta.shortName} Headwords — Letter ${letter}`;
+    breadcrumbs = `<nav aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; <a href="/${key}">${escapeHtml(meta.shortName)}</a> &rsaquo; <a href="/${key}/headwords">Headwords</a> &rsaquo; ${escapeHtml(letter)}</nav>`;
+    body = `<p>${escapeHtml(seoData.description)}</p><p>All headwords in ${escapeHtml(meta.title)} beginning with the Hebrew letter ${escapeHtml(letter)}. Each headword links to the full dictionary entry with definitions and citations.</p>`;
+    nav = buildHebrewLetterNav(`/${key}/headwords`, 'Browse other letters');
+  } else if (urlPath === '/jastrow/abbreviations' || urlPath === '/bdb/abbreviations') {
+    const key = urlPath.split('/')[1] as 'jastrow' | 'bdb';
+    const meta = LEXICON_CRAWLER_META[key];
+    heading = `Abbreviations in ${meta.shortName}`;
+    breadcrumbs = `<nav aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; <a href="/${key}">${escapeHtml(meta.shortName)}</a> &rsaquo; Abbreviations</nav>`;
+    body = `<p>${escapeHtml(seoData.description)}</p><p>A reference guide to the scholarly abbreviations used throughout ${escapeHtml(meta.title)}, including source citations, grammatical terms, and bibliographic references.</p>`;
+    nav = `<nav aria-label="Dictionary sections"><ul>` +
+      `<li><a href="/${key}">${escapeHtml(meta.shortName)} Reader</a></li>` +
+      `<li><a href="/${key}/headwords">Browse Headwords by Letter</a></li>` +
+      `</ul></nav>`;
+  } else if (urlPath === '/term-index') {
+    heading = 'Talmud Term Index';
+    breadcrumbs = `<nav aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; Term Index</nav>`;
+    body = `<p>${escapeHtml(seoData.description)}</p>`;
+    try {
+      const glossary: { fields: string[]; rows: string[][] } =
+        (await import('@workspace/shared-data/data/glossary_v4.json')).default as any;
+      const termIdx = glossary.fields.indexOf('term');
+      const catIdx = glossary.fields.indexOf('categories');
+      const countIdx = glossary.fields.indexOf('talmud_corpus_count');
+      const categoryCounts = new Map<string, number>();
+      for (const row of glossary.rows) {
+        for (const cat of (row[catIdx] || '').split(/[;,|]/)) {
+          const c = cat.trim();
+          if (c) categoryCounts.set(c, (categoryCounts.get(c) || 0) + 1);
+        }
+      }
+      body += `<p>The term index covers ${glossary.rows.length.toLocaleString('en-US')} terms from the Babylonian Talmud — sages, places, concepts, and technical terminology — with corpus frequency counts and links to Wikipedia and Wikidata where available.</p>`;
+      body += `<h2>Categories</h2><ul>`;
+      for (const [cat, count] of [...categoryCounts.entries()].sort((a, b) => b[1] - a[1])) {
+        body += `<li>${escapeHtml(cat)} — ${count.toLocaleString('en-US')} terms</li>`;
+      }
+      body += `</ul>`;
+      const topTerms = glossary.rows
+        .map(r => ({ term: r[termIdx], count: parseInt(r[countIdx], 10) || 0 }))
+        .filter(t => t.term && t.count > 0)
+        .sort((a, b) => b.count - a.count)
+        .slice(0, 100);
+      if (topTerms.length > 0) {
+        body += `<h2>Most Frequent Terms in the Talmud Corpus</h2><ol>`;
+        for (const t of topTerms) {
+          body += `<li>${escapeHtml(t.term)} (${t.count.toLocaleString('en-US')} occurrences)</li>`;
+        }
+        body += `</ol>`;
+      }
+    } catch {}
+    nav = `<nav aria-label="Related resources"><h2>Related Resources</h2><ul>` +
+      `<li><a href="/talmud">Babylonian Talmud</a></li>` +
+      `<li><a href="/jastrow">Jastrow Talmud Dictionary</a></li>` +
+      `<li><a href="/biblical-index">Biblical Citations in the Talmud</a></li>` +
+      `</ul></nav>`;
+  } else if (urlPath === '/biblical-index') {
+    heading = 'Biblical Citations in the Talmud';
+    breadcrumbs = `<nav aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; Biblical Index</nav>`;
+    body = `<p>${escapeHtml(seoData.description)}</p><p>A comprehensive digital index mapping biblical verses to their citations throughout the Babylonian Talmud. Select a book below to see every verse from that book cited in the Talmud, with links to the citing folio pages.</p>`;
+    const books = await loadBiblicalIndexBooks();
+    if (books.length > 0) {
+      nav = `<h2>Books</h2><ul>`;
+      for (const b of books) {
+        const slug = b.displayName.toLowerCase().replace(/ /g, '_');
+        nav += `<li><a href="/biblical-index/book/${safeSlug(slug)}">${escapeHtml(b.displayName)}</a></li>`;
+      }
+      nav += `</ul>`;
+    }
+    nav += `<nav aria-label="Related resources"><h2>Related Resources</h2><ul>` +
+      `<li><a href="/bible">Hebrew Bible (Tanach)</a></li>` +
+      `<li><a href="/talmud">Babylonian Talmud</a></li>` +
+      `</ul></nav>`;
+  } else if (urlPath.match(/^\/biblical-index\/book\/[^/]+$/)) {
+    const rawName = decodeURIComponent(urlPath.split('/')[3]);
+    const books = await loadBiblicalIndexBooks();
+    const match = books.find(b => b.displayName.toLowerCase().replace(/ /g, '_') === rawName.toLowerCase());
+    const displayName = match ? match.displayName : rawName.replace(/_/g, ' ');
+    heading = `${displayName} — Biblical Citations in the Talmud`;
+    breadcrumbs = `<nav aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; <a href="/biblical-index">Biblical Index</a> &rsaquo; ${escapeHtml(displayName)}</nav>`;
+    body = `<p>${escapeHtml(seoData.description)}</p><p>Every verse from ${escapeHtml(displayName)} cited in the Babylonian Talmud, organized by chapter and verse, with links to the citing Talmud folio pages.</p>`;
+    if (books.length > 0) {
+      nav = `<nav aria-label="Other books"><h2>Other Books in the Index</h2><ul>`;
+      for (const b of books) {
+        if (match && b.displayName === match.displayName) continue;
+        const slug = b.displayName.toLowerCase().replace(/ /g, '_');
+        nav += `<li><a href="/biblical-index/book/${safeSlug(slug)}">${escapeHtml(b.displayName)}</a></li>`;
+      }
+      nav += `</ul></nav>`;
+    }
   } else {
     heading = seoData.title.replace(/ \| Bekiut$/, '').replace(/ - Bekiut$/, '');
     breadcrumbs = `<nav aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; ${escapeHtml(heading)}</nav>`;

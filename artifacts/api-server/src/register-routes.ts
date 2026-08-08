@@ -121,12 +121,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/changelog', servePageWithMeta);
   app.get('/jastrow', servePageWithMeta);
   app.get('/jastrow/abbreviations', servePageWithMeta);
+  app.get('/jastrow/headwords', servePageWithMeta);
+  app.get('/jastrow/headwords/:letter', servePageWithMeta);
   app.get('/talmud/term-replacements', servePageWithMeta);
   app.get('/bdb', servePageWithMeta);
   app.get('/bdb/abbreviations', servePageWithMeta);
+  app.get('/bdb/headwords', servePageWithMeta);
+  app.get('/bdb/headwords/:letter', servePageWithMeta);
   app.get('/term-index', servePageWithMeta);
   app.get('/blog-posts', servePageWithMeta);
   app.get('/biblical-index', servePageWithMeta);
+  app.get('/biblical-index/book/:bookName', servePageWithMeta);
   app.get('/bible', servePageWithMeta);
   app.get('/bible/:book', servePageWithMeta);
   app.get('/bible/:book/:chapter', servePageWithMeta);
