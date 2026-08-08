@@ -16,6 +16,7 @@ import {
 import { getRambamHilchotInfo, RAMBAM_BOOKS } from "@workspace/shared-data/rambam-data";
 import { getBookBySlug } from "@workspace/shared-data/bible-books";
 import { getPageSEO } from "@workspace/shared-data/seo-data";
+import { isKnownAppPath, getNotFoundSEO } from "@workspace/shared-data/route-validation";
 
 function escapeHtmlAttr(str: string): string {
   return str
@@ -956,6 +957,27 @@ function isCrawlerRequest(userAgent: string): boolean {
   return crawlerPatterns.some(pattern => pattern.test(userAgent));
 }
 
+// Last-resort HTML shell used when the SPA index.html template cannot be read.
+// Contains the meta placeholders that injectCoreMeta rewrites, so crawlers
+// always receive a 200 page with correct core meta instead of a 5xx.
+const MINIMAL_SHELL_TEMPLATE = `<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bekiut</title>
+    <meta name="description" content="" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content="" />
+    <meta property="og:description" content="" />
+    <meta property="og:url" content="" />
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
+`;
+
 async function servePageWithMeta(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
   try {
     const userAgent = req.get('User-Agent') || '';
@@ -970,77 +992,63 @@ async function servePageWithMeta(req: express.Request, res: express.Response, ne
       return next();
     }
     
-    // In dev this file is at server/routes/seo.ts, so the source template
-    // lives two directories up at <repo>/client/index.html.
-    // In production the server is bundled and `import.meta.dirname` resolves
-    // to the bundle directory; the built template sits at
-    // <bundleDir>/public/index.html (mirroring serveStatic in server/vite.ts).
-    const devTemplate = path.resolve(import.meta.dirname, "..", "..", "client", "index.html");
+    // In dev this file is at src/routes/seo.ts inside artifacts/api-server, so
+    // the SPA source template lives at <monorepo>/artifacts/chavrutai/index.html.
+    // In production the server is bundled and `import.meta.dirname` resolves to
+    // the bundle directory; the built template sits at <bundleDir>/public/index.html.
+    // If neither template can be read, fall back to a minimal HTML shell so
+    // crawlers never see a 5xx from a missing template.
+    const devTemplate = path.resolve(import.meta.dirname, "..", "..", "..", "chavrutai", "index.html");
     const prodTemplate = path.resolve(import.meta.dirname, "public", "index.html");
     const clientTemplate = isDevelopment ? devTemplate : prodTemplate;
 
-    let template = await fs.promises.readFile(clientTemplate, "utf-8");
-    
+    let template: string;
+    try {
+      template = await fs.promises.readFile(clientTemplate, "utf-8");
+    } catch {
+      template = MINIMAL_SHELL_TEMPLATE;
+    }
+
+    // Unknown content URLs (bad tractate/folio/book/chapter, unmatched routes)
+    // get a real HTTP 404 with noindex meta instead of a soft-404 200 shell.
+    if (!isKnownAppPath(req.path)) {
+      const notFound = getNotFoundSEO(req.path, CANONICAL_BASE_URL);
+      template = injectCoreMeta(template, notFound);
+      res.status(404).set({ "Content-Type": "text/html" }).end(template);
+      return;
+    }
+
     const seoData = generateServerSideMetaTags(req.originalUrl);
-    
-    template = template
-      .replace(
-        /<title>.*?<\/title>/,
-        `<title>${escapeHtmlAttr(seoData.title)}</title>`
-      )
-      .replace(
-        /<meta name="description" content=".*?"/,
-        `<meta name="description" content="${escapeHtmlAttr(seoData.description)}"`
-      )
-      .replace(
-        /<meta property="og:title" content=".*?"/,
-        `<meta property="og:title" content="${escapeHtmlAttr(seoData.ogTitle)}"`
-      )
-      .replace(
-        /<meta property="og:description" content=".*?"/,
-        `<meta property="og:description" content="${escapeHtmlAttr(seoData.ogDescription)}"`
-      )
-      .replace(
-        /<meta property="og:url" content=".*?"/,
-        `<meta property="og:url" content="${escapeHtmlAttr(seoData.canonical)}"`
-      )
-      .replace(
-        /<meta name="robots" content=".*?"/,
-        `<meta name="robots" content="${seoData.robots}"`
-      );
-    
-    if (template.includes('<link rel="canonical"')) {
-      template = template.replace(
-        /<link rel="canonical" href=".*?" \/>/,
-        `<link rel="canonical" href="${seoData.canonical}" />`
-      );
-    } else {
-      template = template.replace(
-        '</head>',
-        `  <link rel="canonical" href="${seoData.canonical}" />\n  </head>`
-      );
-    }
 
-    const baseUrl = process.env.NODE_ENV === 'production' ? CANONICAL_BASE_URL : 'http://localhost:5000';
-    const structuredData = generateServerSideStructuredData(req.path, baseUrl);
-    if (structuredData) {
-      const jsonLdScript = `  <script type="application/ld+json">\n${JSON.stringify(structuredData, null, 2)}\n  </script>\n  </head>`;
-      if (template.includes('application/ld+json')) {
-        template = template.replace(
-          /<script type="application\/ld\+json">[\s\S]*?<\/script>/,
-          `<script type="application/ld+json">\n${JSON.stringify(structuredData, null, 2)}\n  </script>`
-        );
-      } else {
-        template = template.replace('</head>', jsonLdScript);
+    template = injectCoreMeta(template, seoData);
+
+    // Structured data and crawler body content are best-effort enrichment.
+    // Upstream failures (Sefaria, storage) must never surface a 5xx to
+    // crawlers — degrade to the shell with correct core meta instead.
+    try {
+      const baseUrl = process.env.NODE_ENV === 'production' ? CANONICAL_BASE_URL : 'http://localhost:5000';
+      const structuredData = generateServerSideStructuredData(req.path, baseUrl);
+      if (structuredData) {
+        const jsonLdScript = `  <script type="application/ld+json">\n${JSON.stringify(structuredData, null, 2)}\n  </script>\n  </head>`;
+        if (template.includes('application/ld+json')) {
+          template = template.replace(
+            /<script type="application\/ld\+json">[\s\S]*?<\/script>/,
+            `<script type="application/ld+json">\n${JSON.stringify(structuredData, null, 2)}\n  </script>`
+          );
+        } else {
+          template = template.replace('</head>', jsonLdScript);
+        }
       }
+
+      const crawlerContent = await generateCrawlerBodyContent(req.path, seoData);
+      template = template.replace(
+        '<div id="root"></div>',
+        `${crawlerContent}\n    <div id="root"></div>`
+      );
+    } catch (enhancementError) {
+      console.error('Error generating crawler enhancement, serving basic meta shell:', enhancementError);
     }
 
-    const crawlerContent = await generateCrawlerBodyContent(req.path, seoData);
-    template = template.replace(
-      '<div id="root"></div>',
-      `${crawlerContent}\n    <div id="root"></div>`
-    );
-    
     res.status(200).set({ "Content-Type": "text/html" }).end(template);
   } catch (error) {
     console.error('Error serving page with meta:', error);
@@ -1048,8 +1056,50 @@ async function servePageWithMeta(req: express.Request, res: express.Response, ne
   }
 }
 
-export function shouldNoIndex(url: string): boolean {
-  return false;
+// Injects core SEO meta (title, description, OG tags, robots, canonical) into
+// the HTML shell template.
+function injectCoreMeta(
+  template: string,
+  seoData: { title: string; description: string; ogTitle: string; ogDescription: string; canonical: string; robots: string },
+): string {
+  let result = template
+    .replace(
+      /<title>.*?<\/title>/,
+      `<title>${escapeHtmlAttr(seoData.title)}</title>`
+    )
+    .replace(
+      /<meta name="description" content=".*?"/,
+      `<meta name="description" content="${escapeHtmlAttr(seoData.description)}"`
+    )
+    .replace(
+      /<meta property="og:title" content=".*?"/,
+      `<meta property="og:title" content="${escapeHtmlAttr(seoData.ogTitle)}"`
+    )
+    .replace(
+      /<meta property="og:description" content=".*?"/,
+      `<meta property="og:description" content="${escapeHtmlAttr(seoData.ogDescription)}"`
+    )
+    .replace(
+      /<meta property="og:url" content=".*?"/,
+      `<meta property="og:url" content="${escapeHtmlAttr(seoData.canonical)}"`
+    )
+    .replace(
+      /<meta name="robots" content=".*?"/,
+      `<meta name="robots" content="${seoData.robots}"`
+    );
+
+  if (result.includes('<link rel="canonical"')) {
+    result = result.replace(
+      /<link rel="canonical" href=".*?" \/>/,
+      `<link rel="canonical" href="${seoData.canonical}" />`
+    );
+  } else {
+    result = result.replace(
+      '</head>',
+      `  <link rel="canonical" href="${seoData.canonical}" />\n  </head>`
+    );
+  }
+  return result;
 }
 
 // Computes the crawler-only enhancement payload (JSON-LD structured data and

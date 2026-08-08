@@ -4,6 +4,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { getPageSEO } from "@workspace/shared-data/seo-data";
+import { isKnownAppPath, getNotFoundSEO } from "@workspace/shared-data/route-validation";
 
 // After esbuild bundling, this file is emitted to dist/index.mjs and the Vite
 // build output lives alongside it at dist/public.
@@ -233,6 +234,18 @@ app.use(async (req, res, next) => {
   try {
     let template = await fs.promises.readFile(indexHtmlPath, "utf-8");
     const urlObj = new URL(req.originalUrl, CANONICAL_BASE_URL);
+
+    // Unknown content URLs (bad tractate/folio/book/chapter, unmatched routes)
+    // get a real HTTP 404 with noindex meta instead of a soft-404 200 shell.
+    if (!isKnownAppPath(urlObj.pathname)) {
+      template = injectMeta(
+        template,
+        getNotFoundSEO(urlObj.pathname, CANONICAL_BASE_URL),
+      );
+      res.status(404).set({ "Content-Type": "text/html" }).end(template);
+      return;
+    }
+
     const seoData = getPageSEO(urlObj.pathname, urlObj.searchParams, CANONICAL_BASE_URL);
 
     template = injectMeta(template, seoData);
@@ -259,8 +272,23 @@ app.use(async (req, res, next) => {
 app.use(express.static(publicDir, { index: false }));
 
 // SPA fallback: every remaining route returns the client shell so direct URL
-// access and client-side routing work.
-app.use((_req, res) => {
+// access and client-side routing work. Unknown content URLs still get the
+// shell (so React renders the NotFound page) but with HTTP 404 + noindex meta
+// so crawlers don't index them as soft 404s.
+app.use(async (req, res) => {
+  try {
+    const pathname = new URL(req.originalUrl, CANONICAL_BASE_URL).pathname;
+    if (!isKnownAppPath(pathname)) {
+      const template = injectMeta(
+        await fs.promises.readFile(indexHtmlPath, "utf-8"),
+        getNotFoundSEO(pathname, CANONICAL_BASE_URL),
+      );
+      res.status(404).set({ "Content-Type": "text/html" }).end(template);
+      return;
+    }
+  } catch {
+    // On any validation/read error, fall through to the plain shell.
+  }
   res.sendFile(indexHtmlPath);
 });
 

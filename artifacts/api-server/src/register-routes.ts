@@ -10,7 +10,7 @@ import { generateSederSitemap } from "./routes/sitemap-seder";
 import { generateMishnahSitemap } from "./routes/sitemap-mishnah";
 import { generateYerushalmiSitemap } from "./routes/sitemap-yerushalmi";
 import { generateRambamSitemap } from "./routes/sitemap-rambam";
-import { servePageWithMeta, shouldNoIndex, renderSeoEnhancement } from "./routes/seo";
+import { servePageWithMeta, renderSeoEnhancement } from "./routes/seo";
 import { createTalmudRouter } from "./routes/talmud";
 import { createMishnahRouter } from "./routes/mishnah";
 import { createYerushalmiRouter } from "./routes/yerushalmi";
@@ -110,14 +110,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
     next();
   });
   
-  app.use('{*path}', (req, res, next) => {
-    if (shouldNoIndex(req.originalUrl)) {
-      res.setHeader('X-SEO-NoIndex', 'true');
-      res.setHeader('X-Robots-Tag', 'noindex, nofollow');
-    }
-    next();
-  });
-  
   app.get('/', servePageWithMeta);
   app.get('/about', servePageWithMeta);
   app.get('/talmud', servePageWithMeta);
@@ -154,6 +146,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/scholarship/:workSlug/:sectionSlug', servePageWithMeta);
   app.get('/talmud/:tractate', servePageWithMeta);
   app.get('/talmud/:tractate/:folio', servePageWithMeta);
+  app.get('/outline/:tractate/:chapter', servePageWithMeta);
 
   app.use(createTalmudRouter());
   app.use(createMishnahRouter());
