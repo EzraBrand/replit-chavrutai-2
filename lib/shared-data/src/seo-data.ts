@@ -477,6 +477,79 @@ export function getBDBSEO(
   return { ...STATIC_MAP["/bdb"], canonical: `${baseUrl}/bdb` };
 }
 
+const LEXICON_SEO_META: Record<
+  "jastrow" | "bdb",
+  { shortName: string; longName: string; blurb: string }
+> = {
+  jastrow: {
+    shortName: "Jastrow Dictionary",
+    longName: "Jastrow Dictionary of Talmudic Hebrew & Aramaic",
+    blurb:
+      "Talmudic Hebrew and Aramaic dictionary with modernized presentation and expanded abbreviations",
+  },
+  bdb: {
+    shortName: "BDB Hebrew Bible Dictionary",
+    longName: "Brown-Driver-Briggs (BDB) Hebrew Bible Dictionary",
+    blurb:
+      "classic biblical Hebrew lexicon with modernized presentation and expanded abbreviations",
+  },
+};
+
+export function getHeadwordsSEO(
+  lexicon: "jastrow" | "bdb",
+  baseUrl: string,
+): SEOResult {
+  const meta = LEXICON_SEO_META[lexicon];
+  return {
+    title: `${meta.shortName} Headwords - Browse by Hebrew Letter | Bekiut`,
+    description: `Browse all headwords in the ${meta.longName}, organized alphabetically by Hebrew letter. A ${meta.blurb}, free on Bekiut.`,
+    ogTitle: `${meta.shortName} Headwords - Browse by Hebrew Letter`,
+    ogDescription: `Browse all headwords in the ${meta.longName}, organized alphabetically by Hebrew letter.`,
+    canonical: `${baseUrl}/${lexicon}/headwords`,
+    robots: "index, follow",
+  };
+}
+
+export function getHeadwordsLetterSEO(
+  lexicon: "jastrow" | "bdb",
+  letter: string,
+  baseUrl: string,
+): SEOResult {
+  const meta = LEXICON_SEO_META[lexicon];
+  return {
+    title: `${meta.shortName} Headwords - Letter ${letter} | Bekiut`,
+    description: `All headwords beginning with the Hebrew letter ${letter} in the ${meta.longName}. Each headword links to the full entry with definitions and citations.`,
+    ogTitle: `${meta.shortName} Headwords - Letter ${letter}`,
+    ogDescription: `All headwords beginning with the Hebrew letter ${letter} in the ${meta.longName}.`,
+    canonical: `${baseUrl}/${lexicon}/headwords/${encodeURIComponent(letter)}`,
+    robots: "index, follow",
+  };
+}
+
+export function getBiblicalIndexBookSEO(
+  bookSlug: string,
+  baseUrl: string,
+): SEOResult {
+  // Biblical-index slugs are derived from the index's display names (e.g.
+  // "1_samuel", "leviticus_part1") and don't always match bible-book slugs,
+  // so fall back to title-casing the slug when no book record matches.
+  const book = getBookBySlug(bookSlug);
+  const bookTitle = book
+    ? book.name
+    : bookSlug
+        .replace(/_/g, " ")
+        .replace(/\b([a-z])/g, (_, c: string) => c.toUpperCase())
+        .replace(/\bPart(\d+)\b/gi, "Part $1");
+  return {
+    title: `${bookTitle} - Biblical Citations in the Talmud | Bekiut`,
+    description: `Every verse from ${bookTitle} cited in the Babylonian Talmud, organized by chapter and verse, with links to the citing Talmud folio pages. Free on Bekiut.`,
+    ogTitle: `${bookTitle} - Biblical Citations in the Talmud`,
+    ogDescription: `Every verse from ${bookTitle} cited in the Babylonian Talmud, with links to the citing folio pages.`,
+    canonical: `${baseUrl}/biblical-index/book/${encodeURIComponent(bookSlug)}`,
+    robots: "index, follow",
+  };
+}
+
 export function getSearchSEO(
   query: string,
   type: string,
@@ -535,6 +608,32 @@ export function getPageSEO(
   // Static pages
   const staticResult = getStaticSEO(pathname, baseUrl);
   if (staticResult) return staticResult;
+
+  // Headword browser letter page: /jastrow/headwords/:letter, /bdb/headwords/:letter
+  const headwordsLetterMatch = pathname.match(
+    /^\/(jastrow|bdb)\/headwords\/([^/]+)$/,
+  );
+  if (headwordsLetterMatch)
+    return getHeadwordsLetterSEO(
+      headwordsLetterMatch[1] as "jastrow" | "bdb",
+      decodeURIComponent(headwordsLetterMatch[2]),
+      baseUrl,
+    );
+
+  // Headword browser index: /jastrow/headwords, /bdb/headwords
+  const headwordsMatch = pathname.match(/^\/(jastrow|bdb)\/headwords$/);
+  if (headwordsMatch)
+    return getHeadwordsSEO(headwordsMatch[1] as "jastrow" | "bdb", baseUrl);
+
+  // Biblical index book: /biblical-index/book/:name
+  const biblicalIndexBookMatch = pathname.match(
+    /^\/biblical-index\/book\/([^/]+)$/,
+  );
+  if (biblicalIndexBookMatch)
+    return getBiblicalIndexBookSEO(
+      decodeURIComponent(biblicalIndexBookMatch[1]),
+      baseUrl,
+    );
 
   // Talmud folio: /talmud/:tractate/:folio
   const folioMatch = pathname.match(/^\/talmud\/([^/]+)\/(\d+[ab])$/);
