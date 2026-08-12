@@ -2,6 +2,7 @@ import express, { type Express, type Request, type Response } from "express";
 import { createServer, type Server } from "http";
 import path from "path";
 import { getTractateSlug } from "@workspace/shared-data/tractates";
+import { resolveLegacyRedirect } from "@workspace/shared-data/legacy-redirects";
 import { isYerushalmiHalakhahMissing } from "@workspace/shared-data/yerushalmi-missing";
 import { getYerushalmiTractateInfo } from "@workspace/shared-data/yerushalmi-data";
 import { generateSitemapIndex } from "./routes/sitemap-index";
@@ -84,21 +85,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
       needsRedirect = true;
     }
     
-    if (canonicalUrl === '/contents') {
-      canonicalUrl = '/talmud';
-      needsRedirect = true;
-    }
-
-    // Legacy /dictionary -> /jastrow (preserves query string via the unified redirect tail below)
-    if (canonicalUrl === '/dictionary') {
-      canonicalUrl = '/jastrow';
-      needsRedirect = true;
-    }
-    const oldContentsPageMatch = canonicalUrl.match(/^\/contents\/([^/]+)$/i);
-    if (oldContentsPageMatch) {
-      const [, tractate] = oldContentsPageMatch;
-      const normalizedTractate = getTractateSlug(tractate);
-      canonicalUrl = `/talmud/${normalizedTractate}`;
+    // Legacy paths (/contents, /contents/:tractate, /dictionary) — shared
+    // mapping with the chavrutai web server; preserves query string via the
+    // unified redirect tail below.
+    const legacyTarget = resolveLegacyRedirect(canonicalUrl);
+    if (legacyTarget) {
+      canonicalUrl = legacyTarget;
       needsRedirect = true;
     }
     

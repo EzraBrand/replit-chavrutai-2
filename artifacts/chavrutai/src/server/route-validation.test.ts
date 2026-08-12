@@ -3,6 +3,7 @@ import {
   isKnownAppPath,
   getNotFoundSEO,
 } from "@workspace/shared-data/route-validation";
+import { resolveLegacyRedirect } from "@workspace/shared-data/legacy-redirects";
 
 describe("isKnownAppPath — valid URLs", () => {
   it("accepts static pages", () => {
@@ -137,6 +138,39 @@ describe("isKnownAppPath — invalid URLs (must 404)", () => {
     expect(isKnownAppPath("/no-such-page")).toBe(false);
     expect(isKnownAppPath("/talmud/Berakhot/2a/extra")).toBe(false);
     expect(isKnownAppPath("/wp-admin")).toBe(false);
+  });
+});
+
+describe("resolveLegacyRedirect", () => {
+  it("maps legacy paths to their canonical replacements", () => {
+    expect(resolveLegacyRedirect("/contents")).toBe("/talmud");
+    expect(resolveLegacyRedirect("/dictionary")).toBe("/jastrow");
+    expect(resolveLegacyRedirect("/contents/Berakhot")).toBe("/talmud/Berakhot");
+  });
+
+  it("normalizes tractate slugs like the api-server", () => {
+    expect(resolveLegacyRedirect("/contents/berakhot")).toBe("/talmud/Berakhot");
+    expect(resolveLegacyRedirect("/contents/bava-metzia")).toBe(
+      "/talmud/Bava_Metzia",
+    );
+  });
+
+  it("tolerates a trailing slash", () => {
+    expect(resolveLegacyRedirect("/contents/")).toBe("/talmud");
+    expect(resolveLegacyRedirect("/dictionary/")).toBe("/jastrow");
+    expect(resolveLegacyRedirect("/contents/Berakhot/")).toBe("/talmud/Berakhot");
+  });
+
+  it("returns null for non-legacy paths", () => {
+    for (const p of [
+      "/",
+      "/talmud",
+      "/jastrow",
+      "/contents/berakhot/extra",
+      "/no-such-page",
+    ]) {
+      expect(resolveLegacyRedirect(p), p).toBe(null);
+    }
   });
 });
 

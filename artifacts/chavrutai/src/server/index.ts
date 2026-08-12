@@ -5,6 +5,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { getPageSEO } from "@workspace/shared-data/seo-data";
 import { isKnownAppPath, getNotFoundSEO } from "@workspace/shared-data/route-validation";
+import { resolveLegacyRedirect } from "@workspace/shared-data/legacy-redirects";
 
 // After esbuild bundling, this file is emitted to dist/index.mjs and the Vite
 // build output lives alongside it at dist/public.
@@ -187,6 +188,19 @@ app.use((req, res, next) => {
   const host = (req.headers.host || "").toLowerCase().split(":")[0];
   if (LEGACY_HOSTS.has(host)) {
     return res.redirect(301, `${PROD_BASE_URL}${req.originalUrl}`);
+  }
+  next();
+});
+
+// Legacy path redirects (/contents, /contents/:tractate, /dictionary): 301 to
+// the current URL scheme, preserving query strings. Shares one mapping with
+// the api-server (external sites still link to the historical paths).
+app.use((req, res, next) => {
+  const target = resolveLegacyRedirect(req.path);
+  if (target) {
+    const queryIndex = req.originalUrl.indexOf("?");
+    const query = queryIndex === -1 ? "" : req.originalUrl.slice(queryIndex);
+    return res.redirect(301, `${target}${query}`);
   }
   next();
 });

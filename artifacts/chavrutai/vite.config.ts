@@ -58,10 +58,42 @@ const sitemapDevProxy = () => ({
   },
 });
 
+// Dev-only legacy path redirects (/contents, /contents/:tractate,
+// /dictionary). In production the express server (src/server/index.ts) issues
+// these 301s; this middleware mirrors that behavior in the Vite dev server,
+// preserving query strings.
+// The shared mapping lives in TypeScript with extensionless imports, which
+// plain Node ESM (used to load this config) cannot resolve — so it is loaded
+// lazily through Vite's own module pipeline (ssrLoadModule).
+const legacyRedirectDev = () => ({
+  name: "legacy-redirect-dev",
+  configureServer(server: import("vite").ViteDevServer) {
+    server.middlewares.use(async (req, res, next) => {
+      const url = req.url || "";
+      const queryIndex = url.indexOf("?");
+      const pathname = queryIndex === -1 ? url : url.slice(0, queryIndex);
+      const query = queryIndex === -1 ? "" : url.slice(queryIndex);
+      try {
+        const { resolveLegacyRedirect } = (await server.ssrLoadModule(
+          "@workspace/shared-data/legacy-redirects",
+        )) as typeof import("@workspace/shared-data/legacy-redirects");
+        const target = resolveLegacyRedirect(pathname);
+        if (!target) return next();
+        res.statusCode = 301;
+        res.setHeader("Location", `${target}${query}`);
+        res.end();
+      } catch {
+        next();
+      }
+    });
+  },
+});
+
 export default defineConfig({
   base: basePath,
   plugins: [
     react(),
+    legacyRedirectDev(),
     sitemapDevProxy(),
     runtimeErrorOverlay(),
     ...(process.env.NODE_ENV !== "production" &&
