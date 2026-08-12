@@ -30,13 +30,13 @@ export function HamburgerMenu({ onLocationChange }: HamburgerMenuProps) {
           <span className="sr-only">Open menu</span>
         </Button>
       </SheetTrigger>
-      <SheetContent side="left" className="w-64">
+      <SheetContent side="left" className="w-64 flex flex-col">
         <SheetHeader>
           <SheetTitle className="text-left">Menu</SheetTitle>
           <SheetDescription className="sr-only">Navigation menu and reading preferences</SheetDescription>
         </SheetHeader>
         
-        <div className="flex flex-col h-full pt-6">
+        <div className="flex flex-col flex-1 min-h-0 overflow-y-auto overflow-x-hidden pt-6 -mr-4 pr-4">
           {/* Home Link with Logo */}
           <div className="mb-6">
             <Link 
