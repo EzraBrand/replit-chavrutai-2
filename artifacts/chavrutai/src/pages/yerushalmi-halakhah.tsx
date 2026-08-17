@@ -26,6 +26,7 @@ import { apiRequest } from "@/lib/queryClient";
 import { getYerushalmiHalakhahLinks } from "@/lib/yerushalmi-external-links";
 import {
   isYerushalmiHalakhahMissing,
+  findFirstValidHalakhahInChapter,
   findNextValidYerushalmiHalakhah,
   findPrevValidYerushalmiHalakhah,
 } from "@workspace/shared-data/yerushalmi-missing";
@@ -148,8 +149,12 @@ export default function YerushalmiHalakhah() {
   const halakhahNum = parsed?.halakhah ?? NaN;
   const tractateInfo = tractateDisplayName ? getYerushalmiTractateInfo(tractateDisplayName) : null;
 
+  // Detect bare chapter number (no dot) — e.g. /yerushalmi/Taanit/3
+  const isBareChapter = !!(chapterHalakhah && /^\d+$/.test(chapterHalakhah));
+  const bareChapterNum = isBareChapter && chapterHalakhah ? parseInt(chapterHalakhah, 10) : NaN;
+
   const isInvalidTractate = tractate && !isValidYerushalmiTractate(tractate);
-  const isInvalidChapterHalakhah = !parsed || (tractateInfo && (chapterNum < 1 || chapterNum > tractateInfo.chapters));
+  const isInvalidChapterHalakhah = !isBareChapter && (!parsed || (tractateInfo && (chapterNum < 1 || chapterNum > tractateInfo.chapters)));
   const isMissingHalakhah = !!tractateDisplayName && !isNaN(chapterNum) && !isNaN(halakhahNum) &&
     isYerushalmiHalakhahMissing(tractateDisplayName, chapterNum, halakhahNum);
 
@@ -237,6 +242,22 @@ export default function YerushalmiHalakhah() {
     enabled: !!tractateSlug,
     staleTime: Infinity,
   });
+
+  // SPA-side redirect for bare chapter URLs. Runs after shape data loads so we can
+  // apply the same first-valid-halakhah logic as the server — including redirecting
+  // empty chapters (e.g. Shabbat 21+, Makkot 3) to the tractate page.
+  useEffect(() => {
+    if (!isBareChapter || !tractateSlug || !tractateDisplayName || !chapterHalakhah || isNaN(bareChapterNum)) return;
+    if (!shapeData) return; // Wait for shape data before computing target.
+    const shapes = shapeData.shapes ?? [];
+    const firstValidHalakhah = findFirstValidHalakhahInChapter(tractateDisplayName, bareChapterNum, shapes);
+    if (firstValidHalakhah === null) {
+      // Entire chapter has no Yerushalmi text → redirect to tractate page (mirrors server).
+      setLocation(`/yerushalmi/${tractateSlug}`, { replace: true });
+    } else {
+      setLocation(`/yerushalmi/${tractateSlug}/${chapterHalakhah}.${firstValidHalakhah}`, { replace: true });
+    }
+  }, [isBareChapter, tractateSlug, tractateDisplayName, chapterHalakhah, bareChapterNum, shapeData, setLocation]);
 
   const processedSections = useMemo(() => {
     if (!textData) return [];
@@ -458,6 +479,16 @@ export default function YerushalmiHalakhah() {
     container.addEventListener('copy', handleCopy as EventListener);
     return () => container.removeEventListener('copy', handleCopy as EventListener);
   }, [textData]);
+
+  // Bare chapter URL handling: validate bounds first, then render nothing while the redirect fires.
+  if (isBareChapter) {
+    // Out-of-range or invalid tractate → NotFound (mirrors server 404).
+    if (!tractateInfo || !tractateSlug || isNaN(bareChapterNum) || bareChapterNum < 1 || bareChapterNum > tractateInfo.chapters) {
+      return <NotFound />;
+    }
+    // Valid bare chapter — redirect fires via useEffect once shape data loads.
+    return null;
+  }
 
   if (isInvalidTractate || isInvalidChapterHalakhah || isMissingHalakhah) {
     return <NotFound />;

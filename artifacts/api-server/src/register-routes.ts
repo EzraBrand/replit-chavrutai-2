@@ -3,8 +3,11 @@ import { createServer, type Server } from "http";
 import path from "path";
 import { getTractateSlug } from "@workspace/shared-data/tractates";
 import { resolveLegacyRedirect } from "@workspace/shared-data/legacy-redirects";
-import { isYerushalmiHalakhahMissing } from "@workspace/shared-data/yerushalmi-missing";
+import { findFirstValidHalakhahInChapter } from "@workspace/shared-data/yerushalmi-missing";
 import { getYerushalmiTractateInfo } from "@workspace/shared-data/yerushalmi-data";
+import yerushalmiShapes from "@workspace/shared-data/data/yerushalmi-shapes.json";
+
+const yerushalmiShapesData: Record<string, number[][]> = yerushalmiShapes as Record<string, number[][]>;
 import { generateSitemapIndex } from "./routes/sitemap-index";
 import { generateMainSitemap } from "./routes/sitemap-main";
 import { generateSederSitemap } from "./routes/sitemap-seder";
@@ -74,15 +77,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
     if (yerushalmiOldChapterMatch) {
       const [, tractate, chapter] = yerushalmiOldChapterMatch;
       const chapterNum = parseInt(chapter, 10);
-      // Normalize tractate slug (e.g. "shabbat") to display name ("Shabbat") for the missing-chapter check.
-      const tractateDisplayName = getYerushalmiTractateInfo(tractate)?.name ?? tractate;
-      // If the entire chapter has no Yerushalmi text (e.g. Shabbat 21+, Makkot 3), redirect to tractate page.
-      if (isYerushalmiHalakhahMissing(tractateDisplayName, chapterNum, 1)) {
-        canonicalUrl = `/yerushalmi/${tractate}`;
-      } else {
-        canonicalUrl = `/yerushalmi/${tractate}/${chapter}.1`;
+      const tractateInfo = getYerushalmiTractateInfo(tractate);
+      if (tractateInfo) {
+        // Out-of-range chapter → 404.
+        if (chapterNum < 1 || chapterNum > tractateInfo.chapters) {
+          return res.sendStatus(404);
+        }
+        // Find the first non-missing halakhah in this chapter.
+        const shapes = yerushalmiShapesData[tractateInfo.sefaria] ?? [];
+        const firstValidHalakhah = findFirstValidHalakhahInChapter(tractateInfo.name, chapterNum, shapes);
+        if (firstValidHalakhah === null) {
+          // Entire chapter has no Yerushalmi text → redirect to tractate page.
+          canonicalUrl = `/yerushalmi/${tractate}`;
+        } else {
+          canonicalUrl = `/yerushalmi/${tractate}/${chapter}.${firstValidHalakhah}`;
+        }
+        needsRedirect = true;
       }
-      needsRedirect = true;
+      // Invalid tractate: fall through without redirecting; the SPA will render NotFound.
     }
     
     // Legacy paths (/contents, /contents/:tractate, /dictionary) — shared
