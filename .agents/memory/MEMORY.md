@@ -8,3 +8,4 @@
 - [Route 404 validation](route-404-validation.md) — servers 404 any path not recognized by shared isKnownAppPath; every new SPA route must be added there or production returns 404.
 - [vite.config Node ESM](vite-config-node-esm.md) — top-level `@workspace/*` TS imports crash vite.config load; use `server.ssrLoadModule` in dev middleware instead.
 - [Crawler route registration](crawler-route-registration.md) — crawler HTML branches do nothing for direct bot hits unless the path is also registered with servePageWithMeta in the api-server.
+- [Trusted internal telemetry](trusted-internal-telemetry.md) — internal SSR/proxy traffic must use signed attribution; never classify it from a caller-controlled user-agent alone.

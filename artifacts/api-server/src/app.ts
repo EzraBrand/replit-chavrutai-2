@@ -3,12 +3,14 @@ import cors from "cors";
 import pinoHttp from "pino-http";
 import healthRouter from "./routes/health";
 import { logger } from "./lib/logger";
+import { requestTelemetry } from "./lib/request-telemetry";
 
 const app: Express = express();
 
 app.use(
   pinoHttp({
     logger,
+    autoLogging: false,
     serializers: {
       req(req) {
         return {
@@ -25,6 +27,7 @@ app.use(
     },
   }),
 );
+app.use(requestTelemetry);
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

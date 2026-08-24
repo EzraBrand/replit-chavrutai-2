@@ -37,6 +37,7 @@ export function createTalmudRouter(): Router {
       }
       
       let text = await storage.getText(work, tractate, chapter, folio, side);
+      res.locals.cacheOutcome = text ? "hit" : "miss";
       
       if (!text) {
         try {
@@ -117,6 +118,7 @@ export function createTalmudRouter(): Router {
   });
 
   router.get("/api/tractates", async (req, res) => {
+    res.locals.cacheOutcome = "bypass";
     try {
       const { work } = tractateListSchema.parse(req.query);
       const { TRACTATE_LISTS } = await import('@workspace/shared-data/tractates');

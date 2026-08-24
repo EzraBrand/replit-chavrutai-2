@@ -2,10 +2,17 @@ import { CANONICAL_BASE_URL as PROD_BASE_URL } from "@workspace/shared-data/bran
 import express from "express";
 import fs from "node:fs";
 import path from "node:path";
+import { createHmac } from "node:crypto";
 import { fileURLToPath } from "node:url";
 import { getPageSEO } from "@workspace/shared-data/seo-data";
 import { isKnownAppPath, getNotFoundSEO } from "@workspace/shared-data/route-validation";
 import { resolveLegacyRedirect } from "@workspace/shared-data/legacy-redirects";
+import {
+  RequestTelemetryAggregator,
+  classifyTraffic,
+  normalizeTelemetryRoute,
+  type RequestTelemetry,
+} from "@workspace/shared-data/request-telemetry";
 
 // After esbuild bundling, this file is emitted to dist/index.mjs and the Vite
 // build output lives alongside it at dist/public.
@@ -39,6 +46,20 @@ const ENHANCE_BASE_URL =
   (process.env.NODE_ENV === "production"
     ? PROD_BASE_URL
     : "http://localhost:80");
+
+function internalRequestHeader(
+  kind: "ssr" | "sitemap-proxy",
+  method: string,
+  pathname: string,
+): string | undefined {
+  const secret = process.env.SESSION_SECRET;
+  if (!secret) return undefined;
+  const timestamp = Date.now();
+  const signature = createHmac("sha256", secret)
+    .update(`${kind}:${timestamp}:${method}:${pathname}`)
+    .digest("hex");
+  return `${kind}:${timestamp}:${signature}`;
+}
 
 const ASSET_EXTENSION_RE =
   /\.(js|mjs|css|map|png|jpg|jpeg|gif|svg|webp|ico|webmanifest|json|txt|xml|woff|woff2|ttf|eot)$/i;
@@ -154,9 +175,17 @@ async function fetchEnhancement(pathAndQuery: string): Promise<SeoEnhancement | 
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 4000);
     try {
+      const internalHeader = internalRequestHeader(
+        "ssr",
+        "GET",
+        "/api/seo/enhance",
+      );
       const resp = await fetch(target, {
         signal: controller.signal,
-        headers: { "user-agent": "chavrutai-ssr" },
+        headers: {
+          "user-agent": "chavrutai-ssr",
+          ...(internalHeader ? { "x-chavrutai-internal": internalHeader } : {}),
+        },
       });
       if (!resp.ok) return null;
       return (await resp.json()) as SeoEnhancement;
@@ -169,6 +198,64 @@ async function fetchEnhancement(pathAndQuery: string): Promise<SeoEnhancement | 
 }
 
 const app = express();
+const telemetryAggregator = new RequestTelemetryAggregator("web");
+const telemetrySampleRate = Math.min(
+  1,
+  Math.max(0, Number(process.env.TELEMETRY_SAMPLE_RATE ?? (process.env.NODE_ENV === "production" ? 0.01 : 1))),
+);
+const telemetryTimer = setInterval(() => {
+  const report = telemetryAggregator.flush();
+  if (report) process.stdout.write(`${JSON.stringify(report)}\n`);
+}, Number(process.env.TELEMETRY_REPORT_INTERVAL_MS) || 60 * 60 * 1000);
+telemetryTimer.unref();
+
+app.use((req, res, next) => {
+  const startedAt = process.hrtime.bigint();
+  let streamedBytes = 0;
+  const originalWrite = res.write.bind(res);
+  const originalEnd = res.end.bind(res);
+  const count = (chunk: unknown, encoding?: BufferEncoding) => {
+    if (Buffer.isBuffer(chunk)) streamedBytes += chunk.length;
+    else if (typeof chunk === "string") streamedBytes += Buffer.byteLength(chunk, encoding);
+    else if (chunk instanceof Uint8Array) streamedBytes += chunk.byteLength;
+  };
+  res.write = ((chunk: unknown, encoding?: BufferEncoding, callback?: () => void) => {
+    count(chunk, encoding);
+    return encoding
+      ? originalWrite(chunk, encoding, callback)
+      : originalWrite(chunk, callback);
+  }) as typeof res.write;
+  res.end = ((chunk?: unknown, encoding?: BufferEncoding, callback?: () => void) => {
+    count(chunk, encoding);
+    return encoding
+      ? originalEnd(chunk, encoding, callback)
+      : originalEnd(chunk, callback);
+  }) as typeof res.end;
+  res.once("finish", () => {
+    const contentLength = Number(res.getHeader("content-length"));
+    const route = normalizeTelemetryRoute(req.path);
+    const event: RequestTelemetry = {
+      service: "web",
+      method: req.method,
+      route,
+      status: res.statusCode,
+      responseBytes:
+        req.method === "HEAD"
+          ? 0
+          : Number.isFinite(contentLength)
+            ? contentLength
+            : streamedBytes,
+      latencyMs: Math.round(Number(process.hrtime.bigint() - startedAt) / 1e6),
+      cacheOutcome: "bypass",
+      trafficClass: classifyTraffic(req.get("user-agent")),
+    };
+    telemetryAggregator.record(event);
+    if (Math.random() < telemetrySampleRate) {
+      process.stdout.write(`${JSON.stringify({ event: "request_telemetry", ...event })}\n`);
+    }
+  });
+  next();
+});
 
 // Domain canonicalization: permanently redirect legacy/alias domains to the
 // canonical bekiut.com. We compare against an explicit allowlist of known
@@ -218,9 +305,17 @@ app.get(SITEMAP_PATH_RE, async (req, res) => {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 10000);
     try {
+      const internalHeader = internalRequestHeader(
+        "sitemap-proxy",
+        "GET",
+        `/api${req.path}`,
+      );
       const resp = await fetch(target, {
         signal: controller.signal,
-        headers: { "user-agent": "chavrutai-sitemap-proxy" },
+        headers: {
+          "user-agent": "chavrutai-sitemap-proxy",
+          ...(internalHeader ? { "x-chavrutai-internal": internalHeader } : {}),
+        },
       });
       if (!resp.ok) {
         res.status(503).type("text/plain").send("Sitemap temporarily unavailable");
