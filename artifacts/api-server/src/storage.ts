@@ -1,6 +1,7 @@
 import { type User, type InsertUser, type Text, type InsertText, type Bookmark, type InsertBookmark, type DictionaryEntry, type SearchRequest } from "@workspace/db";
 import { randomUUID } from "crypto";
 import bdbSupplementalData from "@workspace/shared-data/data/bdb-supplemental-entries.json";
+import { AsyncTtlLruCache } from "./lib/async-ttl-lru-cache";
 
 // Reduce a Hebrew form to its bare consonant "skeleton" so user queries (typed
 // without vowels/maqaf) can be matched against voweled supplemental headwords:
@@ -79,12 +80,12 @@ export interface BdbPrefixProbeResult {
 
 export class MemStorage implements IStorage {
   private users: Map<string, User>;
-  private texts: Map<string, Text>;
+  private texts: AsyncTtlLruCache<Text>;
   private bookmarks: Map<string, Bookmark>;
 
   constructor() {
     this.users = new Map();
-    this.texts = new Map();
+    this.texts = new AsyncTtlLruCache<Text>(500, 6 * 60 * 60 * 1000);
     this.bookmarks = new Map();
     
     // No sample data - fetch from Sefaria API
@@ -119,7 +120,7 @@ export class MemStorage implements IStorage {
   }
 
   async getTexts(work: string, tractate?: string): Promise<Text[]> {
-    return Array.from(this.texts.values()).filter(text => 
+    return this.texts.values().filter(text =>
       text.work === work && (!tractate || text.tractate === tractate)
     );
   }

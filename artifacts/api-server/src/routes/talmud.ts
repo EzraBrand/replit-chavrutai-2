@@ -3,8 +3,20 @@ import { z } from "zod/v4";
 import { storage } from "../storage";
 import { normalizeSefariaTractateName, isValidTractate } from "@workspace/shared-data/tractates";
 import { processHebrewTextCore as processHebrewText, processEnglishText } from "@workspace/text-processing";
+import { AsyncTtlLruCache } from "../lib/async-ttl-lru-cache";
+import type { Text } from "@workspace/db";
 
 const sefariaAPIBaseURL = "https://www.sefaria.org/api";
+const talmudTextLoads = new AsyncTtlLruCache<Text>(500, 6 * 60 * 60 * 1000);
+
+class SefariaTextResponseError extends Error {
+  constructor(
+    readonly status: number,
+    readonly statusText: string,
+  ) {
+    super(`Sefaria returned ${status} ${statusText}`);
+  }
+}
 
 const textQuerySchema = z.object({
   work: z.string(),
@@ -40,7 +52,10 @@ export function createTalmudRouter(): Router {
       res.locals.cacheOutcome = text ? "hit" : "miss";
       
       if (!text) {
-        try {
+        const cacheKey = `${work}:${tractate}:${chapter}:${folio}:${side}`;
+        const load = talmudTextLoads.load(cacheKey, async () => {
+          const stored = await storage.getText(work, tractate, chapter, folio, side);
+          if (stored) return stored;
           const normalizedTractate = normalizeSefariaTractateName(tractate);
           const sefariaRef = `${normalizedTractate}.${folio}${side}`;
           console.log(`Fetching from Sefaria: ${sefariaRef} (original: ${tractate})`);
@@ -96,10 +111,21 @@ export function createTalmudRouter(): Router {
               nextPageFirstSection
             };
             
-            text = await storage.createText(newText);
+            return storage.createText(newText);
           }
+          throw new SefariaTextResponseError(response.status, response.statusText);
+        });
+        res.locals.cacheOutcome = load.outcome;
+        try {
+          text = await load.value;
         } catch (sefariaError) {
           console.error('Error fetching from Sefaria:', sefariaError);
+          if (sefariaError instanceof SefariaTextResponseError) {
+            res.status(sefariaError.status).json({ error: "Failed to fetch text from Sefaria" });
+          } else {
+            res.status(502).json({ error: "Failed to fetch text from Sefaria" });
+          }
+          return;
         }
       }
       

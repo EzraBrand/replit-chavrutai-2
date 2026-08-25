@@ -5,7 +5,7 @@ export type TrafficClass =
   | "internal-ssr"
   | "internal-sitemap-proxy";
 
-export type CacheOutcome = "hit" | "miss" | "bypass" | "unknown";
+export type CacheOutcome = "hit" | "miss" | "coalesced" | "bypass" | "unknown";
 export type InternalTrafficKind = "ssr" | "sitemap-proxy";
 
 export interface RequestTelemetry {

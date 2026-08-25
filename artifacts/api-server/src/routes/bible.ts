@@ -1,5 +1,31 @@
 import { Router } from "express";
 import { z } from "zod/v4";
+import { AsyncTtlLruCache } from "../lib/async-ttl-lru-cache";
+
+interface BibleTextResult {
+  work: "Bible";
+  book: string;
+  chapter: number;
+  verses: Array<{
+    verseNumber: number;
+    hebrewSegments: ReturnType<typeof import("../lib/bible-text-processing").processHebrewVerse>;
+    englishSegments: ReturnType<typeof import("../lib/bible-text-processing").processEnglishVerse>;
+  }>;
+  sefariaRef: string;
+  verseCount: number;
+}
+
+class SefariaResponseError extends Error {
+  constructor(
+    readonly language: "Hebrew" | "English",
+    readonly status: number,
+    readonly statusText: string,
+  ) {
+    super(`Sefaria API error (${language}): ${status} ${statusText}`);
+  }
+}
+
+const bibleTextCache = new AsyncTtlLruCache<BibleTextResult>(250, 6 * 60 * 60 * 1000);
 
 export function createBibleRouter(): Router {
   const router = Router();
@@ -26,52 +52,52 @@ export function createBibleRouter(): Router {
       const sefariaBookName = normalizeSefariaBookName(book);
       const sefariaRef = `${sefariaBookName}.${chapter}`;
       
-      const hebrewUrl = `https://www.sefaria.org/api/v3/texts/${encodeURIComponent(sefariaRef)}`;
-      console.log(`Fetching Hebrew Bible text from Sefaria: ${hebrewUrl}`);
-      const hebrewResponse = await fetch(hebrewUrl);
-      
-      if (!hebrewResponse.ok) {
-        console.error(`Sefaria API error (Hebrew): ${hebrewResponse.status} ${hebrewResponse.statusText}`);
-        res.status(hebrewResponse.status).json({ error: `Failed to fetch Hebrew Bible text from Sefaria` });
-        return;
-      }
-      
-      const hebrewData: any = await hebrewResponse.json();
-      
-      const englishUrl = `https://www.sefaria.org/api/texts/${encodeURIComponent(sefariaRef)}?lang=en&ven=${encodeURIComponent('The Koren Jerusalem Bible')}&context=0`;
-      console.log(`Fetching English Bible text from Sefaria: ${englishUrl}`);
-      const englishResponse = await fetch(englishUrl);
-      
-      if (!englishResponse.ok) {
-        console.error(`Sefaria API error (English): ${englishResponse.status} ${englishResponse.statusText}`);
-        res.status(englishResponse.status).json({ error: `Failed to fetch English Bible text from Sefaria` });
-        return;
-      }
-      
-      const englishData: any = await englishResponse.json();
-      
-      const hebrewVerses = Array.isArray(hebrewData.versions[0]?.text) ? hebrewData.versions[0].text : [];
-      const englishVerses = Array.isArray(englishData.text) ? englishData.text : [];
-      
-      const verses = hebrewVerses.map((hebrewVerse: string, index: number) => {
-        const englishVerse = englishVerses[index] || '';
-        
-        return {
+      const cacheKey = `${bookInfo.slug}:${chapter}`;
+      const load = bibleTextCache.load(cacheKey, async () => {
+        const hebrewUrl = `https://www.sefaria.org/api/v3/texts/${encodeURIComponent(sefariaRef)}`;
+        const englishUrl = `https://www.sefaria.org/api/texts/${encodeURIComponent(sefariaRef)}?lang=en&ven=${encodeURIComponent('The Koren Jerusalem Bible')}&context=0`;
+        console.log(`Fetching Bible text from Sefaria: ${sefariaRef}`);
+
+        const [hebrewResponse, englishResponse] = await Promise.all([
+          fetch(hebrewUrl),
+          fetch(englishUrl),
+        ]);
+        if (!hebrewResponse.ok) {
+          throw new SefariaResponseError("Hebrew", hebrewResponse.status, hebrewResponse.statusText);
+        }
+        if (!englishResponse.ok) {
+          throw new SefariaResponseError("English", englishResponse.status, englishResponse.statusText);
+        }
+
+        const [hebrewData, englishData]: any[] = await Promise.all([
+          hebrewResponse.json(),
+          englishResponse.json(),
+        ]);
+        const hebrewVerses = Array.isArray(hebrewData.versions[0]?.text) ? hebrewData.versions[0].text : [];
+        const englishVerses = Array.isArray(englishData.text) ? englishData.text : [];
+        const verses = hebrewVerses.map((hebrewVerse: string, index: number) => ({
           verseNumber: index + 1,
           hebrewSegments: processHebrewVerse(hebrewVerse),
-          englishSegments: processEnglishVerse(englishVerse)
+          englishSegments: processEnglishVerse(englishVerses[index] || ''),
+        }));
+
+        return {
+          work: "Bible" as const,
+          book: bookInfo.slug,
+          chapter,
+          verses,
+          sefariaRef,
+          verseCount: verses.length,
         };
       });
-      
-      res.json({
-        work: "Bible",
-        book: bookInfo.slug,
-        chapter,
-        verses,
-        sefariaRef,
-        verseCount: verses.length
-      });
+      res.locals.cacheOutcome = load.outcome;
+      res.json(await load.value);
     } catch (error) {
+      if (error instanceof SefariaResponseError) {
+        console.error(error.message);
+        res.status(error.status).json({ error: `Failed to fetch ${error.language} Bible text from Sefaria` });
+        return;
+      }
       console.error('Error in /api/bible/text:', error);
       res.status(500).json({ error: "Failed to fetch Bible text" });
     }
