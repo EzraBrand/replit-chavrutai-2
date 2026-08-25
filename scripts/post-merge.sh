@@ -7,5 +7,7 @@ set -e
 pkill -f "node --enable-source-maps ./dist/index.mjs" 2>/dev/null || true
 pkill -f "vite --config vite.config.ts" 2>/dev/null || true
 
-pnpm install --frozen-lockfile
+# Task-agent merges can legitimately change package manifests without carrying
+# the generated lockfile. Reconcile it here before running project setup.
+pnpm install --no-frozen-lockfile
 pnpm --filter db push
