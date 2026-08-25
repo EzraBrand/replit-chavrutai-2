@@ -13,6 +13,10 @@ import {
   normalizeTelemetryRoute,
   type RequestTelemetry,
 } from "@workspace/shared-data/request-telemetry";
+import {
+  normalizeSeoEnhancementKey,
+  SeoEnhancementCache,
+} from "./seo-enhancement-cache";
 
 // After esbuild bundling, this file is emitted to dist/index.mjs and the Vite
 // build output lives alongside it at dist/public.
@@ -162,38 +166,46 @@ interface SeoEnhancement {
   bodyContent: string;
 }
 
+function positiveIntegerEnv(name: string, fallback: number): number {
+  const parsed = Number(process.env[name]);
+  return Number.isInteger(parsed) && parsed > 0 ? parsed : fallback;
+}
+
+const enhancementCache = new SeoEnhancementCache<SeoEnhancement>(
+  positiveIntegerEnv("SEO_ENHANCE_CACHE_MAX_ENTRIES", 512),
+  positiveIntegerEnv("SEO_ENHANCE_CACHE_TTL_MS", 15 * 60 * 1000),
+);
+
 // Fetch the storage-backed enhancement (JSON-LD + pre-rendered body) from the
 // api-server through the shared proxy at a FIXED base URL (ENHANCE_BASE_URL).
 // The destination never depends on inbound request headers, so a spoofed Host
 // or X-Forwarded-Proto cannot redirect this server-side call. Degrades
 // gracefully: if the api-server is slow or unreachable, the page still ships
 // with correct meta tags.
-async function fetchEnhancement(pathAndQuery: string): Promise<SeoEnhancement | null> {
-  try {
-    const target = `${ENHANCE_BASE_URL}/api/seo/enhance?path=${encodeURIComponent(pathAndQuery)}`;
+async function fetchEnhancement(pathAndQuery: string): Promise<SeoEnhancement> {
+  const target = `${ENHANCE_BASE_URL}/api/seo/enhance?path=${encodeURIComponent(pathAndQuery)}`;
 
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 4000);
-    try {
-      const internalHeader = internalRequestHeader(
-        "ssr",
-        "GET",
-        "/api/seo/enhance",
-      );
-      const resp = await fetch(target, {
-        signal: controller.signal,
-        headers: {
-          "user-agent": "chavrutai-ssr",
-          ...(internalHeader ? { "x-chavrutai-internal": internalHeader } : {}),
-        },
-      });
-      if (!resp.ok) return null;
-      return (await resp.json()) as SeoEnhancement;
-    } finally {
-      clearTimeout(timeout);
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 4000);
+  try {
+    const internalHeader = internalRequestHeader(
+      "ssr",
+      "GET",
+      "/api/seo/enhance",
+    );
+    const resp = await fetch(target, {
+      signal: controller.signal,
+      headers: {
+        "user-agent": "chavrutai-ssr",
+        ...(internalHeader ? { "x-chavrutai-internal": internalHeader } : {}),
+      },
+    });
+    if (!resp.ok) {
+      throw new Error(`SEO enhancement request failed with status ${resp.status}`);
     }
-  } catch {
-    return null;
+    return (await resp.json()) as SeoEnhancement;
+  } finally {
+    clearTimeout(timeout);
   }
 }
 
@@ -246,7 +258,7 @@ app.use((req, res, next) => {
             ? contentLength
             : streamedBytes,
       latencyMs: Math.round(Number(process.hrtime.bigint() - startedAt) / 1e6),
-      cacheOutcome: "bypass",
+      cacheOutcome: res.locals.cacheOutcome ?? "bypass",
       trafficClass: classifyTraffic(req.get("user-agent")),
     };
     telemetryAggregator.record(event);
@@ -359,7 +371,13 @@ app.use(async (req, res, next) => {
 
     template = injectMeta(template, seoData);
 
-    const enhancement = await fetchEnhancement(req.originalUrl);
+    const enhancementKey = normalizeSeoEnhancementKey(req.originalUrl);
+    const enhancementLoad = enhancementCache.load(
+      enhancementKey,
+      () => fetchEnhancement(enhancementKey),
+    );
+    res.locals.cacheOutcome = enhancementLoad.outcome;
+    const enhancement = await enhancementLoad.value.catch(() => null);
     if (enhancement?.structuredData) {
       template = injectStructuredData(template, enhancement.structuredData);
     }

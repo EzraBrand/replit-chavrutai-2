@@ -28,3 +28,15 @@ SSRF primitive. Canonical/OG base URL is likewise fixed, not header-derived.
 
 **Why:** code review flagged the header-derived target as a serious SSRF risk;
 fixed-base routing closes it while keeping graceful degradation.
+
+**Enhancement cache rule:** Cache and coalesce crawler enhancement calls in the
+frontend production server, before the cross-artifact HTTP boundary. Normalize
+keys by dropping tracking parameters while retaining only query parameters that
+change SEO output. Do not cache upstream failures.
+
+**Why:** API-side caching saves computation but not metered internal requests;
+failure caching would also prolong missing crawler enrichment after recovery.
+
+**How to apply:** Keep the cache bounded and expiring, expose hit/miss/coalesced
+outcomes through web request telemetry, and update the SEO-relevant query
+allowlist whenever a route gains query-dependent metadata.
