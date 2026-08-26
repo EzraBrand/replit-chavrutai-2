@@ -173,7 +173,7 @@ function positiveIntegerEnv(name: string, fallback: number): number {
 
 const enhancementCache = new SeoEnhancementCache<SeoEnhancement>(
   positiveIntegerEnv("SEO_ENHANCE_CACHE_MAX_ENTRIES", 512),
-  positiveIntegerEnv("SEO_ENHANCE_CACHE_TTL_MS", 15 * 60 * 1000),
+  positiveIntegerEnv("SEO_ENHANCE_CACHE_TTL_MS", 24 * 60 * 60 * 1000),
 );
 
 // Fetch the storage-backed enhancement (JSON-LD + pre-rendered body) from the
