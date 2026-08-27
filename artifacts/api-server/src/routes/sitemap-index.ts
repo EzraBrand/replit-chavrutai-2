@@ -1,4 +1,5 @@
 import { CANONICAL_BASE_URL } from '@workspace/shared-data/brand';
+import { SITEMAP_CHILD_PATHS } from '@workspace/shared-data/sitemap-routes';
 import { Request, Response } from 'express';
 
 export function generateSitemapIndex(req: Request, res: Response) {
@@ -9,73 +10,14 @@ export function generateSitemapIndex(req: Request, res: Response) {
   
   const currentDate = new Date().toISOString().split('T')[0];
   
-  let sitemapIndex = `<?xml version="1.0" encoding="UTF-8"?>
+  const children = SITEMAP_CHILD_PATHS.map((path) => `  <sitemap>
+    <loc>${baseUrl}${path}</loc>
+    <lastmod>${currentDate}</lastmod>
+  </sitemap>`).join('\n');
+
+  const sitemapIndex = `<?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- Main navigation and site pages -->
-  <sitemap>
-    <loc>${baseUrl}/sitemap-main.xml</loc>
-    <lastmod>${currentDate}</lastmod>
-  </sitemap>
-  
-  <!-- Bible - 39 books, ~929 chapters -->
-  <sitemap>
-    <loc>${baseUrl}/sitemap-bible.xml</loc>
-    <lastmod>${currentDate}</lastmod>
-  </sitemap>
-  
-  <!-- Seder Zeraim (Order of Seeds) - 1 tractate, ~128 pages -->
-  <sitemap>
-    <loc>${baseUrl}/sitemap-seder-zeraim.xml</loc>
-    <lastmod>${currentDate}</lastmod>
-  </sitemap>
-  
-  <!-- Seder Moed (Order of Appointed Times) - 11 tractates, ~1,654 pages -->
-  <sitemap>
-    <loc>${baseUrl}/sitemap-seder-moed.xml</loc>
-    <lastmod>${currentDate}</lastmod>
-  </sitemap>
-  
-  <!-- Seder Nashim (Order of Women) - 7 tractates, ~1,442 pages -->
-  <sitemap>
-    <loc>${baseUrl}/sitemap-seder-nashim.xml</loc>
-    <lastmod>${currentDate}</lastmod>
-  </sitemap>
-  
-  <!-- Seder Nezikin (Order of Damages) - 8 tractates, ~1,134 pages -->
-  <sitemap>
-    <loc>${baseUrl}/sitemap-seder-nezikin.xml</loc>
-    <lastmod>${currentDate}</lastmod>
-  </sitemap>
-  
-  <!-- Seder Kodashim (Order of Holy Things) - 11 tractates, ~1,114 pages -->
-  <sitemap>
-    <loc>${baseUrl}/sitemap-seder-kodashim.xml</loc>
-    <lastmod>${currentDate}</lastmod>
-  </sitemap>
-  
-  <!-- Seder Tohorot (Order of Purities) - 1 tractate, ~146 pages -->
-  <sitemap>
-    <loc>${baseUrl}/sitemap-seder-tohorot.xml</loc>
-    <lastmod>${currentDate}</lastmod>
-  </sitemap>
-  
-  <!-- Mishnah - 26 tractates not in Talmud Bavli -->
-  <sitemap>
-    <loc>${baseUrl}/sitemap-mishnah.xml</loc>
-    <lastmod>${currentDate}</lastmod>
-  </sitemap>
-  
-  <!-- Jerusalem Talmud (Yerushalmi) - 39 tractates -->
-  <sitemap>
-    <loc>${baseUrl}/sitemap-yerushalmi.xml</loc>
-    <lastmod>${currentDate}</lastmod>
-  </sitemap>
-  
-  <!-- Mishneh Torah (Rambam) - 83 Hilchot across 14 books -->
-  <sitemap>
-    <loc>${baseUrl}/sitemap-rambam.xml</loc>
-    <lastmod>${currentDate}</lastmod>
-  </sitemap>
+${children}
 </sitemapindex>`;
 
   res.set('Content-Type', 'application/xml');

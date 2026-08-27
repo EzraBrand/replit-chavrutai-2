@@ -8,12 +8,7 @@ import { getYerushalmiTractateInfo } from "@workspace/shared-data/yerushalmi-dat
 import yerushalmiShapes from "@workspace/shared-data/data/yerushalmi-shapes.json";
 
 const yerushalmiShapesData: Record<string, number[][]> = yerushalmiShapes as Record<string, number[][]>;
-import { generateSitemapIndex } from "./routes/sitemap-index";
-import { generateMainSitemap } from "./routes/sitemap-main";
-import { generateSederSitemap } from "./routes/sitemap-seder";
-import { generateMishnahSitemap } from "./routes/sitemap-mishnah";
-import { generateYerushalmiSitemap } from "./routes/sitemap-yerushalmi";
-import { generateRambamSitemap } from "./routes/sitemap-rambam";
+import { registerSitemapRoutes } from "./routes/sitemaps";
 import { servePageWithMeta, renderSeoEnhancement } from "./routes/seo";
 import { createTalmudRouter } from "./routes/talmud";
 import { createMishnahRouter } from "./routes/mishnah";
@@ -248,27 +243,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // and under the /api prefix, because the shared proxy forwards requests to
   // this server with the /api prefix intact. The chavrutai web server proxies
   // root-domain /sitemap*.xml requests to the /api-prefixed versions.
-  const sitemapRoutes: Record<string, (req: Request, res: Response) => void> = {
-    '/sitemap.xml': generateSitemapIndex,
-    '/sitemap-main.xml': generateMainSitemap,
-    '/sitemap-bible.xml': async (req, res) => {
-      const { generateBibleSitemap } = await import('./routes/sitemap-bible');
-      generateBibleSitemap(req, res);
-    },
-    '/sitemap-seder-zeraim.xml': generateSederSitemap('zeraim'),
-    '/sitemap-seder-moed.xml': generateSederSitemap('moed'),
-    '/sitemap-seder-nashim.xml': generateSederSitemap('nashim'),
-    '/sitemap-seder-nezikin.xml': generateSederSitemap('nezikin'),
-    '/sitemap-seder-kodashim.xml': generateSederSitemap('kodashim'),
-    '/sitemap-seder-tohorot.xml': generateSederSitemap('tohorot'),
-    '/sitemap-mishnah.xml': generateMishnahSitemap,
-    '/sitemap-yerushalmi.xml': generateYerushalmiSitemap,
-    '/sitemap-rambam.xml': generateRambamSitemap,
-  };
-  for (const [route, handler] of Object.entries(sitemapRoutes)) {
-    app.get(route, handler);
-    app.get(`/api${route}`, handler);
-  }
+  registerSitemapRoutes(app);
 
   app.get("/api/glossary", async (_req, res) => {
     const glossary = (await import("@workspace/shared-data/data/glossary_v4.json")).default;
