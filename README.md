@@ -18,7 +18,7 @@ Bekiut is listed in the [JewishAI Internet Index](https://jewishai.me/table.html
 
 ## Demo Video and Screenshot
 
-https://github.com/user-attachments/assets/b046339f-26ff-4bb5-ab92-7002c33bc7e3
+https://github.com/user-attachments/assets/74f50af2-9971-4076-b253-abb73ef0b46e
 
 ![Bekiut Talmud page showing Berakhot 2a with bilingual Hebrew/English text, section navigation, and links to Sefaria and Al HaTorah](artifacts/chavrutai/public/talmud-page-screenshot.png)
 
