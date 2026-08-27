@@ -17,6 +17,10 @@ import {
   normalizeSeoEnhancementKey,
   SeoEnhancementCache,
 } from "./seo-enhancement-cache";
+import {
+  CACHE_CONTROL,
+  cacheControlForStaticFile,
+} from "./cache-policy";
 
 // After esbuild bundling, this file is emitted to dist/index.mjs and the Vite
 // build output lives alongside it at dist/public.
@@ -221,6 +225,14 @@ const telemetryTimer = setInterval(() => {
 }, Number(process.env.TELEMETRY_REPORT_INTERVAL_MS) || 60 * 60 * 1000);
 telemetryTimer.unref();
 
+// Dynamic responses and HTML revalidate by default so a deployment is visible
+// immediately. Static resources override this below according to their URL
+// stability.
+app.use((_req, res, next) => {
+  res.setHeader("Cache-Control", CACHE_CONTROL.revalidate);
+  next();
+});
+
 app.use((req, res, next) => {
   const startedAt = process.hrtime.bigint();
   let streamedBytes = 0;
@@ -395,8 +407,17 @@ app.use(async (req, res, next) => {
   }
 });
 
-// Static assets (hashed JS/CSS, images, robots.txt, sitemap.xml, etc.).
-app.use(express.static(publicDir, { index: false }));
+// Content-hashed build assets are immutable; stable public data and media use
+// shorter TTLs and retain Express ETags for conditional revalidation.
+app.use(
+  express.static(publicDir, {
+    index: false,
+    etag: true,
+    setHeaders(res, servedPath) {
+      res.setHeader("Cache-Control", cacheControlForStaticFile(servedPath));
+    },
+  }),
+);
 
 // SPA fallback: every remaining route returns the client shell so direct URL
 // access and client-side routing work. Unknown content URLs still get the
