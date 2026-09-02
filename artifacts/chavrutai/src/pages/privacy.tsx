@@ -1,10 +1,14 @@
+import { useState } from "react";
 import { useSEO } from "@/hooks/use-seo";
 import { getStaticSEO } from "@workspace/shared-data/seo-data";
 import { getBaseUrl } from "@/lib/utils";
 import { PageShell, PageHeader, PageSection, SectionHeading } from "@/components/layout";
+import { Button } from "@/components/ui/button";
+import { isOptedOut, optInTracking, optOutTracking } from "@/lib/analytics";
 
 export default function Privacy() {
   const baseUrl = getBaseUrl();
+  const [analyticsDisabled, setAnalyticsDisabled] = useState(() => isOptedOut());
   // Set up SEO
   useSEO({
     ...getStaticSEO("/privacy", baseUrl)!,
@@ -28,7 +32,7 @@ export default function Privacy() {
       {/* Page title */}
       <PageHeader title="Privacy Policy">
         <p className="text-sm text-muted-foreground">
-          <strong>Last updated:</strong> September 15, 2025
+          <strong>Last updated:</strong> September 2, 2026
         </p>
       </PageHeader>
 
@@ -52,7 +56,7 @@ export default function Privacy() {
 
           <h3 className="text-lg font-medium text-foreground mb-3">Information Collected Automatically</h3>
           <ul className="list-disc list-inside space-y-2 mb-4 text-muted-foreground ml-4">
-            <li><strong>Usage Analytics:</strong> We use Google Analytics to understand how users interact with our platform, including pages visited, time spent on pages, and general usage patterns.</li>
+            <li><strong>Usage Analytics:</strong> We use Replit Publishing Analytics and PostHog to understand aggregate usage, including pages visited and interactions with study tools.</li>
             <li><strong>Technical Information:</strong> We may collect standard web server logs including IP addresses, browser types, device information, and referring websites.</li>
             <li><strong>Study Preferences:</strong> Your text size preferences, font selections, and display settings are stored locally on your device to enhance your study experience.</li>
           </ul>
@@ -77,7 +81,7 @@ export default function Privacy() {
             We do not sell, trade, or rent your personal information to third parties. We may share information in the following limited circumstances:
           </p>
           <ul className="list-disc list-inside space-y-2 mb-4 text-muted-foreground ml-4">
-            <li><strong>Service Providers:</strong> We use Google Analytics to analyze platform usage. Google's privacy policy governs their data handling practices.</li>
+            <li><strong>Service Providers:</strong> Replit Publishing Analytics and PostHog process usage analytics on our behalf, subject to their respective privacy policies.</li>
             <li><strong>Legal Requirements:</strong> We may disclose information if required by law or to protect our rights, safety, or the rights of others.</li>
             <li><strong>Text Content:</strong> Talmud text content is sourced from Sefaria.org's public API. We do not share user data with Sefaria.</li>
           </ul>
@@ -89,17 +93,36 @@ export default function Privacy() {
             <li><strong>Local Storage:</strong> Study preferences (text size, font, display settings) are stored locally on your device and do not leave your browser.</li>
             <li><strong>No Account Required:</strong> Bekiut does not require user accounts or personal information to access Talmud content.</li>
             <li><strong>Security Measures:</strong> We implement appropriate technical measures to protect information from unauthorized access, alteration, or destruction.</li>
-            <li><strong>Data Retention:</strong> Analytics data is retained according to Google Analytics' default retention policies. Contact information is retained only as long as necessary for communication purposes.</li>
+            <li><strong>Data Retention:</strong> Analytics data is retained according to each analytics provider's policies. Contact information is retained only as long as necessary for communication purposes.</li>
           </ul>
       </PageSection>
 
       <PageSection>
         <SectionHeading className="mb-4">Your Rights and Choices</SectionHeading>
           <ul className="list-disc list-inside space-y-2 mb-4 text-muted-foreground ml-4">
-            <li><strong>Analytics Opt-Out:</strong> You can opt out of Google Analytics tracking by using browser extensions or disabling JavaScript.</li>
+            <li><strong>Analytics Opt-Out:</strong> Disable analytics for this browser below. This preference remains until you clear this site's local storage or opt back in.</li>
             <li><strong>Local Storage:</strong> You can clear your study preferences by clearing your browser's local storage for bekiut.com.</li>
             <li><strong>Contact Us:</strong> You may contact us to request information about data we may have collected about you.</li>
           </ul>
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => {
+              if (analyticsDisabled) {
+                optInTracking();
+                setAnalyticsDisabled(false);
+              } else {
+                optOutTracking();
+                setAnalyticsDisabled(true);
+              }
+            }}
+            data-testid="button-analytics-opt-out"
+          >
+            {analyticsDisabled ? "Enable analytics on this browser" : "Disable analytics on this browser"}
+          </Button>
+          <p className="mt-2 text-sm text-muted-foreground" role="status">
+            Analytics are currently {analyticsDisabled ? "disabled" : "enabled"} on this browser.
+          </p>
       </PageSection>
 
       <PageSection>
@@ -108,7 +131,7 @@ export default function Privacy() {
             Our platform integrates with the following third-party services:
           </p>
           <ul className="list-disc list-inside space-y-2 mb-4 text-muted-foreground ml-4">
-            <li><strong>Google Analytics:</strong> For usage analytics. See Google's privacy policy at https://policies.google.com/privacy</li>
+            <li><strong>Analytics Providers:</strong> Replit Publishing Analytics and PostHog help us understand aggregate usage and improve the site.</li>
             <li><strong>Sefaria API:</strong> For Talmud text content. See Sefaria's privacy policy at https://www.sefaria.org/privacy-policy</li>
           </ul>
       </PageSection>

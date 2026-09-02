@@ -56,6 +56,7 @@ export const identifyUser = (userId: string, properties?: Record<string, any>) =
 
 export const optOutTracking = () => {
   localStorage.setItem('analytics_opt_out', 'true');
+  localStorage.setItem('umami.disabled', '1');
   if (isInitialized) {
     posthog.opt_out_capturing();
   }
@@ -63,6 +64,7 @@ export const optOutTracking = () => {
 
 export const optInTracking = () => {
   localStorage.removeItem('analytics_opt_out');
+  localStorage.removeItem('umami.disabled');
   if (!isInitialized) {
     initAnalytics();
   }
@@ -72,7 +74,8 @@ export const optInTracking = () => {
 };
 
 export const isOptedOut = (): boolean => {
-  return localStorage.getItem('analytics_opt_out') === 'true';
+  return localStorage.getItem('analytics_opt_out') === 'true'
+    || localStorage.getItem('umami.disabled') === '1';
 };
 
 export const getPostHog = () => posthog;

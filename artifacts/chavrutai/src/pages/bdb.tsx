@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { PageShell, PageHeader } from "@/components/layout/page-shell";
 import { useSEO } from "@/hooks/use-seo";
 import { getBDBSEO } from "@workspace/shared-data/seo-data";
+import { trackPublishingEvent } from "@/lib/publishing-analytics";
 import { HEBREW_ALPHABET } from "@shared/hebrew-alphabet";
 import bdbMappings from "@shared/data/lexicon-mappings/bdb.json";
 import {
@@ -98,6 +99,11 @@ export default function Bdb() {
         entry && entry.headword && entry.content && Array.isArray(entry.content.senses)
       ) : [];
       setResults(validEntries);
+      trackPublishingEvent('dictionary_search_completed', {
+        dictionary: 'bdb',
+        result_count: validEntries.length,
+        has_results: validEntries.length > 0,
+      });
     } catch (error) {
       console.error('BDB: Search error:', error);
       setResults([]);
@@ -162,6 +168,10 @@ export default function Bdb() {
       const params = new URLSearchParams(href.split('?')[1] || '');
       const q = params.get('q');
       if (q) {
+        trackPublishingEvent('dictionary_entry_opened', {
+          dictionary: 'bdb',
+          interaction: 'cross_reference',
+        });
         setSearchQuery((prev) => {
           if (prev !== q) suppressSuggestionsRef.current = true;
           return q;

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams, useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -21,6 +21,7 @@ import { sefariaAPI } from "@/lib/sefaria";
 import { normalizeDisplayTractateName, isValidTractate, getTractateSlug } from "@workspace/shared-data/tractates";
 import { isValidPage } from "@workspace/shared-data/talmud-navigation";
 import NotFound from "@/pages/not-found";
+import { trackPublishingEvent } from "@/lib/publishing-analytics";
 
 export default function TractateView() {
   const { tractate, folio } = useParams<{ tractate: string; folio: string }>();
@@ -44,6 +45,7 @@ export default function TractateView() {
   });
 
   const [currentSection, setCurrentSection] = useState<number>(1);
+  const lastTrackedTextRef = useRef("");
   
   // Prefetch adjacent pages for faster navigation
   usePrefetchAdjacentPages(talmudLocation);
@@ -88,6 +90,19 @@ export default function TractateView() {
     queryFn: () => sefariaAPI.getText(talmudLocation),
     enabled: !isInvalidTractate && !isInvalidPage,
   });
+
+  useEffect(() => {
+    if (!text) return;
+    const key = `${talmudLocation.tractate}:${talmudLocation.folio}${talmudLocation.side}`;
+    if (lastTrackedTextRef.current === key) return;
+    lastTrackedTextRef.current = key;
+    trackPublishingEvent('reader_text_opened', {
+      corpus: 'talmud',
+      tractate: talmudLocation.tractate,
+      folio: talmudLocation.folio,
+      side: talmudLocation.side,
+    });
+  }, [text, talmudLocation.tractate, talmudLocation.folio, talmudLocation.side]);
   
   // Show 404 for invalid tractate or page (after all hooks are called)
   if (isInvalidTractate || isInvalidPage) {

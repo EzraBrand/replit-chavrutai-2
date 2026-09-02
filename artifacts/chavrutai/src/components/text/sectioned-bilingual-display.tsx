@@ -8,6 +8,7 @@ import { getSefariaLink, getAlHaTorahLink, type TalmudReference } from "@/lib/ex
 import { useChapterData, type ChapterInfo } from "@/lib/chapter-data";
 import { getMishnahSection, getMishnahReferenceForSection, type MishnahReference } from "@shared/mishnah-map";
 import type { TalmudText } from "@/types/talmud";
+import { trackPublishingEvent } from "@/lib/publishing-analytics";
 
 interface SectionedBilingualDisplayProps {
   text: TalmudText;
@@ -584,6 +585,11 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
                       className="text-blue-600 dark:text-blue-400 hover:underline text-sm flex items-center gap-1"
                       data-testid={`link-sefaria-section-${index + 1}`}
                       title={`View section ${index + 1} on Sefaria`}
+                      onClick={() => trackPublishingEvent('external_resource_opened', {
+                        corpus: 'talmud',
+                        destination: 'sefaria',
+                        level: 'section',
+                      })}
                     >
                       Sefaria
                       <ExternalLinkIcon className="w-3 h-3" />
@@ -596,6 +602,11 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
                       className="text-blue-600 dark:text-blue-400 hover:underline text-sm flex items-center gap-1"
                       data-testid={`link-alhatorah-section-${index + 1}`}
                       title={`View section ${index + 1} on Al HaTorah`}
+                      onClick={() => trackPublishingEvent('external_resource_opened', {
+                        corpus: 'talmud',
+                        destination: 'al_hatorah',
+                        level: 'section',
+                      })}
                     >
                       Al HaTorah
                       <ExternalLinkIcon className="w-3 h-3" />

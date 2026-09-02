@@ -1,5 +1,6 @@
 import { ExternalLink as ExternalLinkIcon } from "lucide-react";
 import { getPageLinks, type TalmudReference } from "@/lib/external-links";
+import { trackPublishingEvent } from "@/lib/publishing-analytics";
 
 interface ExternalLinksFooterProps {
   tractate: string;
@@ -24,6 +25,11 @@ export function ExternalLinksFooter({ tractate, folio, side }: ExternalLinksFoot
             className="text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1"
             data-testid={`link-external-${link.name.toLowerCase().replace(/\s+/g, '-')}`}
             title={link.description}
+            onClick={() => trackPublishingEvent('external_resource_opened', {
+              corpus: 'talmud',
+              destination: link.name.toLowerCase().replace(/\s+/g, '_'),
+              level: 'page',
+            })}
           >
             {link.name}
             <ExternalLinkIcon className="w-3.5 h-3.5" />

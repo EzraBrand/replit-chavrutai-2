@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import type { TalmudLocation } from "@/types/talmud";
 import { getNextPage, getPreviousPage, formatPage, type TalmudPage } from "@workspace/shared-data/talmud-navigation";
 import { trackEvent } from "@/lib/analytics";
+import { trackPublishingEvent } from "@/lib/publishing-analytics";
 
 interface PageNavigationProps {
   location: TalmudLocation;
@@ -23,6 +24,13 @@ export function PageNavigation({ location, onLocationChange }: PageNavigationPro
     if (!previousPage) return;
     
     trackEvent('navigate_page', 'navigation', `${location.tractate} ${formatPage(previousPage)}`, previousPage.folio);
+    trackPublishingEvent('reader_navigated', {
+      corpus: 'talmud',
+      direction: 'previous',
+      tractate: location.tractate,
+      folio: previousPage.folio,
+      side: previousPage.side,
+    });
     
     onLocationChange({
       ...location,
@@ -35,6 +43,13 @@ export function PageNavigation({ location, onLocationChange }: PageNavigationPro
     if (!nextPage) return;
     
     trackEvent('navigate_page', 'navigation', `${location.tractate} ${formatPage(nextPage)}`, nextPage.folio);
+    trackPublishingEvent('reader_navigated', {
+      corpus: 'talmud',
+      direction: 'next',
+      tractate: location.tractate,
+      folio: nextPage.folio,
+      side: nextPage.side,
+    });
     
     onLocationChange({
       ...location,

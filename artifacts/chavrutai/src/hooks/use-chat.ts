@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { apiRequest } from '@/lib/queryClient';
+import { trackPublishingEvent } from '@/lib/publishing-analytics';
 
 export interface ChatMessage {
   role: 'user' | 'assistant';
@@ -50,6 +51,11 @@ export function useChat(context?: ChatContext) {
 
       setLastToolCalls(response.toolCalls);
       setMessages([...newMessages, response.message]);
+      trackPublishingEvent('ai_response_received', {
+        has_context: Boolean(context),
+        conversation_turn: newMessages.filter((message) => message.role === 'user').length,
+        tool_call_count: response.toolCalls.length,
+      });
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to send message');
     } finally {

@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import { trackPublishingEvent } from "@/lib/publishing-analytics";
 
 export type TextSize = "extra-small" | "small" | "medium" | "large" | "extra-large";
 export type HebrewFont = "calibri" | "times" | "frank-ruehl" | "noto-sans-hebrew" | "noto-serif-hebrew" | "assistant" | "david-libre";
@@ -93,26 +94,38 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
 
   const setTextSize = (textSize: TextSize) => {
     setPreferences(prev => ({ ...prev, textSize }));
+    trackPublishingEvent('reader_preference_changed', { preference: 'text_size', value: textSize });
   };
 
   const setHebrewFont = (hebrewFont: HebrewFont) => {
     setPreferences(prev => ({ ...prev, hebrewFont }));
+    trackPublishingEvent('reader_preference_changed', { preference: 'hebrew_font', value: hebrewFont });
   };
 
   const setEnglishFont = (englishFont: EnglishFont) => {
     setPreferences(prev => ({ ...prev, englishFont }));
+    trackPublishingEvent('reader_preference_changed', { preference: 'english_font', value: englishFont });
   };
 
   const setTheme = (theme: Theme) => {
     setPreferences(prev => ({ ...prev, theme }));
+    trackPublishingEvent('reader_preference_changed', { preference: 'theme', value: theme });
   };
 
   const setLayout = (layout: Layout) => {
     setPreferences(prev => ({ ...prev, layout }));
+    trackPublishingEvent('reader_preference_changed', { preference: 'layout', value: layout });
   };
 
   const setHighlighting = (highlighting: HighlightingSettings) => {
     setPreferences(prev => ({ ...prev, highlighting }));
+    trackPublishingEvent('reader_preference_changed', {
+      preference: 'highlighting',
+      enabled: highlighting.enabled,
+      concepts: highlighting.concepts,
+      names: highlighting.names,
+      places: highlighting.places,
+    });
   };
 
   return (

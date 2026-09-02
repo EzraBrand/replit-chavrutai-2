@@ -9,6 +9,7 @@ import { Send, Trash2, ExternalLink, Loader2 } from 'lucide-react';
 import { useChat, type ChatContext, type ToolCall } from '@/hooks/use-chat';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { trackPublishingEvent } from '@/lib/publishing-analytics';
 
 interface ChatPanelProps {
   context?: ChatContext;
@@ -25,10 +26,21 @@ export function ChatPanel({ context }: ChatPanelProps) {
     }
   }, [messages]);
 
+  useEffect(() => {
+    trackPublishingEvent('ai_assistant_opened', {
+      has_context: Boolean(context),
+      context_type: context?.tractate ? 'talmud' : 'custom',
+    });
+  }, []);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputValue.trim() || isLoading) return;
-    
+
+    trackPublishingEvent('ai_question_submitted', {
+      has_context: Boolean(context),
+      conversation_turn: messages.filter((message) => message.role === 'user').length + 1,
+    });
     sendMessage(inputValue);
     setInputValue('');
   };

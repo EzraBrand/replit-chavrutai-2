@@ -11,6 +11,7 @@ import { removeNikud, containsHebrew } from "@/lib/text-processing";
 import type { TextSearchResponse, SearchResult } from "@workspace/shared-data/schema";
 import { getTractateSlug } from "@workspace/shared-data/tractates";
 import { getBookBySlug } from "@workspace/shared-data/bible-books";
+import { trackPublishingEvent } from "@/lib/publishing-analytics";
 
 function getUrlParams() {
   const p = new URLSearchParams(window.location.search);
@@ -129,6 +130,21 @@ export default function SearchPage() {
     },
     enabled: submittedQuery.length > 0,
   });
+  const lastTrackedSearchRef = useRef("");
+
+  useEffect(() => {
+    if (!searchResults || !submittedQuery) return;
+    const key = `${submittedQuery}:${currentPage}:${typeFilter}:${exactMatch}`;
+    if (lastTrackedSearchRef.current === key) return;
+    lastTrackedSearchRef.current = key;
+    trackPublishingEvent('search_completed', {
+      content_type: typeFilter,
+      exact_match: exactMatch,
+      page: currentPage,
+      result_count: searchResults.results.length,
+      total_results: searchResults.total,
+    });
+  }, [searchResults, submittedQuery, currentPage, typeFilter, exactMatch]);
 
   const filteredResults = useMemo(() => {
     if (!searchResults) return null;
@@ -187,6 +203,7 @@ export default function SearchPage() {
   };
 
   const handleSuggestionClick = (suggestion: string) => {
+    trackPublishingEvent('search_suggestion_selected', { source: 'autocomplete' });
     setSearchQuery(suggestion);
     setSubmittedQuery(suggestion);
     setCurrentPage(1);
@@ -556,6 +573,11 @@ export default function SearchPage() {
 
                   const handleResultClick = (e: React.MouseEvent) => {
                     if (!chavrutaiLink) return;
+                    trackPublishingEvent('search_result_opened', {
+                      content_type: result.type,
+                      new_tab: e.ctrlKey || e.metaKey,
+                      has_anchor: chavrutaiLink.includes('#'),
+                    });
                     if (e.ctrlKey || e.metaKey) {
                       window.open(chavrutaiLink, "_blank");
                     } else {
@@ -572,6 +594,11 @@ export default function SearchPage() {
                   const handleOpenNewTab = (e: React.MouseEvent) => {
                     e.stopPropagation();
                     if (chavrutaiLink) {
+                      trackPublishingEvent('search_result_opened', {
+                        content_type: result.type,
+                        new_tab: true,
+                        has_anchor: chavrutaiLink.includes('#'),
+                      });
                       window.open(chavrutaiLink, "_blank");
                     }
                   };
