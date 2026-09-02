@@ -65,6 +65,9 @@
 const NIKUD_PATTERN = /[\u0591-\u05AF\u05B0-\u05BD\u05BF\u05C1-\u05C2\u05C4-\u05C5\u05C7]/g;
 const HTML_TAG_PATTERN = /<\/?\w+(?:\s+[^>]*)?>/g;
 const HEBREW_QUOTE_DASH_PATTERN = /״\s*[–—]/g;
+const SPACED_EN_EM_DASH_PATTERN = /[ \t]+([–—])(?=[ \t\r\n])/g;
+const NO_BREAK_SPACE = '\u00A0';
+const WORD_JOINER = '\u2060';
 
 // Mishnah/Gemara marker patterns (Hebrew)
 const MISHNA_STRONG_BIG_PATTERN = /<strong[^>]*><big[^>]*>(מתני['׳])<\/big><\/strong>\s*/gi;
@@ -201,12 +204,22 @@ export function splitHebrewText(text: string): string {
   });
   
   // STEP 3: Protect special punctuation clusters that should stay together
-  // Hebrew quotation mark followed by dash: ״—
+  // A spaced en/em dash remains a paragraph boundary, but must not wrap onto
+  // a visual line by itself before that boundary. A non-breaking space plus
+  // word joiner binds the dash to the preceding word without adding an HTML
+  // wrapper that could disturb RTL visual ordering. Re-processing is idempotent
+  // because this pattern only matches ordinary spaces and tabs.
   const protectedClusters: string[] = [];
+  // Hebrew quotation mark followed by dash: ״—
   processedText = processedText.replace(HEBREW_QUOTE_DASH_PATTERN, (match) => {
-    protectedClusters.push(match);
+    protectedClusters.push(match.replace(/\s+([–—])$/, `${WORD_JOINER} $1`));
     return `___PROTECTED_${protectedClusters.length - 1}___`;
   });
+
+  processedText = processedText.replace(
+    SPACED_EN_EM_DASH_PATTERN,
+    (_match, dash: string) => `${NO_BREAK_SPACE}${WORD_JOINER}${dash}`,
+  );
   
   // STEP 3b: Protect ellipses (... or more dots) from being split (issue #74)
   // Without this, "..." becomes ".\n.\n.\n" which breaks quotations

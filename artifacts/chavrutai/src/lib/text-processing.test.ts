@@ -405,10 +405,22 @@ describe('Hebrew Text Processing', () => {
       expect(result).toContain('׃\n');
     });
 
-    it('should split on M-dash', () => {
+    it('should split after a spaced en dash while binding it to the preceding word', () => {
       const input = 'ראשון – שני';
       const result = splitHebrewText(input);
-      expect(result).toContain('–\n');
+      expect(result).toBe('ראשון\u00A0\u2060–\nשני');
+    });
+
+    it('should split after a spaced em dash while binding it to the preceding word', () => {
+      const input = 'ראשון — שני';
+      const result = splitHebrewText(input);
+      expect(result).toBe('ראשון\u00A0\u2060—\nשני');
+    });
+
+    it('should still split on an unspaced em dash', () => {
+      const input = 'ראשון—שני';
+      const result = splitHebrewText(input);
+      expect(result).toBe('ראשון—\nשני');
     });
 
     it('should split on dash with spaces', () => {
@@ -423,7 +435,7 @@ describe('Hebrew Text Processing', () => {
       const input = 'word״ — nextword';
       const result = splitHebrewText(input);
       // Should remain as one line, no split
-      expect(result).toBe('word״ — nextword');
+      expect(result).toBe('word״\u2060 — nextword');
       expect(result).not.toContain('\n');
     });
 
@@ -437,7 +449,7 @@ describe('Hebrew Text Processing', () => {
     it('should NOT split on end quote + space + n-dash', () => {
       const input = 'word״ – nextword';
       const result = splitHebrewText(input);
-      expect(result).toBe('word״ – nextword');
+      expect(result).toBe('word״\u2060 – nextword');
       expect(result).not.toContain('\n');
     });
 
@@ -450,10 +462,32 @@ describe('Hebrew Text Processing', () => {
       expect(result).toContain('״ \n');
     });
 
-    it('should split on standalone em-dash (not preceded by end quote)', () => {
+    it('should split after a spaced standalone em-dash without orphaning it', () => {
       const input = 'word — nextword';
       const result = splitHebrewText(input);
-      expect(result).toContain('—\n');
+      expect(result).toBe('word\u00A0\u2060—\nnextword');
+    });
+
+    it('should preserve an older API-processed newline and bind the dash leftward', () => {
+      const input = 'הנקב –\nטמא';
+      const result = processHebrewText(input);
+      expect(result).toBe('הנקב\u00A0\u2060–\nטמא');
+    });
+
+    it('should be idempotent when API-processed dash text is processed by the client', () => {
+      const input = 'הנקב – טמא';
+      const apiProcessed = processHebrewText(input);
+      const clientProcessed = processHebrewText(apiProcessed);
+      expect(clientProcessed).toBe('הנקב\u00A0\u2060–\nטמא');
+      expect(clientProcessed.match(/\u2060/g)).toHaveLength(1);
+    });
+
+    it('should preserve strong markup around a spaced dash phrase', () => {
+      const input = '<strong>הנקב – טהור</strong>';
+      const result = processHebrewText(input);
+      expect(result).toBe('<strong>הנקב\u00A0\u2060–\nטהור</strong>');
+      expect(result.match(/<strong>/g)).toHaveLength(1);
+      expect(result.match(/<\/strong>/g)).toHaveLength(1);
     });
   });
 
