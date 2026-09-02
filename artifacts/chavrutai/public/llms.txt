@@ -1,0 +1,33 @@
+# Bekiut
+
+> Bekiut is a free study platform for classical Jewish texts. It provides bilingual Hebrew-English readers for the Babylonian Talmud, Jerusalem Talmud, Mishnah, Mishneh Torah, and Tanakh, together with dictionaries, scholarship, and reference indexes.
+
+Canonical site: https://bekiut.com/
+
+## Primary text collections
+
+- [Babylonian Talmud](https://bekiut.com/talmud)
+- [Jerusalem Talmud](https://bekiut.com/yerushalmi)
+- [Tanakh / Hebrew Bible](https://bekiut.com/bible)
+- [Mishnah](https://bekiut.com/mishnah)
+- [Mishneh Torah / Rambam](https://bekiut.com/rambam)
+
+## Dictionaries and research tools
+
+- [Jastrow Dictionary](https://bekiut.com/jastrow)
+- [Brown-Driver-Briggs Hebrew Lexicon](https://bekiut.com/bdb)
+- [Talmud Term Index](https://bekiut.com/term-index)
+- [J. N. Epstein Scholarship](https://bekiut.com/scholarship)
+
+## Discovery
+
+- [XML sitemap index](https://bekiut.com/sitemap.xml)
+- [Robots policy](https://bekiut.com/robots.txt)
+
+## Citation, attribution, and reuse
+
+Bekiut presents texts and translations from multiple source editions, many delivered through the Sefaria API. Licenses and attribution requirements vary by work, translation, and version. Do not assume that the entire corpus has one license.
+
+When citing content, use the canonical Bekiut page URL and identify the work, passage, and underlying edition or translation when that information is available. For reuse, follow the source-specific license and attribution shown by the relevant text provider or version metadata. Bekiut is an independent project and is not affiliated with Sefaria.
+
+This file supplements, and does not replace, the accessible HTML pages, robots policy, or XML sitemaps.
