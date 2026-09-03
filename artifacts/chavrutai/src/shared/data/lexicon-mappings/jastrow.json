@@ -432,7 +432,7 @@
     "B’ḥuck.": "Bechukotai",
     "B’resh.": "Bereishit",
     "B’shall.": "Beshalach",
-    "ed.": "edition or editions",
+    "ed.": "edition(s)",
     "fr.": "from",
     "freq.": "frequently",
     "Fr.": "Friedman edition",
@@ -476,6 +476,8 @@
     "interch.": "interchanged",
     "Deriv.": "Derivative",
     "Transf.": "Transferred sense",
-    "archit.": "architecture"
+    "archit.": "architecture",
+    "incorr.": "incorrect",
+    "in gen.": "in general"
   }
 }

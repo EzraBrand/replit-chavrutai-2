@@ -76,7 +76,7 @@ describe("Jastrow abbreviation expansion", () => {
     ["B’ḥuck.", "Bechukotai"],
     ["B’resh.", "Bereishit"],
     ["B’shall.", "Beshalach"],
-    ["ed.", "edition or editions"],
+    ["ed.", "edition(s)"],
     ["fr.", "from"],
     ["freq.", "frequently"],
     ["Fr.", "Friedman edition"],
@@ -120,6 +120,9 @@ describe("Jastrow abbreviation expansion", () => {
     ["Deriv.", "Derivative"],
     ["Transf.", "Transferred sense"],
     ["archit.", "architecture"],
+    ["incorr.", "incorrect"],
+    ["in gen.", "in general"],
+    ["Du.", "Dual"],
   ])("expands %s to %s", (abbreviation, expansion) => {
     expect(expandAbbreviations(abbreviation, jastrowMappings)).toContain(
       `>${expansion}</span>`,
@@ -158,7 +161,7 @@ describe("Jastrow abbreviation expansion", () => {
   it.each([
     [
       "Targum Jonathan on Jeremiah 8:20 ed. Lag. (ed. קִבָּא)",
-      ["Lagarde edition", "edition or editions"],
+      ["Lagarde edition", "edition(s)"],
     ],
     [
       "דָּאִיךְ fr. דּוּךְ",
