@@ -34,6 +34,24 @@ export default function Changelog() {
       {/* Changelog Content */}
       <div>
 
+        {/* September 2026 */}
+        <div className="py-8 border-t border-border">
+          <SectionHeading className="mb-4">
+            September 2026
+          </SectionHeading>
+
+          <div className="space-y-4 text-muted-foreground">
+            <div>
+              <h3 className="font-medium text-foreground mb-2">BDB: More Abbreviation Expansions (September 3)</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Grammar and terminology: <strong>geneal.</strong>, <strong>redupl.</strong>, <strong>explan.</strong>, <strong>unintelling.</strong>, <strong>metath.</strong>, <strong>collat.</strong>, <strong>d. f.</strong>, <strong>interr.</strong>, <strong>eschatol.</strong>, and <strong>Periphr.</strong>.</li>
+                <li>References and directions: <strong>post-ex.</strong>, <strong>Apr.</strong>, <strong>NNW.</strong>, <strong>ch.</strong>, <strong>Odyss.</strong>, and <strong>Il.</strong>.</li>
+                <li>Roman numerals from <strong>ii</strong> through <strong>xx</strong> now display as 2 through 20.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
         {/* August 2026 */}
         <div className="py-8 border-t border-border">
           <SectionHeading className="mb-4">
