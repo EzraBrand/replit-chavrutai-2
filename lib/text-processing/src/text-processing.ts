@@ -85,6 +85,14 @@ const EXCLAIM_NOT_QUESTION_PATTERN = /(?<!\?)\!(?!״)/g;
 // English processing patterns
 const RABBI_VOCATIVE_PATTERN = /\bRabbi,/g;
 const RABBI_GENERAL_PATTERN = /\bRabbi(?![!\w])/g;
+const CONTEXTUAL_HYPHEN_ORDINAL_PATTERN = /\b([a-z]+(?:-[a-z]+)*)-((?:<b>)?(?:degree|month)(?:<\/b>)?)/gi;
+const CONTEXTUAL_ORDINAL_FALLBACKS: ReadonlyMap<string, string> = new Map([
+  ['first', '1st'],
+  ['second', '2nd'],
+  ['third', '3rd'],
+  ['fifth', '5th'],
+  ['tenth', '10th'],
+]);
 const BARAITA_REDUNDANT_PATTERN = /(A baraita states)(<\/(?:b|strong)>)?\s+in a(?:\s+|(?:\s*<(?:i|em)>))baraita(?:<\/(?:i|em)>)?/gi;
 const SON_OF_PATTERN = /,\s*(?:the\s+)?(?:son of|father-in-law of|father of|brother of)\s+[^,;:.]+,?/gi;
 const MISHNA_GEMARA_ENG_PATTERN = /<strong[^>]*>(MISHNA|GEMARA):<\/strong>/gi;
@@ -389,6 +397,19 @@ export function replaceTerms(text: string): string {
   processedText = processedText.replace(RABBI_VOCATIVE_PATTERN, 'Rabbi!');
   // "Rabbi X" → "R' X" but NOT "Rabbis", "Rabbinic", etc. (negative lookahead for word chars)
   processedText = processedText.replace(RABBI_GENERAL_PATTERN, "R'");
+
+  // Convert ordinals before the unambiguous hyphenated nouns "degree" and
+  // "month", including when the noun is bolded. Several ordinal words are
+  // intentionally not converted globally because they are ambiguous in prose.
+  processedText = processedText.replace(
+    CONTEXTUAL_HYPHEN_ORDINAL_PATTERN,
+    (match, ordinal: string, noun: string) => {
+      const normalizedOrdinal = ordinal.toLowerCase();
+      const replacement = TERM_LOOKUP_MAP.get(normalizedOrdinal)
+        || CONTEXTUAL_ORDINAL_FALLBACKS.get(normalizedOrdinal);
+      return replacement ? `${replacement}-${noun}` : match;
+    },
+  );
   
   // STEP 2: Single-pass replacement for all terms from JSON config
   // Combined regex matches all terms; callback looks up replacement in Map

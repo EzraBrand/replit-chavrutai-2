@@ -584,6 +584,20 @@ describe('Term Replacement', () => {
       expect(replaceTerms('twenty-second')).toContain('22nd');
       expect(replaceTerms('twenty second')).toContain('22nd');
     });
+
+    it('should convert hyphenated degree and month ordinals with plain or bold nouns', () => {
+      expect(replaceTerms('Eighth-month')).toBe('8th-month');
+      expect(replaceTerms('Eighth-<b>month</b>')).toBe('8th-<b>month</b>');
+      expect(replaceTerms('First-degree')).toBe('1st-degree');
+      expect(replaceTerms('First-<b>degree</b>')).toBe('1st-<b>degree</b>');
+    });
+
+    it('should convert article-based eighth and third measurement fractions', () => {
+      expect(replaceTerms('an eighth of the measure')).toBe('1/8th of the measure');
+      expect(replaceTerms('an eighth-<i>log</i>')).toBe('1/8th-<i>log</i>');
+      expect(replaceTerms('an 8th-<i>log</i>')).toBe('1/8th-<i>log</i>');
+      expect(replaceTerms('a third-<i>hin</i>')).toBe('1/3rd-<i>hin</i>');
+    });
   });
 
   describe('Sexual Term Replacements', () => {
