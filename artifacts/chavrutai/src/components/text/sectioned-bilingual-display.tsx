@@ -13,9 +13,14 @@ import { trackPublishingEvent } from "@/lib/publishing-analytics";
 interface SectionedBilingualDisplayProps {
   text: TalmudText;
   onSectionVisible?: (sectionNumber: number) => void;
+  onSectionInteraction?: () => void;
 }
 
-export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedBilingualDisplayProps) {
+export function SectionedBilingualDisplay({
+  text,
+  onSectionVisible,
+  onSectionInteraction,
+}: SectionedBilingualDisplayProps) {
   const { preferences } = usePreferences();
   const { data: gazetteerData, isLoading: isGazetteerLoading, error: gazetteerError } = useGazetteerData(preferences.highlighting.enabled);
 
@@ -525,6 +530,8 @@ export function SectionedBilingualDisplay({ text, onSectionVisible }: SectionedB
             <div 
               key={index} 
               id={`${index + 1}`}
+              onPointerDown={onSectionInteraction}
+              onKeyDown={onSectionInteraction}
               className="border-b border-border/50 pb-6 last:border-b-0 last:pb-0 scroll-mt-24"
             >
               {/* Chapter Header - shown when a new chapter starts at this section */}

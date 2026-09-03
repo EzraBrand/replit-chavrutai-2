@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useParams, useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -46,6 +46,7 @@ export default function TractateView() {
 
   const [currentSection, setCurrentSection] = useState<number>(1);
   const lastTrackedTextRef = useRef("");
+  const engagedTextRef = useRef("");
   
   // Prefetch adjacent pages for faster navigation
   usePrefetchAdjacentPages(talmudLocation);
@@ -103,6 +104,67 @@ export default function TractateView() {
       side: talmudLocation.side,
     });
   }, [text, talmudLocation.tractate, talmudLocation.folio, talmudLocation.side]);
+
+  const trackReaderEngaged = useCallback((trigger: 'active_30s' | 'section_interaction') => {
+    if (!text) return;
+    const key = `${talmudLocation.tractate}:${talmudLocation.folio}${talmudLocation.side}`;
+    if (engagedTextRef.current === key) return;
+    engagedTextRef.current = key;
+    trackPublishingEvent('reader_engaged', {
+      corpus: 'talmud',
+      tractate: talmudLocation.tractate,
+      folio: talmudLocation.folio,
+      side: talmudLocation.side,
+      trigger,
+    });
+  }, [text, talmudLocation.tractate, talmudLocation.folio, talmudLocation.side]);
+
+  useEffect(() => {
+    if (!text) return;
+
+    let visibleSince = document.visibilityState === 'visible' ? performance.now() : null;
+    let visibleDuration = 0;
+    let timeoutId: number | undefined;
+
+    const schedule = () => {
+      if (engagedTextRef.current === `${talmudLocation.tractate}:${talmudLocation.folio}${talmudLocation.side}`) {
+        return;
+      }
+      const remaining = Math.max(0, 30_000 - visibleDuration);
+      timeoutId = window.setTimeout(() => trackReaderEngaged('active_30s'), remaining);
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        visibleSince = performance.now();
+        schedule();
+        return;
+      }
+
+      if (visibleSince !== null) {
+        visibleDuration += performance.now() - visibleSince;
+        visibleSince = null;
+      }
+      if (timeoutId !== undefined) {
+        window.clearTimeout(timeoutId);
+        timeoutId = undefined;
+      }
+    };
+
+    if (visibleSince !== null) schedule();
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      if (timeoutId !== undefined) window.clearTimeout(timeoutId);
+    };
+  }, [
+    text,
+    talmudLocation.tractate,
+    talmudLocation.folio,
+    talmudLocation.side,
+    trackReaderEngaged,
+  ]);
   
   // Show 404 for invalid tractate or page (after all hooks are called)
   if (isInvalidTractate || isInvalidPage) {
@@ -216,6 +278,7 @@ export default function TractateView() {
                     <a
                       key={i + 1}
                       href={`#${i + 1}`}
+                      onClick={() => trackReaderEngaged('section_interaction')}
                       className="inline-flex items-center justify-center min-w-[2.25rem] h-9 px-2 rounded-sm border border-border text-sm text-foreground hover:bg-secondary transition-colors"
                       title={`Go to section ${i + 1}`}
                     >
@@ -229,6 +292,7 @@ export default function TractateView() {
             <SectionedBilingualDisplay 
               text={text} 
               onSectionVisible={handleSectionVisible}
+              onSectionInteraction={() => trackReaderEngaged('section_interaction')}
             />
             <ReferencePanel
               englishSections={text.englishSections || [text.englishText]}
