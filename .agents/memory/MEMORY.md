@@ -10,3 +10,4 @@
 - [Crawler route registration](crawler-route-registration.md) — crawler HTML branches do nothing for direct bot hits unless the path is also registered with servePageWithMeta in the api-server.
 - [Trusted internal telemetry](trusted-internal-telemetry.md) — internal SSR/proxy traffic must use signed attribution; never classify it from a caller-controlled user-agent alone.
 - [RTL dash split wrapping](rtl-inline-dash-wrapping.md) — preserve dash paragraph splits; NBSP plus word joiner before the dash prevents RTL visual isolation without wrapper-induced reordering.
+- [Jastrow abbreviation safety](jastrow-abbreviation-safety.md) — reconcile against Jastrow’s source list, but require corpus evidence and reject ambiguous global single-letter forms.

@@ -42,6 +42,15 @@ export default function Changelog() {
 
           <div className="space-y-4 text-muted-foreground">
             <div>
+              <h3 className="font-medium text-foreground mb-2">Jastrow: 54 More Abbreviation Expansions (September 3)</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Reconciled the reader against Jastrow’s own abbreviation list and added 34 previously missing source forms.</li>
+                <li>Added 20 more abbreviations verified in sampled dictionary definitions, including <strong>Part. pass.</strong>, <strong>sq.</strong>, <strong>infra.</strong>, <strong>ed. Lag.</strong>, <strong>Pers.</strong>, <strong>Arab.</strong>, and <strong>Engl.</strong>.</li>
+                <li>Excluded ambiguous standalone one-letter forms from global replacement and added regression coverage for boundaries, contextual precedence, and HTML safety.</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-foreground mb-2">BDB: More Abbreviation Expansions (September 3)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Grammar and terminology: <strong>geneal.</strong>, <strong>redupl.</strong>, <strong>explan.</strong>, <strong>unintelling.</strong>, <strong>idolatr.</strong>, <strong>metath.</strong>, <strong>collat.</strong>, <strong>d. f.</strong>, <strong>interr.</strong>, <strong>eschatol.</strong>, and <strong>Periphr.</strong>.</li>
