@@ -14,6 +14,7 @@ describe("BDB abbreviation expansion", () => {
     ["explan.", "explanation"],
     ["unintelling.", "unintelligible"],
     ["ch.", "chapter"],
+    ["idolatr.", "idolatrous"],
     ["metath.", "metathesis"],
     ["collat.", "collateral"],
     ["d. f.", "dagesh forte"],
@@ -32,12 +33,10 @@ describe("BDB abbreviation expansion", () => {
     ["ii", "2"],
     ["iii", "3"],
     ["iv", "4"],
-    ["v", "5"],
     ["vi", "6"],
     ["vii", "7"],
     ["viii", "8"],
     ["ix", "9"],
-    ["x", "10"],
     ["xi", "11"],
     ["xii", "12"],
     ["xiii", "13"],
@@ -56,5 +55,9 @@ describe("BDB abbreviation expansion", () => {
     expect(
       expandAbbreviations("civil vivid mix textile", mappings),
     ).toBe("civil vivid mix textile");
+  });
+
+  it.each(["v", "x"])("does not expand risky single-letter Roman numeral %s", (numeral) => {
+    expect(expandAbbreviations(numeral, mappings)).toBe(numeral);
   });
 });

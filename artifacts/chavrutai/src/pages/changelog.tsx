@@ -44,9 +44,9 @@ export default function Changelog() {
             <div>
               <h3 className="font-medium text-foreground mb-2">BDB: More Abbreviation Expansions (September 3)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>Grammar and terminology: <strong>geneal.</strong>, <strong>redupl.</strong>, <strong>explan.</strong>, <strong>unintelling.</strong>, <strong>metath.</strong>, <strong>collat.</strong>, <strong>d. f.</strong>, <strong>interr.</strong>, <strong>eschatol.</strong>, and <strong>Periphr.</strong>.</li>
+                <li>Grammar and terminology: <strong>geneal.</strong>, <strong>redupl.</strong>, <strong>explan.</strong>, <strong>unintelling.</strong>, <strong>idolatr.</strong>, <strong>metath.</strong>, <strong>collat.</strong>, <strong>d. f.</strong>, <strong>interr.</strong>, <strong>eschatol.</strong>, and <strong>Periphr.</strong>.</li>
                 <li>References and directions: <strong>post-ex.</strong>, <strong>Apr.</strong>, <strong>NNW.</strong>, <strong>ch.</strong>, <strong>Odyss.</strong>, and <strong>Il.</strong>.</li>
-                <li>Roman numerals from <strong>ii</strong> through <strong>xx</strong> now display as 2 through 20.</li>
+                <li>Multi-letter Roman numerals from <strong>ii</strong> through <strong>xx</strong> now display as numbers; risky standalone <strong>v</strong> and <strong>x</strong> mappings are excluded.</li>
               </ul>
             </div>
           </div>
