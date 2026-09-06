@@ -37,6 +37,8 @@ describe("BDB abbreviation expansion", () => {
     ["nomin.", "nominative"],
     ["Kl.Schrr.", "Kleine Schriften"],
     ["ap.", "cited in"],
+    ["Lex", "Lexicon"],
+    ["s. v.", "under the word"],
   ])("expands %s to %s", (abbreviation, expansion) => {
     expect(expandAbbreviations(abbreviation, mappings)).toContain(
       `>${expansion}</span>`,

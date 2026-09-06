@@ -44,7 +44,7 @@ export default function Changelog() {
             <div>
               <h3 className="font-medium text-foreground mb-2">BDB: More Abbreviation Expansions (September 6)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>Added twelve source, grammar, and archaic-English expansions, including <strong>Michl.</strong>, <strong>Präp.</strong>, <strong>U. and Th.</strong>, <strong>Kl.Schrr.</strong>, and <strong>thou art</strong>.</li>
+                <li>Added fourteen source, grammar, and archaic-English expansions, including <strong>Michl.</strong>, <strong>Präp.</strong>, <strong>U. and Th.</strong>, <strong>Kl.Schrr.</strong>, <strong>Lex</strong>, <strong>s. v.</strong>, and <strong>thou art</strong>.</li>
                 <li>Extended safe multi-letter Roman-numeral conversion from <strong>xxi</strong> through <strong>xlix</strong>; the ambiguous standalone <strong>l</strong> remains unchanged.</li>
               </ul>
             </div>
