@@ -25,6 +25,18 @@ describe("BDB abbreviation expansion", () => {
     ["Periphr.", "Periphrasis"],
     ["Odyss.", "Odyssey"],
     ["Il.", "Iliad"],
+    ["Michl.", "Michlol"],
+    ["thou art", "you are"],
+    ["condit.", "conditional"],
+    ["Präp.", "Präposition"],
+    ["prons.", "pronouns"],
+    ["U. and Th.", "Urim and Thumim"],
+    ["N. B.", "Note:"],
+    ["Hd.", "Herodotus"],
+    ["a gen.", "a genitive"],
+    ["nomin.", "nominative"],
+    ["Kl.Schrr.", "Kleine Schriften"],
+    ["ap.", "cited in"],
   ])("expands %s to %s", (abbreviation, expansion) => {
     expect(expandAbbreviations(abbreviation, mappings)).toContain(
       `>${expansion}</span>`,
@@ -49,6 +61,12 @@ describe("BDB abbreviation expansion", () => {
     ["xviii", "18"],
     ["xix", "19"],
     ["xx", "20"],
+    ["xxi", "21"],
+    ["xxix", "29"],
+    ["xxx", "30"],
+    ["xxxix", "39"],
+    ["xl", "40"],
+    ["xlix", "49"],
   ])("expands Roman numeral %s to %s", (numeral, number) => {
     expect(expandAbbreviations(numeral, mappings)).toContain(`>${number}</span>`);
   });
@@ -59,7 +77,7 @@ describe("BDB abbreviation expansion", () => {
     ).toBe("civil vivid mix textile");
   });
 
-  it.each(["v", "x"])("does not expand risky single-letter Roman numeral %s", (numeral) => {
+  it.each(["v", "x", "l"])("does not expand risky single-letter Roman numeral %s", (numeral) => {
     expect(expandAbbreviations(numeral, mappings)).toBe(numeral);
   });
 });
