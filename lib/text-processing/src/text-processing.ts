@@ -84,6 +84,7 @@ const EXCLAIM_NOT_QUESTION_PATTERN = /(?<!\?)\!(?!״)/g;
 
 // English processing patterns
 const RABBI_VOCATIVE_PATTERN = /\bRabbi,/g;
+const LORD_COMMA_PATTERN = /\bLord,/g;
 const RABBI_GENERAL_PATTERN = /\bRabbi(?![!\w])/g;
 const CONTEXTUAL_HYPHEN_ORDINAL_PATTERN = /\b([a-z]+(?:-[a-z]+)*)-((?:<b>)?(?:degree|month)(?:<\/b>)?)/gi;
 const CONTEXTUAL_ORDINAL_FALLBACKS: ReadonlyMap<string, string> = new Map([
@@ -397,6 +398,8 @@ export function replaceTerms(text: string): string {
   processedText = processedText.replace(RABBI_VOCATIVE_PATTERN, 'Rabbi!');
   // "Rabbi X" → "R' X" but NOT "Rabbis", "Rabbinic", etc. (negative lookahead for word chars)
   processedText = processedText.replace(RABBI_GENERAL_PATTERN, "R'");
+  // Deliberately case-sensitive: only uppercase "Lord," is the divine-name form.
+  processedText = processedText.replace(LORD_COMMA_PATTERN, 'YHWH,');
 
   // Convert ordinals before the unambiguous hyphenated nouns "degree" and
   // "month", including when the noun is bolded. Several ordinal words are

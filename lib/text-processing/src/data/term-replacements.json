@@ -4,6 +4,8 @@
     "divine": {
       "description": "God names and divine references",
       "terms": {
+        "Lord God": "YHWH God",
+        "O Lord": "O YHWH",
         "the Holy One, Blessed be He, ": "God ",
         "The Holy One, Blessed be He, ": "God ",
         "the Holy One, Blessed be He": "God",
@@ -47,6 +49,24 @@
         "Divine Presence": "Shekhina",
         "divine inspiration": "Holy Spirit",
         "Divine Spirit": "Holy Spirit"
+      }
+    },
+    "modern_english": {
+      "description": "Archaic English terms replaced with modern equivalents",
+      "terms": {
+        "thereafter": "after that",
+        "brethren": "brothers",
+        "whereby": "by which",
+        "dwelling": "residence",
+        "maiden": "young woman",
+        "begot": "fathered",
+        "dwelt": "resided",
+        "smote": "struck",
+        "wrath": "anger",
+        "dwell": "reside",
+        "shall": "should",
+        "unto": "to",
+        "abode": "residence"
       }
     },
     "talmudic": {

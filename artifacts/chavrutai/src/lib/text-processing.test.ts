@@ -565,6 +565,46 @@ describe('Term Replacement', () => {
     it('should replace the Holy One, Blessed be He with God', () => {
       expect(replaceTerms('the Holy One, Blessed be He, said')).toContain('God said');
     });
+
+    it('should modernize the requested divine names and archaic English terms', () => {
+      const replacements: Array<[string, string]> = [
+        ['Lord God', 'YHWH God'],
+        ['O Lord', 'O YHWH'],
+        ['wrath', 'anger'],
+        ['dwell', 'reside'],
+        ['dwelling', 'residence'],
+        ['shall', 'should'],
+        ['thereafter', 'after that'],
+        ['unto', 'to'],
+        ['brethren', 'brothers'],
+        ['whereby', 'by which'],
+        ['abode', 'residence'],
+        ['maiden', 'young woman'],
+        ['begot', 'fathered'],
+        ['dwelt', 'resided'],
+        ['smote', 'struck'],
+      ];
+
+      for (const [source, expected] of replacements) {
+        expect(replaceTerms(source)).toBe(expected);
+      }
+    });
+
+    it('should apply longer divine-name phrases before shorter terms', () => {
+      expect(replaceTerms('O Lord, the Lord God')).toBe('O YHWH, YHWH God');
+    });
+
+    it('should only replace comma-terminated Lord when the L is uppercase', () => {
+      expect(replaceTerms('Lord, hear us. lord, hear us. LORD, hear us.')).toBe(
+        'YHWH, hear us. lord, hear us. LORD, hear us.',
+      );
+    });
+
+    it('should preserve words that merely contain an archaic term', () => {
+      expect(replaceTerms('shadow shallot dwellingplace')).toBe(
+        'shadow shallot dwellingplace',
+      );
+    });
   });
 
   describe('Ordinal Number Replacements', () => {
