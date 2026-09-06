@@ -398,8 +398,6 @@ export function replaceTerms(text: string): string {
   processedText = processedText.replace(RABBI_VOCATIVE_PATTERN, 'Rabbi!');
   // "Rabbi X" → "R' X" but NOT "Rabbis", "Rabbinic", etc. (negative lookahead for word chars)
   processedText = processedText.replace(RABBI_GENERAL_PATTERN, "R'");
-  // Deliberately case-sensitive: only uppercase "Lord," is the divine-name form.
-  processedText = processedText.replace(LORD_COMMA_PATTERN, 'YHWH,');
 
   // Convert ordinals before the unambiguous hyphenated nouns "degree" and
   // "month", including when the noun is bolded. Several ordinal words are
@@ -421,6 +419,9 @@ export function replaceTerms(text: string): string {
   processedText = processedText.replace(COMBINED_TERM_PATTERN, (match) => {
     return TERM_LOOKUP_MAP.get(match.toLowerCase()) || match;
   });
+  // Run this after phrase replacements so "the Lord," becomes "YHWH,"
+  // rather than the incorrect "the YHWH,". Deliberately case-sensitive.
+  processedText = processedText.replace(LORD_COMMA_PATTERN, 'YHWH,');
 
   // STEP 3: Algorithmic cardinal-number parser
   // Converts any remaining English number-word sequences to digits.

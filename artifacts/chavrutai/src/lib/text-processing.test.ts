@@ -594,6 +594,15 @@ describe('Term Replacement', () => {
       expect(replaceTerms('O Lord, the Lord God')).toBe('O YHWH, YHWH God');
     });
 
+    it('should replace the full phrase before comma-terminated Lord', () => {
+      expect(replaceTerms('Bless the Lord, O my soul')).toBe(
+        'Bless YHWH, O my soul',
+      );
+      expect(replaceTerms('Bless the Lord, His angels')).toBe(
+        'Bless YHWH, His angels',
+      );
+    });
+
     it('should only replace comma-terminated Lord when the L is uppercase', () => {
       expect(replaceTerms('Lord, hear us. lord, hear us. LORD, hear us.')).toBe(
         'YHWH, hear us. lord, hear us. LORD, hear us.',
