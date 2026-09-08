@@ -11,3 +11,4 @@
 - [Trusted internal telemetry](trusted-internal-telemetry.md) — internal SSR/proxy traffic must use signed attribution; never classify it from a caller-controlled user-agent alone.
 - [RTL dash split wrapping](rtl-inline-dash-wrapping.md) — preserve dash paragraph splits; NBSP plus word joiner before the dash prevents RTL visual isolation without wrapper-induced reordering.
 - [Jastrow abbreviation safety](jastrow-abbreviation-safety.md) — reconcile against Jastrow’s source list, but require corpus evidence and reject ambiguous global single-letter forms.
+- [Sefaria bulk-export fidelity](sefaria-export-fidelity.md) — use edition-specific GCS exports, not merged files, for reader-matching snapshots; preserve licenses and validate segment alignment.
