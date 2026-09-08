@@ -169,6 +169,7 @@ interface SeoEnhancement {
   structuredData: object | null;
   bodyContent: string;
   complete: boolean;
+  shareDescription?: string | null;
 }
 
 function positiveIntegerEnv(name: string, fallback: number): number {
@@ -392,6 +393,9 @@ app.use(async (req, res, next) => {
     );
     res.locals.cacheOutcome = enhancementLoad.outcome;
     const enhancement = await enhancementLoad.value.catch(() => null);
+    if (enhancement?.shareDescription) {
+      template = injectMeta(template, { ...seoData, ogDescription: enhancement.shareDescription });
+    }
     if (enhancement?.structuredData) {
       template = injectStructuredData(template, enhancement.structuredData);
     }

@@ -2,7 +2,7 @@ import { mkdtemp, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { renderTalmudExcerptHtml, TalmudExcerptLoader } from "./talmud-excerpts";
+import { getTalmudShareDescription, renderTalmudExcerptHtml, TalmudExcerptLoader } from "./talmud-excerpts";
 
 const dirs: string[] = [];
 const fixture = {
@@ -45,6 +45,33 @@ async function makeFixture(): Promise<string> {
   await writeFile(path.join(dir, "Berakhot.json"), JSON.stringify(fixture));
   return dir;
 }
+
+describe("Talmud sharing descriptions", () => {
+  const description = (english: string) => getTalmudShareDescription({
+    source: fixture.source,
+    page: { ref: "Berakhot 2a", sections: [{ ref: "Berakhot 2a:1", english, hebrew: "טקסט" }] },
+  });
+
+  it("uses a complete opening sentence with reader terminology and no markup", () => {
+    expect(description("Rabbi <b>Meir</b> taught this. A later sentence."))
+      .toBe("R' Meir taught this.");
+    expect(description('He said “Go!” Then he left.')).toBe('He said “Go!”');
+  });
+
+  it("caps long previews at 200 characters and a word boundary", () => {
+    const text = description("Opening " + "passage ".repeat(80));
+    expect(text!.length).toBeLessThanOrEqual(200);
+    expect(text).toMatch(/passage…$/);
+  });
+
+  it("keeps short text and safely signals missing text", () => {
+    expect(description("  Short   passage  ")).toBe("Short passage");
+    expect(description(" <b> </b> ")).toBeNull();
+    expect(getTalmudShareDescription({
+      source: fixture.source, page: { ref: "Berakhot 2a", sections: [] },
+    })).toBeNull();
+  });
+});
 
 describe("TalmudExcerptLoader", () => {
   it("cold-loads then serves warm reads from its tractate cache", async () => {

@@ -4,7 +4,7 @@ import fs from "fs";
 import path from "path";
 import { storage } from "../storage";
 import { normalizeDisplayTractateName, getTractateSlug } from "@workspace/shared-data/tractates";
-import { renderTalmudExcerptHtml, talmudExcerptLoader } from "../lib/talmud-excerpts";
+import { getTalmudShareDescription, renderTalmudExcerptHtml, talmudExcerptLoader } from "../lib/talmud-excerpts";
 import { getMishnahTractateInfo } from "@workspace/shared-data/tractates";
 import { getYerushalmiTractateInfo } from "@workspace/shared-data/yerushalmi-data";
 import {
@@ -640,7 +640,7 @@ async function loadBiblicalIndexBooks(): Promise<Array<{ filename: string; displ
 async function generateCrawlerBodyContent(
   urlPath: string,
   seoData: { title: string; description: string },
-): Promise<{ bodyContent: string; complete: boolean }> {
+): Promise<{ bodyContent: string; complete: boolean; shareDescription: string | null }> {
   const baseUrl = process.env.NODE_ENV === 'production' ? CANONICAL_BASE_URL : 'http://localhost:5000';
 
   function safeSlug(slug: string): string {
@@ -652,6 +652,7 @@ async function generateCrawlerBodyContent(
   let body = '';
   let nav = '';
   let complete = true;
+  let shareDescription: string | null = null;
 
   if (urlPath === '/') {
     heading = 'Bekiut — Study Talmud Online';
@@ -724,6 +725,7 @@ async function generateCrawlerBodyContent(
 
     const excerpt = await talmudExcerptLoader.get(tractateSlug, folio);
     if (excerpt) {
+      shareDescription = getTalmudShareDescription(excerpt);
       const excerptHtml = renderTalmudExcerptHtml(excerpt);
       if (excerptHtml) body += excerptHtml;
       else complete = false;
@@ -1101,7 +1103,7 @@ async function generateCrawlerBodyContent(
     nav +
     `<footer><p><a href="${escapeHtml(baseUrl)}">Bekiut</a> — Free online Talmud and Bible study platform</p></footer>` +
     `</div>`;
-  return { bodyContent, complete };
+  return { bodyContent, complete, shareDescription };
 }
 
 function isCrawlerRequest(userAgent: string): boolean {
@@ -1209,7 +1211,10 @@ async function servePageWithMeta(req: express.Request, res: express.Response, ne
         }
       }
 
-      const { bodyContent: crawlerContent } = await generateCrawlerBodyContent(req.path, seoData);
+      const { bodyContent: crawlerContent, shareDescription } = await generateCrawlerBodyContent(req.path, seoData);
+      if (shareDescription) {
+        template = injectCoreMeta(template, { ...seoData, ogDescription: shareDescription });
+      }
       template = template.replace(
         '<div id="root"></div>',
         `${crawlerContent}\n    <div id="root"></div>`
@@ -1279,7 +1284,7 @@ function injectCoreMeta(
 // the shared getPageSEO, so they survive even if this enhancement is unavailable.
 export async function renderSeoEnhancement(
   originalUrl: string,
-): Promise<{ structuredData: object | null; bodyContent: string; complete: boolean }> {
+): Promise<{ structuredData: object | null; bodyContent: string; complete: boolean; shareDescription: string | null }> {
   const baseUrl =
     process.env.NODE_ENV === "production"
       ? CANONICAL_BASE_URL
@@ -1287,8 +1292,8 @@ export async function renderSeoEnhancement(
   const urlObj = new URL(originalUrl, baseUrl);
   const seoData = generateServerSideMetaTags(originalUrl);
   const structuredData = generateServerSideStructuredData(urlObj.pathname, baseUrl);
-  const { bodyContent, complete } = await generateCrawlerBodyContent(urlObj.pathname, seoData);
-  return { structuredData, bodyContent, complete };
+  const { bodyContent, complete, shareDescription } = await generateCrawlerBodyContent(urlObj.pathname, seoData);
+  return { structuredData, bodyContent, complete, shareDescription };
 }
 
 export { servePageWithMeta };

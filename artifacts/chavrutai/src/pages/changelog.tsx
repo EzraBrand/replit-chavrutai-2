@@ -46,6 +46,7 @@ export default function Changelog() {
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Search-crawler responses for 4,708 Talmud pages now include real opening Hebrew/Aramaic and English sections, with source attribution, rather than only a description and navigation.</li>
                 <li>Passages are prepared from edition-specific Sefaria exports and shipped with the server, so serving an excerpt does not require a live Sefaria request or a database.</li>
+                <li>Link-sharing previews now use a short opening passage where available, while retaining the page title and a generic description for pages without excerpts.</li>
               </ul>
             </div>
 

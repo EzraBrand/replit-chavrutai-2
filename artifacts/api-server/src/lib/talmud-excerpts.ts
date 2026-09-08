@@ -55,6 +55,20 @@ function escapeHtml(value: string): string {
     .replace(/'/g, "&#39;");
 }
 
+/** Keep link previews short, without changing the page's identifying title. */
+export function getTalmudShareDescription(excerpt: LoadedTalmudExcerpt): string | null {
+  const opening = excerpt.page.sections[0]?.english;
+  if (!opening) return null;
+  const text = replaceTerms(opening).replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+  if (!text) return null;
+  const firstSentence = text.match(/^.*?[.!?][”"’']?(?=\s|$)/u)?.[0];
+  if (firstSentence && firstSentence.length <= 200) return firstSentence;
+  if (text.length <= 200) return text;
+  const prefix = text.slice(0, 199);
+  const lastSpace = prefix.lastIndexOf(" ");
+  return `${lastSpace > 0 ? prefix.slice(0, lastSpace) : prefix}…`;
+}
+
 export function renderTalmudExcerptHtml(excerpt: LoadedTalmudExcerpt): string | null {
   const articles = excerpt.page.sections.slice(0, 5).flatMap((section) => {
     const english = replaceTerms(section.english).replace(/<[^>]*>/g, "").trim();
