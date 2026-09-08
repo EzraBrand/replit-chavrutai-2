@@ -5,7 +5,10 @@
   "type": "module",
   "scripts": {
     "hello": "tsx ./src/hello.ts",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "generate:talmud-excerpts": "tsx ./src/generate-talmud-excerpts.ts",
+    "validate:talmud-excerpts": "tsx ./src/validate-talmud-excerpts.ts",
+    "test": "tsx --test ./src/*.test.ts"
   },
   "devDependencies": {
     "@types/node": "catalog:",

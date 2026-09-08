@@ -168,6 +168,7 @@ function injectStructuredData(template: string, structuredData: object): string 
 interface SeoEnhancement {
   structuredData: object | null;
   bodyContent: string;
+  complete: boolean;
 }
 
 function positiveIntegerEnv(name: string, fallback: number): number {
@@ -387,6 +388,7 @@ app.use(async (req, res, next) => {
     const enhancementLoad = enhancementCache.load(
       enhancementKey,
       () => fetchEnhancement(enhancementKey),
+      (enhancement) => enhancement.complete,
     );
     res.locals.cacheOutcome = enhancementLoad.outcome;
     const enhancement = await enhancementLoad.value.catch(() => null);

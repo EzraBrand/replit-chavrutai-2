@@ -70,4 +70,12 @@ describe("SeoEnhancementCache", () => {
       vi.useRealTimers();
     }
   });
+
+  it("does not cache an explicitly incomplete successful response", async () => {
+    const cache = new SeoEnhancementCache<{ complete: boolean }>(2, 1_000);
+    const loader = vi.fn(async () => ({ complete: false }));
+    await cache.load("missing-text", loader, (value) => value.complete).value;
+    expect(cache.load("missing-text", loader, (value) => value.complete).outcome).toBe("miss");
+    expect(loader).toHaveBeenCalledTimes(2);
+  });
 });

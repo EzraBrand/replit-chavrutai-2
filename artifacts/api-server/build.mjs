@@ -1,17 +1,36 @@
 import { createRequire } from "node:module";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { spawn } from "node:child_process";
 import { build as esbuild } from "esbuild";
 import esbuildPluginPino from "esbuild-plugin-pino";
-import { rm } from "node:fs/promises";
+import { cp, rm } from "node:fs/promises";
 
 // Plugins (e.g. 'esbuild-plugin-pino') may use `require` to resolve dependencies
 globalThis.require = createRequire(import.meta.url);
 
 const artifactDir = path.dirname(fileURLToPath(import.meta.url));
+const workspaceDir = path.resolve(artifactDir, "../..");
+
+function validateTalmudExcerptAssets(dir) {
+  return new Promise((resolve, reject) => {
+    const child = spawn("pnpm", [
+      "--filter", "@workspace/scripts", "exec", "tsx",
+      "src/validate-talmud-excerpts.ts", "--dir", dir,
+    ], { cwd: workspaceDir, stdio: "inherit" });
+    child.on("error", (error) => reject(new Error(`Could not start Talmud excerpt validator for ${dir}`, { cause: error })));
+    child.on("exit", (code) => code === 0
+      ? resolve()
+      : reject(new Error(`Talmud excerpt validation failed for ${dir} (exit ${code ?? "unknown"})`)));
+  });
+}
 
 async function buildAll() {
   const distDir = path.resolve(artifactDir, "dist");
+  const sourceDir = path.join(artifactDir, "src/data/talmud-excerpts");
+  // Validate before removing a known-good bundle, then independently validate
+  // what will actually ship after copying.
+  await validateTalmudExcerptAssets(sourceDir);
   await rm(distDir, { recursive: true, force: true });
 
   await esbuild({
@@ -118,6 +137,9 @@ globalThis.__dirname = __bannerPath.dirname(globalThis.__filename);
     `,
     },
   });
+  const bundledDataDir = path.join(distDir, "data/talmud-excerpts");
+  await cp(sourceDir, bundledDataDir, { recursive: true });
+  await validateTalmudExcerptAssets(bundledDataDir);
 }
 
 buildAll().catch((err) => {

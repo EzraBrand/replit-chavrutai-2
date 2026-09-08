@@ -44,6 +44,7 @@ export class SeoEnhancementCache<T> {
   load(
     key: string,
     loader: () => Promise<T>,
+    shouldCache: (value: T) => boolean = () => true,
   ): { outcome: Extract<CacheOutcome, "hit" | "miss" | "coalesced">; value: Promise<T> } {
     const cached = this.get(key);
     if (cached !== undefined) {
@@ -57,7 +58,7 @@ export class SeoEnhancementCache<T> {
 
     const value = loader()
       .then((loaded) => {
-        this.set(key, loaded);
+        if (shouldCache(loaded)) this.set(key, loaded);
         return loaded;
       })
       .finally(() => {

@@ -171,11 +171,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const rawPath = typeof req.query["path"] === "string" ? req.query["path"] : "/";
       const safePath = rawPath.startsWith("/") ? rawPath : `/${rawPath}`;
-      const { structuredData, bodyContent } = await renderSeoEnhancement(safePath);
-      res.json({ structuredData, bodyContent });
+      const { structuredData, bodyContent, complete } = await renderSeoEnhancement(safePath);
+      res.set("Cache-Control", complete ? "private, max-age=300" : "no-store");
+      res.json({ structuredData, bodyContent, complete });
     } catch (error) {
       req.log.error({ err: error }, "Error in /api/seo/enhance");
-      res.status(500).json({ structuredData: null, bodyContent: "" });
+      res.set("Cache-Control", "no-store");
+      res.status(500).json({ structuredData: null, bodyContent: "", complete: false });
     }
   });
 

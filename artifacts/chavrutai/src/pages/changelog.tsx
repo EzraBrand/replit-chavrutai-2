@@ -42,6 +42,14 @@ export default function Changelog() {
 
           <div className="space-y-4 text-muted-foreground">
             <div>
+              <h3 className="font-medium text-foreground mb-2">Talmud: Bilingual Opening Passages in Server-Rendered Pages (September 8)</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Search-crawler responses for 4,708 Talmud pages now include real opening Hebrew/Aramaic and English sections, with source attribution, rather than only a description and navigation.</li>
+                <li>Passages are prepared from edition-specific Sefaria exports and shipped with the server, so serving an excerpt does not require a live Sefaria request or a database.</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-foreground mb-2">BDB: More Abbreviation Expansions (September 6)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Added fourteen source, grammar, and archaic-English expansions, including <strong>Michl.</strong>, <strong>Präp.</strong>, <strong>U. and Th.</strong>, <strong>Kl.Schrr.</strong>, <strong>Lex</strong>, <strong>s. v.</strong>, and <strong>thou art</strong>.</li>
