@@ -489,6 +489,21 @@ describe('Hebrew Text Processing', () => {
       expect(result.match(/<strong>/g)).toHaveLength(1);
       expect(result.match(/<\/strong>/g)).toHaveLength(1);
     });
+
+    it.each([
+      ['המסורת! — גם', 'המסורת!\nגם'],
+      ['מיבעיא?! — שאני', 'מיבעיא?!\nשאני'],
+      ['ששה? — תלמוד לומר:', 'ששה?\nתלמוד לומר:'],
+      ['והסריקין?\u2060— תלמוד', 'והסריקין?\nתלמוד'],
+      ['היא?\u00A0\u2060— דתני', 'היא?\nדתני'],
+    ])('should remove a redundant dash after terminal punctuation: %s', (input, expected) => {
+      expect(splitHebrewText(input)).toBe(expected);
+    });
+
+    it('should remove the dash idempotently after server and client processing', () => {
+      const apiProcessed = processHebrewText('מיבעיא?! — שאני');
+      expect(processHebrewText(apiProcessed)).toBe('מיבעיא?!\nשאני');
+    });
   });
 
   describe('Hebrew Text Cleanup', () => {

@@ -187,6 +187,16 @@ export function splitHebrewText(text: string): string {
   if (!text) return '';
   
   let processedText = text;
+
+  // A question mark, exclamation mark, combined ?!, or colon already supplies
+  // the paragraph boundary. Remove a following en/em dash before the generic
+  // spaced-dash protection adds NBSP/word-joiner characters around it. Accept
+  // those characters too so processing remains idempotent for text that has
+  // already passed through an older server/client pipeline.
+  processedText = processedText.replace(
+    /(\?!|[?!:])[\s\u00A0\u2060]*[–—]/g,
+    '$1',
+  );
   
   // STEP 1: Handle Mishnah/Gemara section markers
   // These are special headers in Talmud text wrapped in <strong><big> tags
@@ -260,22 +270,12 @@ export function splitHebrewText(text: string): string {
   
   // STEP 5: Handle irony punctuation (?!) as a unit
   // This combined punctuation should not split between ? and !
-  // First, remove any dash that immediately follows ?! (?! — or ?! –) before expansion,
-  // mirroring the same rule applied to plain ? below.
-  processedText = processedText.replace(/\?!\s*[–—]/g, '?!');
   processedText = processedText.replace(IRONY_PUNCT_PATTERN, '?!\n');
   
   // STEP 5b: Remove dash that immediately follows a question mark (? — or ? –)
   // In Talmudic text this cluster marks a rhetorical question+answer separator;
   // the dash carries no additional split value once the ? already splits the line.
-  processedText = processedText.replace(/\?\s*[–—]/g, '?');
-
-  // STEP 5c: Remove dash that immediately follows a colon (: — or : –)
-  // Same rationale as the question-mark rule above: the colon already splits
-  // the line, so the trailing dash is redundant.
-  processedText = processedText.replace(/:\s*[–—]/g, ':');
-
-  // STEP 5d: Remove period that immediately follows a question mark (?.)
+  // STEP 5c: Remove period that immediately follows a question mark (?.)
   // Guggenheimer sometimes writes "?." — the period is redundant and would
   // otherwise trigger an extra (spurious) split after the question mark split.
   processedText = processedText.replace(/\?\./g, '?');

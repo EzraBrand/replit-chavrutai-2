@@ -42,6 +42,13 @@ export default function Changelog() {
 
           <div className="space-y-4 text-muted-foreground">
             <div>
+              <h3 className="font-medium text-foreground mb-2">Talmud: Cleaner Hebrew Punctuation (September 9)</h3>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>Removed redundant standalone dashes after Hebrew questions, exclamations, and combined <strong>?!</strong> punctuation.</li>
+              </ul>
+            </div>
+
+            <div>
               <h3 className="font-medium text-foreground mb-2">Talmud: Bilingual Opening Passages in Server-Rendered Pages (September 8)</h3>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Search-crawler responses for 4,708 Talmud pages now include real opening Hebrew/Aramaic and English sections, with source attribution, rather than only a description and navigation.</li>
